@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+  output = "../src/generated"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+
+model Usuario {
+  id            String    @id @default(uuid())
+  nombre        String
+  email         String    @unique
+  passwordHash  String
+  rol           Rol
+  fechaCreacion DateTime  @default(now())
+  alumno        Alumno?
+  profesor      Profesor?
+
+  @@map("usuarios")
+}
+
+model Profesor {
+  id               String          @id
+  licenciaConducir String
+  telefono         String
+  activo           Boolean         @default(true)
+  alumnosAsignados Alumno[]
+  clases           ClasePractica[]
+  usuario          Usuario         @relation(fields: [id], references: [id], onDelete: Cascade)
+
+  @@map("profesores")
+}
+
+model Alumno {
+  id                        String          @id
+  tipoLicenciaObjetivo      String
+  horasPracticasCompletadas Int             @default(0)
+  profesorAsignadoId        String?
+  usuario                   Usuario         @relation(fields: [id], references: [id], onDelete: Cascade)
+  profesorAsignado          Profesor?       @relation(fields: [profesorAsignadoId], references: [id])
+  clases                    ClasePractica[]
+  examenes                  Examen[]
+
+  @@map("alumnos")
+}
+
+model Vehiculo {
+  id          String          @id @default(uuid())
+  matricula   String          @unique
+  marca       String?
+  modelo      String?
+  tipoPermiso String
+  activo      Boolean         @default(true)
+  clases      ClasePractica[]
+
+  @@map("vehiculos")
+}
+
+model ClasePractica {
+  id         String   @id @default(uuid())
+  alumnoId   String
+  profesorId String
+  vehiculoId String
+  fecha      DateTime
+  duracion   Int
+  estado     String
+  alumno     Alumno   @relation(fields: [alumnoId], references: [id])
+  profesor   Profesor @relation(fields: [profesorId], references: [id])
+  vehiculo   Vehiculo @relation(fields: [vehiculoId], references: [id])
+
+  @@index([alumnoId])
+  @@index([profesorId])
+  @@index([vehiculoId])
+  @@index([fecha])
+  @@map("clases_practicas")
+}
+
+model Examen {
+  id       String   @id @default(uuid())
+  alumnoId String
+  tipo     String
+  fecha    DateTime
+  estado   String
+  alumno   Alumno   @relation(fields: [alumnoId], references: [id])
+
+  @@index([alumnoId])
+  @@index([fecha])
+  @@map("examenes")
+}
+
+enum Rol {
+  ADMIN
+  PROFESOR
+  ALUMNO
+}

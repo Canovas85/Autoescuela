@@ -1,0 +1,10 @@
+# Carpetas de dependencias (¡Muy importante!)
+node_modules/
+backend/node_modules/
+
+# Variables de entorno y credenciales secretas
+.env
+backend/.env
+
+# Archivos generados automáticamente
+backend/generated/prisma
