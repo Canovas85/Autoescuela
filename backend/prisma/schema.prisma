@@ -13,6 +13,7 @@ model Usuario {
   id            String    @id @default(uuid())
   nombre        String
   email         String    @unique
+  telefono      String?
   passwordHash  String
   rol           Rol
   fechaCreacion DateTime  @default(now())
@@ -41,6 +42,7 @@ model Alumno {
   profesorAsignadoId        String?
   usuario                   Usuario         @relation(fields: [id], references: [id], onDelete: Cascade)
   profesorAsignado          Profesor?       @relation(fields: [profesorAsignadoId], references: [id])
+  activo                    Boolean         @default(true)
   clases                    ClasePractica[]
   examenes                  Examen[]
 

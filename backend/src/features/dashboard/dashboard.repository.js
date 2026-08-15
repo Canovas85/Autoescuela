@@ -12,9 +12,7 @@ export class DashboardRepository {
   async getTotalVehiculos() {
     return this.prisma.vehiculo.count();
   }
-  async getTotalVehiculos() {
-    return this.prisma.vehiculo.count();
-  }
+
   async getTotalClases() {
     return this.prisma.clasePractica.count();
   }

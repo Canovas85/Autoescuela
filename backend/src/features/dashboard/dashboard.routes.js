@@ -1,4 +1,7 @@
 import { Router } from "express";
+
+import prisma from "../../config/prisma.js";
+
 import { authenticate } from "../../shared/middleware/auth.middleware.js";
 import { authorize } from "../../shared/middleware/role.middleware.js";
 
@@ -8,7 +11,7 @@ import { DashboardController } from "./dashboard.controller.js";
 
 const router = Router();
 
-const repository = new DashboardRepository({});
+const repository = new DashboardRepository(prisma);
 const service = new DashboardService(repository);
 const controller = new DashboardController(service);
 
@@ -60,31 +63,6 @@ router.get(
   authenticate,
   authorize("ADMIN"),
   controller.getAdvancedMetrics.bind(controller),
-);
-
-/**
- * @swagger
- * /api/dashboard/executive:
- *   get:
- *     summary: Dashboard ejecutivo
- *     tags:
- *       - Dashboard
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Dashboard ejecutivo
- *       401:
- *         description: No autenticado
- *       403:
- *         description: Sin permisos
- */
-
-router.get(
-  "/executive",
-  authenticate,
-  authorize("ADMIN"),
-  controller.getExecutiveDashboard.bind(controller),
 );
 
 /**

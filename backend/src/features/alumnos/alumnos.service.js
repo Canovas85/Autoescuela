@@ -36,9 +36,8 @@ export class AlumnosService {
 
     return this.repository.create({
       ...data,
-      password: passwordHash,
+      passwordHash,
       rol: "ALUMNO",
-      activo: true,
     });
   }
 

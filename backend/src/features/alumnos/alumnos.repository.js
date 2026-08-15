@@ -7,13 +7,34 @@ export class AlumnosRepository {
   }
 
   async create(data) {
+    const usuario = await this.prisma.usuario.create({
+      data: {
+        nombre: data.nombre,
+        email: data.email,
+        telefono: data.telefono,
+        passwordHash: data.passwordHash,
+        rol: "ALUMNO",
+      },
+    });
+
     return this.prisma.alumno.create({
-      data,
+      data: {
+        id: usuario.id,
+        tipoLicenciaObjetivo: data.tipoLicencia,
+
+        horasPracticasCompletadas: 0,
+
+        profesorAsignadoId: data.profesorAsignadoId || null,
+      },
+
+      include: {
+        usuario: true,
+      },
     });
   }
 
   async findByEmail(email) {
-    return this.prisma.alumno.findFirst({
+    return this.prisma.usuario.findUnique({
       where: {
         email,
       },
@@ -21,7 +42,21 @@ export class AlumnosRepository {
   }
 
   async findAll() {
-    return this.prisma.alumno.findMany();
+    return this.prisma.alumno.findMany({
+      where: {
+        activo: true,
+      },
+
+      include: {
+        usuario: true,
+
+        profesorAsignado: {
+          include: {
+            usuario: true,
+          },
+        },
+      },
+    });
   }
 
   async findById(id) {
@@ -33,11 +68,34 @@ export class AlumnosRepository {
   }
 
   async update(id, data) {
+    await this.prisma.usuario.update({
+      where: {
+        id,
+      },
+
+      data: {
+        nombre: data.nombre,
+        email: data.email,
+        telefono: data.telefono,
+
+        ...(data.passwordHash && {
+          passwordHash: data.passwordHash,
+        }),
+      },
+    });
+
     return this.prisma.alumno.update({
       where: {
         id,
       },
-      data,
+
+      data: {
+        tipoLicenciaObjetivo: data.tipoLicencia,
+      },
+
+      include: {
+        usuario: true,
+      },
     });
   }
 
@@ -46,6 +104,7 @@ export class AlumnosRepository {
       where: {
         id,
       },
+
       data: {
         activo: false,
       },

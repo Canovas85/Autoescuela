@@ -13,6 +13,7 @@ model Usuario {
   id            String    @id @default(uuid())
   nombre        String
   email         String    @unique
+  telefono      String?
   passwordHash  String
   rol           Rol
   fechaCreacion DateTime  @default(now())

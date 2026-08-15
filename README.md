@@ -204,9 +204,12 @@ El proyecto está dockerizado.
 
 ## Construcción
 
+````Siempre hay que tener abierto: Docker Desktop
+``` Desde: C:\Users\cano0\Desktop\Sergio_proyecto_master\Autoescuela\backend
+
 ```bash
 docker compose build
-```
+````
 
 ## Arranque
 

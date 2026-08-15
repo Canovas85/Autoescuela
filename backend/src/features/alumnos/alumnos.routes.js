@@ -6,18 +6,11 @@ import { authorize } from "../../shared/middleware/role.middleware.js";
 import { AlumnosRepository } from "./alumnos.repository.js";
 import { AlumnosService } from "./alumnos.service.js";
 import { AlumnosController } from "./alumnos.controller.js";
+import prisma from "../../config/prisma.js";
 
 const router = Router();
 
-const repository = new AlumnosRepository({
-  alumno: {
-    create: async () => {},
-    findFirst: async () => {},
-    findMany: async () => [],
-    findUnique: async () => {},
-    update: async () => {},
-  },
-});
+const repository = new AlumnosRepository(prisma);
 
 const service = new AlumnosService(repository);
 

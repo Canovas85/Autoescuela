@@ -4,19 +4,44 @@ export class ProfesoresRepository {
   }
 
   async create(data) {
+    const usuario = await this.prisma.usuario.create({
+      data: {
+        nombre: data.nombre,
+        email: data.email,
+        telefono: data.telefono,
+        passwordHash: data.passwordHash,
+        rol: "PROFESOR",
+      },
+    });
+
+    console.log("USUARIO CREADO:", usuario);
+
     return this.prisma.profesor.create({
-      data,
+      data: {
+        id: usuario.id,
+        licenciaConducir: data.licenciaConducir,
+        telefono: data.telefono,
+      },
+
+      include: {
+        usuario: true,
+      },
     });
   }
+
   async findByEmail(email) {
-    return this.prisma.profesor.findFirst({
+    return this.prisma.usuario.findUnique({
       where: {
         email,
       },
     });
   }
   async findAll() {
-    return this.prisma.profesor.findMany();
+    return this.prisma.profesor.findMany({
+      include: {
+        usuario: true,
+      },
+    });
   }
 
   async findById(id) {

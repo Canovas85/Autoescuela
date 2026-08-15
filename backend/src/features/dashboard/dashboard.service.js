@@ -119,7 +119,7 @@ export class DashboardService {
     return (aprobadosMes / examenesMes) * 100;
   }
   async getTopProfesorPorClases() {
-    const profesores = await this.repository.getClasesPorProfesor();
+    const profesores = (await this.repository.getClasesPorProfesor()) || [];
 
     if (profesores.length === 0) {
       return null;
@@ -135,7 +135,7 @@ export class DashboardService {
     };
   }
   async getTopProfesorPorHoras() {
-    const profesores = await this.repository.getHorasPorProfesor();
+    const profesores = (await this.repository.getHorasPorProfesor()) || [];
 
     if (profesores.length === 0) {
       return null;

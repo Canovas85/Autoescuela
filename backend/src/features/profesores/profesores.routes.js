@@ -7,17 +7,11 @@ import { ProfesoresController } from "./profesores.controller.js";
 import { authenticate } from "../../shared/middleware/auth.middleware.js";
 import { authorize } from "../../shared/middleware/role.middleware.js";
 
+import prisma from "../../config/prisma.js";
+
 const router = Router();
 
-const repository = new ProfesoresRepository({
-  profesor: {
-    create: async () => {},
-    findFirst: async () => {},
-    findMany: async () => [],
-    findUnique: async () => {},
-    update: async () => {},
-  },
-});
+const repository = new ProfesoresRepository(prisma);
 
 const service = new ProfesoresService(repository);
 

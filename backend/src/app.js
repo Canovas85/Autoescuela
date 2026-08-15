@@ -7,6 +7,10 @@ import cors from "cors";
 import alumnosRoutes from "./features/alumnos/alumnos.routes.js";
 import profesoresRoutes from "./features/profesores/profesores.routes.js";
 import authRoutes from "./features/auth/auth.routes.js";
+import clasesRoutes from "./features/clases/clases.routes.js";
+import examenesRoutes from "./features/examenes/examenes.routes.js";
+import dashboardRoutes from "./features/dashboard/dashboard.routes.js";
+import vehiculosRoutes from "./features/vehiculos/vehiculos.routes.js";
 
 const app = express();
 
@@ -20,6 +24,10 @@ app.get("/api/health", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/alumnos", alumnosRoutes);
 app.use("/api/profesores", profesoresRoutes);
+app.use("/api/clases", clasesRoutes);
+app.use("/api/examenes", examenesRoutes);
+app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/vehiculos", vehiculosRoutes);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
