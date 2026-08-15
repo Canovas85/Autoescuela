@@ -110,4 +110,16 @@ export class AlumnosRepository {
       },
     });
   }
+
+  async activate(id) {
+    return this.prisma.alumno.update({
+      where: {
+        id,
+      },
+
+      data: {
+        activo: true,
+      },
+    });
+  }
 }

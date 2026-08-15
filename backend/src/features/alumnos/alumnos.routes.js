@@ -164,4 +164,11 @@ router.delete(
   controller.deactivate.bind(controller),
 );
 
+router.patch(
+  "/:id/activar",
+  authenticate,
+  authorize("ADMIN"),
+  controller.activate.bind(controller),
+);
+
 export default router;

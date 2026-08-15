@@ -46,7 +46,13 @@ export class AlumnosService {
   }
 
   async getById(id) {
-    return this.repository.findById(id);
+    const alumno = await this.repository.findById(id);
+
+    if (!alumno) {
+      throw new Error("Alumno no encontrado");
+    }
+
+    return alumno;
   }
 
   async update(id, data) {
@@ -55,6 +61,10 @@ export class AlumnosService {
 
   async deactivate(id) {
     return this.repository.deactivate(id);
+  }
+
+  async activate(id) {
+    return this.repository.activate(id);
   }
 
   // async getById(id) {

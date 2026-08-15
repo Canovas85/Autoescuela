@@ -9,6 +9,7 @@ import { alumnosService } from "../../services/alumnosService";
 import { api } from "../../services/api";
 
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { IconButton } from "@mui/material";
 
@@ -72,6 +73,26 @@ export default function Alumnos() {
     }
   };
 
+  const handleDeactivate = async (id) => {
+    try {
+      const confirmar = window.confirm(
+        "¿Seguro que deseas desactivar este alumno?",
+      );
+
+      if (!confirmar) {
+        return;
+      }
+
+      await alumnosService.deactivate(id);
+
+      loadAlumnos();
+    } catch (error) {
+      console.error(error);
+
+      alert("Error desactivando alumno");
+    }
+  };
+
   const columns = [
     {
       field: "nombre",
@@ -123,9 +144,18 @@ export default function Alumnos() {
       width: 120,
 
       renderCell: (params) => (
-        <IconButton color="primary" onClick={() => handleEdit(params.row)}>
-          <EditIcon />
-        </IconButton>
+        <>
+          <IconButton color="primary" onClick={() => handleEdit(params.row)}>
+            <EditIcon />
+          </IconButton>
+
+          <IconButton
+            color="error"
+            onClick={() => handleDeactivate(params.row.id)}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </>
       ),
     },
   ];

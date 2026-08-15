@@ -36,4 +36,28 @@ export const alumnosService = {
 
     return response.data;
   },
+
+  async deactivate(id) {
+    const token = localStorage.getItem("token");
+
+    const response = await api.delete(`/alumnos/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  },
+
+  async activate(id) {
+    const token = localStorage.getItem("token");
+
+    const response = await api.patch(`/alumnos/${id}/activar`, null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  },
 };
