@@ -19,7 +19,9 @@ export class AlumnosController {
   }
 
   async getAll(req, res) {
-    const alumnos = await this.service.getAll();
+    const includeInactive = req.query.includeInactive === "true";
+
+    const alumnos = await this.service.getAll(includeInactive);
 
     return res.status(200).json(alumnos);
   }

@@ -13,6 +13,10 @@ import { IconButton } from "@mui/material";
 
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 import {
   Dialog,
@@ -24,14 +28,17 @@ import {
 
 export default function Alumnos() {
   const [rows, setRows] = useState([]);
+  const [showInactive, setShowInactive] = useState(false);
 
   useEffect(() => {
     loadAlumnos();
-  }, []);
+  }, [showInactive]);
 
   const loadAlumnos = async () => {
     try {
-      const data = await alumnosService.getAll();
+      const data = await alumnosService.getAll(showInactive);
+
+      console.log("DATOS ALUMNOS:", data);
 
       setRows(data);
     } catch (error) {
@@ -111,6 +118,28 @@ export default function Alumnos() {
     }
   };
 
+  const handleActivate = async (id) => {
+    try {
+      await alumnosService.activate(id);
+
+      loadAlumnos();
+
+      setNotification({
+        open: true,
+        message: "Alumno activado correctamente",
+        severity: "success",
+      });
+    } catch (error) {
+      console.error(error);
+
+      setNotification({
+        open: true,
+        message: "Error activando alumno",
+        severity: "error",
+      });
+    }
+  };
+
   const columns = [
     {
       field: "nombre",
@@ -155,6 +184,12 @@ export default function Alumnos() {
 
       valueGetter: (_, row) => row.usuario?.telefono || "",
     },
+    {
+      field: "activo",
+      headerName: "Estado",
+      width: 120,
+      valueGetter: (_, row) => (row.activo ? "Activo" : "Inactivo"),
+    },
 
     {
       field: "acciones",
@@ -167,12 +202,21 @@ export default function Alumnos() {
             <EditIcon />
           </IconButton>
 
-          <IconButton
-            color="error"
-            onClick={() => handleDeactivate(params.row.id)}
-          >
-            <DeleteIcon />
-          </IconButton>
+          {params.row.activo ? (
+            <IconButton
+              color="error"
+              onClick={() => handleDeactivate(params.row.id)}
+            >
+              <DeleteIcon />
+            </IconButton>
+          ) : (
+            <IconButton
+              color="success"
+              onClick={() => handleActivate(params.row.id)}
+            >
+              <CheckCircleIcon />
+            </IconButton>
+          )}
         </>
       ),
     },
@@ -234,6 +278,16 @@ export default function Alumnos() {
       >
         Nuevo Alumno
       </Button>
+
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={showInactive}
+            onChange={(e) => setShowInactive(e.target.checked)}
+          />
+        }
+        label="Mostrar alumnos inactivos"
+      />
 
       <Paper
         sx={{

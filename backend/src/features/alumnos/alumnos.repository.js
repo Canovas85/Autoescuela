@@ -41,11 +41,13 @@ export class AlumnosRepository {
     });
   }
 
-  async findAll() {
+  async findAll(includeInactive = false) {
     return this.prisma.alumno.findMany({
-      where: {
-        activo: true,
-      },
+      where: includeInactive
+        ? {}
+        : {
+            activo: true,
+          },
 
       include: {
         usuario: true,
@@ -116,7 +118,6 @@ export class AlumnosRepository {
       where: {
         id,
       },
-
       data: {
         activo: true,
       },

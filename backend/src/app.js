@@ -33,6 +33,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use((error, req, res, next) => {
   console.error("MIDDLEWARE GLOBAL EJECUTADO");
+  console.error(error);
 
   return res.status(400).json({
     message: error.message,
