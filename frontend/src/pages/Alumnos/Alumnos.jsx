@@ -6,12 +6,13 @@ import { DataGrid } from "@mui/x-data-grid";
 
 import { alumnosService } from "../../services/alumnosService";
 
-import { api } from "../../services/api";
-
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import { IconButton } from "@mui/material";
+
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 import {
   Dialog,
@@ -32,9 +33,6 @@ export default function Alumnos() {
     try {
       const data = await alumnosService.getAll();
 
-      console.log(data);
-      console.log("ALUMNOS:", data);
-
       setRows(data);
     } catch (error) {
       console.error(error);
@@ -43,7 +41,6 @@ export default function Alumnos() {
 
   const saveAlumno = async () => {
     try {
-      console.log("EDITING ID:", editingId);
       if (editingId) {
         await alumnosService.update(editingId, newAlumno);
       } else {
@@ -63,16 +60,24 @@ export default function Alumnos() {
       });
 
       loadAlumnos();
-    } catch (error) {
-      console.log("ERROR COMPLETO:", error);
-      console.log("STATUS:", error.response?.status);
-      console.log("DATA:", error.response?.data);
-      console.log("MESSAGE:", error.response?.data?.message);
 
-      alert(
-        error.response?.data?.message ||
+      setNotification({
+        open: true,
+        message: editingId
+          ? "Alumno actualizado correctamente"
+          : "Alumno creado correctamente",
+        severity: "success",
+      });
+    } catch (error) {
+      console.error(error);
+
+      setNotification({
+        open: true,
+        message:
+          error.response?.data?.message ||
           (editingId ? "Error modificando alumno" : "Error creando alumno"),
-      );
+        severity: "error",
+      });
     }
   };
 
@@ -89,10 +94,20 @@ export default function Alumnos() {
       await alumnosService.deactivate(id);
 
       loadAlumnos();
+
+      setNotification({
+        open: true,
+        message: "Alumno desactivado correctamente",
+        severity: "success",
+      });
     } catch (error) {
       console.error(error);
 
-      alert("Error desactivando alumno");
+      setNotification({
+        open: true,
+        message: "Error desactivando alumno",
+        severity: "error",
+      });
     }
   };
 
@@ -172,6 +187,12 @@ export default function Alumnos() {
     password: "",
     telefono: "",
     tipoLicencia: "B",
+  });
+
+  const [notification, setNotification] = useState({
+    open: false,
+    message: "",
+    severity: "success",
   });
 
   const handleEdit = (row) => {
@@ -321,6 +342,33 @@ export default function Alumnos() {
           </Button>
         </DialogActions>
       </Dialog>
+      <Snackbar
+        open={notification.open}
+        autoHideDuration={4000}
+        onClose={() =>
+          setNotification({
+            ...notification,
+            open: false,
+          })
+        }
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+      >
+        <Alert
+          severity={notification.severity}
+          variant="filled"
+          onClose={() =>
+            setNotification({
+              ...notification,
+              open: false,
+            })
+          }
+        >
+          {notification.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
