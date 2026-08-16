@@ -31,4 +31,20 @@ app.use("/api/vehiculos", vehiculosRoutes);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+app.use((error, req, res, next) => {
+  console.error("MIDDLEWARE GLOBAL EJECUTADO");
+
+  return res.status(400).json({
+    message: error.message,
+  });
+});
+
+// app.use((error, req, res, next) => {
+//   console.error(error);
+
+//   return res.status(400).json({
+//     message: error.message,
+//   });
+// });
+
 export default app;

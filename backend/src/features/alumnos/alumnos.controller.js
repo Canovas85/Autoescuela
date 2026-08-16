@@ -4,9 +4,18 @@ export class AlumnosController {
   }
 
   async create(req, res) {
-    const alumno = await this.service.create(req.body);
+    console.log("CONTROLADOR CREATE NUEVO");
+    try {
+      const alumno = await this.service.create(req.body);
 
-    return res.status(201).json(alumno);
+      return res.status(201).json(alumno);
+    } catch (error) {
+      console.log("ENTRA EN EL CATCH");
+
+      return res.status(400).json({
+        message: error.message,
+      });
+    }
   }
 
   async getAll(req, res) {
@@ -22,9 +31,17 @@ export class AlumnosController {
   }
 
   async update(req, res) {
-    const alumno = await this.service.update(req.params.id, req.body);
+    try {
+      const alumno = await this.service.update(req.params.id, req.body);
 
-    return res.status(200).json(alumno);
+      return res.status(200).json(alumno);
+    } catch (error) {
+      console.error("ERROR UPDATE:", error.message);
+
+      return res.status(400).json({
+        message: error.message,
+      });
+    }
   }
 
   async deactivate(req, res) {

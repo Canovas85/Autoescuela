@@ -64,7 +64,10 @@ export default function Alumnos() {
 
       loadAlumnos();
     } catch (error) {
-      console.error(error);
+      console.log("ERROR COMPLETO:", error);
+      console.log("STATUS:", error.response?.status);
+      console.log("DATA:", error.response?.data);
+      console.log("MESSAGE:", error.response?.data?.message);
 
       alert(
         error.response?.data?.message ||
