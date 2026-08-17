@@ -15,8 +15,16 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
-import Checkbox from "@mui/material/Checkbox";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
+
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+
+import InputAdornment from "@mui/material/InputAdornment";
+import CloseIcon from "@mui/icons-material/Close";
 
 import {
   Dialog,
@@ -28,19 +36,65 @@ import {
 
 export default function Alumnos() {
   const [rows, setRows] = useState([]);
-  const [showInactive, setShowInactive] = useState(false);
+
+  const [estadoFiltro, setEstadoFiltro] = useState("activos");
+
+  const [profesorFiltro, setProfesorFiltro] = useState("");
+
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     loadAlumnos();
-  }, [showInactive]);
+  }, [estadoFiltro, search]);
 
   const loadAlumnos = async () => {
     try {
-      const data = await alumnosService.getAll(showInactive);
+      const data = await alumnosService.getAll();
 
-      console.log("DATOS ALUMNOS:", data);
+      console.log("TOTAL ALUMNOS:", data.length);
 
-      setRows(data);
+      console.log(
+        "TODOS LOS ALUMNOS:",
+        data.map((a) => ({
+          nombre: a.usuario?.nombre,
+          activo: a.activo,
+        })),
+      );
+
+      let filteredData = data;
+
+      if (estadoFiltro === "activos") {
+        filteredData = data.filter((alumno) => alumno.activo === true);
+      }
+
+      if (estadoFiltro === "inactivos") {
+        filteredData = data.filter((alumno) => alumno.activo === false);
+      }
+
+      if (estadoFiltro === "todos") {
+        filteredData = data;
+      }
+
+      if (search.trim() !== "") {
+        const texto = search.toLowerCase();
+
+        filteredData = filteredData.filter(
+          (alumno) =>
+            alumno.usuario?.nombre?.toLowerCase().includes(texto) ||
+            alumno.usuario?.email?.toLowerCase().includes(texto) ||
+            alumno.usuario?.telefono?.toLowerCase().includes(texto),
+        );
+      }
+
+      console.log(
+        "FILTRADOS:",
+        filteredData.map((a) => ({
+          nombre: a.usuario?.nombre,
+          activo: a.activo,
+        })),
+      );
+
+      setRows(filteredData);
     } catch (error) {
       console.error(error);
     }
@@ -258,36 +312,81 @@ export default function Alumnos() {
       <Typography variant="h4" fontWeight="bold" mb={4}>
         Gestión de Alumnos
       </Typography>
-
-      <Button
-        variant="contained"
-        sx={{ mb: 3 }}
-        onClick={() => {
-          setEditingId(null);
-
-          setNewAlumno({
-            nombre: "",
-            email: "",
-            password: "",
-            telefono: "",
-            tipoLicencia: "B",
-          });
-
-          setOpen(true);
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 4,
+          mb: 3,
+          flexWrap: "wrap",
         }}
       >
-        Nuevo Alumno
-      </Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            setEditingId(null);
 
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={showInactive}
-            onChange={(e) => setShowInactive(e.target.checked)}
+            setNewAlumno({
+              nombre: "",
+              email: "",
+              password: "",
+              telefono: "",
+              tipoLicencia: "B",
+            });
+
+            setOpen(true);
+          }}
+        >
+          Nuevo Alumno
+        </Button>
+
+        <RadioGroup
+          row
+          value={estadoFiltro}
+          onChange={(e) => setEstadoFiltro(e.target.value)}
+        >
+          <FormControlLabel
+            value="activos"
+            control={<Radio />}
+            label="Activos"
           />
-        }
-        label="Mostrar alumnos inactivos"
-      />
+
+          <FormControlLabel
+            value="inactivos"
+            control={<Radio />}
+            label="Inactivos"
+          />
+
+          <FormControlLabel value="todos" control={<Radio />} label="Todos" />
+        </RadioGroup>
+
+        <Select
+          size="small"
+          value={profesorFiltro}
+          onChange={(e) => setProfesorFiltro(e.target.value)}
+          sx={{ minWidth: 220 }}
+        >
+          <MenuItem value="">Todos los profesores</MenuItem>
+        </Select>
+
+        <TextField
+          size="small"
+          label="Buscar alumno"
+          placeholder="Nombre, email o teléfono"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          sx={{ width: 320 }}
+          InputProps={{
+            endAdornment: search && (
+              <InputAdornment position="end">
+                <IconButton size="small" onClick={() => setSearch("")}>
+                  <CloseIcon fontSize="small" />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
 
       <Paper
         sx={{

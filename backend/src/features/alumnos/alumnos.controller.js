@@ -19,9 +19,11 @@ export class AlumnosController {
   }
 
   async getAll(req, res) {
-    const includeInactive = req.query.includeInactive === "true";
+    console.log("ENTRANDO EN GET ALL");
 
-    const alumnos = await this.service.getAll(includeInactive);
+    const alumnos = await this.service.getAll();
+
+    console.log("CONTROLADOR ALUMNOS:", alumnos.length);
 
     return res.status(200).json(alumnos);
   }

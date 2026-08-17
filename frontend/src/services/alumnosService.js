@@ -1,17 +1,14 @@
 import { api } from "./api";
 
 export const alumnosService = {
-  async getAll(includeInactive = false) {
+  async getAll() {
     const token = localStorage.getItem("token");
 
-    const response = await api.get(
-      `/alumnos?includeInactive=${includeInactive}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+    const response = await api.get("/alumnos", {
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
-    );
+    });
 
     return response.data;
   },

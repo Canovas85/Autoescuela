@@ -41,8 +41,8 @@ export class AlumnosService {
     });
   }
 
-  async getAll(includeInactive = false) {
-    return this.repository.findAll(includeInactive);
+  async getAll() {
+    return this.repository.findAll();
   }
 
   async getById(id) {
