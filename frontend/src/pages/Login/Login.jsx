@@ -24,8 +24,8 @@ import {
 
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import GoogleIcon from "@mui/icons-material/Google";
-import AppleIcon from "@mui/icons-material/Apple";
+//import GoogleIcon from "@mui/icons-material/Google";
+//import AppleIcon from "@mui/icons-material/Apple";
 
 import { api } from "../../services/api";
 
@@ -45,7 +45,6 @@ export default function Login() {
   const promotions = [
     {
       image: pack10ClasesImg,
-      badge: "OFERTA",
       title: "Pack 10 Clases",
       oldPrice: "350€",
       newPrice: "299€",
@@ -54,7 +53,6 @@ export default function Login() {
 
     {
       image: carnetBImg,
-      badge: "TOP",
       title: "Matrícula Carnet B",
       oldPrice: "220€",
       newPrice: "149€",
@@ -67,7 +65,6 @@ export default function Login() {
 
     {
       image: intensivoVeranoImg,
-      badge: "VERANO",
       title: "Pack Intensivo Verano",
       oldPrice: "450€",
       newPrice: "349€",
@@ -117,185 +114,161 @@ export default function Login() {
 
   return (
     <Box className="login-page">
-      <section className="promo-section">
-        <div className="promo-decoration" />
-
+      <div className="login-header">
         <h1>Autoescuela Eguzkilore</h1>
-
-        <p className="promo-subtitle"></p>
-
-        <div className="carousel-card">
-          <div className="promo-content">
-            <div className="promo-info">
-              <span className="badge">{promotion.badge}</span>
-
-              <h2>{promotion.title}</h2>
-
-              <ul>
-                {promotion.benefits.map((benefit) => (
-                  <li key={benefit}>{benefit}</li>
-                ))}
-              </ul>
-
-              <div className="price-container">
-                <span className="old-price">{promotion.oldPrice}</span>
-
-                <span className="new-price">{promotion.newPrice}</span>
-              </div>
-
-              <Button variant="contained" color="warning">
-                Ver promoción
-              </Button>
-            </div>
-
-            <div className="promo-image-container"> </div>
-            <img
-              src={promotion.image}
-              alt={promotion.title}
-              className="promo-image"
-            />
-          </div>
-        </div>
-
-        <div className="indicators">
-          {promotions.map((_, index) => (
-            <span
-              key={index}
-              className={index === activePromotion ? "pill active" : "pill"}
-            />
-          ))}
-        </div>
-
-        {/* <div className="stats-row">
-              <div>
-                <strong>97%</strong>
-                  <span>Aprobados</span>
-              </div>
-
-              <div>
-                <strong>12</strong>
-                  <span>Años</span>
-              </div>
-              <div>
-                <strong>4.9★</strong>
-                  <span>Valoración</span>
-              </div>
-        </div> */}
-      </section>
-
-      <section className="form-section">
-        <div className="side-space" />
-
-        <Card className="login-card">
-          <CardContent>
-            <Typography
-              variant="h4"
-              fontWeight="bold"
-              textAlign="center"
-              gutterBottom
-            >
-              Autoescuela Eguzkilore
-            </Typography>
-
-            <Tabs value={tab} onChange={(e, value) => setTab(value)} centered>
-              <Tab label="Iniciar Sesión" />
-              <Tab label="Registrarse" />
-            </Tabs>
-
-            <form onSubmit={handleSubmit(onSubmit)}>
-              {tab === 1 && (
-                <div className="grid-two">
-                  <TextField fullWidth label="Nombre" />
-
-                  <TextField fullWidth label="Teléfono" />
+      </div>
+      <div className="login-layout">
+        <section className="form-section">
+          <Card className="promo-card">
+            <CardContent>
+              <div className="promo-content">
+                <div className="promo-image-container">
+                  <img
+                    src={promotion.image}
+                    alt={promotion.title}
+                    className="promo-image"
+                  />
                 </div>
-              )}
 
-              <TextField
-                fullWidth
-                label="Email"
-                margin="normal"
-                {...register("email")}
-              />
+                <div className="promo-info">
+                  <h2>{promotion.title}</h2>
+                  <ul>
+                    {promotion.benefits.map((benefit) => (
+                      <li key={benefit}>{benefit}</li>
+                    ))}
+                  </ul>
 
-              <Box
-                sx={{
-                  position: "relative",
-                }}
-              >
+                  <div className="price-container">
+                    <span className="old-price">
+                      Antes: {promotion.oldPrice}
+                    </span>
+
+                    <span className="new-price">
+                      Ahora: {promotion.newPrice}
+                    </span>
+                  </div>
+
+                  <Button variant="contained" color="warning">
+                    Ver promoción
+                  </Button>
+                </div>
+              </div>
+
+              <div className="indicators">
+                {promotions.map((_, index) => (
+                  <span
+                    key={index}
+                    className={
+                      index === activePromotion ? "pill active" : "pill"
+                    }
+                  />
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        <section className="promo-section">
+          <Card className="login-card">
+            <CardContent>
+              <Tabs value={tab} onChange={(e, value) => setTab(value)} centered>
+                <Tab label="Iniciar Sesión" />
+                <Tab label="Registrarse" />
+              </Tabs>
+
+              <form onSubmit={handleSubmit(onSubmit)}>
+                {tab === 1 && (
+                  <div className="grid-two">
+                    <TextField fullWidth label="Nombre" />
+
+                    <TextField fullWidth label="Teléfono" />
+                  </div>
+                )}
+
                 <TextField
                   fullWidth
-                  label="Contraseña"
+                  label="Email"
                   margin="normal"
-                  type={showPassword ? "text" : "password"}
-                  {...register("password")}
+                  {...register("email")}
                 />
 
-                <IconButton
+                <Box
                   sx={{
-                    position: "absolute",
-                    right: 12,
-                    top: 20,
+                    position: "relative",
                   }}
-                  onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </Box>
+                  <TextField
+                    fullWidth
+                    label="Contraseña"
+                    margin="normal"
+                    type={showPassword ? "text" : "password"}
+                    {...register("password")}
+                  />
 
-              {tab === 0 && (
-                <Typography textAlign="right" variant="body2" color="primary">
-                  ¿Olvidaste tu contraseña?
-                </Typography>
-              )}
+                  <IconButton
+                    sx={{
+                      position: "absolute",
+                      right: 12,
+                      top: 20,
+                    }}
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </Box>
 
-              {tab === 1 && (
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Acepto los términos y condiciones"
-                />
-              )}
-
-              <Button
-                type="submit"
-                variant="contained"
-                fullWidth
-                sx={{ mt: 3 }}
-              >
-                {loading ? (
-                  <CircularProgress size={24} color="inherit" />
-                ) : tab === 0 ? (
-                  "Iniciar sesión"
-                ) : (
-                  "Crear cuenta"
+                {tab === 0 && (
+                  <Typography textAlign="right" variant="body2" color="primary">
+                    ¿Olvidaste tu contraseña?
+                  </Typography>
                 )}
-              </Button>
 
-              <div className="divider"></div>
-
-              <div className="social-container">
-                <Button
-                  variant="outlined"
-                  className="social-btn"
-                  startIcon={<FcGoogle size={22} />}
-                >
-                  Continuar con Google
-                </Button>
+                {tab === 1 && (
+                  <FormControlLabel
+                    control={<Checkbox />}
+                    label="Acepto los términos y condiciones"
+                  />
+                )}
 
                 <Button
-                  variant="outlined"
-                  className="social-btn"
-                  startIcon={<FaApple size={20} />}
+                  type="submit"
+                  variant="contained"
+                  fullWidth
+                  sx={{ mt: 3 }}
                 >
-                  Continuar con Apple
+                  {loading ? (
+                    <CircularProgress size={24} color="inherit" />
+                  ) : tab === 0 ? (
+                    "Iniciar sesión"
+                  ) : (
+                    "Crear cuenta"
+                  )}
                 </Button>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
 
-        <div className="side-space" />
-      </section>
+                <div className="divider"></div>
+
+                <div className="social-container">
+                  <Button
+                    variant="outlined"
+                    className="social-btn"
+                    startIcon={<FcGoogle size={22} />}
+                  >
+                    Continuar con Google
+                  </Button>
+
+                  <Button
+                    variant="outlined"
+                    className="social-btn"
+                    startIcon={<FaApple size={20} />}
+                  >
+                    Continuar con Apple
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+        </section>
+      </div>
     </Box>
   );
 }
