@@ -20,7 +20,7 @@ export default function AdminLayout() {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 4,
+          p: 2,
           mt: 8,
         }}
       >
