@@ -148,4 +148,116 @@ describe("TemariosRepository", () => {
     });
     expect(result).toEqual(temarioEliminado);
   });
+
+  it("debe actualizar progreso existente al guardar mini test", async () => {
+    const progresoActualizado = {
+      id: "progreso-1",
+      alumnoId: "alumno-1",
+      temarioId: "temario-1",
+      revisado: true,
+      dominio: 80,
+    };
+
+    const prismaMock = {
+      temarioProgreso: {
+        findFirst: vi.fn().mockResolvedValue({ id: "progreso-1" }),
+        update: vi.fn().mockResolvedValue(progresoActualizado),
+      },
+    };
+
+    const repository = new TemariosRepository(prismaMock);
+
+    const result = await repository.saveMiniTestResultado({
+      alumnoId: "alumno-1",
+      temarioId: "temario-1",
+      dominio: 80,
+    });
+
+    expect(prismaMock.temarioProgreso.update).toHaveBeenCalled();
+    expect(result).toEqual(progresoActualizado);
+  });
+
+  it("debe crear progreso si no existe al guardar mini test", async () => {
+    const progresoCreado = {
+      id: "progreso-2",
+      alumnoId: "alumno-1",
+      temarioId: "temario-1",
+      revisado: true,
+      dominio: 60,
+    };
+
+    const prismaMock = {
+      temarioProgreso: {
+        findFirst: vi.fn().mockResolvedValue(null),
+        create: vi.fn().mockResolvedValue(progresoCreado),
+      },
+    };
+
+    const repository = new TemariosRepository(prismaMock);
+
+    const result = await repository.saveMiniTestResultado({
+      alumnoId: "alumno-1",
+      temarioId: "temario-1",
+      dominio: 60,
+    });
+
+    expect(prismaMock.temarioProgreso.create).toHaveBeenCalled();
+    expect(result).toEqual(progresoCreado);
+  });
+
+  it("debe crear intento de mini test en tests_practica", async () => {
+    const intentoCreado = {
+      id: "test-1",
+      resultado: "APROBADO",
+      respuestasCorrectas: 5,
+      totalPreguntas: 5,
+    };
+
+    const prismaMock = {
+      testPractica: {
+        create: vi.fn().mockResolvedValue(intentoCreado),
+      },
+    };
+
+    const repository = new TemariosRepository(prismaMock);
+
+    const result = await repository.createMiniTestIntento({
+      alumnoId: "alumno-1",
+      temarioId: "temario-1",
+      aciertos: 5,
+      totalPreguntas: 5,
+      porcentaje: 100,
+    });
+
+    expect(prismaMock.testPractica.create).toHaveBeenCalled();
+    expect(result).toEqual(intentoCreado);
+  });
+
+  it("debe devolver historial de intentos de mini test", async () => {
+    const historial = [
+      {
+        id: "test-1",
+        fecha: new Date(),
+        resultado: "APROBADO",
+        respuestasCorrectas: 4,
+        totalPreguntas: 5,
+      },
+    ];
+
+    const prismaMock = {
+      testPractica: {
+        findMany: vi.fn().mockResolvedValue(historial),
+      },
+    };
+
+    const repository = new TemariosRepository(prismaMock);
+
+    const result = await repository.getMiniTestHistorial(
+      "alumno-1",
+      "temario-1",
+    );
+
+    expect(prismaMock.testPractica.findMany).toHaveBeenCalled();
+    expect(result).toEqual(historial);
+  });
 });

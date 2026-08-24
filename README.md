@@ -169,11 +169,6 @@ forman parte del alcance definitivo y deberán incorporarse durante el desarroll
 - Registrar profesores.
 - Actualizar información.
 - Gestionar disponibilidad.
-- Consultar agenda.
-- Gestionar alumnos asignados.
-- Registrar observaciones.
-- Evaluar evolución práctica.
-- Registrar información de las clases.
 
 ---
 
@@ -181,39 +176,12 @@ forman parte del alcance definitivo y deberán incorporarse durante el desarroll
 
 - Gestionar flota.
 - Registrar vehículos.
-- Asociar vehículos a clases.
-- Controlar disponibilidad.
-- Gestionar estados.
-- Registrar mantenimiento.
-- Controlar ITV.
-- Reasignar vehículos cuando sea necesario.
-
----
-
-## 📅 Clases prácticas
 
 El sistema contempla:
 
-- Reserva de clases.
-- Consulta de agenda.
-- Disponibilidad del alumno.
-- Disponibilidad del profesor.
-- Disponibilidad del vehículo.
-- Reprogramación.
-- Cancelación.
-- Historial.
 - Control de créditos.
 - Penalizaciones por cancelación tardía.
 - Asignación de profesor.
-- Asignación de vehículo.
-
-### Reglas principales
-
-- Reserva mínima con 24 horas de antelación.
-- Máximo de 3 clases futuras reservadas simultáneamente por alumno.
-- No se permite solapamiento de alumno, profesor o vehículo.
-- Se requiere disponer de créditos, bono activo o modalidad de pago autorizada.
-- Las cancelaciones con más de 24 horas no tienen penalización.
 - Las cancelaciones con menos de 24 horas consumen el crédito correspondiente.
 - Un profesor no puede impartir más de 4 horas consecutivas sin descanso.
 - El descanso mínimo inicial es de 30 minutos.
@@ -1065,6 +1033,15 @@ Describe las funcionalidades agrupadas por actor:
 - Administrativo.
 - Soporte.
 
+## `BR_TRACEABILITY_INDEX.md`
+
+Indice cruzado de trazabilidad entre reglas de negocio y su correspondencia en:
+
+- `FUNCTIONAL_SPECIFICATION.md`
+- `DOMAIN_MODEL.md`
+
+Permite navegar cada regla BR hacia su seccion funcional y de dominio asociada.
+
 ---
 
 # 🗺️ Roadmap
@@ -1194,6 +1171,31 @@ ISC
 ```
 
 La licencia definitiva del proyecto deberá establecerse cuando se defina la estrategia de distribución del software.
+
+---
+
+# 🧩 Actualización Temarios Alumno (agosto 2026)
+
+Cambios funcionales recientes ya incorporados:
+
+- listado de temarios del alumno según su licencia objetivo
+- detalle de tema por ruta `/temario/:id`
+- teoría por tema del permiso B
+- mini test por tema con corrección inmediata
+- botón de reintento sin salir del detalle
+- guardado de resultado por alumno y tema
+- historial de intentos por tema para analítica
+
+Endpoints backend de alumno para temarios:
+
+- `GET /api/temarios/mis-temarios`
+- `GET /api/temarios/mis-temarios/:id`
+- `POST /api/temarios/mis-temarios/:id/mini-test`
+
+Persistencia aplicada:
+
+- progreso actual del tema en `temarios_progreso`
+- intentos históricos en `tests_practica`
 
 ---
 

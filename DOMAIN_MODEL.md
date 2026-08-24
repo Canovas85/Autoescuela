@@ -259,6 +259,8 @@ Representa el contenido base de formación teórica organizado por permiso objet
 
 Representa el seguimiento de un alumno sobre un temario concreto.
 
+Este agregado mantiene el estado resumen más reciente del tema para el alumno (dominio actual y última revisión), incluso cuando existen múltiples intentos históricos.
+
 #### Atributos actuales
 
 - id
@@ -279,6 +281,8 @@ Representa el seguimiento de un alumno sobre un temario concreto.
 
 Representa el resultado de un test práctico vinculado a un alumno y, opcionalmente, a un temario.
 
+En la versión actual también se utiliza para guardar el historial de intentos de mini test por tema desde la pantalla de detalle del alumno.
+
 #### Atributos actuales
 
 - id
@@ -293,6 +297,13 @@ Representa el resultado de un test práctico vinculado a un alumno y, opcionalme
 
 - pertenece a un alumno
 - puede estar asociado a un temario
+
+#### Semántica actual para mini test por tema
+
+- cada intento genera un registro nuevo
+- `resultado` se deriva del porcentaje (`APROBADO` con umbral 80%, `SUSPENDIDO` en caso contrario)
+- `respuestasCorrectas` y `totalPreguntas` guardan el detalle cuantitativo del intento
+- el historial se consulta por `alumnoId + temarioId`, ordenado por fecha descendente
 
 ---
 
@@ -506,6 +517,9 @@ La finalidad de este documento es reflejar ese modelo real y distinguirlo de los
 - el usuario queda modelado con `dni` opcional, `telefono` y `requiereCambioPassword` para gestionar acceso inicial y perfil del alumno/profesor
 - el agregado `Vehiculo` usa `imagenRuta` como referencia opcional y admite edición de imagen desde alta y actualización
 - el backend gestiona archivos físicos de vehículo en `backend/uploads/vehiculos` y conserva solo la ruta pública en base de datos
+- el dominio teórico incorpora mini test por tema con persistencia dual:
+  - estado resumen en `TemarioProgreso`
+  - historial de intentos en `TestPractica`
 
 ## 9.2 Cambios aún pendientes
 

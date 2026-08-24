@@ -69,6 +69,107 @@ describe("TemariosController", () => {
     expect(res.json).toHaveBeenCalledWith(temarios);
   });
 
+  it("debe devolver los temarios del alumno autenticado", async () => {
+    const temarios = [
+      {
+        id: "temario-001",
+        titulo: "Señales",
+        tipoLicenciaObjetivo: "B",
+      },
+    ];
+
+    const serviceMock = {
+      getForAlumno: vi.fn().mockResolvedValue(temarios),
+    };
+
+    const controller = new TemariosController(serviceMock);
+
+    const req = {
+      user: { id: "alumno-1" },
+    };
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    };
+
+    await controller.getForAlumno(req, res);
+
+    expect(serviceMock.getForAlumno).toHaveBeenCalledWith("alumno-1");
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(temarios);
+  });
+
+  it("debe devolver un tema del alumno autenticado", async () => {
+    const temario = {
+      id: "temario-001",
+      titulo: "Señales",
+      tipoLicenciaObjetivo: "B",
+    };
+
+    const serviceMock = {
+      getTemaForAlumno: vi.fn().mockResolvedValue(temario),
+    };
+
+    const controller = new TemariosController(serviceMock);
+
+    const req = {
+      user: { id: "alumno-1" },
+      params: { id: "temario-001" },
+    };
+
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    };
+
+    await controller.getTemaForAlumno(req, res);
+
+    expect(serviceMock.getTemaForAlumno).toHaveBeenCalledWith(
+      "alumno-1",
+      "temario-001",
+    );
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(temario);
+  });
+
+  it("debe guardar el resultado del mini test del alumno", async () => {
+    const payload = {
+      message: "Resultado de mini test guardado correctamente",
+      resultado: {
+        aciertos: 4,
+        totalPreguntas: 5,
+        porcentaje: 80,
+      },
+    };
+
+    const serviceMock = {
+      saveMiniTestResultado: vi.fn().mockResolvedValue(payload),
+    };
+
+    const controller = new TemariosController(serviceMock);
+
+    const req = {
+      user: { id: "alumno-1" },
+      params: { id: "temario-001" },
+      body: { aciertos: 4, totalPreguntas: 5, porcentaje: 80 },
+    };
+
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    };
+
+    await controller.saveMiniTestResultado(req, res);
+
+    expect(serviceMock.saveMiniTestResultado).toHaveBeenCalledWith(
+      "alumno-1",
+      "temario-001",
+      req.body,
+    );
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(payload);
+  });
+
   it("debe devolver un temario por id", async () => {
     const temario = {
       id: "temario-1",

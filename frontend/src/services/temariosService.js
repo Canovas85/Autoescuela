@@ -25,4 +25,22 @@ export const temariosService = {
     const response = await api.delete(`/temarios/${id}`);
     return response.data;
   },
+
+  async getMine() {
+    const response = await api.get("/temarios/mis-temarios");
+    return response.data;
+  },
+
+  async getMineById(id) {
+    const response = await api.get(`/temarios/mis-temarios/${id}`);
+    return response.data;
+  },
+
+  async saveMiniTestResult(id, data) {
+    const response = await api.post(
+      `/temarios/mis-temarios/${id}/mini-test`,
+      data,
+    );
+    return response.data;
+  },
 };

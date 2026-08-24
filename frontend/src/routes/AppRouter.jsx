@@ -18,6 +18,8 @@ import Vehiculos from "../pages/Vehiculos/Vehiculos";
 import Clases from "../pages/Clases/Clases";
 import Examenes from "../pages/Examenes/Examenes";
 import Temarios from "../pages/Temarios/Temarios";
+import TemarioAlumno from "../pages/Temarios/TemarioAlumno";
+import TemarioTemaDetalle from "../pages/Temarios/TemarioTemaDetalle";
 import Bonos from "../pages/Bonos/Bonos";
 import SolicitudesExamen from "../pages/SolicitudesExamen/SolicitudesExamen";
 
@@ -62,6 +64,9 @@ export default function AppRouter() {
               <Route path="/vehiculos" element={<Vehiculos />} />
 
               <Route path="/temarios" element={<Temarios />} />
+
+              <Route path="/temario" element={<TemarioAlumno />} />
+              <Route path="/temario/:id" element={<TemarioTemaDetalle />} />
 
               <Route path="/bonos" element={<Bonos />} />
 

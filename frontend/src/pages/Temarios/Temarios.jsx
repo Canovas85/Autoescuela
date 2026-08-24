@@ -22,6 +22,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 
 import { temariosService } from "../../services/temariosService";
+import TemarioHero from "./TemarioHero";
 
 const LICENCIAS = ["B", "A1", "A2", "A", "C", "D", "E"];
 
@@ -183,6 +184,8 @@ export default function Temarios() {
 
   return (
     <Box>
+      <TemarioHero mode="admin" />
+
       <Box
         sx={{
           display: "flex",

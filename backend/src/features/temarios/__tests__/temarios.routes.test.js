@@ -31,6 +31,30 @@ describe("Temarios Routes", () => {
     expect(response.status).toBe(401);
   });
 
+  it("debe exponer GET /api/temarios/mis-temarios", async () => {
+    const app = express();
+
+    app.use(express.json());
+    app.use("/api/temarios", temariosRoutes);
+
+    const response = await request(app).get("/api/temarios/mis-temarios");
+
+    expect(response.status).toBe(401);
+  });
+
+  it("debe exponer POST /api/temarios/mis-temarios/:id/mini-test", async () => {
+    const app = express();
+
+    app.use(express.json());
+    app.use("/api/temarios", temariosRoutes);
+
+    const response = await request(app)
+      .post("/api/temarios/mis-temarios/temario-001/mini-test")
+      .send({ aciertos: 4, totalPreguntas: 5, porcentaje: 80 });
+
+    expect(response.status).toBe(401);
+  });
+
   it("debe devolver 403 cuando un usuario sin rol ADMIN intenta listar temarios", async () => {
     const app = express();
 

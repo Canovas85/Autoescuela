@@ -6,6 +6,8 @@ Versión revisada alineada con el proyecto actual implementado en agosto de 2026
 
 Este documento recoge las reglas que el sistema ya soporta de forma real en backend y frontend, y marca también las reglas que están previstas para fases futuras y aún no están desarrolladas.
 
+Trazabilidad cruzada disponible en `BR_TRACEABILITY_INDEX.md`, con correspondencia de cada regla BR hacia especificacion funcional y modelo de dominio.
+
 ---
 
 # 1. Alcance actual del negocio
@@ -467,6 +469,60 @@ El sistema debe conservar fecha, resultado y métricas básicas de aciertos.
 
 ---
 
+## BR-TEO-004 - Mini test por tema y persistencia de resultado
+
+Al corregir un mini test de un tema, el sistema debe persistir:
+
+- `aciertos`
+- `totalPreguntas`
+- `porcentaje`
+
+Validaciones mínimas:
+
+- `totalPreguntas` mayor que 0
+- `aciertos` entre 0 y `totalPreguntas`
+- `porcentaje` entre 0 y 100
+
+---
+
+## BR-TEO-005 - Doble registro: resumen actual + histórico de intentos
+
+Cada corrección de mini test debe actualizar dos capas:
+
+- estado resumen del tema en `temarios_progreso` (`revisado`, `dominio`, `ultimaRevision`)
+- intento histórico en `tests_practica`
+
+Esto permite mantener progreso operativo y analítica temporal sin perder intentos previos.
+
+---
+
+## BR-TEO-006 - Reglas de resultado del intento
+
+Para intentos de mini test por tema:
+
+- si el porcentaje es igual o superior a 80%, `resultado = APROBADO`
+- si el porcentaje es inferior a 80%, `resultado = SUSPENDIDO`
+
+---
+
+## BR-TEO-007 - Historial por alumno y tema
+
+El historial de intentos debe consultarse por `alumnoId` y `temarioId`, ordenado por fecha descendente para mostrar primero los intentos más recientes.
+
+---
+
+## BR-TEO-008 - Reintento de mini test en frontend
+
+El alumno puede reintentar un mini test desde el detalle del tema sin abandonar la pantalla.
+
+La acción de reintento debe:
+
+- limpiar respuestas seleccionadas
+- limpiar estado de corrección actual
+- permitir nueva corrección y nuevo guardado de intento
+
+---
+
 ## BR-BON-001 - Catálogo administrativo de bonos
 
 Los bonos se gestionan como catálogo administrativo con nombre, descripción, número de clases incluidas, validez y estado activo.
@@ -605,7 +661,7 @@ En edición de alumno, si la contraseña llega vacía, el sistema conserva la co
 
 ---
 
-## BR-VEH-005 - Imagen de vehículo (acordado para siguiente iteración)
+## BR-VEH-008 - Imagen de vehículo (acordado para siguiente iteración)
 
 Se incorpora la decisión funcional de añadir una referencia de imagen por vehículo.
 
@@ -618,7 +674,7 @@ Reglas aprobadas:
 
 ---
 
-## BR-VEH-006 - Validación de imagen de vehículo (acordado)
+## BR-VEH-009 - Validación de imagen de vehículo (acordado)
 
 Para alta y edición de imagen de vehículo:
 
@@ -627,7 +683,7 @@ Para alta y edición de imagen de vehículo:
 
 ---
 
-## BR-VEH-007 - Vista detalle de vehículo (próxima fase)
+## BR-VEH-010 - Vista detalle de vehículo (próxima fase)
 
 Se implementará una vista de detalle desde el listado para visualizar:
 

@@ -103,6 +103,183 @@ describe("TemariosService", () => {
     expect(result).toEqual(temarios);
   });
 
+  it("debe devolver los temarios del alumno según su licencia objetivo", async () => {
+    const repositoryMock = {
+      findAlumnoById: vi.fn().mockResolvedValue({
+        id: "alumno-1",
+        tipoLicenciaObjetivo: "B",
+      }),
+      findForAlumnoByLicencia: vi.fn().mockResolvedValue([
+        {
+          id: "temario-001",
+          titulo: "Señales",
+          descripcion: "Base",
+          tipoLicenciaObjetivo: "B",
+          orden: 1,
+          progreso: [{ revisado: true, dominio: 88, ultimaRevision: null }],
+        },
+      ]),
+    };
+
+    const service = new TemariosService(repositoryMock);
+
+    const result = await service.getForAlumno("alumno-1");
+
+    expect(repositoryMock.findAlumnoById).toHaveBeenCalledWith("alumno-1");
+    expect(repositoryMock.findForAlumnoByLicencia).toHaveBeenCalledWith(
+      "alumno-1",
+      "B",
+    );
+    expect(result).toEqual([
+      {
+        id: "temario-001",
+        titulo: "Señales",
+        descripcion: "Base",
+        tipoLicenciaObjetivo: "B",
+        orden: 1,
+        revisado: true,
+        dominio: 88,
+        ultimaRevision: null,
+      },
+    ]);
+  });
+
+  it("debe devolver un tema del alumno por id", async () => {
+    const repositoryMock = {
+      findAlumnoById: vi.fn().mockResolvedValue({
+        id: "alumno-1",
+        tipoLicenciaObjetivo: "B",
+      }),
+      findTemaForAlumno: vi.fn().mockResolvedValue({
+        id: "temario-001",
+        titulo: "Señales",
+        descripcion: "Base",
+        tipoLicenciaObjetivo: "B",
+        orden: 1,
+        progreso: [{ revisado: false, dominio: 35, ultimaRevision: null }],
+      }),
+      getMiniTestHistorial: vi.fn().mockResolvedValue([]),
+    };
+
+    const service = new TemariosService(repositoryMock);
+
+    const result = await service.getTemaForAlumno("alumno-1", "temario-001");
+
+    expect(repositoryMock.findTemaForAlumno).toHaveBeenCalledWith(
+      "alumno-1",
+      "temario-001",
+      "B",
+    );
+    expect(result).toEqual({
+      id: "temario-001",
+      titulo: "Señales",
+      descripcion: "Base",
+      tipoLicenciaObjetivo: "B",
+      orden: 1,
+      revisado: false,
+      dominio: 35,
+      ultimaRevision: null,
+      historialIntentos: [],
+    });
+  });
+
+  it("debe guardar resultado de mini test para alumno y tema", async () => {
+    const repositoryMock = {
+      findAlumnoById: vi.fn().mockResolvedValue({
+        id: "alumno-1",
+        tipoLicenciaObjetivo: "B",
+      }),
+      findTemaForAlumno: vi
+        .fn()
+        .mockResolvedValueOnce({
+          id: "temario-001",
+          titulo: "Señales",
+          descripcion: "Base",
+          tipoLicenciaObjetivo: "B",
+          orden: 1,
+          progreso: [],
+        })
+        .mockResolvedValueOnce({
+          id: "temario-001",
+          titulo: "Señales",
+          descripcion: "Base",
+          tipoLicenciaObjetivo: "B",
+          orden: 1,
+          progreso: [{ revisado: true, dominio: 80, ultimaRevision: null }],
+        }),
+      createMiniTestIntento: vi.fn().mockResolvedValue({ id: "test-1" }),
+      saveMiniTestResultado: vi.fn().mockResolvedValue({ id: "progreso-1" }),
+      getMiniTestHistorial: vi.fn().mockResolvedValue([
+        {
+          id: "test-1",
+          fecha: new Date("2026-08-24T10:00:00.000Z"),
+          resultado: "APROBADO",
+          respuestasCorrectas: 4,
+          totalPreguntas: 5,
+        },
+      ]),
+    };
+
+    const service = new TemariosService(repositoryMock);
+
+    const result = await service.saveMiniTestResultado(
+      "alumno-1",
+      "temario-001",
+      {
+        aciertos: 4,
+        totalPreguntas: 5,
+        porcentaje: 80,
+      },
+    );
+
+    expect(repositoryMock.createMiniTestIntento).toHaveBeenCalledWith({
+      alumnoId: "alumno-1",
+      temarioId: "temario-001",
+      aciertos: 4,
+      totalPreguntas: 5,
+      porcentaje: 80,
+    });
+    expect(repositoryMock.saveMiniTestResultado).toHaveBeenCalledWith({
+      alumnoId: "alumno-1",
+      temarioId: "temario-001",
+      dominio: 80,
+    });
+    expect(result.message).toBe(
+      "Resultado de mini test guardado correctamente",
+    );
+    expect(result.temario.dominio).toBe(80);
+    expect(result.temario.historialIntentos).toHaveLength(1);
+  });
+
+  it("debe fallar al guardar mini test con porcentaje inválido", async () => {
+    const repositoryMock = {
+      findAlumnoById: vi.fn().mockResolvedValue({
+        id: "alumno-1",
+        tipoLicenciaObjetivo: "B",
+      }),
+      findTemaForAlumno: vi.fn().mockResolvedValue({
+        id: "temario-001",
+        titulo: "Señales",
+        descripcion: "Base",
+        tipoLicenciaObjetivo: "B",
+        orden: 1,
+        progreso: [],
+      }),
+      createMiniTestIntento: vi.fn(),
+      saveMiniTestResultado: vi.fn(),
+    };
+
+    const service = new TemariosService(repositoryMock);
+
+    await expect(
+      service.saveMiniTestResultado("alumno-1", "temario-001", {
+        aciertos: 5,
+        totalPreguntas: 5,
+        porcentaje: 150,
+      }),
+    ).rejects.toThrow("El porcentaje del mini test no es válido");
+  });
+
   it("debe devolver un temario por id", async () => {
     const temario = {
       id: "temario-1",

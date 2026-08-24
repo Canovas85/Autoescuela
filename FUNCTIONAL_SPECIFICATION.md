@@ -198,6 +198,11 @@ Capacidades actuales:
 - consultar y mantener compras de bono
 - crear, editar, listar y eliminar solicitudes de examen
 - consultar las solicitudes con la relación alumno + usuario
+- listar temarios del alumno por licencia objetivo autenticada
+- acceder al detalle de tema desde la ruta de alumno
+- corregir mini test por tema y guardar resultado por alumno/tema
+- reintentar mini test sin salir del detalle
+- consultar historial de intentos del tema para evolución inmediata
 
 ---
 
@@ -231,6 +236,14 @@ El proyecto define el rol, pero aún no está completamente desarrollado como fl
 ## Estado actual
 
 La experiencia del alumno ya está desarrollada de forma funcional en el dashboard de alumno, con información personal, progreso, clases, tests, bonos y solicitudes de examen integrada con el backend.
+
+En temarios, el alumno ya dispone de flujo completo de estudio por tema:
+
+- listado filtrado por su permiso objetivo
+- acceso al detalle de cada tema
+- teoría temática del permiso B
+- mini test por bloque
+- guardado de resultado y visualización de historial de intentos
 
 ---
 
@@ -331,25 +344,25 @@ Estas funcionalidades están previstas en el proyecto y deben documentarse como 
 
 # 7. Matriz de funcionalidad actual vs futura
 
-| Área                  | Estado       |
-| --------------------- | ------------ |
-| Login y JWT           | Implementado |
-| Gestión de alumnos    | Implementado |
-| Gestión de profesores | Implementado |
-| Gestión de vehículos  | Implementado |
-| Gestión de clases     | Implementado |
-| Gestión de exámenes   | Implementado |
-| Dashboard ejecutivo   | Implementado |
-| Dashboard de alumno   | Implementado |
-| Temarios              | Implementado |
-| Bonos                 | Implementado |
-| Solicitudes de examen | Implementado |
-| Pagos y facturación   | Pendiente    |
-| Formación teórica     | Pendiente    |
-| Roles administrativos | Pendiente    |
-| Soporte               | Pendiente    |
-| Auditoría avanzada    | Pendiente    |
-| Permisos granulares   | Pendiente    |
+| Área                  | Estado               |
+| --------------------- | -------------------- |
+| Login y JWT           | Implementado         |
+| Gestión de alumnos    | Implementado         |
+| Gestión de profesores | Implementado         |
+| Gestión de vehículos  | Implementado         |
+| Gestión de clases     | Implementado         |
+| Gestión de exámenes   | Implementado         |
+| Dashboard ejecutivo   | Implementado         |
+| Dashboard de alumno   | Implementado         |
+| Temarios              | Implementado         |
+| Bonos                 | Implementado         |
+| Solicitudes de examen | Implementado         |
+| Pagos y facturación   | Pendiente            |
+| Formación teórica     | Implementado parcial |
+| Roles administrativos | Pendiente            |
+| Soporte               | Pendiente            |
+| Auditoría avanzada    | Pendiente            |
+| Permisos granulares   | Pendiente            |
 
 ---
 
@@ -392,6 +405,15 @@ La implementación real ya cubre la base funcional crítica de la operación dia
 - se ha añadido cobertura de tests de servicio, controlador, rutas y repositorio
 - el backend completo queda validado con la suite total de Vitest
 - se han integrado progreso de temarios, tests prácticos, compras de bono y estados de solicitudes
+
+### Temario alumno por tema y mini test
+
+- el alumno ve únicamente los temarios compatibles con su licencia objetivo
+- el detalle de tema se accede desde `/temario/:id`
+- cada tema del permiso B incluye teoría y mini test asociado
+- la corrección guarda el resultado en backend y actualiza el dominio del tema
+- cada intento queda registrado para analítica y se muestra historial en el detalle
+- se incorpora acción de reintento para limpiar respuestas sin abandonar la pantalla
 
 ### Vehículos con imagen
 
