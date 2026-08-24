@@ -113,9 +113,10 @@ Cuando se crea un alumno, debe indicarse `tipoLicenciaObjetivo`.
 
 Ejemplo:
 
-- B
-- A
-- etc.
+- B (Turismos)
+- A1, A2, A (Motocicletas)
+- C (Camiones destinados al transporte de carga, cuya masa máxima autorizada supera los 3.500 kg, con un límite de hasta 9 plazas (incluyendo el conductor))
+- D (autobuses y autocares destinados al transporte de pasajeros, diseñados para llevar a más de 8 pasajeros además del conductor)
 
 ---
 
@@ -147,6 +148,11 @@ Para crear un alumno en la implementación actual, debe existir al menos:
 - contraseña
 - teléfono
 - licencia objetivo
+
+En el diseño actual:
+
+- el DNI se gestiona en el modelo de `Usuario` y puede heredarse por perfiles asociados
+- la fecha de nacimiento se gestiona en el modelo de `Alumno`
 
 ---
 
