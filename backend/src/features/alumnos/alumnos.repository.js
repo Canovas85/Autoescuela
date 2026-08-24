@@ -14,6 +14,7 @@ export class AlumnosRepository {
         email: data.email,
         telefono: data.telefono,
         passwordHash: data.passwordHash,
+        requiereCambioPassword: true,
         rol: data.rol || "ALUMNO",
       },
     });

@@ -10,16 +10,17 @@ datasource db {
 }
 
 model Usuario {
-  id            String    @id @default(uuid())
-  nombre        String
-  dni           String?   @unique
-  email         String    @unique
-  telefono      String?
-  passwordHash  String
-  rol           Rol
-  fechaCreacion DateTime  @default(now())
-  alumno        Alumno?
-  profesor      Profesor?
+  id                     String    @id @default(uuid())
+  nombre                 String
+  dni                    String?   @unique
+  email                  String    @unique
+  telefono               String?
+  passwordHash           String
+  requiereCambioPassword Boolean   @default(true)
+  rol                    Rol
+  fechaCreacion          DateTime  @default(now())
+  alumno                 Alumno?
+  profesor               Profesor?
 
   @@map("usuarios")
 }

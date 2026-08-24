@@ -91,6 +91,52 @@ Las reglas más detalladas por permisos específicos quedan como ampliación fut
 
 ---
 
+## BR-AUTH-007 - Cambio obligatorio en primer acceso
+
+Todo usuario creado con contraseña inicial debe tener `requiereCambioPassword = true`.
+
+Mientras esa marca esté activa, el usuario debe cambiar su contraseña antes de acceder al resto de funcionalidades protegidas.
+
+---
+
+## BR-AUTH-008 - Excepción de acceso durante primer login
+
+Cuando `requiereCambioPassword = true`, el sistema solo debe permitir el endpoint de cambio de contraseña del primer acceso.
+
+El resto de rutas autenticadas deben devolver acceso denegado hasta completar el cambio.
+
+---
+
+## BR-AUTH-009 - Reglas de contraseña para primer cambio
+
+La nueva contraseña del primer acceso debe cumplir:
+
+- mínimo 8 caracteres
+- al menos una mayúscula
+- al menos una minúscula
+- al menos un número
+
+---
+
+## BR-AUTH-010 - Confirmación de contraseña obligatoria
+
+En el cambio de contraseña de primer acceso, `newPassword` y `confirmPassword` deben coincidir.
+
+Si no coinciden, el sistema debe rechazar la operación.
+
+---
+
+## BR-AUTH-011 - Persistencia del cambio y desactivación de primer acceso
+
+Tras un cambio correcto de contraseña:
+
+- se almacena el nuevo `passwordHash`
+- se actualiza `requiereCambioPassword = false`
+
+Desde ese momento, los siguientes logins deben funcionar con la nueva contraseña y sin redirección al flujo de primer acceso.
+
+---
+
 # 3. Reglas de alumnos
 
 ## BR-ALU-001 - Relación usuario-alumno obligatoria

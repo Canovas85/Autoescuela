@@ -18,6 +18,15 @@ export const authenticate = (req, res, next) => {
 
     const payload = jwt.verify(token, process.env.JWT_SECRET);
 
+    const rutaCambioPassword = "/api/auth/primer-acceso/cambiar-password";
+    const requiereCambioPassword = Boolean(payload.requiereCambioPassword);
+
+    if (requiereCambioPassword && req.originalUrl !== rutaCambioPassword) {
+      return res.status(403).json({
+        message: "Debes cambiar la contraseña en tu primer acceso",
+      });
+    }
+
     req.user = payload;
 
     next();

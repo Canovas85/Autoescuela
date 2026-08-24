@@ -38,8 +38,10 @@ Capacidades actuales:
 
 - iniciar sesión con email y contraseña
 - recibir token JWT
+- recibir estado de primer acceso (`requiereCambioPassword`)
 - acceder a páginas protegidas
 - consultar dashboard administrativo
+- cambiar contraseña obligatoriamente en primer login
 
 Capacidades futuras:
 
@@ -191,8 +193,21 @@ La entidad existe y está integrada con el backend, pero la experiencia del alum
 - el usuario introduce email y contraseña
 - backend busca el usuario por email
 - compara la contraseña con `passwordHash`
-- genera un JWT con rol y email
-- frontend guarda el token en localStorage
+- genera un JWT con rol, email e indicador de primer acceso
+- frontend guarda token y estado de primer acceso
+
+### Flujo de primer acceso (obligatorio)
+
+- si `requiereCambioPassword = true`, el frontend redirige a pantalla de primer login
+- el usuario debe informar nueva contraseña y confirmación
+- backend valida formato y coincidencia
+- backend guarda nuevo hash y actualiza `requiereCambioPassword = false`
+- frontend fuerza nuevo login con la contraseña recién establecida
+
+### Restricción de seguridad durante primer acceso
+
+- mientras `requiereCambioPassword = true`, el backend bloquea rutas autenticadas
+- solo se permite el endpoint de cambio de contraseña de primer acceso
 
 ---
 

@@ -56,6 +56,7 @@ describe("AlumnosRepository", () => {
         email: "pedro@autodrive.com",
         telefono: "600123123",
         passwordHash: "hash",
+        requiereCambioPassword: true,
         rol: "ALUMNO",
       },
     });

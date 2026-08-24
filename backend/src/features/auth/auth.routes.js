@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import prisma from "../../config/prisma.js";
+import { authenticate } from "../../shared/middleware/auth.middleware.js";
 
 import { AuthRepository } from "./auth.repository.js";
 import { AuthService } from "./auth.service.js";
@@ -44,5 +45,11 @@ const controller = new AuthController(service);
  *         description: Credenciales inválidas
  */
 router.post("/login", controller.login.bind(controller));
+
+router.post(
+  "/primer-acceso/cambiar-password",
+  authenticate,
+  controller.changePasswordFirstLogin.bind(controller),
+);
 
 export default router;

@@ -97,10 +97,14 @@ export default function Login() {
       console.log("LOGIN OK:", response.data);
 
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem(
+        "requiresPasswordChange",
+        String(Boolean(response.data.requiereCambioPassword)),
+      );
 
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 1000);
+      navigate(
+        response.data.requiereCambioPassword ? "/primer-login" : "/dashboard",
+      );
     } catch (error) {
       console.error("LOGIN ERROR:", error.response?.data);
 

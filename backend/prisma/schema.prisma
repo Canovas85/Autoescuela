@@ -16,6 +16,7 @@ model Usuario {
   email         String    @unique
   telefono      String?
   passwordHash  String
+  requiereCambioPassword Boolean @default(true)
   rol           Rol
   fechaCreacion DateTime  @default(now())
   alumno        Alumno?

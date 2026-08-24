@@ -10,6 +10,7 @@ export class ProfesoresRepository {
         email: data.email,
         telefono: data.telefono,
         passwordHash: data.passwordHash,
+        requiereCambioPassword: true,
         rol: "PROFESOR",
       },
     });

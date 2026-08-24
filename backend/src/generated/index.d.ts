@@ -1461,6 +1461,7 @@ export namespace Prisma {
     email: string | null
     telefono: string | null
     passwordHash: string | null
+    requiereCambioPassword: boolean | null
     rol: $Enums.Rol | null
     fechaCreacion: Date | null
   }
@@ -1472,6 +1473,7 @@ export namespace Prisma {
     email: string | null
     telefono: string | null
     passwordHash: string | null
+    requiereCambioPassword: boolean | null
     rol: $Enums.Rol | null
     fechaCreacion: Date | null
   }
@@ -1483,6 +1485,7 @@ export namespace Prisma {
     email: number
     telefono: number
     passwordHash: number
+    requiereCambioPassword: number
     rol: number
     fechaCreacion: number
     _all: number
@@ -1496,6 +1499,7 @@ export namespace Prisma {
     email?: true
     telefono?: true
     passwordHash?: true
+    requiereCambioPassword?: true
     rol?: true
     fechaCreacion?: true
   }
@@ -1507,6 +1511,7 @@ export namespace Prisma {
     email?: true
     telefono?: true
     passwordHash?: true
+    requiereCambioPassword?: true
     rol?: true
     fechaCreacion?: true
   }
@@ -1518,6 +1523,7 @@ export namespace Prisma {
     email?: true
     telefono?: true
     passwordHash?: true
+    requiereCambioPassword?: true
     rol?: true
     fechaCreacion?: true
     _all?: true
@@ -1602,6 +1608,7 @@ export namespace Prisma {
     email: string
     telefono: string | null
     passwordHash: string
+    requiereCambioPassword: boolean
     rol: $Enums.Rol
     fechaCreacion: Date
     _count: UsuarioCountAggregateOutputType | null
@@ -1630,6 +1637,7 @@ export namespace Prisma {
     email?: boolean
     telefono?: boolean
     passwordHash?: boolean
+    requiereCambioPassword?: boolean
     rol?: boolean
     fechaCreacion?: boolean
     alumno?: boolean | Usuario$alumnoArgs<ExtArgs>
@@ -1643,6 +1651,7 @@ export namespace Prisma {
     email?: boolean
     telefono?: boolean
     passwordHash?: boolean
+    requiereCambioPassword?: boolean
     rol?: boolean
     fechaCreacion?: boolean
   }, ExtArgs["result"]["usuario"]>
@@ -1654,6 +1663,7 @@ export namespace Prisma {
     email?: boolean
     telefono?: boolean
     passwordHash?: boolean
+    requiereCambioPassword?: boolean
     rol?: boolean
     fechaCreacion?: boolean
   }, ExtArgs["result"]["usuario"]>
@@ -1665,11 +1675,12 @@ export namespace Prisma {
     email?: boolean
     telefono?: boolean
     passwordHash?: boolean
+    requiereCambioPassword?: boolean
     rol?: boolean
     fechaCreacion?: boolean
   }
 
-  export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "dni" | "email" | "telefono" | "passwordHash" | "rol" | "fechaCreacion", ExtArgs["result"]["usuario"]>
+  export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "dni" | "email" | "telefono" | "passwordHash" | "requiereCambioPassword" | "rol" | "fechaCreacion", ExtArgs["result"]["usuario"]>
   export type UsuarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | Usuario$alumnoArgs<ExtArgs>
     profesor?: boolean | Usuario$profesorArgs<ExtArgs>
@@ -1690,6 +1701,7 @@ export namespace Prisma {
       email: string
       telefono: string | null
       passwordHash: string
+      requiereCambioPassword: boolean
       rol: $Enums.Rol
       fechaCreacion: Date
     }, ExtArgs["result"]["usuario"]>
@@ -2123,6 +2135,7 @@ export namespace Prisma {
     readonly email: FieldRef<"Usuario", 'String'>
     readonly telefono: FieldRef<"Usuario", 'String'>
     readonly passwordHash: FieldRef<"Usuario", 'String'>
+    readonly requiereCambioPassword: FieldRef<"Usuario", 'Boolean'>
     readonly rol: FieldRef<"Usuario", 'Rol'>
     readonly fechaCreacion: FieldRef<"Usuario", 'DateTime'>
   }
@@ -8158,6 +8171,7 @@ export namespace Prisma {
     email: 'email',
     telefono: 'telefono',
     passwordHash: 'passwordHash',
+    requiereCambioPassword: 'requiereCambioPassword',
     rol: 'rol',
     fechaCreacion: 'fechaCreacion'
   };
@@ -8267,6 +8281,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'Rol'
    */
   export type EnumRolFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Rol'>
@@ -8291,13 +8312,6 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -8342,6 +8356,7 @@ export namespace Prisma {
     email?: StringFilter<"Usuario"> | string
     telefono?: StringNullableFilter<"Usuario"> | string | null
     passwordHash?: StringFilter<"Usuario"> | string
+    requiereCambioPassword?: BoolFilter<"Usuario"> | boolean
     rol?: EnumRolFilter<"Usuario"> | $Enums.Rol
     fechaCreacion?: DateTimeFilter<"Usuario"> | Date | string
     alumno?: XOR<AlumnoNullableScalarRelationFilter, AlumnoWhereInput> | null
@@ -8355,6 +8370,7 @@ export namespace Prisma {
     email?: SortOrder
     telefono?: SortOrderInput | SortOrder
     passwordHash?: SortOrder
+    requiereCambioPassword?: SortOrder
     rol?: SortOrder
     fechaCreacion?: SortOrder
     alumno?: AlumnoOrderByWithRelationInput
@@ -8371,6 +8387,7 @@ export namespace Prisma {
     nombre?: StringFilter<"Usuario"> | string
     telefono?: StringNullableFilter<"Usuario"> | string | null
     passwordHash?: StringFilter<"Usuario"> | string
+    requiereCambioPassword?: BoolFilter<"Usuario"> | boolean
     rol?: EnumRolFilter<"Usuario"> | $Enums.Rol
     fechaCreacion?: DateTimeFilter<"Usuario"> | Date | string
     alumno?: XOR<AlumnoNullableScalarRelationFilter, AlumnoWhereInput> | null
@@ -8384,6 +8401,7 @@ export namespace Prisma {
     email?: SortOrder
     telefono?: SortOrderInput | SortOrder
     passwordHash?: SortOrder
+    requiereCambioPassword?: SortOrder
     rol?: SortOrder
     fechaCreacion?: SortOrder
     _count?: UsuarioCountOrderByAggregateInput
@@ -8401,6 +8419,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"Usuario"> | string
     telefono?: StringNullableWithAggregatesFilter<"Usuario"> | string | null
     passwordHash?: StringWithAggregatesFilter<"Usuario"> | string
+    requiereCambioPassword?: BoolWithAggregatesFilter<"Usuario"> | boolean
     rol?: EnumRolWithAggregatesFilter<"Usuario"> | $Enums.Rol
     fechaCreacion?: DateTimeWithAggregatesFilter<"Usuario"> | Date | string
   }
@@ -8727,6 +8746,7 @@ export namespace Prisma {
     email: string
     telefono?: string | null
     passwordHash: string
+    requiereCambioPassword?: boolean
     rol: $Enums.Rol
     fechaCreacion?: Date | string
     alumno?: AlumnoCreateNestedOneWithoutUsuarioInput
@@ -8740,6 +8760,7 @@ export namespace Prisma {
     email: string
     telefono?: string | null
     passwordHash: string
+    requiereCambioPassword?: boolean
     rol: $Enums.Rol
     fechaCreacion?: Date | string
     alumno?: AlumnoUncheckedCreateNestedOneWithoutUsuarioInput
@@ -8753,6 +8774,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     alumno?: AlumnoUpdateOneWithoutUsuarioNestedInput
@@ -8766,6 +8788,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     alumno?: AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput
@@ -8779,6 +8802,7 @@ export namespace Prisma {
     email: string
     telefono?: string | null
     passwordHash: string
+    requiereCambioPassword?: boolean
     rol: $Enums.Rol
     fechaCreacion?: Date | string
   }
@@ -8790,6 +8814,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8801,6 +8826,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9149,6 +9175,11 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type EnumRolFilter<$PrismaModel = never> = {
     equals?: $Enums.Rol | EnumRolFieldRefInput<$PrismaModel>
     in?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
@@ -9189,6 +9220,7 @@ export namespace Prisma {
     email?: SortOrder
     telefono?: SortOrder
     passwordHash?: SortOrder
+    requiereCambioPassword?: SortOrder
     rol?: SortOrder
     fechaCreacion?: SortOrder
   }
@@ -9200,6 +9232,7 @@ export namespace Prisma {
     email?: SortOrder
     telefono?: SortOrder
     passwordHash?: SortOrder
+    requiereCambioPassword?: SortOrder
     rol?: SortOrder
     fechaCreacion?: SortOrder
   }
@@ -9211,6 +9244,7 @@ export namespace Prisma {
     email?: SortOrder
     telefono?: SortOrder
     passwordHash?: SortOrder
+    requiereCambioPassword?: SortOrder
     rol?: SortOrder
     fechaCreacion?: SortOrder
   }
@@ -9251,6 +9285,14 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type EnumRolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Rol | EnumRolFieldRefInput<$PrismaModel>
     in?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
@@ -9273,11 +9315,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type AlumnoListRelationFilter = {
@@ -9324,14 +9361,6 @@ export namespace Prisma {
     licenciaConducir?: SortOrder
     telefono?: SortOrder
     activo?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type DateTimeNullableFilter<$PrismaModel = never> = {
@@ -9567,6 +9596,10 @@ export namespace Prisma {
     set?: string | null
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type EnumRolFieldUpdateOperationsInput = {
     set?: $Enums.Rol
   }
@@ -9647,10 +9680,6 @@ export namespace Prisma {
     connectOrCreate?: ClasePracticaCreateOrConnectWithoutProfesorInput | ClasePracticaCreateOrConnectWithoutProfesorInput[]
     createMany?: ClasePracticaCreateManyProfesorInputEnvelope
     connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type AlumnoUpdateManyWithoutProfesorAsignadoNestedInput = {
@@ -9969,6 +9998,11 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedEnumRolFilter<$PrismaModel = never> = {
     equals?: $Enums.Rol | EnumRolFieldRefInput<$PrismaModel>
     in?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
@@ -10043,6 +10077,14 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedEnumRolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Rol | EnumRolFieldRefInput<$PrismaModel>
     in?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
@@ -10065,19 +10107,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
@@ -10301,6 +10330,7 @@ export namespace Prisma {
     email: string
     telefono?: string | null
     passwordHash: string
+    requiereCambioPassword?: boolean
     rol: $Enums.Rol
     fechaCreacion?: Date | string
     alumno?: AlumnoCreateNestedOneWithoutUsuarioInput
@@ -10313,6 +10343,7 @@ export namespace Prisma {
     email: string
     telefono?: string | null
     passwordHash: string
+    requiereCambioPassword?: boolean
     rol: $Enums.Rol
     fechaCreacion?: Date | string
     alumno?: AlumnoUncheckedCreateNestedOneWithoutUsuarioInput
@@ -10398,6 +10429,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     alumno?: AlumnoUpdateOneWithoutUsuarioNestedInput
@@ -10410,6 +10442,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     alumno?: AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput
@@ -10422,6 +10455,7 @@ export namespace Prisma {
     email: string
     telefono?: string | null
     passwordHash: string
+    requiereCambioPassword?: boolean
     rol: $Enums.Rol
     fechaCreacion?: Date | string
     profesor?: ProfesorCreateNestedOneWithoutUsuarioInput
@@ -10434,6 +10468,7 @@ export namespace Prisma {
     email: string
     telefono?: string | null
     passwordHash: string
+    requiereCambioPassword?: boolean
     rol: $Enums.Rol
     fechaCreacion?: Date | string
     profesor?: ProfesorUncheckedCreateNestedOneWithoutUsuarioInput
@@ -10535,6 +10570,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     profesor?: ProfesorUpdateOneWithoutUsuarioNestedInput
@@ -10547,6 +10583,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     profesor?: ProfesorUncheckedUpdateOneWithoutUsuarioNestedInput

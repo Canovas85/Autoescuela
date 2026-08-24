@@ -10,4 +10,16 @@ export class AuthRepository {
       },
     });
   }
+
+  async updatePasswordAndClearFirstLogin(id, passwordHash) {
+    return this.prisma.usuario.update({
+      where: {
+        id,
+      },
+      data: {
+        passwordHash,
+        requiereCambioPassword: false,
+      },
+    });
+  }
 }

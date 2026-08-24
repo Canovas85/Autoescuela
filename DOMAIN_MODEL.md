@@ -36,9 +36,11 @@ Representa a cualquier persona que accede a la aplicación.
 
 - id
 - nombre
+- dni
 - email
 - telefono
 - passwordHash
+- requiereCambioPassword
 - rol
 - fechaCreacion
 
@@ -49,7 +51,10 @@ Representa a cualquier persona que accede a la aplicación.
 
 #### Estado actual
 
-El sistema actual usa el estado del usuario de forma implícita por la relación con el rol y por los datos de negocio de la entidad asociada, no por un estado complejo de usuario por separado.
+El sistema actual usa dos estados funcionales principales en usuario:
+
+- rol (ADMIN, PROFESOR, ALUMNO)
+- `requiereCambioPassword` para forzar cambio de contraseña en primer acceso
 
 ---
 
@@ -63,6 +68,7 @@ Representa al estudiante matriculado en la autoescuela.
 
 - id
 - tipoLicenciaObjetivo
+- fechaNacimiento
 - horasPracticasCompletadas
 - profesorAsignadoId
 - activo
@@ -283,7 +289,7 @@ Se plantean como ampliación del sistema para gestionar operaciones internas y s
 ### Usuario
 
 - rol definido por enum
-- no se gestiona un estado intelectual independiente
+- `requiereCambioPassword` controla si debe completar el flujo de primer acceso
 
 ### Alumno
 

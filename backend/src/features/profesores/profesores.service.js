@@ -37,6 +37,8 @@ export class ProfesoresService {
     return this.repository.create({
       ...data,
       passwordHash,
+      rol: "PROFESOR",
+      activo: true,
     });
   }
 

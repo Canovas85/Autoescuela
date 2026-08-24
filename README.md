@@ -109,13 +109,13 @@ Esta posibilidad queda fuera del alcance actual.
 
 El sistema tendrá cinco roles funcionales:
 
-| Rol | Descripción |
-|---|---|
-| 👑 **Administrador** | Gestión global de usuarios, configuración, operaciones, permisos y supervisión del sistema. |
-| 👨‍🏫 **Profesor** | Gestión de agenda, alumnos, formación, clases prácticas y evaluaciones. |
-| 🎓 **Alumno** | Formación, tests, clases prácticas, seguimiento, exámenes y gestión económica. |
-| 🧾 **Administrativo** | Matrículas, documentación, operaciones, vehículos, facturación y tramitaciones. |
-| 🛠️ **Soporte** | Atención a usuarios, incidencias, recuperación de acceso y soporte operativo. |
+| Rol                   | Descripción                                                                                 |
+| --------------------- | ------------------------------------------------------------------------------------------- |
+| 👑 **Administrador**  | Gestión global de usuarios, configuración, operaciones, permisos y supervisión del sistema. |
+| 👨‍🏫 **Profesor**       | Gestión de agenda, alumnos, formación, clases prácticas y evaluaciones.                     |
+| 🎓 **Alumno**         | Formación, tests, clases prácticas, seguimiento, exámenes y gestión económica.              |
+| 🧾 **Administrativo** | Matrículas, documentación, operaciones, vehículos, facturación y tramitaciones.             |
+| 🛠️ **Soporte**        | Atención a usuarios, incidencias, recuperación de acceso y soporte operativo.               |
 
 ### Estado actual de roles
 
@@ -338,29 +338,29 @@ El alcance definitivo incluye:
 
 El proyecto se encuentra en una fase de desarrollo progresivo.
 
-| Área | Estado |
-|---|---|
-| Arquitectura general | 🟢 Iniciada |
-| Backend modular | 🟢 Implementado |
-| Alumnos | 🟢 Implementado |
-| Profesores | 🟢 Implementado |
-| Clases prácticas | 🟢 Implementado / en evolución |
-| Vehículos | 🟢 Implementado / en evolución |
-| Exámenes | 🟢 Implementado / en evolución |
-| Dashboard | 🚧 En desarrollo |
-| Autenticación/autorización | 🚧 En desarrollo |
-| Frontend | 🚧 En desarrollo |
-| Formación teórica | 📋 Planificado |
-| Vídeos y material educativo | 📋 Planificado |
-| Tests teóricos | 📋 Planificado |
-| Pagos | 📋 Planificado |
-| Stripe | 📋 Planificado |
-| PayPal | 📋 Planificado |
-| Facturación | 📋 Planificado |
-| Impagos | 📋 Planificado |
-| Administrativo | 📋 Planificado |
-| Soporte | 📋 Planificado |
-| Multi-autoescuela | 📋 Evolución futura |
+| Área                        | Estado                         |
+| --------------------------- | ------------------------------ |
+| Arquitectura general        | 🟢 Iniciada                    |
+| Backend modular             | 🟢 Implementado                |
+| Alumnos                     | 🟢 Implementado                |
+| Profesores                  | 🟢 Implementado                |
+| Clases prácticas            | 🟢 Implementado / en evolución |
+| Vehículos                   | 🟢 Implementado / en evolución |
+| Exámenes                    | 🟢 Implementado / en evolución |
+| Dashboard                   | 🚧 En desarrollo               |
+| Autenticación/autorización  | 🚧 En desarrollo               |
+| Frontend                    | 🚧 En desarrollo               |
+| Formación teórica           | 📋 Planificado                 |
+| Vídeos y material educativo | 📋 Planificado                 |
+| Tests teóricos              | 📋 Planificado                 |
+| Pagos                       | 📋 Planificado                 |
+| Stripe                      | 📋 Planificado                 |
+| PayPal                      | 📋 Planificado                 |
+| Facturación                 | 📋 Planificado                 |
+| Impagos                     | 📋 Planificado                 |
+| Administrativo              | 📋 Planificado                 |
+| Soporte                     | 📋 Planificado                 |
+| Multi-autoescuela           | 📋 Evolución futura            |
 
 > Esta tabla deberá actualizarse a medida que avance el desarrollo.
 
@@ -752,6 +752,17 @@ El backend utiliza:
 - bcryptjs para gestión de contraseñas.
 - Middleware de autenticación.
 - Middleware de control de roles.
+
+### Primer acceso y cambio obligatorio de contraseña
+
+El sistema implementa un flujo de primer login para todos los usuarios creados con contraseña inicial:
+
+- el usuario se crea con `requiereCambioPassword = true`
+- al autenticarse, el backend devuelve `token` y `requiereCambioPassword`
+- si ese indicador está activo, el frontend redirige a una pantalla obligatoria de cambio de contraseña
+- durante ese estado, el backend solo permite el endpoint de cambio de contraseña de primer acceso
+- al completar el cambio, se actualiza `passwordHash` y `requiereCambioPassword = false`
+- desde ese momento, los siguientes logins se realizan con la nueva contraseña
 
 El objetivo es aplicar:
 

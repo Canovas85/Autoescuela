@@ -101,6 +101,7 @@ export default function UserMenu({ navigate }) {
         <MenuItem
           onClick={() => {
             localStorage.removeItem("token");
+            localStorage.removeItem("requiresPasswordChange");
 
             handleMenuClose();
 
