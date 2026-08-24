@@ -76,6 +76,40 @@ describe("ExamenesService", () => {
 
     expect(repositoryMock.create).not.toHaveBeenCalled();
   });
+  it("debe lanzar un error cuando el tipo de examen no es válido", async () => {
+    const repositoryMock = {
+      create: vi.fn(),
+    };
+
+    const service = new ExamenesService(repositoryMock);
+
+    await expect(
+      service.create({
+        alumnoId: "alumno-1",
+        tipo: "MIXTO",
+        fecha: "2026-10-10T09:00:00Z",
+      }),
+    ).rejects.toThrow("El tipo de examen debe ser TEORICO o PRACTICO");
+
+    expect(repositoryMock.create).not.toHaveBeenCalled();
+  });
+  it("debe lanzar un error cuando la fecha del examen no es válida", async () => {
+    const repositoryMock = {
+      create: vi.fn(),
+    };
+
+    const service = new ExamenesService(repositoryMock);
+
+    await expect(
+      service.create({
+        alumnoId: "alumno-1",
+        tipo: "TEORICO",
+        fecha: "fecha-no-valida",
+      }),
+    ).rejects.toThrow("La fecha del examen no es válida");
+
+    expect(repositoryMock.create).not.toHaveBeenCalled();
+  });
   it("debe crear siempre el examen con estado PROGRAMADO", async () => {
     const repositoryMock = {
       create: vi.fn().mockImplementation(async (data) => data),
@@ -192,6 +226,18 @@ describe("ExamenesService", () => {
     });
 
     expect(result).toEqual(examenActualizado);
+  });
+  it("debe eliminar un examen", async () => {
+    const repositoryMock = {
+      delete: vi.fn().mockResolvedValue({ id: "examen-1" }),
+    };
+
+    const service = new ExamenesService(repositoryMock);
+
+    const result = await service.delete("examen-1");
+
+    expect(repositoryMock.delete).toHaveBeenCalledWith("examen-1");
+    expect(result).toEqual({ id: "examen-1" });
   });
   it("debe lanzar un error cuando el resultado no es válido", async () => {
     const repositoryMock = {

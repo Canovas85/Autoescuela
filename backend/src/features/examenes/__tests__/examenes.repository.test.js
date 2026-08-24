@@ -93,6 +93,13 @@ describe("ExamenesRepository", () => {
       where: {
         id: "examen-1",
       },
+      include: {
+        alumno: {
+          include: {
+            usuario: true,
+          },
+        },
+      },
     });
 
     expect(result).toEqual(examen);
