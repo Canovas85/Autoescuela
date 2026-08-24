@@ -282,4 +282,140 @@ describe("DashboardService", () => {
       },
     });
   });
+
+  it("debe devolver el dashboard del alumno con métricas calculadas", async () => {
+    const repositoryMock = {
+      getStudentDashboard: vi.fn().mockResolvedValue({
+        profile: {
+          id: "alumno-1",
+          nombre: "Alumno Demo",
+          email: "alumno@demo.com",
+          dni: "12345678A",
+          telefono: "600000000",
+          rol: "ALUMNO",
+          alumno: {
+            tipoLicenciaObjetivo: "B",
+            horasPracticasCompletadas: 6,
+            matriculaPagada: true,
+            fechaMatriculaPago: new Date("2026-08-01T10:00:00.000Z"),
+            profesorAsignado: {
+              id: "profesor-1",
+              licenciaConducir: "B",
+              permisosLicencias: ["B"],
+              usuario: {
+                nombre: "Profesor Demo",
+                email: "profesor@demo.com",
+              },
+            },
+          },
+        },
+        temarios: [
+          {
+            temarioId: "temario-1",
+            revisado: true,
+            dominio: 90,
+            ultimaRevision: new Date("2026-08-10T10:00:00.000Z"),
+            temario: {
+              titulo: "Señales",
+              descripcion: "Señales básicas",
+              orden: 1,
+            },
+          },
+          {
+            temarioId: "temario-2",
+            revisado: false,
+            dominio: 40,
+            ultimaRevision: new Date("2026-08-09T10:00:00.000Z"),
+            temario: {
+              titulo: "Prioridad",
+              descripcion: "Prioridad de paso",
+              orden: 2,
+            },
+          },
+        ],
+        tests: [
+          {
+            id: "test-1",
+            fecha: new Date("2026-08-05T10:00:00.000Z"),
+            resultado: "APROBADO",
+            respuestasCorrectas: 18,
+            totalPreguntas: 20,
+          },
+          {
+            id: "test-2",
+            fecha: new Date("2026-08-06T10:00:00.000Z"),
+            resultado: "SUSPENDIDO",
+            respuestasCorrectas: 12,
+            totalPreguntas: 20,
+          },
+        ],
+        clases: [
+          {
+            id: "clase-1",
+            fecha: new Date("2026-08-12T10:00:00.000Z"),
+            estado: "PROGRAMADA",
+            vehiculo: {
+              matricula: "1234-ABC",
+            },
+            profesor: {
+              usuario: {
+                nombre: "Profesor Demo",
+              },
+            },
+          },
+        ],
+        bonos: [
+          {
+            id: "bono-1",
+            clasesCompradas: 10,
+            clasesConsumidas: 2,
+            pagado: true,
+            fechaCompra: new Date("2026-08-01T10:00:00.000Z"),
+            fechaValidezHasta: new Date("2026-12-31T10:00:00.000Z"),
+            bono: {
+              nombre: "Pack 10",
+              descripcion: "Pack de 10 clases",
+            },
+          },
+        ],
+        examenes: [
+          {
+            id: "examen-1",
+            tipo: "TEORICO",
+            estado: "PENDIENTE",
+            fechaSolicitud: new Date("2026-08-03T10:00:00.000Z"),
+            fechaProgramada: null,
+            observaciones: "Pendiente de revisar",
+          },
+          {
+            id: "examen-2",
+            tipo: "PRACTICO",
+            estado: "PROGRAMADO",
+            fechaSolicitud: new Date("2026-08-04T10:00:00.000Z"),
+            fechaProgramada: new Date("2026-08-20T10:00:00.000Z"),
+            observaciones: null,
+          },
+        ],
+      }),
+    };
+
+    const service = new DashboardService(repositoryMock);
+
+    const result = await service.getStudentDashboard("alumno-1");
+
+    expect(repositoryMock.getStudentDashboard).toHaveBeenCalledWith("alumno-1");
+    expect(result.perfil.nombre).toBe("Alumno Demo");
+    expect(result.teoria.testsTotales).toBe(2);
+    expect(result.teoria.testsAprobados).toBe(1);
+    expect(result.teoria.testsSuspendidos).toBe(1);
+    expect(result.teoria.porcentajeAprobado).toBe(50);
+    expect(result.teoria.preparadoParaTeorico).toBe(false);
+    expect(result.teoria.recomendacionTemarios).toEqual(["Prioridad"]);
+    expect(result.practica.clasesCompradas).toBe(10);
+    expect(result.practica.clasesPagadas).toBe(10);
+    expect(result.practica.clasesReservadas).toBe(1);
+    expect(result.bonos[0].estado).toBe("APLICABLE");
+    expect(result.examenes.teoricos).toHaveLength(1);
+    expect(result.examenes.practicos).toHaveLength(1);
+  });
 });

@@ -13,6 +13,9 @@ import clasesRoutes from "./features/clases/clases.routes.js";
 import examenesRoutes from "./features/examenes/examenes.routes.js";
 import dashboardRoutes from "./features/dashboard/dashboard.routes.js";
 import vehiculosRoutes from "./features/vehiculos/vehiculos.routes.js";
+import temariosRoutes from "./features/temarios/temarios.routes.js";
+import bonosRoutes from "./features/bonos/bonos.routes.js";
+import solicitudesExamenRoutes from "./features/solicitudes-examen/solicitudes-examen.routes.js";
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -34,6 +37,9 @@ app.use("/api/clases", clasesRoutes);
 app.use("/api/examenes", examenesRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/vehiculos", vehiculosRoutes);
+app.use("/api/temarios", temariosRoutes);
+app.use("/api/bonos", bonosRoutes);
+app.use("/api/solicitudes-examen", solicitudesExamenRoutes);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 

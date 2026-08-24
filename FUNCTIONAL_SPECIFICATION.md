@@ -18,12 +18,14 @@ La aplicación actual ya cubre funcionalmente estas áreas:
 - gestión de vehículos
 - gestión de clases prácticas
 - gestión de exámenes
+- gestión básica de formación teórica
+- gestión administrativa de temarios, bonos y solicitudes de examen
 - dashboard ejecutivo
+- dashboard de alumno
 
 Las siguientes áreas quedan fuera del alcance actual y forman parte del roadmap:
 
 - pagos y facturación
-- bonos y paquetes
 - formación teórica completa
 - soporte y administración interna
 - gestión avanzada de permisos
@@ -185,6 +187,20 @@ Capacidades actuales:
 
 ---
 
+## 2.9 Gestión de formación teórica, bonos y solicitudes de examen
+
+Capacidades actuales:
+
+- crear, editar, listar y eliminar temarios
+- registrar progreso de temarios por alumno
+- almacenar tests prácticos por alumno y temario
+- crear, editar, listar, activar y desactivar bonos
+- consultar y mantener compras de bono
+- crear, editar, listar y eliminar solicitudes de examen
+- consultar las solicitudes con la relación alumno + usuario
+
+---
+
 # 3. Actor: Profesor
 
 La entidad `PROFESOR` existe en el modelo actual, pero en la versión actual la lógica funcional está muy centrada en la administración.
@@ -214,7 +230,7 @@ El proyecto define el rol, pero aún no está completamente desarrollado como fl
 
 ## Estado actual
 
-La entidad existe y está integrada con el backend, pero la experiencia del alumno no está desarrollada todavía como flujo completo frente a la administración.
+La experiencia del alumno ya está desarrollada de forma funcional en el dashboard de alumno, con información personal, progreso, clases, tests, bonos y solicitudes de examen integrada con el backend.
 
 ---
 
@@ -254,6 +270,9 @@ La aplicación actual gestiona las entidades principales mediante CRUD básico:
 - vehículos
 - clases
 - exámenes
+- temarios
+- bonos
+- solicitudes de examen
 
 ---
 
@@ -321,6 +340,10 @@ Estas funcionalidades están previstas en el proyecto y deben documentarse como 
 | Gestión de clases     | Implementado |
 | Gestión de exámenes   | Implementado |
 | Dashboard ejecutivo   | Implementado |
+| Dashboard de alumno   | Implementado |
+| Temarios              | Implementado |
+| Bonos                 | Implementado |
+| Solicitudes de examen | Implementado |
 | Pagos y facturación   | Pendiente    |
 | Formación teórica     | Pendiente    |
 | Roles administrativos | Pendiente    |
@@ -346,6 +369,7 @@ La implementación real ya cubre la base funcional crítica de la operación dia
 
 - el cliente HTTP incluye token JWT en cabecera `Authorization` para rutas protegidas
 - se evita el fallo de token no enviado en operaciones administrativas
+- se bloquea el acceso durante el primer login cuando `requiereCambioPassword` está activo
 
 ### Flujo de profesor
 
@@ -358,6 +382,23 @@ La implementación real ya cubre la base funcional crítica de la operación dia
 
 - en edición, si contraseña va vacía, se conserva la contraseña existente
 - se muestra aviso visual explícito en modal de edición
+- el dashboard de alumno ya consume la información personal, progresos, clases, tests, bonos y solicitudes de examen
+- en la gestión académica se registra el estado de matrícula pagada con `matriculaPagada` y `fechaMatriculaPago`
+
+### Formación teórica, bonos y solicitudes
+
+- se han incorporado endpoints y pantallas para temarios, bonos y solicitudes de examen
+- el backend dispone de sus capas `repository`, `service`, `controller` y `routes` para estas tres features
+- se ha añadido cobertura de tests de servicio, controlador, rutas y repositorio
+- el backend completo queda validado con la suite total de Vitest
+- se han integrado progreso de temarios, tests prácticos, compras de bono y estados de solicitudes
+
+### Vehículos con imagen
+
+- el alta y la edición de vehículos admiten imagen opcional
+- la imagen se guarda en filesystem del backend y se persiste como ruta pública en base de datos
+- se admite sustituir, añadir o eliminar la foto desde la edición
+- las validaciones actuales incluyen `png`, `jpg/jpeg`, `webp` y tamaño máximo de 5 MB
 
 ---
 

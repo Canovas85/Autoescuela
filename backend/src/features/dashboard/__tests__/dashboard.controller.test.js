@@ -101,4 +101,38 @@ describe("DashboardController", () => {
 
     expect(res.json).toHaveBeenCalledWith(executiveMetrics);
   });
+
+  it("debe devolver el dashboard del alumno", async () => {
+    const studentMetrics = {
+      perfil: {
+        nombre: "Alumno Demo",
+      },
+      teoria: {
+        testsTotales: 2,
+      },
+    };
+
+    const serviceMock = {
+      getStudentDashboard: vi.fn().mockResolvedValue(studentMetrics),
+    };
+
+    const controller = new DashboardController(serviceMock);
+
+    const req = {
+      user: {
+        id: "alumno-1",
+      },
+    };
+
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    };
+
+    await controller.getStudentDashboard(req, res);
+
+    expect(serviceMock.getStudentDashboard).toHaveBeenCalledWith("alumno-1");
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(studentMetrics);
+  });
 });

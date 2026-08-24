@@ -77,4 +77,28 @@ describe("Dashboard Routes", () => {
 
     expect([401, 403]).toContain(response.status);
   });
+  it("debe exponer GET /api/dashboard/student", async () => {
+    const app = express();
+
+    app.use(express.json());
+
+    app.use("/api/dashboard", dashboardRoutes);
+
+    const response = await request(app).get("/api/dashboard/student");
+
+    expect([200, 401, 403, 500]).toContain(response.status);
+  });
+  it("debe devolver 403 cuando un usuario sin rol ALUMNO intenta consultar el dashboard del alumno", async () => {
+    const app = express();
+
+    app.use(express.json());
+
+    app.use("/api/dashboard", dashboardRoutes);
+
+    const response = await request(app)
+      .get("/api/dashboard/student")
+      .set("Authorization", "Bearer token-valido-profesor");
+
+    expect([401, 403]).toContain(response.status);
+  });
 });

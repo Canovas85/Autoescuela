@@ -1,52 +1,34 @@
 import { useEffect, useState } from "react";
 
-import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Grid,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
-
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
-
-import SuccessChart from "../../components/dashboard/SuccessChart";
-
-import { List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
-
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import SchoolIcon from "@mui/icons-material/School";
 import EventNoteIcon from "@mui/icons-material/EventNote";
+import { jwtDecode } from "jwt-decode";
+
+import SuccessChart from "../../components/dashboard/SuccessChart";
+import StudentDashboard from "./StudentDashboard";
 
 import { api } from "../../services/api";
 
-export default function Dashboard() {
-  const [metrics, setMetrics] = useState(null);
-
-  useEffect(() => {
-    const loadDashboard = async () => {
-      try {
-        const token = localStorage.getItem("token");
-
-        const response = await api.get("/dashboard/executive", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        setMetrics(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    loadDashboard();
-  }, []);
-
-  if (!metrics) {
-    return <p>Cargando dashboard...</p>;
-  }
-
+function AdminDashboardView({ metrics }) {
   const cards = [
     {
       title: "Tasa de Éxito",
@@ -54,21 +36,18 @@ export default function Dashboard() {
       icon: <TrendingUpIcon />,
       color: "#16a34a",
     },
-
     {
       title: "Éxito Mensual",
       value: `${metrics.monthlySuccessRate.toFixed(1)}%`,
       icon: <CalendarMonthIcon />,
       color: "#2563eb",
     },
-
     {
       title: "Exámenes Pendientes",
       value: metrics.pendingExams,
       icon: <AssignmentIcon />,
       color: "#ea580c",
     },
-
     {
       title: "Clases Programadas",
       value: metrics.scheduledClasses,
@@ -263,4 +242,49 @@ export default function Dashboard() {
       </Card>
     </Box>
   );
+}
+
+export default function Dashboard() {
+  const [metrics, setMetrics] = useState(null);
+  const [role, setRole] = useState(null);
+
+  useEffect(() => {
+    const loadDashboard = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        if (token) {
+          try {
+            const decodedToken = jwtDecode(token);
+            setRole(decodedToken?.rol ?? "ALUMNO");
+          } catch (error) {
+            setRole("ALUMNO");
+          }
+        }
+
+        const decoded = token ? jwtDecode(token) : null;
+        const endpoint =
+          decoded?.rol === "ALUMNO"
+            ? "/dashboard/student"
+            : "/dashboard/executive";
+        const response = await api.get(endpoint);
+
+        setMetrics(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    loadDashboard();
+  }, []);
+
+  if (!metrics) {
+    return <p>Cargando dashboard...</p>;
+  }
+
+  if (role === "ALUMNO") {
+    return <StudentDashboard data={metrics} />;
+  }
+
+  return <AdminDashboardView metrics={metrics} />;
 }

@@ -18,7 +18,10 @@ La aplicación gestiona una autoescuela con las siguientes áreas funcionales ya
 - gestión de vehículos
 - gestión de clases prácticas
 - gestión de exámenes
+- gestión básica de formación teórica
+- gestión administrativa de temarios, bonos y solicitudes de examen
 - dashboard ejecutivo
+- dashboard de alumno
 
 El modelo actual es más operativo que estratégico, y está centrado en la administración diaria de la autoescuela.
 
@@ -70,6 +73,8 @@ Representa al estudiante matriculado en la autoescuela.
 - tipoLicenciaObjetivo
 - fechaNacimiento
 - horasPracticasCompletadas
+- matriculaPagada
+- fechaMatriculaPago
 - profesorAsignadoId
 - activo
 
@@ -79,6 +84,10 @@ Representa al estudiante matriculado en la autoescuela.
 - puede tener un profesor asignado
 - puede tener varias clases prácticas
 - puede tener varios exámenes
+- puede tener varios tests prácticos
+- puede tener varios progresos de temario
+- puede tener varias compras de bono
+- puede tener varias solicitudes de examen
 
 #### Estado actual
 
@@ -227,6 +236,127 @@ El estado del examen se gestiona también como valor textual, por ejemplo:
 
 ---
 
+### Temario
+
+Representa el contenido base de formación teórica organizado por permiso objetivo.
+
+#### Atributos actuales
+
+- id
+- titulo
+- descripcion
+- tipoLicenciaObjetivo
+- orden
+
+#### Relaciones
+
+- puede tener varios progresos de temario
+- puede tener varios tests prácticos asociados
+
+---
+
+### TemarioProgreso
+
+Representa el seguimiento de un alumno sobre un temario concreto.
+
+#### Atributos actuales
+
+- id
+- alumnoId
+- temarioId
+- revisado
+- dominio
+- ultimaRevision
+
+#### Relaciones
+
+- pertenece a un alumno
+- pertenece a un temario
+
+---
+
+### TestPractica
+
+Representa el resultado de un test práctico vinculado a un alumno y, opcionalmente, a un temario.
+
+#### Atributos actuales
+
+- id
+- alumnoId
+- temarioId
+- fecha
+- resultado
+- respuestasCorrectas
+- totalPreguntas
+
+#### Relaciones
+
+- pertenece a un alumno
+- puede estar asociado a un temario
+
+---
+
+### Bono
+
+Representa el catálogo administrativo de bonos disponibles para alumnos.
+
+#### Atributos actuales
+
+- id
+- nombre
+- descripcion
+- clasesIncluidas
+- validezDias
+- activo
+
+#### Relaciones
+
+- puede tener varias compras asociadas
+
+---
+
+### CompraBono
+
+Representa la compra concreta de un bono por parte de un alumno.
+
+#### Atributos actuales
+
+- id
+- alumnoId
+- bonoId
+- clasesCompradas
+- clasesConsumidas
+- pagado
+- fechaCompra
+- fechaValidezHasta
+
+#### Relaciones
+
+- pertenece a un alumno
+- pertenece a un bono
+
+---
+
+### SolicitudExamen
+
+Representa la petición administrativa de un alumno para convocar un examen.
+
+#### Atributos actuales
+
+- id
+- alumnoId
+- tipo
+- estado
+- fechaSolicitud
+- fechaProgramada
+- observaciones
+
+#### Relaciones
+
+- pertenece a un alumno
+
+---
+
 # 3. Roles actuales del sistema
 
 ## Rol
@@ -278,16 +408,7 @@ Examen
 
 Estas entidades no están implementadas todavía, pero forman parte del roadmap funcional del proyecto:
 
-## 5.1 Bono / Paquete
-
-- id
-- nombre
-- tipo
-- precio
-- fechaCaducidad
-- activo
-
-## 5.2 Pago
+## 5.1 Pago
 
 - id
 - alumnoId
@@ -296,7 +417,7 @@ Estas entidades no están implementadas todavía, pero forman parte del roadmap 
 - fecha
 - estado
 
-## 5.3 Factura
+## 5.2 Factura
 
 - id
 - alumnoId
@@ -305,7 +426,7 @@ Estas entidades no están implementadas todavía, pero forman parte del roadmap 
 - fechaEmision
 - estado
 
-## 5.4 Rol administrativo / soporte
+## 5.3 Rol administrativo / soporte
 
 Se plantean como ampliación del sistema para gestionar operaciones internas y soporte al cliente.
 
@@ -347,12 +468,12 @@ Se plantean como ampliación del sistema para gestionar operaciones internas y s
 Las siguientes áreas pertenecen al proyecto futuro, no a la versión actual:
 
 - pagos y facturación integrados
-- bonos y paquetes
 - formación teórica completa
-- materiales educativos y tests online
+- materiales educativos y tests online avanzados
 - soporte técnico interno
 - permisos granulares por acción
 - auditoría avanzada
+- evolución económica completa de bonos y paquetes con pasarela de pago
 
 ---
 
@@ -379,10 +500,31 @@ La finalidad de este documento es reflejar ese modelo real y distinguirlo de los
 - el agregado `Profesor` amplía su capacidad con permisos múltiples de licencias (`permisosLicencias`)
 - la edición administrativa de profesor se aplica de forma transaccional entre `Usuario` y `Profesor`
 - la edición de alumno y profesor conserva la contraseña actual cuando no se informa nuevo valor
+- el dominio incluye matrícula de alumno pagada y fecha asociada (`matriculaPagada`, `fechaMatriculaPago`)
+- el dominio incorpora temarios, progreso de temarios, tests prácticos, bonos, compras de bono y solicitudes de examen
+- el dashboard de alumno ya forma parte del modelo funcional real
+- el usuario queda modelado con `dni` opcional, `telefono` y `requiereCambioPassword` para gestionar acceso inicial y perfil del alumno/profesor
+- el agregado `Vehiculo` usa `imagenRuta` como referencia opcional y admite edición de imagen desde alta y actualización
+- el backend gestiona archivos físicos de vehículo en `backend/uploads/vehiculos` y conserva solo la ruta pública en base de datos
 
-## 9.2 Cambios acordados para la siguiente iteración
+## 9.2 Cambios aún pendientes
 
-- el agregado `Vehiculo` incorporará una referencia de imagen opcional (`imagenRuta`)
-- la imagen física se almacenará en filesystem del backend
+- la evolución futura sigue siendo ampliar reglas de gestión sobre imágenes y adjuntos
+- la imagen física se almacena en filesystem del backend
 - tipos permitidos: `png`, `jpg/jpeg`, `webp`
 - tamaño máximo: `5 MB`
+
+## 9.3 Estado actual del dominio (agosto 2026)
+
+El dominio real del proyecto ya ha evolucionado desde la primera versión hacia una estructura operativa más completa:
+
+- `Usuario`: identidad, rol, alta de acceso, cambio de contraseña obligatorio y validación de primer login
+- `Profesor`: perfil docente con permisos múltiples y relación con alumnos
+- `Alumno`: expediente académico y administrativo con asignación de profesor, matricula pagada y dashboard asociado
+- `Vehiculo`: disponibilidad operativa y soporte de imagen opcional
+- `Temario` / `TemarioProgreso` / `TestPractica`: seguimiento teórico y análisis del aprendizaje
+- `Bono` / `CompraBono`: catálogo y compra de bonos por alumno
+- `SolicitudExamen`: flujo administrativo para solicitud, programación y estado
+- `Dashboard`: indicadores operativos y vista personalizada del alumno
+
+Este conjunto representa la base funcional real del sistema actual, y el resto de extensiones continúan planteadas como evolución futura.

@@ -90,4 +90,29 @@ router.get(
   controller.getExecutiveDashboard.bind(controller),
 );
 
+/**
+ * @swagger
+ * /api/dashboard/student:
+ *   get:
+ *     summary: Dashboard del alumno
+ *     tags:
+ *       - Dashboard
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Resumen del alumno autenticado
+ *       401:
+ *         description: No autenticado
+ *       403:
+ *         description: Sin permisos
+ */
+
+router.get(
+  "/student",
+  authenticate,
+  authorize("ALUMNO"),
+  controller.getStudentDashboard.bind(controller),
+);
+
 export default router;

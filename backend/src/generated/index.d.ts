@@ -29,6 +29,36 @@ export type Profesor = $Result.DefaultSelection<Prisma.$ProfesorPayload>
  */
 export type Alumno = $Result.DefaultSelection<Prisma.$AlumnoPayload>
 /**
+ * Model Temario
+ * 
+ */
+export type Temario = $Result.DefaultSelection<Prisma.$TemarioPayload>
+/**
+ * Model TemarioProgreso
+ * 
+ */
+export type TemarioProgreso = $Result.DefaultSelection<Prisma.$TemarioProgresoPayload>
+/**
+ * Model TestPractica
+ * 
+ */
+export type TestPractica = $Result.DefaultSelection<Prisma.$TestPracticaPayload>
+/**
+ * Model Bono
+ * 
+ */
+export type Bono = $Result.DefaultSelection<Prisma.$BonoPayload>
+/**
+ * Model CompraBono
+ * 
+ */
+export type CompraBono = $Result.DefaultSelection<Prisma.$CompraBonoPayload>
+/**
+ * Model SolicitudExamen
+ * 
+ */
+export type SolicitudExamen = $Result.DefaultSelection<Prisma.$SolicitudExamenPayload>
+/**
  * Model Vehiculo
  * 
  */
@@ -209,6 +239,66 @@ export class PrismaClient<
     * ```
     */
   get alumno(): Prisma.AlumnoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.temario`: Exposes CRUD operations for the **Temario** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Temarios
+    * const temarios = await prisma.temario.findMany()
+    * ```
+    */
+  get temario(): Prisma.TemarioDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.temarioProgreso`: Exposes CRUD operations for the **TemarioProgreso** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TemarioProgresos
+    * const temarioProgresos = await prisma.temarioProgreso.findMany()
+    * ```
+    */
+  get temarioProgreso(): Prisma.TemarioProgresoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.testPractica`: Exposes CRUD operations for the **TestPractica** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TestPracticas
+    * const testPracticas = await prisma.testPractica.findMany()
+    * ```
+    */
+  get testPractica(): Prisma.TestPracticaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.bono`: Exposes CRUD operations for the **Bono** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Bonos
+    * const bonos = await prisma.bono.findMany()
+    * ```
+    */
+  get bono(): Prisma.BonoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.compraBono`: Exposes CRUD operations for the **CompraBono** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CompraBonos
+    * const compraBonos = await prisma.compraBono.findMany()
+    * ```
+    */
+  get compraBono(): Prisma.CompraBonoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.solicitudExamen`: Exposes CRUD operations for the **SolicitudExamen** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SolicitudExamen
+    * const solicitudExamen = await prisma.solicitudExamen.findMany()
+    * ```
+    */
+  get solicitudExamen(): Prisma.SolicitudExamenDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.vehiculo`: Exposes CRUD operations for the **Vehiculo** model.
@@ -683,6 +773,12 @@ export namespace Prisma {
     Usuario: 'Usuario',
     Profesor: 'Profesor',
     Alumno: 'Alumno',
+    Temario: 'Temario',
+    TemarioProgreso: 'TemarioProgreso',
+    TestPractica: 'TestPractica',
+    Bono: 'Bono',
+    CompraBono: 'CompraBono',
+    SolicitudExamen: 'SolicitudExamen',
     Vehiculo: 'Vehiculo',
     ClasePractica: 'ClasePractica',
     Examen: 'Examen'
@@ -704,7 +800,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "usuario" | "profesor" | "alumno" | "vehiculo" | "clasePractica" | "examen"
+      modelProps: "usuario" | "profesor" | "alumno" | "temario" | "temarioProgreso" | "testPractica" | "bono" | "compraBono" | "solicitudExamen" | "vehiculo" | "clasePractica" | "examen"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -927,6 +1023,450 @@ export namespace Prisma {
           count: {
             args: Prisma.AlumnoCountArgs<ExtArgs>
             result: $Utils.Optional<AlumnoCountAggregateOutputType> | number
+          }
+        }
+      }
+      Temario: {
+        payload: Prisma.$TemarioPayload<ExtArgs>
+        fields: Prisma.TemarioFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TemarioFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemarioPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TemarioFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemarioPayload>
+          }
+          findFirst: {
+            args: Prisma.TemarioFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemarioPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TemarioFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemarioPayload>
+          }
+          findMany: {
+            args: Prisma.TemarioFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemarioPayload>[]
+          }
+          create: {
+            args: Prisma.TemarioCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemarioPayload>
+          }
+          createMany: {
+            args: Prisma.TemarioCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TemarioCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemarioPayload>[]
+          }
+          delete: {
+            args: Prisma.TemarioDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemarioPayload>
+          }
+          update: {
+            args: Prisma.TemarioUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemarioPayload>
+          }
+          deleteMany: {
+            args: Prisma.TemarioDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TemarioUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TemarioUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemarioPayload>[]
+          }
+          upsert: {
+            args: Prisma.TemarioUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemarioPayload>
+          }
+          aggregate: {
+            args: Prisma.TemarioAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTemario>
+          }
+          groupBy: {
+            args: Prisma.TemarioGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TemarioGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TemarioCountArgs<ExtArgs>
+            result: $Utils.Optional<TemarioCountAggregateOutputType> | number
+          }
+        }
+      }
+      TemarioProgreso: {
+        payload: Prisma.$TemarioProgresoPayload<ExtArgs>
+        fields: Prisma.TemarioProgresoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TemarioProgresoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemarioProgresoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TemarioProgresoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemarioProgresoPayload>
+          }
+          findFirst: {
+            args: Prisma.TemarioProgresoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemarioProgresoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TemarioProgresoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemarioProgresoPayload>
+          }
+          findMany: {
+            args: Prisma.TemarioProgresoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemarioProgresoPayload>[]
+          }
+          create: {
+            args: Prisma.TemarioProgresoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemarioProgresoPayload>
+          }
+          createMany: {
+            args: Prisma.TemarioProgresoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TemarioProgresoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemarioProgresoPayload>[]
+          }
+          delete: {
+            args: Prisma.TemarioProgresoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemarioProgresoPayload>
+          }
+          update: {
+            args: Prisma.TemarioProgresoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemarioProgresoPayload>
+          }
+          deleteMany: {
+            args: Prisma.TemarioProgresoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TemarioProgresoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TemarioProgresoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemarioProgresoPayload>[]
+          }
+          upsert: {
+            args: Prisma.TemarioProgresoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemarioProgresoPayload>
+          }
+          aggregate: {
+            args: Prisma.TemarioProgresoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTemarioProgreso>
+          }
+          groupBy: {
+            args: Prisma.TemarioProgresoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TemarioProgresoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TemarioProgresoCountArgs<ExtArgs>
+            result: $Utils.Optional<TemarioProgresoCountAggregateOutputType> | number
+          }
+        }
+      }
+      TestPractica: {
+        payload: Prisma.$TestPracticaPayload<ExtArgs>
+        fields: Prisma.TestPracticaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TestPracticaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestPracticaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TestPracticaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestPracticaPayload>
+          }
+          findFirst: {
+            args: Prisma.TestPracticaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestPracticaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TestPracticaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestPracticaPayload>
+          }
+          findMany: {
+            args: Prisma.TestPracticaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestPracticaPayload>[]
+          }
+          create: {
+            args: Prisma.TestPracticaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestPracticaPayload>
+          }
+          createMany: {
+            args: Prisma.TestPracticaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TestPracticaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestPracticaPayload>[]
+          }
+          delete: {
+            args: Prisma.TestPracticaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestPracticaPayload>
+          }
+          update: {
+            args: Prisma.TestPracticaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestPracticaPayload>
+          }
+          deleteMany: {
+            args: Prisma.TestPracticaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TestPracticaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TestPracticaUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestPracticaPayload>[]
+          }
+          upsert: {
+            args: Prisma.TestPracticaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestPracticaPayload>
+          }
+          aggregate: {
+            args: Prisma.TestPracticaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTestPractica>
+          }
+          groupBy: {
+            args: Prisma.TestPracticaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TestPracticaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TestPracticaCountArgs<ExtArgs>
+            result: $Utils.Optional<TestPracticaCountAggregateOutputType> | number
+          }
+        }
+      }
+      Bono: {
+        payload: Prisma.$BonoPayload<ExtArgs>
+        fields: Prisma.BonoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BonoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BonoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BonoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BonoPayload>
+          }
+          findFirst: {
+            args: Prisma.BonoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BonoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BonoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BonoPayload>
+          }
+          findMany: {
+            args: Prisma.BonoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BonoPayload>[]
+          }
+          create: {
+            args: Prisma.BonoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BonoPayload>
+          }
+          createMany: {
+            args: Prisma.BonoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BonoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BonoPayload>[]
+          }
+          delete: {
+            args: Prisma.BonoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BonoPayload>
+          }
+          update: {
+            args: Prisma.BonoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BonoPayload>
+          }
+          deleteMany: {
+            args: Prisma.BonoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BonoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BonoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BonoPayload>[]
+          }
+          upsert: {
+            args: Prisma.BonoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BonoPayload>
+          }
+          aggregate: {
+            args: Prisma.BonoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBono>
+          }
+          groupBy: {
+            args: Prisma.BonoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BonoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BonoCountArgs<ExtArgs>
+            result: $Utils.Optional<BonoCountAggregateOutputType> | number
+          }
+        }
+      }
+      CompraBono: {
+        payload: Prisma.$CompraBonoPayload<ExtArgs>
+        fields: Prisma.CompraBonoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CompraBonoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompraBonoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CompraBonoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompraBonoPayload>
+          }
+          findFirst: {
+            args: Prisma.CompraBonoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompraBonoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CompraBonoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompraBonoPayload>
+          }
+          findMany: {
+            args: Prisma.CompraBonoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompraBonoPayload>[]
+          }
+          create: {
+            args: Prisma.CompraBonoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompraBonoPayload>
+          }
+          createMany: {
+            args: Prisma.CompraBonoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CompraBonoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompraBonoPayload>[]
+          }
+          delete: {
+            args: Prisma.CompraBonoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompraBonoPayload>
+          }
+          update: {
+            args: Prisma.CompraBonoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompraBonoPayload>
+          }
+          deleteMany: {
+            args: Prisma.CompraBonoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CompraBonoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CompraBonoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompraBonoPayload>[]
+          }
+          upsert: {
+            args: Prisma.CompraBonoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CompraBonoPayload>
+          }
+          aggregate: {
+            args: Prisma.CompraBonoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCompraBono>
+          }
+          groupBy: {
+            args: Prisma.CompraBonoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CompraBonoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CompraBonoCountArgs<ExtArgs>
+            result: $Utils.Optional<CompraBonoCountAggregateOutputType> | number
+          }
+        }
+      }
+      SolicitudExamen: {
+        payload: Prisma.$SolicitudExamenPayload<ExtArgs>
+        fields: Prisma.SolicitudExamenFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SolicitudExamenFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SolicitudExamenPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SolicitudExamenFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SolicitudExamenPayload>
+          }
+          findFirst: {
+            args: Prisma.SolicitudExamenFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SolicitudExamenPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SolicitudExamenFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SolicitudExamenPayload>
+          }
+          findMany: {
+            args: Prisma.SolicitudExamenFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SolicitudExamenPayload>[]
+          }
+          create: {
+            args: Prisma.SolicitudExamenCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SolicitudExamenPayload>
+          }
+          createMany: {
+            args: Prisma.SolicitudExamenCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SolicitudExamenCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SolicitudExamenPayload>[]
+          }
+          delete: {
+            args: Prisma.SolicitudExamenDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SolicitudExamenPayload>
+          }
+          update: {
+            args: Prisma.SolicitudExamenUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SolicitudExamenPayload>
+          }
+          deleteMany: {
+            args: Prisma.SolicitudExamenDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SolicitudExamenUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SolicitudExamenUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SolicitudExamenPayload>[]
+          }
+          upsert: {
+            args: Prisma.SolicitudExamenUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SolicitudExamenPayload>
+          }
+          aggregate: {
+            args: Prisma.SolicitudExamenAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSolicitudExamen>
+          }
+          groupBy: {
+            args: Prisma.SolicitudExamenGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SolicitudExamenGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SolicitudExamenCountArgs<ExtArgs>
+            result: $Utils.Optional<SolicitudExamenCountAggregateOutputType> | number
           }
         }
       }
@@ -1251,6 +1791,12 @@ export namespace Prisma {
     usuario?: UsuarioOmit
     profesor?: ProfesorOmit
     alumno?: AlumnoOmit
+    temario?: TemarioOmit
+    temarioProgreso?: TemarioProgresoOmit
+    testPractica?: TestPracticaOmit
+    bono?: BonoOmit
+    compraBono?: CompraBonoOmit
+    solicitudExamen?: SolicitudExamenOmit
     vehiculo?: VehiculoOmit
     clasePractica?: ClasePracticaOmit
     examen?: ExamenOmit
@@ -1376,11 +1922,19 @@ export namespace Prisma {
   export type AlumnoCountOutputType = {
     clases: number
     examenes: number
+    testsPractica: number
+    temariosProgreso: number
+    bonosComprados: number
+    solicitudesExamen: number
   }
 
   export type AlumnoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     clases?: boolean | AlumnoCountOutputTypeCountClasesArgs
     examenes?: boolean | AlumnoCountOutputTypeCountExamenesArgs
+    testsPractica?: boolean | AlumnoCountOutputTypeCountTestsPracticaArgs
+    temariosProgreso?: boolean | AlumnoCountOutputTypeCountTemariosProgresoArgs
+    bonosComprados?: boolean | AlumnoCountOutputTypeCountBonosCompradosArgs
+    solicitudesExamen?: boolean | AlumnoCountOutputTypeCountSolicitudesExamenArgs
   }
 
   // Custom InputTypes
@@ -1406,6 +1960,105 @@ export namespace Prisma {
    */
   export type AlumnoCountOutputTypeCountExamenesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ExamenWhereInput
+  }
+
+  /**
+   * AlumnoCountOutputType without action
+   */
+  export type AlumnoCountOutputTypeCountTestsPracticaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TestPracticaWhereInput
+  }
+
+  /**
+   * AlumnoCountOutputType without action
+   */
+  export type AlumnoCountOutputTypeCountTemariosProgresoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TemarioProgresoWhereInput
+  }
+
+  /**
+   * AlumnoCountOutputType without action
+   */
+  export type AlumnoCountOutputTypeCountBonosCompradosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompraBonoWhereInput
+  }
+
+  /**
+   * AlumnoCountOutputType without action
+   */
+  export type AlumnoCountOutputTypeCountSolicitudesExamenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SolicitudExamenWhereInput
+  }
+
+
+  /**
+   * Count Type TemarioCountOutputType
+   */
+
+  export type TemarioCountOutputType = {
+    progreso: number
+    testsPractica: number
+  }
+
+  export type TemarioCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    progreso?: boolean | TemarioCountOutputTypeCountProgresoArgs
+    testsPractica?: boolean | TemarioCountOutputTypeCountTestsPracticaArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TemarioCountOutputType without action
+   */
+  export type TemarioCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemarioCountOutputType
+     */
+    select?: TemarioCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TemarioCountOutputType without action
+   */
+  export type TemarioCountOutputTypeCountProgresoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TemarioProgresoWhereInput
+  }
+
+  /**
+   * TemarioCountOutputType without action
+   */
+  export type TemarioCountOutputTypeCountTestsPracticaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TestPracticaWhereInput
+  }
+
+
+  /**
+   * Count Type BonoCountOutputType
+   */
+
+  export type BonoCountOutputType = {
+    compras: number
+  }
+
+  export type BonoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    compras?: boolean | BonoCountOutputTypeCountComprasArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * BonoCountOutputType without action
+   */
+  export type BonoCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BonoCountOutputType
+     */
+    select?: BonoCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * BonoCountOutputType without action
+   */
+  export type BonoCountOutputTypeCountComprasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompraBonoWhereInput
   }
 
 
@@ -3719,6 +4372,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string | null
     fechaNacimiento: Date | null
     horasPracticasCompletadas: number | null
+    matriculaPagada: boolean | null
+    fechaMatriculaPago: Date | null
     profesorAsignadoId: string | null
     activo: boolean | null
   }
@@ -3728,6 +4383,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string | null
     fechaNacimiento: Date | null
     horasPracticasCompletadas: number | null
+    matriculaPagada: boolean | null
+    fechaMatriculaPago: Date | null
     profesorAsignadoId: string | null
     activo: boolean | null
   }
@@ -3737,6 +4394,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: number
     fechaNacimiento: number
     horasPracticasCompletadas: number
+    matriculaPagada: number
+    fechaMatriculaPago: number
     profesorAsignadoId: number
     activo: number
     _all: number
@@ -3756,6 +4415,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: true
     fechaNacimiento?: true
     horasPracticasCompletadas?: true
+    matriculaPagada?: true
+    fechaMatriculaPago?: true
     profesorAsignadoId?: true
     activo?: true
   }
@@ -3765,6 +4426,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: true
     fechaNacimiento?: true
     horasPracticasCompletadas?: true
+    matriculaPagada?: true
+    fechaMatriculaPago?: true
     profesorAsignadoId?: true
     activo?: true
   }
@@ -3774,6 +4437,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: true
     fechaNacimiento?: true
     horasPracticasCompletadas?: true
+    matriculaPagada?: true
+    fechaMatriculaPago?: true
     profesorAsignadoId?: true
     activo?: true
     _all?: true
@@ -3870,6 +4535,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     fechaNacimiento: Date | null
     horasPracticasCompletadas: number
+    matriculaPagada: boolean
+    fechaMatriculaPago: Date | null
     profesorAsignadoId: string | null
     activo: boolean
     _count: AlumnoCountAggregateOutputType | null
@@ -3898,12 +4565,18 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: boolean
     fechaNacimiento?: boolean
     horasPracticasCompletadas?: boolean
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: boolean
     profesorAsignadoId?: boolean
     activo?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     profesorAsignado?: boolean | Alumno$profesorAsignadoArgs<ExtArgs>
     clases?: boolean | Alumno$clasesArgs<ExtArgs>
     examenes?: boolean | Alumno$examenesArgs<ExtArgs>
+    testsPractica?: boolean | Alumno$testsPracticaArgs<ExtArgs>
+    temariosProgreso?: boolean | Alumno$temariosProgresoArgs<ExtArgs>
+    bonosComprados?: boolean | Alumno$bonosCompradosArgs<ExtArgs>
+    solicitudesExamen?: boolean | Alumno$solicitudesExamenArgs<ExtArgs>
     _count?: boolean | AlumnoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["alumno"]>
 
@@ -3912,6 +4585,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: boolean
     fechaNacimiento?: boolean
     horasPracticasCompletadas?: boolean
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: boolean
     profesorAsignadoId?: boolean
     activo?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
@@ -3923,6 +4598,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: boolean
     fechaNacimiento?: boolean
     horasPracticasCompletadas?: boolean
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: boolean
     profesorAsignadoId?: boolean
     activo?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
@@ -3934,16 +4611,22 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: boolean
     fechaNacimiento?: boolean
     horasPracticasCompletadas?: boolean
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: boolean
     profesorAsignadoId?: boolean
     activo?: boolean
   }
 
-  export type AlumnoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tipoLicenciaObjetivo" | "fechaNacimiento" | "horasPracticasCompletadas" | "profesorAsignadoId" | "activo", ExtArgs["result"]["alumno"]>
+  export type AlumnoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tipoLicenciaObjetivo" | "fechaNacimiento" | "horasPracticasCompletadas" | "matriculaPagada" | "fechaMatriculaPago" | "profesorAsignadoId" | "activo", ExtArgs["result"]["alumno"]>
   export type AlumnoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     profesorAsignado?: boolean | Alumno$profesorAsignadoArgs<ExtArgs>
     clases?: boolean | Alumno$clasesArgs<ExtArgs>
     examenes?: boolean | Alumno$examenesArgs<ExtArgs>
+    testsPractica?: boolean | Alumno$testsPracticaArgs<ExtArgs>
+    temariosProgreso?: boolean | Alumno$temariosProgresoArgs<ExtArgs>
+    bonosComprados?: boolean | Alumno$bonosCompradosArgs<ExtArgs>
+    solicitudesExamen?: boolean | Alumno$solicitudesExamenArgs<ExtArgs>
     _count?: boolean | AlumnoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AlumnoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3962,12 +4645,18 @@ export namespace Prisma {
       profesorAsignado: Prisma.$ProfesorPayload<ExtArgs> | null
       clases: Prisma.$ClasePracticaPayload<ExtArgs>[]
       examenes: Prisma.$ExamenPayload<ExtArgs>[]
+      testsPractica: Prisma.$TestPracticaPayload<ExtArgs>[]
+      temariosProgreso: Prisma.$TemarioProgresoPayload<ExtArgs>[]
+      bonosComprados: Prisma.$CompraBonoPayload<ExtArgs>[]
+      solicitudesExamen: Prisma.$SolicitudExamenPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       tipoLicenciaObjetivo: string
       fechaNacimiento: Date | null
       horasPracticasCompletadas: number
+      matriculaPagada: boolean
+      fechaMatriculaPago: Date | null
       profesorAsignadoId: string | null
       activo: boolean
     }, ExtArgs["result"]["alumno"]>
@@ -4368,6 +5057,10 @@ export namespace Prisma {
     profesorAsignado<T extends Alumno$profesorAsignadoArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$profesorAsignadoArgs<ExtArgs>>): Prisma__ProfesorClient<$Result.GetResult<Prisma.$ProfesorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     clases<T extends Alumno$clasesArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$clasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClasePracticaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     examenes<T extends Alumno$examenesArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$examenesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    testsPractica<T extends Alumno$testsPracticaArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$testsPracticaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestPracticaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    temariosProgreso<T extends Alumno$temariosProgresoArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$temariosProgresoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemarioProgresoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    bonosComprados<T extends Alumno$bonosCompradosArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$bonosCompradosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompraBonoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    solicitudesExamen<T extends Alumno$solicitudesExamenArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$solicitudesExamenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SolicitudExamenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4401,6 +5094,8 @@ export namespace Prisma {
     readonly tipoLicenciaObjetivo: FieldRef<"Alumno", 'String'>
     readonly fechaNacimiento: FieldRef<"Alumno", 'DateTime'>
     readonly horasPracticasCompletadas: FieldRef<"Alumno", 'Int'>
+    readonly matriculaPagada: FieldRef<"Alumno", 'Boolean'>
+    readonly fechaMatriculaPago: FieldRef<"Alumno", 'DateTime'>
     readonly profesorAsignadoId: FieldRef<"Alumno", 'String'>
     readonly activo: FieldRef<"Alumno", 'Boolean'>
   }
@@ -4866,6 +5561,102 @@ export namespace Prisma {
   }
 
   /**
+   * Alumno.testsPractica
+   */
+  export type Alumno$testsPracticaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestPractica
+     */
+    select?: TestPracticaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestPractica
+     */
+    omit?: TestPracticaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestPracticaInclude<ExtArgs> | null
+    where?: TestPracticaWhereInput
+    orderBy?: TestPracticaOrderByWithRelationInput | TestPracticaOrderByWithRelationInput[]
+    cursor?: TestPracticaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TestPracticaScalarFieldEnum | TestPracticaScalarFieldEnum[]
+  }
+
+  /**
+   * Alumno.temariosProgreso
+   */
+  export type Alumno$temariosProgresoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemarioProgreso
+     */
+    select?: TemarioProgresoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemarioProgreso
+     */
+    omit?: TemarioProgresoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioProgresoInclude<ExtArgs> | null
+    where?: TemarioProgresoWhereInput
+    orderBy?: TemarioProgresoOrderByWithRelationInput | TemarioProgresoOrderByWithRelationInput[]
+    cursor?: TemarioProgresoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TemarioProgresoScalarFieldEnum | TemarioProgresoScalarFieldEnum[]
+  }
+
+  /**
+   * Alumno.bonosComprados
+   */
+  export type Alumno$bonosCompradosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompraBono
+     */
+    select?: CompraBonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompraBono
+     */
+    omit?: CompraBonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompraBonoInclude<ExtArgs> | null
+    where?: CompraBonoWhereInput
+    orderBy?: CompraBonoOrderByWithRelationInput | CompraBonoOrderByWithRelationInput[]
+    cursor?: CompraBonoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CompraBonoScalarFieldEnum | CompraBonoScalarFieldEnum[]
+  }
+
+  /**
+   * Alumno.solicitudesExamen
+   */
+  export type Alumno$solicitudesExamenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SolicitudExamen
+     */
+    select?: SolicitudExamenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SolicitudExamen
+     */
+    omit?: SolicitudExamenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitudExamenInclude<ExtArgs> | null
+    where?: SolicitudExamenWhereInput
+    orderBy?: SolicitudExamenOrderByWithRelationInput | SolicitudExamenOrderByWithRelationInput[]
+    cursor?: SolicitudExamenWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SolicitudExamenScalarFieldEnum | SolicitudExamenScalarFieldEnum[]
+  }
+
+  /**
    * Alumno without action
    */
   export type AlumnoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4881,6 +5672,6748 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AlumnoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Temario
+   */
+
+  export type AggregateTemario = {
+    _count: TemarioCountAggregateOutputType | null
+    _avg: TemarioAvgAggregateOutputType | null
+    _sum: TemarioSumAggregateOutputType | null
+    _min: TemarioMinAggregateOutputType | null
+    _max: TemarioMaxAggregateOutputType | null
+  }
+
+  export type TemarioAvgAggregateOutputType = {
+    orden: number | null
+  }
+
+  export type TemarioSumAggregateOutputType = {
+    orden: number | null
+  }
+
+  export type TemarioMinAggregateOutputType = {
+    id: string | null
+    titulo: string | null
+    descripcion: string | null
+    tipoLicenciaObjetivo: string | null
+    orden: number | null
+  }
+
+  export type TemarioMaxAggregateOutputType = {
+    id: string | null
+    titulo: string | null
+    descripcion: string | null
+    tipoLicenciaObjetivo: string | null
+    orden: number | null
+  }
+
+  export type TemarioCountAggregateOutputType = {
+    id: number
+    titulo: number
+    descripcion: number
+    tipoLicenciaObjetivo: number
+    orden: number
+    _all: number
+  }
+
+
+  export type TemarioAvgAggregateInputType = {
+    orden?: true
+  }
+
+  export type TemarioSumAggregateInputType = {
+    orden?: true
+  }
+
+  export type TemarioMinAggregateInputType = {
+    id?: true
+    titulo?: true
+    descripcion?: true
+    tipoLicenciaObjetivo?: true
+    orden?: true
+  }
+
+  export type TemarioMaxAggregateInputType = {
+    id?: true
+    titulo?: true
+    descripcion?: true
+    tipoLicenciaObjetivo?: true
+    orden?: true
+  }
+
+  export type TemarioCountAggregateInputType = {
+    id?: true
+    titulo?: true
+    descripcion?: true
+    tipoLicenciaObjetivo?: true
+    orden?: true
+    _all?: true
+  }
+
+  export type TemarioAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Temario to aggregate.
+     */
+    where?: TemarioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Temarios to fetch.
+     */
+    orderBy?: TemarioOrderByWithRelationInput | TemarioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TemarioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Temarios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Temarios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Temarios
+    **/
+    _count?: true | TemarioCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TemarioAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TemarioSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TemarioMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TemarioMaxAggregateInputType
+  }
+
+  export type GetTemarioAggregateType<T extends TemarioAggregateArgs> = {
+        [P in keyof T & keyof AggregateTemario]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTemario[P]>
+      : GetScalarType<T[P], AggregateTemario[P]>
+  }
+
+
+
+
+  export type TemarioGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TemarioWhereInput
+    orderBy?: TemarioOrderByWithAggregationInput | TemarioOrderByWithAggregationInput[]
+    by: TemarioScalarFieldEnum[] | TemarioScalarFieldEnum
+    having?: TemarioScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TemarioCountAggregateInputType | true
+    _avg?: TemarioAvgAggregateInputType
+    _sum?: TemarioSumAggregateInputType
+    _min?: TemarioMinAggregateInputType
+    _max?: TemarioMaxAggregateInputType
+  }
+
+  export type TemarioGroupByOutputType = {
+    id: string
+    titulo: string
+    descripcion: string | null
+    tipoLicenciaObjetivo: string
+    orden: number
+    _count: TemarioCountAggregateOutputType | null
+    _avg: TemarioAvgAggregateOutputType | null
+    _sum: TemarioSumAggregateOutputType | null
+    _min: TemarioMinAggregateOutputType | null
+    _max: TemarioMaxAggregateOutputType | null
+  }
+
+  type GetTemarioGroupByPayload<T extends TemarioGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TemarioGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TemarioGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TemarioGroupByOutputType[P]>
+            : GetScalarType<T[P], TemarioGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TemarioSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    titulo?: boolean
+    descripcion?: boolean
+    tipoLicenciaObjetivo?: boolean
+    orden?: boolean
+    progreso?: boolean | Temario$progresoArgs<ExtArgs>
+    testsPractica?: boolean | Temario$testsPracticaArgs<ExtArgs>
+    _count?: boolean | TemarioCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["temario"]>
+
+  export type TemarioSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    titulo?: boolean
+    descripcion?: boolean
+    tipoLicenciaObjetivo?: boolean
+    orden?: boolean
+  }, ExtArgs["result"]["temario"]>
+
+  export type TemarioSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    titulo?: boolean
+    descripcion?: boolean
+    tipoLicenciaObjetivo?: boolean
+    orden?: boolean
+  }, ExtArgs["result"]["temario"]>
+
+  export type TemarioSelectScalar = {
+    id?: boolean
+    titulo?: boolean
+    descripcion?: boolean
+    tipoLicenciaObjetivo?: boolean
+    orden?: boolean
+  }
+
+  export type TemarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titulo" | "descripcion" | "tipoLicenciaObjetivo" | "orden", ExtArgs["result"]["temario"]>
+  export type TemarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    progreso?: boolean | Temario$progresoArgs<ExtArgs>
+    testsPractica?: boolean | Temario$testsPracticaArgs<ExtArgs>
+    _count?: boolean | TemarioCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type TemarioIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type TemarioIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $TemarioPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Temario"
+    objects: {
+      progreso: Prisma.$TemarioProgresoPayload<ExtArgs>[]
+      testsPractica: Prisma.$TestPracticaPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      titulo: string
+      descripcion: string | null
+      tipoLicenciaObjetivo: string
+      orden: number
+    }, ExtArgs["result"]["temario"]>
+    composites: {}
+  }
+
+  type TemarioGetPayload<S extends boolean | null | undefined | TemarioDefaultArgs> = $Result.GetResult<Prisma.$TemarioPayload, S>
+
+  type TemarioCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TemarioFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TemarioCountAggregateInputType | true
+    }
+
+  export interface TemarioDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Temario'], meta: { name: 'Temario' } }
+    /**
+     * Find zero or one Temario that matches the filter.
+     * @param {TemarioFindUniqueArgs} args - Arguments to find a Temario
+     * @example
+     * // Get one Temario
+     * const temario = await prisma.temario.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TemarioFindUniqueArgs>(args: SelectSubset<T, TemarioFindUniqueArgs<ExtArgs>>): Prisma__TemarioClient<$Result.GetResult<Prisma.$TemarioPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Temario that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TemarioFindUniqueOrThrowArgs} args - Arguments to find a Temario
+     * @example
+     * // Get one Temario
+     * const temario = await prisma.temario.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TemarioFindUniqueOrThrowArgs>(args: SelectSubset<T, TemarioFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TemarioClient<$Result.GetResult<Prisma.$TemarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Temario that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemarioFindFirstArgs} args - Arguments to find a Temario
+     * @example
+     * // Get one Temario
+     * const temario = await prisma.temario.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TemarioFindFirstArgs>(args?: SelectSubset<T, TemarioFindFirstArgs<ExtArgs>>): Prisma__TemarioClient<$Result.GetResult<Prisma.$TemarioPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Temario that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemarioFindFirstOrThrowArgs} args - Arguments to find a Temario
+     * @example
+     * // Get one Temario
+     * const temario = await prisma.temario.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TemarioFindFirstOrThrowArgs>(args?: SelectSubset<T, TemarioFindFirstOrThrowArgs<ExtArgs>>): Prisma__TemarioClient<$Result.GetResult<Prisma.$TemarioPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Temarios that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemarioFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Temarios
+     * const temarios = await prisma.temario.findMany()
+     * 
+     * // Get first 10 Temarios
+     * const temarios = await prisma.temario.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const temarioWithIdOnly = await prisma.temario.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TemarioFindManyArgs>(args?: SelectSubset<T, TemarioFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemarioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Temario.
+     * @param {TemarioCreateArgs} args - Arguments to create a Temario.
+     * @example
+     * // Create one Temario
+     * const Temario = await prisma.temario.create({
+     *   data: {
+     *     // ... data to create a Temario
+     *   }
+     * })
+     * 
+     */
+    create<T extends TemarioCreateArgs>(args: SelectSubset<T, TemarioCreateArgs<ExtArgs>>): Prisma__TemarioClient<$Result.GetResult<Prisma.$TemarioPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Temarios.
+     * @param {TemarioCreateManyArgs} args - Arguments to create many Temarios.
+     * @example
+     * // Create many Temarios
+     * const temario = await prisma.temario.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TemarioCreateManyArgs>(args?: SelectSubset<T, TemarioCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Temarios and returns the data saved in the database.
+     * @param {TemarioCreateManyAndReturnArgs} args - Arguments to create many Temarios.
+     * @example
+     * // Create many Temarios
+     * const temario = await prisma.temario.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Temarios and only return the `id`
+     * const temarioWithIdOnly = await prisma.temario.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TemarioCreateManyAndReturnArgs>(args?: SelectSubset<T, TemarioCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemarioPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Temario.
+     * @param {TemarioDeleteArgs} args - Arguments to delete one Temario.
+     * @example
+     * // Delete one Temario
+     * const Temario = await prisma.temario.delete({
+     *   where: {
+     *     // ... filter to delete one Temario
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TemarioDeleteArgs>(args: SelectSubset<T, TemarioDeleteArgs<ExtArgs>>): Prisma__TemarioClient<$Result.GetResult<Prisma.$TemarioPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Temario.
+     * @param {TemarioUpdateArgs} args - Arguments to update one Temario.
+     * @example
+     * // Update one Temario
+     * const temario = await prisma.temario.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TemarioUpdateArgs>(args: SelectSubset<T, TemarioUpdateArgs<ExtArgs>>): Prisma__TemarioClient<$Result.GetResult<Prisma.$TemarioPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Temarios.
+     * @param {TemarioDeleteManyArgs} args - Arguments to filter Temarios to delete.
+     * @example
+     * // Delete a few Temarios
+     * const { count } = await prisma.temario.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TemarioDeleteManyArgs>(args?: SelectSubset<T, TemarioDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Temarios.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemarioUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Temarios
+     * const temario = await prisma.temario.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TemarioUpdateManyArgs>(args: SelectSubset<T, TemarioUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Temarios and returns the data updated in the database.
+     * @param {TemarioUpdateManyAndReturnArgs} args - Arguments to update many Temarios.
+     * @example
+     * // Update many Temarios
+     * const temario = await prisma.temario.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Temarios and only return the `id`
+     * const temarioWithIdOnly = await prisma.temario.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TemarioUpdateManyAndReturnArgs>(args: SelectSubset<T, TemarioUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemarioPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Temario.
+     * @param {TemarioUpsertArgs} args - Arguments to update or create a Temario.
+     * @example
+     * // Update or create a Temario
+     * const temario = await prisma.temario.upsert({
+     *   create: {
+     *     // ... data to create a Temario
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Temario we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TemarioUpsertArgs>(args: SelectSubset<T, TemarioUpsertArgs<ExtArgs>>): Prisma__TemarioClient<$Result.GetResult<Prisma.$TemarioPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Temarios.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemarioCountArgs} args - Arguments to filter Temarios to count.
+     * @example
+     * // Count the number of Temarios
+     * const count = await prisma.temario.count({
+     *   where: {
+     *     // ... the filter for the Temarios we want to count
+     *   }
+     * })
+    **/
+    count<T extends TemarioCountArgs>(
+      args?: Subset<T, TemarioCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TemarioCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Temario.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemarioAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TemarioAggregateArgs>(args: Subset<T, TemarioAggregateArgs>): Prisma.PrismaPromise<GetTemarioAggregateType<T>>
+
+    /**
+     * Group by Temario.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemarioGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TemarioGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TemarioGroupByArgs['orderBy'] }
+        : { orderBy?: TemarioGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TemarioGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTemarioGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Temario model
+   */
+  readonly fields: TemarioFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Temario.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TemarioClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    progreso<T extends Temario$progresoArgs<ExtArgs> = {}>(args?: Subset<T, Temario$progresoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemarioProgresoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    testsPractica<T extends Temario$testsPracticaArgs<ExtArgs> = {}>(args?: Subset<T, Temario$testsPracticaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestPracticaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Temario model
+   */
+  interface TemarioFieldRefs {
+    readonly id: FieldRef<"Temario", 'String'>
+    readonly titulo: FieldRef<"Temario", 'String'>
+    readonly descripcion: FieldRef<"Temario", 'String'>
+    readonly tipoLicenciaObjetivo: FieldRef<"Temario", 'String'>
+    readonly orden: FieldRef<"Temario", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Temario findUnique
+   */
+  export type TemarioFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Temario
+     */
+    select?: TemarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Temario
+     */
+    omit?: TemarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioInclude<ExtArgs> | null
+    /**
+     * Filter, which Temario to fetch.
+     */
+    where: TemarioWhereUniqueInput
+  }
+
+  /**
+   * Temario findUniqueOrThrow
+   */
+  export type TemarioFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Temario
+     */
+    select?: TemarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Temario
+     */
+    omit?: TemarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioInclude<ExtArgs> | null
+    /**
+     * Filter, which Temario to fetch.
+     */
+    where: TemarioWhereUniqueInput
+  }
+
+  /**
+   * Temario findFirst
+   */
+  export type TemarioFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Temario
+     */
+    select?: TemarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Temario
+     */
+    omit?: TemarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioInclude<ExtArgs> | null
+    /**
+     * Filter, which Temario to fetch.
+     */
+    where?: TemarioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Temarios to fetch.
+     */
+    orderBy?: TemarioOrderByWithRelationInput | TemarioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Temarios.
+     */
+    cursor?: TemarioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Temarios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Temarios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Temarios.
+     */
+    distinct?: TemarioScalarFieldEnum | TemarioScalarFieldEnum[]
+  }
+
+  /**
+   * Temario findFirstOrThrow
+   */
+  export type TemarioFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Temario
+     */
+    select?: TemarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Temario
+     */
+    omit?: TemarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioInclude<ExtArgs> | null
+    /**
+     * Filter, which Temario to fetch.
+     */
+    where?: TemarioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Temarios to fetch.
+     */
+    orderBy?: TemarioOrderByWithRelationInput | TemarioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Temarios.
+     */
+    cursor?: TemarioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Temarios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Temarios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Temarios.
+     */
+    distinct?: TemarioScalarFieldEnum | TemarioScalarFieldEnum[]
+  }
+
+  /**
+   * Temario findMany
+   */
+  export type TemarioFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Temario
+     */
+    select?: TemarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Temario
+     */
+    omit?: TemarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioInclude<ExtArgs> | null
+    /**
+     * Filter, which Temarios to fetch.
+     */
+    where?: TemarioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Temarios to fetch.
+     */
+    orderBy?: TemarioOrderByWithRelationInput | TemarioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Temarios.
+     */
+    cursor?: TemarioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Temarios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Temarios.
+     */
+    skip?: number
+    distinct?: TemarioScalarFieldEnum | TemarioScalarFieldEnum[]
+  }
+
+  /**
+   * Temario create
+   */
+  export type TemarioCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Temario
+     */
+    select?: TemarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Temario
+     */
+    omit?: TemarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Temario.
+     */
+    data: XOR<TemarioCreateInput, TemarioUncheckedCreateInput>
+  }
+
+  /**
+   * Temario createMany
+   */
+  export type TemarioCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Temarios.
+     */
+    data: TemarioCreateManyInput | TemarioCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Temario createManyAndReturn
+   */
+  export type TemarioCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Temario
+     */
+    select?: TemarioSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Temario
+     */
+    omit?: TemarioOmit<ExtArgs> | null
+    /**
+     * The data used to create many Temarios.
+     */
+    data: TemarioCreateManyInput | TemarioCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Temario update
+   */
+  export type TemarioUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Temario
+     */
+    select?: TemarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Temario
+     */
+    omit?: TemarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Temario.
+     */
+    data: XOR<TemarioUpdateInput, TemarioUncheckedUpdateInput>
+    /**
+     * Choose, which Temario to update.
+     */
+    where: TemarioWhereUniqueInput
+  }
+
+  /**
+   * Temario updateMany
+   */
+  export type TemarioUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Temarios.
+     */
+    data: XOR<TemarioUpdateManyMutationInput, TemarioUncheckedUpdateManyInput>
+    /**
+     * Filter which Temarios to update
+     */
+    where?: TemarioWhereInput
+    /**
+     * Limit how many Temarios to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Temario updateManyAndReturn
+   */
+  export type TemarioUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Temario
+     */
+    select?: TemarioSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Temario
+     */
+    omit?: TemarioOmit<ExtArgs> | null
+    /**
+     * The data used to update Temarios.
+     */
+    data: XOR<TemarioUpdateManyMutationInput, TemarioUncheckedUpdateManyInput>
+    /**
+     * Filter which Temarios to update
+     */
+    where?: TemarioWhereInput
+    /**
+     * Limit how many Temarios to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Temario upsert
+   */
+  export type TemarioUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Temario
+     */
+    select?: TemarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Temario
+     */
+    omit?: TemarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Temario to update in case it exists.
+     */
+    where: TemarioWhereUniqueInput
+    /**
+     * In case the Temario found by the `where` argument doesn't exist, create a new Temario with this data.
+     */
+    create: XOR<TemarioCreateInput, TemarioUncheckedCreateInput>
+    /**
+     * In case the Temario was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TemarioUpdateInput, TemarioUncheckedUpdateInput>
+  }
+
+  /**
+   * Temario delete
+   */
+  export type TemarioDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Temario
+     */
+    select?: TemarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Temario
+     */
+    omit?: TemarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioInclude<ExtArgs> | null
+    /**
+     * Filter which Temario to delete.
+     */
+    where: TemarioWhereUniqueInput
+  }
+
+  /**
+   * Temario deleteMany
+   */
+  export type TemarioDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Temarios to delete
+     */
+    where?: TemarioWhereInput
+    /**
+     * Limit how many Temarios to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Temario.progreso
+   */
+  export type Temario$progresoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemarioProgreso
+     */
+    select?: TemarioProgresoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemarioProgreso
+     */
+    omit?: TemarioProgresoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioProgresoInclude<ExtArgs> | null
+    where?: TemarioProgresoWhereInput
+    orderBy?: TemarioProgresoOrderByWithRelationInput | TemarioProgresoOrderByWithRelationInput[]
+    cursor?: TemarioProgresoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TemarioProgresoScalarFieldEnum | TemarioProgresoScalarFieldEnum[]
+  }
+
+  /**
+   * Temario.testsPractica
+   */
+  export type Temario$testsPracticaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestPractica
+     */
+    select?: TestPracticaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestPractica
+     */
+    omit?: TestPracticaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestPracticaInclude<ExtArgs> | null
+    where?: TestPracticaWhereInput
+    orderBy?: TestPracticaOrderByWithRelationInput | TestPracticaOrderByWithRelationInput[]
+    cursor?: TestPracticaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TestPracticaScalarFieldEnum | TestPracticaScalarFieldEnum[]
+  }
+
+  /**
+   * Temario without action
+   */
+  export type TemarioDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Temario
+     */
+    select?: TemarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Temario
+     */
+    omit?: TemarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TemarioProgreso
+   */
+
+  export type AggregateTemarioProgreso = {
+    _count: TemarioProgresoCountAggregateOutputType | null
+    _avg: TemarioProgresoAvgAggregateOutputType | null
+    _sum: TemarioProgresoSumAggregateOutputType | null
+    _min: TemarioProgresoMinAggregateOutputType | null
+    _max: TemarioProgresoMaxAggregateOutputType | null
+  }
+
+  export type TemarioProgresoAvgAggregateOutputType = {
+    dominio: number | null
+  }
+
+  export type TemarioProgresoSumAggregateOutputType = {
+    dominio: number | null
+  }
+
+  export type TemarioProgresoMinAggregateOutputType = {
+    id: string | null
+    alumnoId: string | null
+    temarioId: string | null
+    revisado: boolean | null
+    dominio: number | null
+    ultimaRevision: Date | null
+  }
+
+  export type TemarioProgresoMaxAggregateOutputType = {
+    id: string | null
+    alumnoId: string | null
+    temarioId: string | null
+    revisado: boolean | null
+    dominio: number | null
+    ultimaRevision: Date | null
+  }
+
+  export type TemarioProgresoCountAggregateOutputType = {
+    id: number
+    alumnoId: number
+    temarioId: number
+    revisado: number
+    dominio: number
+    ultimaRevision: number
+    _all: number
+  }
+
+
+  export type TemarioProgresoAvgAggregateInputType = {
+    dominio?: true
+  }
+
+  export type TemarioProgresoSumAggregateInputType = {
+    dominio?: true
+  }
+
+  export type TemarioProgresoMinAggregateInputType = {
+    id?: true
+    alumnoId?: true
+    temarioId?: true
+    revisado?: true
+    dominio?: true
+    ultimaRevision?: true
+  }
+
+  export type TemarioProgresoMaxAggregateInputType = {
+    id?: true
+    alumnoId?: true
+    temarioId?: true
+    revisado?: true
+    dominio?: true
+    ultimaRevision?: true
+  }
+
+  export type TemarioProgresoCountAggregateInputType = {
+    id?: true
+    alumnoId?: true
+    temarioId?: true
+    revisado?: true
+    dominio?: true
+    ultimaRevision?: true
+    _all?: true
+  }
+
+  export type TemarioProgresoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TemarioProgreso to aggregate.
+     */
+    where?: TemarioProgresoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TemarioProgresos to fetch.
+     */
+    orderBy?: TemarioProgresoOrderByWithRelationInput | TemarioProgresoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TemarioProgresoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TemarioProgresos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TemarioProgresos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TemarioProgresos
+    **/
+    _count?: true | TemarioProgresoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TemarioProgresoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TemarioProgresoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TemarioProgresoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TemarioProgresoMaxAggregateInputType
+  }
+
+  export type GetTemarioProgresoAggregateType<T extends TemarioProgresoAggregateArgs> = {
+        [P in keyof T & keyof AggregateTemarioProgreso]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTemarioProgreso[P]>
+      : GetScalarType<T[P], AggregateTemarioProgreso[P]>
+  }
+
+
+
+
+  export type TemarioProgresoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TemarioProgresoWhereInput
+    orderBy?: TemarioProgresoOrderByWithAggregationInput | TemarioProgresoOrderByWithAggregationInput[]
+    by: TemarioProgresoScalarFieldEnum[] | TemarioProgresoScalarFieldEnum
+    having?: TemarioProgresoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TemarioProgresoCountAggregateInputType | true
+    _avg?: TemarioProgresoAvgAggregateInputType
+    _sum?: TemarioProgresoSumAggregateInputType
+    _min?: TemarioProgresoMinAggregateInputType
+    _max?: TemarioProgresoMaxAggregateInputType
+  }
+
+  export type TemarioProgresoGroupByOutputType = {
+    id: string
+    alumnoId: string
+    temarioId: string
+    revisado: boolean
+    dominio: number
+    ultimaRevision: Date | null
+    _count: TemarioProgresoCountAggregateOutputType | null
+    _avg: TemarioProgresoAvgAggregateOutputType | null
+    _sum: TemarioProgresoSumAggregateOutputType | null
+    _min: TemarioProgresoMinAggregateOutputType | null
+    _max: TemarioProgresoMaxAggregateOutputType | null
+  }
+
+  type GetTemarioProgresoGroupByPayload<T extends TemarioProgresoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TemarioProgresoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TemarioProgresoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TemarioProgresoGroupByOutputType[P]>
+            : GetScalarType<T[P], TemarioProgresoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TemarioProgresoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alumnoId?: boolean
+    temarioId?: boolean
+    revisado?: boolean
+    dominio?: boolean
+    ultimaRevision?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    temario?: boolean | TemarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["temarioProgreso"]>
+
+  export type TemarioProgresoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alumnoId?: boolean
+    temarioId?: boolean
+    revisado?: boolean
+    dominio?: boolean
+    ultimaRevision?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    temario?: boolean | TemarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["temarioProgreso"]>
+
+  export type TemarioProgresoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alumnoId?: boolean
+    temarioId?: boolean
+    revisado?: boolean
+    dominio?: boolean
+    ultimaRevision?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    temario?: boolean | TemarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["temarioProgreso"]>
+
+  export type TemarioProgresoSelectScalar = {
+    id?: boolean
+    alumnoId?: boolean
+    temarioId?: boolean
+    revisado?: boolean
+    dominio?: boolean
+    ultimaRevision?: boolean
+  }
+
+  export type TemarioProgresoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "temarioId" | "revisado" | "dominio" | "ultimaRevision", ExtArgs["result"]["temarioProgreso"]>
+  export type TemarioProgresoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    temario?: boolean | TemarioDefaultArgs<ExtArgs>
+  }
+  export type TemarioProgresoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    temario?: boolean | TemarioDefaultArgs<ExtArgs>
+  }
+  export type TemarioProgresoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    temario?: boolean | TemarioDefaultArgs<ExtArgs>
+  }
+
+  export type $TemarioProgresoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TemarioProgreso"
+    objects: {
+      alumno: Prisma.$AlumnoPayload<ExtArgs>
+      temario: Prisma.$TemarioPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      alumnoId: string
+      temarioId: string
+      revisado: boolean
+      dominio: number
+      ultimaRevision: Date | null
+    }, ExtArgs["result"]["temarioProgreso"]>
+    composites: {}
+  }
+
+  type TemarioProgresoGetPayload<S extends boolean | null | undefined | TemarioProgresoDefaultArgs> = $Result.GetResult<Prisma.$TemarioProgresoPayload, S>
+
+  type TemarioProgresoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TemarioProgresoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TemarioProgresoCountAggregateInputType | true
+    }
+
+  export interface TemarioProgresoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TemarioProgreso'], meta: { name: 'TemarioProgreso' } }
+    /**
+     * Find zero or one TemarioProgreso that matches the filter.
+     * @param {TemarioProgresoFindUniqueArgs} args - Arguments to find a TemarioProgreso
+     * @example
+     * // Get one TemarioProgreso
+     * const temarioProgreso = await prisma.temarioProgreso.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TemarioProgresoFindUniqueArgs>(args: SelectSubset<T, TemarioProgresoFindUniqueArgs<ExtArgs>>): Prisma__TemarioProgresoClient<$Result.GetResult<Prisma.$TemarioProgresoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TemarioProgreso that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TemarioProgresoFindUniqueOrThrowArgs} args - Arguments to find a TemarioProgreso
+     * @example
+     * // Get one TemarioProgreso
+     * const temarioProgreso = await prisma.temarioProgreso.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TemarioProgresoFindUniqueOrThrowArgs>(args: SelectSubset<T, TemarioProgresoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TemarioProgresoClient<$Result.GetResult<Prisma.$TemarioProgresoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TemarioProgreso that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemarioProgresoFindFirstArgs} args - Arguments to find a TemarioProgreso
+     * @example
+     * // Get one TemarioProgreso
+     * const temarioProgreso = await prisma.temarioProgreso.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TemarioProgresoFindFirstArgs>(args?: SelectSubset<T, TemarioProgresoFindFirstArgs<ExtArgs>>): Prisma__TemarioProgresoClient<$Result.GetResult<Prisma.$TemarioProgresoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TemarioProgreso that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemarioProgresoFindFirstOrThrowArgs} args - Arguments to find a TemarioProgreso
+     * @example
+     * // Get one TemarioProgreso
+     * const temarioProgreso = await prisma.temarioProgreso.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TemarioProgresoFindFirstOrThrowArgs>(args?: SelectSubset<T, TemarioProgresoFindFirstOrThrowArgs<ExtArgs>>): Prisma__TemarioProgresoClient<$Result.GetResult<Prisma.$TemarioProgresoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TemarioProgresos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemarioProgresoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TemarioProgresos
+     * const temarioProgresos = await prisma.temarioProgreso.findMany()
+     * 
+     * // Get first 10 TemarioProgresos
+     * const temarioProgresos = await prisma.temarioProgreso.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const temarioProgresoWithIdOnly = await prisma.temarioProgreso.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TemarioProgresoFindManyArgs>(args?: SelectSubset<T, TemarioProgresoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemarioProgresoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TemarioProgreso.
+     * @param {TemarioProgresoCreateArgs} args - Arguments to create a TemarioProgreso.
+     * @example
+     * // Create one TemarioProgreso
+     * const TemarioProgreso = await prisma.temarioProgreso.create({
+     *   data: {
+     *     // ... data to create a TemarioProgreso
+     *   }
+     * })
+     * 
+     */
+    create<T extends TemarioProgresoCreateArgs>(args: SelectSubset<T, TemarioProgresoCreateArgs<ExtArgs>>): Prisma__TemarioProgresoClient<$Result.GetResult<Prisma.$TemarioProgresoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TemarioProgresos.
+     * @param {TemarioProgresoCreateManyArgs} args - Arguments to create many TemarioProgresos.
+     * @example
+     * // Create many TemarioProgresos
+     * const temarioProgreso = await prisma.temarioProgreso.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TemarioProgresoCreateManyArgs>(args?: SelectSubset<T, TemarioProgresoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TemarioProgresos and returns the data saved in the database.
+     * @param {TemarioProgresoCreateManyAndReturnArgs} args - Arguments to create many TemarioProgresos.
+     * @example
+     * // Create many TemarioProgresos
+     * const temarioProgreso = await prisma.temarioProgreso.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TemarioProgresos and only return the `id`
+     * const temarioProgresoWithIdOnly = await prisma.temarioProgreso.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TemarioProgresoCreateManyAndReturnArgs>(args?: SelectSubset<T, TemarioProgresoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemarioProgresoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TemarioProgreso.
+     * @param {TemarioProgresoDeleteArgs} args - Arguments to delete one TemarioProgreso.
+     * @example
+     * // Delete one TemarioProgreso
+     * const TemarioProgreso = await prisma.temarioProgreso.delete({
+     *   where: {
+     *     // ... filter to delete one TemarioProgreso
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TemarioProgresoDeleteArgs>(args: SelectSubset<T, TemarioProgresoDeleteArgs<ExtArgs>>): Prisma__TemarioProgresoClient<$Result.GetResult<Prisma.$TemarioProgresoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TemarioProgreso.
+     * @param {TemarioProgresoUpdateArgs} args - Arguments to update one TemarioProgreso.
+     * @example
+     * // Update one TemarioProgreso
+     * const temarioProgreso = await prisma.temarioProgreso.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TemarioProgresoUpdateArgs>(args: SelectSubset<T, TemarioProgresoUpdateArgs<ExtArgs>>): Prisma__TemarioProgresoClient<$Result.GetResult<Prisma.$TemarioProgresoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TemarioProgresos.
+     * @param {TemarioProgresoDeleteManyArgs} args - Arguments to filter TemarioProgresos to delete.
+     * @example
+     * // Delete a few TemarioProgresos
+     * const { count } = await prisma.temarioProgreso.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TemarioProgresoDeleteManyArgs>(args?: SelectSubset<T, TemarioProgresoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TemarioProgresos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemarioProgresoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TemarioProgresos
+     * const temarioProgreso = await prisma.temarioProgreso.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TemarioProgresoUpdateManyArgs>(args: SelectSubset<T, TemarioProgresoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TemarioProgresos and returns the data updated in the database.
+     * @param {TemarioProgresoUpdateManyAndReturnArgs} args - Arguments to update many TemarioProgresos.
+     * @example
+     * // Update many TemarioProgresos
+     * const temarioProgreso = await prisma.temarioProgreso.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TemarioProgresos and only return the `id`
+     * const temarioProgresoWithIdOnly = await prisma.temarioProgreso.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TemarioProgresoUpdateManyAndReturnArgs>(args: SelectSubset<T, TemarioProgresoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemarioProgresoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TemarioProgreso.
+     * @param {TemarioProgresoUpsertArgs} args - Arguments to update or create a TemarioProgreso.
+     * @example
+     * // Update or create a TemarioProgreso
+     * const temarioProgreso = await prisma.temarioProgreso.upsert({
+     *   create: {
+     *     // ... data to create a TemarioProgreso
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TemarioProgreso we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TemarioProgresoUpsertArgs>(args: SelectSubset<T, TemarioProgresoUpsertArgs<ExtArgs>>): Prisma__TemarioProgresoClient<$Result.GetResult<Prisma.$TemarioProgresoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TemarioProgresos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemarioProgresoCountArgs} args - Arguments to filter TemarioProgresos to count.
+     * @example
+     * // Count the number of TemarioProgresos
+     * const count = await prisma.temarioProgreso.count({
+     *   where: {
+     *     // ... the filter for the TemarioProgresos we want to count
+     *   }
+     * })
+    **/
+    count<T extends TemarioProgresoCountArgs>(
+      args?: Subset<T, TemarioProgresoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TemarioProgresoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TemarioProgreso.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemarioProgresoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TemarioProgresoAggregateArgs>(args: Subset<T, TemarioProgresoAggregateArgs>): Prisma.PrismaPromise<GetTemarioProgresoAggregateType<T>>
+
+    /**
+     * Group by TemarioProgreso.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemarioProgresoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TemarioProgresoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TemarioProgresoGroupByArgs['orderBy'] }
+        : { orderBy?: TemarioProgresoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TemarioProgresoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTemarioProgresoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TemarioProgreso model
+   */
+  readonly fields: TemarioProgresoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TemarioProgreso.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TemarioProgresoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    alumno<T extends AlumnoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AlumnoDefaultArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    temario<T extends TemarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TemarioDefaultArgs<ExtArgs>>): Prisma__TemarioClient<$Result.GetResult<Prisma.$TemarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TemarioProgreso model
+   */
+  interface TemarioProgresoFieldRefs {
+    readonly id: FieldRef<"TemarioProgreso", 'String'>
+    readonly alumnoId: FieldRef<"TemarioProgreso", 'String'>
+    readonly temarioId: FieldRef<"TemarioProgreso", 'String'>
+    readonly revisado: FieldRef<"TemarioProgreso", 'Boolean'>
+    readonly dominio: FieldRef<"TemarioProgreso", 'Int'>
+    readonly ultimaRevision: FieldRef<"TemarioProgreso", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TemarioProgreso findUnique
+   */
+  export type TemarioProgresoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemarioProgreso
+     */
+    select?: TemarioProgresoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemarioProgreso
+     */
+    omit?: TemarioProgresoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioProgresoInclude<ExtArgs> | null
+    /**
+     * Filter, which TemarioProgreso to fetch.
+     */
+    where: TemarioProgresoWhereUniqueInput
+  }
+
+  /**
+   * TemarioProgreso findUniqueOrThrow
+   */
+  export type TemarioProgresoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemarioProgreso
+     */
+    select?: TemarioProgresoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemarioProgreso
+     */
+    omit?: TemarioProgresoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioProgresoInclude<ExtArgs> | null
+    /**
+     * Filter, which TemarioProgreso to fetch.
+     */
+    where: TemarioProgresoWhereUniqueInput
+  }
+
+  /**
+   * TemarioProgreso findFirst
+   */
+  export type TemarioProgresoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemarioProgreso
+     */
+    select?: TemarioProgresoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemarioProgreso
+     */
+    omit?: TemarioProgresoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioProgresoInclude<ExtArgs> | null
+    /**
+     * Filter, which TemarioProgreso to fetch.
+     */
+    where?: TemarioProgresoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TemarioProgresos to fetch.
+     */
+    orderBy?: TemarioProgresoOrderByWithRelationInput | TemarioProgresoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TemarioProgresos.
+     */
+    cursor?: TemarioProgresoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TemarioProgresos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TemarioProgresos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TemarioProgresos.
+     */
+    distinct?: TemarioProgresoScalarFieldEnum | TemarioProgresoScalarFieldEnum[]
+  }
+
+  /**
+   * TemarioProgreso findFirstOrThrow
+   */
+  export type TemarioProgresoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemarioProgreso
+     */
+    select?: TemarioProgresoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemarioProgreso
+     */
+    omit?: TemarioProgresoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioProgresoInclude<ExtArgs> | null
+    /**
+     * Filter, which TemarioProgreso to fetch.
+     */
+    where?: TemarioProgresoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TemarioProgresos to fetch.
+     */
+    orderBy?: TemarioProgresoOrderByWithRelationInput | TemarioProgresoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TemarioProgresos.
+     */
+    cursor?: TemarioProgresoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TemarioProgresos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TemarioProgresos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TemarioProgresos.
+     */
+    distinct?: TemarioProgresoScalarFieldEnum | TemarioProgresoScalarFieldEnum[]
+  }
+
+  /**
+   * TemarioProgreso findMany
+   */
+  export type TemarioProgresoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemarioProgreso
+     */
+    select?: TemarioProgresoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemarioProgreso
+     */
+    omit?: TemarioProgresoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioProgresoInclude<ExtArgs> | null
+    /**
+     * Filter, which TemarioProgresos to fetch.
+     */
+    where?: TemarioProgresoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TemarioProgresos to fetch.
+     */
+    orderBy?: TemarioProgresoOrderByWithRelationInput | TemarioProgresoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TemarioProgresos.
+     */
+    cursor?: TemarioProgresoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TemarioProgresos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TemarioProgresos.
+     */
+    skip?: number
+    distinct?: TemarioProgresoScalarFieldEnum | TemarioProgresoScalarFieldEnum[]
+  }
+
+  /**
+   * TemarioProgreso create
+   */
+  export type TemarioProgresoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemarioProgreso
+     */
+    select?: TemarioProgresoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemarioProgreso
+     */
+    omit?: TemarioProgresoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioProgresoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TemarioProgreso.
+     */
+    data: XOR<TemarioProgresoCreateInput, TemarioProgresoUncheckedCreateInput>
+  }
+
+  /**
+   * TemarioProgreso createMany
+   */
+  export type TemarioProgresoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TemarioProgresos.
+     */
+    data: TemarioProgresoCreateManyInput | TemarioProgresoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TemarioProgreso createManyAndReturn
+   */
+  export type TemarioProgresoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemarioProgreso
+     */
+    select?: TemarioProgresoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemarioProgreso
+     */
+    omit?: TemarioProgresoOmit<ExtArgs> | null
+    /**
+     * The data used to create many TemarioProgresos.
+     */
+    data: TemarioProgresoCreateManyInput | TemarioProgresoCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioProgresoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TemarioProgreso update
+   */
+  export type TemarioProgresoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemarioProgreso
+     */
+    select?: TemarioProgresoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemarioProgreso
+     */
+    omit?: TemarioProgresoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioProgresoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TemarioProgreso.
+     */
+    data: XOR<TemarioProgresoUpdateInput, TemarioProgresoUncheckedUpdateInput>
+    /**
+     * Choose, which TemarioProgreso to update.
+     */
+    where: TemarioProgresoWhereUniqueInput
+  }
+
+  /**
+   * TemarioProgreso updateMany
+   */
+  export type TemarioProgresoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TemarioProgresos.
+     */
+    data: XOR<TemarioProgresoUpdateManyMutationInput, TemarioProgresoUncheckedUpdateManyInput>
+    /**
+     * Filter which TemarioProgresos to update
+     */
+    where?: TemarioProgresoWhereInput
+    /**
+     * Limit how many TemarioProgresos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TemarioProgreso updateManyAndReturn
+   */
+  export type TemarioProgresoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemarioProgreso
+     */
+    select?: TemarioProgresoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemarioProgreso
+     */
+    omit?: TemarioProgresoOmit<ExtArgs> | null
+    /**
+     * The data used to update TemarioProgresos.
+     */
+    data: XOR<TemarioProgresoUpdateManyMutationInput, TemarioProgresoUncheckedUpdateManyInput>
+    /**
+     * Filter which TemarioProgresos to update
+     */
+    where?: TemarioProgresoWhereInput
+    /**
+     * Limit how many TemarioProgresos to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioProgresoIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TemarioProgreso upsert
+   */
+  export type TemarioProgresoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemarioProgreso
+     */
+    select?: TemarioProgresoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemarioProgreso
+     */
+    omit?: TemarioProgresoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioProgresoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TemarioProgreso to update in case it exists.
+     */
+    where: TemarioProgresoWhereUniqueInput
+    /**
+     * In case the TemarioProgreso found by the `where` argument doesn't exist, create a new TemarioProgreso with this data.
+     */
+    create: XOR<TemarioProgresoCreateInput, TemarioProgresoUncheckedCreateInput>
+    /**
+     * In case the TemarioProgreso was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TemarioProgresoUpdateInput, TemarioProgresoUncheckedUpdateInput>
+  }
+
+  /**
+   * TemarioProgreso delete
+   */
+  export type TemarioProgresoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemarioProgreso
+     */
+    select?: TemarioProgresoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemarioProgreso
+     */
+    omit?: TemarioProgresoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioProgresoInclude<ExtArgs> | null
+    /**
+     * Filter which TemarioProgreso to delete.
+     */
+    where: TemarioProgresoWhereUniqueInput
+  }
+
+  /**
+   * TemarioProgreso deleteMany
+   */
+  export type TemarioProgresoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TemarioProgresos to delete
+     */
+    where?: TemarioProgresoWhereInput
+    /**
+     * Limit how many TemarioProgresos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TemarioProgreso without action
+   */
+  export type TemarioProgresoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemarioProgreso
+     */
+    select?: TemarioProgresoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemarioProgreso
+     */
+    omit?: TemarioProgresoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioProgresoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TestPractica
+   */
+
+  export type AggregateTestPractica = {
+    _count: TestPracticaCountAggregateOutputType | null
+    _avg: TestPracticaAvgAggregateOutputType | null
+    _sum: TestPracticaSumAggregateOutputType | null
+    _min: TestPracticaMinAggregateOutputType | null
+    _max: TestPracticaMaxAggregateOutputType | null
+  }
+
+  export type TestPracticaAvgAggregateOutputType = {
+    respuestasCorrectas: number | null
+    totalPreguntas: number | null
+  }
+
+  export type TestPracticaSumAggregateOutputType = {
+    respuestasCorrectas: number | null
+    totalPreguntas: number | null
+  }
+
+  export type TestPracticaMinAggregateOutputType = {
+    id: string | null
+    alumnoId: string | null
+    temarioId: string | null
+    fecha: Date | null
+    resultado: string | null
+    respuestasCorrectas: number | null
+    totalPreguntas: number | null
+  }
+
+  export type TestPracticaMaxAggregateOutputType = {
+    id: string | null
+    alumnoId: string | null
+    temarioId: string | null
+    fecha: Date | null
+    resultado: string | null
+    respuestasCorrectas: number | null
+    totalPreguntas: number | null
+  }
+
+  export type TestPracticaCountAggregateOutputType = {
+    id: number
+    alumnoId: number
+    temarioId: number
+    fecha: number
+    resultado: number
+    respuestasCorrectas: number
+    totalPreguntas: number
+    _all: number
+  }
+
+
+  export type TestPracticaAvgAggregateInputType = {
+    respuestasCorrectas?: true
+    totalPreguntas?: true
+  }
+
+  export type TestPracticaSumAggregateInputType = {
+    respuestasCorrectas?: true
+    totalPreguntas?: true
+  }
+
+  export type TestPracticaMinAggregateInputType = {
+    id?: true
+    alumnoId?: true
+    temarioId?: true
+    fecha?: true
+    resultado?: true
+    respuestasCorrectas?: true
+    totalPreguntas?: true
+  }
+
+  export type TestPracticaMaxAggregateInputType = {
+    id?: true
+    alumnoId?: true
+    temarioId?: true
+    fecha?: true
+    resultado?: true
+    respuestasCorrectas?: true
+    totalPreguntas?: true
+  }
+
+  export type TestPracticaCountAggregateInputType = {
+    id?: true
+    alumnoId?: true
+    temarioId?: true
+    fecha?: true
+    resultado?: true
+    respuestasCorrectas?: true
+    totalPreguntas?: true
+    _all?: true
+  }
+
+  export type TestPracticaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TestPractica to aggregate.
+     */
+    where?: TestPracticaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TestPracticas to fetch.
+     */
+    orderBy?: TestPracticaOrderByWithRelationInput | TestPracticaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TestPracticaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TestPracticas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TestPracticas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TestPracticas
+    **/
+    _count?: true | TestPracticaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TestPracticaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TestPracticaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TestPracticaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TestPracticaMaxAggregateInputType
+  }
+
+  export type GetTestPracticaAggregateType<T extends TestPracticaAggregateArgs> = {
+        [P in keyof T & keyof AggregateTestPractica]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTestPractica[P]>
+      : GetScalarType<T[P], AggregateTestPractica[P]>
+  }
+
+
+
+
+  export type TestPracticaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TestPracticaWhereInput
+    orderBy?: TestPracticaOrderByWithAggregationInput | TestPracticaOrderByWithAggregationInput[]
+    by: TestPracticaScalarFieldEnum[] | TestPracticaScalarFieldEnum
+    having?: TestPracticaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TestPracticaCountAggregateInputType | true
+    _avg?: TestPracticaAvgAggregateInputType
+    _sum?: TestPracticaSumAggregateInputType
+    _min?: TestPracticaMinAggregateInputType
+    _max?: TestPracticaMaxAggregateInputType
+  }
+
+  export type TestPracticaGroupByOutputType = {
+    id: string
+    alumnoId: string
+    temarioId: string | null
+    fecha: Date
+    resultado: string
+    respuestasCorrectas: number
+    totalPreguntas: number
+    _count: TestPracticaCountAggregateOutputType | null
+    _avg: TestPracticaAvgAggregateOutputType | null
+    _sum: TestPracticaSumAggregateOutputType | null
+    _min: TestPracticaMinAggregateOutputType | null
+    _max: TestPracticaMaxAggregateOutputType | null
+  }
+
+  type GetTestPracticaGroupByPayload<T extends TestPracticaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TestPracticaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TestPracticaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TestPracticaGroupByOutputType[P]>
+            : GetScalarType<T[P], TestPracticaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TestPracticaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alumnoId?: boolean
+    temarioId?: boolean
+    fecha?: boolean
+    resultado?: boolean
+    respuestasCorrectas?: boolean
+    totalPreguntas?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    temario?: boolean | TestPractica$temarioArgs<ExtArgs>
+  }, ExtArgs["result"]["testPractica"]>
+
+  export type TestPracticaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alumnoId?: boolean
+    temarioId?: boolean
+    fecha?: boolean
+    resultado?: boolean
+    respuestasCorrectas?: boolean
+    totalPreguntas?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    temario?: boolean | TestPractica$temarioArgs<ExtArgs>
+  }, ExtArgs["result"]["testPractica"]>
+
+  export type TestPracticaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alumnoId?: boolean
+    temarioId?: boolean
+    fecha?: boolean
+    resultado?: boolean
+    respuestasCorrectas?: boolean
+    totalPreguntas?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    temario?: boolean | TestPractica$temarioArgs<ExtArgs>
+  }, ExtArgs["result"]["testPractica"]>
+
+  export type TestPracticaSelectScalar = {
+    id?: boolean
+    alumnoId?: boolean
+    temarioId?: boolean
+    fecha?: boolean
+    resultado?: boolean
+    respuestasCorrectas?: boolean
+    totalPreguntas?: boolean
+  }
+
+  export type TestPracticaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "temarioId" | "fecha" | "resultado" | "respuestasCorrectas" | "totalPreguntas", ExtArgs["result"]["testPractica"]>
+  export type TestPracticaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    temario?: boolean | TestPractica$temarioArgs<ExtArgs>
+  }
+  export type TestPracticaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    temario?: boolean | TestPractica$temarioArgs<ExtArgs>
+  }
+  export type TestPracticaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    temario?: boolean | TestPractica$temarioArgs<ExtArgs>
+  }
+
+  export type $TestPracticaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TestPractica"
+    objects: {
+      alumno: Prisma.$AlumnoPayload<ExtArgs>
+      temario: Prisma.$TemarioPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      alumnoId: string
+      temarioId: string | null
+      fecha: Date
+      resultado: string
+      respuestasCorrectas: number
+      totalPreguntas: number
+    }, ExtArgs["result"]["testPractica"]>
+    composites: {}
+  }
+
+  type TestPracticaGetPayload<S extends boolean | null | undefined | TestPracticaDefaultArgs> = $Result.GetResult<Prisma.$TestPracticaPayload, S>
+
+  type TestPracticaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TestPracticaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TestPracticaCountAggregateInputType | true
+    }
+
+  export interface TestPracticaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TestPractica'], meta: { name: 'TestPractica' } }
+    /**
+     * Find zero or one TestPractica that matches the filter.
+     * @param {TestPracticaFindUniqueArgs} args - Arguments to find a TestPractica
+     * @example
+     * // Get one TestPractica
+     * const testPractica = await prisma.testPractica.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TestPracticaFindUniqueArgs>(args: SelectSubset<T, TestPracticaFindUniqueArgs<ExtArgs>>): Prisma__TestPracticaClient<$Result.GetResult<Prisma.$TestPracticaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TestPractica that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TestPracticaFindUniqueOrThrowArgs} args - Arguments to find a TestPractica
+     * @example
+     * // Get one TestPractica
+     * const testPractica = await prisma.testPractica.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TestPracticaFindUniqueOrThrowArgs>(args: SelectSubset<T, TestPracticaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TestPracticaClient<$Result.GetResult<Prisma.$TestPracticaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TestPractica that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestPracticaFindFirstArgs} args - Arguments to find a TestPractica
+     * @example
+     * // Get one TestPractica
+     * const testPractica = await prisma.testPractica.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TestPracticaFindFirstArgs>(args?: SelectSubset<T, TestPracticaFindFirstArgs<ExtArgs>>): Prisma__TestPracticaClient<$Result.GetResult<Prisma.$TestPracticaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TestPractica that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestPracticaFindFirstOrThrowArgs} args - Arguments to find a TestPractica
+     * @example
+     * // Get one TestPractica
+     * const testPractica = await prisma.testPractica.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TestPracticaFindFirstOrThrowArgs>(args?: SelectSubset<T, TestPracticaFindFirstOrThrowArgs<ExtArgs>>): Prisma__TestPracticaClient<$Result.GetResult<Prisma.$TestPracticaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TestPracticas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestPracticaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TestPracticas
+     * const testPracticas = await prisma.testPractica.findMany()
+     * 
+     * // Get first 10 TestPracticas
+     * const testPracticas = await prisma.testPractica.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const testPracticaWithIdOnly = await prisma.testPractica.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TestPracticaFindManyArgs>(args?: SelectSubset<T, TestPracticaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestPracticaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TestPractica.
+     * @param {TestPracticaCreateArgs} args - Arguments to create a TestPractica.
+     * @example
+     * // Create one TestPractica
+     * const TestPractica = await prisma.testPractica.create({
+     *   data: {
+     *     // ... data to create a TestPractica
+     *   }
+     * })
+     * 
+     */
+    create<T extends TestPracticaCreateArgs>(args: SelectSubset<T, TestPracticaCreateArgs<ExtArgs>>): Prisma__TestPracticaClient<$Result.GetResult<Prisma.$TestPracticaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TestPracticas.
+     * @param {TestPracticaCreateManyArgs} args - Arguments to create many TestPracticas.
+     * @example
+     * // Create many TestPracticas
+     * const testPractica = await prisma.testPractica.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TestPracticaCreateManyArgs>(args?: SelectSubset<T, TestPracticaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TestPracticas and returns the data saved in the database.
+     * @param {TestPracticaCreateManyAndReturnArgs} args - Arguments to create many TestPracticas.
+     * @example
+     * // Create many TestPracticas
+     * const testPractica = await prisma.testPractica.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TestPracticas and only return the `id`
+     * const testPracticaWithIdOnly = await prisma.testPractica.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TestPracticaCreateManyAndReturnArgs>(args?: SelectSubset<T, TestPracticaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestPracticaPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TestPractica.
+     * @param {TestPracticaDeleteArgs} args - Arguments to delete one TestPractica.
+     * @example
+     * // Delete one TestPractica
+     * const TestPractica = await prisma.testPractica.delete({
+     *   where: {
+     *     // ... filter to delete one TestPractica
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TestPracticaDeleteArgs>(args: SelectSubset<T, TestPracticaDeleteArgs<ExtArgs>>): Prisma__TestPracticaClient<$Result.GetResult<Prisma.$TestPracticaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TestPractica.
+     * @param {TestPracticaUpdateArgs} args - Arguments to update one TestPractica.
+     * @example
+     * // Update one TestPractica
+     * const testPractica = await prisma.testPractica.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TestPracticaUpdateArgs>(args: SelectSubset<T, TestPracticaUpdateArgs<ExtArgs>>): Prisma__TestPracticaClient<$Result.GetResult<Prisma.$TestPracticaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TestPracticas.
+     * @param {TestPracticaDeleteManyArgs} args - Arguments to filter TestPracticas to delete.
+     * @example
+     * // Delete a few TestPracticas
+     * const { count } = await prisma.testPractica.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TestPracticaDeleteManyArgs>(args?: SelectSubset<T, TestPracticaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TestPracticas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestPracticaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TestPracticas
+     * const testPractica = await prisma.testPractica.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TestPracticaUpdateManyArgs>(args: SelectSubset<T, TestPracticaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TestPracticas and returns the data updated in the database.
+     * @param {TestPracticaUpdateManyAndReturnArgs} args - Arguments to update many TestPracticas.
+     * @example
+     * // Update many TestPracticas
+     * const testPractica = await prisma.testPractica.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TestPracticas and only return the `id`
+     * const testPracticaWithIdOnly = await prisma.testPractica.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TestPracticaUpdateManyAndReturnArgs>(args: SelectSubset<T, TestPracticaUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestPracticaPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TestPractica.
+     * @param {TestPracticaUpsertArgs} args - Arguments to update or create a TestPractica.
+     * @example
+     * // Update or create a TestPractica
+     * const testPractica = await prisma.testPractica.upsert({
+     *   create: {
+     *     // ... data to create a TestPractica
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TestPractica we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TestPracticaUpsertArgs>(args: SelectSubset<T, TestPracticaUpsertArgs<ExtArgs>>): Prisma__TestPracticaClient<$Result.GetResult<Prisma.$TestPracticaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TestPracticas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestPracticaCountArgs} args - Arguments to filter TestPracticas to count.
+     * @example
+     * // Count the number of TestPracticas
+     * const count = await prisma.testPractica.count({
+     *   where: {
+     *     // ... the filter for the TestPracticas we want to count
+     *   }
+     * })
+    **/
+    count<T extends TestPracticaCountArgs>(
+      args?: Subset<T, TestPracticaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TestPracticaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TestPractica.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestPracticaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TestPracticaAggregateArgs>(args: Subset<T, TestPracticaAggregateArgs>): Prisma.PrismaPromise<GetTestPracticaAggregateType<T>>
+
+    /**
+     * Group by TestPractica.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestPracticaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TestPracticaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TestPracticaGroupByArgs['orderBy'] }
+        : { orderBy?: TestPracticaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TestPracticaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTestPracticaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TestPractica model
+   */
+  readonly fields: TestPracticaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TestPractica.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TestPracticaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    alumno<T extends AlumnoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AlumnoDefaultArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    temario<T extends TestPractica$temarioArgs<ExtArgs> = {}>(args?: Subset<T, TestPractica$temarioArgs<ExtArgs>>): Prisma__TemarioClient<$Result.GetResult<Prisma.$TemarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TestPractica model
+   */
+  interface TestPracticaFieldRefs {
+    readonly id: FieldRef<"TestPractica", 'String'>
+    readonly alumnoId: FieldRef<"TestPractica", 'String'>
+    readonly temarioId: FieldRef<"TestPractica", 'String'>
+    readonly fecha: FieldRef<"TestPractica", 'DateTime'>
+    readonly resultado: FieldRef<"TestPractica", 'String'>
+    readonly respuestasCorrectas: FieldRef<"TestPractica", 'Int'>
+    readonly totalPreguntas: FieldRef<"TestPractica", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TestPractica findUnique
+   */
+  export type TestPracticaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestPractica
+     */
+    select?: TestPracticaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestPractica
+     */
+    omit?: TestPracticaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestPracticaInclude<ExtArgs> | null
+    /**
+     * Filter, which TestPractica to fetch.
+     */
+    where: TestPracticaWhereUniqueInput
+  }
+
+  /**
+   * TestPractica findUniqueOrThrow
+   */
+  export type TestPracticaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestPractica
+     */
+    select?: TestPracticaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestPractica
+     */
+    omit?: TestPracticaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestPracticaInclude<ExtArgs> | null
+    /**
+     * Filter, which TestPractica to fetch.
+     */
+    where: TestPracticaWhereUniqueInput
+  }
+
+  /**
+   * TestPractica findFirst
+   */
+  export type TestPracticaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestPractica
+     */
+    select?: TestPracticaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestPractica
+     */
+    omit?: TestPracticaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestPracticaInclude<ExtArgs> | null
+    /**
+     * Filter, which TestPractica to fetch.
+     */
+    where?: TestPracticaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TestPracticas to fetch.
+     */
+    orderBy?: TestPracticaOrderByWithRelationInput | TestPracticaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TestPracticas.
+     */
+    cursor?: TestPracticaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TestPracticas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TestPracticas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TestPracticas.
+     */
+    distinct?: TestPracticaScalarFieldEnum | TestPracticaScalarFieldEnum[]
+  }
+
+  /**
+   * TestPractica findFirstOrThrow
+   */
+  export type TestPracticaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestPractica
+     */
+    select?: TestPracticaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestPractica
+     */
+    omit?: TestPracticaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestPracticaInclude<ExtArgs> | null
+    /**
+     * Filter, which TestPractica to fetch.
+     */
+    where?: TestPracticaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TestPracticas to fetch.
+     */
+    orderBy?: TestPracticaOrderByWithRelationInput | TestPracticaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TestPracticas.
+     */
+    cursor?: TestPracticaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TestPracticas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TestPracticas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TestPracticas.
+     */
+    distinct?: TestPracticaScalarFieldEnum | TestPracticaScalarFieldEnum[]
+  }
+
+  /**
+   * TestPractica findMany
+   */
+  export type TestPracticaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestPractica
+     */
+    select?: TestPracticaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestPractica
+     */
+    omit?: TestPracticaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestPracticaInclude<ExtArgs> | null
+    /**
+     * Filter, which TestPracticas to fetch.
+     */
+    where?: TestPracticaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TestPracticas to fetch.
+     */
+    orderBy?: TestPracticaOrderByWithRelationInput | TestPracticaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TestPracticas.
+     */
+    cursor?: TestPracticaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TestPracticas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TestPracticas.
+     */
+    skip?: number
+    distinct?: TestPracticaScalarFieldEnum | TestPracticaScalarFieldEnum[]
+  }
+
+  /**
+   * TestPractica create
+   */
+  export type TestPracticaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestPractica
+     */
+    select?: TestPracticaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestPractica
+     */
+    omit?: TestPracticaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestPracticaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TestPractica.
+     */
+    data: XOR<TestPracticaCreateInput, TestPracticaUncheckedCreateInput>
+  }
+
+  /**
+   * TestPractica createMany
+   */
+  export type TestPracticaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TestPracticas.
+     */
+    data: TestPracticaCreateManyInput | TestPracticaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TestPractica createManyAndReturn
+   */
+  export type TestPracticaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestPractica
+     */
+    select?: TestPracticaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestPractica
+     */
+    omit?: TestPracticaOmit<ExtArgs> | null
+    /**
+     * The data used to create many TestPracticas.
+     */
+    data: TestPracticaCreateManyInput | TestPracticaCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestPracticaIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TestPractica update
+   */
+  export type TestPracticaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestPractica
+     */
+    select?: TestPracticaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestPractica
+     */
+    omit?: TestPracticaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestPracticaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TestPractica.
+     */
+    data: XOR<TestPracticaUpdateInput, TestPracticaUncheckedUpdateInput>
+    /**
+     * Choose, which TestPractica to update.
+     */
+    where: TestPracticaWhereUniqueInput
+  }
+
+  /**
+   * TestPractica updateMany
+   */
+  export type TestPracticaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TestPracticas.
+     */
+    data: XOR<TestPracticaUpdateManyMutationInput, TestPracticaUncheckedUpdateManyInput>
+    /**
+     * Filter which TestPracticas to update
+     */
+    where?: TestPracticaWhereInput
+    /**
+     * Limit how many TestPracticas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TestPractica updateManyAndReturn
+   */
+  export type TestPracticaUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestPractica
+     */
+    select?: TestPracticaSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestPractica
+     */
+    omit?: TestPracticaOmit<ExtArgs> | null
+    /**
+     * The data used to update TestPracticas.
+     */
+    data: XOR<TestPracticaUpdateManyMutationInput, TestPracticaUncheckedUpdateManyInput>
+    /**
+     * Filter which TestPracticas to update
+     */
+    where?: TestPracticaWhereInput
+    /**
+     * Limit how many TestPracticas to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestPracticaIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TestPractica upsert
+   */
+  export type TestPracticaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestPractica
+     */
+    select?: TestPracticaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestPractica
+     */
+    omit?: TestPracticaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestPracticaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TestPractica to update in case it exists.
+     */
+    where: TestPracticaWhereUniqueInput
+    /**
+     * In case the TestPractica found by the `where` argument doesn't exist, create a new TestPractica with this data.
+     */
+    create: XOR<TestPracticaCreateInput, TestPracticaUncheckedCreateInput>
+    /**
+     * In case the TestPractica was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TestPracticaUpdateInput, TestPracticaUncheckedUpdateInput>
+  }
+
+  /**
+   * TestPractica delete
+   */
+  export type TestPracticaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestPractica
+     */
+    select?: TestPracticaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestPractica
+     */
+    omit?: TestPracticaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestPracticaInclude<ExtArgs> | null
+    /**
+     * Filter which TestPractica to delete.
+     */
+    where: TestPracticaWhereUniqueInput
+  }
+
+  /**
+   * TestPractica deleteMany
+   */
+  export type TestPracticaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TestPracticas to delete
+     */
+    where?: TestPracticaWhereInput
+    /**
+     * Limit how many TestPracticas to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TestPractica.temario
+   */
+  export type TestPractica$temarioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Temario
+     */
+    select?: TemarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Temario
+     */
+    omit?: TemarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioInclude<ExtArgs> | null
+    where?: TemarioWhereInput
+  }
+
+  /**
+   * TestPractica without action
+   */
+  export type TestPracticaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestPractica
+     */
+    select?: TestPracticaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestPractica
+     */
+    omit?: TestPracticaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestPracticaInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Bono
+   */
+
+  export type AggregateBono = {
+    _count: BonoCountAggregateOutputType | null
+    _avg: BonoAvgAggregateOutputType | null
+    _sum: BonoSumAggregateOutputType | null
+    _min: BonoMinAggregateOutputType | null
+    _max: BonoMaxAggregateOutputType | null
+  }
+
+  export type BonoAvgAggregateOutputType = {
+    clasesIncluidas: number | null
+    validezDias: number | null
+  }
+
+  export type BonoSumAggregateOutputType = {
+    clasesIncluidas: number | null
+    validezDias: number | null
+  }
+
+  export type BonoMinAggregateOutputType = {
+    id: string | null
+    nombre: string | null
+    descripcion: string | null
+    clasesIncluidas: number | null
+    validezDias: number | null
+    activo: boolean | null
+  }
+
+  export type BonoMaxAggregateOutputType = {
+    id: string | null
+    nombre: string | null
+    descripcion: string | null
+    clasesIncluidas: number | null
+    validezDias: number | null
+    activo: boolean | null
+  }
+
+  export type BonoCountAggregateOutputType = {
+    id: number
+    nombre: number
+    descripcion: number
+    clasesIncluidas: number
+    validezDias: number
+    activo: number
+    _all: number
+  }
+
+
+  export type BonoAvgAggregateInputType = {
+    clasesIncluidas?: true
+    validezDias?: true
+  }
+
+  export type BonoSumAggregateInputType = {
+    clasesIncluidas?: true
+    validezDias?: true
+  }
+
+  export type BonoMinAggregateInputType = {
+    id?: true
+    nombre?: true
+    descripcion?: true
+    clasesIncluidas?: true
+    validezDias?: true
+    activo?: true
+  }
+
+  export type BonoMaxAggregateInputType = {
+    id?: true
+    nombre?: true
+    descripcion?: true
+    clasesIncluidas?: true
+    validezDias?: true
+    activo?: true
+  }
+
+  export type BonoCountAggregateInputType = {
+    id?: true
+    nombre?: true
+    descripcion?: true
+    clasesIncluidas?: true
+    validezDias?: true
+    activo?: true
+    _all?: true
+  }
+
+  export type BonoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Bono to aggregate.
+     */
+    where?: BonoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Bonos to fetch.
+     */
+    orderBy?: BonoOrderByWithRelationInput | BonoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BonoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Bonos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Bonos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Bonos
+    **/
+    _count?: true | BonoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BonoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BonoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BonoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BonoMaxAggregateInputType
+  }
+
+  export type GetBonoAggregateType<T extends BonoAggregateArgs> = {
+        [P in keyof T & keyof AggregateBono]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBono[P]>
+      : GetScalarType<T[P], AggregateBono[P]>
+  }
+
+
+
+
+  export type BonoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BonoWhereInput
+    orderBy?: BonoOrderByWithAggregationInput | BonoOrderByWithAggregationInput[]
+    by: BonoScalarFieldEnum[] | BonoScalarFieldEnum
+    having?: BonoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BonoCountAggregateInputType | true
+    _avg?: BonoAvgAggregateInputType
+    _sum?: BonoSumAggregateInputType
+    _min?: BonoMinAggregateInputType
+    _max?: BonoMaxAggregateInputType
+  }
+
+  export type BonoGroupByOutputType = {
+    id: string
+    nombre: string
+    descripcion: string | null
+    clasesIncluidas: number
+    validezDias: number
+    activo: boolean
+    _count: BonoCountAggregateOutputType | null
+    _avg: BonoAvgAggregateOutputType | null
+    _sum: BonoSumAggregateOutputType | null
+    _min: BonoMinAggregateOutputType | null
+    _max: BonoMaxAggregateOutputType | null
+  }
+
+  type GetBonoGroupByPayload<T extends BonoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BonoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BonoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BonoGroupByOutputType[P]>
+            : GetScalarType<T[P], BonoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BonoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    descripcion?: boolean
+    clasesIncluidas?: boolean
+    validezDias?: boolean
+    activo?: boolean
+    compras?: boolean | Bono$comprasArgs<ExtArgs>
+    _count?: boolean | BonoCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bono"]>
+
+  export type BonoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    descripcion?: boolean
+    clasesIncluidas?: boolean
+    validezDias?: boolean
+    activo?: boolean
+  }, ExtArgs["result"]["bono"]>
+
+  export type BonoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    descripcion?: boolean
+    clasesIncluidas?: boolean
+    validezDias?: boolean
+    activo?: boolean
+  }, ExtArgs["result"]["bono"]>
+
+  export type BonoSelectScalar = {
+    id?: boolean
+    nombre?: boolean
+    descripcion?: boolean
+    clasesIncluidas?: boolean
+    validezDias?: boolean
+    activo?: boolean
+  }
+
+  export type BonoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "descripcion" | "clasesIncluidas" | "validezDias" | "activo", ExtArgs["result"]["bono"]>
+  export type BonoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    compras?: boolean | Bono$comprasArgs<ExtArgs>
+    _count?: boolean | BonoCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type BonoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type BonoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $BonoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Bono"
+    objects: {
+      compras: Prisma.$CompraBonoPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      nombre: string
+      descripcion: string | null
+      clasesIncluidas: number
+      validezDias: number
+      activo: boolean
+    }, ExtArgs["result"]["bono"]>
+    composites: {}
+  }
+
+  type BonoGetPayload<S extends boolean | null | undefined | BonoDefaultArgs> = $Result.GetResult<Prisma.$BonoPayload, S>
+
+  type BonoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BonoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BonoCountAggregateInputType | true
+    }
+
+  export interface BonoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Bono'], meta: { name: 'Bono' } }
+    /**
+     * Find zero or one Bono that matches the filter.
+     * @param {BonoFindUniqueArgs} args - Arguments to find a Bono
+     * @example
+     * // Get one Bono
+     * const bono = await prisma.bono.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BonoFindUniqueArgs>(args: SelectSubset<T, BonoFindUniqueArgs<ExtArgs>>): Prisma__BonoClient<$Result.GetResult<Prisma.$BonoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Bono that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BonoFindUniqueOrThrowArgs} args - Arguments to find a Bono
+     * @example
+     * // Get one Bono
+     * const bono = await prisma.bono.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BonoFindUniqueOrThrowArgs>(args: SelectSubset<T, BonoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BonoClient<$Result.GetResult<Prisma.$BonoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Bono that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BonoFindFirstArgs} args - Arguments to find a Bono
+     * @example
+     * // Get one Bono
+     * const bono = await prisma.bono.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BonoFindFirstArgs>(args?: SelectSubset<T, BonoFindFirstArgs<ExtArgs>>): Prisma__BonoClient<$Result.GetResult<Prisma.$BonoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Bono that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BonoFindFirstOrThrowArgs} args - Arguments to find a Bono
+     * @example
+     * // Get one Bono
+     * const bono = await prisma.bono.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BonoFindFirstOrThrowArgs>(args?: SelectSubset<T, BonoFindFirstOrThrowArgs<ExtArgs>>): Prisma__BonoClient<$Result.GetResult<Prisma.$BonoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Bonos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BonoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Bonos
+     * const bonos = await prisma.bono.findMany()
+     * 
+     * // Get first 10 Bonos
+     * const bonos = await prisma.bono.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bonoWithIdOnly = await prisma.bono.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BonoFindManyArgs>(args?: SelectSubset<T, BonoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BonoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Bono.
+     * @param {BonoCreateArgs} args - Arguments to create a Bono.
+     * @example
+     * // Create one Bono
+     * const Bono = await prisma.bono.create({
+     *   data: {
+     *     // ... data to create a Bono
+     *   }
+     * })
+     * 
+     */
+    create<T extends BonoCreateArgs>(args: SelectSubset<T, BonoCreateArgs<ExtArgs>>): Prisma__BonoClient<$Result.GetResult<Prisma.$BonoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Bonos.
+     * @param {BonoCreateManyArgs} args - Arguments to create many Bonos.
+     * @example
+     * // Create many Bonos
+     * const bono = await prisma.bono.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BonoCreateManyArgs>(args?: SelectSubset<T, BonoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Bonos and returns the data saved in the database.
+     * @param {BonoCreateManyAndReturnArgs} args - Arguments to create many Bonos.
+     * @example
+     * // Create many Bonos
+     * const bono = await prisma.bono.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Bonos and only return the `id`
+     * const bonoWithIdOnly = await prisma.bono.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BonoCreateManyAndReturnArgs>(args?: SelectSubset<T, BonoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BonoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Bono.
+     * @param {BonoDeleteArgs} args - Arguments to delete one Bono.
+     * @example
+     * // Delete one Bono
+     * const Bono = await prisma.bono.delete({
+     *   where: {
+     *     // ... filter to delete one Bono
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BonoDeleteArgs>(args: SelectSubset<T, BonoDeleteArgs<ExtArgs>>): Prisma__BonoClient<$Result.GetResult<Prisma.$BonoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Bono.
+     * @param {BonoUpdateArgs} args - Arguments to update one Bono.
+     * @example
+     * // Update one Bono
+     * const bono = await prisma.bono.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BonoUpdateArgs>(args: SelectSubset<T, BonoUpdateArgs<ExtArgs>>): Prisma__BonoClient<$Result.GetResult<Prisma.$BonoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Bonos.
+     * @param {BonoDeleteManyArgs} args - Arguments to filter Bonos to delete.
+     * @example
+     * // Delete a few Bonos
+     * const { count } = await prisma.bono.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BonoDeleteManyArgs>(args?: SelectSubset<T, BonoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Bonos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BonoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Bonos
+     * const bono = await prisma.bono.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BonoUpdateManyArgs>(args: SelectSubset<T, BonoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Bonos and returns the data updated in the database.
+     * @param {BonoUpdateManyAndReturnArgs} args - Arguments to update many Bonos.
+     * @example
+     * // Update many Bonos
+     * const bono = await prisma.bono.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Bonos and only return the `id`
+     * const bonoWithIdOnly = await prisma.bono.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BonoUpdateManyAndReturnArgs>(args: SelectSubset<T, BonoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BonoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Bono.
+     * @param {BonoUpsertArgs} args - Arguments to update or create a Bono.
+     * @example
+     * // Update or create a Bono
+     * const bono = await prisma.bono.upsert({
+     *   create: {
+     *     // ... data to create a Bono
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Bono we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BonoUpsertArgs>(args: SelectSubset<T, BonoUpsertArgs<ExtArgs>>): Prisma__BonoClient<$Result.GetResult<Prisma.$BonoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Bonos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BonoCountArgs} args - Arguments to filter Bonos to count.
+     * @example
+     * // Count the number of Bonos
+     * const count = await prisma.bono.count({
+     *   where: {
+     *     // ... the filter for the Bonos we want to count
+     *   }
+     * })
+    **/
+    count<T extends BonoCountArgs>(
+      args?: Subset<T, BonoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BonoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Bono.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BonoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BonoAggregateArgs>(args: Subset<T, BonoAggregateArgs>): Prisma.PrismaPromise<GetBonoAggregateType<T>>
+
+    /**
+     * Group by Bono.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BonoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BonoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BonoGroupByArgs['orderBy'] }
+        : { orderBy?: BonoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BonoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBonoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Bono model
+   */
+  readonly fields: BonoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Bono.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BonoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    compras<T extends Bono$comprasArgs<ExtArgs> = {}>(args?: Subset<T, Bono$comprasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompraBonoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Bono model
+   */
+  interface BonoFieldRefs {
+    readonly id: FieldRef<"Bono", 'String'>
+    readonly nombre: FieldRef<"Bono", 'String'>
+    readonly descripcion: FieldRef<"Bono", 'String'>
+    readonly clasesIncluidas: FieldRef<"Bono", 'Int'>
+    readonly validezDias: FieldRef<"Bono", 'Int'>
+    readonly activo: FieldRef<"Bono", 'Boolean'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Bono findUnique
+   */
+  export type BonoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bono
+     */
+    select?: BonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bono
+     */
+    omit?: BonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonoInclude<ExtArgs> | null
+    /**
+     * Filter, which Bono to fetch.
+     */
+    where: BonoWhereUniqueInput
+  }
+
+  /**
+   * Bono findUniqueOrThrow
+   */
+  export type BonoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bono
+     */
+    select?: BonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bono
+     */
+    omit?: BonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonoInclude<ExtArgs> | null
+    /**
+     * Filter, which Bono to fetch.
+     */
+    where: BonoWhereUniqueInput
+  }
+
+  /**
+   * Bono findFirst
+   */
+  export type BonoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bono
+     */
+    select?: BonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bono
+     */
+    omit?: BonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonoInclude<ExtArgs> | null
+    /**
+     * Filter, which Bono to fetch.
+     */
+    where?: BonoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Bonos to fetch.
+     */
+    orderBy?: BonoOrderByWithRelationInput | BonoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Bonos.
+     */
+    cursor?: BonoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Bonos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Bonos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Bonos.
+     */
+    distinct?: BonoScalarFieldEnum | BonoScalarFieldEnum[]
+  }
+
+  /**
+   * Bono findFirstOrThrow
+   */
+  export type BonoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bono
+     */
+    select?: BonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bono
+     */
+    omit?: BonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonoInclude<ExtArgs> | null
+    /**
+     * Filter, which Bono to fetch.
+     */
+    where?: BonoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Bonos to fetch.
+     */
+    orderBy?: BonoOrderByWithRelationInput | BonoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Bonos.
+     */
+    cursor?: BonoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Bonos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Bonos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Bonos.
+     */
+    distinct?: BonoScalarFieldEnum | BonoScalarFieldEnum[]
+  }
+
+  /**
+   * Bono findMany
+   */
+  export type BonoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bono
+     */
+    select?: BonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bono
+     */
+    omit?: BonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonoInclude<ExtArgs> | null
+    /**
+     * Filter, which Bonos to fetch.
+     */
+    where?: BonoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Bonos to fetch.
+     */
+    orderBy?: BonoOrderByWithRelationInput | BonoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Bonos.
+     */
+    cursor?: BonoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Bonos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Bonos.
+     */
+    skip?: number
+    distinct?: BonoScalarFieldEnum | BonoScalarFieldEnum[]
+  }
+
+  /**
+   * Bono create
+   */
+  export type BonoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bono
+     */
+    select?: BonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bono
+     */
+    omit?: BonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Bono.
+     */
+    data: XOR<BonoCreateInput, BonoUncheckedCreateInput>
+  }
+
+  /**
+   * Bono createMany
+   */
+  export type BonoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Bonos.
+     */
+    data: BonoCreateManyInput | BonoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Bono createManyAndReturn
+   */
+  export type BonoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bono
+     */
+    select?: BonoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bono
+     */
+    omit?: BonoOmit<ExtArgs> | null
+    /**
+     * The data used to create many Bonos.
+     */
+    data: BonoCreateManyInput | BonoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Bono update
+   */
+  export type BonoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bono
+     */
+    select?: BonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bono
+     */
+    omit?: BonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Bono.
+     */
+    data: XOR<BonoUpdateInput, BonoUncheckedUpdateInput>
+    /**
+     * Choose, which Bono to update.
+     */
+    where: BonoWhereUniqueInput
+  }
+
+  /**
+   * Bono updateMany
+   */
+  export type BonoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Bonos.
+     */
+    data: XOR<BonoUpdateManyMutationInput, BonoUncheckedUpdateManyInput>
+    /**
+     * Filter which Bonos to update
+     */
+    where?: BonoWhereInput
+    /**
+     * Limit how many Bonos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Bono updateManyAndReturn
+   */
+  export type BonoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bono
+     */
+    select?: BonoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bono
+     */
+    omit?: BonoOmit<ExtArgs> | null
+    /**
+     * The data used to update Bonos.
+     */
+    data: XOR<BonoUpdateManyMutationInput, BonoUncheckedUpdateManyInput>
+    /**
+     * Filter which Bonos to update
+     */
+    where?: BonoWhereInput
+    /**
+     * Limit how many Bonos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Bono upsert
+   */
+  export type BonoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bono
+     */
+    select?: BonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bono
+     */
+    omit?: BonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Bono to update in case it exists.
+     */
+    where: BonoWhereUniqueInput
+    /**
+     * In case the Bono found by the `where` argument doesn't exist, create a new Bono with this data.
+     */
+    create: XOR<BonoCreateInput, BonoUncheckedCreateInput>
+    /**
+     * In case the Bono was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BonoUpdateInput, BonoUncheckedUpdateInput>
+  }
+
+  /**
+   * Bono delete
+   */
+  export type BonoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bono
+     */
+    select?: BonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bono
+     */
+    omit?: BonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonoInclude<ExtArgs> | null
+    /**
+     * Filter which Bono to delete.
+     */
+    where: BonoWhereUniqueInput
+  }
+
+  /**
+   * Bono deleteMany
+   */
+  export type BonoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Bonos to delete
+     */
+    where?: BonoWhereInput
+    /**
+     * Limit how many Bonos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Bono.compras
+   */
+  export type Bono$comprasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompraBono
+     */
+    select?: CompraBonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompraBono
+     */
+    omit?: CompraBonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompraBonoInclude<ExtArgs> | null
+    where?: CompraBonoWhereInput
+    orderBy?: CompraBonoOrderByWithRelationInput | CompraBonoOrderByWithRelationInput[]
+    cursor?: CompraBonoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CompraBonoScalarFieldEnum | CompraBonoScalarFieldEnum[]
+  }
+
+  /**
+   * Bono without action
+   */
+  export type BonoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bono
+     */
+    select?: BonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Bono
+     */
+    omit?: BonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BonoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CompraBono
+   */
+
+  export type AggregateCompraBono = {
+    _count: CompraBonoCountAggregateOutputType | null
+    _avg: CompraBonoAvgAggregateOutputType | null
+    _sum: CompraBonoSumAggregateOutputType | null
+    _min: CompraBonoMinAggregateOutputType | null
+    _max: CompraBonoMaxAggregateOutputType | null
+  }
+
+  export type CompraBonoAvgAggregateOutputType = {
+    clasesCompradas: number | null
+    clasesConsumidas: number | null
+  }
+
+  export type CompraBonoSumAggregateOutputType = {
+    clasesCompradas: number | null
+    clasesConsumidas: number | null
+  }
+
+  export type CompraBonoMinAggregateOutputType = {
+    id: string | null
+    alumnoId: string | null
+    bonoId: string | null
+    clasesCompradas: number | null
+    clasesConsumidas: number | null
+    pagado: boolean | null
+    fechaCompra: Date | null
+    fechaValidezHasta: Date | null
+  }
+
+  export type CompraBonoMaxAggregateOutputType = {
+    id: string | null
+    alumnoId: string | null
+    bonoId: string | null
+    clasesCompradas: number | null
+    clasesConsumidas: number | null
+    pagado: boolean | null
+    fechaCompra: Date | null
+    fechaValidezHasta: Date | null
+  }
+
+  export type CompraBonoCountAggregateOutputType = {
+    id: number
+    alumnoId: number
+    bonoId: number
+    clasesCompradas: number
+    clasesConsumidas: number
+    pagado: number
+    fechaCompra: number
+    fechaValidezHasta: number
+    _all: number
+  }
+
+
+  export type CompraBonoAvgAggregateInputType = {
+    clasesCompradas?: true
+    clasesConsumidas?: true
+  }
+
+  export type CompraBonoSumAggregateInputType = {
+    clasesCompradas?: true
+    clasesConsumidas?: true
+  }
+
+  export type CompraBonoMinAggregateInputType = {
+    id?: true
+    alumnoId?: true
+    bonoId?: true
+    clasesCompradas?: true
+    clasesConsumidas?: true
+    pagado?: true
+    fechaCompra?: true
+    fechaValidezHasta?: true
+  }
+
+  export type CompraBonoMaxAggregateInputType = {
+    id?: true
+    alumnoId?: true
+    bonoId?: true
+    clasesCompradas?: true
+    clasesConsumidas?: true
+    pagado?: true
+    fechaCompra?: true
+    fechaValidezHasta?: true
+  }
+
+  export type CompraBonoCountAggregateInputType = {
+    id?: true
+    alumnoId?: true
+    bonoId?: true
+    clasesCompradas?: true
+    clasesConsumidas?: true
+    pagado?: true
+    fechaCompra?: true
+    fechaValidezHasta?: true
+    _all?: true
+  }
+
+  export type CompraBonoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CompraBono to aggregate.
+     */
+    where?: CompraBonoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompraBonos to fetch.
+     */
+    orderBy?: CompraBonoOrderByWithRelationInput | CompraBonoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CompraBonoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompraBonos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompraBonos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CompraBonos
+    **/
+    _count?: true | CompraBonoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CompraBonoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CompraBonoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CompraBonoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CompraBonoMaxAggregateInputType
+  }
+
+  export type GetCompraBonoAggregateType<T extends CompraBonoAggregateArgs> = {
+        [P in keyof T & keyof AggregateCompraBono]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCompraBono[P]>
+      : GetScalarType<T[P], AggregateCompraBono[P]>
+  }
+
+
+
+
+  export type CompraBonoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CompraBonoWhereInput
+    orderBy?: CompraBonoOrderByWithAggregationInput | CompraBonoOrderByWithAggregationInput[]
+    by: CompraBonoScalarFieldEnum[] | CompraBonoScalarFieldEnum
+    having?: CompraBonoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CompraBonoCountAggregateInputType | true
+    _avg?: CompraBonoAvgAggregateInputType
+    _sum?: CompraBonoSumAggregateInputType
+    _min?: CompraBonoMinAggregateInputType
+    _max?: CompraBonoMaxAggregateInputType
+  }
+
+  export type CompraBonoGroupByOutputType = {
+    id: string
+    alumnoId: string
+    bonoId: string
+    clasesCompradas: number
+    clasesConsumidas: number
+    pagado: boolean
+    fechaCompra: Date
+    fechaValidezHasta: Date
+    _count: CompraBonoCountAggregateOutputType | null
+    _avg: CompraBonoAvgAggregateOutputType | null
+    _sum: CompraBonoSumAggregateOutputType | null
+    _min: CompraBonoMinAggregateOutputType | null
+    _max: CompraBonoMaxAggregateOutputType | null
+  }
+
+  type GetCompraBonoGroupByPayload<T extends CompraBonoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CompraBonoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CompraBonoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CompraBonoGroupByOutputType[P]>
+            : GetScalarType<T[P], CompraBonoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CompraBonoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alumnoId?: boolean
+    bonoId?: boolean
+    clasesCompradas?: boolean
+    clasesConsumidas?: boolean
+    pagado?: boolean
+    fechaCompra?: boolean
+    fechaValidezHasta?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    bono?: boolean | BonoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["compraBono"]>
+
+  export type CompraBonoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alumnoId?: boolean
+    bonoId?: boolean
+    clasesCompradas?: boolean
+    clasesConsumidas?: boolean
+    pagado?: boolean
+    fechaCompra?: boolean
+    fechaValidezHasta?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    bono?: boolean | BonoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["compraBono"]>
+
+  export type CompraBonoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alumnoId?: boolean
+    bonoId?: boolean
+    clasesCompradas?: boolean
+    clasesConsumidas?: boolean
+    pagado?: boolean
+    fechaCompra?: boolean
+    fechaValidezHasta?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    bono?: boolean | BonoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["compraBono"]>
+
+  export type CompraBonoSelectScalar = {
+    id?: boolean
+    alumnoId?: boolean
+    bonoId?: boolean
+    clasesCompradas?: boolean
+    clasesConsumidas?: boolean
+    pagado?: boolean
+    fechaCompra?: boolean
+    fechaValidezHasta?: boolean
+  }
+
+  export type CompraBonoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "bonoId" | "clasesCompradas" | "clasesConsumidas" | "pagado" | "fechaCompra" | "fechaValidezHasta", ExtArgs["result"]["compraBono"]>
+  export type CompraBonoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    bono?: boolean | BonoDefaultArgs<ExtArgs>
+  }
+  export type CompraBonoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    bono?: boolean | BonoDefaultArgs<ExtArgs>
+  }
+  export type CompraBonoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    bono?: boolean | BonoDefaultArgs<ExtArgs>
+  }
+
+  export type $CompraBonoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CompraBono"
+    objects: {
+      alumno: Prisma.$AlumnoPayload<ExtArgs>
+      bono: Prisma.$BonoPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      alumnoId: string
+      bonoId: string
+      clasesCompradas: number
+      clasesConsumidas: number
+      pagado: boolean
+      fechaCompra: Date
+      fechaValidezHasta: Date
+    }, ExtArgs["result"]["compraBono"]>
+    composites: {}
+  }
+
+  type CompraBonoGetPayload<S extends boolean | null | undefined | CompraBonoDefaultArgs> = $Result.GetResult<Prisma.$CompraBonoPayload, S>
+
+  type CompraBonoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CompraBonoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CompraBonoCountAggregateInputType | true
+    }
+
+  export interface CompraBonoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CompraBono'], meta: { name: 'CompraBono' } }
+    /**
+     * Find zero or one CompraBono that matches the filter.
+     * @param {CompraBonoFindUniqueArgs} args - Arguments to find a CompraBono
+     * @example
+     * // Get one CompraBono
+     * const compraBono = await prisma.compraBono.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CompraBonoFindUniqueArgs>(args: SelectSubset<T, CompraBonoFindUniqueArgs<ExtArgs>>): Prisma__CompraBonoClient<$Result.GetResult<Prisma.$CompraBonoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CompraBono that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CompraBonoFindUniqueOrThrowArgs} args - Arguments to find a CompraBono
+     * @example
+     * // Get one CompraBono
+     * const compraBono = await prisma.compraBono.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CompraBonoFindUniqueOrThrowArgs>(args: SelectSubset<T, CompraBonoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CompraBonoClient<$Result.GetResult<Prisma.$CompraBonoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CompraBono that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompraBonoFindFirstArgs} args - Arguments to find a CompraBono
+     * @example
+     * // Get one CompraBono
+     * const compraBono = await prisma.compraBono.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CompraBonoFindFirstArgs>(args?: SelectSubset<T, CompraBonoFindFirstArgs<ExtArgs>>): Prisma__CompraBonoClient<$Result.GetResult<Prisma.$CompraBonoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CompraBono that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompraBonoFindFirstOrThrowArgs} args - Arguments to find a CompraBono
+     * @example
+     * // Get one CompraBono
+     * const compraBono = await prisma.compraBono.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CompraBonoFindFirstOrThrowArgs>(args?: SelectSubset<T, CompraBonoFindFirstOrThrowArgs<ExtArgs>>): Prisma__CompraBonoClient<$Result.GetResult<Prisma.$CompraBonoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CompraBonos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompraBonoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CompraBonos
+     * const compraBonos = await prisma.compraBono.findMany()
+     * 
+     * // Get first 10 CompraBonos
+     * const compraBonos = await prisma.compraBono.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const compraBonoWithIdOnly = await prisma.compraBono.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CompraBonoFindManyArgs>(args?: SelectSubset<T, CompraBonoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompraBonoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CompraBono.
+     * @param {CompraBonoCreateArgs} args - Arguments to create a CompraBono.
+     * @example
+     * // Create one CompraBono
+     * const CompraBono = await prisma.compraBono.create({
+     *   data: {
+     *     // ... data to create a CompraBono
+     *   }
+     * })
+     * 
+     */
+    create<T extends CompraBonoCreateArgs>(args: SelectSubset<T, CompraBonoCreateArgs<ExtArgs>>): Prisma__CompraBonoClient<$Result.GetResult<Prisma.$CompraBonoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CompraBonos.
+     * @param {CompraBonoCreateManyArgs} args - Arguments to create many CompraBonos.
+     * @example
+     * // Create many CompraBonos
+     * const compraBono = await prisma.compraBono.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CompraBonoCreateManyArgs>(args?: SelectSubset<T, CompraBonoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CompraBonos and returns the data saved in the database.
+     * @param {CompraBonoCreateManyAndReturnArgs} args - Arguments to create many CompraBonos.
+     * @example
+     * // Create many CompraBonos
+     * const compraBono = await prisma.compraBono.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CompraBonos and only return the `id`
+     * const compraBonoWithIdOnly = await prisma.compraBono.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CompraBonoCreateManyAndReturnArgs>(args?: SelectSubset<T, CompraBonoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompraBonoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CompraBono.
+     * @param {CompraBonoDeleteArgs} args - Arguments to delete one CompraBono.
+     * @example
+     * // Delete one CompraBono
+     * const CompraBono = await prisma.compraBono.delete({
+     *   where: {
+     *     // ... filter to delete one CompraBono
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CompraBonoDeleteArgs>(args: SelectSubset<T, CompraBonoDeleteArgs<ExtArgs>>): Prisma__CompraBonoClient<$Result.GetResult<Prisma.$CompraBonoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CompraBono.
+     * @param {CompraBonoUpdateArgs} args - Arguments to update one CompraBono.
+     * @example
+     * // Update one CompraBono
+     * const compraBono = await prisma.compraBono.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CompraBonoUpdateArgs>(args: SelectSubset<T, CompraBonoUpdateArgs<ExtArgs>>): Prisma__CompraBonoClient<$Result.GetResult<Prisma.$CompraBonoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CompraBonos.
+     * @param {CompraBonoDeleteManyArgs} args - Arguments to filter CompraBonos to delete.
+     * @example
+     * // Delete a few CompraBonos
+     * const { count } = await prisma.compraBono.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CompraBonoDeleteManyArgs>(args?: SelectSubset<T, CompraBonoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CompraBonos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompraBonoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CompraBonos
+     * const compraBono = await prisma.compraBono.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CompraBonoUpdateManyArgs>(args: SelectSubset<T, CompraBonoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CompraBonos and returns the data updated in the database.
+     * @param {CompraBonoUpdateManyAndReturnArgs} args - Arguments to update many CompraBonos.
+     * @example
+     * // Update many CompraBonos
+     * const compraBono = await prisma.compraBono.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CompraBonos and only return the `id`
+     * const compraBonoWithIdOnly = await prisma.compraBono.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CompraBonoUpdateManyAndReturnArgs>(args: SelectSubset<T, CompraBonoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompraBonoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CompraBono.
+     * @param {CompraBonoUpsertArgs} args - Arguments to update or create a CompraBono.
+     * @example
+     * // Update or create a CompraBono
+     * const compraBono = await prisma.compraBono.upsert({
+     *   create: {
+     *     // ... data to create a CompraBono
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CompraBono we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CompraBonoUpsertArgs>(args: SelectSubset<T, CompraBonoUpsertArgs<ExtArgs>>): Prisma__CompraBonoClient<$Result.GetResult<Prisma.$CompraBonoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CompraBonos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompraBonoCountArgs} args - Arguments to filter CompraBonos to count.
+     * @example
+     * // Count the number of CompraBonos
+     * const count = await prisma.compraBono.count({
+     *   where: {
+     *     // ... the filter for the CompraBonos we want to count
+     *   }
+     * })
+    **/
+    count<T extends CompraBonoCountArgs>(
+      args?: Subset<T, CompraBonoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CompraBonoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CompraBono.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompraBonoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CompraBonoAggregateArgs>(args: Subset<T, CompraBonoAggregateArgs>): Prisma.PrismaPromise<GetCompraBonoAggregateType<T>>
+
+    /**
+     * Group by CompraBono.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CompraBonoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CompraBonoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CompraBonoGroupByArgs['orderBy'] }
+        : { orderBy?: CompraBonoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CompraBonoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCompraBonoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CompraBono model
+   */
+  readonly fields: CompraBonoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CompraBono.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CompraBonoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    alumno<T extends AlumnoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AlumnoDefaultArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    bono<T extends BonoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BonoDefaultArgs<ExtArgs>>): Prisma__BonoClient<$Result.GetResult<Prisma.$BonoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CompraBono model
+   */
+  interface CompraBonoFieldRefs {
+    readonly id: FieldRef<"CompraBono", 'String'>
+    readonly alumnoId: FieldRef<"CompraBono", 'String'>
+    readonly bonoId: FieldRef<"CompraBono", 'String'>
+    readonly clasesCompradas: FieldRef<"CompraBono", 'Int'>
+    readonly clasesConsumidas: FieldRef<"CompraBono", 'Int'>
+    readonly pagado: FieldRef<"CompraBono", 'Boolean'>
+    readonly fechaCompra: FieldRef<"CompraBono", 'DateTime'>
+    readonly fechaValidezHasta: FieldRef<"CompraBono", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CompraBono findUnique
+   */
+  export type CompraBonoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompraBono
+     */
+    select?: CompraBonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompraBono
+     */
+    omit?: CompraBonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompraBonoInclude<ExtArgs> | null
+    /**
+     * Filter, which CompraBono to fetch.
+     */
+    where: CompraBonoWhereUniqueInput
+  }
+
+  /**
+   * CompraBono findUniqueOrThrow
+   */
+  export type CompraBonoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompraBono
+     */
+    select?: CompraBonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompraBono
+     */
+    omit?: CompraBonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompraBonoInclude<ExtArgs> | null
+    /**
+     * Filter, which CompraBono to fetch.
+     */
+    where: CompraBonoWhereUniqueInput
+  }
+
+  /**
+   * CompraBono findFirst
+   */
+  export type CompraBonoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompraBono
+     */
+    select?: CompraBonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompraBono
+     */
+    omit?: CompraBonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompraBonoInclude<ExtArgs> | null
+    /**
+     * Filter, which CompraBono to fetch.
+     */
+    where?: CompraBonoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompraBonos to fetch.
+     */
+    orderBy?: CompraBonoOrderByWithRelationInput | CompraBonoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CompraBonos.
+     */
+    cursor?: CompraBonoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompraBonos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompraBonos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CompraBonos.
+     */
+    distinct?: CompraBonoScalarFieldEnum | CompraBonoScalarFieldEnum[]
+  }
+
+  /**
+   * CompraBono findFirstOrThrow
+   */
+  export type CompraBonoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompraBono
+     */
+    select?: CompraBonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompraBono
+     */
+    omit?: CompraBonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompraBonoInclude<ExtArgs> | null
+    /**
+     * Filter, which CompraBono to fetch.
+     */
+    where?: CompraBonoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompraBonos to fetch.
+     */
+    orderBy?: CompraBonoOrderByWithRelationInput | CompraBonoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CompraBonos.
+     */
+    cursor?: CompraBonoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompraBonos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompraBonos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CompraBonos.
+     */
+    distinct?: CompraBonoScalarFieldEnum | CompraBonoScalarFieldEnum[]
+  }
+
+  /**
+   * CompraBono findMany
+   */
+  export type CompraBonoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompraBono
+     */
+    select?: CompraBonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompraBono
+     */
+    omit?: CompraBonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompraBonoInclude<ExtArgs> | null
+    /**
+     * Filter, which CompraBonos to fetch.
+     */
+    where?: CompraBonoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CompraBonos to fetch.
+     */
+    orderBy?: CompraBonoOrderByWithRelationInput | CompraBonoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CompraBonos.
+     */
+    cursor?: CompraBonoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CompraBonos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CompraBonos.
+     */
+    skip?: number
+    distinct?: CompraBonoScalarFieldEnum | CompraBonoScalarFieldEnum[]
+  }
+
+  /**
+   * CompraBono create
+   */
+  export type CompraBonoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompraBono
+     */
+    select?: CompraBonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompraBono
+     */
+    omit?: CompraBonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompraBonoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CompraBono.
+     */
+    data: XOR<CompraBonoCreateInput, CompraBonoUncheckedCreateInput>
+  }
+
+  /**
+   * CompraBono createMany
+   */
+  export type CompraBonoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CompraBonos.
+     */
+    data: CompraBonoCreateManyInput | CompraBonoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CompraBono createManyAndReturn
+   */
+  export type CompraBonoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompraBono
+     */
+    select?: CompraBonoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompraBono
+     */
+    omit?: CompraBonoOmit<ExtArgs> | null
+    /**
+     * The data used to create many CompraBonos.
+     */
+    data: CompraBonoCreateManyInput | CompraBonoCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompraBonoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CompraBono update
+   */
+  export type CompraBonoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompraBono
+     */
+    select?: CompraBonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompraBono
+     */
+    omit?: CompraBonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompraBonoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CompraBono.
+     */
+    data: XOR<CompraBonoUpdateInput, CompraBonoUncheckedUpdateInput>
+    /**
+     * Choose, which CompraBono to update.
+     */
+    where: CompraBonoWhereUniqueInput
+  }
+
+  /**
+   * CompraBono updateMany
+   */
+  export type CompraBonoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CompraBonos.
+     */
+    data: XOR<CompraBonoUpdateManyMutationInput, CompraBonoUncheckedUpdateManyInput>
+    /**
+     * Filter which CompraBonos to update
+     */
+    where?: CompraBonoWhereInput
+    /**
+     * Limit how many CompraBonos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CompraBono updateManyAndReturn
+   */
+  export type CompraBonoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompraBono
+     */
+    select?: CompraBonoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompraBono
+     */
+    omit?: CompraBonoOmit<ExtArgs> | null
+    /**
+     * The data used to update CompraBonos.
+     */
+    data: XOR<CompraBonoUpdateManyMutationInput, CompraBonoUncheckedUpdateManyInput>
+    /**
+     * Filter which CompraBonos to update
+     */
+    where?: CompraBonoWhereInput
+    /**
+     * Limit how many CompraBonos to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompraBonoIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CompraBono upsert
+   */
+  export type CompraBonoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompraBono
+     */
+    select?: CompraBonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompraBono
+     */
+    omit?: CompraBonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompraBonoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CompraBono to update in case it exists.
+     */
+    where: CompraBonoWhereUniqueInput
+    /**
+     * In case the CompraBono found by the `where` argument doesn't exist, create a new CompraBono with this data.
+     */
+    create: XOR<CompraBonoCreateInput, CompraBonoUncheckedCreateInput>
+    /**
+     * In case the CompraBono was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CompraBonoUpdateInput, CompraBonoUncheckedUpdateInput>
+  }
+
+  /**
+   * CompraBono delete
+   */
+  export type CompraBonoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompraBono
+     */
+    select?: CompraBonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompraBono
+     */
+    omit?: CompraBonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompraBonoInclude<ExtArgs> | null
+    /**
+     * Filter which CompraBono to delete.
+     */
+    where: CompraBonoWhereUniqueInput
+  }
+
+  /**
+   * CompraBono deleteMany
+   */
+  export type CompraBonoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CompraBonos to delete
+     */
+    where?: CompraBonoWhereInput
+    /**
+     * Limit how many CompraBonos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CompraBono without action
+   */
+  export type CompraBonoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompraBono
+     */
+    select?: CompraBonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompraBono
+     */
+    omit?: CompraBonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompraBonoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SolicitudExamen
+   */
+
+  export type AggregateSolicitudExamen = {
+    _count: SolicitudExamenCountAggregateOutputType | null
+    _min: SolicitudExamenMinAggregateOutputType | null
+    _max: SolicitudExamenMaxAggregateOutputType | null
+  }
+
+  export type SolicitudExamenMinAggregateOutputType = {
+    id: string | null
+    alumnoId: string | null
+    tipo: string | null
+    estado: string | null
+    fechaSolicitud: Date | null
+    fechaProgramada: Date | null
+    observaciones: string | null
+  }
+
+  export type SolicitudExamenMaxAggregateOutputType = {
+    id: string | null
+    alumnoId: string | null
+    tipo: string | null
+    estado: string | null
+    fechaSolicitud: Date | null
+    fechaProgramada: Date | null
+    observaciones: string | null
+  }
+
+  export type SolicitudExamenCountAggregateOutputType = {
+    id: number
+    alumnoId: number
+    tipo: number
+    estado: number
+    fechaSolicitud: number
+    fechaProgramada: number
+    observaciones: number
+    _all: number
+  }
+
+
+  export type SolicitudExamenMinAggregateInputType = {
+    id?: true
+    alumnoId?: true
+    tipo?: true
+    estado?: true
+    fechaSolicitud?: true
+    fechaProgramada?: true
+    observaciones?: true
+  }
+
+  export type SolicitudExamenMaxAggregateInputType = {
+    id?: true
+    alumnoId?: true
+    tipo?: true
+    estado?: true
+    fechaSolicitud?: true
+    fechaProgramada?: true
+    observaciones?: true
+  }
+
+  export type SolicitudExamenCountAggregateInputType = {
+    id?: true
+    alumnoId?: true
+    tipo?: true
+    estado?: true
+    fechaSolicitud?: true
+    fechaProgramada?: true
+    observaciones?: true
+    _all?: true
+  }
+
+  export type SolicitudExamenAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SolicitudExamen to aggregate.
+     */
+    where?: SolicitudExamenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SolicitudExamen to fetch.
+     */
+    orderBy?: SolicitudExamenOrderByWithRelationInput | SolicitudExamenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SolicitudExamenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SolicitudExamen from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SolicitudExamen.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SolicitudExamen
+    **/
+    _count?: true | SolicitudExamenCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SolicitudExamenMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SolicitudExamenMaxAggregateInputType
+  }
+
+  export type GetSolicitudExamenAggregateType<T extends SolicitudExamenAggregateArgs> = {
+        [P in keyof T & keyof AggregateSolicitudExamen]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSolicitudExamen[P]>
+      : GetScalarType<T[P], AggregateSolicitudExamen[P]>
+  }
+
+
+
+
+  export type SolicitudExamenGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SolicitudExamenWhereInput
+    orderBy?: SolicitudExamenOrderByWithAggregationInput | SolicitudExamenOrderByWithAggregationInput[]
+    by: SolicitudExamenScalarFieldEnum[] | SolicitudExamenScalarFieldEnum
+    having?: SolicitudExamenScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SolicitudExamenCountAggregateInputType | true
+    _min?: SolicitudExamenMinAggregateInputType
+    _max?: SolicitudExamenMaxAggregateInputType
+  }
+
+  export type SolicitudExamenGroupByOutputType = {
+    id: string
+    alumnoId: string
+    tipo: string
+    estado: string
+    fechaSolicitud: Date
+    fechaProgramada: Date | null
+    observaciones: string | null
+    _count: SolicitudExamenCountAggregateOutputType | null
+    _min: SolicitudExamenMinAggregateOutputType | null
+    _max: SolicitudExamenMaxAggregateOutputType | null
+  }
+
+  type GetSolicitudExamenGroupByPayload<T extends SolicitudExamenGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SolicitudExamenGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SolicitudExamenGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SolicitudExamenGroupByOutputType[P]>
+            : GetScalarType<T[P], SolicitudExamenGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SolicitudExamenSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alumnoId?: boolean
+    tipo?: boolean
+    estado?: boolean
+    fechaSolicitud?: boolean
+    fechaProgramada?: boolean
+    observaciones?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["solicitudExamen"]>
+
+  export type SolicitudExamenSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alumnoId?: boolean
+    tipo?: boolean
+    estado?: boolean
+    fechaSolicitud?: boolean
+    fechaProgramada?: boolean
+    observaciones?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["solicitudExamen"]>
+
+  export type SolicitudExamenSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alumnoId?: boolean
+    tipo?: boolean
+    estado?: boolean
+    fechaSolicitud?: boolean
+    fechaProgramada?: boolean
+    observaciones?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["solicitudExamen"]>
+
+  export type SolicitudExamenSelectScalar = {
+    id?: boolean
+    alumnoId?: boolean
+    tipo?: boolean
+    estado?: boolean
+    fechaSolicitud?: boolean
+    fechaProgramada?: boolean
+    observaciones?: boolean
+  }
+
+  export type SolicitudExamenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "tipo" | "estado" | "fechaSolicitud" | "fechaProgramada" | "observaciones", ExtArgs["result"]["solicitudExamen"]>
+  export type SolicitudExamenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+  }
+  export type SolicitudExamenIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+  }
+  export type SolicitudExamenIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+  }
+
+  export type $SolicitudExamenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SolicitudExamen"
+    objects: {
+      alumno: Prisma.$AlumnoPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      alumnoId: string
+      tipo: string
+      estado: string
+      fechaSolicitud: Date
+      fechaProgramada: Date | null
+      observaciones: string | null
+    }, ExtArgs["result"]["solicitudExamen"]>
+    composites: {}
+  }
+
+  type SolicitudExamenGetPayload<S extends boolean | null | undefined | SolicitudExamenDefaultArgs> = $Result.GetResult<Prisma.$SolicitudExamenPayload, S>
+
+  type SolicitudExamenCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SolicitudExamenFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SolicitudExamenCountAggregateInputType | true
+    }
+
+  export interface SolicitudExamenDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SolicitudExamen'], meta: { name: 'SolicitudExamen' } }
+    /**
+     * Find zero or one SolicitudExamen that matches the filter.
+     * @param {SolicitudExamenFindUniqueArgs} args - Arguments to find a SolicitudExamen
+     * @example
+     * // Get one SolicitudExamen
+     * const solicitudExamen = await prisma.solicitudExamen.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SolicitudExamenFindUniqueArgs>(args: SelectSubset<T, SolicitudExamenFindUniqueArgs<ExtArgs>>): Prisma__SolicitudExamenClient<$Result.GetResult<Prisma.$SolicitudExamenPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SolicitudExamen that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SolicitudExamenFindUniqueOrThrowArgs} args - Arguments to find a SolicitudExamen
+     * @example
+     * // Get one SolicitudExamen
+     * const solicitudExamen = await prisma.solicitudExamen.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SolicitudExamenFindUniqueOrThrowArgs>(args: SelectSubset<T, SolicitudExamenFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SolicitudExamenClient<$Result.GetResult<Prisma.$SolicitudExamenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SolicitudExamen that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SolicitudExamenFindFirstArgs} args - Arguments to find a SolicitudExamen
+     * @example
+     * // Get one SolicitudExamen
+     * const solicitudExamen = await prisma.solicitudExamen.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SolicitudExamenFindFirstArgs>(args?: SelectSubset<T, SolicitudExamenFindFirstArgs<ExtArgs>>): Prisma__SolicitudExamenClient<$Result.GetResult<Prisma.$SolicitudExamenPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SolicitudExamen that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SolicitudExamenFindFirstOrThrowArgs} args - Arguments to find a SolicitudExamen
+     * @example
+     * // Get one SolicitudExamen
+     * const solicitudExamen = await prisma.solicitudExamen.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SolicitudExamenFindFirstOrThrowArgs>(args?: SelectSubset<T, SolicitudExamenFindFirstOrThrowArgs<ExtArgs>>): Prisma__SolicitudExamenClient<$Result.GetResult<Prisma.$SolicitudExamenPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SolicitudExamen that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SolicitudExamenFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SolicitudExamen
+     * const solicitudExamen = await prisma.solicitudExamen.findMany()
+     * 
+     * // Get first 10 SolicitudExamen
+     * const solicitudExamen = await prisma.solicitudExamen.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const solicitudExamenWithIdOnly = await prisma.solicitudExamen.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SolicitudExamenFindManyArgs>(args?: SelectSubset<T, SolicitudExamenFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SolicitudExamenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SolicitudExamen.
+     * @param {SolicitudExamenCreateArgs} args - Arguments to create a SolicitudExamen.
+     * @example
+     * // Create one SolicitudExamen
+     * const SolicitudExamen = await prisma.solicitudExamen.create({
+     *   data: {
+     *     // ... data to create a SolicitudExamen
+     *   }
+     * })
+     * 
+     */
+    create<T extends SolicitudExamenCreateArgs>(args: SelectSubset<T, SolicitudExamenCreateArgs<ExtArgs>>): Prisma__SolicitudExamenClient<$Result.GetResult<Prisma.$SolicitudExamenPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SolicitudExamen.
+     * @param {SolicitudExamenCreateManyArgs} args - Arguments to create many SolicitudExamen.
+     * @example
+     * // Create many SolicitudExamen
+     * const solicitudExamen = await prisma.solicitudExamen.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SolicitudExamenCreateManyArgs>(args?: SelectSubset<T, SolicitudExamenCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SolicitudExamen and returns the data saved in the database.
+     * @param {SolicitudExamenCreateManyAndReturnArgs} args - Arguments to create many SolicitudExamen.
+     * @example
+     * // Create many SolicitudExamen
+     * const solicitudExamen = await prisma.solicitudExamen.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SolicitudExamen and only return the `id`
+     * const solicitudExamenWithIdOnly = await prisma.solicitudExamen.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SolicitudExamenCreateManyAndReturnArgs>(args?: SelectSubset<T, SolicitudExamenCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SolicitudExamenPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SolicitudExamen.
+     * @param {SolicitudExamenDeleteArgs} args - Arguments to delete one SolicitudExamen.
+     * @example
+     * // Delete one SolicitudExamen
+     * const SolicitudExamen = await prisma.solicitudExamen.delete({
+     *   where: {
+     *     // ... filter to delete one SolicitudExamen
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SolicitudExamenDeleteArgs>(args: SelectSubset<T, SolicitudExamenDeleteArgs<ExtArgs>>): Prisma__SolicitudExamenClient<$Result.GetResult<Prisma.$SolicitudExamenPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SolicitudExamen.
+     * @param {SolicitudExamenUpdateArgs} args - Arguments to update one SolicitudExamen.
+     * @example
+     * // Update one SolicitudExamen
+     * const solicitudExamen = await prisma.solicitudExamen.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SolicitudExamenUpdateArgs>(args: SelectSubset<T, SolicitudExamenUpdateArgs<ExtArgs>>): Prisma__SolicitudExamenClient<$Result.GetResult<Prisma.$SolicitudExamenPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SolicitudExamen.
+     * @param {SolicitudExamenDeleteManyArgs} args - Arguments to filter SolicitudExamen to delete.
+     * @example
+     * // Delete a few SolicitudExamen
+     * const { count } = await prisma.solicitudExamen.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SolicitudExamenDeleteManyArgs>(args?: SelectSubset<T, SolicitudExamenDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SolicitudExamen.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SolicitudExamenUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SolicitudExamen
+     * const solicitudExamen = await prisma.solicitudExamen.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SolicitudExamenUpdateManyArgs>(args: SelectSubset<T, SolicitudExamenUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SolicitudExamen and returns the data updated in the database.
+     * @param {SolicitudExamenUpdateManyAndReturnArgs} args - Arguments to update many SolicitudExamen.
+     * @example
+     * // Update many SolicitudExamen
+     * const solicitudExamen = await prisma.solicitudExamen.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SolicitudExamen and only return the `id`
+     * const solicitudExamenWithIdOnly = await prisma.solicitudExamen.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SolicitudExamenUpdateManyAndReturnArgs>(args: SelectSubset<T, SolicitudExamenUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SolicitudExamenPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SolicitudExamen.
+     * @param {SolicitudExamenUpsertArgs} args - Arguments to update or create a SolicitudExamen.
+     * @example
+     * // Update or create a SolicitudExamen
+     * const solicitudExamen = await prisma.solicitudExamen.upsert({
+     *   create: {
+     *     // ... data to create a SolicitudExamen
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SolicitudExamen we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SolicitudExamenUpsertArgs>(args: SelectSubset<T, SolicitudExamenUpsertArgs<ExtArgs>>): Prisma__SolicitudExamenClient<$Result.GetResult<Prisma.$SolicitudExamenPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SolicitudExamen.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SolicitudExamenCountArgs} args - Arguments to filter SolicitudExamen to count.
+     * @example
+     * // Count the number of SolicitudExamen
+     * const count = await prisma.solicitudExamen.count({
+     *   where: {
+     *     // ... the filter for the SolicitudExamen we want to count
+     *   }
+     * })
+    **/
+    count<T extends SolicitudExamenCountArgs>(
+      args?: Subset<T, SolicitudExamenCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SolicitudExamenCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SolicitudExamen.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SolicitudExamenAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SolicitudExamenAggregateArgs>(args: Subset<T, SolicitudExamenAggregateArgs>): Prisma.PrismaPromise<GetSolicitudExamenAggregateType<T>>
+
+    /**
+     * Group by SolicitudExamen.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SolicitudExamenGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SolicitudExamenGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SolicitudExamenGroupByArgs['orderBy'] }
+        : { orderBy?: SolicitudExamenGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SolicitudExamenGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSolicitudExamenGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SolicitudExamen model
+   */
+  readonly fields: SolicitudExamenFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SolicitudExamen.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SolicitudExamenClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    alumno<T extends AlumnoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AlumnoDefaultArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SolicitudExamen model
+   */
+  interface SolicitudExamenFieldRefs {
+    readonly id: FieldRef<"SolicitudExamen", 'String'>
+    readonly alumnoId: FieldRef<"SolicitudExamen", 'String'>
+    readonly tipo: FieldRef<"SolicitudExamen", 'String'>
+    readonly estado: FieldRef<"SolicitudExamen", 'String'>
+    readonly fechaSolicitud: FieldRef<"SolicitudExamen", 'DateTime'>
+    readonly fechaProgramada: FieldRef<"SolicitudExamen", 'DateTime'>
+    readonly observaciones: FieldRef<"SolicitudExamen", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SolicitudExamen findUnique
+   */
+  export type SolicitudExamenFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SolicitudExamen
+     */
+    select?: SolicitudExamenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SolicitudExamen
+     */
+    omit?: SolicitudExamenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitudExamenInclude<ExtArgs> | null
+    /**
+     * Filter, which SolicitudExamen to fetch.
+     */
+    where: SolicitudExamenWhereUniqueInput
+  }
+
+  /**
+   * SolicitudExamen findUniqueOrThrow
+   */
+  export type SolicitudExamenFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SolicitudExamen
+     */
+    select?: SolicitudExamenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SolicitudExamen
+     */
+    omit?: SolicitudExamenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitudExamenInclude<ExtArgs> | null
+    /**
+     * Filter, which SolicitudExamen to fetch.
+     */
+    where: SolicitudExamenWhereUniqueInput
+  }
+
+  /**
+   * SolicitudExamen findFirst
+   */
+  export type SolicitudExamenFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SolicitudExamen
+     */
+    select?: SolicitudExamenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SolicitudExamen
+     */
+    omit?: SolicitudExamenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitudExamenInclude<ExtArgs> | null
+    /**
+     * Filter, which SolicitudExamen to fetch.
+     */
+    where?: SolicitudExamenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SolicitudExamen to fetch.
+     */
+    orderBy?: SolicitudExamenOrderByWithRelationInput | SolicitudExamenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SolicitudExamen.
+     */
+    cursor?: SolicitudExamenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SolicitudExamen from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SolicitudExamen.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SolicitudExamen.
+     */
+    distinct?: SolicitudExamenScalarFieldEnum | SolicitudExamenScalarFieldEnum[]
+  }
+
+  /**
+   * SolicitudExamen findFirstOrThrow
+   */
+  export type SolicitudExamenFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SolicitudExamen
+     */
+    select?: SolicitudExamenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SolicitudExamen
+     */
+    omit?: SolicitudExamenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitudExamenInclude<ExtArgs> | null
+    /**
+     * Filter, which SolicitudExamen to fetch.
+     */
+    where?: SolicitudExamenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SolicitudExamen to fetch.
+     */
+    orderBy?: SolicitudExamenOrderByWithRelationInput | SolicitudExamenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SolicitudExamen.
+     */
+    cursor?: SolicitudExamenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SolicitudExamen from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SolicitudExamen.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SolicitudExamen.
+     */
+    distinct?: SolicitudExamenScalarFieldEnum | SolicitudExamenScalarFieldEnum[]
+  }
+
+  /**
+   * SolicitudExamen findMany
+   */
+  export type SolicitudExamenFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SolicitudExamen
+     */
+    select?: SolicitudExamenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SolicitudExamen
+     */
+    omit?: SolicitudExamenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitudExamenInclude<ExtArgs> | null
+    /**
+     * Filter, which SolicitudExamen to fetch.
+     */
+    where?: SolicitudExamenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SolicitudExamen to fetch.
+     */
+    orderBy?: SolicitudExamenOrderByWithRelationInput | SolicitudExamenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SolicitudExamen.
+     */
+    cursor?: SolicitudExamenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SolicitudExamen from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SolicitudExamen.
+     */
+    skip?: number
+    distinct?: SolicitudExamenScalarFieldEnum | SolicitudExamenScalarFieldEnum[]
+  }
+
+  /**
+   * SolicitudExamen create
+   */
+  export type SolicitudExamenCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SolicitudExamen
+     */
+    select?: SolicitudExamenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SolicitudExamen
+     */
+    omit?: SolicitudExamenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitudExamenInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SolicitudExamen.
+     */
+    data: XOR<SolicitudExamenCreateInput, SolicitudExamenUncheckedCreateInput>
+  }
+
+  /**
+   * SolicitudExamen createMany
+   */
+  export type SolicitudExamenCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SolicitudExamen.
+     */
+    data: SolicitudExamenCreateManyInput | SolicitudExamenCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SolicitudExamen createManyAndReturn
+   */
+  export type SolicitudExamenCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SolicitudExamen
+     */
+    select?: SolicitudExamenSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SolicitudExamen
+     */
+    omit?: SolicitudExamenOmit<ExtArgs> | null
+    /**
+     * The data used to create many SolicitudExamen.
+     */
+    data: SolicitudExamenCreateManyInput | SolicitudExamenCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitudExamenIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SolicitudExamen update
+   */
+  export type SolicitudExamenUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SolicitudExamen
+     */
+    select?: SolicitudExamenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SolicitudExamen
+     */
+    omit?: SolicitudExamenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitudExamenInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SolicitudExamen.
+     */
+    data: XOR<SolicitudExamenUpdateInput, SolicitudExamenUncheckedUpdateInput>
+    /**
+     * Choose, which SolicitudExamen to update.
+     */
+    where: SolicitudExamenWhereUniqueInput
+  }
+
+  /**
+   * SolicitudExamen updateMany
+   */
+  export type SolicitudExamenUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SolicitudExamen.
+     */
+    data: XOR<SolicitudExamenUpdateManyMutationInput, SolicitudExamenUncheckedUpdateManyInput>
+    /**
+     * Filter which SolicitudExamen to update
+     */
+    where?: SolicitudExamenWhereInput
+    /**
+     * Limit how many SolicitudExamen to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SolicitudExamen updateManyAndReturn
+   */
+  export type SolicitudExamenUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SolicitudExamen
+     */
+    select?: SolicitudExamenSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SolicitudExamen
+     */
+    omit?: SolicitudExamenOmit<ExtArgs> | null
+    /**
+     * The data used to update SolicitudExamen.
+     */
+    data: XOR<SolicitudExamenUpdateManyMutationInput, SolicitudExamenUncheckedUpdateManyInput>
+    /**
+     * Filter which SolicitudExamen to update
+     */
+    where?: SolicitudExamenWhereInput
+    /**
+     * Limit how many SolicitudExamen to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitudExamenIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SolicitudExamen upsert
+   */
+  export type SolicitudExamenUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SolicitudExamen
+     */
+    select?: SolicitudExamenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SolicitudExamen
+     */
+    omit?: SolicitudExamenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitudExamenInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SolicitudExamen to update in case it exists.
+     */
+    where: SolicitudExamenWhereUniqueInput
+    /**
+     * In case the SolicitudExamen found by the `where` argument doesn't exist, create a new SolicitudExamen with this data.
+     */
+    create: XOR<SolicitudExamenCreateInput, SolicitudExamenUncheckedCreateInput>
+    /**
+     * In case the SolicitudExamen was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SolicitudExamenUpdateInput, SolicitudExamenUncheckedUpdateInput>
+  }
+
+  /**
+   * SolicitudExamen delete
+   */
+  export type SolicitudExamenDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SolicitudExamen
+     */
+    select?: SolicitudExamenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SolicitudExamen
+     */
+    omit?: SolicitudExamenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitudExamenInclude<ExtArgs> | null
+    /**
+     * Filter which SolicitudExamen to delete.
+     */
+    where: SolicitudExamenWhereUniqueInput
+  }
+
+  /**
+   * SolicitudExamen deleteMany
+   */
+  export type SolicitudExamenDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SolicitudExamen to delete
+     */
+    where?: SolicitudExamenWhereInput
+    /**
+     * Limit how many SolicitudExamen to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SolicitudExamen without action
+   */
+  export type SolicitudExamenDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SolicitudExamen
+     */
+    select?: SolicitudExamenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SolicitudExamen
+     */
+    omit?: SolicitudExamenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitudExamenInclude<ExtArgs> | null
   }
 
 
@@ -8217,11 +15750,88 @@ export namespace Prisma {
     tipoLicenciaObjetivo: 'tipoLicenciaObjetivo',
     fechaNacimiento: 'fechaNacimiento',
     horasPracticasCompletadas: 'horasPracticasCompletadas',
+    matriculaPagada: 'matriculaPagada',
+    fechaMatriculaPago: 'fechaMatriculaPago',
     profesorAsignadoId: 'profesorAsignadoId',
     activo: 'activo'
   };
 
   export type AlumnoScalarFieldEnum = (typeof AlumnoScalarFieldEnum)[keyof typeof AlumnoScalarFieldEnum]
+
+
+  export const TemarioScalarFieldEnum: {
+    id: 'id',
+    titulo: 'titulo',
+    descripcion: 'descripcion',
+    tipoLicenciaObjetivo: 'tipoLicenciaObjetivo',
+    orden: 'orden'
+  };
+
+  export type TemarioScalarFieldEnum = (typeof TemarioScalarFieldEnum)[keyof typeof TemarioScalarFieldEnum]
+
+
+  export const TemarioProgresoScalarFieldEnum: {
+    id: 'id',
+    alumnoId: 'alumnoId',
+    temarioId: 'temarioId',
+    revisado: 'revisado',
+    dominio: 'dominio',
+    ultimaRevision: 'ultimaRevision'
+  };
+
+  export type TemarioProgresoScalarFieldEnum = (typeof TemarioProgresoScalarFieldEnum)[keyof typeof TemarioProgresoScalarFieldEnum]
+
+
+  export const TestPracticaScalarFieldEnum: {
+    id: 'id',
+    alumnoId: 'alumnoId',
+    temarioId: 'temarioId',
+    fecha: 'fecha',
+    resultado: 'resultado',
+    respuestasCorrectas: 'respuestasCorrectas',
+    totalPreguntas: 'totalPreguntas'
+  };
+
+  export type TestPracticaScalarFieldEnum = (typeof TestPracticaScalarFieldEnum)[keyof typeof TestPracticaScalarFieldEnum]
+
+
+  export const BonoScalarFieldEnum: {
+    id: 'id',
+    nombre: 'nombre',
+    descripcion: 'descripcion',
+    clasesIncluidas: 'clasesIncluidas',
+    validezDias: 'validezDias',
+    activo: 'activo'
+  };
+
+  export type BonoScalarFieldEnum = (typeof BonoScalarFieldEnum)[keyof typeof BonoScalarFieldEnum]
+
+
+  export const CompraBonoScalarFieldEnum: {
+    id: 'id',
+    alumnoId: 'alumnoId',
+    bonoId: 'bonoId',
+    clasesCompradas: 'clasesCompradas',
+    clasesConsumidas: 'clasesConsumidas',
+    pagado: 'pagado',
+    fechaCompra: 'fechaCompra',
+    fechaValidezHasta: 'fechaValidezHasta'
+  };
+
+  export type CompraBonoScalarFieldEnum = (typeof CompraBonoScalarFieldEnum)[keyof typeof CompraBonoScalarFieldEnum]
+
+
+  export const SolicitudExamenScalarFieldEnum: {
+    id: 'id',
+    alumnoId: 'alumnoId',
+    tipo: 'tipo',
+    estado: 'estado',
+    fechaSolicitud: 'fechaSolicitud',
+    fechaProgramada: 'fechaProgramada',
+    observaciones: 'observaciones'
+  };
+
+  export type SolicitudExamenScalarFieldEnum = (typeof SolicitudExamenScalarFieldEnum)[keyof typeof SolicitudExamenScalarFieldEnum]
 
 
   export const VehiculoScalarFieldEnum: {
@@ -8517,12 +16127,18 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFilter<"Alumno"> | string
     fechaNacimiento?: DateTimeNullableFilter<"Alumno"> | Date | string | null
     horasPracticasCompletadas?: IntFilter<"Alumno"> | number
+    matriculaPagada?: BoolFilter<"Alumno"> | boolean
+    fechaMatriculaPago?: DateTimeNullableFilter<"Alumno"> | Date | string | null
     profesorAsignadoId?: StringNullableFilter<"Alumno"> | string | null
     activo?: BoolFilter<"Alumno"> | boolean
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
     profesorAsignado?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
     clases?: ClasePracticaListRelationFilter
     examenes?: ExamenListRelationFilter
+    testsPractica?: TestPracticaListRelationFilter
+    temariosProgreso?: TemarioProgresoListRelationFilter
+    bonosComprados?: CompraBonoListRelationFilter
+    solicitudesExamen?: SolicitudExamenListRelationFilter
   }
 
   export type AlumnoOrderByWithRelationInput = {
@@ -8530,12 +16146,18 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: SortOrder
     fechaNacimiento?: SortOrderInput | SortOrder
     horasPracticasCompletadas?: SortOrder
+    matriculaPagada?: SortOrder
+    fechaMatriculaPago?: SortOrderInput | SortOrder
     profesorAsignadoId?: SortOrderInput | SortOrder
     activo?: SortOrder
     usuario?: UsuarioOrderByWithRelationInput
     profesorAsignado?: ProfesorOrderByWithRelationInput
     clases?: ClasePracticaOrderByRelationAggregateInput
     examenes?: ExamenOrderByRelationAggregateInput
+    testsPractica?: TestPracticaOrderByRelationAggregateInput
+    temariosProgreso?: TemarioProgresoOrderByRelationAggregateInput
+    bonosComprados?: CompraBonoOrderByRelationAggregateInput
+    solicitudesExamen?: SolicitudExamenOrderByRelationAggregateInput
   }
 
   export type AlumnoWhereUniqueInput = Prisma.AtLeast<{
@@ -8546,12 +16168,18 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFilter<"Alumno"> | string
     fechaNacimiento?: DateTimeNullableFilter<"Alumno"> | Date | string | null
     horasPracticasCompletadas?: IntFilter<"Alumno"> | number
+    matriculaPagada?: BoolFilter<"Alumno"> | boolean
+    fechaMatriculaPago?: DateTimeNullableFilter<"Alumno"> | Date | string | null
     profesorAsignadoId?: StringNullableFilter<"Alumno"> | string | null
     activo?: BoolFilter<"Alumno"> | boolean
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
     profesorAsignado?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
     clases?: ClasePracticaListRelationFilter
     examenes?: ExamenListRelationFilter
+    testsPractica?: TestPracticaListRelationFilter
+    temariosProgreso?: TemarioProgresoListRelationFilter
+    bonosComprados?: CompraBonoListRelationFilter
+    solicitudesExamen?: SolicitudExamenListRelationFilter
   }, "id">
 
   export type AlumnoOrderByWithAggregationInput = {
@@ -8559,6 +16187,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: SortOrder
     fechaNacimiento?: SortOrderInput | SortOrder
     horasPracticasCompletadas?: SortOrder
+    matriculaPagada?: SortOrder
+    fechaMatriculaPago?: SortOrderInput | SortOrder
     profesorAsignadoId?: SortOrderInput | SortOrder
     activo?: SortOrder
     _count?: AlumnoCountOrderByAggregateInput
@@ -8576,8 +16206,407 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringWithAggregatesFilter<"Alumno"> | string
     fechaNacimiento?: DateTimeNullableWithAggregatesFilter<"Alumno"> | Date | string | null
     horasPracticasCompletadas?: IntWithAggregatesFilter<"Alumno"> | number
+    matriculaPagada?: BoolWithAggregatesFilter<"Alumno"> | boolean
+    fechaMatriculaPago?: DateTimeNullableWithAggregatesFilter<"Alumno"> | Date | string | null
     profesorAsignadoId?: StringNullableWithAggregatesFilter<"Alumno"> | string | null
     activo?: BoolWithAggregatesFilter<"Alumno"> | boolean
+  }
+
+  export type TemarioWhereInput = {
+    AND?: TemarioWhereInput | TemarioWhereInput[]
+    OR?: TemarioWhereInput[]
+    NOT?: TemarioWhereInput | TemarioWhereInput[]
+    id?: StringFilter<"Temario"> | string
+    titulo?: StringFilter<"Temario"> | string
+    descripcion?: StringNullableFilter<"Temario"> | string | null
+    tipoLicenciaObjetivo?: StringFilter<"Temario"> | string
+    orden?: IntFilter<"Temario"> | number
+    progreso?: TemarioProgresoListRelationFilter
+    testsPractica?: TestPracticaListRelationFilter
+  }
+
+  export type TemarioOrderByWithRelationInput = {
+    id?: SortOrder
+    titulo?: SortOrder
+    descripcion?: SortOrderInput | SortOrder
+    tipoLicenciaObjetivo?: SortOrder
+    orden?: SortOrder
+    progreso?: TemarioProgresoOrderByRelationAggregateInput
+    testsPractica?: TestPracticaOrderByRelationAggregateInput
+  }
+
+  export type TemarioWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: TemarioWhereInput | TemarioWhereInput[]
+    OR?: TemarioWhereInput[]
+    NOT?: TemarioWhereInput | TemarioWhereInput[]
+    titulo?: StringFilter<"Temario"> | string
+    descripcion?: StringNullableFilter<"Temario"> | string | null
+    tipoLicenciaObjetivo?: StringFilter<"Temario"> | string
+    orden?: IntFilter<"Temario"> | number
+    progreso?: TemarioProgresoListRelationFilter
+    testsPractica?: TestPracticaListRelationFilter
+  }, "id">
+
+  export type TemarioOrderByWithAggregationInput = {
+    id?: SortOrder
+    titulo?: SortOrder
+    descripcion?: SortOrderInput | SortOrder
+    tipoLicenciaObjetivo?: SortOrder
+    orden?: SortOrder
+    _count?: TemarioCountOrderByAggregateInput
+    _avg?: TemarioAvgOrderByAggregateInput
+    _max?: TemarioMaxOrderByAggregateInput
+    _min?: TemarioMinOrderByAggregateInput
+    _sum?: TemarioSumOrderByAggregateInput
+  }
+
+  export type TemarioScalarWhereWithAggregatesInput = {
+    AND?: TemarioScalarWhereWithAggregatesInput | TemarioScalarWhereWithAggregatesInput[]
+    OR?: TemarioScalarWhereWithAggregatesInput[]
+    NOT?: TemarioScalarWhereWithAggregatesInput | TemarioScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Temario"> | string
+    titulo?: StringWithAggregatesFilter<"Temario"> | string
+    descripcion?: StringNullableWithAggregatesFilter<"Temario"> | string | null
+    tipoLicenciaObjetivo?: StringWithAggregatesFilter<"Temario"> | string
+    orden?: IntWithAggregatesFilter<"Temario"> | number
+  }
+
+  export type TemarioProgresoWhereInput = {
+    AND?: TemarioProgresoWhereInput | TemarioProgresoWhereInput[]
+    OR?: TemarioProgresoWhereInput[]
+    NOT?: TemarioProgresoWhereInput | TemarioProgresoWhereInput[]
+    id?: StringFilter<"TemarioProgreso"> | string
+    alumnoId?: StringFilter<"TemarioProgreso"> | string
+    temarioId?: StringFilter<"TemarioProgreso"> | string
+    revisado?: BoolFilter<"TemarioProgreso"> | boolean
+    dominio?: IntFilter<"TemarioProgreso"> | number
+    ultimaRevision?: DateTimeNullableFilter<"TemarioProgreso"> | Date | string | null
+    alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+    temario?: XOR<TemarioScalarRelationFilter, TemarioWhereInput>
+  }
+
+  export type TemarioProgresoOrderByWithRelationInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    temarioId?: SortOrder
+    revisado?: SortOrder
+    dominio?: SortOrder
+    ultimaRevision?: SortOrderInput | SortOrder
+    alumno?: AlumnoOrderByWithRelationInput
+    temario?: TemarioOrderByWithRelationInput
+  }
+
+  export type TemarioProgresoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: TemarioProgresoWhereInput | TemarioProgresoWhereInput[]
+    OR?: TemarioProgresoWhereInput[]
+    NOT?: TemarioProgresoWhereInput | TemarioProgresoWhereInput[]
+    alumnoId?: StringFilter<"TemarioProgreso"> | string
+    temarioId?: StringFilter<"TemarioProgreso"> | string
+    revisado?: BoolFilter<"TemarioProgreso"> | boolean
+    dominio?: IntFilter<"TemarioProgreso"> | number
+    ultimaRevision?: DateTimeNullableFilter<"TemarioProgreso"> | Date | string | null
+    alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+    temario?: XOR<TemarioScalarRelationFilter, TemarioWhereInput>
+  }, "id">
+
+  export type TemarioProgresoOrderByWithAggregationInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    temarioId?: SortOrder
+    revisado?: SortOrder
+    dominio?: SortOrder
+    ultimaRevision?: SortOrderInput | SortOrder
+    _count?: TemarioProgresoCountOrderByAggregateInput
+    _avg?: TemarioProgresoAvgOrderByAggregateInput
+    _max?: TemarioProgresoMaxOrderByAggregateInput
+    _min?: TemarioProgresoMinOrderByAggregateInput
+    _sum?: TemarioProgresoSumOrderByAggregateInput
+  }
+
+  export type TemarioProgresoScalarWhereWithAggregatesInput = {
+    AND?: TemarioProgresoScalarWhereWithAggregatesInput | TemarioProgresoScalarWhereWithAggregatesInput[]
+    OR?: TemarioProgresoScalarWhereWithAggregatesInput[]
+    NOT?: TemarioProgresoScalarWhereWithAggregatesInput | TemarioProgresoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TemarioProgreso"> | string
+    alumnoId?: StringWithAggregatesFilter<"TemarioProgreso"> | string
+    temarioId?: StringWithAggregatesFilter<"TemarioProgreso"> | string
+    revisado?: BoolWithAggregatesFilter<"TemarioProgreso"> | boolean
+    dominio?: IntWithAggregatesFilter<"TemarioProgreso"> | number
+    ultimaRevision?: DateTimeNullableWithAggregatesFilter<"TemarioProgreso"> | Date | string | null
+  }
+
+  export type TestPracticaWhereInput = {
+    AND?: TestPracticaWhereInput | TestPracticaWhereInput[]
+    OR?: TestPracticaWhereInput[]
+    NOT?: TestPracticaWhereInput | TestPracticaWhereInput[]
+    id?: StringFilter<"TestPractica"> | string
+    alumnoId?: StringFilter<"TestPractica"> | string
+    temarioId?: StringNullableFilter<"TestPractica"> | string | null
+    fecha?: DateTimeFilter<"TestPractica"> | Date | string
+    resultado?: StringFilter<"TestPractica"> | string
+    respuestasCorrectas?: IntFilter<"TestPractica"> | number
+    totalPreguntas?: IntFilter<"TestPractica"> | number
+    alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+    temario?: XOR<TemarioNullableScalarRelationFilter, TemarioWhereInput> | null
+  }
+
+  export type TestPracticaOrderByWithRelationInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    temarioId?: SortOrderInput | SortOrder
+    fecha?: SortOrder
+    resultado?: SortOrder
+    respuestasCorrectas?: SortOrder
+    totalPreguntas?: SortOrder
+    alumno?: AlumnoOrderByWithRelationInput
+    temario?: TemarioOrderByWithRelationInput
+  }
+
+  export type TestPracticaWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: TestPracticaWhereInput | TestPracticaWhereInput[]
+    OR?: TestPracticaWhereInput[]
+    NOT?: TestPracticaWhereInput | TestPracticaWhereInput[]
+    alumnoId?: StringFilter<"TestPractica"> | string
+    temarioId?: StringNullableFilter<"TestPractica"> | string | null
+    fecha?: DateTimeFilter<"TestPractica"> | Date | string
+    resultado?: StringFilter<"TestPractica"> | string
+    respuestasCorrectas?: IntFilter<"TestPractica"> | number
+    totalPreguntas?: IntFilter<"TestPractica"> | number
+    alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+    temario?: XOR<TemarioNullableScalarRelationFilter, TemarioWhereInput> | null
+  }, "id">
+
+  export type TestPracticaOrderByWithAggregationInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    temarioId?: SortOrderInput | SortOrder
+    fecha?: SortOrder
+    resultado?: SortOrder
+    respuestasCorrectas?: SortOrder
+    totalPreguntas?: SortOrder
+    _count?: TestPracticaCountOrderByAggregateInput
+    _avg?: TestPracticaAvgOrderByAggregateInput
+    _max?: TestPracticaMaxOrderByAggregateInput
+    _min?: TestPracticaMinOrderByAggregateInput
+    _sum?: TestPracticaSumOrderByAggregateInput
+  }
+
+  export type TestPracticaScalarWhereWithAggregatesInput = {
+    AND?: TestPracticaScalarWhereWithAggregatesInput | TestPracticaScalarWhereWithAggregatesInput[]
+    OR?: TestPracticaScalarWhereWithAggregatesInput[]
+    NOT?: TestPracticaScalarWhereWithAggregatesInput | TestPracticaScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TestPractica"> | string
+    alumnoId?: StringWithAggregatesFilter<"TestPractica"> | string
+    temarioId?: StringNullableWithAggregatesFilter<"TestPractica"> | string | null
+    fecha?: DateTimeWithAggregatesFilter<"TestPractica"> | Date | string
+    resultado?: StringWithAggregatesFilter<"TestPractica"> | string
+    respuestasCorrectas?: IntWithAggregatesFilter<"TestPractica"> | number
+    totalPreguntas?: IntWithAggregatesFilter<"TestPractica"> | number
+  }
+
+  export type BonoWhereInput = {
+    AND?: BonoWhereInput | BonoWhereInput[]
+    OR?: BonoWhereInput[]
+    NOT?: BonoWhereInput | BonoWhereInput[]
+    id?: StringFilter<"Bono"> | string
+    nombre?: StringFilter<"Bono"> | string
+    descripcion?: StringNullableFilter<"Bono"> | string | null
+    clasesIncluidas?: IntFilter<"Bono"> | number
+    validezDias?: IntFilter<"Bono"> | number
+    activo?: BoolFilter<"Bono"> | boolean
+    compras?: CompraBonoListRelationFilter
+  }
+
+  export type BonoOrderByWithRelationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrderInput | SortOrder
+    clasesIncluidas?: SortOrder
+    validezDias?: SortOrder
+    activo?: SortOrder
+    compras?: CompraBonoOrderByRelationAggregateInput
+  }
+
+  export type BonoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: BonoWhereInput | BonoWhereInput[]
+    OR?: BonoWhereInput[]
+    NOT?: BonoWhereInput | BonoWhereInput[]
+    nombre?: StringFilter<"Bono"> | string
+    descripcion?: StringNullableFilter<"Bono"> | string | null
+    clasesIncluidas?: IntFilter<"Bono"> | number
+    validezDias?: IntFilter<"Bono"> | number
+    activo?: BoolFilter<"Bono"> | boolean
+    compras?: CompraBonoListRelationFilter
+  }, "id">
+
+  export type BonoOrderByWithAggregationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrderInput | SortOrder
+    clasesIncluidas?: SortOrder
+    validezDias?: SortOrder
+    activo?: SortOrder
+    _count?: BonoCountOrderByAggregateInput
+    _avg?: BonoAvgOrderByAggregateInput
+    _max?: BonoMaxOrderByAggregateInput
+    _min?: BonoMinOrderByAggregateInput
+    _sum?: BonoSumOrderByAggregateInput
+  }
+
+  export type BonoScalarWhereWithAggregatesInput = {
+    AND?: BonoScalarWhereWithAggregatesInput | BonoScalarWhereWithAggregatesInput[]
+    OR?: BonoScalarWhereWithAggregatesInput[]
+    NOT?: BonoScalarWhereWithAggregatesInput | BonoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Bono"> | string
+    nombre?: StringWithAggregatesFilter<"Bono"> | string
+    descripcion?: StringNullableWithAggregatesFilter<"Bono"> | string | null
+    clasesIncluidas?: IntWithAggregatesFilter<"Bono"> | number
+    validezDias?: IntWithAggregatesFilter<"Bono"> | number
+    activo?: BoolWithAggregatesFilter<"Bono"> | boolean
+  }
+
+  export type CompraBonoWhereInput = {
+    AND?: CompraBonoWhereInput | CompraBonoWhereInput[]
+    OR?: CompraBonoWhereInput[]
+    NOT?: CompraBonoWhereInput | CompraBonoWhereInput[]
+    id?: StringFilter<"CompraBono"> | string
+    alumnoId?: StringFilter<"CompraBono"> | string
+    bonoId?: StringFilter<"CompraBono"> | string
+    clasesCompradas?: IntFilter<"CompraBono"> | number
+    clasesConsumidas?: IntFilter<"CompraBono"> | number
+    pagado?: BoolFilter<"CompraBono"> | boolean
+    fechaCompra?: DateTimeFilter<"CompraBono"> | Date | string
+    fechaValidezHasta?: DateTimeFilter<"CompraBono"> | Date | string
+    alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+    bono?: XOR<BonoScalarRelationFilter, BonoWhereInput>
+  }
+
+  export type CompraBonoOrderByWithRelationInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    bonoId?: SortOrder
+    clasesCompradas?: SortOrder
+    clasesConsumidas?: SortOrder
+    pagado?: SortOrder
+    fechaCompra?: SortOrder
+    fechaValidezHasta?: SortOrder
+    alumno?: AlumnoOrderByWithRelationInput
+    bono?: BonoOrderByWithRelationInput
+  }
+
+  export type CompraBonoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CompraBonoWhereInput | CompraBonoWhereInput[]
+    OR?: CompraBonoWhereInput[]
+    NOT?: CompraBonoWhereInput | CompraBonoWhereInput[]
+    alumnoId?: StringFilter<"CompraBono"> | string
+    bonoId?: StringFilter<"CompraBono"> | string
+    clasesCompradas?: IntFilter<"CompraBono"> | number
+    clasesConsumidas?: IntFilter<"CompraBono"> | number
+    pagado?: BoolFilter<"CompraBono"> | boolean
+    fechaCompra?: DateTimeFilter<"CompraBono"> | Date | string
+    fechaValidezHasta?: DateTimeFilter<"CompraBono"> | Date | string
+    alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+    bono?: XOR<BonoScalarRelationFilter, BonoWhereInput>
+  }, "id">
+
+  export type CompraBonoOrderByWithAggregationInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    bonoId?: SortOrder
+    clasesCompradas?: SortOrder
+    clasesConsumidas?: SortOrder
+    pagado?: SortOrder
+    fechaCompra?: SortOrder
+    fechaValidezHasta?: SortOrder
+    _count?: CompraBonoCountOrderByAggregateInput
+    _avg?: CompraBonoAvgOrderByAggregateInput
+    _max?: CompraBonoMaxOrderByAggregateInput
+    _min?: CompraBonoMinOrderByAggregateInput
+    _sum?: CompraBonoSumOrderByAggregateInput
+  }
+
+  export type CompraBonoScalarWhereWithAggregatesInput = {
+    AND?: CompraBonoScalarWhereWithAggregatesInput | CompraBonoScalarWhereWithAggregatesInput[]
+    OR?: CompraBonoScalarWhereWithAggregatesInput[]
+    NOT?: CompraBonoScalarWhereWithAggregatesInput | CompraBonoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CompraBono"> | string
+    alumnoId?: StringWithAggregatesFilter<"CompraBono"> | string
+    bonoId?: StringWithAggregatesFilter<"CompraBono"> | string
+    clasesCompradas?: IntWithAggregatesFilter<"CompraBono"> | number
+    clasesConsumidas?: IntWithAggregatesFilter<"CompraBono"> | number
+    pagado?: BoolWithAggregatesFilter<"CompraBono"> | boolean
+    fechaCompra?: DateTimeWithAggregatesFilter<"CompraBono"> | Date | string
+    fechaValidezHasta?: DateTimeWithAggregatesFilter<"CompraBono"> | Date | string
+  }
+
+  export type SolicitudExamenWhereInput = {
+    AND?: SolicitudExamenWhereInput | SolicitudExamenWhereInput[]
+    OR?: SolicitudExamenWhereInput[]
+    NOT?: SolicitudExamenWhereInput | SolicitudExamenWhereInput[]
+    id?: StringFilter<"SolicitudExamen"> | string
+    alumnoId?: StringFilter<"SolicitudExamen"> | string
+    tipo?: StringFilter<"SolicitudExamen"> | string
+    estado?: StringFilter<"SolicitudExamen"> | string
+    fechaSolicitud?: DateTimeFilter<"SolicitudExamen"> | Date | string
+    fechaProgramada?: DateTimeNullableFilter<"SolicitudExamen"> | Date | string | null
+    observaciones?: StringNullableFilter<"SolicitudExamen"> | string | null
+    alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+  }
+
+  export type SolicitudExamenOrderByWithRelationInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    tipo?: SortOrder
+    estado?: SortOrder
+    fechaSolicitud?: SortOrder
+    fechaProgramada?: SortOrderInput | SortOrder
+    observaciones?: SortOrderInput | SortOrder
+    alumno?: AlumnoOrderByWithRelationInput
+  }
+
+  export type SolicitudExamenWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SolicitudExamenWhereInput | SolicitudExamenWhereInput[]
+    OR?: SolicitudExamenWhereInput[]
+    NOT?: SolicitudExamenWhereInput | SolicitudExamenWhereInput[]
+    alumnoId?: StringFilter<"SolicitudExamen"> | string
+    tipo?: StringFilter<"SolicitudExamen"> | string
+    estado?: StringFilter<"SolicitudExamen"> | string
+    fechaSolicitud?: DateTimeFilter<"SolicitudExamen"> | Date | string
+    fechaProgramada?: DateTimeNullableFilter<"SolicitudExamen"> | Date | string | null
+    observaciones?: StringNullableFilter<"SolicitudExamen"> | string | null
+    alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+  }, "id">
+
+  export type SolicitudExamenOrderByWithAggregationInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    tipo?: SortOrder
+    estado?: SortOrder
+    fechaSolicitud?: SortOrder
+    fechaProgramada?: SortOrderInput | SortOrder
+    observaciones?: SortOrderInput | SortOrder
+    _count?: SolicitudExamenCountOrderByAggregateInput
+    _max?: SolicitudExamenMaxOrderByAggregateInput
+    _min?: SolicitudExamenMinOrderByAggregateInput
+  }
+
+  export type SolicitudExamenScalarWhereWithAggregatesInput = {
+    AND?: SolicitudExamenScalarWhereWithAggregatesInput | SolicitudExamenScalarWhereWithAggregatesInput[]
+    OR?: SolicitudExamenScalarWhereWithAggregatesInput[]
+    NOT?: SolicitudExamenScalarWhereWithAggregatesInput | SolicitudExamenScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SolicitudExamen"> | string
+    alumnoId?: StringWithAggregatesFilter<"SolicitudExamen"> | string
+    tipo?: StringWithAggregatesFilter<"SolicitudExamen"> | string
+    estado?: StringWithAggregatesFilter<"SolicitudExamen"> | string
+    fechaSolicitud?: DateTimeWithAggregatesFilter<"SolicitudExamen"> | Date | string
+    fechaProgramada?: DateTimeNullableWithAggregatesFilter<"SolicitudExamen"> | Date | string | null
+    observaciones?: StringNullableWithAggregatesFilter<"SolicitudExamen"> | string | null
   }
 
   export type VehiculoWhereInput = {
@@ -8932,11 +16961,17 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: Date | string | null
     activo?: boolean
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
     clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateInput = {
@@ -8944,21 +16979,33 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: Date | string | null
     profesorAsignadoId?: string | null
     activo?: boolean
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUpdateInput = {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
     clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateInput = {
@@ -8966,10 +17013,16 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoCreateManyInput = {
@@ -8977,6 +17030,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: Date | string | null
     profesorAsignadoId?: string | null
     activo?: boolean
   }
@@ -8985,6 +17040,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -8993,8 +17050,414 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type TemarioCreateInput = {
+    id?: string
+    titulo: string
+    descripcion?: string | null
+    tipoLicenciaObjetivo: string
+    orden?: number
+    progreso?: TemarioProgresoCreateNestedManyWithoutTemarioInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutTemarioInput
+  }
+
+  export type TemarioUncheckedCreateInput = {
+    id?: string
+    titulo: string
+    descripcion?: string | null
+    tipoLicenciaObjetivo: string
+    orden?: number
+    progreso?: TemarioProgresoUncheckedCreateNestedManyWithoutTemarioInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutTemarioInput
+  }
+
+  export type TemarioUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    orden?: IntFieldUpdateOperationsInput | number
+    progreso?: TemarioProgresoUpdateManyWithoutTemarioNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutTemarioNestedInput
+  }
+
+  export type TemarioUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    orden?: IntFieldUpdateOperationsInput | number
+    progreso?: TemarioProgresoUncheckedUpdateManyWithoutTemarioNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutTemarioNestedInput
+  }
+
+  export type TemarioCreateManyInput = {
+    id?: string
+    titulo: string
+    descripcion?: string | null
+    tipoLicenciaObjetivo: string
+    orden?: number
+  }
+
+  export type TemarioUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    orden?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TemarioUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    orden?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TemarioProgresoCreateInput = {
+    id?: string
+    revisado?: boolean
+    dominio?: number
+    ultimaRevision?: Date | string | null
+    alumno: AlumnoCreateNestedOneWithoutTemariosProgresoInput
+    temario: TemarioCreateNestedOneWithoutProgresoInput
+  }
+
+  export type TemarioProgresoUncheckedCreateInput = {
+    id?: string
+    alumnoId: string
+    temarioId: string
+    revisado?: boolean
+    dominio?: number
+    ultimaRevision?: Date | string | null
+  }
+
+  export type TemarioProgresoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    revisado?: BoolFieldUpdateOperationsInput | boolean
+    dominio?: IntFieldUpdateOperationsInput | number
+    ultimaRevision?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    alumno?: AlumnoUpdateOneRequiredWithoutTemariosProgresoNestedInput
+    temario?: TemarioUpdateOneRequiredWithoutProgresoNestedInput
+  }
+
+  export type TemarioProgresoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    temarioId?: StringFieldUpdateOperationsInput | string
+    revisado?: BoolFieldUpdateOperationsInput | boolean
+    dominio?: IntFieldUpdateOperationsInput | number
+    ultimaRevision?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type TemarioProgresoCreateManyInput = {
+    id?: string
+    alumnoId: string
+    temarioId: string
+    revisado?: boolean
+    dominio?: number
+    ultimaRevision?: Date | string | null
+  }
+
+  export type TemarioProgresoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    revisado?: BoolFieldUpdateOperationsInput | boolean
+    dominio?: IntFieldUpdateOperationsInput | number
+    ultimaRevision?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type TemarioProgresoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    temarioId?: StringFieldUpdateOperationsInput | string
+    revisado?: BoolFieldUpdateOperationsInput | boolean
+    dominio?: IntFieldUpdateOperationsInput | number
+    ultimaRevision?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type TestPracticaCreateInput = {
+    id?: string
+    fecha?: Date | string
+    resultado: string
+    respuestasCorrectas: number
+    totalPreguntas: number
+    alumno: AlumnoCreateNestedOneWithoutTestsPracticaInput
+    temario?: TemarioCreateNestedOneWithoutTestsPracticaInput
+  }
+
+  export type TestPracticaUncheckedCreateInput = {
+    id?: string
+    alumnoId: string
+    temarioId?: string | null
+    fecha?: Date | string
+    resultado: string
+    respuestasCorrectas: number
+    totalPreguntas: number
+  }
+
+  export type TestPracticaUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    resultado?: StringFieldUpdateOperationsInput | string
+    respuestasCorrectas?: IntFieldUpdateOperationsInput | number
+    totalPreguntas?: IntFieldUpdateOperationsInput | number
+    alumno?: AlumnoUpdateOneRequiredWithoutTestsPracticaNestedInput
+    temario?: TemarioUpdateOneWithoutTestsPracticaNestedInput
+  }
+
+  export type TestPracticaUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    temarioId?: NullableStringFieldUpdateOperationsInput | string | null
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    resultado?: StringFieldUpdateOperationsInput | string
+    respuestasCorrectas?: IntFieldUpdateOperationsInput | number
+    totalPreguntas?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TestPracticaCreateManyInput = {
+    id?: string
+    alumnoId: string
+    temarioId?: string | null
+    fecha?: Date | string
+    resultado: string
+    respuestasCorrectas: number
+    totalPreguntas: number
+  }
+
+  export type TestPracticaUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    resultado?: StringFieldUpdateOperationsInput | string
+    respuestasCorrectas?: IntFieldUpdateOperationsInput | number
+    totalPreguntas?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TestPracticaUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    temarioId?: NullableStringFieldUpdateOperationsInput | string | null
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    resultado?: StringFieldUpdateOperationsInput | string
+    respuestasCorrectas?: IntFieldUpdateOperationsInput | number
+    totalPreguntas?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BonoCreateInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    clasesIncluidas: number
+    validezDias?: number
+    activo?: boolean
+    compras?: CompraBonoCreateNestedManyWithoutBonoInput
+  }
+
+  export type BonoUncheckedCreateInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    clasesIncluidas: number
+    validezDias?: number
+    activo?: boolean
+    compras?: CompraBonoUncheckedCreateNestedManyWithoutBonoInput
+  }
+
+  export type BonoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    clasesIncluidas?: IntFieldUpdateOperationsInput | number
+    validezDias?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    compras?: CompraBonoUpdateManyWithoutBonoNestedInput
+  }
+
+  export type BonoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    clasesIncluidas?: IntFieldUpdateOperationsInput | number
+    validezDias?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    compras?: CompraBonoUncheckedUpdateManyWithoutBonoNestedInput
+  }
+
+  export type BonoCreateManyInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    clasesIncluidas: number
+    validezDias?: number
+    activo?: boolean
+  }
+
+  export type BonoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    clasesIncluidas?: IntFieldUpdateOperationsInput | number
+    validezDias?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type BonoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    clasesIncluidas?: IntFieldUpdateOperationsInput | number
+    validezDias?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type CompraBonoCreateInput = {
+    id?: string
+    clasesCompradas: number
+    clasesConsumidas?: number
+    pagado?: boolean
+    fechaCompra?: Date | string
+    fechaValidezHasta: Date | string
+    alumno: AlumnoCreateNestedOneWithoutBonosCompradosInput
+    bono: BonoCreateNestedOneWithoutComprasInput
+  }
+
+  export type CompraBonoUncheckedCreateInput = {
+    id?: string
+    alumnoId: string
+    bonoId: string
+    clasesCompradas: number
+    clasesConsumidas?: number
+    pagado?: boolean
+    fechaCompra?: Date | string
+    fechaValidezHasta: Date | string
+  }
+
+  export type CompraBonoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clasesCompradas?: IntFieldUpdateOperationsInput | number
+    clasesConsumidas?: IntFieldUpdateOperationsInput | number
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    fechaCompra?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
+    alumno?: AlumnoUpdateOneRequiredWithoutBonosCompradosNestedInput
+    bono?: BonoUpdateOneRequiredWithoutComprasNestedInput
+  }
+
+  export type CompraBonoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    bonoId?: StringFieldUpdateOperationsInput | string
+    clasesCompradas?: IntFieldUpdateOperationsInput | number
+    clasesConsumidas?: IntFieldUpdateOperationsInput | number
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    fechaCompra?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompraBonoCreateManyInput = {
+    id?: string
+    alumnoId: string
+    bonoId: string
+    clasesCompradas: number
+    clasesConsumidas?: number
+    pagado?: boolean
+    fechaCompra?: Date | string
+    fechaValidezHasta: Date | string
+  }
+
+  export type CompraBonoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clasesCompradas?: IntFieldUpdateOperationsInput | number
+    clasesConsumidas?: IntFieldUpdateOperationsInput | number
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    fechaCompra?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompraBonoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    bonoId?: StringFieldUpdateOperationsInput | string
+    clasesCompradas?: IntFieldUpdateOperationsInput | number
+    clasesConsumidas?: IntFieldUpdateOperationsInput | number
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    fechaCompra?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SolicitudExamenCreateInput = {
+    id?: string
+    tipo: string
+    estado?: string
+    fechaSolicitud?: Date | string
+    fechaProgramada?: Date | string | null
+    observaciones?: string | null
+    alumno: AlumnoCreateNestedOneWithoutSolicitudesExamenInput
+  }
+
+  export type SolicitudExamenUncheckedCreateInput = {
+    id?: string
+    alumnoId: string
+    tipo: string
+    estado?: string
+    fechaSolicitud?: Date | string
+    fechaProgramada?: Date | string | null
+    observaciones?: string | null
+  }
+
+  export type SolicitudExamenUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    alumno?: AlumnoUpdateOneRequiredWithoutSolicitudesExamenNestedInput
+  }
+
+  export type SolicitudExamenUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SolicitudExamenCreateManyInput = {
+    id?: string
+    alumnoId: string
+    tipo: string
+    estado?: string
+    fechaSolicitud?: Date | string
+    fechaProgramada?: Date | string | null
+    observaciones?: string | null
+  }
+
+  export type SolicitudExamenUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SolicitudExamenUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type VehiculoCreateInput = {
@@ -9448,7 +17911,47 @@ export namespace Prisma {
     none?: ExamenWhereInput
   }
 
+  export type TestPracticaListRelationFilter = {
+    every?: TestPracticaWhereInput
+    some?: TestPracticaWhereInput
+    none?: TestPracticaWhereInput
+  }
+
+  export type TemarioProgresoListRelationFilter = {
+    every?: TemarioProgresoWhereInput
+    some?: TemarioProgresoWhereInput
+    none?: TemarioProgresoWhereInput
+  }
+
+  export type CompraBonoListRelationFilter = {
+    every?: CompraBonoWhereInput
+    some?: CompraBonoWhereInput
+    none?: CompraBonoWhereInput
+  }
+
+  export type SolicitudExamenListRelationFilter = {
+    every?: SolicitudExamenWhereInput
+    some?: SolicitudExamenWhereInput
+    none?: SolicitudExamenWhereInput
+  }
+
   export type ExamenOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TestPracticaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TemarioProgresoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CompraBonoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SolicitudExamenOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -9457,6 +17960,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: SortOrder
     fechaNacimiento?: SortOrder
     horasPracticasCompletadas?: SortOrder
+    matriculaPagada?: SortOrder
+    fechaMatriculaPago?: SortOrder
     profesorAsignadoId?: SortOrder
     activo?: SortOrder
   }
@@ -9470,6 +17975,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: SortOrder
     fechaNacimiento?: SortOrder
     horasPracticasCompletadas?: SortOrder
+    matriculaPagada?: SortOrder
+    fechaMatriculaPago?: SortOrder
     profesorAsignadoId?: SortOrder
     activo?: SortOrder
   }
@@ -9479,6 +17986,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: SortOrder
     fechaNacimiento?: SortOrder
     horasPracticasCompletadas?: SortOrder
+    matriculaPagada?: SortOrder
+    fechaMatriculaPago?: SortOrder
     profesorAsignadoId?: SortOrder
     activo?: SortOrder
   }
@@ -9517,6 +18026,243 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type TemarioCountOrderByAggregateInput = {
+    id?: SortOrder
+    titulo?: SortOrder
+    descripcion?: SortOrder
+    tipoLicenciaObjetivo?: SortOrder
+    orden?: SortOrder
+  }
+
+  export type TemarioAvgOrderByAggregateInput = {
+    orden?: SortOrder
+  }
+
+  export type TemarioMaxOrderByAggregateInput = {
+    id?: SortOrder
+    titulo?: SortOrder
+    descripcion?: SortOrder
+    tipoLicenciaObjetivo?: SortOrder
+    orden?: SortOrder
+  }
+
+  export type TemarioMinOrderByAggregateInput = {
+    id?: SortOrder
+    titulo?: SortOrder
+    descripcion?: SortOrder
+    tipoLicenciaObjetivo?: SortOrder
+    orden?: SortOrder
+  }
+
+  export type TemarioSumOrderByAggregateInput = {
+    orden?: SortOrder
+  }
+
+  export type AlumnoScalarRelationFilter = {
+    is?: AlumnoWhereInput
+    isNot?: AlumnoWhereInput
+  }
+
+  export type TemarioScalarRelationFilter = {
+    is?: TemarioWhereInput
+    isNot?: TemarioWhereInput
+  }
+
+  export type TemarioProgresoCountOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    temarioId?: SortOrder
+    revisado?: SortOrder
+    dominio?: SortOrder
+    ultimaRevision?: SortOrder
+  }
+
+  export type TemarioProgresoAvgOrderByAggregateInput = {
+    dominio?: SortOrder
+  }
+
+  export type TemarioProgresoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    temarioId?: SortOrder
+    revisado?: SortOrder
+    dominio?: SortOrder
+    ultimaRevision?: SortOrder
+  }
+
+  export type TemarioProgresoMinOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    temarioId?: SortOrder
+    revisado?: SortOrder
+    dominio?: SortOrder
+    ultimaRevision?: SortOrder
+  }
+
+  export type TemarioProgresoSumOrderByAggregateInput = {
+    dominio?: SortOrder
+  }
+
+  export type TemarioNullableScalarRelationFilter = {
+    is?: TemarioWhereInput | null
+    isNot?: TemarioWhereInput | null
+  }
+
+  export type TestPracticaCountOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    temarioId?: SortOrder
+    fecha?: SortOrder
+    resultado?: SortOrder
+    respuestasCorrectas?: SortOrder
+    totalPreguntas?: SortOrder
+  }
+
+  export type TestPracticaAvgOrderByAggregateInput = {
+    respuestasCorrectas?: SortOrder
+    totalPreguntas?: SortOrder
+  }
+
+  export type TestPracticaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    temarioId?: SortOrder
+    fecha?: SortOrder
+    resultado?: SortOrder
+    respuestasCorrectas?: SortOrder
+    totalPreguntas?: SortOrder
+  }
+
+  export type TestPracticaMinOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    temarioId?: SortOrder
+    fecha?: SortOrder
+    resultado?: SortOrder
+    respuestasCorrectas?: SortOrder
+    totalPreguntas?: SortOrder
+  }
+
+  export type TestPracticaSumOrderByAggregateInput = {
+    respuestasCorrectas?: SortOrder
+    totalPreguntas?: SortOrder
+  }
+
+  export type BonoCountOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrder
+    clasesIncluidas?: SortOrder
+    validezDias?: SortOrder
+    activo?: SortOrder
+  }
+
+  export type BonoAvgOrderByAggregateInput = {
+    clasesIncluidas?: SortOrder
+    validezDias?: SortOrder
+  }
+
+  export type BonoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrder
+    clasesIncluidas?: SortOrder
+    validezDias?: SortOrder
+    activo?: SortOrder
+  }
+
+  export type BonoMinOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrder
+    clasesIncluidas?: SortOrder
+    validezDias?: SortOrder
+    activo?: SortOrder
+  }
+
+  export type BonoSumOrderByAggregateInput = {
+    clasesIncluidas?: SortOrder
+    validezDias?: SortOrder
+  }
+
+  export type BonoScalarRelationFilter = {
+    is?: BonoWhereInput
+    isNot?: BonoWhereInput
+  }
+
+  export type CompraBonoCountOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    bonoId?: SortOrder
+    clasesCompradas?: SortOrder
+    clasesConsumidas?: SortOrder
+    pagado?: SortOrder
+    fechaCompra?: SortOrder
+    fechaValidezHasta?: SortOrder
+  }
+
+  export type CompraBonoAvgOrderByAggregateInput = {
+    clasesCompradas?: SortOrder
+    clasesConsumidas?: SortOrder
+  }
+
+  export type CompraBonoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    bonoId?: SortOrder
+    clasesCompradas?: SortOrder
+    clasesConsumidas?: SortOrder
+    pagado?: SortOrder
+    fechaCompra?: SortOrder
+    fechaValidezHasta?: SortOrder
+  }
+
+  export type CompraBonoMinOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    bonoId?: SortOrder
+    clasesCompradas?: SortOrder
+    clasesConsumidas?: SortOrder
+    pagado?: SortOrder
+    fechaCompra?: SortOrder
+    fechaValidezHasta?: SortOrder
+  }
+
+  export type CompraBonoSumOrderByAggregateInput = {
+    clasesCompradas?: SortOrder
+    clasesConsumidas?: SortOrder
+  }
+
+  export type SolicitudExamenCountOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    tipo?: SortOrder
+    estado?: SortOrder
+    fechaSolicitud?: SortOrder
+    fechaProgramada?: SortOrder
+    observaciones?: SortOrder
+  }
+
+  export type SolicitudExamenMaxOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    tipo?: SortOrder
+    estado?: SortOrder
+    fechaSolicitud?: SortOrder
+    fechaProgramada?: SortOrder
+    observaciones?: SortOrder
+  }
+
+  export type SolicitudExamenMinOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    tipo?: SortOrder
+    estado?: SortOrder
+    fechaSolicitud?: SortOrder
+    fechaProgramada?: SortOrder
+    observaciones?: SortOrder
+  }
+
   export type VehiculoCountOrderByAggregateInput = {
     id?: SortOrder
     matricula?: SortOrder
@@ -9545,11 +18291,6 @@ export namespace Prisma {
     tipoPermiso?: SortOrder
     imagenRuta?: SortOrder
     activo?: SortOrder
-  }
-
-  export type AlumnoScalarRelationFilter = {
-    is?: AlumnoWhereInput
-    isNot?: AlumnoWhereInput
   }
 
   export type ProfesorScalarRelationFilter = {
@@ -9841,6 +18582,34 @@ export namespace Prisma {
     connect?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
   }
 
+  export type TestPracticaCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<TestPracticaCreateWithoutAlumnoInput, TestPracticaUncheckedCreateWithoutAlumnoInput> | TestPracticaCreateWithoutAlumnoInput[] | TestPracticaUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: TestPracticaCreateOrConnectWithoutAlumnoInput | TestPracticaCreateOrConnectWithoutAlumnoInput[]
+    createMany?: TestPracticaCreateManyAlumnoInputEnvelope
+    connect?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+  }
+
+  export type TemarioProgresoCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<TemarioProgresoCreateWithoutAlumnoInput, TemarioProgresoUncheckedCreateWithoutAlumnoInput> | TemarioProgresoCreateWithoutAlumnoInput[] | TemarioProgresoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: TemarioProgresoCreateOrConnectWithoutAlumnoInput | TemarioProgresoCreateOrConnectWithoutAlumnoInput[]
+    createMany?: TemarioProgresoCreateManyAlumnoInputEnvelope
+    connect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+  }
+
+  export type CompraBonoCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<CompraBonoCreateWithoutAlumnoInput, CompraBonoUncheckedCreateWithoutAlumnoInput> | CompraBonoCreateWithoutAlumnoInput[] | CompraBonoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: CompraBonoCreateOrConnectWithoutAlumnoInput | CompraBonoCreateOrConnectWithoutAlumnoInput[]
+    createMany?: CompraBonoCreateManyAlumnoInputEnvelope
+    connect?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
+  }
+
+  export type SolicitudExamenCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<SolicitudExamenCreateWithoutAlumnoInput, SolicitudExamenUncheckedCreateWithoutAlumnoInput> | SolicitudExamenCreateWithoutAlumnoInput[] | SolicitudExamenUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: SolicitudExamenCreateOrConnectWithoutAlumnoInput | SolicitudExamenCreateOrConnectWithoutAlumnoInput[]
+    createMany?: SolicitudExamenCreateManyAlumnoInputEnvelope
+    connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+  }
+
   export type ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput = {
     create?: XOR<ClasePracticaCreateWithoutAlumnoInput, ClasePracticaUncheckedCreateWithoutAlumnoInput> | ClasePracticaCreateWithoutAlumnoInput[] | ClasePracticaUncheckedCreateWithoutAlumnoInput[]
     connectOrCreate?: ClasePracticaCreateOrConnectWithoutAlumnoInput | ClasePracticaCreateOrConnectWithoutAlumnoInput[]
@@ -9853,6 +18622,34 @@ export namespace Prisma {
     connectOrCreate?: ExamenCreateOrConnectWithoutAlumnoInput | ExamenCreateOrConnectWithoutAlumnoInput[]
     createMany?: ExamenCreateManyAlumnoInputEnvelope
     connect?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
+  }
+
+  export type TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<TestPracticaCreateWithoutAlumnoInput, TestPracticaUncheckedCreateWithoutAlumnoInput> | TestPracticaCreateWithoutAlumnoInput[] | TestPracticaUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: TestPracticaCreateOrConnectWithoutAlumnoInput | TestPracticaCreateOrConnectWithoutAlumnoInput[]
+    createMany?: TestPracticaCreateManyAlumnoInputEnvelope
+    connect?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+  }
+
+  export type TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<TemarioProgresoCreateWithoutAlumnoInput, TemarioProgresoUncheckedCreateWithoutAlumnoInput> | TemarioProgresoCreateWithoutAlumnoInput[] | TemarioProgresoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: TemarioProgresoCreateOrConnectWithoutAlumnoInput | TemarioProgresoCreateOrConnectWithoutAlumnoInput[]
+    createMany?: TemarioProgresoCreateManyAlumnoInputEnvelope
+    connect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+  }
+
+  export type CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<CompraBonoCreateWithoutAlumnoInput, CompraBonoUncheckedCreateWithoutAlumnoInput> | CompraBonoCreateWithoutAlumnoInput[] | CompraBonoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: CompraBonoCreateOrConnectWithoutAlumnoInput | CompraBonoCreateOrConnectWithoutAlumnoInput[]
+    createMany?: CompraBonoCreateManyAlumnoInputEnvelope
+    connect?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
+  }
+
+  export type SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<SolicitudExamenCreateWithoutAlumnoInput, SolicitudExamenUncheckedCreateWithoutAlumnoInput> | SolicitudExamenCreateWithoutAlumnoInput[] | SolicitudExamenUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: SolicitudExamenCreateOrConnectWithoutAlumnoInput | SolicitudExamenCreateOrConnectWithoutAlumnoInput[]
+    createMany?: SolicitudExamenCreateManyAlumnoInputEnvelope
+    connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -9913,6 +18710,62 @@ export namespace Prisma {
     deleteMany?: ExamenScalarWhereInput | ExamenScalarWhereInput[]
   }
 
+  export type TestPracticaUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<TestPracticaCreateWithoutAlumnoInput, TestPracticaUncheckedCreateWithoutAlumnoInput> | TestPracticaCreateWithoutAlumnoInput[] | TestPracticaUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: TestPracticaCreateOrConnectWithoutAlumnoInput | TestPracticaCreateOrConnectWithoutAlumnoInput[]
+    upsert?: TestPracticaUpsertWithWhereUniqueWithoutAlumnoInput | TestPracticaUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: TestPracticaCreateManyAlumnoInputEnvelope
+    set?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+    disconnect?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+    delete?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+    connect?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+    update?: TestPracticaUpdateWithWhereUniqueWithoutAlumnoInput | TestPracticaUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: TestPracticaUpdateManyWithWhereWithoutAlumnoInput | TestPracticaUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: TestPracticaScalarWhereInput | TestPracticaScalarWhereInput[]
+  }
+
+  export type TemarioProgresoUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<TemarioProgresoCreateWithoutAlumnoInput, TemarioProgresoUncheckedCreateWithoutAlumnoInput> | TemarioProgresoCreateWithoutAlumnoInput[] | TemarioProgresoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: TemarioProgresoCreateOrConnectWithoutAlumnoInput | TemarioProgresoCreateOrConnectWithoutAlumnoInput[]
+    upsert?: TemarioProgresoUpsertWithWhereUniqueWithoutAlumnoInput | TemarioProgresoUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: TemarioProgresoCreateManyAlumnoInputEnvelope
+    set?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    disconnect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    delete?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    connect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    update?: TemarioProgresoUpdateWithWhereUniqueWithoutAlumnoInput | TemarioProgresoUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: TemarioProgresoUpdateManyWithWhereWithoutAlumnoInput | TemarioProgresoUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: TemarioProgresoScalarWhereInput | TemarioProgresoScalarWhereInput[]
+  }
+
+  export type CompraBonoUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<CompraBonoCreateWithoutAlumnoInput, CompraBonoUncheckedCreateWithoutAlumnoInput> | CompraBonoCreateWithoutAlumnoInput[] | CompraBonoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: CompraBonoCreateOrConnectWithoutAlumnoInput | CompraBonoCreateOrConnectWithoutAlumnoInput[]
+    upsert?: CompraBonoUpsertWithWhereUniqueWithoutAlumnoInput | CompraBonoUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: CompraBonoCreateManyAlumnoInputEnvelope
+    set?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
+    disconnect?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
+    delete?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
+    connect?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
+    update?: CompraBonoUpdateWithWhereUniqueWithoutAlumnoInput | CompraBonoUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: CompraBonoUpdateManyWithWhereWithoutAlumnoInput | CompraBonoUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: CompraBonoScalarWhereInput | CompraBonoScalarWhereInput[]
+  }
+
+  export type SolicitudExamenUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<SolicitudExamenCreateWithoutAlumnoInput, SolicitudExamenUncheckedCreateWithoutAlumnoInput> | SolicitudExamenCreateWithoutAlumnoInput[] | SolicitudExamenUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: SolicitudExamenCreateOrConnectWithoutAlumnoInput | SolicitudExamenCreateOrConnectWithoutAlumnoInput[]
+    upsert?: SolicitudExamenUpsertWithWhereUniqueWithoutAlumnoInput | SolicitudExamenUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: SolicitudExamenCreateManyAlumnoInputEnvelope
+    set?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    disconnect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    delete?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    update?: SolicitudExamenUpdateWithWhereUniqueWithoutAlumnoInput | SolicitudExamenUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: SolicitudExamenUpdateManyWithWhereWithoutAlumnoInput | SolicitudExamenUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: SolicitudExamenScalarWhereInput | SolicitudExamenScalarWhereInput[]
+  }
+
   export type ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput = {
     create?: XOR<ClasePracticaCreateWithoutAlumnoInput, ClasePracticaUncheckedCreateWithoutAlumnoInput> | ClasePracticaCreateWithoutAlumnoInput[] | ClasePracticaUncheckedCreateWithoutAlumnoInput[]
     connectOrCreate?: ClasePracticaCreateOrConnectWithoutAlumnoInput | ClasePracticaCreateOrConnectWithoutAlumnoInput[]
@@ -9939,6 +18792,288 @@ export namespace Prisma {
     update?: ExamenUpdateWithWhereUniqueWithoutAlumnoInput | ExamenUpdateWithWhereUniqueWithoutAlumnoInput[]
     updateMany?: ExamenUpdateManyWithWhereWithoutAlumnoInput | ExamenUpdateManyWithWhereWithoutAlumnoInput[]
     deleteMany?: ExamenScalarWhereInput | ExamenScalarWhereInput[]
+  }
+
+  export type TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<TestPracticaCreateWithoutAlumnoInput, TestPracticaUncheckedCreateWithoutAlumnoInput> | TestPracticaCreateWithoutAlumnoInput[] | TestPracticaUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: TestPracticaCreateOrConnectWithoutAlumnoInput | TestPracticaCreateOrConnectWithoutAlumnoInput[]
+    upsert?: TestPracticaUpsertWithWhereUniqueWithoutAlumnoInput | TestPracticaUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: TestPracticaCreateManyAlumnoInputEnvelope
+    set?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+    disconnect?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+    delete?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+    connect?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+    update?: TestPracticaUpdateWithWhereUniqueWithoutAlumnoInput | TestPracticaUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: TestPracticaUpdateManyWithWhereWithoutAlumnoInput | TestPracticaUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: TestPracticaScalarWhereInput | TestPracticaScalarWhereInput[]
+  }
+
+  export type TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<TemarioProgresoCreateWithoutAlumnoInput, TemarioProgresoUncheckedCreateWithoutAlumnoInput> | TemarioProgresoCreateWithoutAlumnoInput[] | TemarioProgresoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: TemarioProgresoCreateOrConnectWithoutAlumnoInput | TemarioProgresoCreateOrConnectWithoutAlumnoInput[]
+    upsert?: TemarioProgresoUpsertWithWhereUniqueWithoutAlumnoInput | TemarioProgresoUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: TemarioProgresoCreateManyAlumnoInputEnvelope
+    set?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    disconnect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    delete?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    connect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    update?: TemarioProgresoUpdateWithWhereUniqueWithoutAlumnoInput | TemarioProgresoUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: TemarioProgresoUpdateManyWithWhereWithoutAlumnoInput | TemarioProgresoUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: TemarioProgresoScalarWhereInput | TemarioProgresoScalarWhereInput[]
+  }
+
+  export type CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<CompraBonoCreateWithoutAlumnoInput, CompraBonoUncheckedCreateWithoutAlumnoInput> | CompraBonoCreateWithoutAlumnoInput[] | CompraBonoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: CompraBonoCreateOrConnectWithoutAlumnoInput | CompraBonoCreateOrConnectWithoutAlumnoInput[]
+    upsert?: CompraBonoUpsertWithWhereUniqueWithoutAlumnoInput | CompraBonoUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: CompraBonoCreateManyAlumnoInputEnvelope
+    set?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
+    disconnect?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
+    delete?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
+    connect?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
+    update?: CompraBonoUpdateWithWhereUniqueWithoutAlumnoInput | CompraBonoUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: CompraBonoUpdateManyWithWhereWithoutAlumnoInput | CompraBonoUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: CompraBonoScalarWhereInput | CompraBonoScalarWhereInput[]
+  }
+
+  export type SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<SolicitudExamenCreateWithoutAlumnoInput, SolicitudExamenUncheckedCreateWithoutAlumnoInput> | SolicitudExamenCreateWithoutAlumnoInput[] | SolicitudExamenUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: SolicitudExamenCreateOrConnectWithoutAlumnoInput | SolicitudExamenCreateOrConnectWithoutAlumnoInput[]
+    upsert?: SolicitudExamenUpsertWithWhereUniqueWithoutAlumnoInput | SolicitudExamenUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: SolicitudExamenCreateManyAlumnoInputEnvelope
+    set?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    disconnect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    delete?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    update?: SolicitudExamenUpdateWithWhereUniqueWithoutAlumnoInput | SolicitudExamenUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: SolicitudExamenUpdateManyWithWhereWithoutAlumnoInput | SolicitudExamenUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: SolicitudExamenScalarWhereInput | SolicitudExamenScalarWhereInput[]
+  }
+
+  export type TemarioProgresoCreateNestedManyWithoutTemarioInput = {
+    create?: XOR<TemarioProgresoCreateWithoutTemarioInput, TemarioProgresoUncheckedCreateWithoutTemarioInput> | TemarioProgresoCreateWithoutTemarioInput[] | TemarioProgresoUncheckedCreateWithoutTemarioInput[]
+    connectOrCreate?: TemarioProgresoCreateOrConnectWithoutTemarioInput | TemarioProgresoCreateOrConnectWithoutTemarioInput[]
+    createMany?: TemarioProgresoCreateManyTemarioInputEnvelope
+    connect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+  }
+
+  export type TestPracticaCreateNestedManyWithoutTemarioInput = {
+    create?: XOR<TestPracticaCreateWithoutTemarioInput, TestPracticaUncheckedCreateWithoutTemarioInput> | TestPracticaCreateWithoutTemarioInput[] | TestPracticaUncheckedCreateWithoutTemarioInput[]
+    connectOrCreate?: TestPracticaCreateOrConnectWithoutTemarioInput | TestPracticaCreateOrConnectWithoutTemarioInput[]
+    createMany?: TestPracticaCreateManyTemarioInputEnvelope
+    connect?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+  }
+
+  export type TemarioProgresoUncheckedCreateNestedManyWithoutTemarioInput = {
+    create?: XOR<TemarioProgresoCreateWithoutTemarioInput, TemarioProgresoUncheckedCreateWithoutTemarioInput> | TemarioProgresoCreateWithoutTemarioInput[] | TemarioProgresoUncheckedCreateWithoutTemarioInput[]
+    connectOrCreate?: TemarioProgresoCreateOrConnectWithoutTemarioInput | TemarioProgresoCreateOrConnectWithoutTemarioInput[]
+    createMany?: TemarioProgresoCreateManyTemarioInputEnvelope
+    connect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+  }
+
+  export type TestPracticaUncheckedCreateNestedManyWithoutTemarioInput = {
+    create?: XOR<TestPracticaCreateWithoutTemarioInput, TestPracticaUncheckedCreateWithoutTemarioInput> | TestPracticaCreateWithoutTemarioInput[] | TestPracticaUncheckedCreateWithoutTemarioInput[]
+    connectOrCreate?: TestPracticaCreateOrConnectWithoutTemarioInput | TestPracticaCreateOrConnectWithoutTemarioInput[]
+    createMany?: TestPracticaCreateManyTemarioInputEnvelope
+    connect?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+  }
+
+  export type TemarioProgresoUpdateManyWithoutTemarioNestedInput = {
+    create?: XOR<TemarioProgresoCreateWithoutTemarioInput, TemarioProgresoUncheckedCreateWithoutTemarioInput> | TemarioProgresoCreateWithoutTemarioInput[] | TemarioProgresoUncheckedCreateWithoutTemarioInput[]
+    connectOrCreate?: TemarioProgresoCreateOrConnectWithoutTemarioInput | TemarioProgresoCreateOrConnectWithoutTemarioInput[]
+    upsert?: TemarioProgresoUpsertWithWhereUniqueWithoutTemarioInput | TemarioProgresoUpsertWithWhereUniqueWithoutTemarioInput[]
+    createMany?: TemarioProgresoCreateManyTemarioInputEnvelope
+    set?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    disconnect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    delete?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    connect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    update?: TemarioProgresoUpdateWithWhereUniqueWithoutTemarioInput | TemarioProgresoUpdateWithWhereUniqueWithoutTemarioInput[]
+    updateMany?: TemarioProgresoUpdateManyWithWhereWithoutTemarioInput | TemarioProgresoUpdateManyWithWhereWithoutTemarioInput[]
+    deleteMany?: TemarioProgresoScalarWhereInput | TemarioProgresoScalarWhereInput[]
+  }
+
+  export type TestPracticaUpdateManyWithoutTemarioNestedInput = {
+    create?: XOR<TestPracticaCreateWithoutTemarioInput, TestPracticaUncheckedCreateWithoutTemarioInput> | TestPracticaCreateWithoutTemarioInput[] | TestPracticaUncheckedCreateWithoutTemarioInput[]
+    connectOrCreate?: TestPracticaCreateOrConnectWithoutTemarioInput | TestPracticaCreateOrConnectWithoutTemarioInput[]
+    upsert?: TestPracticaUpsertWithWhereUniqueWithoutTemarioInput | TestPracticaUpsertWithWhereUniqueWithoutTemarioInput[]
+    createMany?: TestPracticaCreateManyTemarioInputEnvelope
+    set?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+    disconnect?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+    delete?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+    connect?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+    update?: TestPracticaUpdateWithWhereUniqueWithoutTemarioInput | TestPracticaUpdateWithWhereUniqueWithoutTemarioInput[]
+    updateMany?: TestPracticaUpdateManyWithWhereWithoutTemarioInput | TestPracticaUpdateManyWithWhereWithoutTemarioInput[]
+    deleteMany?: TestPracticaScalarWhereInput | TestPracticaScalarWhereInput[]
+  }
+
+  export type TemarioProgresoUncheckedUpdateManyWithoutTemarioNestedInput = {
+    create?: XOR<TemarioProgresoCreateWithoutTemarioInput, TemarioProgresoUncheckedCreateWithoutTemarioInput> | TemarioProgresoCreateWithoutTemarioInput[] | TemarioProgresoUncheckedCreateWithoutTemarioInput[]
+    connectOrCreate?: TemarioProgresoCreateOrConnectWithoutTemarioInput | TemarioProgresoCreateOrConnectWithoutTemarioInput[]
+    upsert?: TemarioProgresoUpsertWithWhereUniqueWithoutTemarioInput | TemarioProgresoUpsertWithWhereUniqueWithoutTemarioInput[]
+    createMany?: TemarioProgresoCreateManyTemarioInputEnvelope
+    set?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    disconnect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    delete?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    connect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    update?: TemarioProgresoUpdateWithWhereUniqueWithoutTemarioInput | TemarioProgresoUpdateWithWhereUniqueWithoutTemarioInput[]
+    updateMany?: TemarioProgresoUpdateManyWithWhereWithoutTemarioInput | TemarioProgresoUpdateManyWithWhereWithoutTemarioInput[]
+    deleteMany?: TemarioProgresoScalarWhereInput | TemarioProgresoScalarWhereInput[]
+  }
+
+  export type TestPracticaUncheckedUpdateManyWithoutTemarioNestedInput = {
+    create?: XOR<TestPracticaCreateWithoutTemarioInput, TestPracticaUncheckedCreateWithoutTemarioInput> | TestPracticaCreateWithoutTemarioInput[] | TestPracticaUncheckedCreateWithoutTemarioInput[]
+    connectOrCreate?: TestPracticaCreateOrConnectWithoutTemarioInput | TestPracticaCreateOrConnectWithoutTemarioInput[]
+    upsert?: TestPracticaUpsertWithWhereUniqueWithoutTemarioInput | TestPracticaUpsertWithWhereUniqueWithoutTemarioInput[]
+    createMany?: TestPracticaCreateManyTemarioInputEnvelope
+    set?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+    disconnect?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+    delete?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+    connect?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+    update?: TestPracticaUpdateWithWhereUniqueWithoutTemarioInput | TestPracticaUpdateWithWhereUniqueWithoutTemarioInput[]
+    updateMany?: TestPracticaUpdateManyWithWhereWithoutTemarioInput | TestPracticaUpdateManyWithWhereWithoutTemarioInput[]
+    deleteMany?: TestPracticaScalarWhereInput | TestPracticaScalarWhereInput[]
+  }
+
+  export type AlumnoCreateNestedOneWithoutTemariosProgresoInput = {
+    create?: XOR<AlumnoCreateWithoutTemariosProgresoInput, AlumnoUncheckedCreateWithoutTemariosProgresoInput>
+    connectOrCreate?: AlumnoCreateOrConnectWithoutTemariosProgresoInput
+    connect?: AlumnoWhereUniqueInput
+  }
+
+  export type TemarioCreateNestedOneWithoutProgresoInput = {
+    create?: XOR<TemarioCreateWithoutProgresoInput, TemarioUncheckedCreateWithoutProgresoInput>
+    connectOrCreate?: TemarioCreateOrConnectWithoutProgresoInput
+    connect?: TemarioWhereUniqueInput
+  }
+
+  export type AlumnoUpdateOneRequiredWithoutTemariosProgresoNestedInput = {
+    create?: XOR<AlumnoCreateWithoutTemariosProgresoInput, AlumnoUncheckedCreateWithoutTemariosProgresoInput>
+    connectOrCreate?: AlumnoCreateOrConnectWithoutTemariosProgresoInput
+    upsert?: AlumnoUpsertWithoutTemariosProgresoInput
+    connect?: AlumnoWhereUniqueInput
+    update?: XOR<XOR<AlumnoUpdateToOneWithWhereWithoutTemariosProgresoInput, AlumnoUpdateWithoutTemariosProgresoInput>, AlumnoUncheckedUpdateWithoutTemariosProgresoInput>
+  }
+
+  export type TemarioUpdateOneRequiredWithoutProgresoNestedInput = {
+    create?: XOR<TemarioCreateWithoutProgresoInput, TemarioUncheckedCreateWithoutProgresoInput>
+    connectOrCreate?: TemarioCreateOrConnectWithoutProgresoInput
+    upsert?: TemarioUpsertWithoutProgresoInput
+    connect?: TemarioWhereUniqueInput
+    update?: XOR<XOR<TemarioUpdateToOneWithWhereWithoutProgresoInput, TemarioUpdateWithoutProgresoInput>, TemarioUncheckedUpdateWithoutProgresoInput>
+  }
+
+  export type AlumnoCreateNestedOneWithoutTestsPracticaInput = {
+    create?: XOR<AlumnoCreateWithoutTestsPracticaInput, AlumnoUncheckedCreateWithoutTestsPracticaInput>
+    connectOrCreate?: AlumnoCreateOrConnectWithoutTestsPracticaInput
+    connect?: AlumnoWhereUniqueInput
+  }
+
+  export type TemarioCreateNestedOneWithoutTestsPracticaInput = {
+    create?: XOR<TemarioCreateWithoutTestsPracticaInput, TemarioUncheckedCreateWithoutTestsPracticaInput>
+    connectOrCreate?: TemarioCreateOrConnectWithoutTestsPracticaInput
+    connect?: TemarioWhereUniqueInput
+  }
+
+  export type AlumnoUpdateOneRequiredWithoutTestsPracticaNestedInput = {
+    create?: XOR<AlumnoCreateWithoutTestsPracticaInput, AlumnoUncheckedCreateWithoutTestsPracticaInput>
+    connectOrCreate?: AlumnoCreateOrConnectWithoutTestsPracticaInput
+    upsert?: AlumnoUpsertWithoutTestsPracticaInput
+    connect?: AlumnoWhereUniqueInput
+    update?: XOR<XOR<AlumnoUpdateToOneWithWhereWithoutTestsPracticaInput, AlumnoUpdateWithoutTestsPracticaInput>, AlumnoUncheckedUpdateWithoutTestsPracticaInput>
+  }
+
+  export type TemarioUpdateOneWithoutTestsPracticaNestedInput = {
+    create?: XOR<TemarioCreateWithoutTestsPracticaInput, TemarioUncheckedCreateWithoutTestsPracticaInput>
+    connectOrCreate?: TemarioCreateOrConnectWithoutTestsPracticaInput
+    upsert?: TemarioUpsertWithoutTestsPracticaInput
+    disconnect?: TemarioWhereInput | boolean
+    delete?: TemarioWhereInput | boolean
+    connect?: TemarioWhereUniqueInput
+    update?: XOR<XOR<TemarioUpdateToOneWithWhereWithoutTestsPracticaInput, TemarioUpdateWithoutTestsPracticaInput>, TemarioUncheckedUpdateWithoutTestsPracticaInput>
+  }
+
+  export type CompraBonoCreateNestedManyWithoutBonoInput = {
+    create?: XOR<CompraBonoCreateWithoutBonoInput, CompraBonoUncheckedCreateWithoutBonoInput> | CompraBonoCreateWithoutBonoInput[] | CompraBonoUncheckedCreateWithoutBonoInput[]
+    connectOrCreate?: CompraBonoCreateOrConnectWithoutBonoInput | CompraBonoCreateOrConnectWithoutBonoInput[]
+    createMany?: CompraBonoCreateManyBonoInputEnvelope
+    connect?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
+  }
+
+  export type CompraBonoUncheckedCreateNestedManyWithoutBonoInput = {
+    create?: XOR<CompraBonoCreateWithoutBonoInput, CompraBonoUncheckedCreateWithoutBonoInput> | CompraBonoCreateWithoutBonoInput[] | CompraBonoUncheckedCreateWithoutBonoInput[]
+    connectOrCreate?: CompraBonoCreateOrConnectWithoutBonoInput | CompraBonoCreateOrConnectWithoutBonoInput[]
+    createMany?: CompraBonoCreateManyBonoInputEnvelope
+    connect?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
+  }
+
+  export type CompraBonoUpdateManyWithoutBonoNestedInput = {
+    create?: XOR<CompraBonoCreateWithoutBonoInput, CompraBonoUncheckedCreateWithoutBonoInput> | CompraBonoCreateWithoutBonoInput[] | CompraBonoUncheckedCreateWithoutBonoInput[]
+    connectOrCreate?: CompraBonoCreateOrConnectWithoutBonoInput | CompraBonoCreateOrConnectWithoutBonoInput[]
+    upsert?: CompraBonoUpsertWithWhereUniqueWithoutBonoInput | CompraBonoUpsertWithWhereUniqueWithoutBonoInput[]
+    createMany?: CompraBonoCreateManyBonoInputEnvelope
+    set?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
+    disconnect?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
+    delete?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
+    connect?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
+    update?: CompraBonoUpdateWithWhereUniqueWithoutBonoInput | CompraBonoUpdateWithWhereUniqueWithoutBonoInput[]
+    updateMany?: CompraBonoUpdateManyWithWhereWithoutBonoInput | CompraBonoUpdateManyWithWhereWithoutBonoInput[]
+    deleteMany?: CompraBonoScalarWhereInput | CompraBonoScalarWhereInput[]
+  }
+
+  export type CompraBonoUncheckedUpdateManyWithoutBonoNestedInput = {
+    create?: XOR<CompraBonoCreateWithoutBonoInput, CompraBonoUncheckedCreateWithoutBonoInput> | CompraBonoCreateWithoutBonoInput[] | CompraBonoUncheckedCreateWithoutBonoInput[]
+    connectOrCreate?: CompraBonoCreateOrConnectWithoutBonoInput | CompraBonoCreateOrConnectWithoutBonoInput[]
+    upsert?: CompraBonoUpsertWithWhereUniqueWithoutBonoInput | CompraBonoUpsertWithWhereUniqueWithoutBonoInput[]
+    createMany?: CompraBonoCreateManyBonoInputEnvelope
+    set?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
+    disconnect?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
+    delete?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
+    connect?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
+    update?: CompraBonoUpdateWithWhereUniqueWithoutBonoInput | CompraBonoUpdateWithWhereUniqueWithoutBonoInput[]
+    updateMany?: CompraBonoUpdateManyWithWhereWithoutBonoInput | CompraBonoUpdateManyWithWhereWithoutBonoInput[]
+    deleteMany?: CompraBonoScalarWhereInput | CompraBonoScalarWhereInput[]
+  }
+
+  export type AlumnoCreateNestedOneWithoutBonosCompradosInput = {
+    create?: XOR<AlumnoCreateWithoutBonosCompradosInput, AlumnoUncheckedCreateWithoutBonosCompradosInput>
+    connectOrCreate?: AlumnoCreateOrConnectWithoutBonosCompradosInput
+    connect?: AlumnoWhereUniqueInput
+  }
+
+  export type BonoCreateNestedOneWithoutComprasInput = {
+    create?: XOR<BonoCreateWithoutComprasInput, BonoUncheckedCreateWithoutComprasInput>
+    connectOrCreate?: BonoCreateOrConnectWithoutComprasInput
+    connect?: BonoWhereUniqueInput
+  }
+
+  export type AlumnoUpdateOneRequiredWithoutBonosCompradosNestedInput = {
+    create?: XOR<AlumnoCreateWithoutBonosCompradosInput, AlumnoUncheckedCreateWithoutBonosCompradosInput>
+    connectOrCreate?: AlumnoCreateOrConnectWithoutBonosCompradosInput
+    upsert?: AlumnoUpsertWithoutBonosCompradosInput
+    connect?: AlumnoWhereUniqueInput
+    update?: XOR<XOR<AlumnoUpdateToOneWithWhereWithoutBonosCompradosInput, AlumnoUpdateWithoutBonosCompradosInput>, AlumnoUncheckedUpdateWithoutBonosCompradosInput>
+  }
+
+  export type BonoUpdateOneRequiredWithoutComprasNestedInput = {
+    create?: XOR<BonoCreateWithoutComprasInput, BonoUncheckedCreateWithoutComprasInput>
+    connectOrCreate?: BonoCreateOrConnectWithoutComprasInput
+    upsert?: BonoUpsertWithoutComprasInput
+    connect?: BonoWhereUniqueInput
+    update?: XOR<XOR<BonoUpdateToOneWithWhereWithoutComprasInput, BonoUpdateWithoutComprasInput>, BonoUncheckedUpdateWithoutComprasInput>
+  }
+
+  export type AlumnoCreateNestedOneWithoutSolicitudesExamenInput = {
+    create?: XOR<AlumnoCreateWithoutSolicitudesExamenInput, AlumnoUncheckedCreateWithoutSolicitudesExamenInput>
+    connectOrCreate?: AlumnoCreateOrConnectWithoutSolicitudesExamenInput
+    connect?: AlumnoWhereUniqueInput
+  }
+
+  export type AlumnoUpdateOneRequiredWithoutSolicitudesExamenNestedInput = {
+    create?: XOR<AlumnoCreateWithoutSolicitudesExamenInput, AlumnoUncheckedCreateWithoutSolicitudesExamenInput>
+    connectOrCreate?: AlumnoCreateOrConnectWithoutSolicitudesExamenInput
+    upsert?: AlumnoUpsertWithoutSolicitudesExamenInput
+    connect?: AlumnoWhereUniqueInput
+    update?: XOR<XOR<AlumnoUpdateToOneWithWhereWithoutSolicitudesExamenInput, AlumnoUpdateWithoutSolicitudesExamenInput>, AlumnoUncheckedUpdateWithoutSolicitudesExamenInput>
   }
 
   export type ClasePracticaCreateNestedManyWithoutVehiculoInput = {
@@ -10234,20 +19369,32 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: Date | string | null
     activo?: boolean
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
     clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutUsuarioInput = {
     tipoLicenciaObjetivo: string
     fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: Date | string | null
     profesorAsignadoId?: string | null
     activo?: boolean
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutUsuarioInput = {
@@ -10293,20 +19440,32 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
     clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutUsuarioInput = {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type ProfesorUpsertWithoutUsuarioInput = {
@@ -10342,10 +19501,16 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: Date | string | null
     activo?: boolean
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutProfesorAsignadoInput = {
@@ -10353,9 +19518,15 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: Date | string | null
     activo?: boolean
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutProfesorAsignadoInput = {
@@ -10451,6 +19622,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFilter<"Alumno"> | string
     fechaNacimiento?: DateTimeNullableFilter<"Alumno"> | Date | string | null
     horasPracticasCompletadas?: IntFilter<"Alumno"> | number
+    matriculaPagada?: BoolFilter<"Alumno"> | boolean
+    fechaMatriculaPago?: DateTimeNullableFilter<"Alumno"> | Date | string | null
     profesorAsignadoId?: StringNullableFilter<"Alumno"> | string | null
     activo?: BoolFilter<"Alumno"> | boolean
   }
@@ -10627,6 +19800,118 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TestPracticaCreateWithoutAlumnoInput = {
+    id?: string
+    fecha?: Date | string
+    resultado: string
+    respuestasCorrectas: number
+    totalPreguntas: number
+    temario?: TemarioCreateNestedOneWithoutTestsPracticaInput
+  }
+
+  export type TestPracticaUncheckedCreateWithoutAlumnoInput = {
+    id?: string
+    temarioId?: string | null
+    fecha?: Date | string
+    resultado: string
+    respuestasCorrectas: number
+    totalPreguntas: number
+  }
+
+  export type TestPracticaCreateOrConnectWithoutAlumnoInput = {
+    where: TestPracticaWhereUniqueInput
+    create: XOR<TestPracticaCreateWithoutAlumnoInput, TestPracticaUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type TestPracticaCreateManyAlumnoInputEnvelope = {
+    data: TestPracticaCreateManyAlumnoInput | TestPracticaCreateManyAlumnoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TemarioProgresoCreateWithoutAlumnoInput = {
+    id?: string
+    revisado?: boolean
+    dominio?: number
+    ultimaRevision?: Date | string | null
+    temario: TemarioCreateNestedOneWithoutProgresoInput
+  }
+
+  export type TemarioProgresoUncheckedCreateWithoutAlumnoInput = {
+    id?: string
+    temarioId: string
+    revisado?: boolean
+    dominio?: number
+    ultimaRevision?: Date | string | null
+  }
+
+  export type TemarioProgresoCreateOrConnectWithoutAlumnoInput = {
+    where: TemarioProgresoWhereUniqueInput
+    create: XOR<TemarioProgresoCreateWithoutAlumnoInput, TemarioProgresoUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type TemarioProgresoCreateManyAlumnoInputEnvelope = {
+    data: TemarioProgresoCreateManyAlumnoInput | TemarioProgresoCreateManyAlumnoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompraBonoCreateWithoutAlumnoInput = {
+    id?: string
+    clasesCompradas: number
+    clasesConsumidas?: number
+    pagado?: boolean
+    fechaCompra?: Date | string
+    fechaValidezHasta: Date | string
+    bono: BonoCreateNestedOneWithoutComprasInput
+  }
+
+  export type CompraBonoUncheckedCreateWithoutAlumnoInput = {
+    id?: string
+    bonoId: string
+    clasesCompradas: number
+    clasesConsumidas?: number
+    pagado?: boolean
+    fechaCompra?: Date | string
+    fechaValidezHasta: Date | string
+  }
+
+  export type CompraBonoCreateOrConnectWithoutAlumnoInput = {
+    where: CompraBonoWhereUniqueInput
+    create: XOR<CompraBonoCreateWithoutAlumnoInput, CompraBonoUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type CompraBonoCreateManyAlumnoInputEnvelope = {
+    data: CompraBonoCreateManyAlumnoInput | CompraBonoCreateManyAlumnoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SolicitudExamenCreateWithoutAlumnoInput = {
+    id?: string
+    tipo: string
+    estado?: string
+    fechaSolicitud?: Date | string
+    fechaProgramada?: Date | string | null
+    observaciones?: string | null
+  }
+
+  export type SolicitudExamenUncheckedCreateWithoutAlumnoInput = {
+    id?: string
+    tipo: string
+    estado?: string
+    fechaSolicitud?: Date | string
+    fechaProgramada?: Date | string | null
+    observaciones?: string | null
+  }
+
+  export type SolicitudExamenCreateOrConnectWithoutAlumnoInput = {
+    where: SolicitudExamenWhereUniqueInput
+    create: XOR<SolicitudExamenCreateWithoutAlumnoInput, SolicitudExamenUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type SolicitudExamenCreateManyAlumnoInputEnvelope = {
+    data: SolicitudExamenCreateManyAlumnoInput | SolicitudExamenCreateManyAlumnoInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UsuarioUpsertWithoutAlumnoInput = {
     update: XOR<UsuarioUpdateWithoutAlumnoInput, UsuarioUncheckedUpdateWithoutAlumnoInput>
     create: XOR<UsuarioCreateWithoutAlumnoInput, UsuarioUncheckedCreateWithoutAlumnoInput>
@@ -10736,6 +20021,730 @@ export namespace Prisma {
     estado?: StringFilter<"Examen"> | string
   }
 
+  export type TestPracticaUpsertWithWhereUniqueWithoutAlumnoInput = {
+    where: TestPracticaWhereUniqueInput
+    update: XOR<TestPracticaUpdateWithoutAlumnoInput, TestPracticaUncheckedUpdateWithoutAlumnoInput>
+    create: XOR<TestPracticaCreateWithoutAlumnoInput, TestPracticaUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type TestPracticaUpdateWithWhereUniqueWithoutAlumnoInput = {
+    where: TestPracticaWhereUniqueInput
+    data: XOR<TestPracticaUpdateWithoutAlumnoInput, TestPracticaUncheckedUpdateWithoutAlumnoInput>
+  }
+
+  export type TestPracticaUpdateManyWithWhereWithoutAlumnoInput = {
+    where: TestPracticaScalarWhereInput
+    data: XOR<TestPracticaUpdateManyMutationInput, TestPracticaUncheckedUpdateManyWithoutAlumnoInput>
+  }
+
+  export type TestPracticaScalarWhereInput = {
+    AND?: TestPracticaScalarWhereInput | TestPracticaScalarWhereInput[]
+    OR?: TestPracticaScalarWhereInput[]
+    NOT?: TestPracticaScalarWhereInput | TestPracticaScalarWhereInput[]
+    id?: StringFilter<"TestPractica"> | string
+    alumnoId?: StringFilter<"TestPractica"> | string
+    temarioId?: StringNullableFilter<"TestPractica"> | string | null
+    fecha?: DateTimeFilter<"TestPractica"> | Date | string
+    resultado?: StringFilter<"TestPractica"> | string
+    respuestasCorrectas?: IntFilter<"TestPractica"> | number
+    totalPreguntas?: IntFilter<"TestPractica"> | number
+  }
+
+  export type TemarioProgresoUpsertWithWhereUniqueWithoutAlumnoInput = {
+    where: TemarioProgresoWhereUniqueInput
+    update: XOR<TemarioProgresoUpdateWithoutAlumnoInput, TemarioProgresoUncheckedUpdateWithoutAlumnoInput>
+    create: XOR<TemarioProgresoCreateWithoutAlumnoInput, TemarioProgresoUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type TemarioProgresoUpdateWithWhereUniqueWithoutAlumnoInput = {
+    where: TemarioProgresoWhereUniqueInput
+    data: XOR<TemarioProgresoUpdateWithoutAlumnoInput, TemarioProgresoUncheckedUpdateWithoutAlumnoInput>
+  }
+
+  export type TemarioProgresoUpdateManyWithWhereWithoutAlumnoInput = {
+    where: TemarioProgresoScalarWhereInput
+    data: XOR<TemarioProgresoUpdateManyMutationInput, TemarioProgresoUncheckedUpdateManyWithoutAlumnoInput>
+  }
+
+  export type TemarioProgresoScalarWhereInput = {
+    AND?: TemarioProgresoScalarWhereInput | TemarioProgresoScalarWhereInput[]
+    OR?: TemarioProgresoScalarWhereInput[]
+    NOT?: TemarioProgresoScalarWhereInput | TemarioProgresoScalarWhereInput[]
+    id?: StringFilter<"TemarioProgreso"> | string
+    alumnoId?: StringFilter<"TemarioProgreso"> | string
+    temarioId?: StringFilter<"TemarioProgreso"> | string
+    revisado?: BoolFilter<"TemarioProgreso"> | boolean
+    dominio?: IntFilter<"TemarioProgreso"> | number
+    ultimaRevision?: DateTimeNullableFilter<"TemarioProgreso"> | Date | string | null
+  }
+
+  export type CompraBonoUpsertWithWhereUniqueWithoutAlumnoInput = {
+    where: CompraBonoWhereUniqueInput
+    update: XOR<CompraBonoUpdateWithoutAlumnoInput, CompraBonoUncheckedUpdateWithoutAlumnoInput>
+    create: XOR<CompraBonoCreateWithoutAlumnoInput, CompraBonoUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type CompraBonoUpdateWithWhereUniqueWithoutAlumnoInput = {
+    where: CompraBonoWhereUniqueInput
+    data: XOR<CompraBonoUpdateWithoutAlumnoInput, CompraBonoUncheckedUpdateWithoutAlumnoInput>
+  }
+
+  export type CompraBonoUpdateManyWithWhereWithoutAlumnoInput = {
+    where: CompraBonoScalarWhereInput
+    data: XOR<CompraBonoUpdateManyMutationInput, CompraBonoUncheckedUpdateManyWithoutAlumnoInput>
+  }
+
+  export type CompraBonoScalarWhereInput = {
+    AND?: CompraBonoScalarWhereInput | CompraBonoScalarWhereInput[]
+    OR?: CompraBonoScalarWhereInput[]
+    NOT?: CompraBonoScalarWhereInput | CompraBonoScalarWhereInput[]
+    id?: StringFilter<"CompraBono"> | string
+    alumnoId?: StringFilter<"CompraBono"> | string
+    bonoId?: StringFilter<"CompraBono"> | string
+    clasesCompradas?: IntFilter<"CompraBono"> | number
+    clasesConsumidas?: IntFilter<"CompraBono"> | number
+    pagado?: BoolFilter<"CompraBono"> | boolean
+    fechaCompra?: DateTimeFilter<"CompraBono"> | Date | string
+    fechaValidezHasta?: DateTimeFilter<"CompraBono"> | Date | string
+  }
+
+  export type SolicitudExamenUpsertWithWhereUniqueWithoutAlumnoInput = {
+    where: SolicitudExamenWhereUniqueInput
+    update: XOR<SolicitudExamenUpdateWithoutAlumnoInput, SolicitudExamenUncheckedUpdateWithoutAlumnoInput>
+    create: XOR<SolicitudExamenCreateWithoutAlumnoInput, SolicitudExamenUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type SolicitudExamenUpdateWithWhereUniqueWithoutAlumnoInput = {
+    where: SolicitudExamenWhereUniqueInput
+    data: XOR<SolicitudExamenUpdateWithoutAlumnoInput, SolicitudExamenUncheckedUpdateWithoutAlumnoInput>
+  }
+
+  export type SolicitudExamenUpdateManyWithWhereWithoutAlumnoInput = {
+    where: SolicitudExamenScalarWhereInput
+    data: XOR<SolicitudExamenUpdateManyMutationInput, SolicitudExamenUncheckedUpdateManyWithoutAlumnoInput>
+  }
+
+  export type SolicitudExamenScalarWhereInput = {
+    AND?: SolicitudExamenScalarWhereInput | SolicitudExamenScalarWhereInput[]
+    OR?: SolicitudExamenScalarWhereInput[]
+    NOT?: SolicitudExamenScalarWhereInput | SolicitudExamenScalarWhereInput[]
+    id?: StringFilter<"SolicitudExamen"> | string
+    alumnoId?: StringFilter<"SolicitudExamen"> | string
+    tipo?: StringFilter<"SolicitudExamen"> | string
+    estado?: StringFilter<"SolicitudExamen"> | string
+    fechaSolicitud?: DateTimeFilter<"SolicitudExamen"> | Date | string
+    fechaProgramada?: DateTimeNullableFilter<"SolicitudExamen"> | Date | string | null
+    observaciones?: StringNullableFilter<"SolicitudExamen"> | string | null
+  }
+
+  export type TemarioProgresoCreateWithoutTemarioInput = {
+    id?: string
+    revisado?: boolean
+    dominio?: number
+    ultimaRevision?: Date | string | null
+    alumno: AlumnoCreateNestedOneWithoutTemariosProgresoInput
+  }
+
+  export type TemarioProgresoUncheckedCreateWithoutTemarioInput = {
+    id?: string
+    alumnoId: string
+    revisado?: boolean
+    dominio?: number
+    ultimaRevision?: Date | string | null
+  }
+
+  export type TemarioProgresoCreateOrConnectWithoutTemarioInput = {
+    where: TemarioProgresoWhereUniqueInput
+    create: XOR<TemarioProgresoCreateWithoutTemarioInput, TemarioProgresoUncheckedCreateWithoutTemarioInput>
+  }
+
+  export type TemarioProgresoCreateManyTemarioInputEnvelope = {
+    data: TemarioProgresoCreateManyTemarioInput | TemarioProgresoCreateManyTemarioInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TestPracticaCreateWithoutTemarioInput = {
+    id?: string
+    fecha?: Date | string
+    resultado: string
+    respuestasCorrectas: number
+    totalPreguntas: number
+    alumno: AlumnoCreateNestedOneWithoutTestsPracticaInput
+  }
+
+  export type TestPracticaUncheckedCreateWithoutTemarioInput = {
+    id?: string
+    alumnoId: string
+    fecha?: Date | string
+    resultado: string
+    respuestasCorrectas: number
+    totalPreguntas: number
+  }
+
+  export type TestPracticaCreateOrConnectWithoutTemarioInput = {
+    where: TestPracticaWhereUniqueInput
+    create: XOR<TestPracticaCreateWithoutTemarioInput, TestPracticaUncheckedCreateWithoutTemarioInput>
+  }
+
+  export type TestPracticaCreateManyTemarioInputEnvelope = {
+    data: TestPracticaCreateManyTemarioInput | TestPracticaCreateManyTemarioInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TemarioProgresoUpsertWithWhereUniqueWithoutTemarioInput = {
+    where: TemarioProgresoWhereUniqueInput
+    update: XOR<TemarioProgresoUpdateWithoutTemarioInput, TemarioProgresoUncheckedUpdateWithoutTemarioInput>
+    create: XOR<TemarioProgresoCreateWithoutTemarioInput, TemarioProgresoUncheckedCreateWithoutTemarioInput>
+  }
+
+  export type TemarioProgresoUpdateWithWhereUniqueWithoutTemarioInput = {
+    where: TemarioProgresoWhereUniqueInput
+    data: XOR<TemarioProgresoUpdateWithoutTemarioInput, TemarioProgresoUncheckedUpdateWithoutTemarioInput>
+  }
+
+  export type TemarioProgresoUpdateManyWithWhereWithoutTemarioInput = {
+    where: TemarioProgresoScalarWhereInput
+    data: XOR<TemarioProgresoUpdateManyMutationInput, TemarioProgresoUncheckedUpdateManyWithoutTemarioInput>
+  }
+
+  export type TestPracticaUpsertWithWhereUniqueWithoutTemarioInput = {
+    where: TestPracticaWhereUniqueInput
+    update: XOR<TestPracticaUpdateWithoutTemarioInput, TestPracticaUncheckedUpdateWithoutTemarioInput>
+    create: XOR<TestPracticaCreateWithoutTemarioInput, TestPracticaUncheckedCreateWithoutTemarioInput>
+  }
+
+  export type TestPracticaUpdateWithWhereUniqueWithoutTemarioInput = {
+    where: TestPracticaWhereUniqueInput
+    data: XOR<TestPracticaUpdateWithoutTemarioInput, TestPracticaUncheckedUpdateWithoutTemarioInput>
+  }
+
+  export type TestPracticaUpdateManyWithWhereWithoutTemarioInput = {
+    where: TestPracticaScalarWhereInput
+    data: XOR<TestPracticaUpdateManyMutationInput, TestPracticaUncheckedUpdateManyWithoutTemarioInput>
+  }
+
+  export type AlumnoCreateWithoutTemariosProgresoInput = {
+    tipoLicenciaObjetivo: string
+    fechaNacimiento?: Date | string | null
+    horasPracticasCompletadas?: number
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: Date | string | null
+    activo?: boolean
+    usuario: UsuarioCreateNestedOneWithoutAlumnoInput
+    profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
+    clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+  }
+
+  export type AlumnoUncheckedCreateWithoutTemariosProgresoInput = {
+    id: string
+    tipoLicenciaObjetivo: string
+    fechaNacimiento?: Date | string | null
+    horasPracticasCompletadas?: number
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: Date | string | null
+    profesorAsignadoId?: string | null
+    activo?: boolean
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+  }
+
+  export type AlumnoCreateOrConnectWithoutTemariosProgresoInput = {
+    where: AlumnoWhereUniqueInput
+    create: XOR<AlumnoCreateWithoutTemariosProgresoInput, AlumnoUncheckedCreateWithoutTemariosProgresoInput>
+  }
+
+  export type TemarioCreateWithoutProgresoInput = {
+    id?: string
+    titulo: string
+    descripcion?: string | null
+    tipoLicenciaObjetivo: string
+    orden?: number
+    testsPractica?: TestPracticaCreateNestedManyWithoutTemarioInput
+  }
+
+  export type TemarioUncheckedCreateWithoutProgresoInput = {
+    id?: string
+    titulo: string
+    descripcion?: string | null
+    tipoLicenciaObjetivo: string
+    orden?: number
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutTemarioInput
+  }
+
+  export type TemarioCreateOrConnectWithoutProgresoInput = {
+    where: TemarioWhereUniqueInput
+    create: XOR<TemarioCreateWithoutProgresoInput, TemarioUncheckedCreateWithoutProgresoInput>
+  }
+
+  export type AlumnoUpsertWithoutTemariosProgresoInput = {
+    update: XOR<AlumnoUpdateWithoutTemariosProgresoInput, AlumnoUncheckedUpdateWithoutTemariosProgresoInput>
+    create: XOR<AlumnoCreateWithoutTemariosProgresoInput, AlumnoUncheckedCreateWithoutTemariosProgresoInput>
+    where?: AlumnoWhereInput
+  }
+
+  export type AlumnoUpdateToOneWithWhereWithoutTemariosProgresoInput = {
+    where?: AlumnoWhereInput
+    data: XOR<AlumnoUpdateWithoutTemariosProgresoInput, AlumnoUncheckedUpdateWithoutTemariosProgresoInput>
+  }
+
+  export type AlumnoUpdateWithoutTemariosProgresoInput = {
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
+    profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
+    clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type AlumnoUncheckedUpdateWithoutTemariosProgresoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type TemarioUpsertWithoutProgresoInput = {
+    update: XOR<TemarioUpdateWithoutProgresoInput, TemarioUncheckedUpdateWithoutProgresoInput>
+    create: XOR<TemarioCreateWithoutProgresoInput, TemarioUncheckedCreateWithoutProgresoInput>
+    where?: TemarioWhereInput
+  }
+
+  export type TemarioUpdateToOneWithWhereWithoutProgresoInput = {
+    where?: TemarioWhereInput
+    data: XOR<TemarioUpdateWithoutProgresoInput, TemarioUncheckedUpdateWithoutProgresoInput>
+  }
+
+  export type TemarioUpdateWithoutProgresoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    orden?: IntFieldUpdateOperationsInput | number
+    testsPractica?: TestPracticaUpdateManyWithoutTemarioNestedInput
+  }
+
+  export type TemarioUncheckedUpdateWithoutProgresoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    orden?: IntFieldUpdateOperationsInput | number
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutTemarioNestedInput
+  }
+
+  export type AlumnoCreateWithoutTestsPracticaInput = {
+    tipoLicenciaObjetivo: string
+    fechaNacimiento?: Date | string | null
+    horasPracticasCompletadas?: number
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: Date | string | null
+    activo?: boolean
+    usuario: UsuarioCreateNestedOneWithoutAlumnoInput
+    profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
+    clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+  }
+
+  export type AlumnoUncheckedCreateWithoutTestsPracticaInput = {
+    id: string
+    tipoLicenciaObjetivo: string
+    fechaNacimiento?: Date | string | null
+    horasPracticasCompletadas?: number
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: Date | string | null
+    profesorAsignadoId?: string | null
+    activo?: boolean
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+  }
+
+  export type AlumnoCreateOrConnectWithoutTestsPracticaInput = {
+    where: AlumnoWhereUniqueInput
+    create: XOR<AlumnoCreateWithoutTestsPracticaInput, AlumnoUncheckedCreateWithoutTestsPracticaInput>
+  }
+
+  export type TemarioCreateWithoutTestsPracticaInput = {
+    id?: string
+    titulo: string
+    descripcion?: string | null
+    tipoLicenciaObjetivo: string
+    orden?: number
+    progreso?: TemarioProgresoCreateNestedManyWithoutTemarioInput
+  }
+
+  export type TemarioUncheckedCreateWithoutTestsPracticaInput = {
+    id?: string
+    titulo: string
+    descripcion?: string | null
+    tipoLicenciaObjetivo: string
+    orden?: number
+    progreso?: TemarioProgresoUncheckedCreateNestedManyWithoutTemarioInput
+  }
+
+  export type TemarioCreateOrConnectWithoutTestsPracticaInput = {
+    where: TemarioWhereUniqueInput
+    create: XOR<TemarioCreateWithoutTestsPracticaInput, TemarioUncheckedCreateWithoutTestsPracticaInput>
+  }
+
+  export type AlumnoUpsertWithoutTestsPracticaInput = {
+    update: XOR<AlumnoUpdateWithoutTestsPracticaInput, AlumnoUncheckedUpdateWithoutTestsPracticaInput>
+    create: XOR<AlumnoCreateWithoutTestsPracticaInput, AlumnoUncheckedCreateWithoutTestsPracticaInput>
+    where?: AlumnoWhereInput
+  }
+
+  export type AlumnoUpdateToOneWithWhereWithoutTestsPracticaInput = {
+    where?: AlumnoWhereInput
+    data: XOR<AlumnoUpdateWithoutTestsPracticaInput, AlumnoUncheckedUpdateWithoutTestsPracticaInput>
+  }
+
+  export type AlumnoUpdateWithoutTestsPracticaInput = {
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
+    profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
+    clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type AlumnoUncheckedUpdateWithoutTestsPracticaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type TemarioUpsertWithoutTestsPracticaInput = {
+    update: XOR<TemarioUpdateWithoutTestsPracticaInput, TemarioUncheckedUpdateWithoutTestsPracticaInput>
+    create: XOR<TemarioCreateWithoutTestsPracticaInput, TemarioUncheckedCreateWithoutTestsPracticaInput>
+    where?: TemarioWhereInput
+  }
+
+  export type TemarioUpdateToOneWithWhereWithoutTestsPracticaInput = {
+    where?: TemarioWhereInput
+    data: XOR<TemarioUpdateWithoutTestsPracticaInput, TemarioUncheckedUpdateWithoutTestsPracticaInput>
+  }
+
+  export type TemarioUpdateWithoutTestsPracticaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    orden?: IntFieldUpdateOperationsInput | number
+    progreso?: TemarioProgresoUpdateManyWithoutTemarioNestedInput
+  }
+
+  export type TemarioUncheckedUpdateWithoutTestsPracticaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    orden?: IntFieldUpdateOperationsInput | number
+    progreso?: TemarioProgresoUncheckedUpdateManyWithoutTemarioNestedInput
+  }
+
+  export type CompraBonoCreateWithoutBonoInput = {
+    id?: string
+    clasesCompradas: number
+    clasesConsumidas?: number
+    pagado?: boolean
+    fechaCompra?: Date | string
+    fechaValidezHasta: Date | string
+    alumno: AlumnoCreateNestedOneWithoutBonosCompradosInput
+  }
+
+  export type CompraBonoUncheckedCreateWithoutBonoInput = {
+    id?: string
+    alumnoId: string
+    clasesCompradas: number
+    clasesConsumidas?: number
+    pagado?: boolean
+    fechaCompra?: Date | string
+    fechaValidezHasta: Date | string
+  }
+
+  export type CompraBonoCreateOrConnectWithoutBonoInput = {
+    where: CompraBonoWhereUniqueInput
+    create: XOR<CompraBonoCreateWithoutBonoInput, CompraBonoUncheckedCreateWithoutBonoInput>
+  }
+
+  export type CompraBonoCreateManyBonoInputEnvelope = {
+    data: CompraBonoCreateManyBonoInput | CompraBonoCreateManyBonoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompraBonoUpsertWithWhereUniqueWithoutBonoInput = {
+    where: CompraBonoWhereUniqueInput
+    update: XOR<CompraBonoUpdateWithoutBonoInput, CompraBonoUncheckedUpdateWithoutBonoInput>
+    create: XOR<CompraBonoCreateWithoutBonoInput, CompraBonoUncheckedCreateWithoutBonoInput>
+  }
+
+  export type CompraBonoUpdateWithWhereUniqueWithoutBonoInput = {
+    where: CompraBonoWhereUniqueInput
+    data: XOR<CompraBonoUpdateWithoutBonoInput, CompraBonoUncheckedUpdateWithoutBonoInput>
+  }
+
+  export type CompraBonoUpdateManyWithWhereWithoutBonoInput = {
+    where: CompraBonoScalarWhereInput
+    data: XOR<CompraBonoUpdateManyMutationInput, CompraBonoUncheckedUpdateManyWithoutBonoInput>
+  }
+
+  export type AlumnoCreateWithoutBonosCompradosInput = {
+    tipoLicenciaObjetivo: string
+    fechaNacimiento?: Date | string | null
+    horasPracticasCompletadas?: number
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: Date | string | null
+    activo?: boolean
+    usuario: UsuarioCreateNestedOneWithoutAlumnoInput
+    profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
+    clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+  }
+
+  export type AlumnoUncheckedCreateWithoutBonosCompradosInput = {
+    id: string
+    tipoLicenciaObjetivo: string
+    fechaNacimiento?: Date | string | null
+    horasPracticasCompletadas?: number
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: Date | string | null
+    profesorAsignadoId?: string | null
+    activo?: boolean
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+  }
+
+  export type AlumnoCreateOrConnectWithoutBonosCompradosInput = {
+    where: AlumnoWhereUniqueInput
+    create: XOR<AlumnoCreateWithoutBonosCompradosInput, AlumnoUncheckedCreateWithoutBonosCompradosInput>
+  }
+
+  export type BonoCreateWithoutComprasInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    clasesIncluidas: number
+    validezDias?: number
+    activo?: boolean
+  }
+
+  export type BonoUncheckedCreateWithoutComprasInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    clasesIncluidas: number
+    validezDias?: number
+    activo?: boolean
+  }
+
+  export type BonoCreateOrConnectWithoutComprasInput = {
+    where: BonoWhereUniqueInput
+    create: XOR<BonoCreateWithoutComprasInput, BonoUncheckedCreateWithoutComprasInput>
+  }
+
+  export type AlumnoUpsertWithoutBonosCompradosInput = {
+    update: XOR<AlumnoUpdateWithoutBonosCompradosInput, AlumnoUncheckedUpdateWithoutBonosCompradosInput>
+    create: XOR<AlumnoCreateWithoutBonosCompradosInput, AlumnoUncheckedCreateWithoutBonosCompradosInput>
+    where?: AlumnoWhereInput
+  }
+
+  export type AlumnoUpdateToOneWithWhereWithoutBonosCompradosInput = {
+    where?: AlumnoWhereInput
+    data: XOR<AlumnoUpdateWithoutBonosCompradosInput, AlumnoUncheckedUpdateWithoutBonosCompradosInput>
+  }
+
+  export type AlumnoUpdateWithoutBonosCompradosInput = {
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
+    profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
+    clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type AlumnoUncheckedUpdateWithoutBonosCompradosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type BonoUpsertWithoutComprasInput = {
+    update: XOR<BonoUpdateWithoutComprasInput, BonoUncheckedUpdateWithoutComprasInput>
+    create: XOR<BonoCreateWithoutComprasInput, BonoUncheckedCreateWithoutComprasInput>
+    where?: BonoWhereInput
+  }
+
+  export type BonoUpdateToOneWithWhereWithoutComprasInput = {
+    where?: BonoWhereInput
+    data: XOR<BonoUpdateWithoutComprasInput, BonoUncheckedUpdateWithoutComprasInput>
+  }
+
+  export type BonoUpdateWithoutComprasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    clasesIncluidas?: IntFieldUpdateOperationsInput | number
+    validezDias?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type BonoUncheckedUpdateWithoutComprasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    clasesIncluidas?: IntFieldUpdateOperationsInput | number
+    validezDias?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type AlumnoCreateWithoutSolicitudesExamenInput = {
+    tipoLicenciaObjetivo: string
+    fechaNacimiento?: Date | string | null
+    horasPracticasCompletadas?: number
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: Date | string | null
+    activo?: boolean
+    usuario: UsuarioCreateNestedOneWithoutAlumnoInput
+    profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
+    clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
+  }
+
+  export type AlumnoUncheckedCreateWithoutSolicitudesExamenInput = {
+    id: string
+    tipoLicenciaObjetivo: string
+    fechaNacimiento?: Date | string | null
+    horasPracticasCompletadas?: number
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: Date | string | null
+    profesorAsignadoId?: string | null
+    activo?: boolean
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
+  }
+
+  export type AlumnoCreateOrConnectWithoutSolicitudesExamenInput = {
+    where: AlumnoWhereUniqueInput
+    create: XOR<AlumnoCreateWithoutSolicitudesExamenInput, AlumnoUncheckedCreateWithoutSolicitudesExamenInput>
+  }
+
+  export type AlumnoUpsertWithoutSolicitudesExamenInput = {
+    update: XOR<AlumnoUpdateWithoutSolicitudesExamenInput, AlumnoUncheckedUpdateWithoutSolicitudesExamenInput>
+    create: XOR<AlumnoCreateWithoutSolicitudesExamenInput, AlumnoUncheckedCreateWithoutSolicitudesExamenInput>
+    where?: AlumnoWhereInput
+  }
+
+  export type AlumnoUpdateToOneWithWhereWithoutSolicitudesExamenInput = {
+    where?: AlumnoWhereInput
+    data: XOR<AlumnoUpdateWithoutSolicitudesExamenInput, AlumnoUncheckedUpdateWithoutSolicitudesExamenInput>
+  }
+
+  export type AlumnoUpdateWithoutSolicitudesExamenInput = {
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
+    profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
+    clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type AlumnoUncheckedUpdateWithoutSolicitudesExamenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
+  }
+
   export type ClasePracticaCreateWithoutVehiculoInput = {
     id?: string
     fecha: Date | string
@@ -10784,10 +20793,16 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: Date | string | null
     activo?: boolean
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
     examenes?: ExamenCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutClasesInput = {
@@ -10795,9 +20810,15 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: Date | string | null
     profesorAsignadoId?: string | null
     activo?: boolean
     examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutClasesInput = {
@@ -10868,10 +20889,16 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
     examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutClasesInput = {
@@ -10879,9 +20906,15 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
     examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type ProfesorUpsertWithoutClasesInput = {
@@ -10948,10 +20981,16 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: Date | string | null
     activo?: boolean
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
     clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutExamenesInput = {
@@ -10959,9 +20998,15 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: Date | string | null
     profesorAsignadoId?: string | null
     activo?: boolean
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutExamenesInput = {
@@ -10984,10 +21029,16 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
     clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutExamenesInput = {
@@ -10995,9 +21046,15 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoCreateManyProfesorAsignadoInput = {
@@ -11005,6 +21062,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: Date | string | null
     activo?: boolean
   }
 
@@ -11021,10 +21080,16 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutProfesorAsignadoInput = {
@@ -11032,9 +21097,15 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateManyWithoutProfesorAsignadoInput = {
@@ -11042,6 +21113,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -11086,6 +21159,42 @@ export namespace Prisma {
     tipo: string
     fecha: Date | string
     estado: string
+  }
+
+  export type TestPracticaCreateManyAlumnoInput = {
+    id?: string
+    temarioId?: string | null
+    fecha?: Date | string
+    resultado: string
+    respuestasCorrectas: number
+    totalPreguntas: number
+  }
+
+  export type TemarioProgresoCreateManyAlumnoInput = {
+    id?: string
+    temarioId: string
+    revisado?: boolean
+    dominio?: number
+    ultimaRevision?: Date | string | null
+  }
+
+  export type CompraBonoCreateManyAlumnoInput = {
+    id?: string
+    bonoId: string
+    clasesCompradas: number
+    clasesConsumidas?: number
+    pagado?: boolean
+    fechaCompra?: Date | string
+    fechaValidezHasta: Date | string
+  }
+
+  export type SolicitudExamenCreateManyAlumnoInput = {
+    id?: string
+    tipo: string
+    estado?: string
+    fechaSolicitud?: Date | string
+    fechaProgramada?: Date | string | null
+    observaciones?: string | null
   }
 
   export type ClasePracticaUpdateWithoutAlumnoInput = {
@@ -11134,6 +21243,222 @@ export namespace Prisma {
     tipo?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     estado?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TestPracticaUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    resultado?: StringFieldUpdateOperationsInput | string
+    respuestasCorrectas?: IntFieldUpdateOperationsInput | number
+    totalPreguntas?: IntFieldUpdateOperationsInput | number
+    temario?: TemarioUpdateOneWithoutTestsPracticaNestedInput
+  }
+
+  export type TestPracticaUncheckedUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    temarioId?: NullableStringFieldUpdateOperationsInput | string | null
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    resultado?: StringFieldUpdateOperationsInput | string
+    respuestasCorrectas?: IntFieldUpdateOperationsInput | number
+    totalPreguntas?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TestPracticaUncheckedUpdateManyWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    temarioId?: NullableStringFieldUpdateOperationsInput | string | null
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    resultado?: StringFieldUpdateOperationsInput | string
+    respuestasCorrectas?: IntFieldUpdateOperationsInput | number
+    totalPreguntas?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TemarioProgresoUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    revisado?: BoolFieldUpdateOperationsInput | boolean
+    dominio?: IntFieldUpdateOperationsInput | number
+    ultimaRevision?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    temario?: TemarioUpdateOneRequiredWithoutProgresoNestedInput
+  }
+
+  export type TemarioProgresoUncheckedUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    temarioId?: StringFieldUpdateOperationsInput | string
+    revisado?: BoolFieldUpdateOperationsInput | boolean
+    dominio?: IntFieldUpdateOperationsInput | number
+    ultimaRevision?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type TemarioProgresoUncheckedUpdateManyWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    temarioId?: StringFieldUpdateOperationsInput | string
+    revisado?: BoolFieldUpdateOperationsInput | boolean
+    dominio?: IntFieldUpdateOperationsInput | number
+    ultimaRevision?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CompraBonoUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clasesCompradas?: IntFieldUpdateOperationsInput | number
+    clasesConsumidas?: IntFieldUpdateOperationsInput | number
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    fechaCompra?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
+    bono?: BonoUpdateOneRequiredWithoutComprasNestedInput
+  }
+
+  export type CompraBonoUncheckedUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bonoId?: StringFieldUpdateOperationsInput | string
+    clasesCompradas?: IntFieldUpdateOperationsInput | number
+    clasesConsumidas?: IntFieldUpdateOperationsInput | number
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    fechaCompra?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompraBonoUncheckedUpdateManyWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bonoId?: StringFieldUpdateOperationsInput | string
+    clasesCompradas?: IntFieldUpdateOperationsInput | number
+    clasesConsumidas?: IntFieldUpdateOperationsInput | number
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    fechaCompra?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SolicitudExamenUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SolicitudExamenUncheckedUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SolicitudExamenUncheckedUpdateManyWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TemarioProgresoCreateManyTemarioInput = {
+    id?: string
+    alumnoId: string
+    revisado?: boolean
+    dominio?: number
+    ultimaRevision?: Date | string | null
+  }
+
+  export type TestPracticaCreateManyTemarioInput = {
+    id?: string
+    alumnoId: string
+    fecha?: Date | string
+    resultado: string
+    respuestasCorrectas: number
+    totalPreguntas: number
+  }
+
+  export type TemarioProgresoUpdateWithoutTemarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    revisado?: BoolFieldUpdateOperationsInput | boolean
+    dominio?: IntFieldUpdateOperationsInput | number
+    ultimaRevision?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    alumno?: AlumnoUpdateOneRequiredWithoutTemariosProgresoNestedInput
+  }
+
+  export type TemarioProgresoUncheckedUpdateWithoutTemarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    revisado?: BoolFieldUpdateOperationsInput | boolean
+    dominio?: IntFieldUpdateOperationsInput | number
+    ultimaRevision?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type TemarioProgresoUncheckedUpdateManyWithoutTemarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    revisado?: BoolFieldUpdateOperationsInput | boolean
+    dominio?: IntFieldUpdateOperationsInput | number
+    ultimaRevision?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type TestPracticaUpdateWithoutTemarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    resultado?: StringFieldUpdateOperationsInput | string
+    respuestasCorrectas?: IntFieldUpdateOperationsInput | number
+    totalPreguntas?: IntFieldUpdateOperationsInput | number
+    alumno?: AlumnoUpdateOneRequiredWithoutTestsPracticaNestedInput
+  }
+
+  export type TestPracticaUncheckedUpdateWithoutTemarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    resultado?: StringFieldUpdateOperationsInput | string
+    respuestasCorrectas?: IntFieldUpdateOperationsInput | number
+    totalPreguntas?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TestPracticaUncheckedUpdateManyWithoutTemarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    resultado?: StringFieldUpdateOperationsInput | string
+    respuestasCorrectas?: IntFieldUpdateOperationsInput | number
+    totalPreguntas?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type CompraBonoCreateManyBonoInput = {
+    id?: string
+    alumnoId: string
+    clasesCompradas: number
+    clasesConsumidas?: number
+    pagado?: boolean
+    fechaCompra?: Date | string
+    fechaValidezHasta: Date | string
+  }
+
+  export type CompraBonoUpdateWithoutBonoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clasesCompradas?: IntFieldUpdateOperationsInput | number
+    clasesConsumidas?: IntFieldUpdateOperationsInput | number
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    fechaCompra?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
+    alumno?: AlumnoUpdateOneRequiredWithoutBonosCompradosNestedInput
+  }
+
+  export type CompraBonoUncheckedUpdateWithoutBonoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    clasesCompradas?: IntFieldUpdateOperationsInput | number
+    clasesConsumidas?: IntFieldUpdateOperationsInput | number
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    fechaCompra?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CompraBonoUncheckedUpdateManyWithoutBonoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    clasesCompradas?: IntFieldUpdateOperationsInput | number
+    clasesConsumidas?: IntFieldUpdateOperationsInput | number
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    fechaCompra?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ClasePracticaCreateManyVehiculoInput = {

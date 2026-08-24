@@ -50,9 +50,10 @@ La solución combina:
 - Gestión de vehículos.
 - Gestión de clases prácticas.
 - Gestión de exámenes.
-- Formación teórica.
+- Formación teórica básica.
 - Seguimiento académico.
 - Gestión administrativa.
+- Temarios, bonos y solicitudes de examen.
 - Gestión económica.
 - Pagos y facturación.
 - Comunicación y soporte.
@@ -316,6 +317,24 @@ El proyecto ya contiene un módulo de dashboard en el backend y una estructura d
 
 ---
 
+## 🆕 Cambios recientes incorporados (agosto 2026)
+
+Se han añadido varios avances funcionales que ya forman parte del sistema actual:
+
+- flujo de autenticación con validación de primer acceso y cambio obligatorio de contraseña
+- protección de rutas con JWT y cabecera `Authorization` en frontend
+- edición administrativa de profesor con `dni` obligatorio y permisos múltiples de licencias
+- soporte de `matriculaPagada` y `fechaMatriculaPago` para alumnos
+- panel de dashboard de alumno con información personal, progresos, clases, tests, bonos y solicitudes de examen
+- módulos de temarios, progreso de temarios, tests prácticos, bonos, compras de bono y solicitudes de examen
+- gestión de imágenes de vehículos con almacenamiento en `backend/uploads/vehiculos` y persistencia de ruta pública
+- validación de archivos de imagen para vehículos (`png`, `jpg/jpeg`, `webp`, máximo 5 MB)
+- cobertura de tests del backend para servicios, controladores, rutas y repositorios clave
+
+Estos cambios se documentan en los apartados de negocio, dominio y especificación funcional para dejar reflejada la versión real del proyecto.
+
+---
+
 ## 🔔 Comunicación y soporte
 
 El alcance definitivo incluye:
@@ -347,8 +366,8 @@ El proyecto se encuentra en una fase de desarrollo progresivo.
 | Clases prácticas            | 🟢 Implementado / en evolución |
 | Vehículos                   | 🟢 Implementado / en evolución |
 | Exámenes                    | 🟢 Implementado / en evolución |
-| Dashboard                   | 🚧 En desarrollo               |
-| Autenticación/autorización  | 🚧 En desarrollo               |
+| Dashboard                   | 🟢 Implementado / en evolución |
+| Autenticación/autorización  | 🟢 Implementado / en evolución |
 | Frontend                    | 🚧 En desarrollo               |
 | Formación teórica           | 📋 Planificado                 |
 | Vídeos y material educativo | 📋 Planificado                 |
@@ -546,10 +565,13 @@ El backend proporciona la API de la aplicación.
 ```text
 alumnos
 auth
+bonos
 clases
 dashboard
 examenes
 profesores
+solicitudes-examen
+temarios
 vehiculos
 ```
 
@@ -663,11 +685,19 @@ El esquema actual contempla:
 Usuario
 Profesor
 Alumno
+Temario
+TemarioProgreso
+TestPractica
+Bono
+CompraBono
+SolicitudExamen
 Vehiculo
 ClasePractica
 Examen
 Rol
 ```
+
+El modelo `Alumno` incluye además los campos `matriculaPagada` y `fechaMatriculaPago` para reflejar el estado administrativo de la matrícula.
 
 ## Roles actualmente definidos en Prisma
 
@@ -808,7 +838,7 @@ alumnos/
     └── alumnos.service.test.js
 ```
 
-También existen pruebas relacionadas con middleware de autenticación y roles.
+También existen pruebas relacionadas con middleware de autenticación y roles, y con las features de temarios, bonos y solicitudes de examen.
 
 ## Ejecutar tests
 
@@ -1064,11 +1094,11 @@ Describe las funcionalidades agrupadas por actor:
 
 ## Fase 3 — Formación teórica
 
-- [ ] Temario.
+- [x] Temario básico.
 - [ ] Material educativo.
 - [ ] Vídeos.
 - [ ] Banco de preguntas.
-- [ ] Tests.
+- [ ] Tests teóricos.
 - [ ] Simulacros.
 - [ ] Estadísticas.
 - [ ] Seguimiento académico.
@@ -1079,13 +1109,16 @@ Describe las funcionalidades agrupadas por actor:
 - [ ] Matrículas.
 - [ ] Documentación.
 - [ ] Gestión administrativa.
+- [x] Solicitudes de examen.
+- [x] Catálogo de temarios.
+- [x] Catálogo de bonos.
 - [ ] Tramitaciones.
 - [ ] Gestión avanzada de profesores.
 - [ ] Gestión avanzada de vehículos.
 
 ## Fase 5 — Gestión económica
 
-- [ ] Bonos.
+- [x] Bonos administrativos.
 - [ ] Paquetes.
 - [ ] Promociones.
 - [ ] Pagos.
@@ -1243,6 +1276,11 @@ Preview:
 - refresco inmediato del detalle del vehículo tras guardar cambios para que la vista muestre el estado actualizado al instante
 - interfaz de edición reestructurada con layout tipo detalle: campos a la izquierda y bloque de imagen a la derecha
 - validación del caso de edición sin imagen y nueva subida para prevenir regresiones
+- dashboard de alumno implementado con información personal, progreso, clases, tests, bonos y solicitudes de examen
+- incorporación de temarios, bonos y solicitudes de examen con sus capas backend y pantallas administrativas
+- ampliación de la base de datos con `Temario`, `TemarioProgreso`, `TestPractica`, `Bono`, `CompraBono`, `SolicitudExamen` y campos de matrícula en `Alumno`
+- cobertura de tests de servicio, controlador, rutas y repositorio para los nuevos módulos
+- suite completa del backend verificada con Vitest
 
 ## Ruta real de almacenamiento de imágenes de vehículos
 

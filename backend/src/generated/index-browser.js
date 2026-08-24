@@ -146,8 +146,67 @@ exports.Prisma.AlumnoScalarFieldEnum = {
   tipoLicenciaObjetivo: 'tipoLicenciaObjetivo',
   fechaNacimiento: 'fechaNacimiento',
   horasPracticasCompletadas: 'horasPracticasCompletadas',
+  matriculaPagada: 'matriculaPagada',
+  fechaMatriculaPago: 'fechaMatriculaPago',
   profesorAsignadoId: 'profesorAsignadoId',
   activo: 'activo'
+};
+
+exports.Prisma.TemarioScalarFieldEnum = {
+  id: 'id',
+  titulo: 'titulo',
+  descripcion: 'descripcion',
+  tipoLicenciaObjetivo: 'tipoLicenciaObjetivo',
+  orden: 'orden'
+};
+
+exports.Prisma.TemarioProgresoScalarFieldEnum = {
+  id: 'id',
+  alumnoId: 'alumnoId',
+  temarioId: 'temarioId',
+  revisado: 'revisado',
+  dominio: 'dominio',
+  ultimaRevision: 'ultimaRevision'
+};
+
+exports.Prisma.TestPracticaScalarFieldEnum = {
+  id: 'id',
+  alumnoId: 'alumnoId',
+  temarioId: 'temarioId',
+  fecha: 'fecha',
+  resultado: 'resultado',
+  respuestasCorrectas: 'respuestasCorrectas',
+  totalPreguntas: 'totalPreguntas'
+};
+
+exports.Prisma.BonoScalarFieldEnum = {
+  id: 'id',
+  nombre: 'nombre',
+  descripcion: 'descripcion',
+  clasesIncluidas: 'clasesIncluidas',
+  validezDias: 'validezDias',
+  activo: 'activo'
+};
+
+exports.Prisma.CompraBonoScalarFieldEnum = {
+  id: 'id',
+  alumnoId: 'alumnoId',
+  bonoId: 'bonoId',
+  clasesCompradas: 'clasesCompradas',
+  clasesConsumidas: 'clasesConsumidas',
+  pagado: 'pagado',
+  fechaCompra: 'fechaCompra',
+  fechaValidezHasta: 'fechaValidezHasta'
+};
+
+exports.Prisma.SolicitudExamenScalarFieldEnum = {
+  id: 'id',
+  alumnoId: 'alumnoId',
+  tipo: 'tipo',
+  estado: 'estado',
+  fechaSolicitud: 'fechaSolicitud',
+  fechaProgramada: 'fechaProgramada',
+  observaciones: 'observaciones'
 };
 
 exports.Prisma.VehiculoScalarFieldEnum = {
@@ -202,6 +261,12 @@ exports.Prisma.ModelName = {
   Usuario: 'Usuario',
   Profesor: 'Profesor',
   Alumno: 'Alumno',
+  Temario: 'Temario',
+  TemarioProgreso: 'TemarioProgreso',
+  TestPractica: 'TestPractica',
+  Bono: 'Bono',
+  CompraBono: 'CompraBono',
+  SolicitudExamen: 'SolicitudExamen',
   Vehiculo: 'Vehiculo',
   ClasePractica: 'ClasePractica',
   Examen: 'Examen'

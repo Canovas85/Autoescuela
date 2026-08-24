@@ -74,6 +74,138 @@ export class DashboardRepository {
       },
     });
   }
+
+  async getStudentProfile(userId) {
+    return this.prisma.usuario.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        id: true,
+        nombre: true,
+        email: true,
+        dni: true,
+        telefono: true,
+        rol: true,
+        alumno: {
+          select: {
+            tipoLicenciaObjetivo: true,
+            horasPracticasCompletadas: true,
+            matriculaPagada: true,
+            fechaMatriculaPago: true,
+            activo: true,
+            profesorAsignado: {
+              select: {
+                id: true,
+                licenciaConducir: true,
+                permisosLicencias: true,
+                usuario: {
+                  select: {
+                    nombre: true,
+                    email: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  async getStudentTemarios(userId) {
+    return this.prisma.temarioProgreso.findMany({
+      where: {
+        alumnoId: userId,
+      },
+      include: {
+        temario: true,
+      },
+    });
+  }
+
+  async getStudentTests(userId) {
+    return this.prisma.testPractica.findMany({
+      where: {
+        alumnoId: userId,
+      },
+      include: {
+        temario: true,
+      },
+      orderBy: {
+        fecha: "desc",
+      },
+    });
+  }
+
+  async getStudentClasses(userId) {
+    return this.prisma.clasePractica.findMany({
+      where: {
+        alumnoId: userId,
+      },
+      include: {
+        vehiculo: true,
+        profesor: {
+          include: {
+            usuario: {
+              select: {
+                nombre: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        fecha: "asc",
+      },
+    });
+  }
+
+  async getStudentBonos(userId) {
+    return this.prisma.compraBono.findMany({
+      where: {
+        alumnoId: userId,
+      },
+      include: {
+        bono: true,
+      },
+      orderBy: {
+        fechaCompra: "desc",
+      },
+    });
+  }
+
+  async getStudentExamRequests(userId) {
+    return this.prisma.solicitudExamen.findMany({
+      where: {
+        alumnoId: userId,
+      },
+      orderBy: {
+        fechaSolicitud: "desc",
+      },
+    });
+  }
+
+  async getStudentDashboard(userId) {
+    const [profile, temarios, tests, clases, bonos, examenes] =
+      await Promise.all([
+        this.getStudentProfile(userId),
+        this.getStudentTemarios(userId),
+        this.getStudentTests(userId),
+        this.getStudentClasses(userId),
+        this.getStudentBonos(userId),
+        this.getStudentExamRequests(userId),
+      ]);
+
+    return {
+      profile,
+      temarios,
+      tests,
+      clases,
+      bonos,
+      examenes,
+    };
+  }
   async getTotalExamenesPendientes() {
     return this.prisma.examen.count({
       where: {

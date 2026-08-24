@@ -369,4 +369,133 @@ describe("DashboardRepository", () => {
 
     expect(result).toBe(6);
   });
+
+  it("debe devolver el dashboard del alumno con sus bloques de información", async () => {
+    const prismaMock = {
+      usuario: {
+        findUnique: vi.fn().mockResolvedValue({
+          id: "alumno-1",
+          nombre: "Alumno Demo",
+          email: "alumno@demo.com",
+          dni: "12345678A",
+          telefono: "600000000",
+          rol: "ALUMNO",
+          alumno: {
+            tipoLicenciaObjetivo: "B",
+            horasPracticasCompletadas: 6,
+            matriculaPagada: true,
+            fechaMatriculaPago: new Date("2026-08-01T10:00:00.000Z"),
+            activo: true,
+            profesorAsignado: {
+              id: "profesor-1",
+              licenciaConducir: "B",
+              permisosLicencias: ["B"],
+              usuario: {
+                nombre: "Profesor Demo",
+                email: "profesor@demo.com",
+              },
+            },
+          },
+        }),
+      },
+      temarioProgreso: {
+        findMany: vi.fn().mockResolvedValue([
+          {
+            temarioId: "temario-1",
+            revisado: true,
+            dominio: 80,
+            ultimaRevision: new Date("2026-08-10T10:00:00.000Z"),
+            temario: {
+              titulo: "Señales",
+              descripcion: "Señales básicas",
+              orden: 1,
+            },
+          },
+        ]),
+      },
+      testPractica: {
+        findMany: vi.fn().mockResolvedValue([
+          {
+            id: "test-1",
+            fecha: new Date("2026-08-05T10:00:00.000Z"),
+            resultado: "APROBADO",
+            respuestasCorrectas: 18,
+            totalPreguntas: 20,
+            temario: null,
+          },
+          {
+            id: "test-2",
+            fecha: new Date("2026-08-06T10:00:00.000Z"),
+            resultado: "SUSPENDIDO",
+            respuestasCorrectas: 12,
+            totalPreguntas: 20,
+            temario: null,
+          },
+        ]),
+      },
+      clasePractica: {
+        findMany: vi.fn().mockResolvedValue([
+          {
+            id: "clase-1",
+            fecha: new Date("2026-08-12T10:00:00.000Z"),
+            estado: "PROGRAMADA",
+            vehiculo: {
+              matricula: "1234-ABC",
+            },
+            profesor: {
+              usuario: {
+                nombre: "Profesor Demo",
+              },
+            },
+          },
+        ]),
+      },
+      compraBono: {
+        findMany: vi.fn().mockResolvedValue([
+          {
+            id: "bono-1",
+            clasesCompradas: 10,
+            clasesConsumidas: 2,
+            pagado: true,
+            fechaCompra: new Date("2026-08-01T10:00:00.000Z"),
+            fechaValidezHasta: new Date("2026-12-31T10:00:00.000Z"),
+            bono: {
+              nombre: "Pack 10",
+              descripcion: "Pack de 10 clases",
+            },
+          },
+        ]),
+      },
+      solicitudExamen: {
+        findMany: vi.fn().mockResolvedValue([
+          {
+            id: "examen-1",
+            tipo: "TEORICO",
+            estado: "PENDIENTE",
+            fechaSolicitud: new Date("2026-08-03T10:00:00.000Z"),
+            fechaProgramada: null,
+            observaciones: "Pendiente de revisar",
+          },
+        ]),
+      },
+    };
+
+    const repository = new DashboardRepository(prismaMock);
+
+    const result = await repository.getStudentDashboard("alumno-1");
+
+    expect(prismaMock.usuario.findUnique).toHaveBeenCalledOnce();
+    expect(prismaMock.temarioProgreso.findMany).toHaveBeenCalledOnce();
+    expect(prismaMock.testPractica.findMany).toHaveBeenCalledOnce();
+    expect(prismaMock.clasePractica.findMany).toHaveBeenCalledOnce();
+    expect(prismaMock.compraBono.findMany).toHaveBeenCalledOnce();
+    expect(prismaMock.solicitudExamen.findMany).toHaveBeenCalledOnce();
+
+    expect(result.profile.nombre).toBe("Alumno Demo");
+    expect(result.temarios).toHaveLength(1);
+    expect(result.tests).toHaveLength(2);
+    expect(result.clases).toHaveLength(1);
+    expect(result.bonos).toHaveLength(1);
+    expect(result.examenes).toHaveLength(1);
+  });
 });

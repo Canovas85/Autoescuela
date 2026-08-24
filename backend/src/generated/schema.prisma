@@ -39,18 +39,115 @@ model Profesor {
 }
 
 model Alumno {
-  id                        String          @id
+  id                        String            @id
   tipoLicenciaObjetivo      String
   fechaNacimiento           DateTime?
-  horasPracticasCompletadas Int             @default(0)
+  horasPracticasCompletadas Int               @default(0)
+  matriculaPagada           Boolean           @default(false)
+  fechaMatriculaPago        DateTime?
   profesorAsignadoId        String?
-  usuario                   Usuario         @relation(fields: [id], references: [id], onDelete: Cascade)
-  profesorAsignado          Profesor?       @relation(fields: [profesorAsignadoId], references: [id])
-  activo                    Boolean         @default(true)
+  usuario                   Usuario           @relation(fields: [id], references: [id], onDelete: Cascade)
+  profesorAsignado          Profesor?         @relation(fields: [profesorAsignadoId], references: [id])
+  activo                    Boolean           @default(true)
   clases                    ClasePractica[]
   examenes                  Examen[]
+  testsPractica             TestPractica[]
+  temariosProgreso          TemarioProgreso[]
+  bonosComprados            CompraBono[]
+  solicitudesExamen         SolicitudExamen[]
 
   @@map("alumnos")
+}
+
+model Temario {
+  id                   String            @id @default(uuid())
+  titulo               String
+  descripcion          String?
+  tipoLicenciaObjetivo String
+  orden                Int               @default(0)
+  progreso             TemarioProgreso[]
+  testsPractica        TestPractica[]
+
+  @@index([tipoLicenciaObjetivo])
+  @@map("temarios")
+}
+
+model TemarioProgreso {
+  id             String    @id @default(uuid())
+  alumnoId       String
+  temarioId      String
+  revisado       Boolean   @default(false)
+  dominio        Int       @default(0)
+  ultimaRevision DateTime?
+  alumno         Alumno    @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  temario        Temario   @relation(fields: [temarioId], references: [id], onDelete: Cascade)
+
+  @@index([alumnoId])
+  @@index([temarioId])
+  @@map("temarios_progreso")
+}
+
+model TestPractica {
+  id                  String   @id @default(uuid())
+  alumnoId            String
+  temarioId           String?
+  fecha               DateTime @default(now())
+  resultado           String
+  respuestasCorrectas Int
+  totalPreguntas      Int
+  alumno              Alumno   @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  temario             Temario? @relation(fields: [temarioId], references: [id])
+
+  @@index([alumnoId])
+  @@index([temarioId])
+  @@index([fecha])
+  @@map("tests_practica")
+}
+
+model Bono {
+  id              String       @id @default(uuid())
+  nombre          String
+  descripcion     String?
+  clasesIncluidas Int
+  validezDias     Int          @default(90)
+  activo          Boolean      @default(true)
+  compras         CompraBono[]
+
+  @@map("bonos")
+}
+
+model CompraBono {
+  id                String   @id @default(uuid())
+  alumnoId          String
+  bonoId            String
+  clasesCompradas   Int
+  clasesConsumidas  Int      @default(0)
+  pagado            Boolean  @default(false)
+  fechaCompra       DateTime @default(now())
+  fechaValidezHasta DateTime
+  alumno            Alumno   @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  bono              Bono     @relation(fields: [bonoId], references: [id])
+
+  @@index([alumnoId])
+  @@index([bonoId])
+  @@index([fechaCompra])
+  @@map("compras_bonos")
+}
+
+model SolicitudExamen {
+  id              String    @id @default(uuid())
+  alumnoId        String
+  tipo            String
+  estado          String    @default("PENDIENTE")
+  fechaSolicitud  DateTime  @default(now())
+  fechaProgramada DateTime?
+  observaciones   String?
+  alumno          Alumno    @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+
+  @@index([alumnoId])
+  @@index([tipo])
+  @@index([estado])
+  @@map("solicitudes_examen")
 }
 
 model Vehiculo {

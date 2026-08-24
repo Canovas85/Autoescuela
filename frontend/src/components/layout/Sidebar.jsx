@@ -24,6 +24,9 @@ const menus = {
         { label: "Alumnos", path: "/alumnos" },
         { label: "Profesores", path: "/profesores" },
         { label: "Vehículos", path: "/vehiculos" },
+        { label: "Temarios", path: "/temarios" },
+        { label: "Bonos", path: "/bonos" },
+        { label: "Solicitudes Examen", path: "/solicitudes-examen" },
         { label: "Clases", path: "/clases" },
       ],
     },
@@ -83,6 +86,16 @@ const menus = {
   ],
 
   ALUMNO: [
+    {
+      title: "GENERAL",
+      items: [
+        {
+          label: "Dashboard",
+          path: "/dashboard",
+        },
+      ],
+    },
+
     {
       title: "ÁREA TEÓRICA",
       items: [

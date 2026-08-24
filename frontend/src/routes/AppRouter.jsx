@@ -17,6 +17,9 @@ import Profesores from "../pages/Profesores/Profesores";
 import Vehiculos from "../pages/Vehiculos/Vehiculos";
 import Clases from "../pages/Clases/Clases";
 import Examenes from "../pages/Examenes/Examenes";
+import Temarios from "../pages/Temarios/Temarios";
+import Bonos from "../pages/Bonos/Bonos";
+import SolicitudesExamen from "../pages/SolicitudesExamen/SolicitudesExamen";
 
 function RequireAuth() {
   const token = localStorage.getItem("token");
@@ -57,6 +60,15 @@ export default function AppRouter() {
               <Route path="/profesores" element={<Profesores />} />
 
               <Route path="/vehiculos" element={<Vehiculos />} />
+
+              <Route path="/temarios" element={<Temarios />} />
+
+              <Route path="/bonos" element={<Bonos />} />
+
+              <Route
+                path="/solicitudes-examen"
+                element={<SolicitudesExamen />}
+              />
 
               <Route path="/clases" element={<Clases />} />
 

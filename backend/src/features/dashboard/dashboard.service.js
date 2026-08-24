@@ -150,6 +150,219 @@ export class DashboardService {
       horas: top._sum.duracion,
     };
   }
+
+  formatearMes(fecha) {
+    return fecha.toLocaleString("es-ES", {
+      month: "short",
+      year: "2-digit",
+    });
+  }
+
+  agruparEvolucion(items, campoFecha) {
+    const ahora = new Date();
+    const periodos = Array.from({ length: 6 }, (_, indice) => {
+      const fecha = new Date(ahora.getFullYear(), ahora.getMonth() - indice, 1);
+
+      return {
+        key: `${fecha.getFullYear()}-${fecha.getMonth()}`,
+        label: this.formatearMes(fecha),
+        tests: 0,
+        clases: 0,
+      };
+    }).reverse();
+
+    for (const item of items) {
+      const fecha = new Date(item[campoFecha]);
+      const key = `${fecha.getFullYear()}-${fecha.getMonth()}`;
+      const periodo = periodos.find((entry) => entry.key === key);
+
+      if (periodo) {
+        periodo[item.tipo] += 1;
+      }
+    }
+
+    return periodos;
+  }
+
+  construirEstadoBono(bonoCompra, fechaActual) {
+    const disponibles =
+      bonoCompra.clasesCompradas - bonoCompra.clasesConsumidas;
+    const caducado = new Date(bonoCompra.fechaValidezHasta) < fechaActual;
+
+    if (caducado) {
+      return "CADUCADO";
+    }
+
+    if (!bonoCompra.pagado) {
+      return "PENDIENTE_PAGO";
+    }
+
+    if (disponibles > 0) {
+      return "APLICABLE";
+    }
+
+    return "AGOTADO";
+  }
+
+  async getStudentDashboard(userId) {
+    const dashboard = await this.repository.getStudentDashboard(userId);
+
+    if (!dashboard.profile || !dashboard.profile.alumno) {
+      throw new Error("Alumno no encontrado");
+    }
+
+    const fechaActual = new Date();
+
+    const temarios = (dashboard.temarios || [])
+      .map((item) => ({
+        id: item.temarioId,
+        titulo: item.temario?.titulo ?? "Temario sin título",
+        descripcion: item.temario?.descripcion ?? null,
+        orden: item.temario?.orden ?? 0,
+        revisado: Boolean(item.revisado),
+        dominio: item.dominio ?? 0,
+        ultimaRevision: item.ultimaRevision,
+      }))
+      .sort((a, b) => a.orden - b.orden);
+
+    const tests = dashboard.tests || [];
+    const testsTotales = tests.length;
+    const testsAprobados = tests.filter(
+      (test) => test.resultado === "APROBADO",
+    ).length;
+    const testsSuspendidos = tests.filter(
+      (test) => test.resultado === "SUSPENDIDO",
+    ).length;
+
+    const porcentajeAprobado =
+      testsTotales === 0 ? 0 : (testsAprobados / testsTotales) * 100;
+
+    const temariosPendientes = temarios.filter(
+      (temario) => !temario.revisado || temario.dominio < 70,
+    );
+
+    const preparadoParaTeorico =
+      testsTotales >= 10 &&
+      porcentajeAprobado >= 80 &&
+      temariosPendientes.length === 0;
+
+    const recomendacionTemarios =
+      temariosPendientes.length > 0
+        ? temariosPendientes.slice(0, 3).map((temario) => temario.titulo)
+        : [];
+
+    const bonos = (dashboard.bonos || []).map((bonoCompra) => {
+      const disponibles =
+        bonoCompra.clasesCompradas - bonoCompra.clasesConsumidas;
+
+      return {
+        id: bonoCompra.id,
+        nombre: bonoCompra.bono?.nombre ?? "Bono",
+        descripcion: bonoCompra.bono?.descripcion ?? null,
+        clasesCompradas: bonoCompra.clasesCompradas,
+        clasesConsumidas: bonoCompra.clasesConsumidas,
+        clasesDisponibles: Math.max(disponibles, 0),
+        pagado: Boolean(bonoCompra.pagado),
+        fechaCompra: bonoCompra.fechaCompra,
+        fechaValidezHasta: bonoCompra.fechaValidezHasta,
+        estado: this.construirEstadoBono(bonoCompra, fechaActual),
+        aplicable:
+          Boolean(bonoCompra.pagado) &&
+          disponibles > 0 &&
+          new Date(bonoCompra.fechaValidezHasta) >= fechaActual,
+      };
+    });
+
+    const clases = dashboard.clases || [];
+    const clasesReservadas = clases.filter(
+      (clase) => clase.estado === "PROGRAMADA",
+    );
+
+    const clasesRealizadas = dashboard.profile.alumno.horasPracticasCompletadas;
+
+    const clasesCompradas = bonos.reduce(
+      (acumulado, bono) => acumulado + bono.clasesCompradas,
+      0,
+    );
+
+    const clasesPagadas = bonos.reduce(
+      (acumulado, bono) => acumulado + (bono.pagado ? bono.clasesCompradas : 0),
+      0,
+    );
+
+    const actividadMensual = [
+      ...tests.map((test) => ({
+        tipo: "tests",
+        fecha: test.fecha,
+      })),
+      ...clases.map((clase) => ({
+        tipo: "clases",
+        fecha: clase.fecha,
+      })),
+    ];
+
+    const evolucion = this.agruparEvolucion(actividadMensual, "fecha");
+
+    const examenes = dashboard.examenes || [];
+
+    return {
+      perfil: {
+        id: dashboard.profile.id,
+        nombre: dashboard.profile.nombre,
+        email: dashboard.profile.email,
+        dni: dashboard.profile.dni,
+        telefono: dashboard.profile.telefono,
+        rol: dashboard.profile.rol,
+        activo: dashboard.profile.alumno.activo,
+        tipoLicenciaObjetivo: dashboard.profile.alumno.tipoLicenciaObjetivo,
+        horasPracticasCompletadas:
+          dashboard.profile.alumno.horasPracticasCompletadas,
+        matriculaPagada: dashboard.profile.alumno.matriculaPagada,
+        fechaMatriculaPago: dashboard.profile.alumno.fechaMatriculaPago,
+        profesorAsignado: dashboard.profile.alumno.profesorAsignado
+          ? {
+              id: dashboard.profile.alumno.profesorAsignado.id,
+              nombre:
+                dashboard.profile.alumno.profesorAsignado.usuario?.nombre ??
+                "Profesor asignado",
+              licenciaConducir:
+                dashboard.profile.alumno.profesorAsignado.licenciaConducir,
+              permisosLicencias:
+                dashboard.profile.alumno.profesorAsignado.permisosLicencias,
+            }
+          : null,
+      },
+      teoria: {
+        testsTotales,
+        testsAprobados,
+        testsSuspendidos,
+        porcentajeAprobado,
+        preparadoParaTeorico,
+        recomendacionTemarios,
+      },
+      temarios,
+      practica: {
+        clasesCompradas,
+        clasesPagadas,
+        clasesReservadas: clasesReservadas.length,
+        clasesRealizadas,
+      },
+      bonos,
+      examenes: {
+        teoricos: examenes.filter((examen) => examen.tipo === "TEORICO"),
+        practicos: examenes.filter((examen) => examen.tipo === "PRACTICO"),
+      },
+      reservas: clasesReservadas,
+      evolucion,
+      resumen: {
+        matricula: dashboard.profile.alumno.matriculaPagada
+          ? "PAGADA"
+          : "PENDIENTE",
+        preparadoParaTeorico,
+        porcentajeAprobado,
+      },
+    };
+  }
   async getExecutiveDashboard() {
     return {
       successRate: await this.getTasaExito(),

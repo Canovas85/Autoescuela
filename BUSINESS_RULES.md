@@ -19,16 +19,42 @@ El sistema actual cubre de forma operativa:
 - gestión de vehículos
 - gestión de clases prácticas
 - gestión de exámenes
+- gestión básica de formación teórica
+- gestión administrativa de temarios, bonos y solicitudes de examen
 - dashboard ejecutivo
+- dashboard de alumno
 
 No están todavía implementadas en la versión actual:
 
 - pagos y facturación
-- bonos y paquetes
 - formación teórica completa
 - roles administrativos / soporte
 - auditoría avanzada
 - gestión completa de permisos por entidad
+
+Sí están ya incorporados como módulos administrativos:
+
+- temarios básicos
+- progreso de temarios por alumno
+- tests prácticos
+- bonos
+- solicitudes de examen
+- dashboard de alumno
+
+## Cambios recientes incorporados (agosto 2026)
+
+La versión actual del negocio ya incluye varios avances relevantes respecto a la primera definición del proyecto:
+
+- autenticación con bloqueo de rutas durante primer acceso y cambio obligatorio de contraseña
+- almacenamiento del estado `requiereCambioPassword` y tratamiento de primer login en backend y frontend
+- soporte de `dni` y `telefono` en el perfil de usuarios, además de control de actualización sin sobrescribir contraseña vacía
+- profesor con `permisosLicencias` múltiples para impartir varios permisos de conducción en una sola entidad
+- alumno con datos de matrícula pagada (`matriculaPagada` y `fechaMatriculaPago`)
+- módulo completo de temarios, tests, bonos, compras de bono y solicitudes de examen
+- dashboard de alumno consumiendo información personal, progresos, clases, tests, bonos y solicitudes
+- vehículos con imagen opcional, almacenada como referencia en `imagenRuta` y gestionada en filesystem del backend
+
+Estos cambios forman parte del sistema real implementado y deben considerarse dentro de las reglas que seguirán vigentes en la operación actual.
 
 ---
 
@@ -404,6 +430,70 @@ Las métricas actuales se basan en:
 - profesor con más clases
 - profesor con más horas
 
+## BR-DASH-003 - Visibilidad del dashboard de alumno
+
+El dashboard de alumno solo debe mostrar datos del alumno autenticado y su información asociada:
+
+- datos personales
+- progreso de temarios
+- tests prácticos
+- clases asignadas
+- bonos comprados
+- solicitudes de examen
+
+---
+
+## BR-TEO-001 - Catálogo básico de temarios
+
+Cada temario debe quedar asociado a un permiso objetivo y a un orden de visualización.
+
+Los temarios sirven como base de seguimiento académico y pueden tener descripción opcional.
+
+---
+
+## BR-TEO-002 - Seguimiento de progreso por temario
+
+El progreso de temario se registra por alumno y por temario.
+
+El sistema debe permitir marcar el estado de revisión y el dominio estimado del contenido.
+
+---
+
+## BR-TEO-003 - Tests prácticos ligados al alumno
+
+Los tests prácticos deben quedar asociados al alumno y, opcionalmente, al temario sobre el que se realizan.
+
+El sistema debe conservar fecha, resultado y métricas básicas de aciertos.
+
+---
+
+## BR-BON-001 - Catálogo administrativo de bonos
+
+Los bonos se gestionan como catálogo administrativo con nombre, descripción, número de clases incluidas, validez y estado activo.
+
+---
+
+## BR-BON-002 - Compras de bono por alumno
+
+Cada compra de bono debe asociar un alumno con un bono concreto, registrar clases compradas, clases consumidas, estado de pago y fecha de validez.
+
+---
+
+## BR-SOL-001 - Solicitudes de examen por alumno
+
+Cada solicitud de examen debe asociarse a un alumno y registrar el tipo de examen, estado, fecha de solicitud y fecha programada opcional.
+
+---
+
+## BR-SOL-002 - Estado controlado de solicitudes
+
+El estado de una solicitud de examen se gestiona como valor textual del flujo administrativo, por ejemplo:
+
+- PENDIENTE
+- PROGRAMADO
+- COMPLETADO
+- CANCELADO
+
 ---
 
 # 9. Reglas pendientes / futuras
@@ -412,19 +502,20 @@ Las siguientes reglas forman parte del roadmap funcional y aún no están cubier
 
 ## BR-FUT-001 - Pagos y facturación
 
-- bonos
 - paquetes
 - promociones
 - pagos
 - facturas
 - impagos
 
-## BR-FUT-002 - Formación teórica
+## BR-FUT-002 - Formación teórica completa
 
 - material educativo
 - cursos en línea
 - tests y simulacros
-- evolución teórica del alumno
+- evolución teórica ampliada del alumno
+- vídeos
+- analítica de resultados
 
 ## BR-FUT-003 - Roles de soporte y administrativo
 
