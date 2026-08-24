@@ -64,11 +64,15 @@ export default function Alumnos() {
       let filteredData = data;
 
       if (estadoFiltro === "activos") {
-        filteredData = data.filter((alumno) => alumno.activo === true);
+        filteredData = data.filter(
+          (alumno) => (alumno.activo ?? true) === true,
+        );
       }
 
       if (estadoFiltro === "inactivos") {
-        filteredData = data.filter((alumno) => alumno.activo === false);
+        filteredData = data.filter(
+          (alumno) => (alumno.activo ?? true) === false,
+        );
       }
 
       if (estadoFiltro === "todos") {
@@ -242,7 +246,7 @@ export default function Alumnos() {
       field: "activo",
       headerName: "Estado",
       width: 120,
-      valueGetter: (_, row) => (row.activo ? "Activo" : "Inactivo"),
+      valueGetter: (_, row) => ((row.activo ?? true) ? "Activo" : "Inactivo"),
     },
 
     {

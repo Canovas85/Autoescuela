@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 import {
   Avatar,
@@ -23,6 +24,17 @@ export default function UserMenu({ navigate }) {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+  const token = localStorage.getItem("token");
+
+  let user = null;
+
+  if (token) {
+    try {
+      user = jwtDecode(token);
+    } catch (error) {
+      console.error("Error leyendo JWT:", error);
+    }
+  }
 
   return (
     <>
@@ -48,7 +60,7 @@ export default function UserMenu({ navigate }) {
             height: 40,
           }}
         >
-          SC
+          {(user?.rol || "US").substring(0, 2).toUpperCase()}
         </Avatar>
 
         <Box>
@@ -59,7 +71,7 @@ export default function UserMenu({ navigate }) {
               fontWeight: 600,
             }}
           >
-            Sergio Cano
+            {user?.email || "Usuario"}
           </Typography>
 
           <Typography
@@ -68,7 +80,7 @@ export default function UserMenu({ navigate }) {
               color: "#cbd5e1",
             }}
           >
-            Administrador
+            {user?.rol || "Sin rol"}
           </Typography>
         </Box>
 

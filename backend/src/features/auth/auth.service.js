@@ -7,11 +7,11 @@ export class AuthService {
   }
 
   async login(email, password) {
-    // console.log("BUSCANDO USUARIO");
-
     const user = await this.repository.findUserByEmail(email);
 
-    // console.log("USER:", user);
+    console.log("EMAIL RECIBIDO:", email);
+
+    console.log("USER:", user);
 
     if (!user) {
       throw new Error("Credenciales inválidas");
@@ -19,7 +19,7 @@ export class AuthService {
 
     const validPassword = await bcrypt.compare(password, user.passwordHash);
 
-    // console.log("PASSWORD VALIDA:", validPassword);
+    console.log("PASSWORD VALIDA:", validPassword);
 
     if (!validPassword) {
       throw new Error("Credenciales inválidas");

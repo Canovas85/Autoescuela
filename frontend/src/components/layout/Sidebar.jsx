@@ -6,9 +6,151 @@ import {
   ListSubheader,
 } from "@mui/material";
 
+import { Box } from "@mui/material";
+import { jwtDecode } from "jwt-decode";
+
 const drawerWidth = 240;
 
+const menus = {
+  ADMIN: [
+    {
+      title: "GENERAL",
+      items: [{ label: "Dashboard", path: "/dashboard" }],
+    },
+
+    {
+      title: "GESTIÓN",
+      items: [
+        { label: "Alumnos", path: "/alumnos" },
+        { label: "Profesores", path: "/profesores" },
+        { label: "Vehículos", path: "/vehiculos" },
+        { label: "Clases", path: "/clases" },
+      ],
+    },
+
+    {
+      title: "EVALUACIÓN",
+      items: [
+        { label: "Exámenes", path: "/examenes" },
+        { label: "Exámenes Teóricos", path: "/examenes-teoricos" },
+      ],
+    },
+
+    {
+      title: "NEGOCIO",
+      items: [
+        { label: "Facturación", path: "/facturacion" },
+        { label: "Promociones", path: "/promociones" },
+      ],
+    },
+  ],
+
+  PROFESOR: [
+    {
+      title: "FORMACIÓN",
+      items: [
+        {
+          label: "Gestión Formación Virtual",
+          path: "/formacion-virtual",
+        },
+      ],
+    },
+
+    {
+      title: "EVALUACIÓN",
+      items: [
+        {
+          label: "Evaluación Teórica",
+          path: "/evaluacion-teorica",
+        },
+
+        {
+          label: "Hoja de Ruta",
+          path: "/hoja-ruta",
+        },
+      ],
+    },
+
+    {
+      title: "PRÁCTICAS",
+      items: [
+        {
+          label: "Planificación Clases",
+          path: "/planificacion-clases",
+        },
+      ],
+    },
+  ],
+
+  ALUMNO: [
+    {
+      title: "ÁREA TEÓRICA",
+      items: [
+        {
+          label: "Temario",
+          path: "/temario",
+        },
+
+        {
+          label: "Clases en Directo",
+          path: "/clases-directo",
+        },
+
+        {
+          label: "Test de Práctica",
+          path: "/test-practica",
+        },
+      ],
+    },
+
+    {
+      title: "ÁREA PRÁCTICA",
+      items: [
+        {
+          label: "Reservar Clase",
+          path: "/reservar-clase",
+        },
+
+        {
+          label: "Mi Evolución",
+          path: "/evolucion",
+        },
+      ],
+    },
+
+    {
+      title: "GESTIÓN",
+      items: [
+        {
+          label: "Comprar Bonos",
+          path: "/bonos",
+        },
+
+        {
+          label: "Solicitar Examen",
+          path: "/solicitar-examen",
+        },
+      ],
+    },
+  ],
+};
+
 export default function Sidebar({ navigate, location }) {
+  const token = localStorage.getItem("token");
+
+  let role = "ALUMNO";
+
+  if (token) {
+    try {
+      const user = jwtDecode(token);
+
+      role = user.rol;
+    } catch (error) {
+      console.error("Error leyendo JWT:", error);
+    }
+  }
+
+  const menu = menus[role];
   return (
     <Drawer
       variant="permanent"
@@ -33,7 +175,6 @@ export default function Sidebar({ navigate, location }) {
 
         "& .Mui-selected": {
           backgroundColor: "#dbeafe !important",
-
           borderRight: "4px solid #2563eb",
         },
 
@@ -44,64 +185,21 @@ export default function Sidebar({ navigate, location }) {
       }}
     >
       <List>
-        <ListSubheader sx={{ fontWeight: "bold" }}>GENERAL</ListSubheader>
+        {menu.map((section) => (
+          <Box key={section.title}>
+            <ListSubheader>{section.title}</ListSubheader>
 
-        <ListItemButton
-          selected={location.pathname === "/dashboard"}
-          onClick={() => navigate("/dashboard")}
-        >
-          <ListItemText primary="Dashboard" sx={{ pl: 2 }} />
-        </ListItemButton>
-
-        <ListSubheader sx={{ fontWeight: "bold" }}>GESTIÓN</ListSubheader>
-
-        <ListItemButton
-          selected={location.pathname.startsWith("/alumnos")}
-          onClick={() => navigate("/alumnos")}
-        >
-          <ListItemText primary="Alumnos" sx={{ pl: 2 }} />
-        </ListItemButton>
-
-        <ListItemButton
-          selected={location.pathname.startsWith("/profesores")}
-          onClick={() => navigate("/profesores")}
-        >
-          <ListItemText primary="Profesores" sx={{ pl: 2 }} />
-        </ListItemButton>
-
-        <ListItemButton
-          selected={location.pathname.startsWith("/vehiculos")}
-          onClick={() => navigate("/vehiculos")}
-        >
-          <ListItemText primary="Vehículos" sx={{ pl: 2 }} />
-        </ListItemButton>
-
-        <ListItemButton onClick={() => navigate("/clases")}>
-          <ListItemText primary="Clases" sx={{ pl: 2 }} />
-        </ListItemButton>
-
-        <ListSubheader sx={{ fontWeight: "bold" }}>EVALUACIÓN</ListSubheader>
-
-        <ListItemButton
-          selected={location.pathname.startsWith("/examenes")}
-          onClick={() => navigate("/examenes")}
-        >
-          <ListItemText primary="Exámenes" sx={{ pl: 2 }} />
-        </ListItemButton>
-
-        <ListItemButton>
-          <ListItemText primary="Exámenes Teóricos" sx={{ pl: 2 }} />
-        </ListItemButton>
-
-        <ListSubheader sx={{ fontWeight: "bold" }}>NEGOCIO</ListSubheader>
-
-        <ListItemButton>
-          <ListItemText primary="Facturación" sx={{ pl: 2 }} />
-        </ListItemButton>
-
-        <ListItemButton>
-          <ListItemText primary="Promociones" sx={{ pl: 2 }} />
-        </ListItemButton>
+            {section.items.map((item) => (
+              <ListItemButton
+                key={item.path}
+                selected={location.pathname === item.path}
+                onClick={() => navigate(item.path)}
+              >
+                <ListItemText primary={item.label} sx={{ pl: 2 }} />
+              </ListItemButton>
+            ))}
+          </Box>
+        ))}
       </List>
     </Drawer>
   );

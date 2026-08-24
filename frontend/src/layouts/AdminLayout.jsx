@@ -4,6 +4,7 @@ import { Outlet, useNavigate, useLocation } from "react-router-dom";
 
 import Sidebar from "../components/layout/Sidebar";
 import Topbar from "../components/layout/Topbar";
+import { jwtDecode } from "jwt-decode";
 
 export default function AdminLayout() {
   const navigate = useNavigate();
