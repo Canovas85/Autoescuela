@@ -42,6 +42,12 @@ const controller = new ProfesoresController(service);
  *               telefono:
  *                 type: string
  *                 example: "666555444"
+ *               permisosLicencias:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   enum: [B, A1, A2, A, C, D, E]
+ *                 example: ["B", "A"]
  *     responses:
  *       201:
  *         description: Profesor creado correctamente
@@ -119,6 +125,34 @@ router.get(
  *         required: true
  *         schema:
  *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nombre:
+ *                 type: string
+ *                 example: Pedro García
+ *               email:
+ *                 type: string
+ *                 example: profesor@autoescuela.com
+ *               dni:
+ *                 type: string
+ *                 example: 12345678Z
+ *               telefono:
+ *                 type: string
+ *                 example: "666555444"
+ *               licenciaConducir:
+ *                 type: string
+ *                 example: B
+ *               permisosLicencias:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   enum: [B, A1, A2, A, C, D, E]
+ *                 example: ["B", "A"]
  *     responses:
  *       200:
  *         description: Profesor actualizado
@@ -160,6 +194,13 @@ router.delete(
   authenticate,
   authorize("ADMIN"),
   controller.deactivate.bind(controller),
+);
+
+router.patch(
+  "/:id/activar",
+  authenticate,
+  authorize("ADMIN"),
+  controller.activate.bind(controller),
 );
 
 export default router;

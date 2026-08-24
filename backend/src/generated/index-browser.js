@@ -136,6 +136,7 @@ exports.Prisma.UsuarioScalarFieldEnum = {
 exports.Prisma.ProfesorScalarFieldEnum = {
   id: 'id',
   licenciaConducir: 'licenciaConducir',
+  permisosLicencias: 'permisosLicencias',
   telefono: 'telefono',
   activo: 'activo'
 };

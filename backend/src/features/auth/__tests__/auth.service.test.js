@@ -13,6 +13,7 @@ describe("AuthService", () => {
     const repositoryMock = {
       findUserByEmail: vi.fn().mockResolvedValue({
         id: "user-id",
+        nombre: "Luis Felipe Fuente Ureta",
         email: "admin@autodrive.com",
         passwordHash,
         rol: "ADMIN",
@@ -31,6 +32,8 @@ describe("AuthService", () => {
     const payload = jwt.verify(result.token, process.env.JWT_SECRET);
 
     expect(payload.id).toBe("user-id");
+
+    expect(payload.nombre).toBe("Luis Felipe Fuente Ureta");
 
     expect(payload.email).toBe("admin@autodrive.com");
 
@@ -44,6 +47,7 @@ describe("AuthService", () => {
     const repositoryMock = {
       findUserByEmail: vi.fn().mockResolvedValue({
         id: "user-id",
+        nombre: "Luis Felipe Fuente Ureta",
         email: "admin@autodrive.com",
         passwordHash,
         rol: "ADMIN",
@@ -62,6 +66,7 @@ describe("AuthService", () => {
     const payload = jwt.verify(result.token, process.env.JWT_SECRET);
 
     expect(payload.id).toBe("user-id");
+    expect(payload.nombre).toBe("Luis Felipe Fuente Ureta");
     expect(payload.email).toBe("admin@autodrive.com");
     expect(payload.rol).toBe("ADMIN");
     expect(payload).toHaveProperty("iat");

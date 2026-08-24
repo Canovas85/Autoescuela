@@ -32,4 +32,10 @@ export class ProfesoresController {
 
     return res.status(200).json(profesor);
   }
+
+  async activate(req, res) {
+    const profesor = await this.service.activate(req.params.id);
+
+    return res.status(200).json(profesor);
+  }
 }

@@ -26,13 +26,14 @@ model Usuario {
 }
 
 model Profesor {
-  id               String          @id
-  licenciaConducir String
-  telefono         String
-  activo           Boolean         @default(true)
-  alumnosAsignados Alumno[]
-  clases           ClasePractica[]
-  usuario          Usuario         @relation(fields: [id], references: [id], onDelete: Cascade)
+  id                String          @id
+  licenciaConducir  String
+  permisosLicencias String[]        @default([])
+  telefono          String
+  activo            Boolean         @default(true)
+  alumnosAsignados  Alumno[]
+  clases            ClasePractica[]
+  usuario           Usuario         @relation(fields: [id], references: [id], onDelete: Cascade)
 
   @@map("profesores")
 }

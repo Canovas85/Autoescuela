@@ -11,6 +11,20 @@ export class AuthRepository {
     });
   }
 
+  async findUserById(id) {
+    return this.prisma.usuario.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        id: true,
+        nombre: true,
+        email: true,
+        rol: true,
+      },
+    });
+  }
+
   async updatePasswordAndClearFirstLogin(id, passwordHash) {
     return this.prisma.usuario.update({
       where: {

@@ -27,6 +27,8 @@ describe("AlumnosService", () => {
       email: "pedro@autodrive.com",
       password: "Password123",
       telefono: "600123123",
+      dni: "12345678Z",
+      fechaNacimiento: "15/06/1998",
       tipoLicencia: "B",
     });
 
@@ -92,6 +94,8 @@ describe("AlumnosService", () => {
       email: "pedro@autodrive.com",
       password: plainPassword,
       telefono: "600123123",
+      dni: "12345678Z",
+      fechaNacimiento: "15/06/1998",
       tipoLicencia: "B",
     });
 
@@ -116,6 +120,8 @@ describe("AlumnosService", () => {
       password: "Password123",
       rol: "ADMIN",
       telefono: "600123123",
+      dni: "12345678Z",
+      fechaNacimiento: "15/06/1998",
       tipoLicencia: "B",
     });
 
@@ -134,6 +140,8 @@ describe("AlumnosService", () => {
       email: "pedro@autodrive.com",
       password: "Password123",
       telefono: "600123123",
+      dni: "12345678Z",
+      fechaNacimiento: "15/06/1998",
       tipoLicencia: "B",
       activo: false,
     });
@@ -198,6 +206,8 @@ describe("AlumnosService", () => {
       email: "pedro@autodrive.com",
       password: "Password123",
       telefono: "600123123",
+      dni: "12345678Z",
+      fechaNacimiento: "15/06/1998",
       tipoLicenciaObjetivo: "B",
     });
 
@@ -229,7 +239,7 @@ describe("AlumnosService", () => {
     expect(repositoryMock.create).not.toHaveBeenCalled();
   });
   it("debe aceptar dni y fechaNacimiento válidos en formato español en la creación", async () => {
-    const fechaNacimiento = "15-06-1998";
+    const fechaNacimiento = "15/06/1998";
     const alumnoCreado = {
       id: "alumno-id",
       nombre: "Pedro Sánchez",
@@ -343,10 +353,12 @@ describe("AlumnosService", () => {
         email: "pedro@autodrive.com",
         password: "Password123",
         telefono: "600123123",
-        tipoLicenciaObjetivo: "E",
+        dni: "12345678Z",
+        fechaNacimiento: "15/06/1998",
+        tipoLicenciaObjetivo: "Z",
       }),
     ).rejects.toThrow(
-      "La licencia objetivo debe ser una de las permitidas: B, A1, A2, A, C, D",
+      "La licencia objetivo debe ser una de las permitidas: B, A1, A2, A, C, D, E",
     );
 
     expect(repositoryMock.create).not.toHaveBeenCalled();
@@ -367,6 +379,48 @@ describe("AlumnosService", () => {
         tipoLicencia: "B",
       }),
     ).rejects.toThrow("El teléfono es obligatorio");
+
+    expect(repositoryMock.create).not.toHaveBeenCalled();
+  });
+  it("debe lanzar un error cuando el DNI es obligatorio", async () => {
+    const repositoryMock = {
+      findByEmail: vi.fn().mockResolvedValue(null),
+      create: vi.fn(),
+    };
+
+    const service = new AlumnosService(repositoryMock);
+
+    await expect(
+      service.create({
+        nombre: "Pedro Sánchez",
+        email: "pedro@autodrive.com",
+        password: "Password123",
+        telefono: "600123123",
+        fechaNacimiento: "15/06/1998",
+        tipoLicencia: "B",
+      }),
+    ).rejects.toThrow("El DNI es obligatorio");
+
+    expect(repositoryMock.create).not.toHaveBeenCalled();
+  });
+  it("debe lanzar un error cuando la fecha de nacimiento es obligatoria", async () => {
+    const repositoryMock = {
+      findByEmail: vi.fn().mockResolvedValue(null),
+      create: vi.fn(),
+    };
+
+    const service = new AlumnosService(repositoryMock);
+
+    await expect(
+      service.create({
+        nombre: "Pedro Sánchez",
+        email: "pedro@autodrive.com",
+        password: "Password123",
+        telefono: "600123123",
+        dni: "12345678Z",
+        tipoLicencia: "B",
+      }),
+    ).rejects.toThrow("La fecha de nacimiento es obligatoria");
 
     expect(repositoryMock.create).not.toHaveBeenCalled();
   });

@@ -6,7 +6,8 @@ describe("ProfesoresService", () => {
   it("debe crear un profesor cuando los datos son válidos", async () => {
     const profesorCreado = {
       id: "profesor-id",
-      licenciaConducir: "LIC-123",
+      licenciaConducir: "B",
+      permisosLicencias: ["B", "A"],
       telefono: "600123123",
       activo: true,
       usuario: {
@@ -28,7 +29,8 @@ describe("ProfesoresService", () => {
       nombre: "Juan Pérez",
       email: "juan@autodrive.com",
       password: "Password123",
-      licenciaConducir: "LIC-123",
+      dni: "12345678Z",
+      permisosLicencias: ["B", "A"],
       telefono: "600123123",
     });
 
@@ -48,7 +50,7 @@ describe("ProfesoresService", () => {
       service.create({
         nombre: "Juan Pérez",
         password: "Password123",
-        licenciaConducir: "LIC-123",
+        licenciaConducir: "B",
         telefono: "600123123",
       }),
     ).rejects.toThrow("El email es obligatorio");
@@ -72,7 +74,7 @@ describe("ProfesoresService", () => {
         nombre: "Juan Pérez",
         email: "juan@autodrive.com",
         password: "Password123",
-        licenciaConducir: "LIC-123",
+        licenciaConducir: "B",
         telefono: "600123123",
       }),
     ).rejects.toThrow("El email ya existe");
@@ -98,7 +100,8 @@ describe("ProfesoresService", () => {
       nombre: "Juan Pérez",
       email: "juan@autodrive.com",
       password: plainPassword,
-      licenciaConducir: "LIC-123",
+      dni: "12345678z",
+      permisosLicencias: ["B"],
       telefono: "600123123",
     });
 
@@ -121,7 +124,8 @@ describe("ProfesoresService", () => {
       nombre: "Juan Pérez",
       email: "juan@autodrive.com",
       password: "Password123",
-      licenciaConducir: "LIC-123",
+      dni: "12345678Z",
+      permisosLicencias: ["B"],
       telefono: "600123123",
       rol: "ADMIN",
     });
@@ -129,7 +133,7 @@ describe("ProfesoresService", () => {
     expect(result.rol).toBe("PROFESOR");
   });
 
-  it("debe lanzar un error cuando la licencia de conducir es obligatoria", async () => {
+  it("debe lanzar un error cuando al menos un permiso es obligatorio", async () => {
     const repositoryMock = {
       findByEmail: vi.fn().mockResolvedValue(null),
       create: vi.fn(),
@@ -144,7 +148,7 @@ describe("ProfesoresService", () => {
         password: "Password123",
         telefono: "600123123",
       }),
-    ).rejects.toThrow("La licencia de conducir es obligatoria");
+    ).rejects.toThrow("Debes seleccionar al menos un permiso");
 
     expect(repositoryMock.create).not.toHaveBeenCalled();
   });
@@ -161,7 +165,7 @@ describe("ProfesoresService", () => {
       service.create({
         nombre: "Juan Pérez",
         email: "juan@autodrive.com",
-        licenciaConducir: "LIC-123",
+        licenciaConducir: "B",
         telefono: "600123123",
       }),
     ).rejects.toThrow("La contraseña es obligatoria");
@@ -182,7 +186,7 @@ describe("ProfesoresService", () => {
         nombre: "Juan Pérez",
         email: "juan@autodrive.com",
         password: "1234567",
-        licenciaConducir: "LIC-123",
+        licenciaConducir: "B",
         telefono: "600123123",
       }),
     ).rejects.toThrow("La contraseña debe tener al menos 8 caracteres");
@@ -203,7 +207,7 @@ describe("ProfesoresService", () => {
         nombre: "Juan Pérez",
         email: "juan@autodrive.com",
         password: "Password123",
-        licenciaConducir: "LIC-123",
+        licenciaConducir: "B",
       }),
     ).rejects.toThrow("El teléfono es obligatorio");
 
@@ -222,12 +226,56 @@ describe("ProfesoresService", () => {
       nombre: "Juan Pérez",
       email: "juan@autodrive.com",
       password: "Password123",
-      licenciaConducir: "LIC-123",
+      dni: "12345678Z",
+      permisosLicencias: ["B", "A2"],
       telefono: "600123123",
       activo: false,
     });
 
     expect(result.activo).toBe(true);
+  });
+
+  it("debe lanzar un error cuando el DNI es obligatorio", async () => {
+    const repositoryMock = {
+      findByEmail: vi.fn().mockResolvedValue(null),
+      create: vi.fn(),
+    };
+
+    const service = new ProfesoresService(repositoryMock);
+
+    await expect(
+      service.create({
+        nombre: "Juan Pérez",
+        email: "juan@autodrive.com",
+        password: "Password123",
+        licenciaConducir: "B",
+        telefono: "600123123",
+      }),
+    ).rejects.toThrow("El DNI es obligatorio");
+
+    expect(repositoryMock.create).not.toHaveBeenCalled();
+  });
+
+  it("debe lanzar un error cuando el DNI tiene formato inválido", async () => {
+    const repositoryMock = {
+      findByEmail: vi.fn().mockResolvedValue(null),
+      create: vi.fn(),
+    };
+
+    const service = new ProfesoresService(repositoryMock);
+
+    await expect(
+      service.create({
+        nombre: "Juan Pérez",
+        email: "juan@autodrive.com",
+        password: "Password123",
+        dni: "12A",
+        licenciaConducir: "B",
+        telefono: "600123123",
+      }),
+    ).rejects.toThrow("El DNI debe tener un formato válido");
+
+    expect(repositoryMock.create).not.toHaveBeenCalled();
   });
 
   it("debe devolver el listado completo de profesores", async () => {
@@ -286,31 +334,83 @@ describe("ProfesoresService", () => {
   it("debe actualizar un profesor existente", async () => {
     const profesorActualizado = {
       id: "profesor-1",
-      nombre: "Juan Pérez Actualizado",
+      nombre: "Juan Pérez",
       email: "juan@autodrive.com",
       telefono: "699999999",
-      licenciaConducir: "LIC-123",
+      licenciaConducir: "B",
+      permisosLicencias: ["B", "A1"],
+      dni: "12345678Z",
       rol: "PROFESOR",
       activo: true,
     };
 
     const repositoryMock = {
+      findByEmail: vi.fn().mockResolvedValue(null),
+      findUserByDni: vi.fn().mockResolvedValue(null),
       update: vi.fn().mockResolvedValue(profesorActualizado),
     };
 
     const service = new ProfesoresService(repositoryMock);
 
     const result = await service.update("profesor-1", {
-      nombre: "Juan Pérez Actualizado",
+      nombre: " Juan Pérez ",
+      email: "juan@autodrive.com",
+      dni: "12345678z",
       telefono: "699999999",
+      permisosLicencias: ["b", "a1", "a1"],
     });
 
     expect(repositoryMock.update).toHaveBeenCalledWith("profesor-1", {
-      nombre: "Juan Pérez Actualizado",
+      nombre: "Juan Pérez",
+      email: "juan@autodrive.com",
+      dni: "12345678Z",
       telefono: "699999999",
+      licenciaConducir: "B",
+      permisosLicencias: ["B", "A1"],
     });
 
     expect(result).toEqual(profesorActualizado);
+  });
+
+  it("debe lanzar error al actualizar si el email ya existe en otro usuario", async () => {
+    const repositoryMock = {
+      findByEmail: vi.fn().mockResolvedValue({
+        id: "otro-usuario",
+        email: "repetido@autodrive.com",
+      }),
+      update: vi.fn(),
+    };
+
+    const service = new ProfesoresService(repositoryMock);
+
+    await expect(
+      service.update("profesor-1", {
+        email: "repetido@autodrive.com",
+      }),
+    ).rejects.toThrow("El email ya existe");
+
+    expect(repositoryMock.update).not.toHaveBeenCalled();
+  });
+
+  it("debe lanzar error al actualizar si el DNI ya existe en otro usuario", async () => {
+    const repositoryMock = {
+      findByEmail: vi.fn().mockResolvedValue(null),
+      findUserByDni: vi.fn().mockResolvedValue({
+        id: "otro-usuario",
+        dni: "12345678Z",
+      }),
+      update: vi.fn(),
+    };
+
+    const service = new ProfesoresService(repositoryMock);
+
+    await expect(
+      service.update("profesor-1", {
+        dni: "12345678Z",
+      }),
+    ).rejects.toThrow("El DNI ya existe");
+
+    expect(repositoryMock.update).not.toHaveBeenCalled();
   });
 
   it("debe desactivar un profesor existente", async () => {
@@ -335,5 +435,25 @@ describe("ProfesoresService", () => {
     expect(repositoryMock.deactivate).toHaveBeenCalledWith("profesor-1");
 
     expect(result.activo).toBe(false);
+  });
+
+  it("debe lanzar error cuando se envía un permiso inválido", async () => {
+    const repositoryMock = {
+      findByEmail: vi.fn().mockResolvedValue(null),
+      create: vi.fn(),
+    };
+
+    const service = new ProfesoresService(repositoryMock);
+
+    await expect(
+      service.create({
+        nombre: "Juan Pérez",
+        email: "juan@autodrive.com",
+        password: "Password123",
+        dni: "12345678Z",
+        permisosLicencias: ["B", "X"],
+        telefono: "600123123",
+      }),
+    ).rejects.toThrow("Hay permisos de licencia no válidos");
   });
 });

@@ -1181,3 +1181,69 @@ El README deberá actualizarse cuando una funcionalidad pase por los estados:
 ```
 
 La documentación funcional y las reglas de negocio deberán evolucionar conjuntamente con la implementación.
+
+Configuracion del frontend React + Vite para trabajar en development, staging y production sin cambiar codigo.
+
+## Variables de entorno
+
+El cliente usa estas variables:
+
+- VITE_API_BASE_URL: base de la API para llamadas Axios.
+- VITE_DEV_PROXY_TARGET: destino del proxy de Vite cuando VITE_API_BASE_URL es relativa (/api).
+
+Archivos incluidos:
+
+- .env.development
+- .env.staging
+- .env.production
+- .env.example
+
+## Scripts plug-and-play
+
+Desarrollo:
+
+- npm run dev
+- npm run dev:staging
+- npm run dev:production
+
+Build:
+
+- npm run build
+- npm run build:staging
+- npm run build:production
+
+Preview:
+
+- npm run preview
+- npm run preview:staging
+
+## Flujo recomendado
+
+1. Development local:
+   usar .env.development (VITE_API_BASE_URL=/api) y proxy al backend local.
+2. Staging:
+   usar .env.staging con dominio de API de preproduccion.
+3. Produccion:
+   usar .env.production con dominio de API productivo.
+
+---
+
+# Actualizacion agosto 2026
+
+## Cambios implementados recientemente
+
+- autenticacion frontend reforzada con envio de cabecera `Authorization: Bearer <token>` en llamadas protegidas
+- flujo de primer acceso con cambio obligatorio de contrasena para usuarios nuevos
+- profesores con permisos multiples para imparticion (`B`, `A1`, `A2`, `A`, `C`, `D`, `E`)
+- edicion de profesor con actualizacion consistente entre datos de usuario y profesor
+- en edicion de alumno, si la contrasena se deja vacia, se conserva la actual
+- mensajes visuales en modales de edicion para dejar explicito que no se cambia la contrasena al dejarla vacia
+
+## Decisiones funcionales aprobadas para vehiculos (siguiente iteracion)
+
+- imagen de vehiculo opcional en alta
+- en edicion se podra anadir/cambiar imagen o mantener el vehiculo sin imagen
+- los archivos se guardaran en una carpeta del backend
+- en base de datos se guardara solo la referencia de imagen
+- restricciones de subida de imagen: maximo `5 MB`, formatos `png`, `jpg/jpeg`, `webp`
+- se implementara una vista de detalle desde el listado para mostrar datos completos e imagen en tamano mayor

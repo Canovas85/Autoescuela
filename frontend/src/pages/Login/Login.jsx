@@ -8,6 +8,7 @@ import carnetBImg from "../../assets/promotions/carnetb.jpeg";
 import intensivoVeranoImg from "../../assets/promotions/intensivo-verano.jpeg";
 
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -39,6 +40,8 @@ export default function Login() {
   const [tab, setTab] = useState(0);
 
   const [loading, setLoading] = useState(false);
+
+  const [loginError, setLoginError] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -88,13 +91,10 @@ export default function Login() {
 
   const onSubmit = async (data) => {
     setLoading(true);
-
-    console.log("LOGIN DATA", data);
+    setLoginError("");
 
     try {
       const response = await api.post("/auth/login", data);
-
-      console.log("LOGIN OK:", response.data);
 
       localStorage.setItem("token", response.data.token);
       localStorage.setItem(
@@ -106,9 +106,29 @@ export default function Login() {
         response.data.requiereCambioPassword ? "/primer-login" : "/dashboard",
       );
     } catch (error) {
-      console.error("LOGIN ERROR:", error.response?.data);
+      const status = error.response?.status;
+      const backendMessage = error.response?.data?.message;
 
-      alert(error.response?.data?.message || "Credenciales inválidas");
+      if (status === 401) {
+        setLoginError(
+          backendMessage ||
+            "Credenciales no válidas. Verifica tu email y contraseña.",
+        );
+      } else if (status === 403) {
+        setLoginError(
+          backendMessage ||
+            "Tu usuario requiere completar acciones de seguridad para poder acceder.",
+        );
+      } else if (!status) {
+        setLoginError(
+          "No hay conexión con el servicio de autenticación. Inténtalo de nuevo en unos segundos.",
+        );
+      } else {
+        setLoginError(
+          backendMessage ||
+            "No hemos podido iniciar tu sesión en este momento. Inténtalo de nuevo más tarde.",
+        );
+      }
     } finally {
       setLoading(false);
     }
@@ -179,6 +199,12 @@ export default function Login() {
                 <Tab label="Iniciar Sesión" />
                 <Tab label="Registrarse" />
               </Tabs>
+
+              {tab === 0 && loginError && (
+                <Alert severity="error" sx={{ mt: 2 }}>
+                  {loginError}
+                </Alert>
+              )}
 
               <form onSubmit={handleSubmit(onSubmit)}>
                 {tab === 1 && (

@@ -50,7 +50,7 @@ export default function FirstLoginPassword() {
       localStorage.removeItem("token");
       localStorage.removeItem("requiresPasswordChange");
       setSuccess(
-        "Contraseña actualizada. Inicia sesión con tu nueva contraseña.",
+        "Credenciales actualizadas correctamente. Por seguridad, vuelve a iniciar sesión.",
       );
 
       setTimeout(() => {
@@ -59,7 +59,7 @@ export default function FirstLoginPassword() {
     } catch (requestError) {
       setError(
         requestError.response?.data?.message ||
-          "No se pudo actualizar la contraseña",
+          "No ha sido posible actualizar las credenciales en este momento.",
       );
     } finally {
       setLoading(false);
@@ -81,12 +81,12 @@ export default function FirstLoginPassword() {
       <Card sx={{ width: "100%", maxWidth: 520, borderRadius: 3 }}>
         <CardContent sx={{ p: 4 }}>
           <Typography variant="h5" fontWeight={700} mb={1}>
-            Cambio obligatorio de contraseña
+            Actualización de credenciales
           </Typography>
 
           <Typography variant="body2" color="text.secondary" mb={3}>
-            Es tu primer acceso. Antes de continuar debes establecer una nueva
-            contraseña segura.
+            Para completar tu primer acceso en la plataforma Eguzkilore, debes
+            establecer una nueva contraseña de seguridad.
           </Typography>
 
           {error && (
@@ -126,7 +126,7 @@ export default function FirstLoginPassword() {
               mt={1}
             >
               Debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas y
-              números.
+              números para cumplir la política de seguridad.
             </Typography>
 
             <Button
@@ -139,7 +139,7 @@ export default function FirstLoginPassword() {
               {loading ? (
                 <CircularProgress size={24} color="inherit" />
               ) : (
-                "Guardar nueva contraseña"
+                "Actualizar contraseña"
               )}
             </Button>
           </form>

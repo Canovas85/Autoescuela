@@ -28,6 +28,7 @@ model Usuario {
 model Profesor {
   id               String          @id
   licenciaConducir String
+  permisosLicencias String[]       @default([])
   telefono         String
   activo           Boolean         @default(true)
   alumnosAsignados Alumno[]

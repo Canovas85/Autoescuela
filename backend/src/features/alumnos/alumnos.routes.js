@@ -31,6 +31,14 @@ const controller = new AlumnosController(service);
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - nombre
+ *               - email
+ *               - password
+ *               - telefono
+ *               - dni
+ *               - fechaNacimiento
+ *               - tipoLicenciaObjetivo
  *             properties:
  *               nombre:
  *                 type: string
@@ -38,13 +46,22 @@ const controller = new AlumnosController(service);
  *               email:
  *                 type: string
  *                 example: juan@email.com
+ *               password:
+ *                 type: string
+ *                 example: Password123
  *               telefono:
  *                 type: string
  *                 example: "666555444"
+ *               dni:
+ *                 type: string
+ *                 example: "12345678Z"
  *               fechaNacimiento:
  *                 type: string
- *                 format: date
- *                 example: "2000-05-15"
+ *                 example: "15/05/2000"
+ *               tipoLicenciaObjetivo:
+ *                 type: string
+ *                 enum: [B, A1, A2, A, C, D, E]
+ *                 example: "B"
  *     responses:
  *       201:
  *         description: Alumno creado

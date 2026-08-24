@@ -81,7 +81,7 @@ Capacidades actuales:
 
 Casos funcionales reales del sistema actual:
 
-- nombre, email, teléfono y licencia objetivo
+- nombre, email, teléfono, dni, fecha de nacimiento y licencia objetivo
 - estado activo/inactivo
 - profesor asignado opcional
 - horas prácticas registradas
@@ -301,3 +301,47 @@ Estas funcionalidades están previstas en el proyecto y deben documentarse como 
 La especificación funcional actual del proyecto debe entenderse como una versión operativa orientada a la administración de la autoescuela, no como una visión completa de tipo producto final.
 
 La implementación real ya cubre la base funcional crítica de la operación diaria; lo restante debe gestionarse como backlog funcional y no como requisito ya entregado.
+
+---
+
+# 9. Actualización funcional agosto 2026
+
+## 9.1 Cambios implementados recientemente
+
+### Autenticación en frontend
+
+- el cliente HTTP incluye token JWT en cabecera `Authorization` para rutas protegidas
+- se evita el fallo de token no enviado en operaciones administrativas
+
+### Flujo de profesor
+
+- creación y edición con `dni` obligatorio
+- soporte de permisos múltiples de licencias para impartición (`B`, `A1`, `A2`, `A`, `C`, `D`, `E`)
+- actualización consistente de datos de `Usuario` y `Profesor` en una sola operación transaccional
+- edición administrativa sin modificación de contraseña
+
+### Flujo de alumno
+
+- en edición, si contraseña va vacía, se conserva la contraseña existente
+- se muestra aviso visual explícito en modal de edición
+
+---
+
+## 9.2 Decisiones aprobadas para vehículos (siguiente iteración)
+
+### Imagen de vehículo
+
+- el alta de vehículo permite imagen opcional
+- la edición permite añadir, cambiar o no informar imagen
+- el archivo de imagen se almacenará en carpeta del servidor
+- la base de datos almacenará la referencia/ruta del archivo
+
+### Validaciones de imagen
+
+- tamaño máximo `5 MB`
+- formatos permitidos: `png`, `jpg/jpeg`, `webp`
+
+### Detalle de vehículo (fase posterior)
+
+- desde el listado administrativo se podrá abrir una vista de detalle
+- la vista mostrará datos completos e imagen en mayor tamaño

@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import { api } from "../../services/api";
 
 import {
   Avatar,
@@ -12,8 +13,27 @@ import {
 
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
+const getInitialsFromName = (name) => {
+  if (!name || typeof name !== "string") {
+    return "US";
+  }
+
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+
+  if (parts.length === 0) {
+    return "US";
+  }
+
+  if (parts.length === 1) {
+    return parts[0].slice(0, 2).toUpperCase();
+  }
+
+  return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+};
+
 export default function UserMenu({ navigate }) {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [profile, setProfile] = useState(null);
 
   const open = Boolean(anchorEl);
 
@@ -35,6 +55,32 @@ export default function UserMenu({ navigate }) {
       console.error("Error leyendo JWT:", error);
     }
   }
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (!token) {
+        setProfile(null);
+        return;
+      }
+
+      try {
+        const response = await api.get("/auth/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setProfile(response.data);
+      } catch {
+        setProfile(null);
+      }
+    };
+
+    fetchProfile();
+  }, [token]);
+
+  const displayName = profile?.nombre || user?.nombre || "";
+  const avatarInitials = getInitialsFromName(displayName);
 
   return (
     <>
@@ -60,7 +106,7 @@ export default function UserMenu({ navigate }) {
             height: 40,
           }}
         >
-          {(user?.rol || "US").substring(0, 2).toUpperCase()}
+          {avatarInitials}
         </Avatar>
 
         <Box>
@@ -71,7 +117,7 @@ export default function UserMenu({ navigate }) {
               fontWeight: 600,
             }}
           >
-            {user?.email || "Usuario"}
+            {profile?.email || user?.email || "Usuario"}
           </Typography>
 
           <Typography
@@ -80,7 +126,7 @@ export default function UserMenu({ navigate }) {
               color: "#cbd5e1",
             }}
           >
-            {user?.rol || "Sin rol"}
+            {profile?.rol || user?.rol || "Sin rol"}
           </Typography>
         </Box>
 

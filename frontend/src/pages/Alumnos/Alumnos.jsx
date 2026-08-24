@@ -31,8 +31,103 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  DialogContentText,
   TextField,
 } from "@mui/material";
+
+const LICENCIAS_OPCIONES = [
+  { value: "B", label: "B - Turismo" },
+  { value: "A1", label: "A1 - Motocicletas" },
+  { value: "A2", label: "A2 - Motocicletas" },
+  { value: "A", label: "A - Motocicletas" },
+  { value: "C", label: "C - Camión" },
+  { value: "D", label: "D - Autobús" },
+  { value: "E", label: "E - Remolques" },
+];
+
+const formatearFechaParaFormulario = (valor) => {
+  if (!valor) {
+    return "";
+  }
+
+  const texto = String(valor).trim();
+
+  if (/^\d{2}[/-]\d{2}[/-]\d{4}$/.test(texto)) {
+    const [dia, mes, anio] = texto.split(/[/-]/);
+    return `${dia}/${mes}/${anio}`;
+  }
+
+  const fecha = new Date(texto);
+  if (Number.isNaN(fecha.getTime())) {
+    return "";
+  }
+
+  const dia = String(fecha.getDate()).padStart(2, "0");
+  const mes = String(fecha.getMonth() + 1).padStart(2, "0");
+  const anio = String(fecha.getFullYear());
+
+  return `${dia}/${mes}/${anio}`;
+};
+
+const limpiarDni = (valor) =>
+  String(valor || "")
+    .toUpperCase()
+    .replace(/[^0-9A-Z]/g, "");
+
+const normalizarDniFormulario = (valor) => {
+  const limpio = limpiarDni(valor);
+  const numeros = limpio.replace(/[^0-9]/g, "").slice(0, 8);
+  const letra = limpio.replace(/[0-9]/g, "").slice(0, 1);
+
+  return `${numeros}${letra}`;
+};
+
+const aplicarMascaraFecha = (valor) => {
+  const digitos = String(valor || "")
+    .replace(/\D/g, "")
+    .slice(0, 8);
+
+  if (digitos.length <= 2) {
+    return digitos;
+  }
+
+  if (digitos.length <= 4) {
+    return `${digitos.slice(0, 2)}/${digitos.slice(2)}`;
+  }
+
+  return `${digitos.slice(0, 2)}/${digitos.slice(2, 4)}/${digitos.slice(4)}`;
+};
+
+const esDniCompleto = (valor) => /^\d{8}[A-Z]$/.test(limpiarDni(valor));
+
+const esFechaCompletaValida = (valor) => {
+  const texto = String(valor || "").trim();
+
+  if (!/^\d{2}\/\d{2}\/\d{4}$/.test(texto)) {
+    return false;
+  }
+
+  const [dia, mes, anio] = texto.split("/").map(Number);
+  const fecha = new Date(anio, mes - 1, dia);
+
+  return (
+    fecha.getFullYear() === anio &&
+    fecha.getMonth() === mes - 1 &&
+    fecha.getDate() === dia
+  );
+};
+
+const formatearFechaParaApi = (valor) => {
+  const texto = String(valor || "").trim();
+
+  if (!/^\d{2}\/\d{2}\/\d{4}$/.test(texto)) {
+    return texto;
+  }
+
+  const [dia, mes, anio] = texto.split("/");
+
+  return `${anio}-${mes}-${dia}`;
+};
 
 export default function Alumnos() {
   const [rows, setRows] = useState([]);
@@ -106,15 +201,80 @@ export default function Alumnos() {
 
   const saveAlumno = async () => {
     try {
+      const nombre = newAlumno.nombre?.trim() || "";
+      const email = newAlumno.email?.trim() || "";
+      const telefono = newAlumno.telefono?.trim() || "";
+      const dni = limpiarDni(newAlumno.dni);
+      const fechaNacimiento = newAlumno.fechaNacimiento?.trim() || "";
+      const dniValido = esDniCompleto(newAlumno.dni);
+      const fechaValida = esFechaCompletaValida(fechaNacimiento);
+      const tipoLicencia =
+        newAlumno.tipoLicenciaObjetivo ?? newAlumno.tipoLicencia ?? "";
+
+      if (
+        !nombre ||
+        !email ||
+        !telefono ||
+        !dni ||
+        !fechaNacimiento ||
+        !tipoLicencia
+      ) {
+        setNotification({
+          open: true,
+          message:
+            "Todos los campos son obligatorios en el alta, incluyendo DNI y fecha de nacimiento",
+          severity: "error",
+        });
+        return;
+      }
+
+      if (!dniValido) {
+        setNotification({
+          open: true,
+          message: "El DNI está incompleto. Formato esperado: 12345678Z",
+          severity: "error",
+        });
+        setFieldTouched((prev) => ({ ...prev, dni: true }));
+        return;
+      }
+
+      if (!fechaValida) {
+        setNotification({
+          open: true,
+          message:
+            "La fecha de nacimiento está incompleta o es inválida. Formato esperado: dd/mm/aaaa",
+          severity: "error",
+        });
+        setFieldTouched((prev) => ({ ...prev, fechaNacimiento: true }));
+        return;
+      }
+
+      if (!editingId && !newAlumno.password?.trim()) {
+        setNotification({
+          open: true,
+          message: "La contraseña es obligatoria en el alta de alumnos",
+          severity: "error",
+        });
+        return;
+      }
+
       const payload = {
         ...newAlumno,
-        dni: newAlumno.dni?.trim().toUpperCase() || "",
-        fechaNacimiento: newAlumno.fechaNacimiento || null,
+        nombre,
+        email,
+        telefono,
+        dni: dni.toUpperCase(),
+        fechaNacimiento: formatearFechaParaApi(fechaNacimiento),
         tipoLicenciaObjetivo:
           newAlumno.tipoLicenciaObjetivo ?? newAlumno.tipoLicencia ?? "B",
       };
 
       delete payload.tipoLicencia;
+
+      // En edición, si no se informa contraseña, se conserva la actual en BD.
+      if (editingId && !payload.password?.trim()) {
+        delete payload.password;
+      }
 
       if (editingId) {
         await alumnosService.update(editingId, payload);
@@ -134,6 +294,11 @@ export default function Alumnos() {
         dni: "",
         fechaNacimiento: "",
         tipoLicencia: "B",
+      });
+
+      setFieldTouched({
+        dni: false,
+        fechaNacimiento: false,
       });
 
       loadAlumnos();
@@ -158,45 +323,77 @@ export default function Alumnos() {
     }
   };
 
-  const handleDeactivate = async (id) => {
-    try {
-      const confirmar = window.confirm(
-        "¿Seguro que deseas desactivar este alumno?",
-      );
+  const handleDeactivate = async (row) => {
+    const nombreAlumno = row?.usuario?.nombre || "este alumno";
 
-      if (!confirmar) {
-        return;
-      }
-
-      await alumnosService.deactivate(id);
-
-      loadAlumnos();
-
-      setNotification({
-        open: true,
-        message: "Alumno desactivado correctamente",
-        severity: "success",
-      });
-    } catch (error) {
-      console.error(error);
-
-      setNotification({
-        open: true,
-        message: "Error desactivando alumno",
-        severity: "error",
-      });
-    }
+    setConfirmDialog({
+      open: true,
+      action: "deactivate",
+      alumnoId: row.id,
+      alumnoNombre: nombreAlumno,
+      title: "Confirmar desactivación",
+      message:
+        `Vas a desactivar a ${nombreAlumno} en la plataforma Autoescuela Eguzkilore. No podrá operar hasta su reactivación. ¿Deseas continuar?`,
+    });
   };
 
-  const handleActivate = async (id) => {
+  const handleActivate = async (row) => {
+    const nombreAlumno = row?.usuario?.nombre || "este alumno";
+
+    setConfirmDialog({
+      open: true,
+      action: "activate",
+      alumnoId: row.id,
+      alumnoNombre: nombreAlumno,
+      title: "Confirmar activación",
+      message:
+        `Vas a reactivar a ${nombreAlumno} en la plataforma Autoescuela Eguzkilore. Recuperará acceso operativo de inmediato. ¿Deseas continuar?`,
+    });
+  };
+
+  const [confirmDialog, setConfirmDialog] = useState({
+    open: false,
+    action: null,
+    alumnoId: null,
+    alumnoNombre: "",
+    title: "",
+    message: "",
+  });
+
+  const closeConfirmDialog = () => {
+    setConfirmDialog({
+      open: false,
+      action: null,
+      alumnoId: null,
+      alumnoNombre: "",
+      title: "",
+      message: "",
+    });
+  };
+
+  const handleConfirmAction = async () => {
+    if (!confirmDialog.alumnoId || !confirmDialog.action) {
+      closeConfirmDialog();
+      return;
+    }
+
     try {
-      await alumnosService.activate(id);
+      if (confirmDialog.action === "deactivate") {
+        await alumnosService.deactivate(confirmDialog.alumnoId);
+      }
+
+      if (confirmDialog.action === "activate") {
+        await alumnosService.activate(confirmDialog.alumnoId);
+      }
 
       loadAlumnos();
 
       setNotification({
         open: true,
-        message: "Alumno activado correctamente",
+        message:
+          confirmDialog.action === "deactivate"
+            ? "Alumno desactivado correctamente"
+            : "Alumno activado correctamente",
         severity: "success",
       });
     } catch (error) {
@@ -204,9 +401,14 @@ export default function Alumnos() {
 
       setNotification({
         open: true,
-        message: "Error activando alumno",
+        message:
+          confirmDialog.action === "deactivate"
+            ? "Error desactivando alumno"
+            : "Error activando alumno",
         severity: "error",
       });
+    } finally {
+      closeConfirmDialog();
     }
   };
 
@@ -275,14 +477,14 @@ export default function Alumnos() {
           {params.row.activo ? (
             <IconButton
               color="error"
-              onClick={() => handleDeactivate(params.row.id)}
+              onClick={() => handleDeactivate(params.row)}
             >
               <DeleteIcon />
             </IconButton>
           ) : (
             <IconButton
               color="success"
-              onClick={() => handleActivate(params.row.id)}
+              onClick={() => handleActivate(params.row)}
             >
               <CheckCircleIcon />
             </IconButton>
@@ -305,11 +507,21 @@ export default function Alumnos() {
     tipoLicencia: "B",
   });
 
+  const [fieldTouched, setFieldTouched] = useState({
+    dni: false,
+    fechaNacimiento: false,
+  });
+
   const [notification, setNotification] = useState({
     open: false,
     message: "",
     severity: "success",
   });
+
+  const dniIncompleto = fieldTouched.dni && !esDniCompleto(newAlumno.dni);
+  const fechaIncompleta =
+    fieldTouched.fechaNacimiento &&
+    !esFechaCompletaValida(newAlumno.fechaNacimiento);
 
   const handleEdit = (row) => {
     setEditingId(row.id);
@@ -319,9 +531,14 @@ export default function Alumnos() {
       email: row.usuario?.email || "",
       password: "",
       telefono: row.usuario?.telefono || "",
-      dni: row.usuario?.dni || "",
-      fechaNacimiento: row.fechaNacimiento || "",
+      dni: normalizarDniFormulario(row.usuario?.dni || ""),
+      fechaNacimiento: formatearFechaParaFormulario(row.fechaNacimiento),
       tipoLicencia: row.tipoLicenciaObjetivo || "B",
+    });
+
+    setFieldTouched({
+      dni: false,
+      fechaNacimiento: false,
     });
 
     setOpen(true);
@@ -354,6 +571,11 @@ export default function Alumnos() {
               dni: "",
               fechaNacimiento: "",
               tipoLicencia: "B",
+            });
+
+            setFieldTouched({
+              dni: false,
+              fechaNacimiento: false,
             });
 
             setOpen(true);
@@ -440,6 +662,7 @@ export default function Alumnos() {
             margin="normal"
             fullWidth
             label="Nombre"
+            required
             value={newAlumno.nombre}
             onChange={(e) =>
               setNewAlumno({
@@ -453,6 +676,7 @@ export default function Alumnos() {
             margin="normal"
             fullWidth
             label="Email"
+            required
             value={newAlumno.email}
             onChange={(e) =>
               setNewAlumno({
@@ -466,7 +690,13 @@ export default function Alumnos() {
             margin="normal"
             fullWidth
             label="Contraseña"
+            required={!editingId}
             type="password"
+            helperText={
+              editingId
+                ? "Si la dejas vacía, se mantiene la contraseña actual."
+                : "Mínimo 8 caracteres"
+            }
             value={newAlumno.password}
             onChange={(e) =>
               setNewAlumno({
@@ -480,6 +710,7 @@ export default function Alumnos() {
             margin="normal"
             fullWidth
             label="Teléfono"
+            required
             value={newAlumno.telefono}
             onChange={(e) =>
               setNewAlumno({
@@ -493,33 +724,65 @@ export default function Alumnos() {
             margin="normal"
             fullWidth
             label="DNI"
+            required
+            placeholder="12345678Z"
             value={newAlumno.dni}
             onChange={(e) =>
               setNewAlumno({
                 ...newAlumno,
-                dni: e.target.value,
+                dni: normalizarDniFormulario(e.target.value),
               })
             }
+            onBlur={() =>
+              setFieldTouched((prev) => ({
+                ...prev,
+                dni: true,
+              }))
+            }
+            error={dniIncompleto}
+            helperText={
+              dniIncompleto
+                ? "DNI incompleto. Introduce 8 números y 1 letra (ejemplo: 12345678Z)."
+                : " "
+            }
+            inputProps={{ maxLength: 9 }}
           />
 
           <TextField
             margin="normal"
             fullWidth
-            type="date"
+            required
+            type="text"
             label="Fecha de nacimiento"
+            placeholder="dd/mm/aaaa"
             InputLabelProps={{ shrink: true }}
             value={newAlumno.fechaNacimiento}
             onChange={(e) =>
               setNewAlumno({
                 ...newAlumno,
-                fechaNacimiento: e.target.value,
+                fechaNacimiento: aplicarMascaraFecha(e.target.value),
               })
             }
+            onBlur={() =>
+              setFieldTouched((prev) => ({
+                ...prev,
+                fechaNacimiento: true,
+              }))
+            }
+            error={fechaIncompleta}
+            helperText={
+              fechaIncompleta
+                ? "Fecha incompleta o inválida. Usa el formato dd/mm/aaaa."
+                : " "
+            }
+            inputProps={{ maxLength: 10 }}
           />
 
           <TextField
             margin="normal"
             fullWidth
+            required
+            select
             label="Licencia Objetivo"
             value={newAlumno.tipoLicencia}
             onChange={(e) =>
@@ -528,7 +791,13 @@ export default function Alumnos() {
                 tipoLicencia: e.target.value,
               })
             }
-          />
+          >
+            {LICENCIAS_OPCIONES.map((licencia) => (
+              <MenuItem key={licencia.value} value={licencia.value}>
+                {licencia.label}
+              </MenuItem>
+            ))}
+          </TextField>
         </DialogContent>
 
         <DialogActions>
@@ -545,6 +814,32 @@ export default function Alumnos() {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Dialog
+        open={confirmDialog.open}
+        onClose={closeConfirmDialog}
+        fullWidth
+        maxWidth="xs"
+      >
+        <DialogTitle>{confirmDialog.title}</DialogTitle>
+
+        <DialogContent>
+          <DialogContentText>{confirmDialog.message}</DialogContentText>
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={closeConfirmDialog}>Cancelar</Button>
+
+          <Button
+            variant="contained"
+            color={confirmDialog.action === "deactivate" ? "error" : "success"}
+            onClick={handleConfirmAction}
+          >
+            Confirmar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <Snackbar
         open={notification.open}
         autoHideDuration={4000}

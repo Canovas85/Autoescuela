@@ -17,12 +17,12 @@ export const profesoresService = {
   },
 
   activate: async (id) => {
-    const response = await api.patch(`/profesores/${id}/activate`);
+    const response = await api.patch(`/profesores/${id}/activar`);
     return response.data;
   },
 
   deactivate: async (id) => {
-    const response = await api.patch(`/profesores/${id}/deactivate`);
+    const response = await api.delete(`/profesores/${id}`);
     return response.data;
   },
 };

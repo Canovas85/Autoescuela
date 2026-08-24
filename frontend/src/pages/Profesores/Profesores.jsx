@@ -34,6 +34,12 @@ import {
   TextField,
 } from "@mui/material";
 
+const normalizarDni = (valor) =>
+  valor
+    ?.toString()
+    .toUpperCase()
+    .replace(/[^0-9A-Z]/g, "") || "";
+
 export default function Profesores() {
   const [rows, setRows] = useState([]);
 
@@ -43,7 +49,7 @@ export default function Profesores() {
 
   const [search, setSearch] = useState("");
 
-  const especialidades = ["Carnet B", "Carnet A", "CAP", "Mercancías", "Todos"];
+  const licencias = ["B", "A1", "A2", "A", "C", "D", "E"];
 
   useEffect(() => {
     loadProfesores();
@@ -104,22 +110,42 @@ export default function Profesores() {
 
   const saveProfesor = async () => {
     try {
+      const payloadBase = {
+        nombre: nuevoProfesor.nombre?.trim() || "",
+        email: nuevoProfesor.email?.trim() || "",
+        telefono: nuevoProfesor.telefono?.trim() || "",
+        permisosLicencias: nuevoProfesor.permisosLicencias,
+        licenciaConducir: nuevoProfesor.permisosLicencias[0] || "",
+        dni: normalizarDni(nuevoProfesor.dni),
+      };
+
       if (editingId) {
-        await profesoresService.update(editingId, newProfesor);
+        await profesoresService.update(editingId, {
+          nombre: payloadBase.nombre,
+          email: payloadBase.email,
+          dni: payloadBase.dni,
+          telefono: payloadBase.telefono,
+          licenciaConducir: payloadBase.licenciaConducir,
+          permisosLicencias: payloadBase.permisosLicencias,
+        });
       } else {
-        await profesoresService.create(newProfesor);
+        await profesoresService.create({
+          ...payloadBase,
+          password: nuevoProfesor.password || "",
+        });
       }
 
       setOpen(false);
 
       setEditingId(null);
 
-      setNewProfesor({
+      setNuevoProfesor({
         nombre: "",
         email: "",
         password: "",
+        dni: "",
         telefono: "",
-        tipoLicencia: "B",
+        permisosLicencias: ["B"],
       });
 
       loadProfesores();
@@ -154,7 +180,7 @@ export default function Profesores() {
         return;
       }
 
-      await ProfesorsService.deactivate(id);
+      await profesoresService.deactivate(id);
 
       loadProfesores();
 
@@ -176,7 +202,7 @@ export default function Profesores() {
 
   const handleActivate = async (id) => {
     try {
-      await ProfesorsService.activate(id);
+      await profesoresService.activate(id);
 
       loadProfesores();
 
@@ -214,9 +240,13 @@ export default function Profesores() {
     },
 
     {
-      field: "especialidad",
-      headerName: "Especialidad",
-      flex: 1,
+      field: "permisosLicencias",
+      headerName: "Permisos",
+      flex: 1.2,
+      valueGetter: (_, row) =>
+        Array.isArray(row.permisosLicencias) && row.permisosLicencias.length > 0
+          ? row.permisosLicencias.join(", ")
+          : row.licenciaConducir || "",
     },
 
     {
@@ -269,7 +299,9 @@ export default function Profesores() {
   const [nuevoProfesor, setNuevoProfesor] = useState({
     nombre: "",
     email: "",
-    especialidad: "Carnet B",
+    password: "",
+    dni: "",
+    permisosLicencias: ["B"],
     telefono: "",
     activo: true,
   });
@@ -287,8 +319,12 @@ export default function Profesores() {
       nombre: row.usuario?.nombre || "",
       email: row.usuario?.email || "",
       password: "",
+      dni: row.usuario?.dni || "",
       telefono: row.usuario?.telefono || "",
-      tipoLicencia: row.tipoLicenciaObjetivo || "B",
+      permisosLicencias:
+        Array.isArray(row.permisosLicencias) && row.permisosLicencias.length > 0
+          ? row.permisosLicencias
+          : [row.licenciaConducir || "B"],
     });
 
     setOpen(true);
@@ -317,8 +353,9 @@ export default function Profesores() {
               nombre: "",
               email: "",
               password: "",
+              dni: "",
               telefono: "",
-              tipoLicencia: "B",
+              permisosLicencias: ["B"],
             });
 
             setOpen(true);
@@ -432,11 +469,32 @@ export default function Profesores() {
             fullWidth
             label="Contraseña"
             type="password"
+            disabled={Boolean(editingId)}
+            helperText={
+              editingId
+                ? "No se modifica desde esta pantalla. Si está vacía, se mantiene la contraseña actual."
+                : "Mínimo 8 caracteres"
+            }
             value={nuevoProfesor.password}
             onChange={(e) =>
               setNuevoProfesor({
                 ...nuevoProfesor,
                 password: e.target.value,
+              })
+            }
+          />
+
+          <TextField
+            margin="normal"
+            fullWidth
+            required
+            label="DNI"
+            placeholder="12345678Z"
+            value={nuevoProfesor.dni}
+            onChange={(e) =>
+              setNuevoProfesor({
+                ...nuevoProfesor,
+                dni: normalizarDni(e.target.value),
               })
             }
           />
@@ -456,15 +514,20 @@ export default function Profesores() {
 
           <Select
             fullWidth
-            value={nuevoProfesor.especialidad}
+            multiple
+            value={nuevoProfesor.permisosLicencias}
+            renderValue={(selected) => selected.join(", ")}
             onChange={(e) =>
               setNuevoProfesor({
                 ...nuevoProfesor,
-                especialidad: e.target.value,
+                permisosLicencias:
+                  typeof e.target.value === "string"
+                    ? e.target.value.split(",")
+                    : e.target.value,
               })
             }
           >
-            {especialidades.map((e) => (
+            {licencias.map((e) => (
               <MenuItem key={e} value={e}>
                 {e}
               </MenuItem>

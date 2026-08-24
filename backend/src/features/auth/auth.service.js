@@ -54,6 +54,7 @@ export class AuthService {
     const token = jwt.sign(
       {
         id: user.id,
+        nombre: user.nombre,
         email: user.email,
         rol: user.rol,
         requiereCambioPassword: Boolean(user.requiereCambioPassword),
@@ -91,5 +92,19 @@ export class AuthService {
     return {
       message: "Contraseña actualizada correctamente",
     };
+  }
+
+  async getProfile(userId) {
+    if (!userId) {
+      throw new Error("Usuario no autenticado");
+    }
+
+    const user = await this.repository.findUserById(userId);
+
+    if (!user) {
+      throw new Error("Usuario no encontrado");
+    }
+
+    return user;
   }
 }

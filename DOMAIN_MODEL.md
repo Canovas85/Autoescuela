@@ -100,6 +100,7 @@ Representa al instructor responsable de impartir clases prácticas.
 
 - id
 - licenciaConducir
+- permisosLicencias
 - telefono
 - activo
 
@@ -112,6 +113,12 @@ Representa al instructor responsable de impartir clases prácticas.
 #### Estado actual
 
 - activo: boolean
+
+#### Notas de dominio implementadas
+
+- `permisosLicencias` representa el conjunto de permisos que el profesor puede impartir
+- `licenciaConducir` se mantiene como campo principal de compatibilidad
+- el catálogo operativo de permisos actual es: `B`, `A1`, `A2`, `A`, `C`, `D`, `E`
 
 ---
 
@@ -127,6 +134,10 @@ Representa el vehículo disponible para las clases prácticas.
 - modelo
 - tipoPermiso
 - activo
+
+#### Extensión aprobada (próxima iteración)
+
+- imagenRuta (nullable): referencia al archivo de imagen almacenado en carpeta del servidor
 
 #### Relaciones
 
@@ -340,3 +351,20 @@ El dominio real del proyecto actual es una plataforma operativa de gestión de a
 - dashboard
 
 La finalidad de este documento es reflejar ese modelo real y distinguirlo de los conceptos de negocio más amplios que se prevén como evolución futura.
+
+---
+
+# 9. Actualización de dominio agosto 2026
+
+## 9.1 Cambios ya aplicados
+
+- el agregado `Profesor` amplía su capacidad con permisos múltiples de licencias (`permisosLicencias`)
+- la edición administrativa de profesor se aplica de forma transaccional entre `Usuario` y `Profesor`
+- la edición de alumno y profesor conserva la contraseña actual cuando no se informa nuevo valor
+
+## 9.2 Cambios acordados para la siguiente iteración
+
+- el agregado `Vehiculo` incorporará una referencia de imagen opcional (`imagenRuta`)
+- la imagen física se almacenará en filesystem del backend
+- tipos permitidos: `png`, `jpg/jpeg`, `webp`
+- tamaño máximo: `5 MB`

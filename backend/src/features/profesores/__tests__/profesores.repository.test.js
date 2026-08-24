@@ -6,9 +6,11 @@ describe("ProfesoresRepository", () => {
   it("debe crear un profesor utilizando Prisma", async () => {
     const profesor = {
       nombre: "Juan Pérez",
+      dni: "12345678Z",
       email: "juan@autodrive.com",
       password: "hashed-password",
-      licenciaConducir: "LIC-123",
+      licenciaConducir: "B",
+      permisosLicencias: ["B", "A"],
       telefono: "600123123",
       rol: "PROFESOR",
       activo: true,
@@ -38,6 +40,12 @@ describe("ProfesoresRepository", () => {
     const result = await repository.create(profesor);
 
     expect(prismaMock.usuario.create).toHaveBeenCalledTimes(1);
+
+    expect(prismaMock.usuario.create).toHaveBeenCalledWith({
+      data: expect.objectContaining({
+        dni: "12345678Z",
+      }),
+    });
 
     expect(prismaMock.profesor.create).toHaveBeenCalledTimes(1);
 
@@ -118,6 +126,9 @@ describe("ProfesoresRepository", () => {
       where: {
         id: "profesor-1",
       },
+      include: {
+        usuario: true,
+      },
     });
 
     expect(result).toEqual(profesor);
@@ -126,34 +137,98 @@ describe("ProfesoresRepository", () => {
   it("debe actualizar un profesor existente", async () => {
     const profesorActualizado = {
       id: "profesor-1",
-      nombre: "Juan Pérez Actualizado",
+      nombre: "Juan Pérez",
       telefono: "699999999",
+      licenciaConducir: "B",
+      permisosLicencias: ["B", "A"],
+      usuario: {
+        id: "profesor-1",
+        nombre: "Juan Pérez",
+        email: "juan@autodrive.com",
+        dni: "12345678Z",
+      },
+    };
+
+    const txMock = {
+      usuario: {
+        update: vi.fn().mockResolvedValue({ id: "profesor-1" }),
+      },
+      profesor: {
+        update: vi.fn().mockResolvedValue(profesorActualizado),
+        findUnique: vi.fn(),
+      },
     };
 
     const prismaMock = {
-      profesor: {
-        update: vi.fn().mockResolvedValue(profesorActualizado),
-      },
+      $transaction: vi.fn().mockImplementation(async (cb) => cb(txMock)),
     };
 
     const repository = new ProfesoresRepository(prismaMock);
 
     const result = await repository.update("profesor-1", {
-      nombre: "Juan Pérez Actualizado",
+      nombre: "Juan Pérez",
+      email: "juan@autodrive.com",
+      dni: "12345678Z",
       telefono: "699999999",
+      licenciaConducir: "B",
+      permisosLicencias: ["B", "A"],
     });
 
-    expect(prismaMock.profesor.update).toHaveBeenCalledWith({
+    expect(prismaMock.$transaction).toHaveBeenCalledTimes(1);
+
+    expect(txMock.usuario.update).toHaveBeenCalledWith({
       where: {
         id: "profesor-1",
       },
       data: {
-        nombre: "Juan Pérez Actualizado",
+        nombre: "Juan Pérez",
+        email: "juan@autodrive.com",
+        dni: "12345678Z",
         telefono: "699999999",
       },
     });
 
+    expect(txMock.profesor.update).toHaveBeenCalledWith({
+      where: {
+        id: "profesor-1",
+      },
+      data: {
+        telefono: "699999999",
+        licenciaConducir: "B",
+        permisosLicencias: ["B", "A"],
+      },
+      include: {
+        usuario: true,
+      },
+    });
+
     expect(result).toEqual(profesorActualizado);
+  });
+
+  it("debe buscar un usuario por DNI", async () => {
+    const usuario = {
+      id: "usuario-id",
+      dni: "12345678Z",
+      email: "juan@autodrive.com",
+    };
+
+    const prismaMock = {
+      usuario: {
+        findUnique: vi.fn().mockResolvedValue(usuario),
+      },
+    };
+
+    const repository = new ProfesoresRepository(prismaMock);
+
+    const result = await repository.findUserByDni("12345678Z");
+
+    expect(prismaMock.usuario.findUnique).toHaveBeenCalledWith({
+      where: {
+        dni: "12345678Z",
+      },
+    });
+
+    expect(result).toEqual(usuario);
   });
 
   it("debe realizar la baja lógica de un profesor", async () => {

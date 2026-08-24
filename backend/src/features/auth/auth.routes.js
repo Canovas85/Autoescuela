@@ -52,4 +52,6 @@ router.post(
   controller.changePasswordFirstLogin.bind(controller),
 );
 
+router.get("/me", authenticate, controller.me.bind(controller));
+
 export default router;

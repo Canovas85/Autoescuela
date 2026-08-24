@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 
-const LICENCIAS_PERMITIDAS = ["B", "A1", "A2", "A", "C", "D"];
+const LICENCIAS_PERMITIDAS = ["B", "A1", "A2", "A", "C", "D", "E"];
 
 const parseFechaNacimiento = (valor) => {
   if (valor === null || valor === undefined || valor === "") {
@@ -13,9 +13,9 @@ const parseFechaNacimiento = (valor) => {
     return null;
   }
 
-  const formatoEspanyol = /^\d{2}-\d{2}-\d{4}$/;
+  const formatoEspanyol = /^\d{2}[/-]\d{2}[/-]\d{4}$/;
   if (formatoEspanyol.test(entrada)) {
-    const [dia, mes, anio] = entrada.split("-").map(Number);
+    const [dia, mes, anio] = entrada.split(/[/-]/).map(Number);
     const fecha = new Date(anio, mes - 1, dia);
 
     if (
@@ -86,7 +86,7 @@ export class AlumnosService {
 
     if (!LICENCIAS_PERMITIDAS.includes(licenciaNormalizada)) {
       throw new Error(
-        "La licencia objetivo debe ser una de las permitidas: B, A1, A2, A, C, D",
+        "La licencia objetivo debe ser una de las permitidas: B, A1, A2, A, C, D, E",
       );
     }
 
@@ -94,30 +94,36 @@ export class AlumnosService {
       throw new Error("El teléfono es obligatorio");
     }
 
-    const dni = normalizarDni(data.dni);
-    if (
-      data.dni !== undefined &&
-      data.dni !== null &&
-      data.dni !== "" &&
-      !dni
-    ) {
-      throw new Error("El DNI debe tener un formato válido");
-    }
-
-    const fechaNacimiento = parseFechaNacimiento(data.fechaNacimiento);
-    if (
-      data.fechaNacimiento !== undefined &&
-      data.fechaNacimiento !== null &&
-      String(data.fechaNacimiento).trim() !== "" &&
-      !fechaNacimiento
-    ) {
-      throw new Error("La fecha de nacimiento debe ser una fecha válida");
-    }
-
     const existingUser = await this.repository.findByEmail(data.email);
 
     if (existingUser) {
       throw new Error("El email ya existe");
+    }
+
+    if (
+      data.dni === undefined ||
+      data.dni === null ||
+      String(data.dni).trim() === ""
+    ) {
+      throw new Error("El DNI es obligatorio");
+    }
+
+    const dni = normalizarDni(data.dni);
+    if (!dni) {
+      throw new Error("El DNI debe tener un formato válido");
+    }
+
+    if (
+      data.fechaNacimiento === undefined ||
+      data.fechaNacimiento === null ||
+      String(data.fechaNacimiento).trim() === ""
+    ) {
+      throw new Error("La fecha de nacimiento es obligatoria");
+    }
+
+    const fechaNacimiento = parseFechaNacimiento(data.fechaNacimiento);
+    if (!fechaNacimiento) {
+      throw new Error("La fecha de nacimiento debe ser una fecha válida");
     }
 
     const passwordHash = await bcrypt.hash(data.password, 10);

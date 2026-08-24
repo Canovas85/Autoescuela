@@ -45,4 +45,16 @@ export class AuthController {
       });
     }
   }
+
+  async me(req, res) {
+    try {
+      const user = await this.service.getProfile(req.user?.id);
+
+      return res.status(200).json(user);
+    } catch (error) {
+      return res.status(404).json({
+        message: error.message,
+      });
+    }
+  }
 }

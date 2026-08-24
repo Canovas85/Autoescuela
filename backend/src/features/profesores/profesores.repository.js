@@ -7,6 +7,7 @@ export class ProfesoresRepository {
     const usuario = await this.prisma.usuario.create({
       data: {
         nombre: data.nombre,
+        dni: data.dni || null,
         email: data.email,
         telefono: data.telefono,
         passwordHash: data.passwordHash,
@@ -21,6 +22,7 @@ export class ProfesoresRepository {
       data: {
         id: usuario.id,
         licenciaConducir: data.licenciaConducir,
+        permisosLicencias: data.permisosLicencias ?? [data.licenciaConducir],
         telefono: data.telefono,
       },
 
@@ -37,6 +39,15 @@ export class ProfesoresRepository {
       },
     });
   }
+
+  async findUserByDni(dni) {
+    return this.prisma.usuario.findUnique({
+      where: {
+        dni,
+      },
+    });
+  }
+
   async findAll() {
     return this.prisma.profesor.findMany({
       include: {
@@ -50,15 +61,66 @@ export class ProfesoresRepository {
       where: {
         id,
       },
+      include: {
+        usuario: true,
+      },
     });
   }
 
   async update(id, data) {
-    return this.prisma.profesor.update({
-      where: {
-        id,
-      },
-      data,
+    const usuarioData = {};
+    const profesorData = {};
+
+    if (data.nombre !== undefined) {
+      usuarioData.nombre = data.nombre;
+    }
+    if (data.email !== undefined) {
+      usuarioData.email = data.email;
+    }
+    if (data.dni !== undefined) {
+      usuarioData.dni = data.dni;
+    }
+    if (data.telefono !== undefined) {
+      usuarioData.telefono = data.telefono;
+      profesorData.telefono = data.telefono;
+    }
+    if (data.licenciaConducir !== undefined) {
+      profesorData.licenciaConducir = data.licenciaConducir;
+    }
+    if (data.permisosLicencias !== undefined) {
+      profesorData.permisosLicencias = data.permisosLicencias;
+    }
+
+    return this.prisma.$transaction(async (tx) => {
+      if (Object.keys(usuarioData).length > 0) {
+        await tx.usuario.update({
+          where: {
+            id,
+          },
+          data: usuarioData,
+        });
+      }
+
+      if (Object.keys(profesorData).length > 0) {
+        return tx.profesor.update({
+          where: {
+            id,
+          },
+          data: profesorData,
+          include: {
+            usuario: true,
+          },
+        });
+      }
+
+      return tx.profesor.findUnique({
+        where: {
+          id,
+        },
+        include: {
+          usuario: true,
+        },
+      });
     });
   }
 
@@ -80,6 +142,17 @@ export class ProfesoresRepository {
       },
       data: {
         activo: false,
+      },
+    });
+  }
+
+  async activate(id) {
+    return this.prisma.profesor.update({
+      where: {
+        id,
+      },
+      data: {
+        activo: true,
       },
     });
   }

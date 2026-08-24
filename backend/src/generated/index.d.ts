@@ -2609,6 +2609,7 @@ export namespace Prisma {
   export type ProfesorCountAggregateOutputType = {
     id: number
     licenciaConducir: number
+    permisosLicencias: number
     telefono: number
     activo: number
     _all: number
@@ -2632,6 +2633,7 @@ export namespace Prisma {
   export type ProfesorCountAggregateInputType = {
     id?: true
     licenciaConducir?: true
+    permisosLicencias?: true
     telefono?: true
     activo?: true
     _all?: true
@@ -2712,6 +2714,7 @@ export namespace Prisma {
   export type ProfesorGroupByOutputType = {
     id: string
     licenciaConducir: string
+    permisosLicencias: string[]
     telefono: string
     activo: boolean
     _count: ProfesorCountAggregateOutputType | null
@@ -2736,6 +2739,7 @@ export namespace Prisma {
   export type ProfesorSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     licenciaConducir?: boolean
+    permisosLicencias?: boolean
     telefono?: boolean
     activo?: boolean
     alumnosAsignados?: boolean | Profesor$alumnosAsignadosArgs<ExtArgs>
@@ -2747,6 +2751,7 @@ export namespace Prisma {
   export type ProfesorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     licenciaConducir?: boolean
+    permisosLicencias?: boolean
     telefono?: boolean
     activo?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
@@ -2755,6 +2760,7 @@ export namespace Prisma {
   export type ProfesorSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     licenciaConducir?: boolean
+    permisosLicencias?: boolean
     telefono?: boolean
     activo?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
@@ -2763,11 +2769,12 @@ export namespace Prisma {
   export type ProfesorSelectScalar = {
     id?: boolean
     licenciaConducir?: boolean
+    permisosLicencias?: boolean
     telefono?: boolean
     activo?: boolean
   }
 
-  export type ProfesorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "licenciaConducir" | "telefono" | "activo", ExtArgs["result"]["profesor"]>
+  export type ProfesorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "licenciaConducir" | "permisosLicencias" | "telefono" | "activo", ExtArgs["result"]["profesor"]>
   export type ProfesorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumnosAsignados?: boolean | Profesor$alumnosAsignadosArgs<ExtArgs>
     clases?: boolean | Profesor$clasesArgs<ExtArgs>
@@ -2791,6 +2798,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       licenciaConducir: string
+      permisosLicencias: string[]
       telefono: string
       activo: boolean
     }, ExtArgs["result"]["profesor"]>
@@ -3221,6 +3229,7 @@ export namespace Prisma {
   interface ProfesorFieldRefs {
     readonly id: FieldRef<"Profesor", 'String'>
     readonly licenciaConducir: FieldRef<"Profesor", 'String'>
+    readonly permisosLicencias: FieldRef<"Profesor", 'String[]'>
     readonly telefono: FieldRef<"Profesor", 'String'>
     readonly activo: FieldRef<"Profesor", 'Boolean'>
   }
@@ -8182,6 +8191,7 @@ export namespace Prisma {
   export const ProfesorScalarFieldEnum: {
     id: 'id',
     licenciaConducir: 'licenciaConducir',
+    permisosLicencias: 'permisosLicencias',
     telefono: 'telefono',
     activo: 'activo'
   };
@@ -8430,6 +8440,7 @@ export namespace Prisma {
     NOT?: ProfesorWhereInput | ProfesorWhereInput[]
     id?: StringFilter<"Profesor"> | string
     licenciaConducir?: StringFilter<"Profesor"> | string
+    permisosLicencias?: StringNullableListFilter<"Profesor">
     telefono?: StringFilter<"Profesor"> | string
     activo?: BoolFilter<"Profesor"> | boolean
     alumnosAsignados?: AlumnoListRelationFilter
@@ -8440,6 +8451,7 @@ export namespace Prisma {
   export type ProfesorOrderByWithRelationInput = {
     id?: SortOrder
     licenciaConducir?: SortOrder
+    permisosLicencias?: SortOrder
     telefono?: SortOrder
     activo?: SortOrder
     alumnosAsignados?: AlumnoOrderByRelationAggregateInput
@@ -8453,6 +8465,7 @@ export namespace Prisma {
     OR?: ProfesorWhereInput[]
     NOT?: ProfesorWhereInput | ProfesorWhereInput[]
     licenciaConducir?: StringFilter<"Profesor"> | string
+    permisosLicencias?: StringNullableListFilter<"Profesor">
     telefono?: StringFilter<"Profesor"> | string
     activo?: BoolFilter<"Profesor"> | boolean
     alumnosAsignados?: AlumnoListRelationFilter
@@ -8463,6 +8476,7 @@ export namespace Prisma {
   export type ProfesorOrderByWithAggregationInput = {
     id?: SortOrder
     licenciaConducir?: SortOrder
+    permisosLicencias?: SortOrder
     telefono?: SortOrder
     activo?: SortOrder
     _count?: ProfesorCountOrderByAggregateInput
@@ -8476,6 +8490,7 @@ export namespace Prisma {
     NOT?: ProfesorScalarWhereWithAggregatesInput | ProfesorScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Profesor"> | string
     licenciaConducir?: StringWithAggregatesFilter<"Profesor"> | string
+    permisosLicencias?: StringNullableListFilter<"Profesor">
     telefono?: StringWithAggregatesFilter<"Profesor"> | string
     activo?: BoolWithAggregatesFilter<"Profesor"> | boolean
   }
@@ -8833,6 +8848,7 @@ export namespace Prisma {
 
   export type ProfesorCreateInput = {
     licenciaConducir: string
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     telefono: string
     activo?: boolean
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
@@ -8843,6 +8859,7 @@ export namespace Prisma {
   export type ProfesorUncheckedCreateInput = {
     id: string
     licenciaConducir: string
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     telefono: string
     activo?: boolean
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
@@ -8851,6 +8868,7 @@ export namespace Prisma {
 
   export type ProfesorUpdateInput = {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
@@ -8861,6 +8879,7 @@ export namespace Prisma {
   export type ProfesorUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     licenciaConducir?: StringFieldUpdateOperationsInput | string
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
@@ -8870,12 +8889,14 @@ export namespace Prisma {
   export type ProfesorCreateManyInput = {
     id: string
     licenciaConducir: string
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     telefono: string
     activo?: boolean
   }
 
   export type ProfesorUpdateManyMutationInput = {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
   }
@@ -8883,6 +8904,7 @@ export namespace Prisma {
   export type ProfesorUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     licenciaConducir?: StringFieldUpdateOperationsInput | string
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
   }
@@ -9317,6 +9339,14 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type AlumnoListRelationFilter = {
     every?: AlumnoWhereInput
     some?: AlumnoWhereInput
@@ -9345,6 +9375,7 @@ export namespace Prisma {
   export type ProfesorCountOrderByAggregateInput = {
     id?: SortOrder
     licenciaConducir?: SortOrder
+    permisosLicencias?: SortOrder
     telefono?: SortOrder
     activo?: SortOrder
   }
@@ -9648,6 +9679,10 @@ export namespace Prisma {
     update?: XOR<XOR<ProfesorUpdateToOneWithWhereWithoutUsuarioInput, ProfesorUpdateWithoutUsuarioInput>, ProfesorUncheckedUpdateWithoutUsuarioInput>
   }
 
+  export type ProfesorCreatepermisosLicenciasInput = {
+    set: string[]
+  }
+
   export type AlumnoCreateNestedManyWithoutProfesorAsignadoInput = {
     create?: XOR<AlumnoCreateWithoutProfesorAsignadoInput, AlumnoUncheckedCreateWithoutProfesorAsignadoInput> | AlumnoCreateWithoutProfesorAsignadoInput[] | AlumnoUncheckedCreateWithoutProfesorAsignadoInput[]
     connectOrCreate?: AlumnoCreateOrConnectWithoutProfesorAsignadoInput | AlumnoCreateOrConnectWithoutProfesorAsignadoInput[]
@@ -9680,6 +9715,11 @@ export namespace Prisma {
     connectOrCreate?: ClasePracticaCreateOrConnectWithoutProfesorInput | ClasePracticaCreateOrConnectWithoutProfesorInput[]
     createMany?: ClasePracticaCreateManyProfesorInputEnvelope
     connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+  }
+
+  export type ProfesorUpdatepermisosLicenciasInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type AlumnoUpdateManyWithoutProfesorAsignadoNestedInput = {
@@ -10188,6 +10228,7 @@ export namespace Prisma {
 
   export type ProfesorCreateWithoutUsuarioInput = {
     licenciaConducir: string
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     telefono: string
     activo?: boolean
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
@@ -10196,6 +10237,7 @@ export namespace Prisma {
 
   export type ProfesorUncheckedCreateWithoutUsuarioInput = {
     licenciaConducir: string
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     telefono: string
     activo?: boolean
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
@@ -10251,6 +10293,7 @@ export namespace Prisma {
 
   export type ProfesorUpdateWithoutUsuarioInput = {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
@@ -10259,6 +10302,7 @@ export namespace Prisma {
 
   export type ProfesorUncheckedUpdateWithoutUsuarioInput = {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
@@ -10481,6 +10525,7 @@ export namespace Prisma {
 
   export type ProfesorCreateWithoutAlumnosAsignadosInput = {
     licenciaConducir: string
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     telefono: string
     activo?: boolean
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
@@ -10490,6 +10535,7 @@ export namespace Prisma {
   export type ProfesorUncheckedCreateWithoutAlumnosAsignadosInput = {
     id: string
     licenciaConducir: string
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     telefono: string
     activo?: boolean
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
@@ -10602,6 +10648,7 @@ export namespace Prisma {
 
   export type ProfesorUpdateWithoutAlumnosAsignadosInput = {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
@@ -10611,6 +10658,7 @@ export namespace Prisma {
   export type ProfesorUncheckedUpdateWithoutAlumnosAsignadosInput = {
     id?: StringFieldUpdateOperationsInput | string
     licenciaConducir?: StringFieldUpdateOperationsInput | string
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
@@ -10730,6 +10778,7 @@ export namespace Prisma {
 
   export type ProfesorCreateWithoutClasesInput = {
     licenciaConducir: string
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     telefono: string
     activo?: boolean
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
@@ -10739,6 +10788,7 @@ export namespace Prisma {
   export type ProfesorUncheckedCreateWithoutClasesInput = {
     id: string
     licenciaConducir: string
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     telefono: string
     activo?: boolean
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
@@ -10816,6 +10866,7 @@ export namespace Prisma {
 
   export type ProfesorUpdateWithoutClasesInput = {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
@@ -10825,6 +10876,7 @@ export namespace Prisma {
   export type ProfesorUncheckedUpdateWithoutClasesInput = {
     id?: StringFieldUpdateOperationsInput | string
     licenciaConducir?: StringFieldUpdateOperationsInput | string
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput

@@ -163,6 +163,7 @@ Ejemplo:
 - A1, A2, A (Motocicletas)
 - C (Camiones destinados al transporte de carga, cuya masa máxima autorizada supera los 3.500 kg, con un límite de hasta 9 plazas (incluyendo el conductor))
 - D (autobuses y autocares destinados al transporte de pasajeros, diseñados para llevar a más de 8 pasajeros además del conductor)
+- E (Remolques)
 
 ---
 
@@ -193,11 +194,13 @@ Para crear un alumno en la implementación actual, debe existir al menos:
 - email
 - contraseña
 - teléfono
+- dni
+- fecha de nacimiento
 - licencia objetivo
 
 En el diseño actual:
 
-- el DNI se gestiona en el modelo de `Usuario` y puede heredarse por perfiles asociados
+- el DNI se gestiona en el modelo de `Usuario`
 - la fecha de nacimiento se gestiona en el modelo de `Alumno`
 
 ---
@@ -411,3 +414,87 @@ Las siguientes reglas forman parte del roadmap funcional y aún no están cubier
 La versión actual del sistema está enfocada a la gestión operativa de una autoescuela con autenticación, alumnos, profesores, vehículos, clases, exámenes y dashboard.
 
 Las reglas que aparecen aquí son las que realmente se corresponden con el código y el modelo de datos actuales. El resto debe entenderse como planificación funcional futura, no como requisito ya implementado.
+
+---
+
+# 11. Actualización agosto 2026 (cambios recientes)
+
+## BR-AUTH-012 - Cabecera Authorization obligatoria en rutas protegidas
+
+Las llamadas del frontend a endpoints protegidos deben enviar `Authorization: Bearer <token>`.
+
+Si no se envía token, la API devuelve `401` con mensaje de token no enviado.
+
+---
+
+## BR-PRO-005 - DNI obligatorio en alta y edición de profesor
+
+Para profesores, el `dni` es obligatorio y debe cumplir formato válido de 8 números + 1 letra.
+
+---
+
+## BR-PRO-006 - Permisos de licencias múltiples en profesor
+
+Un profesor puede impartir clases para varios permisos simultáneamente.
+
+Reglas aplicadas:
+
+- debe existir al menos un permiso seleccionado
+- se normalizan y deduplican los valores
+- catálogo permitido: `B`, `A1`, `A2`, `A`, `C`, `D`, `E`
+
+---
+
+## BR-PRO-007 - Actualización transaccional de profesor
+
+La edición de profesor debe actualizar de forma consistente:
+
+- datos de usuario (`nombre`, `email`, `dni`, `telefono`)
+- datos de profesor (`licenciaConducir`, `permisosLicencias`, `telefono`)
+
+La operación se realiza en una transacción para evitar estados intermedios inconsistentes.
+
+---
+
+## BR-PRO-008 - Contraseña no modificable en edición administrativa de profesor
+
+En la edición administrativa de profesor, si no se informa contraseña, se mantiene la actual sin cambios.
+
+En la implementación actual la contraseña de profesor no se modifica desde este formulario.
+
+---
+
+## BR-ALU-007 - Contraseña no modificable si se deja vacía en edición
+
+En edición de alumno, si la contraseña llega vacía, el sistema conserva la contraseña actual y no recalcula hash.
+
+---
+
+## BR-VEH-005 - Imagen de vehículo (acordado para siguiente iteración)
+
+Se incorpora la decisión funcional de añadir una referencia de imagen por vehículo.
+
+Reglas aprobadas:
+
+- la imagen no es obligatoria en el alta
+- en edición se puede añadir o cambiar imagen, o mantener sin imagen
+- los archivos se guardan en carpeta del servidor
+- en base de datos se guarda solo la referencia/ruta de imagen
+
+---
+
+## BR-VEH-006 - Validación de imagen de vehículo (acordado)
+
+Para alta y edición de imagen de vehículo:
+
+- tamaño máximo: `5 MB`
+- formatos permitidos: `png`, `jpg/jpeg`, `webp`
+
+---
+
+## BR-VEH-007 - Vista detalle de vehículo (próxima fase)
+
+Se implementará una vista de detalle desde el listado para visualizar:
+
+- datos completos del vehículo
+- imagen en tamaño mayor
