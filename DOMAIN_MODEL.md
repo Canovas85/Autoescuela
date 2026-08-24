@@ -1,199 +1,336 @@
 # DOMAIN_MODEL.md
 
-## Objetivo
+## Estado del documento
 
-Este documento define el modelo de dominio del sistema de gestión de autoescuela.
+Versión revisada del modelo de dominio alineada con el sistema real implementado.
 
-Su propósito es identificar las entidades del negocio, sus relaciones, estados y responsabilidades.
-
-No contiene detalles técnicos de implementación ni estructuras físicas de base de datos.
-
-Documentos relacionados:
-
-- FUNCTIONAL_SPECIFICATION.md
-- BUSINESS_RULES.md
+Este documento describe el dominio que realmente existe en el proyecto actual, y deja además marcadas las extensiones futuras que se planean incorporar más adelante.
 
 ---
 
-# 1. Contexto de Negocio
+# 1. Contexto del negocio actual
 
-La aplicación permite gestionar una autoescuela que combina:
+La aplicación gestiona una autoescuela con las siguientes áreas funcionales ya presentes:
 
-- Formación teórica.
-- Formación práctica.
-- Gestión administrativa.
-- Gestión económica.
-- Tramitación de exámenes.
-- Gestión de usuarios y permisos.
+- autenticación y roles
+- gestión de alumnos
+- gestión de profesores
+- gestión de vehículos
+- gestión de clases prácticas
+- gestión de exámenes
+- dashboard ejecutivo
 
----
-
-# 2. Bounded Contexts (Dominios)
-
-Actualmente se identifican los siguientes dominios principales:
-
-## 2.1 Identidad y Acceso
-
-Responsabilidades:
-
-- Usuarios
-- Roles
-- Permisos
-- Autenticación
+El modelo actual es más operativo que estratégico, y está centrado en la administración diaria de la autoescuela.
 
 ---
 
-## 2.2 Formación Teórica
+# 2. Dominio actual
 
-Responsabilidades:
+## 2.1 Identidad y acceso
 
-- Temario
-- Material multimedia
-- Preguntas
-- Tests
-- Resultados
+### Usuario
 
----
+Representa a cualquier persona que accede a la aplicación.
 
-## 2.3 Formación Práctica
-
-Responsabilidades:
-
-- Profesores
-- Vehículos
-- Disponibilidad
-- Reservas
-- Evaluaciones
-
----
-
-## 2.4 Gestión Comercial
-
-Responsabilidades:
-
-- Matrículas
-- Bonos
-- Paquetes
-- Promociones
-
----
-
-## 2.5 Facturación y Cobros
-
-Responsabilidades:
-
-- Pagos
-- Facturas
-- Impagos
-
----
-
-## 2.6 Exámenes y Tramitaciones
-
-Responsabilidades:
-
-- Convocatorias
-- Solicitudes
-- Documentación
-- Tasas
-
----
-
-# 3. Entidades Principales
-
----
-
-# Usuario
-
-Representa cualquier persona que accede al sistema.
-
-## Propiedades
+#### Atributos actuales
 
 - id
 - nombre
-- apellidos
 - email
+- telefono
 - passwordHash
-- teléfono
-- dniNie
-- fechaRegistro
-- estado
+- rol
+- fechaCreacion
 
-## Estados
+#### Relaciones
 
-- Activo
-- Suspendido
-- Bloqueado
-- Baja
+- un usuario puede ser ADMIN, PROFESOR o ALUMNO
+- un usuario puede estar asociado a un alumno o profesor
 
-## Relaciones
+#### Estado actual
 
-- Tiene un Rol.
-- Puede generar Auditorías.
+El sistema actual usa el estado del usuario de forma implícita por la relación con el rol y por los datos de negocio de la entidad asociada, no por un estado complejo de usuario por separado.
 
 ---
 
-# Rol
+## 2.2 Gestión académica y operativa
 
-Define los permisos funcionales.
+### Alumno
 
-## Tipos Iniciales
+Representa al estudiante matriculado en la autoescuela.
 
-- Administrador
-- Profesor
-- Alumno
-- Administrativo
-- Soporte
-
-## Relaciones
-
-- Un Rol posee múltiples permisos.
-- Un Usuario posee un Rol principal.
-
----
-
-# Permiso
-
-Representa una capacidad autorizada dentro del sistema.
-
-## Ejemplos
-
-- CrearAlumno
-- EditarAlumno
-- RegistrarPago
-- GestionarVehículos
-- CrearExamen
-
----
-
-# Alumno
-
-Representa al estudiante de la autoescuela.
-
-## Propiedades
+#### Atributos actuales
 
 - id
-- usuarioId
-- fechaNacimiento
-- permisoObjetivo
-- estadoTeorico
-- estadoPractico
+- tipoLicenciaObjetivo
+- horasPracticasCompletadas
+- profesorAsignadoId
+- activo
 
-## Estado Teórico
+#### Relaciones
 
-- Pendiente
-- Aprobado
-- Caducado
+- tiene un usuario asociado
+- puede tener un profesor asignado
+- puede tener varias clases prácticas
+- puede tener varios exámenes
 
-## Estado Práctico
+#### Estado actual
 
-- Pendiente
-- EnProceso
-- Aprobado
-- Suspendido
+- activo: boolean
+- inactivo: boolean
 
-## Relaciones
+Ejemplo real del sistema:
 
-- Realiza Tests.
-- Reserva Clases Prácticas.
-- Realiza
+- `activo = true` para alumno disponible
+- `activo = false` para alumno desactivado temporalmente
+
+---
+
+### Profesor
+
+Representa al instructor responsable de impartir clases prácticas.
+
+#### Atributos actuales
+
+- id
+- licenciaConducir
+- telefono
+- activo
+
+#### Relaciones
+
+- tiene un usuario asociado
+- puede tener varios alumnos asignados
+- puede impartir varias clases prácticas
+
+#### Estado actual
+
+- activo: boolean
+
+---
+
+### Vehiculo
+
+Representa el vehículo disponible para las clases prácticas.
+
+#### Atributos actuales
+
+- id
+- matricula
+- marca
+- modelo
+- tipoPermiso
+- activo
+
+#### Relaciones
+
+- puede estar asociado a varias clases prácticas
+
+#### Estado actual
+
+- activo: boolean
+
+---
+
+### ClasePractica
+
+Representa la clase práctica asignada a un alumno con un profesor y un vehículo.
+
+#### Atributos actuales
+
+- id
+- alumnoId
+- profesorId
+- vehiculoId
+- fecha
+- duracion
+- estado
+
+#### Relaciones
+
+- pertenece a un alumno
+- pertenece a un profesor
+- pertenece a un vehículo
+
+#### Estado actual
+
+El estado de la clase se gestiona como valor textual del dominio, por ejemplo:
+
+- programada
+- completada
+- cancelada
+- reprogramada
+
+La definición exacta del catálogo de estados puede ampliarse según la evolución del negocio.
+
+---
+
+### Examen
+
+Representa la convocatoria o registro de examen asociado a un alumno.
+
+#### Atributos actuales
+
+- id
+- alumnoId
+- tipo
+- fecha
+- estado
+
+#### Relaciones
+
+- pertenece a un alumno
+
+#### Estado actual
+
+El estado del examen se gestiona también como valor textual, por ejemplo:
+
+- pendiente
+- aprobado
+- suspendido
+- cancelado
+
+---
+
+# 3. Roles actuales del sistema
+
+## Rol
+
+El modelo actual define el siguiente enum:
+
+- ADMIN
+- PROFESOR
+- ALUMNO
+
+Esto se corresponde con la implementación real del esquema Prisma.
+
+---
+
+# 4. Relaciones principales del dominio actual
+
+```text
+Usuario
+  ├── ADMIN
+  ├── PROFESOR
+  └── ALUMNO
+
+Alumno
+  ├── 1:1 con Usuario
+  ├── N:1 con Profesor (asignado opcional)
+  ├── 1:N con ClasePractica
+  └── 1:N con Examen
+
+Profesor
+  ├── 1:1 con Usuario
+  ├── 1:N con ClasePractica
+  └── 1:N con Alumno (asignación de alumnos)
+
+Vehiculo
+  └── 1:N con ClasePractica
+
+ClasePractica
+  ├── N:1 con Alumno
+  ├── N:1 con Profesor
+  └── N:1 con Vehiculo
+
+Examen
+  └── N:1 con Alumno
+```
+
+---
+
+# 5. Entidades futuras previstas
+
+Estas entidades no están implementadas todavía, pero forman parte del roadmap funcional del proyecto:
+
+## 5.1 Bono / Paquete
+
+- id
+- nombre
+- tipo
+- precio
+- fechaCaducidad
+- activo
+
+## 5.2 Pago
+
+- id
+- alumnoId
+- importe
+- concepto
+- fecha
+- estado
+
+## 5.3 Factura
+
+- id
+- alumnoId
+- numeroFactura
+- importe
+- fechaEmision
+- estado
+
+## 5.4 Rol administrativo / soporte
+
+Se plantean como ampliación del sistema para gestionar operaciones internas y soporte al cliente.
+
+---
+
+# 6. Modelo de estados real del sistema actual
+
+## Estados soportados en modelo implementado
+
+### Usuario
+
+- rol definido por enum
+- no se gestiona un estado intelectual independiente
+
+### Alumno
+
+- activo / inactivo
+
+### Profesor
+
+- activo / inactivo
+
+### Vehiculo
+
+- activo / inactivo
+
+### ClasePractica
+
+- texto libre de negocio definido por la aplicación
+
+### Examen
+
+- texto libre de negocio definido por la aplicación
+
+---
+
+# 7. Qué NO forma parte del dominio actual
+
+Las siguientes áreas pertenecen al proyecto futuro, no a la versión actual:
+
+- pagos y facturación integrados
+- bonos y paquetes
+- formación teórica completa
+- materiales educativos y tests online
+- soporte técnico interno
+- permisos granulares por acción
+- auditoría avanzada
+
+---
+
+# 8. Conclusión
+
+El dominio real del proyecto actual es una plataforma operativa de gestión de autoescuela centrada en:
+
+- usuarios
+- alumnos
+- profesores
+- vehículos
+- clases
+- exámenes
+- dashboard
+
+La finalidad de este documento es reflejar ese modelo real y distinguirlo de los conceptos de negocio más amplios que se prevén como evolución futura.

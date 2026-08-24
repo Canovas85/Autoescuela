@@ -1,327 +1,288 @@
 # FUNCTIONAL_SPECIFICATION.md
 
-## Objetivo
+## Estado del documento
 
-Este documento describe las funcionalidades del sistema agrupadas por actor.
+Versión revisada de la especificación funcional alineada con la implementación actual del proyecto.
 
-No contiene reglas de negocio. Las restricciones y validaciones se encuentran en BUSINESS_RULES.md.
-
----
-
-# 1. Administrador
-
-## 1.1 Gestión de Usuarios
-
-Capacidades:
-
-- Crear usuarios.
-- Modificar usuarios.
-- Desactivar usuarios.
-- Reactivar usuarios.
-- Gestionar roles.
-
-Roles gestionados:
-
-- Administrador
-- Profesor
-- Alumno
-- Administrativo
-- Soporte
+Este documento describe lo que el sistema realmente cubre hoy y marca con claridad qué funcionalidades están todavía pendientes como evolución del producto.
 
 ---
 
-## 1.2 Gestión de Alumnos
+# 1. Alcance actual del sistema
 
-Capacidades:
+La aplicación actual ya cubre funcionalmente estas áreas:
 
-- Consultar expedientes.
-- Actualizar datos.
-- Suspender cuentas.
-- Reactivar cuentas.
-- Validar registros.
+- login y autenticación
+- gestión de alumnos
+- gestión de profesores
+- gestión de vehículos
+- gestión de clases prácticas
+- gestión de exámenes
+- dashboard ejecutivo
 
----
+Las siguientes áreas quedan fuera del alcance actual y forman parte del roadmap:
 
-## 1.3 Gestión Académica
-
-Capacidades:
-
-- Gestionar temario.
-- Gestionar material multimedia.
-- Publicar documentos.
-- Crear exámenes.
-- Gestionar banco de preguntas.
-- Gestionar simulacros.
+- pagos y facturación
+- bonos y paquetes
+- formación teórica completa
+- soporte y administración interna
+- gestión avanzada de permisos
 
 ---
 
-## 1.4 Seguimiento Académico
+# 2. Actor principal: Administrador
 
-Capacidades:
+## 2.1 Autenticación y acceso
 
-- Consultar estadísticas globales.
-- Analizar rendimiento.
-- Detectar puntos débiles del temario.
-- Consultar progreso individual.
+Capacidades actuales:
 
----
+- iniciar sesión con email y contraseña
+- recibir token JWT
+- acceder a páginas protegidas
+- consultar dashboard administrativo
 
-## 1.5 Gestión de Clases Prácticas
+Capacidades futuras:
 
-Capacidades:
-
-- Configurar disponibilidad.
-- Reprogramar clases.
-- Cancelar clases.
-- Gestionar zonas de recogida.
-- Aprobar paso a fase práctica.
+- gestión de permisos por entidad
+- permisos más granulares por acción
+- logs de auditoría
 
 ---
 
-## 1.6 Gestión Económica
+## 2.2 Gestión de usuarios
 
-Capacidades:
+Capacidades actuales:
 
-- Crear paquetes.
-- Gestionar tarifas.
-- Emitir facturas.
-- Gestionar pagos.
-- Gestionar impagos.
+- crear usuario con rol asignado
+- autenticar al usuario
+- consultar lista de usuarios por backend
+- usar rol para controlar acceso a rutas
 
----
+Capacidades futuras:
 
-## 1.7 Comunicación
-
-Capacidades:
-
-- Enviar notificaciones.
-- Publicar anuncios.
-- Gestionar incidencias.
+- gestión completa de usuarios por interfaz administrativa
+- desactivar/reactivar usuario con control detallado
+- edición de perfiles con más campos y permisos
 
 ---
 
-# 2. Profesor
+## 2.3 Gestión de alumnos
 
-## 2.1 Aula Virtual
+Capacidades actuales:
 
-Capacidades:
+- crear alumno
+- listar alumnos
+- consultar alumno por id
+- actualizar datos básicos
+- activar/desactivar alumno
+- asignar profesor opcional
 
-- Subir material.
-- Gestionar recursos educativos.
-- Realizar tutorías.
-- Impartir sesiones online.
+Casos funcionales reales del sistema actual:
 
----
-
-## 2.2 Seguimiento Académico
-
-Capacidades:
-
-- Consultar estadísticas.
-- Analizar resultados de test.
-- Elaborar informes.
-- Realizar seguimiento individual.
+- nombre, email, teléfono y licencia objetivo
+- estado activo/inactivo
+- profesor asignado opcional
+- horas prácticas registradas
 
 ---
 
-## 2.3 Gestión de Agenda
+## 2.4 Gestión de profesores
 
-Capacidades:
+Capacidades actuales:
 
-- Definir disponibilidad.
-- Bloquear franjas horarias.
-- Consultar reservas.
-- Recibir notificaciones.
-
----
-
-## 2.4 Evaluación Práctica
-
-Capacidades:
-
-- Registrar observaciones.
-- Registrar incidencias.
-- Registrar evolución.
-- Evaluar desempeño del alumno.
-- Registrar kilómetros recorridos.
-- Registrar consumo.
+- crear profesor
+- listar profesores
+- actualizar datos básicos
+- activar/desactivar profesor
+- mantener relación con alumnos
 
 ---
 
-# 3. Alumno
+## 2.5 Gestión de vehículos
 
-## 3.1 Formación Teórica
+Capacidades actuales:
 
-Capacidades:
-
-- Consultar temario.
-- Acceder a vídeos.
-- Descargar documentación.
-- Realizar test.
-- Realizar simulacros.
+- crear vehículo
+- listar vehículos
+- actualizar datos del vehículo
+- activar/desactivar vehículo
+- gestionar matrícula, marca, modelo y tipo de permiso
 
 ---
 
-## 3.2 Seguimiento del Aprendizaje
+## 2.6 Gestión de clases prácticas
 
-Capacidades:
+Capacidades actuales:
 
-- Consultar estadísticas.
-- Revisar errores.
-- Analizar evolución.
+- crear clase práctica
+- listar clases
+- actualizar información básica
+- consultar estado de la clase
+- relacionar alumno, profesor y vehículo
 
----
-
-## 3.3 Gestión de Clases Prácticas
-
-Capacidades:
-
-- Reservar clases.
-- Consultar agenda.
-- Cancelar reservas.
-- Consultar historial.
+La lógica de negocio de disponibilidad y solapamientos debe reforzarse en una fase posterior.
 
 ---
 
-## 3.4 Evolución Práctica
+## 2.7 Gestión de exámenes
 
-Capacidades:
+Capacidades actuales:
 
-- Consultar observaciones.
-- Consultar informes.
-- Revisar progreso.
-
----
-
-## 3.5 Gestión Económica
-
-Capacidades:
-
-- Comprar bonos.
-- Adquirir paquetes.
-- Aplicar promociones.
-- Consultar pagos.
-- Descargar facturas.
+- crear examen
+- listar exámenes
+- asociar examen a alumno
+- registrar tipo, fecha y estado
 
 ---
 
-## 3.6 Exámenes
+## 2.8 Dashboard ejecutivo
 
-Capacidades:
+Capacidades actuales:
 
-- Solicitar examen teórico.
-- Solicitar examen práctico.
-- Consultar estado de tramitación.
-
----
-
-# 4. Administrativo
-
-## 4.1 Matrículas
-
-Capacidades:
-
-- Registrar alumnos.
-- Gestionar matrículas.
-- Gestionar documentación.
+- consultar KPIs principales
+- consultar tasa de éxito
+- consultar éxito mensual
+- consultar exámenes pendientes
+- consultar clases programadas
+- identificar profesor con más clases
+- identificar profesor con más horas
 
 ---
 
-## 4.2 Gestión de Profesores
+# 3. Actor: Profesor
 
-Capacidades:
+La entidad `PROFESOR` existe en el modelo actual, pero en la versión actual la lógica funcional está muy centrada en la administración.
 
-- Registrar profesores.
-- Actualizar información.
-- Gestionar disponibilidad.
+## Funciones esperadas en el dominio
 
----
+- impartir clases prácticas
+- gestionar alumnos asignados
+- consultar calendario y disponibilidad
+- ver datos de sus clases
 
-## 4.3 Gestión Operativa
+## Estado actual
 
-Capacidades:
-
-- Gestionar horarios.
-- Resolver conflictos de agenda.
-- Reasignar reservas.
+El proyecto define el rol, pero aún no está completamente desarrollado como flujo de usuario específico con experiencia y permisos diferenciados.
 
 ---
 
-## 4.4 Gestión de Vehículos
+# 4. Actor: Alumno
 
-Capacidades:
+## Funciones esperadas en el dominio
 
-- Gestionar flota.
-- Asignar vehículos.
-- Registrar mantenimientos.
-- Controlar ITV.
+- autenticarse en la aplicación
+- consultar su información personal
+- consultar clases asignadas
+- consultar exámenes asociados
+- consultar su estado activo/inactivo
 
----
+## Estado actual
 
-## 4.5 Facturación
-
-Capacidades:
-
-- Registrar pagos.
-- Emitir facturas.
-- Gestionar cobros.
-- Controlar impagos.
+La entidad existe y está integrada con el backend, pero la experiencia del alumno no está desarrollada todavía como flujo completo frente a la administración.
 
 ---
 
-## 4.6 Tramitaciones
+# 5. Funcionalidad general del sistema actual
 
-Capacidades:
+## 5.1 Login
 
-- Gestionar expedientes.
-- Preparar documentación.
-- Gestionar convocatorias.
+### Flujo actual
 
----
-
-# 5. Personal de Soporte
-
-## 5.1 Atención al Usuario
-
-Capacidades:
-
-- Resolver consultas.
-- Gestionar tickets.
-- Gestionar incidencias.
+- el usuario introduce email y contraseña
+- backend busca el usuario por email
+- compara la contraseña con `passwordHash`
+- genera un JWT con rol y email
+- frontend guarda el token en localStorage
 
 ---
 
-## 5.2 Gestión de Cuentas
+## 5.2 Listado y mantenimiento de entidades
 
-Capacidades:
+La aplicación actual gestiona las entidades principales mediante CRUD básico:
 
-- Ayudar en recuperación de acceso.
-- Gestionar bloqueos.
-- Asistir en restablecimiento de contraseñas.
-
----
-
-## 5.3 Base de Conocimiento
-
-Capacidades:
-
-- Gestionar FAQ.
-- Actualizar documentación de ayuda.
+- alumnos
+- profesores
+- vehículos
+- clases
+- exámenes
 
 ---
 
-## 5.4 Monitorización
+## 5.3 Protección por roles
 
-Capacidades:
+El sistema actual usa esta lógica:
 
-- Supervisar servicios básicos.
-- Detectar incidencias.
-- Escalar problemas.
+- autenticación obligatoria
+- autorización por rol para rutas protegidas
+- prioridad de acceso para ADMIN
+
+La validación completa por permisos más finos queda como ampliación futura.
 
 ---
 
-# 6. Funcionalidades Pendientes
+# 6. Funcionalidades futuras no implementadas
 
-Este apartado recogerá futuras funcionalidades identificadas durante nuevas reuniones con el cliente.
+Estas funcionalidades están previstas en el proyecto y deben documentarse como roadmap:
 
-Estado inicial: Sin definir.
+## 6.1 Pagos y facturación
+
+- bonos
+- paquetes
+- promociones
+- pagos
+- facturas
+- impagos
+
+## 6.2 Formación teórica
+
+- temario
+- materiales
+- vídeos
+- tests y simulacros
+- seguimiento académico
+
+## 6.3 Roles administrativos y de soporte
+
+- ADMINISTRATIVO
+- SOPORTE
+
+## 6.4 Auditoría y trazabilidad
+
+- registro de operaciones sensibles
+- control de cambios críticos
+- trazabilidad por usuario
+
+## 6.5 Reglas avanzadas de negocio
+
+- validación de edades específicas por permiso
+- control de documentación de exámenes
+- validación total de solapamiento de clases
+- penalizaciones por cancelación tardía real
+
+---
+
+# 7. Matriz de funcionalidad actual vs futura
+
+| Área                  | Estado       |
+| --------------------- | ------------ |
+| Login y JWT           | Implementado |
+| Gestión de alumnos    | Implementado |
+| Gestión de profesores | Implementado |
+| Gestión de vehículos  | Implementado |
+| Gestión de clases     | Implementado |
+| Gestión de exámenes   | Implementado |
+| Dashboard ejecutivo   | Implementado |
+| Pagos y facturación   | Pendiente    |
+| Formación teórica     | Pendiente    |
+| Roles administrativos | Pendiente    |
+| Soporte               | Pendiente    |
+| Auditoría avanzada    | Pendiente    |
+| Permisos granulares   | Pendiente    |
+
+---
+
+# 8. Conclusión
+
+La especificación funcional actual del proyecto debe entenderse como una versión operativa orientada a la administración de la autoescuela, no como una visión completa de tipo producto final.
+
+La implementación real ya cubre la base funcional crítica de la operación diaria; lo restante debe gestionarse como backlog funcional y no como requisito ya entregado.

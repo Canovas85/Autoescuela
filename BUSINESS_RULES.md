@@ -1,254 +1,361 @@
 # BUSINESS_RULES.md
 
-## Objetivo
+## Estado del documento
 
-Este documento contiene las reglas de negocio oficiales del sistema de gestión de autoescuela.
+Versión revisada alineada con el proyecto actual implementado en agosto de 2026.
 
-Las reglas aquí descritas representan restricciones, validaciones y comportamientos obligatorios del negocio. Cualquier implementación técnica deberá respetar estas reglas.
-
----
-
-# 1. Gestión de Alumnos
-
-## BR-ALU-001 - Edad mínima para acceso teórico
-
-Un alumno puede registrarse y acceder a la formación teórica a partir de los 17 años y 9 meses.
+Este documento recoge las reglas que el sistema ya soporta de forma real en backend y frontend, y marca también las reglas que están previstas para fases futuras y aún no están desarrolladas.
 
 ---
 
-## BR-ALU-002 - Restricción para clases prácticas
+# 1. Alcance actual del negocio
 
-Un alumno no podrá reservar clases prácticas mientras no cumpla la edad legal requerida para el permiso correspondiente.
+El sistema actual cubre de forma operativa:
 
-Inicialmente se establece:
+- autenticación por email + contraseña
+- gestión de usuarios y roles
+- gestión de alumnos
+- gestión de profesores
+- gestión de vehículos
+- gestión de clases prácticas
+- gestión de exámenes
+- dashboard ejecutivo
 
-- Permiso B: mínimo 18 años.
+No están todavía implementadas en la versión actual:
 
----
-
-## BR-ALU-003 - Bloqueo por teórico pendiente
-
-Un alumno no puede reservar clases prácticas si su estado teórico no es "Aprobado".
-
-Estados permitidos:
-
-- Pendiente
-- Aprobado
-- Caducado
-
----
-
-## BR-ALU-004 - Validación manual del estado teórico
-
-El estado teórico del alumno únicamente puede ser modificado por un Administrador autorizado.
+- pagos y facturación
+- bonos y paquetes
+- formación teórica completa
+- roles administrativos / soporte
+- auditoría avanzada
+- gestión completa de permisos por entidad
 
 ---
 
-## BR-ALU-005 - Caducidad del teórico
+# 2. Reglas de autenticación y usuarios
 
-Una vez aprobado el examen teórico oficial, el alumno dispone de un máximo de 2 años para aprobar el examen práctico.
+## BR-AUTH-001 - Email único
 
-Si supera dicho periodo:
+Cada usuario debe tener un email único en el sistema.
 
-- El estado teórico pasará automáticamente a "Caducado".
-- El alumno perderá la habilitación para solicitar examen práctico.
-- El alumno no podrá reservar nuevas clases prácticas.
+Esto se corresponde con la restricción de `email` como campo único en Prisma.
 
 ---
 
-# 2. Reserva de Clases Prácticas
+## BR-AUTH-002 - Contraseña obligatoria
 
-## BR-CLA-001 - Existencia de recursos
+Todo usuario debe disponer de una contraseña en formato hash almacenado en `passwordHash`.
 
-Para crear una clase práctica debe existir:
-
-- Un alumno válido.
-- Un profesor válido.
-- Un vehículo válido.
+La contraseña original nunca debe persistirse en texto plano.
 
 ---
 
-## BR-CLA-002 - Disponibilidad obligatoria
+## BR-AUTH-003 - Longitud mínima de contraseña
 
-No podrá crearse una reserva si:
-
-- El profesor ya tiene una clase en la misma franja horaria.
-- El vehículo ya está asignado en la misma franja horaria.
-- El alumno ya tiene una clase en la misma franja horaria.
+La contraseña de un usuario debe tener al menos 8 caracteres para poder ser registrada.
 
 ---
 
-## BR-CLA-003 - Reserva mínima anticipada
+## BR-AUTH-004 - Login por credenciales
 
-Las clases prácticas deberán reservarse con al menos 24 horas de antelación.
+Un usuario puede autenticarse mediante:
 
----
+- email
+- password
 
-## BR-CLA-004 - Límite de reservas futuras
-
-Un alumno no podrá tener más de 3 clases prácticas futuras reservadas simultáneamente.
-
----
-
-## BR-CLA-005 - Validación de saldo
-
-Un alumno no podrá reservar una clase práctica si:
-
-- No dispone de créditos.
-- No dispone de un bono activo.
-- No dispone de una modalidad de pago autorizada.
+Si el email no existe o la contraseña no coincide con el hash almacenado, el sistema debe devolver un error de autenticación.
 
 ---
 
-## BR-CLA-006 - Cancelación sin coste
+## BR-AUTH-005 - Roles soportados por el sistema actual
 
-Una reserva podrá cancelarse sin penalización si se realiza con más de 24 horas de antelación.
+Los roles definidos en el modelo actual son:
 
----
+- ADMIN
+- PROFESOR
+- ALUMNO
 
-## BR-CLA-007 - Penalización por cancelación tardía
-
-Las cancelaciones realizadas con menos de 24 horas de antelación consumirán igualmente el crédito correspondiente.
-
----
-
-# 3. Gestión de Profesores
-
-## BR-PRO-001 - Descanso obligatorio
-
-Un profesor no podrá impartir más de 4 horas consecutivas sin descanso.
+El sistema debe validar el rol del usuario al generar el JWT y debe usarlo para controlar acceso a rutas protegidas.
 
 ---
 
-## BR-PRO-002 - Descanso mínimo
+## BR-AUTH-006 - Protección de rutas por rol
 
-Tras 4 horas consecutivas de clases deberá existir un descanso mínimo configurable:
+Las rutas administrativas deben estar protegidas con autenticación y autorización.
 
-- Valor inicial: 30 minutos.
+En la versión actual, la condición implementada es principalmente:
 
----
+- ADMIN puede acceder a gestión administrativa y dashboard
 
-## BR-PRO-003 - Máximo diario
-
-Un profesor no podrá impartir más de 8 horas prácticas al día.
+Las reglas más detalladas por permisos específicos quedan como ampliación futura.
 
 ---
 
-# 4. Gestión de Vehículos
+# 3. Reglas de alumnos
 
-## BR-VEH-001 - Vehículo fuera de servicio
+## BR-ALU-001 - Relación usuario-alumno obligatoria
 
-Un vehículo en estado:
+Todo alumno debe estar asociado a un registro de `Usuario`.
 
-- Mantenimiento
-- Taller
-- Inactivo
-
-no podrá asignarse a nuevas clases.
+Esto se cumple con la relación `alumno.id -> usuario.id` y la creación de ambos registros de forma consistente.
 
 ---
 
-## BR-VEH-002 - Cancelación automática
+## BR-ALU-002 - Email único en alumnos
 
-Cuando un vehículo pase a estado "Mantenimiento" o "Taller":
-
-- Las clases futuras deberán ser revisadas.
-- El sistema intentará reasignar vehículo compatible.
-- Si no existe vehículo alternativo, la clase quedará pendiente de reprogramación.
+El email del usuario asociado al alumno debe ser único en todo el sistema.
 
 ---
 
-# 5. Pagos y Facturación
+## BR-ALU-003 - Licencia objetivo obligatoria
 
-## BR-PAG-001 - Bonos con fecha de expiración
+Cuando se crea un alumno, debe indicarse `tipoLicenciaObjetivo`.
 
-Todo bono o paquete tendrá una fecha de caducidad.
+Ejemplo:
 
-Duración inicial configurable:
-
-- 6 meses
-- 12 meses
-
----
-
-## BR-PAG-002 - Créditos caducados
-
-Los créditos asociados a un bono caducado no podrán utilizarse.
+- B
+- A
+- etc.
 
 ---
 
-## BR-PAG-003 - Tasas no reembolsables
+## BR-ALU-004 - Estado activo/inactivo del alumno
 
-Las tasas oficiales gestionadas ante organismos públicos no admitirán devolución una vez iniciado el trámite.
+El alumno tiene un campo `activo` con valor booleano.
 
----
+- `true`: activo
+- `false`: inactivo
 
-## BR-PAG-004 - Modificación de importe
-
-Solamente un Administrador podrá modificar el importe de un pago registrado.
-
----
-
-# 6. Exámenes
-
-## BR-EXA-001 - Solicitud de examen
-
-Un alumno únicamente podrá solicitar examen si:
-
-- Tiene la documentación obligatoria validada.
-- Cumple los requisitos administrativos.
-- No tiene pagos pendientes bloqueantes.
+La gestión de activación/desactivación debe hacerse desde una acción administrativa.
 
 ---
 
-## BR-EXA-002 - Doble suspenso práctico
+## BR-ALU-005 - Profesor asignado opcional
 
-Si un alumno acumula dos suspensos prácticos consecutivos:
+Un alumno puede tener o no un profesor asignado.
 
-- Deberá realizar un mínimo de 5 clases de refuerzo.
-- No podrá solicitar nueva convocatoria hasta completar dicho requisito.
-
----
-
-## BR-EXA-003 - Psicotécnico obligatorio
-
-Un alumno no podrá presentarse a examen si:
-
-- No dispone de psicotécnico.
-- El psicotécnico está caducado.
+- `profesorAsignadoId = null` indica que no tiene profesor asignado actualmente.
 
 ---
 
-# 7. Seguridad y Permisos
+## BR-ALU-006 - Registro mínimo requerido para creación
 
-## BR-SEC-001 - Control por roles
+Para crear un alumno en la implementación actual, debe existir al menos:
 
-Todo acceso a funcionalidades deberá estar protegido mediante permisos asociados a roles.
-
----
-
-## BR-SEC-002 - Principio de mínimo privilegio
-
-Un usuario únicamente podrá acceder a la información necesaria para desempeñar sus funciones.
+- nombre
+- email
+- contraseña
+- teléfono
+- licencia objetivo
 
 ---
 
-## BR-SEC-003 - Auditoría
+# 4. Reglas de profesores
 
-Toda modificación de información crítica deberá registrarse en un sistema de auditoría.
+## BR-PRO-001 - Relación usuario-profesor obligatoria
 
-Ejemplos:
-
-- Pagos
-- Estados de alumnos
-- Reservas
-- Exámenes
-- Usuarios
+Todo profesor debe estar asociado a un `Usuario`.
 
 ---
 
-# 8. Reglas Pendientes de Definición
+## BR-PRO-002 - Datos mínimos obligatorios
 
-Este apartado almacenará reglas identificadas durante reuniones futuras.
+Un profesor debe tener:
 
-Estado inicial: Sin definir.
+- licencia de conducir
+- teléfono
+- estado activo
+
+---
+
+## BR-PRO-003 - Estado activo/inactivo del profesor
+
+El profesor dispone de un campo `activo` booleano.
+
+- `true`: disponible para operaciones
+- `false`: no disponible
+
+---
+
+## BR-PRO-004 - Asignación de alumnos
+
+Un profesor puede tener alumnos asignados, pero esta relación se gestiona como asociación del lado de alumno y profesor.
+
+---
+
+# 5. Reglas de vehículos
+
+## BR-VEH-001 - Matrícula única
+
+Cada vehículo debe tener una matrícula única.
+
+Esto se corresponde con la restricción `matricula` como campo único en Prisma.
+
+---
+
+## BR-VEH-002 - Tipo de permiso obligatorio
+
+Todo vehículo debe indicar `tipoPermiso`.
+
+---
+
+## BR-VEH-003 - Estado activo/inactivo del vehículo
+
+El vehículo dispone de un campo `activo`.
+
+- `true`: disponible
+- `false`: no disponible
+
+---
+
+## BR-VEH-004 - Uso administrativo del vehículo
+
+Un vehículo inactivo no debe estar disponible para asignación a nuevas clases.
+
+---
+
+# 6. Reglas de clases prácticas
+
+## BR-CLA-001 - Existencia de recursos obligatoria
+
+Para crear una clase práctica deben existir:
+
+- alumno
+- profesor
+- vehículo
+
+---
+
+## BR-CLA-002 - Fecha obligatoria
+
+La clase práctica debe incluir una fecha y una duración.
+
+---
+
+## BR-CLA-003 - Estado de clase
+
+Las clases se gestionan con un campo `estado` textual, y la aplicación debe permitir su evolución según el flujo de negocio.
+
+---
+
+## BR-CLA-004 - Validación de disponibilidad
+
+La regla funcional esperada es que no debe permitirse solapar:
+
+- alumno
+- profesor
+- vehículo
+
+en la misma franja horaria.
+
+Esta validación está prevista para mayor madurez del negocio, pero no está implementada con validación exhaustiva en la versión actual.
+
+---
+
+## BR-CLA-005 - Reprogramación y cancelación
+
+La lógica de cancelación y reprogramación debe quedar controlada por la capa de negocio del sistema.
+
+La regla de negocio general es que una clase debe poder ser modificada o anulada por un administrador o por el actor autorizado.
+
+---
+
+# 7. Reglas de exámenes
+
+## BR-EXA-001 - Relación con alumno obligatoria
+
+Todo examen debe estar asociado a un alumno válido.
+
+---
+
+## BR-EXA-002 - Fecha y tipo obligatorios
+
+Un examen debe incluir:
+
+- tipo
+- fecha
+- estado
+
+---
+
+## BR-EXA-003 - Estado del examen
+
+El estado del examen se gestiona con un valor textual del dominio, y la aplicación debe reflejar la evolución de su tramitación.
+
+---
+
+# 8. Reglas del dashboard
+
+## BR-DASH-001 - Visibilidad administrativa
+
+El dashboard está orientado a perfiles administrativos y a la supervisión operativa de la autoescuela.
+
+---
+
+## BR-DASH-002 - Cálculo de métricas
+
+El dashboard debe presentar indicadores de rendimiento, evolución y actividad global del negocio.
+
+Las métricas actuales se basan en:
+
+- clases programadas
+- exámenes pendientes
+- tasa de éxito
+- éxito mensual
+- profesor con más clases
+- profesor con más horas
+
+---
+
+# 9. Reglas pendientes / futuras
+
+Las siguientes reglas forman parte del roadmap funcional y aún no están cubiertas por esta versión actual:
+
+## BR-FUT-001 - Pagos y facturación
+
+- bonos
+- paquetes
+- promociones
+- pagos
+- facturas
+- impagos
+
+## BR-FUT-002 - Formación teórica
+
+- material educativo
+- cursos en línea
+- tests y simulacros
+- evolución teórica del alumno
+
+## BR-FUT-003 - Roles de soporte y administrativo
+
+- ADMINISTRATIVO
+- SOPORTE
+
+## BR-FUT-004 - Permisos granulares
+
+- permisos por entidad
+- permisos por acción
+- permisos por área funcional
+
+## BR-FUT-005 - Auditoría avanzada
+
+- registro de cambios críticos
+- trazabilidad de acciones del administrador
+- control de borrados y modificaciones sensibles
+
+## BR-FUT-006 - Reglas avanzadas de negocio
+
+- restricción por edad real para cada permiso
+- validación de psicotécnico
+- validación de documentación de exámenes
+- control completo de solapamiento de calendario
+- penalización por cancelaciones tardías con créditos reales
+
+---
+
+# 10. Conclusión
+
+La versión actual del sistema está enfocada a la gestión operativa de una autoescuela con autenticación, alumnos, profesores, vehículos, clases, exámenes y dashboard.
+
+Las reglas que aparecen aquí son las que realmente se corresponden con el código y el modelo de datos actuales. El resto debe entenderse como planificación funcional futura, no como requisito ya implementado.
