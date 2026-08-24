@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "alumnos" ADD COLUMN IF NOT EXISTS "activo" BOOLEAN NOT NULL DEFAULT true;

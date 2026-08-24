@@ -10,20 +10,21 @@ export class AlumnosRepository {
     const usuario = await this.prisma.usuario.create({
       data: {
         nombre: data.nombre,
+        dni: data.dni || null,
         email: data.email,
         telefono: data.telefono,
         passwordHash: data.passwordHash,
-        rol: "ALUMNO",
+        rol: data.rol || "ALUMNO",
       },
     });
 
     return this.prisma.alumno.create({
       data: {
         id: usuario.id,
-        tipoLicenciaObjetivo: data.tipoLicencia,
-
+        tipoLicenciaObjetivo: data.tipoLicenciaObjetivo ?? data.tipoLicencia,
+        fechaNacimiento: data.fechaNacimiento ?? null,
+        activo: data.activo ?? true,
         horasPracticasCompletadas: 0,
-
         profesorAsignadoId: data.profesorAsignadoId || null,
       },
 
@@ -71,6 +72,7 @@ export class AlumnosRepository {
 
       data: {
         nombre: data.nombre,
+        dni: data.dni ?? undefined,
         email: data.email,
         telefono: data.telefono,
 
@@ -86,7 +88,8 @@ export class AlumnosRepository {
       },
 
       data: {
-        tipoLicenciaObjetivo: data.tipoLicencia,
+        tipoLicenciaObjetivo: data.tipoLicenciaObjetivo ?? data.tipoLicencia,
+        fechaNacimiento: data.fechaNacimiento ?? undefined,
       },
 
       include: {

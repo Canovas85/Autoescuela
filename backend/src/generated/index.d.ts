@@ -1457,6 +1457,7 @@ export namespace Prisma {
   export type UsuarioMinAggregateOutputType = {
     id: string | null
     nombre: string | null
+    dni: string | null
     email: string | null
     telefono: string | null
     passwordHash: string | null
@@ -1467,6 +1468,7 @@ export namespace Prisma {
   export type UsuarioMaxAggregateOutputType = {
     id: string | null
     nombre: string | null
+    dni: string | null
     email: string | null
     telefono: string | null
     passwordHash: string | null
@@ -1477,6 +1479,7 @@ export namespace Prisma {
   export type UsuarioCountAggregateOutputType = {
     id: number
     nombre: number
+    dni: number
     email: number
     telefono: number
     passwordHash: number
@@ -1489,6 +1492,7 @@ export namespace Prisma {
   export type UsuarioMinAggregateInputType = {
     id?: true
     nombre?: true
+    dni?: true
     email?: true
     telefono?: true
     passwordHash?: true
@@ -1499,6 +1503,7 @@ export namespace Prisma {
   export type UsuarioMaxAggregateInputType = {
     id?: true
     nombre?: true
+    dni?: true
     email?: true
     telefono?: true
     passwordHash?: true
@@ -1509,6 +1514,7 @@ export namespace Prisma {
   export type UsuarioCountAggregateInputType = {
     id?: true
     nombre?: true
+    dni?: true
     email?: true
     telefono?: true
     passwordHash?: true
@@ -1592,6 +1598,7 @@ export namespace Prisma {
   export type UsuarioGroupByOutputType = {
     id: string
     nombre: string
+    dni: string | null
     email: string
     telefono: string | null
     passwordHash: string
@@ -1619,6 +1626,7 @@ export namespace Prisma {
   export type UsuarioSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     nombre?: boolean
+    dni?: boolean
     email?: boolean
     telefono?: boolean
     passwordHash?: boolean
@@ -1631,6 +1639,7 @@ export namespace Prisma {
   export type UsuarioSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     nombre?: boolean
+    dni?: boolean
     email?: boolean
     telefono?: boolean
     passwordHash?: boolean
@@ -1641,6 +1650,7 @@ export namespace Prisma {
   export type UsuarioSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     nombre?: boolean
+    dni?: boolean
     email?: boolean
     telefono?: boolean
     passwordHash?: boolean
@@ -1651,6 +1661,7 @@ export namespace Prisma {
   export type UsuarioSelectScalar = {
     id?: boolean
     nombre?: boolean
+    dni?: boolean
     email?: boolean
     telefono?: boolean
     passwordHash?: boolean
@@ -1658,7 +1669,7 @@ export namespace Prisma {
     fechaCreacion?: boolean
   }
 
-  export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "email" | "telefono" | "passwordHash" | "rol" | "fechaCreacion", ExtArgs["result"]["usuario"]>
+  export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "dni" | "email" | "telefono" | "passwordHash" | "rol" | "fechaCreacion", ExtArgs["result"]["usuario"]>
   export type UsuarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | Usuario$alumnoArgs<ExtArgs>
     profesor?: boolean | Usuario$profesorArgs<ExtArgs>
@@ -1675,6 +1686,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       nombre: string
+      dni: string | null
       email: string
       telefono: string | null
       passwordHash: string
@@ -2107,6 +2119,7 @@ export namespace Prisma {
   interface UsuarioFieldRefs {
     readonly id: FieldRef<"Usuario", 'String'>
     readonly nombre: FieldRef<"Usuario", 'String'>
+    readonly dni: FieldRef<"Usuario", 'String'>
     readonly email: FieldRef<"Usuario", 'String'>
     readonly telefono: FieldRef<"Usuario", 'String'>
     readonly passwordHash: FieldRef<"Usuario", 'String'>
@@ -3682,22 +3695,28 @@ export namespace Prisma {
   export type AlumnoMinAggregateOutputType = {
     id: string | null
     tipoLicenciaObjetivo: string | null
+    fechaNacimiento: Date | null
     horasPracticasCompletadas: number | null
     profesorAsignadoId: string | null
+    activo: boolean | null
   }
 
   export type AlumnoMaxAggregateOutputType = {
     id: string | null
     tipoLicenciaObjetivo: string | null
+    fechaNacimiento: Date | null
     horasPracticasCompletadas: number | null
     profesorAsignadoId: string | null
+    activo: boolean | null
   }
 
   export type AlumnoCountAggregateOutputType = {
     id: number
     tipoLicenciaObjetivo: number
+    fechaNacimiento: number
     horasPracticasCompletadas: number
     profesorAsignadoId: number
+    activo: number
     _all: number
   }
 
@@ -3713,22 +3732,28 @@ export namespace Prisma {
   export type AlumnoMinAggregateInputType = {
     id?: true
     tipoLicenciaObjetivo?: true
+    fechaNacimiento?: true
     horasPracticasCompletadas?: true
     profesorAsignadoId?: true
+    activo?: true
   }
 
   export type AlumnoMaxAggregateInputType = {
     id?: true
     tipoLicenciaObjetivo?: true
+    fechaNacimiento?: true
     horasPracticasCompletadas?: true
     profesorAsignadoId?: true
+    activo?: true
   }
 
   export type AlumnoCountAggregateInputType = {
     id?: true
     tipoLicenciaObjetivo?: true
+    fechaNacimiento?: true
     horasPracticasCompletadas?: true
     profesorAsignadoId?: true
+    activo?: true
     _all?: true
   }
 
@@ -3821,8 +3846,10 @@ export namespace Prisma {
   export type AlumnoGroupByOutputType = {
     id: string
     tipoLicenciaObjetivo: string
+    fechaNacimiento: Date | null
     horasPracticasCompletadas: number
     profesorAsignadoId: string | null
+    activo: boolean
     _count: AlumnoCountAggregateOutputType | null
     _avg: AlumnoAvgAggregateOutputType | null
     _sum: AlumnoSumAggregateOutputType | null
@@ -3847,8 +3874,10 @@ export namespace Prisma {
   export type AlumnoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     tipoLicenciaObjetivo?: boolean
+    fechaNacimiento?: boolean
     horasPracticasCompletadas?: boolean
     profesorAsignadoId?: boolean
+    activo?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     profesorAsignado?: boolean | Alumno$profesorAsignadoArgs<ExtArgs>
     clases?: boolean | Alumno$clasesArgs<ExtArgs>
@@ -3859,8 +3888,10 @@ export namespace Prisma {
   export type AlumnoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     tipoLicenciaObjetivo?: boolean
+    fechaNacimiento?: boolean
     horasPracticasCompletadas?: boolean
     profesorAsignadoId?: boolean
+    activo?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     profesorAsignado?: boolean | Alumno$profesorAsignadoArgs<ExtArgs>
   }, ExtArgs["result"]["alumno"]>
@@ -3868,8 +3899,10 @@ export namespace Prisma {
   export type AlumnoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     tipoLicenciaObjetivo?: boolean
+    fechaNacimiento?: boolean
     horasPracticasCompletadas?: boolean
     profesorAsignadoId?: boolean
+    activo?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     profesorAsignado?: boolean | Alumno$profesorAsignadoArgs<ExtArgs>
   }, ExtArgs["result"]["alumno"]>
@@ -3877,11 +3910,13 @@ export namespace Prisma {
   export type AlumnoSelectScalar = {
     id?: boolean
     tipoLicenciaObjetivo?: boolean
+    fechaNacimiento?: boolean
     horasPracticasCompletadas?: boolean
     profesorAsignadoId?: boolean
+    activo?: boolean
   }
 
-  export type AlumnoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tipoLicenciaObjetivo" | "horasPracticasCompletadas" | "profesorAsignadoId", ExtArgs["result"]["alumno"]>
+  export type AlumnoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tipoLicenciaObjetivo" | "fechaNacimiento" | "horasPracticasCompletadas" | "profesorAsignadoId" | "activo", ExtArgs["result"]["alumno"]>
   export type AlumnoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     profesorAsignado?: boolean | Alumno$profesorAsignadoArgs<ExtArgs>
@@ -3909,8 +3944,10 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       tipoLicenciaObjetivo: string
+      fechaNacimiento: Date | null
       horasPracticasCompletadas: number
       profesorAsignadoId: string | null
+      activo: boolean
     }, ExtArgs["result"]["alumno"]>
     composites: {}
   }
@@ -4340,8 +4377,10 @@ export namespace Prisma {
   interface AlumnoFieldRefs {
     readonly id: FieldRef<"Alumno", 'String'>
     readonly tipoLicenciaObjetivo: FieldRef<"Alumno", 'String'>
+    readonly fechaNacimiento: FieldRef<"Alumno", 'DateTime'>
     readonly horasPracticasCompletadas: FieldRef<"Alumno", 'Int'>
     readonly profesorAsignadoId: FieldRef<"Alumno", 'String'>
+    readonly activo: FieldRef<"Alumno", 'Boolean'>
   }
     
 
@@ -8115,6 +8154,7 @@ export namespace Prisma {
   export const UsuarioScalarFieldEnum: {
     id: 'id',
     nombre: 'nombre',
+    dni: 'dni',
     email: 'email',
     telefono: 'telefono',
     passwordHash: 'passwordHash',
@@ -8138,8 +8178,10 @@ export namespace Prisma {
   export const AlumnoScalarFieldEnum: {
     id: 'id',
     tipoLicenciaObjetivo: 'tipoLicenciaObjetivo',
+    fechaNacimiento: 'fechaNacimiento',
     horasPracticasCompletadas: 'horasPracticasCompletadas',
-    profesorAsignadoId: 'profesorAsignadoId'
+    profesorAsignadoId: 'profesorAsignadoId',
+    activo: 'activo'
   };
 
   export type AlumnoScalarFieldEnum = (typeof AlumnoScalarFieldEnum)[keyof typeof AlumnoScalarFieldEnum]
@@ -8296,6 +8338,7 @@ export namespace Prisma {
     NOT?: UsuarioWhereInput | UsuarioWhereInput[]
     id?: StringFilter<"Usuario"> | string
     nombre?: StringFilter<"Usuario"> | string
+    dni?: StringNullableFilter<"Usuario"> | string | null
     email?: StringFilter<"Usuario"> | string
     telefono?: StringNullableFilter<"Usuario"> | string | null
     passwordHash?: StringFilter<"Usuario"> | string
@@ -8308,6 +8351,7 @@ export namespace Prisma {
   export type UsuarioOrderByWithRelationInput = {
     id?: SortOrder
     nombre?: SortOrder
+    dni?: SortOrderInput | SortOrder
     email?: SortOrder
     telefono?: SortOrderInput | SortOrder
     passwordHash?: SortOrder
@@ -8319,6 +8363,7 @@ export namespace Prisma {
 
   export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    dni?: string
     email?: string
     AND?: UsuarioWhereInput | UsuarioWhereInput[]
     OR?: UsuarioWhereInput[]
@@ -8330,11 +8375,12 @@ export namespace Prisma {
     fechaCreacion?: DateTimeFilter<"Usuario"> | Date | string
     alumno?: XOR<AlumnoNullableScalarRelationFilter, AlumnoWhereInput> | null
     profesor?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
-  }, "id" | "email">
+  }, "id" | "dni" | "email">
 
   export type UsuarioOrderByWithAggregationInput = {
     id?: SortOrder
     nombre?: SortOrder
+    dni?: SortOrderInput | SortOrder
     email?: SortOrder
     telefono?: SortOrderInput | SortOrder
     passwordHash?: SortOrder
@@ -8351,6 +8397,7 @@ export namespace Prisma {
     NOT?: UsuarioScalarWhereWithAggregatesInput | UsuarioScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Usuario"> | string
     nombre?: StringWithAggregatesFilter<"Usuario"> | string
+    dni?: StringNullableWithAggregatesFilter<"Usuario"> | string | null
     email?: StringWithAggregatesFilter<"Usuario"> | string
     telefono?: StringNullableWithAggregatesFilter<"Usuario"> | string | null
     passwordHash?: StringWithAggregatesFilter<"Usuario"> | string
@@ -8420,8 +8467,10 @@ export namespace Prisma {
     NOT?: AlumnoWhereInput | AlumnoWhereInput[]
     id?: StringFilter<"Alumno"> | string
     tipoLicenciaObjetivo?: StringFilter<"Alumno"> | string
+    fechaNacimiento?: DateTimeNullableFilter<"Alumno"> | Date | string | null
     horasPracticasCompletadas?: IntFilter<"Alumno"> | number
     profesorAsignadoId?: StringNullableFilter<"Alumno"> | string | null
+    activo?: BoolFilter<"Alumno"> | boolean
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
     profesorAsignado?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
     clases?: ClasePracticaListRelationFilter
@@ -8431,8 +8480,10 @@ export namespace Prisma {
   export type AlumnoOrderByWithRelationInput = {
     id?: SortOrder
     tipoLicenciaObjetivo?: SortOrder
+    fechaNacimiento?: SortOrderInput | SortOrder
     horasPracticasCompletadas?: SortOrder
     profesorAsignadoId?: SortOrderInput | SortOrder
+    activo?: SortOrder
     usuario?: UsuarioOrderByWithRelationInput
     profesorAsignado?: ProfesorOrderByWithRelationInput
     clases?: ClasePracticaOrderByRelationAggregateInput
@@ -8445,8 +8496,10 @@ export namespace Prisma {
     OR?: AlumnoWhereInput[]
     NOT?: AlumnoWhereInput | AlumnoWhereInput[]
     tipoLicenciaObjetivo?: StringFilter<"Alumno"> | string
+    fechaNacimiento?: DateTimeNullableFilter<"Alumno"> | Date | string | null
     horasPracticasCompletadas?: IntFilter<"Alumno"> | number
     profesorAsignadoId?: StringNullableFilter<"Alumno"> | string | null
+    activo?: BoolFilter<"Alumno"> | boolean
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
     profesorAsignado?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
     clases?: ClasePracticaListRelationFilter
@@ -8456,8 +8509,10 @@ export namespace Prisma {
   export type AlumnoOrderByWithAggregationInput = {
     id?: SortOrder
     tipoLicenciaObjetivo?: SortOrder
+    fechaNacimiento?: SortOrderInput | SortOrder
     horasPracticasCompletadas?: SortOrder
     profesorAsignadoId?: SortOrderInput | SortOrder
+    activo?: SortOrder
     _count?: AlumnoCountOrderByAggregateInput
     _avg?: AlumnoAvgOrderByAggregateInput
     _max?: AlumnoMaxOrderByAggregateInput
@@ -8471,8 +8526,10 @@ export namespace Prisma {
     NOT?: AlumnoScalarWhereWithAggregatesInput | AlumnoScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Alumno"> | string
     tipoLicenciaObjetivo?: StringWithAggregatesFilter<"Alumno"> | string
+    fechaNacimiento?: DateTimeNullableWithAggregatesFilter<"Alumno"> | Date | string | null
     horasPracticasCompletadas?: IntWithAggregatesFilter<"Alumno"> | number
     profesorAsignadoId?: StringNullableWithAggregatesFilter<"Alumno"> | string | null
+    activo?: BoolWithAggregatesFilter<"Alumno"> | boolean
   }
 
   export type VehiculoWhereInput = {
@@ -8666,6 +8723,7 @@ export namespace Prisma {
   export type UsuarioCreateInput = {
     id?: string
     nombre: string
+    dni?: string | null
     email: string
     telefono?: string | null
     passwordHash: string
@@ -8678,6 +8736,7 @@ export namespace Prisma {
   export type UsuarioUncheckedCreateInput = {
     id?: string
     nombre: string
+    dni?: string | null
     email: string
     telefono?: string | null
     passwordHash: string
@@ -8690,6 +8749,7 @@ export namespace Prisma {
   export type UsuarioUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
@@ -8702,6 +8762,7 @@ export namespace Prisma {
   export type UsuarioUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
@@ -8714,6 +8775,7 @@ export namespace Prisma {
   export type UsuarioCreateManyInput = {
     id?: string
     nombre: string
+    dni?: string | null
     email: string
     telefono?: string | null
     passwordHash: string
@@ -8724,6 +8786,7 @@ export namespace Prisma {
   export type UsuarioUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
@@ -8734,6 +8797,7 @@ export namespace Prisma {
   export type UsuarioUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
@@ -8799,7 +8863,9 @@ export namespace Prisma {
 
   export type AlumnoCreateInput = {
     tipoLicenciaObjetivo: string
+    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
+    activo?: boolean
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
     clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
@@ -8809,15 +8875,19 @@ export namespace Prisma {
   export type AlumnoUncheckedCreateInput = {
     id: string
     tipoLicenciaObjetivo: string
+    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
+    activo?: boolean
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUpdateInput = {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
     clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
@@ -8827,8 +8897,10 @@ export namespace Prisma {
   export type AlumnoUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
   }
@@ -8836,20 +8908,26 @@ export namespace Prisma {
   export type AlumnoCreateManyInput = {
     id: string
     tipoLicenciaObjetivo: string
+    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
+    activo?: boolean
   }
 
   export type AlumnoUpdateManyMutationInput = {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type AlumnoUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type VehiculoCreateInput = {
@@ -9107,6 +9185,7 @@ export namespace Prisma {
   export type UsuarioCountOrderByAggregateInput = {
     id?: SortOrder
     nombre?: SortOrder
+    dni?: SortOrder
     email?: SortOrder
     telefono?: SortOrder
     passwordHash?: SortOrder
@@ -9117,6 +9196,7 @@ export namespace Prisma {
   export type UsuarioMaxOrderByAggregateInput = {
     id?: SortOrder
     nombre?: SortOrder
+    dni?: SortOrder
     email?: SortOrder
     telefono?: SortOrder
     passwordHash?: SortOrder
@@ -9127,6 +9207,7 @@ export namespace Prisma {
   export type UsuarioMinOrderByAggregateInput = {
     id?: SortOrder
     nombre?: SortOrder
+    dni?: SortOrder
     email?: SortOrder
     telefono?: SortOrder
     passwordHash?: SortOrder
@@ -9253,6 +9334,17 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -9277,8 +9369,10 @@ export namespace Prisma {
   export type AlumnoCountOrderByAggregateInput = {
     id?: SortOrder
     tipoLicenciaObjetivo?: SortOrder
+    fechaNacimiento?: SortOrder
     horasPracticasCompletadas?: SortOrder
     profesorAsignadoId?: SortOrder
+    activo?: SortOrder
   }
 
   export type AlumnoAvgOrderByAggregateInput = {
@@ -9288,19 +9382,37 @@ export namespace Prisma {
   export type AlumnoMaxOrderByAggregateInput = {
     id?: SortOrder
     tipoLicenciaObjetivo?: SortOrder
+    fechaNacimiento?: SortOrder
     horasPracticasCompletadas?: SortOrder
     profesorAsignadoId?: SortOrder
+    activo?: SortOrder
   }
 
   export type AlumnoMinOrderByAggregateInput = {
     id?: SortOrder
     tipoLicenciaObjetivo?: SortOrder
+    fechaNacimiento?: SortOrder
     horasPracticasCompletadas?: SortOrder
     profesorAsignadoId?: SortOrder
+    activo?: SortOrder
   }
 
   export type AlumnoSumOrderByAggregateInput = {
     horasPracticasCompletadas?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -9645,6 +9757,10 @@ export namespace Prisma {
     connect?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -9964,6 +10080,31 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -9993,7 +10134,9 @@ export namespace Prisma {
 
   export type AlumnoCreateWithoutUsuarioInput = {
     tipoLicenciaObjetivo: string
+    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
+    activo?: boolean
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
     clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenCreateNestedManyWithoutAlumnoInput
@@ -10001,8 +10144,10 @@ export namespace Prisma {
 
   export type AlumnoUncheckedCreateWithoutUsuarioInput = {
     tipoLicenciaObjetivo: string
+    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
+    activo?: boolean
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
   }
@@ -10046,7 +10191,9 @@ export namespace Prisma {
 
   export type AlumnoUpdateWithoutUsuarioInput = {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
     clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
@@ -10054,8 +10201,10 @@ export namespace Prisma {
 
   export type AlumnoUncheckedUpdateWithoutUsuarioInput = {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
   }
@@ -10089,7 +10238,9 @@ export namespace Prisma {
 
   export type AlumnoCreateWithoutProfesorAsignadoInput = {
     tipoLicenciaObjetivo: string
+    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
+    activo?: boolean
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenCreateNestedManyWithoutAlumnoInput
@@ -10098,7 +10249,9 @@ export namespace Prisma {
   export type AlumnoUncheckedCreateWithoutProfesorAsignadoInput = {
     id: string
     tipoLicenciaObjetivo: string
+    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
+    activo?: boolean
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
   }
@@ -10144,6 +10297,7 @@ export namespace Prisma {
   export type UsuarioCreateWithoutProfesorInput = {
     id?: string
     nombre: string
+    dni?: string | null
     email: string
     telefono?: string | null
     passwordHash: string
@@ -10155,6 +10309,7 @@ export namespace Prisma {
   export type UsuarioUncheckedCreateWithoutProfesorInput = {
     id?: string
     nombre: string
+    dni?: string | null
     email: string
     telefono?: string | null
     passwordHash: string
@@ -10190,8 +10345,10 @@ export namespace Prisma {
     NOT?: AlumnoScalarWhereInput | AlumnoScalarWhereInput[]
     id?: StringFilter<"Alumno"> | string
     tipoLicenciaObjetivo?: StringFilter<"Alumno"> | string
+    fechaNacimiento?: DateTimeNullableFilter<"Alumno"> | Date | string | null
     horasPracticasCompletadas?: IntFilter<"Alumno"> | number
     profesorAsignadoId?: StringNullableFilter<"Alumno"> | string | null
+    activo?: BoolFilter<"Alumno"> | boolean
   }
 
   export type ClasePracticaUpsertWithWhereUniqueWithoutProfesorInput = {
@@ -10237,6 +10394,7 @@ export namespace Prisma {
   export type UsuarioUpdateWithoutProfesorInput = {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
@@ -10248,6 +10406,7 @@ export namespace Prisma {
   export type UsuarioUncheckedUpdateWithoutProfesorInput = {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
@@ -10259,6 +10418,7 @@ export namespace Prisma {
   export type UsuarioCreateWithoutAlumnoInput = {
     id?: string
     nombre: string
+    dni?: string | null
     email: string
     telefono?: string | null
     passwordHash: string
@@ -10270,6 +10430,7 @@ export namespace Prisma {
   export type UsuarioUncheckedCreateWithoutAlumnoInput = {
     id?: string
     nombre: string
+    dni?: string | null
     email: string
     telefono?: string | null
     passwordHash: string
@@ -10370,6 +10531,7 @@ export namespace Prisma {
   export type UsuarioUpdateWithoutAlumnoInput = {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
@@ -10381,6 +10543,7 @@ export namespace Prisma {
   export type UsuarioUncheckedUpdateWithoutAlumnoInput = {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
@@ -10505,7 +10668,9 @@ export namespace Prisma {
 
   export type AlumnoCreateWithoutClasesInput = {
     tipoLicenciaObjetivo: string
+    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
+    activo?: boolean
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
     examenes?: ExamenCreateNestedManyWithoutAlumnoInput
@@ -10514,8 +10679,10 @@ export namespace Prisma {
   export type AlumnoUncheckedCreateWithoutClasesInput = {
     id: string
     tipoLicenciaObjetivo: string
+    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
+    activo?: boolean
     examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
@@ -10581,7 +10748,9 @@ export namespace Prisma {
 
   export type AlumnoUpdateWithoutClasesInput = {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
     examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
@@ -10590,8 +10759,10 @@ export namespace Prisma {
   export type AlumnoUncheckedUpdateWithoutClasesInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
     examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
@@ -10653,7 +10824,9 @@ export namespace Prisma {
 
   export type AlumnoCreateWithoutExamenesInput = {
     tipoLicenciaObjetivo: string
+    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
+    activo?: boolean
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
     clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
@@ -10662,8 +10835,10 @@ export namespace Prisma {
   export type AlumnoUncheckedCreateWithoutExamenesInput = {
     id: string
     tipoLicenciaObjetivo: string
+    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
+    activo?: boolean
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
@@ -10685,7 +10860,9 @@ export namespace Prisma {
 
   export type AlumnoUpdateWithoutExamenesInput = {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
     clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
@@ -10694,15 +10871,19 @@ export namespace Prisma {
   export type AlumnoUncheckedUpdateWithoutExamenesInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoCreateManyProfesorAsignadoInput = {
     id: string
     tipoLicenciaObjetivo: string
+    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
+    activo?: boolean
   }
 
   export type ClasePracticaCreateManyProfesorInput = {
@@ -10716,7 +10897,9 @@ export namespace Prisma {
 
   export type AlumnoUpdateWithoutProfesorAsignadoInput = {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
@@ -10725,7 +10908,9 @@ export namespace Prisma {
   export type AlumnoUncheckedUpdateWithoutProfesorAsignadoInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
   }
@@ -10733,7 +10918,9 @@ export namespace Prisma {
   export type AlumnoUncheckedUpdateManyWithoutProfesorAsignadoInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ClasePracticaUpdateWithoutProfesorInput = {

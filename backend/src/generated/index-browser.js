@@ -124,6 +124,7 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.UsuarioScalarFieldEnum = {
   id: 'id',
   nombre: 'nombre',
+  dni: 'dni',
   email: 'email',
   telefono: 'telefono',
   passwordHash: 'passwordHash',
@@ -141,8 +142,10 @@ exports.Prisma.ProfesorScalarFieldEnum = {
 exports.Prisma.AlumnoScalarFieldEnum = {
   id: 'id',
   tipoLicenciaObjetivo: 'tipoLicenciaObjetivo',
+  fechaNacimiento: 'fechaNacimiento',
   horasPracticasCompletadas: 'horasPracticasCompletadas',
-  profesorAsignadoId: 'profesorAsignadoId'
+  profesorAsignadoId: 'profesorAsignadoId',
+  activo: 'activo'
 };
 
 exports.Prisma.VehiculoScalarFieldEnum = {

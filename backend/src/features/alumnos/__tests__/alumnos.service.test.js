@@ -77,7 +77,7 @@ describe("AlumnosService", () => {
 
     expect(repositoryMock.create).not.toHaveBeenCalled();
   });
-  it("debe almacenar la contraseña cifrada con bcrypt", async () => {
+  it("debe almacenar la contraseña cifrada con bcrypt en passwordHash", async () => {
     const repositoryMock = {
       findByEmail: vi.fn().mockResolvedValue(null),
       create: vi.fn().mockImplementation(async (data) => data),
@@ -95,9 +95,10 @@ describe("AlumnosService", () => {
       tipoLicencia: "B",
     });
 
-    expect(result.password).not.toBe(plainPassword);
+    expect(result.passwordHash).toBeDefined();
+    expect(result.passwordHash).not.toBe(plainPassword);
 
-    const isValid = await bcrypt.compare(plainPassword, result.password);
+    const isValid = await bcrypt.compare(plainPassword, result.passwordHash);
 
     expect(isValid).toBe(true);
   });
@@ -174,6 +175,99 @@ describe("AlumnosService", () => {
 
     expect(repositoryMock.create).not.toHaveBeenCalled();
   });
+  it("debe aceptar la propiedad tipoLicenciaObjetivo en la creación", async () => {
+    const alumnoCreado = {
+      id: "alumno-id",
+      nombre: "Pedro Sánchez",
+      email: "pedro@autodrive.com",
+      rol: "ALUMNO",
+      telefono: "600123123",
+      tipoLicenciaObjetivo: "B",
+      activo: true,
+    };
+
+    const repositoryMock = {
+      findByEmail: vi.fn().mockResolvedValue(null),
+      create: vi.fn().mockResolvedValue(alumnoCreado),
+    };
+
+    const service = new AlumnosService(repositoryMock);
+
+    const result = await service.create({
+      nombre: "Pedro Sánchez",
+      email: "pedro@autodrive.com",
+      password: "Password123",
+      telefono: "600123123",
+      tipoLicenciaObjetivo: "B",
+    });
+
+    expect(result).toEqual(alumnoCreado);
+    expect(repositoryMock.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        tipoLicenciaObjetivo: "B",
+        rol: "ALUMNO",
+      }),
+    );
+  });
+  it("debe lanzar un error cuando el nombre es obligatorio", async () => {
+    const repositoryMock = {
+      findByEmail: vi.fn().mockResolvedValue(null),
+      create: vi.fn(),
+    };
+
+    const service = new AlumnosService(repositoryMock);
+
+    await expect(
+      service.create({
+        email: "pedro@autodrive.com",
+        password: "Password123",
+        telefono: "600123123",
+        tipoLicencia: "B",
+      }),
+    ).rejects.toThrow("El nombre es obligatorio");
+
+    expect(repositoryMock.create).not.toHaveBeenCalled();
+  });
+  it("debe aceptar dni y fechaNacimiento válidos en formato español en la creación", async () => {
+    const fechaNacimiento = "15-06-1998";
+    const alumnoCreado = {
+      id: "alumno-id",
+      nombre: "Pedro Sánchez",
+      email: "pedro@autodrive.com",
+      dni: "12345678Z",
+      fechaNacimiento,
+      rol: "ALUMNO",
+      telefono: "600123123",
+      tipoLicenciaObjetivo: "B",
+      activo: true,
+    };
+
+    const repositoryMock = {
+      findByEmail: vi.fn().mockResolvedValue(null),
+      create: vi.fn().mockResolvedValue(alumnoCreado),
+    };
+
+    const service = new AlumnosService(repositoryMock);
+
+    const result = await service.create({
+      nombre: "Pedro Sánchez",
+      email: "pedro@autodrive.com",
+      password: "Password123",
+      telefono: "600123123",
+      dni: "12345678Z",
+      fechaNacimiento,
+      tipoLicenciaObjetivo: "B",
+    });
+
+    expect(result).toEqual(alumnoCreado);
+    expect(repositoryMock.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        dni: "12345678Z",
+        fechaNacimiento: new Date(1998, 5, 15),
+        tipoLicenciaObjetivo: "B",
+      }),
+    );
+  });
   it("debe lanzar un error cuando la licencia objetivo es obligatoria", async () => {
     const repositoryMock = {
       findByEmail: vi.fn().mockResolvedValue(null),
@@ -189,6 +283,71 @@ describe("AlumnosService", () => {
         password: "Password123",
       }),
     ).rejects.toThrow("La licencia objetivo es obligatoria");
+
+    expect(repositoryMock.create).not.toHaveBeenCalled();
+  });
+  it("debe lanzar un error cuando el DNI tiene un formato inválido", async () => {
+    const repositoryMock = {
+      findByEmail: vi.fn().mockResolvedValue(null),
+      create: vi.fn(),
+    };
+
+    const service = new AlumnosService(repositoryMock);
+
+    await expect(
+      service.create({
+        nombre: "Pedro Sánchez",
+        email: "pedro@autodrive.com",
+        password: "Password123",
+        telefono: "600123123",
+        dni: "abc",
+        tipoLicenciaObjetivo: "B",
+      }),
+    ).rejects.toThrow("El DNI debe tener un formato válido");
+
+    expect(repositoryMock.create).not.toHaveBeenCalled();
+  });
+  it("debe lanzar un error cuando la fecha de nacimiento no es válida", async () => {
+    const repositoryMock = {
+      findByEmail: vi.fn().mockResolvedValue(null),
+      create: vi.fn(),
+    };
+
+    const service = new AlumnosService(repositoryMock);
+
+    await expect(
+      service.create({
+        nombre: "Pedro Sánchez",
+        email: "pedro@autodrive.com",
+        password: "Password123",
+        telefono: "600123123",
+        dni: "12345678Z",
+        fechaNacimiento: "no-es-una-fecha",
+        tipoLicenciaObjetivo: "B",
+      }),
+    ).rejects.toThrow("La fecha de nacimiento debe ser una fecha válida");
+
+    expect(repositoryMock.create).not.toHaveBeenCalled();
+  });
+  it("debe lanzar un error cuando la licencia objetivo no es un valor permitido", async () => {
+    const repositoryMock = {
+      findByEmail: vi.fn().mockResolvedValue(null),
+      create: vi.fn(),
+    };
+
+    const service = new AlumnosService(repositoryMock);
+
+    await expect(
+      service.create({
+        nombre: "Pedro Sánchez",
+        email: "pedro@autodrive.com",
+        password: "Password123",
+        telefono: "600123123",
+        tipoLicenciaObjetivo: "E",
+      }),
+    ).rejects.toThrow(
+      "La licencia objetivo debe ser una de las permitidas: B, A1, A2, A, C, D",
+    );
 
     expect(repositoryMock.create).not.toHaveBeenCalled();
   });

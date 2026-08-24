@@ -106,10 +106,20 @@ export default function Alumnos() {
 
   const saveAlumno = async () => {
     try {
+      const payload = {
+        ...newAlumno,
+        dni: newAlumno.dni?.trim().toUpperCase() || "",
+        fechaNacimiento: newAlumno.fechaNacimiento || null,
+        tipoLicenciaObjetivo:
+          newAlumno.tipoLicenciaObjetivo ?? newAlumno.tipoLicencia ?? "B",
+      };
+
+      delete payload.tipoLicencia;
+
       if (editingId) {
-        await alumnosService.update(editingId, newAlumno);
+        await alumnosService.update(editingId, payload);
       } else {
-        await alumnosService.create(newAlumno);
+        await alumnosService.create(payload);
       }
 
       setOpen(false);
@@ -121,6 +131,8 @@ export default function Alumnos() {
         email: "",
         password: "",
         telefono: "",
+        dni: "",
+        fechaNacimiento: "",
         tipoLicencia: "B",
       });
 
@@ -288,6 +300,8 @@ export default function Alumnos() {
     email: "",
     password: "",
     telefono: "",
+    dni: "",
+    fechaNacimiento: "",
     tipoLicencia: "B",
   });
 
@@ -305,6 +319,8 @@ export default function Alumnos() {
       email: row.usuario?.email || "",
       password: "",
       telefono: row.usuario?.telefono || "",
+      dni: row.usuario?.dni || "",
+      fechaNacimiento: row.fechaNacimiento || "",
       tipoLicencia: row.tipoLicenciaObjetivo || "B",
     });
 
@@ -335,6 +351,8 @@ export default function Alumnos() {
               email: "",
               password: "",
               telefono: "",
+              dni: "",
+              fechaNacimiento: "",
               tipoLicencia: "B",
             });
 
@@ -467,6 +485,34 @@ export default function Alumnos() {
               setNewAlumno({
                 ...newAlumno,
                 telefono: e.target.value,
+              })
+            }
+          />
+
+          <TextField
+            margin="normal"
+            fullWidth
+            label="DNI"
+            value={newAlumno.dni}
+            onChange={(e) =>
+              setNewAlumno({
+                ...newAlumno,
+                dni: e.target.value,
+              })
+            }
+          />
+
+          <TextField
+            margin="normal"
+            fullWidth
+            type="date"
+            label="Fecha de nacimiento"
+            InputLabelProps={{ shrink: true }}
+            value={newAlumno.fechaNacimiento}
+            onChange={(e) =>
+              setNewAlumno({
+                ...newAlumno,
+                fechaNacimiento: e.target.value,
               })
             }
           />

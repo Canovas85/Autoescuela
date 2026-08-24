@@ -12,6 +12,7 @@ datasource db {
 model Usuario {
   id            String    @id @default(uuid())
   nombre        String
+  dni           String?   @unique
   email         String    @unique
   telefono      String?
   passwordHash  String
@@ -38,6 +39,7 @@ model Profesor {
 model Alumno {
   id                        String          @id
   tipoLicenciaObjetivo      String
+  fechaNacimiento           DateTime?
   horasPracticasCompletadas Int             @default(0)
   profesorAsignadoId        String?
   usuario                   Usuario         @relation(fields: [id], references: [id], onDelete: Cascade)
