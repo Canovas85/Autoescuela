@@ -269,6 +269,50 @@ Un vehículo inactivo no debe estar disponible para asignación a nuevas clases.
 
 ---
 
+## BR-VEH-005 - Imagen opcional en vehículos
+
+Cada vehículo puede tener o no una imagen asociada.
+
+La imagen se gestiona mediante el campo `imagenRuta`, que puede ser:
+
+- una referencia pública tipo `/api/uploads/vehiculos/<nombre-archivo>`
+- `null` cuando el vehículo no tiene imagen
+
+La imagen no es obligatoria ni en alta ni en edición.
+
+---
+
+## BR-VEH-006 - Alta y edición con imagen
+
+En la implementación actual, la edición de un vehículo puede hacerse con estas combinaciones:
+
+- sin cambiar la imagen
+- añadir una imagen nueva si el vehículo no tenía ninguna
+- cambiar la foto por otra nueva
+- eliminar la foto existente
+
+Si se elimina la imagen, el sistema debe:
+
+1. poner `imagenRuta = null`
+2. borrar el archivo físico del backend
+3. reflejar el resultado inmediatamente en la vista de detalle y en la fila del listado
+
+---
+
+## BR-VEH-007 - Ruta real de almacenamiento
+
+La imagen física del vehículo se almacena en la carpeta del backend:
+
+- `backend/uploads/vehiculos`
+
+La API expone ese contenido a través de:
+
+- `/api/uploads/vehiculos/<nombre-archivo>`
+
+Esto permite guardar solo la referencia en base de datos y mantener el contenido del archivo fuera del código fuente.
+
+---
+
 # 6. Reglas de clases prácticas
 
 ## BR-CLA-001 - Existencia de recursos obligatoria

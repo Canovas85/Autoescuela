@@ -4,7 +4,7 @@ export class VehiculosController {
   }
 
   async create(req, res) {
-    const vehiculo = await this.service.create(req.body);
+    const vehiculo = await this.service.create(req.body, req.file);
 
     return res.status(201).json(vehiculo);
   }
@@ -22,13 +22,23 @@ export class VehiculosController {
   }
 
   async update(req, res) {
-    const vehiculo = await this.service.update(req.params.id, req.body);
+    const vehiculo = await this.service.update(
+      req.params.id,
+      req.body,
+      req.file,
+    );
 
     return res.status(200).json(vehiculo);
   }
 
   async deactivate(req, res) {
     const vehiculo = await this.service.deactivate(req.params.id);
+
+    return res.status(200).json(vehiculo);
+  }
+
+  async activate(req, res) {
+    const vehiculo = await this.service.activate(req.params.id);
 
     return res.status(200).json(vehiculo);
   }

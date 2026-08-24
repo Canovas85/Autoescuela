@@ -1,3 +1,5 @@
+import fs from "fs";
+
 import { describe, it, expect, vi } from "vitest";
 
 import { VehiculosService } from "../vehiculos.service.js";
@@ -193,6 +195,97 @@ describe("VehiculosService", () => {
     });
 
     expect(result).toEqual(vehiculoActualizado);
+  });
+
+  it("debe eliminar la imagen actual cuando se indica eliminarImagen", async () => {
+    const resolvedUploadDir = new URL(
+      "../../../../uploads/vehiculos/",
+      import.meta.url,
+    );
+    const fileName = "foto-vieja.webp";
+    const filePath = new URL(fileName, resolvedUploadDir);
+
+    fs.mkdirSync(resolvedUploadDir, { recursive: true });
+    fs.writeFileSync(filePath, "contenido de prueba");
+
+    const repositoryMock = {
+      findById: vi.fn().mockResolvedValue({
+        id: "vehiculo-1",
+        imagenRuta: `/api/uploads/vehiculos/${fileName}`,
+      }),
+      update: vi.fn().mockResolvedValue({
+        id: "vehiculo-1",
+        matricula: "1234ABC",
+        imagenRuta: null,
+      }),
+    };
+
+    const service = new VehiculosService(repositoryMock);
+
+    const result = await service.update("vehiculo-1", {
+      eliminarImagen: "true",
+    });
+
+    expect(repositoryMock.findById).toHaveBeenCalledWith("vehiculo-1");
+    expect(repositoryMock.update).toHaveBeenCalledWith("vehiculo-1", {
+      imagenRuta: null,
+    });
+    expect(fs.existsSync(filePath)).toBe(false);
+    expect(result.imagenRuta).toBe(null);
+
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+  });
+
+  it("debe permitir editar un vehículo sin imagen y añadir una nueva sin borrar nada incorrectamente", async () => {
+    const tempDir = new URL("../../../../uploads/vehiculos/", import.meta.url);
+    fs.mkdirSync(tempDir, { recursive: true });
+
+    const imagen = {
+      filename: "vehiculo-nueva.webp",
+      path: new URL("vehiculo-nueva.webp", tempDir).pathname,
+    };
+
+    const repositoryMock = {
+      findById: vi.fn().mockResolvedValue({
+        id: "vehiculo-1",
+        imagenRuta: null,
+      }),
+      findByMatricula: vi.fn().mockResolvedValue(null),
+      update: vi.fn().mockResolvedValue({
+        id: "vehiculo-1",
+        matricula: "1234ABC",
+        marca: "Seat",
+        modelo: "Ibiza",
+        tipoPermiso: "B",
+        imagenRuta: `/api/uploads/vehiculos/${imagen.filename}`,
+      }),
+    };
+
+    const service = new VehiculosService(repositoryMock);
+
+    const result = await service.update(
+      "vehiculo-1",
+      {
+        matricula: "1234ABC",
+        marca: "Seat",
+        modelo: "Ibiza",
+        tipoPermiso: "B",
+      },
+      imagen,
+    );
+
+    expect(repositoryMock.findById).toHaveBeenCalledWith("vehiculo-1");
+    expect(repositoryMock.update).toHaveBeenCalledWith("vehiculo-1", {
+      matricula: "1234ABC",
+      marca: "Seat",
+      modelo: "Ibiza",
+      tipoPermiso: "B",
+      imagenRuta: `/api/uploads/vehiculos/${imagen.filename}`,
+    });
+    expect(result.imagenRuta).toBe(`/api/uploads/vehiculos/${imagen.filename}`);
+    expect(result.imagenRuta).not.toBeNull();
   });
 
   it("debe desactivar un vehículo existente", async () => {

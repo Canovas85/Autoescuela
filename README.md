@@ -1238,12 +1238,31 @@ Preview:
 - edicion de profesor con actualizacion consistente entre datos de usuario y profesor
 - en edicion de alumno, si la contrasena se deja vacia, se conserva la actual
 - mensajes visuales en modales de edicion para dejar explicito que no se cambia la contrasena al dejarla vacia
+- gestión real de imagen en vehículos: alta opcional, edición con cambio o eliminación, y soporte para mantener el vehículo sin imagen
+- borrado físico de imagen al eliminar la foto en edición, junto con actualización de `imagenRuta = null` en base de datos
+- refresco inmediato del detalle del vehículo tras guardar cambios para que la vista muestre el estado actualizado al instante
+- interfaz de edición reestructurada con layout tipo detalle: campos a la izquierda y bloque de imagen a la derecha
+- validación del caso de edición sin imagen y nueva subida para prevenir regresiones
 
-## Decisiones funcionales aprobadas para vehiculos (siguiente iteracion)
+## Ruta real de almacenamiento de imágenes de vehículos
+
+Los archivos físicos se guardan en:
+
+- `backend/uploads/vehiculos`
+
+La referencia que se persiste en base de datos es:
+
+- `/api/uploads/vehiculos/<nombre-archivo>`
+
+La API de Express sirve esos archivos desde el backend, por lo que la imagen se puede mostrar en frontend sin guardar el fichero en el repositorio como parte del código fuente.
+
+## Decisiones funcionales aprobadas para vehiculos
 
 - imagen de vehiculo opcional en alta
 - en edicion se podra anadir/cambiar imagen o mantener el vehiculo sin imagen
-- los archivos se guardaran en una carpeta del backend
-- en base de datos se guardara solo la referencia de imagen
+- los archivos se guardan en una carpeta del backend (`backend/uploads/vehiculos`)
+- en base de datos se guarda solo la referencia de imagen (`imagenRuta`)
 - restricciones de subida de imagen: maximo `5 MB`, formatos `png`, `jpg/jpeg`, `webp`
-- se implementara una vista de detalle desde el listado para mostrar datos completos e imagen en tamano mayor
+- se implementa una vista de detalle desde el listado para mostrar datos completos e imagen en tamano mayor
+- la edición incluye un bloque visual de imagen a la derecha y un botón de eliminación real de la foto actual
+- cuando se elimina una imagen, se borra el fichero físico y el valor en la base de datos

@@ -35,7 +35,7 @@ describe("VehiculosController", () => {
 
     await controller.create(req, res);
 
-    expect(serviceMock.create).toHaveBeenCalledWith(req.body);
+    expect(serviceMock.create).toHaveBeenCalledWith(req.body, undefined);
 
     expect(res.status).toHaveBeenCalledWith(201);
 
@@ -152,9 +152,13 @@ describe("VehiculosController", () => {
 
     await controller.update(req, res);
 
-    expect(serviceMock.update).toHaveBeenCalledWith("vehiculo-1", {
-      modelo: "León",
-    });
+    expect(serviceMock.update).toHaveBeenCalledWith(
+      "vehiculo-1",
+      {
+        modelo: "León",
+      },
+      undefined,
+    );
 
     expect(res.status).toHaveBeenCalledWith(200);
 

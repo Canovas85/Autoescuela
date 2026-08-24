@@ -59,6 +59,7 @@ model Vehiculo {
   marca       String?
   modelo      String?
   tipoPermiso String
+  imagenRuta  String?
   activo      Boolean         @default(true)
   clases      ClasePractica[]
 

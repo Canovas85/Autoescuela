@@ -1,6 +1,8 @@
 import express from "express";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
 import cors from "cors";
 
@@ -13,9 +15,13 @@ import dashboardRoutes from "./features/dashboard/dashboard.routes.js";
 import vehiculosRoutes from "./features/vehiculos/vehiculos.routes.js";
 
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const uploadsPath = path.resolve(__dirname, "../uploads");
 
 app.use(cors());
 app.use(express.json());
+app.use("/api/uploads", express.static(uploadsPath));
 
 app.get("/api/health", (req, res) => {
   res.json({ success: true });

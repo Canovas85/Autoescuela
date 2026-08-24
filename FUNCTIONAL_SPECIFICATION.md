@@ -109,6 +109,40 @@ Capacidades actuales:
 - actualizar datos del vehículo
 - activar/desactivar vehículo
 - gestionar matrícula, marca, modelo y tipo de permiso
+- gestionar imagen opcional del vehículo
+- añadir, cambiar o eliminar la foto del vehículo desde edición
+- visualizar la imagen en detalle y en el listado
+
+### 2.5.1 Vehículos con imagen opcional
+
+El vehículo puede crearse con o sin foto. En edición, la pantalla sigue el mismo patrón de detalle:
+
+- lado izquierdo: campos del vehículo
+- lado derecho: bloque de imagen con opciones de subir, cambiar o eliminar
+
+El caso soportado actualmente es:
+
+- si no tiene imagen, se puede añadir una nueva
+- si ya tiene imagen, se puede cambiar por otra o marcarla para eliminación
+- si se elimina, el backend borra el archivo físico y actualiza `imagenRuta = null`
+
+### 2.5.2 Reglas de validación de imagen
+
+Las restricciones actuales son:
+
+- máximo 5 MB
+- formatos permitidos: PNG, JPG/JPEG, WEBP
+- almacenamiento físico en `backend/uploads/vehiculos`
+- persistencia en BBDD con solo la ruta relativa pública
+
+### 2.5.3 Comportamiento tras guardar edición
+
+Cuando se actualiza un vehículo desde la edición:
+
+- la vista del formulario se cierra
+- el listado se refresca
+- si el detalle estaba abierto, se actualiza inmediatamente con la respuesta del backend
+- si la imagen se eliminó, la foto ya no vuelve a mostrarse en ese vehículo
 
 ---
 

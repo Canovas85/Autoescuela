@@ -156,6 +156,7 @@ exports.Prisma.VehiculoScalarFieldEnum = {
   marca: 'marca',
   modelo: 'modelo',
   tipoPermiso: 'tipoPermiso',
+  imagenRuta: 'imagenRuta',
   activo: 'activo'
 };
 

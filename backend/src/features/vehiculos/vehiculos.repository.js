@@ -48,4 +48,15 @@ export class VehiculosRepository {
       },
     });
   }
+
+  async activate(id) {
+    return this.prisma.vehiculo.update({
+      where: {
+        id,
+      },
+      data: {
+        activo: true,
+      },
+    });
+  }
 }

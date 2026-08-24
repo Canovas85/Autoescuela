@@ -4900,6 +4900,7 @@ export namespace Prisma {
     marca: string | null
     modelo: string | null
     tipoPermiso: string | null
+    imagenRuta: string | null
     activo: boolean | null
   }
 
@@ -4909,6 +4910,7 @@ export namespace Prisma {
     marca: string | null
     modelo: string | null
     tipoPermiso: string | null
+    imagenRuta: string | null
     activo: boolean | null
   }
 
@@ -4918,6 +4920,7 @@ export namespace Prisma {
     marca: number
     modelo: number
     tipoPermiso: number
+    imagenRuta: number
     activo: number
     _all: number
   }
@@ -4929,6 +4932,7 @@ export namespace Prisma {
     marca?: true
     modelo?: true
     tipoPermiso?: true
+    imagenRuta?: true
     activo?: true
   }
 
@@ -4938,6 +4942,7 @@ export namespace Prisma {
     marca?: true
     modelo?: true
     tipoPermiso?: true
+    imagenRuta?: true
     activo?: true
   }
 
@@ -4947,6 +4952,7 @@ export namespace Prisma {
     marca?: true
     modelo?: true
     tipoPermiso?: true
+    imagenRuta?: true
     activo?: true
     _all?: true
   }
@@ -5029,6 +5035,7 @@ export namespace Prisma {
     marca: string | null
     modelo: string | null
     tipoPermiso: string
+    imagenRuta: string | null
     activo: boolean
     _count: VehiculoCountAggregateOutputType | null
     _min: VehiculoMinAggregateOutputType | null
@@ -5055,6 +5062,7 @@ export namespace Prisma {
     marca?: boolean
     modelo?: boolean
     tipoPermiso?: boolean
+    imagenRuta?: boolean
     activo?: boolean
     clases?: boolean | Vehiculo$clasesArgs<ExtArgs>
     _count?: boolean | VehiculoCountOutputTypeDefaultArgs<ExtArgs>
@@ -5066,6 +5074,7 @@ export namespace Prisma {
     marca?: boolean
     modelo?: boolean
     tipoPermiso?: boolean
+    imagenRuta?: boolean
     activo?: boolean
   }, ExtArgs["result"]["vehiculo"]>
 
@@ -5075,6 +5084,7 @@ export namespace Prisma {
     marca?: boolean
     modelo?: boolean
     tipoPermiso?: boolean
+    imagenRuta?: boolean
     activo?: boolean
   }, ExtArgs["result"]["vehiculo"]>
 
@@ -5084,10 +5094,11 @@ export namespace Prisma {
     marca?: boolean
     modelo?: boolean
     tipoPermiso?: boolean
+    imagenRuta?: boolean
     activo?: boolean
   }
 
-  export type VehiculoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "matricula" | "marca" | "modelo" | "tipoPermiso" | "activo", ExtArgs["result"]["vehiculo"]>
+  export type VehiculoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "matricula" | "marca" | "modelo" | "tipoPermiso" | "imagenRuta" | "activo", ExtArgs["result"]["vehiculo"]>
   export type VehiculoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     clases?: boolean | Vehiculo$clasesArgs<ExtArgs>
     _count?: boolean | VehiculoCountOutputTypeDefaultArgs<ExtArgs>
@@ -5106,6 +5117,7 @@ export namespace Prisma {
       marca: string | null
       modelo: string | null
       tipoPermiso: string
+      imagenRuta: string | null
       activo: boolean
     }, ExtArgs["result"]["vehiculo"]>
     composites: {}
@@ -5536,6 +5548,7 @@ export namespace Prisma {
     readonly marca: FieldRef<"Vehiculo", 'String'>
     readonly modelo: FieldRef<"Vehiculo", 'String'>
     readonly tipoPermiso: FieldRef<"Vehiculo", 'String'>
+    readonly imagenRuta: FieldRef<"Vehiculo", 'String'>
     readonly activo: FieldRef<"Vehiculo", 'Boolean'>
   }
     
@@ -8217,6 +8230,7 @@ export namespace Prisma {
     marca: 'marca',
     modelo: 'modelo',
     tipoPermiso: 'tipoPermiso',
+    imagenRuta: 'imagenRuta',
     activo: 'activo'
   };
 
@@ -8575,6 +8589,7 @@ export namespace Prisma {
     marca?: StringNullableFilter<"Vehiculo"> | string | null
     modelo?: StringNullableFilter<"Vehiculo"> | string | null
     tipoPermiso?: StringFilter<"Vehiculo"> | string
+    imagenRuta?: StringNullableFilter<"Vehiculo"> | string | null
     activo?: BoolFilter<"Vehiculo"> | boolean
     clases?: ClasePracticaListRelationFilter
   }
@@ -8585,6 +8600,7 @@ export namespace Prisma {
     marca?: SortOrderInput | SortOrder
     modelo?: SortOrderInput | SortOrder
     tipoPermiso?: SortOrder
+    imagenRuta?: SortOrderInput | SortOrder
     activo?: SortOrder
     clases?: ClasePracticaOrderByRelationAggregateInput
   }
@@ -8598,6 +8614,7 @@ export namespace Prisma {
     marca?: StringNullableFilter<"Vehiculo"> | string | null
     modelo?: StringNullableFilter<"Vehiculo"> | string | null
     tipoPermiso?: StringFilter<"Vehiculo"> | string
+    imagenRuta?: StringNullableFilter<"Vehiculo"> | string | null
     activo?: BoolFilter<"Vehiculo"> | boolean
     clases?: ClasePracticaListRelationFilter
   }, "id" | "matricula">
@@ -8608,6 +8625,7 @@ export namespace Prisma {
     marca?: SortOrderInput | SortOrder
     modelo?: SortOrderInput | SortOrder
     tipoPermiso?: SortOrder
+    imagenRuta?: SortOrderInput | SortOrder
     activo?: SortOrder
     _count?: VehiculoCountOrderByAggregateInput
     _max?: VehiculoMaxOrderByAggregateInput
@@ -8623,6 +8641,7 @@ export namespace Prisma {
     marca?: StringNullableWithAggregatesFilter<"Vehiculo"> | string | null
     modelo?: StringNullableWithAggregatesFilter<"Vehiculo"> | string | null
     tipoPermiso?: StringWithAggregatesFilter<"Vehiculo"> | string
+    imagenRuta?: StringNullableWithAggregatesFilter<"Vehiculo"> | string | null
     activo?: BoolWithAggregatesFilter<"Vehiculo"> | boolean
   }
 
@@ -8984,6 +9003,7 @@ export namespace Prisma {
     marca?: string | null
     modelo?: string | null
     tipoPermiso: string
+    imagenRuta?: string | null
     activo?: boolean
     clases?: ClasePracticaCreateNestedManyWithoutVehiculoInput
   }
@@ -8994,6 +9014,7 @@ export namespace Prisma {
     marca?: string | null
     modelo?: string | null
     tipoPermiso: string
+    imagenRuta?: string | null
     activo?: boolean
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutVehiculoInput
   }
@@ -9004,6 +9025,7 @@ export namespace Prisma {
     marca?: NullableStringFieldUpdateOperationsInput | string | null
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     tipoPermiso?: StringFieldUpdateOperationsInput | string
+    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
     clases?: ClasePracticaUpdateManyWithoutVehiculoNestedInput
   }
@@ -9014,6 +9036,7 @@ export namespace Prisma {
     marca?: NullableStringFieldUpdateOperationsInput | string | null
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     tipoPermiso?: StringFieldUpdateOperationsInput | string
+    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
     clases?: ClasePracticaUncheckedUpdateManyWithoutVehiculoNestedInput
   }
@@ -9024,6 +9047,7 @@ export namespace Prisma {
     marca?: string | null
     modelo?: string | null
     tipoPermiso: string
+    imagenRuta?: string | null
     activo?: boolean
   }
 
@@ -9033,6 +9057,7 @@ export namespace Prisma {
     marca?: NullableStringFieldUpdateOperationsInput | string | null
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     tipoPermiso?: StringFieldUpdateOperationsInput | string
+    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -9042,6 +9067,7 @@ export namespace Prisma {
     marca?: NullableStringFieldUpdateOperationsInput | string | null
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     tipoPermiso?: StringFieldUpdateOperationsInput | string
+    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -9497,6 +9523,7 @@ export namespace Prisma {
     marca?: SortOrder
     modelo?: SortOrder
     tipoPermiso?: SortOrder
+    imagenRuta?: SortOrder
     activo?: SortOrder
   }
 
@@ -9506,6 +9533,7 @@ export namespace Prisma {
     marca?: SortOrder
     modelo?: SortOrder
     tipoPermiso?: SortOrder
+    imagenRuta?: SortOrder
     activo?: SortOrder
   }
 
@@ -9515,6 +9543,7 @@ export namespace Prisma {
     marca?: SortOrder
     modelo?: SortOrder
     tipoPermiso?: SortOrder
+    imagenRuta?: SortOrder
     activo?: SortOrder
   }
 
@@ -10805,6 +10834,7 @@ export namespace Prisma {
     marca?: string | null
     modelo?: string | null
     tipoPermiso: string
+    imagenRuta?: string | null
     activo?: boolean
   }
 
@@ -10814,6 +10844,7 @@ export namespace Prisma {
     marca?: string | null
     modelo?: string | null
     tipoPermiso: string
+    imagenRuta?: string | null
     activo?: boolean
   }
 
@@ -10899,6 +10930,7 @@ export namespace Prisma {
     marca?: NullableStringFieldUpdateOperationsInput | string | null
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     tipoPermiso?: StringFieldUpdateOperationsInput | string
+    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -10908,6 +10940,7 @@ export namespace Prisma {
     marca?: NullableStringFieldUpdateOperationsInput | string | null
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     tipoPermiso?: StringFieldUpdateOperationsInput | string
+    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
   }
 

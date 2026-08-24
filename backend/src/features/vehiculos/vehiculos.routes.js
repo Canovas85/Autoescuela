@@ -6,18 +6,12 @@ import { authorize } from "../../shared/middleware/role.middleware.js";
 import { VehiculosRepository } from "./vehiculos.repository.js";
 import { VehiculosService } from "./vehiculos.service.js";
 import { VehiculosController } from "./vehiculos.controller.js";
+import { uploadVehiculoImagen } from "./vehiculos.upload.js";
+import prisma from "../../config/prisma.js";
 
 const router = Router();
 
-const repository = new VehiculosRepository({
-  vehiculo: {
-    create: async () => {},
-    findFirst: async () => null,
-    findMany: async () => [],
-    findUnique: async () => null,
-    update: async () => {},
-  },
-});
+const repository = new VehiculosRepository(prisma);
 
 const service = new VehiculosService(repository);
 
@@ -35,7 +29,7 @@ const controller = new VehiculosController(service);
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
@@ -48,6 +42,12 @@ const controller = new VehiculosController(service);
  *               modelo:
  *                 type: string
  *                 example: Ibiza
+ *               tipoPermiso:
+ *                 type: string
+ *                 example: B
+ *               imagen:
+ *                 type: string
+ *                 format: binary
  *     responses:
  *       201:
  *         description: Vehículo creado correctamente
@@ -57,6 +57,7 @@ router.post(
   "/",
   authenticate,
   authorize("ADMIN"),
+  uploadVehiculoImagen.single("imagen"),
   controller.create.bind(controller),
 );
 
@@ -125,6 +126,28 @@ router.get(
  *         required: true
  *         schema:
  *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               matricula:
+ *                 type: string
+ *                 example: 1234ABC
+ *               marca:
+ *                 type: string
+ *                 example: Seat
+ *               modelo:
+ *                 type: string
+ *                 example: Ibiza
+ *               tipoPermiso:
+ *                 type: string
+ *                 example: B
+ *               imagen:
+ *                 type: string
+ *                 format: binary
  *     responses:
  *       200:
  *         description: Vehículo actualizado
@@ -136,6 +159,7 @@ router.put(
   "/:id",
   authenticate,
   authorize("ADMIN"),
+  uploadVehiculoImagen.single("imagen"),
   controller.update.bind(controller),
 );
 
@@ -166,6 +190,13 @@ router.delete(
   authenticate,
   authorize("ADMIN"),
   controller.deactivate.bind(controller),
+);
+
+router.patch(
+  "/:id/activar",
+  authenticate,
+  authorize("ADMIN"),
+  controller.activate.bind(controller),
 );
 
 export default router;

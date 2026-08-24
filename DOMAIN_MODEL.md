@@ -133,11 +133,20 @@ Representa el vehículo disponible para las clases prácticas.
 - marca
 - modelo
 - tipoPermiso
+- imagenRuta (nullable)
 - activo
 
-#### Extensión aprobada (próxima iteración)
+#### Semántica actual de imagen
 
-- imagenRuta (nullable): referencia al archivo de imagen almacenado en carpeta del servidor
+`imagenRuta` se usa para guardar la referencia pública de la imagen del vehículo:
+
+- ejemplo: `/api/uploads/vehiculos/<nombre-archivo>`
+
+El archivo físico real se almacena en la carpeta del backend:
+
+- `backend/uploads/vehiculos`
+
+Esto permite guardar solo la ruta en base de datos y mantener el contenido de los ficheros fuera del código fuente.
 
 #### Relaciones
 
@@ -146,6 +155,15 @@ Representa el vehículo disponible para las clases prácticas.
 #### Estado actual
 
 - activo: boolean
+- imagenRuta: nullable, opcional para vehículos sin foto
+
+#### Reglas implementadas sobre imagen
+
+- puede estar vacío si el vehículo no tiene foto
+- puede añadirse en alta o en edición
+- puede reemplazarse por otra imagen
+- puede eliminarse explícitamente y entonces se guarda `null`
+- si se elimina, también se borra el archivo físico del backend
 
 ---
 

@@ -27,6 +27,9 @@ services:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/autodrive_db
       JWT_SECRET: Autoescuela2026JWTScecret
 
+    volumes:
+      - ./backend/uploads:/app/uploads
+
     depends_on:
       - postgres
 
