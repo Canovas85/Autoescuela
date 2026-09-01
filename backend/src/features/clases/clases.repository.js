@@ -9,13 +9,45 @@ export class ClasesRepository {
     });
   }
   async findAll() {
-    return this.prisma.clasePractica.findMany();
+    return this.prisma.clasePractica.findMany({
+      include: {
+        alumno: {
+          include: {
+            usuario: true,
+          },
+        },
+
+        profesor: {
+          include: {
+            usuario: true,
+          },
+        },
+
+        vehiculo: true,
+      },
+    });
   }
 
   async findById(id) {
     return this.prisma.clasePractica.findUnique({
       where: {
         id,
+      },
+
+      include: {
+        alumno: {
+          include: {
+            usuario: true,
+          },
+        },
+
+        profesor: {
+          include: {
+            usuario: true,
+          },
+        },
+
+        vehiculo: true,
       },
     });
   }

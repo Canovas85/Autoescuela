@@ -24,6 +24,8 @@ import TemarioTemaDetalle from "../pages/Temarios/TemarioTemaDetalle";
 import Bonos from "../pages/Bonos/Bonos";
 import SolicitudesExamen from "../pages/SolicitudesExamen/SolicitudesExamen";
 import Promociones from "../pages/Promociones/Promociones";
+import ClasesDirecto from "../pages/ClasesDirecto/ClasesDirecto";
+import ClaseDirectoDetalle from "../pages/ClasesDirecto/ClaseDirectoDetalle";
 
 function RequireAuth() {
   const token = localStorage.getItem("token");
@@ -70,6 +72,13 @@ export default function AppRouter() {
 
               <Route path="/temario" element={<TemarioAlumno />} />
               <Route path="/temario/:id" element={<TemarioTemaDetalle />} />
+
+              <Route path="/clases-directo" element={<ClasesDirecto />} />
+
+              <Route
+                path="/clases-directo/:id"
+                element={<ClaseDirectoDetalle />}
+              />
 
               <Route path="/bonos" element={<Bonos />} />
 

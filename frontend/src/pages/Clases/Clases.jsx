@@ -10,6 +10,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -220,25 +221,17 @@ export default function Clases() {
     {
       field: "acciones",
       headerName: "Acciones",
-      width: 150,
+      width: 140,
       sortable: false,
       renderCell: (params) => (
         <Box sx={{ display: "flex", gap: 1 }}>
-          <Button
-            size="small"
-            startIcon={<EditIcon />}
-            onClick={() => handleEdit(params.row)}
-          >
-            Editar
-          </Button>
-          <Button
-            size="small"
-            color="error"
-            startIcon={<DeleteIcon />}
-            onClick={() => handleDelete(params.row.id)}
-          >
-            Cancelar
-          </Button>
+          <IconButton color="primary" onClick={() => handleEdit(params.row)}>
+            <EditIcon />
+          </IconButton>
+
+          <IconButton color="error" onClick={() => handleDelete(params.row.id)}>
+            <DeleteIcon />
+          </IconButton>
         </Box>
       ),
     },

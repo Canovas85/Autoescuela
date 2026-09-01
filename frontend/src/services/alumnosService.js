@@ -13,6 +13,11 @@ export const alumnosService = {
     return response.data;
   },
 
+  getById: async (id) => {
+    const response = await api.get(`/alumnos/${id}`);
+    return response.data;
+  },
+
   async create(data) {
     const token = localStorage.getItem("token");
 

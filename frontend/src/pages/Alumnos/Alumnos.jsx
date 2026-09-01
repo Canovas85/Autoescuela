@@ -637,7 +637,6 @@ export default function Alumnos() {
   const handleOpenDetail = async (row) => {
     setOpenDetail(true);
     setLoadingDetail(true);
-    setSelectedAlumno(row);
 
     try {
       const detalle = await alumnosService.getById(row.id);

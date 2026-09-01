@@ -50,7 +50,8 @@ model Profesor {
   telefono          String
   activo            Boolean         @default(true)
   alumnosAsignados  Alumno[]
-  clases            ClasePractica[]
+  clases ClasePractica[]
+  clasesDirecto ClaseDirecto[]
   usuario           Usuario         @relation(fields: [id], references: [id], onDelete: Cascade)
 
   @@map("profesores")
@@ -104,6 +105,27 @@ model TemarioProgreso {
   @@index([temarioId])
   @@map("temarios_progreso")
 }
+
+
+model ClaseDirecto {
+  id String @id @default(uuid())
+  titulo String
+  descripcion String?
+  videoUrl String
+  duracionSegundos Int @default(0)
+  profesorId String?
+  permiso String @default("B")
+  activa Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  profesor Profesor? @relation(fields: [profesorId], references: [id])
+
+  @@index([permiso])
+  @@index([activa])
+  @@index([profesorId])
+  @@map("clases_directo")
+}
+
 
 model TestPractica {
   id                  String   @id @default(uuid())

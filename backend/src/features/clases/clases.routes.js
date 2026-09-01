@@ -1,3 +1,5 @@
+import prisma from "../../config/prisma.js";
+
 import { Router } from "express";
 
 import { authenticate } from "../../shared/middleware/auth.middleware.js";
@@ -9,11 +11,7 @@ import { ClasesController } from "./clases.controller.js";
 
 const router = Router();
 
-const repository = new ClasesRepository({
-  clase: {
-    create: async () => {},
-  },
-});
+const repository = new ClasesRepository(prisma);
 
 const service = new ClasesService(repository);
 

@@ -180,6 +180,19 @@ exports.Prisma.TemarioProgresoScalarFieldEnum = {
   ultimaRevision: 'ultimaRevision'
 };
 
+exports.Prisma.ClaseDirectoScalarFieldEnum = {
+  id: 'id',
+  titulo: 'titulo',
+  descripcion: 'descripcion',
+  videoUrl: 'videoUrl',
+  duracionSegundos: 'duracionSegundos',
+  profesorId: 'profesorId',
+  permiso: 'permiso',
+  activa: 'activa',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.TestPracticaScalarFieldEnum = {
   id: 'id',
   alumnoId: 'alumnoId',
@@ -290,6 +303,7 @@ exports.Prisma.ModelName = {
   Alumno: 'Alumno',
   Temario: 'Temario',
   TemarioProgreso: 'TemarioProgreso',
+  ClaseDirecto: 'ClaseDirecto',
   TestPractica: 'TestPractica',
   Bono: 'Bono',
   CompraBono: 'CompraBono',

@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 
-import { Box, Button, Paper, Typography, Chip } from "@mui/material";
+import {
+  Box,
+  Button,
+  Paper,
+  Typography,
+  Chip,
+  CircularProgress,
+} from "@mui/material";
 
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -356,27 +363,45 @@ export default function Profesores() {
 
       renderCell: (params) => (
         <>
-          <IconButton color="primary" onClick={() => handleEdit(params.row)}>
+          <IconButton
+            color="primary"
+            onClick={(event) => {
+              event.stopPropagation();
+              handleEdit(params.row);
+            }}
+          >
             <EditIcon />
           </IconButton>
 
           {params.row.activo ? (
             <IconButton
               color="warning"
-              onClick={() => handleDeactivate(params.row)}
+              onClick={(event) => {
+                event.stopPropagation();
+                handleDeactivate(params.row);
+              }}
             >
               <ToggleOffIcon />
             </IconButton>
           ) : (
             <IconButton
               color="success"
-              onClick={() => handleActivate(params.row)}
+              onClick={(event) => {
+                event.stopPropagation();
+                handleActivate(params.row);
+              }}
             >
               <ToggleOnIcon />
             </IconButton>
           )}
 
-          <IconButton color="error" onClick={() => handleDelete(params.row)}>
+          <IconButton
+            color="error"
+            onClick={(event) => {
+              event.stopPropagation();
+              handleDelete(params.row);
+            }}
+          >
             <DeleteIcon />
           </IconButton>
         </>
@@ -386,6 +411,10 @@ export default function Profesores() {
 
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
+
+  const [openDetail, setOpenDetail] = useState(false);
+  const [loadingDetail, setLoadingDetail] = useState(false);
+  const [selectedProfesor, setSelectedProfesor] = useState(null);
 
   const [nuevoProfesor, setNuevoProfesor] = useState({
     nombre: "",
@@ -428,6 +457,27 @@ export default function Profesores() {
     });
 
     setOpen(true);
+  };
+
+  const handleOpenDetail = async (row) => {
+    setOpenDetail(true);
+    setLoadingDetail(true);
+
+    try {
+      const detalle = await profesoresService.getById(row.id);
+
+      setSelectedProfesor(detalle);
+    } catch (error) {
+      console.error(error);
+
+      setNotification({
+        open: true,
+        message: "No se pudo cargar el detalle del profesor",
+        severity: "error",
+      });
+    } finally {
+      setLoadingDetail(false);
+    }
   };
 
   return (
@@ -533,6 +583,7 @@ export default function Profesores() {
           getRowId={(row) => row.id}
           disableRowSelectionOnClick
           pageSizeOptions={[5, 10, 25]}
+          onRowClick={(params) => handleOpenDetail(params.row)}
         />
       </Paper>
 
@@ -655,6 +706,95 @@ export default function Profesores() {
           <Button variant="contained" onClick={saveProfesor}>
             {editingId ? "Actualizar" : "Guardar"}
           </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={openDetail}
+        onClose={() => setOpenDetail(false)}
+        fullWidth
+        maxWidth="md"
+      >
+        <DialogTitle>Detalle del Profesor</DialogTitle>
+
+        <DialogContent>
+          {loadingDetail ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                py: 4,
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                display: "grid",
+                gap: 2,
+                mt: 2,
+              }}
+            >
+              <TextField
+                label="Nombre"
+                value={selectedProfesor?.usuario?.nombre || ""}
+                InputProps={{ readOnly: true }}
+                fullWidth
+              />
+
+              <TextField
+                label="Email"
+                value={selectedProfesor?.usuario?.email || ""}
+                InputProps={{ readOnly: true }}
+                fullWidth
+              />
+
+              <TextField
+                label="Teléfono"
+                value={selectedProfesor?.usuario?.telefono || ""}
+                InputProps={{ readOnly: true }}
+                fullWidth
+              />
+
+              <TextField
+                label="DNI"
+                value={selectedProfesor?.usuario?.dni || ""}
+                InputProps={{ readOnly: true }}
+                fullWidth
+              />
+
+              <TextField
+                label="Permisos"
+                value={selectedProfesor?.permisosLicencias?.join(", ") || ""}
+                InputProps={{ readOnly: true }}
+                fullWidth
+              />
+
+              <TextField
+                label="Estado"
+                value={selectedProfesor?.activo ? "Activo" : "Inactivo"}
+                InputProps={{ readOnly: true }}
+                fullWidth
+              />
+            </Box>
+          )}
+        </DialogContent>
+
+        <DialogActions>
+          <Button
+            variant="contained"
+            onClick={() => {
+              if (selectedProfesor) {
+                setOpenDetail(false);
+                handleEdit(selectedProfesor);
+              }
+            }}
+          >
+            Editar profesor
+          </Button>
+
+          <Button onClick={() => setOpenDetail(false)}>Cerrar</Button>
         </DialogActions>
       </Dialog>
 

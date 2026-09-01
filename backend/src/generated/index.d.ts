@@ -44,6 +44,11 @@ export type Temario = $Result.DefaultSelection<Prisma.$TemarioPayload>
  */
 export type TemarioProgreso = $Result.DefaultSelection<Prisma.$TemarioProgresoPayload>
 /**
+ * Model ClaseDirecto
+ * 
+ */
+export type ClaseDirecto = $Result.DefaultSelection<Prisma.$ClaseDirectoPayload>
+/**
  * Model TestPractica
  * 
  */
@@ -279,6 +284,16 @@ export class PrismaClient<
     * ```
     */
   get temarioProgreso(): Prisma.TemarioProgresoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.claseDirecto`: Exposes CRUD operations for the **ClaseDirecto** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ClaseDirectos
+    * const claseDirectos = await prisma.claseDirecto.findMany()
+    * ```
+    */
+  get claseDirecto(): Prisma.ClaseDirectoDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.testPractica`: Exposes CRUD operations for the **TestPractica** model.
@@ -806,6 +821,7 @@ export namespace Prisma {
     Alumno: 'Alumno',
     Temario: 'Temario',
     TemarioProgreso: 'TemarioProgreso',
+    ClaseDirecto: 'ClaseDirecto',
     TestPractica: 'TestPractica',
     Bono: 'Bono',
     CompraBono: 'CompraBono',
@@ -832,7 +848,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "usuario" | "activacionCuenta" | "profesor" | "alumno" | "temario" | "temarioProgreso" | "testPractica" | "bono" | "compraBono" | "solicitudExamen" | "vehiculo" | "clasePractica" | "examen" | "promocion"
+      modelProps: "usuario" | "activacionCuenta" | "profesor" | "alumno" | "temario" | "temarioProgreso" | "claseDirecto" | "testPractica" | "bono" | "compraBono" | "solicitudExamen" | "vehiculo" | "clasePractica" | "examen" | "promocion"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1277,6 +1293,80 @@ export namespace Prisma {
           count: {
             args: Prisma.TemarioProgresoCountArgs<ExtArgs>
             result: $Utils.Optional<TemarioProgresoCountAggregateOutputType> | number
+          }
+        }
+      }
+      ClaseDirecto: {
+        payload: Prisma.$ClaseDirectoPayload<ExtArgs>
+        fields: Prisma.ClaseDirectoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ClaseDirectoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClaseDirectoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ClaseDirectoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClaseDirectoPayload>
+          }
+          findFirst: {
+            args: Prisma.ClaseDirectoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClaseDirectoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ClaseDirectoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClaseDirectoPayload>
+          }
+          findMany: {
+            args: Prisma.ClaseDirectoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClaseDirectoPayload>[]
+          }
+          create: {
+            args: Prisma.ClaseDirectoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClaseDirectoPayload>
+          }
+          createMany: {
+            args: Prisma.ClaseDirectoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ClaseDirectoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClaseDirectoPayload>[]
+          }
+          delete: {
+            args: Prisma.ClaseDirectoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClaseDirectoPayload>
+          }
+          update: {
+            args: Prisma.ClaseDirectoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClaseDirectoPayload>
+          }
+          deleteMany: {
+            args: Prisma.ClaseDirectoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ClaseDirectoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ClaseDirectoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClaseDirectoPayload>[]
+          }
+          upsert: {
+            args: Prisma.ClaseDirectoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClaseDirectoPayload>
+          }
+          aggregate: {
+            args: Prisma.ClaseDirectoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateClaseDirecto>
+          }
+          groupBy: {
+            args: Prisma.ClaseDirectoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ClaseDirectoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ClaseDirectoCountArgs<ExtArgs>
+            result: $Utils.Optional<ClaseDirectoCountAggregateOutputType> | number
           }
         }
       }
@@ -1974,6 +2064,7 @@ export namespace Prisma {
     alumno?: AlumnoOmit
     temario?: TemarioOmit
     temarioProgreso?: TemarioProgresoOmit
+    claseDirecto?: ClaseDirectoOmit
     testPractica?: TestPracticaOmit
     bono?: BonoOmit
     compraBono?: CompraBonoOmit
@@ -2095,11 +2186,13 @@ export namespace Prisma {
   export type ProfesorCountOutputType = {
     alumnosAsignados: number
     clases: number
+    clasesDirecto: number
   }
 
   export type ProfesorCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumnosAsignados?: boolean | ProfesorCountOutputTypeCountAlumnosAsignadosArgs
     clases?: boolean | ProfesorCountOutputTypeCountClasesArgs
+    clasesDirecto?: boolean | ProfesorCountOutputTypeCountClasesDirectoArgs
   }
 
   // Custom InputTypes
@@ -2125,6 +2218,13 @@ export namespace Prisma {
    */
   export type ProfesorCountOutputTypeCountClasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ClasePracticaWhereInput
+  }
+
+  /**
+   * ProfesorCountOutputType without action
+   */
+  export type ProfesorCountOutputTypeCountClasesDirectoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClaseDirectoWhereInput
   }
 
 
@@ -4771,6 +4871,7 @@ export namespace Prisma {
     activo?: boolean
     alumnosAsignados?: boolean | Profesor$alumnosAsignadosArgs<ExtArgs>
     clases?: boolean | Profesor$clasesArgs<ExtArgs>
+    clasesDirecto?: boolean | Profesor$clasesDirectoArgs<ExtArgs>
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     _count?: boolean | ProfesorCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["profesor"]>
@@ -4805,6 +4906,7 @@ export namespace Prisma {
   export type ProfesorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumnosAsignados?: boolean | Profesor$alumnosAsignadosArgs<ExtArgs>
     clases?: boolean | Profesor$clasesArgs<ExtArgs>
+    clasesDirecto?: boolean | Profesor$clasesDirectoArgs<ExtArgs>
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     _count?: boolean | ProfesorCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -4820,6 +4922,7 @@ export namespace Prisma {
     objects: {
       alumnosAsignados: Prisma.$AlumnoPayload<ExtArgs>[]
       clases: Prisma.$ClasePracticaPayload<ExtArgs>[]
+      clasesDirecto: Prisma.$ClaseDirectoPayload<ExtArgs>[]
       usuario: Prisma.$UsuarioPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -5224,6 +5327,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     alumnosAsignados<T extends Profesor$alumnosAsignadosArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$alumnosAsignadosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     clases<T extends Profesor$clasesArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$clasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClasePracticaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    clasesDirecto<T extends Profesor$clasesDirectoArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$clasesDirectoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClaseDirectoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     usuario<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -5700,6 +5804,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ClasePracticaScalarFieldEnum | ClasePracticaScalarFieldEnum[]
+  }
+
+  /**
+   * Profesor.clasesDirecto
+   */
+  export type Profesor$clasesDirectoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClaseDirecto
+     */
+    select?: ClaseDirectoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClaseDirecto
+     */
+    omit?: ClaseDirectoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClaseDirectoInclude<ExtArgs> | null
+    where?: ClaseDirectoWhereInput
+    orderBy?: ClaseDirectoOrderByWithRelationInput | ClaseDirectoOrderByWithRelationInput[]
+    cursor?: ClaseDirectoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ClaseDirectoScalarFieldEnum | ClaseDirectoScalarFieldEnum[]
   }
 
   /**
@@ -9291,6 +9419,1182 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: TemarioProgresoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ClaseDirecto
+   */
+
+  export type AggregateClaseDirecto = {
+    _count: ClaseDirectoCountAggregateOutputType | null
+    _avg: ClaseDirectoAvgAggregateOutputType | null
+    _sum: ClaseDirectoSumAggregateOutputType | null
+    _min: ClaseDirectoMinAggregateOutputType | null
+    _max: ClaseDirectoMaxAggregateOutputType | null
+  }
+
+  export type ClaseDirectoAvgAggregateOutputType = {
+    duracionSegundos: number | null
+  }
+
+  export type ClaseDirectoSumAggregateOutputType = {
+    duracionSegundos: number | null
+  }
+
+  export type ClaseDirectoMinAggregateOutputType = {
+    id: string | null
+    titulo: string | null
+    descripcion: string | null
+    videoUrl: string | null
+    duracionSegundos: number | null
+    profesorId: string | null
+    permiso: string | null
+    activa: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ClaseDirectoMaxAggregateOutputType = {
+    id: string | null
+    titulo: string | null
+    descripcion: string | null
+    videoUrl: string | null
+    duracionSegundos: number | null
+    profesorId: string | null
+    permiso: string | null
+    activa: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ClaseDirectoCountAggregateOutputType = {
+    id: number
+    titulo: number
+    descripcion: number
+    videoUrl: number
+    duracionSegundos: number
+    profesorId: number
+    permiso: number
+    activa: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ClaseDirectoAvgAggregateInputType = {
+    duracionSegundos?: true
+  }
+
+  export type ClaseDirectoSumAggregateInputType = {
+    duracionSegundos?: true
+  }
+
+  export type ClaseDirectoMinAggregateInputType = {
+    id?: true
+    titulo?: true
+    descripcion?: true
+    videoUrl?: true
+    duracionSegundos?: true
+    profesorId?: true
+    permiso?: true
+    activa?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ClaseDirectoMaxAggregateInputType = {
+    id?: true
+    titulo?: true
+    descripcion?: true
+    videoUrl?: true
+    duracionSegundos?: true
+    profesorId?: true
+    permiso?: true
+    activa?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ClaseDirectoCountAggregateInputType = {
+    id?: true
+    titulo?: true
+    descripcion?: true
+    videoUrl?: true
+    duracionSegundos?: true
+    profesorId?: true
+    permiso?: true
+    activa?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ClaseDirectoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ClaseDirecto to aggregate.
+     */
+    where?: ClaseDirectoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClaseDirectos to fetch.
+     */
+    orderBy?: ClaseDirectoOrderByWithRelationInput | ClaseDirectoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ClaseDirectoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClaseDirectos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClaseDirectos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ClaseDirectos
+    **/
+    _count?: true | ClaseDirectoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ClaseDirectoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ClaseDirectoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ClaseDirectoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ClaseDirectoMaxAggregateInputType
+  }
+
+  export type GetClaseDirectoAggregateType<T extends ClaseDirectoAggregateArgs> = {
+        [P in keyof T & keyof AggregateClaseDirecto]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateClaseDirecto[P]>
+      : GetScalarType<T[P], AggregateClaseDirecto[P]>
+  }
+
+
+
+
+  export type ClaseDirectoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClaseDirectoWhereInput
+    orderBy?: ClaseDirectoOrderByWithAggregationInput | ClaseDirectoOrderByWithAggregationInput[]
+    by: ClaseDirectoScalarFieldEnum[] | ClaseDirectoScalarFieldEnum
+    having?: ClaseDirectoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ClaseDirectoCountAggregateInputType | true
+    _avg?: ClaseDirectoAvgAggregateInputType
+    _sum?: ClaseDirectoSumAggregateInputType
+    _min?: ClaseDirectoMinAggregateInputType
+    _max?: ClaseDirectoMaxAggregateInputType
+  }
+
+  export type ClaseDirectoGroupByOutputType = {
+    id: string
+    titulo: string
+    descripcion: string | null
+    videoUrl: string
+    duracionSegundos: number
+    profesorId: string | null
+    permiso: string
+    activa: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: ClaseDirectoCountAggregateOutputType | null
+    _avg: ClaseDirectoAvgAggregateOutputType | null
+    _sum: ClaseDirectoSumAggregateOutputType | null
+    _min: ClaseDirectoMinAggregateOutputType | null
+    _max: ClaseDirectoMaxAggregateOutputType | null
+  }
+
+  type GetClaseDirectoGroupByPayload<T extends ClaseDirectoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ClaseDirectoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ClaseDirectoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ClaseDirectoGroupByOutputType[P]>
+            : GetScalarType<T[P], ClaseDirectoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ClaseDirectoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    titulo?: boolean
+    descripcion?: boolean
+    videoUrl?: boolean
+    duracionSegundos?: boolean
+    profesorId?: boolean
+    permiso?: boolean
+    activa?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    profesor?: boolean | ClaseDirecto$profesorArgs<ExtArgs>
+  }, ExtArgs["result"]["claseDirecto"]>
+
+  export type ClaseDirectoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    titulo?: boolean
+    descripcion?: boolean
+    videoUrl?: boolean
+    duracionSegundos?: boolean
+    profesorId?: boolean
+    permiso?: boolean
+    activa?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    profesor?: boolean | ClaseDirecto$profesorArgs<ExtArgs>
+  }, ExtArgs["result"]["claseDirecto"]>
+
+  export type ClaseDirectoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    titulo?: boolean
+    descripcion?: boolean
+    videoUrl?: boolean
+    duracionSegundos?: boolean
+    profesorId?: boolean
+    permiso?: boolean
+    activa?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    profesor?: boolean | ClaseDirecto$profesorArgs<ExtArgs>
+  }, ExtArgs["result"]["claseDirecto"]>
+
+  export type ClaseDirectoSelectScalar = {
+    id?: boolean
+    titulo?: boolean
+    descripcion?: boolean
+    videoUrl?: boolean
+    duracionSegundos?: boolean
+    profesorId?: boolean
+    permiso?: boolean
+    activa?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ClaseDirectoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titulo" | "descripcion" | "videoUrl" | "duracionSegundos" | "profesorId" | "permiso" | "activa" | "createdAt" | "updatedAt", ExtArgs["result"]["claseDirecto"]>
+  export type ClaseDirectoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    profesor?: boolean | ClaseDirecto$profesorArgs<ExtArgs>
+  }
+  export type ClaseDirectoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    profesor?: boolean | ClaseDirecto$profesorArgs<ExtArgs>
+  }
+  export type ClaseDirectoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    profesor?: boolean | ClaseDirecto$profesorArgs<ExtArgs>
+  }
+
+  export type $ClaseDirectoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ClaseDirecto"
+    objects: {
+      profesor: Prisma.$ProfesorPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      titulo: string
+      descripcion: string | null
+      videoUrl: string
+      duracionSegundos: number
+      profesorId: string | null
+      permiso: string
+      activa: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["claseDirecto"]>
+    composites: {}
+  }
+
+  type ClaseDirectoGetPayload<S extends boolean | null | undefined | ClaseDirectoDefaultArgs> = $Result.GetResult<Prisma.$ClaseDirectoPayload, S>
+
+  type ClaseDirectoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ClaseDirectoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ClaseDirectoCountAggregateInputType | true
+    }
+
+  export interface ClaseDirectoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ClaseDirecto'], meta: { name: 'ClaseDirecto' } }
+    /**
+     * Find zero or one ClaseDirecto that matches the filter.
+     * @param {ClaseDirectoFindUniqueArgs} args - Arguments to find a ClaseDirecto
+     * @example
+     * // Get one ClaseDirecto
+     * const claseDirecto = await prisma.claseDirecto.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ClaseDirectoFindUniqueArgs>(args: SelectSubset<T, ClaseDirectoFindUniqueArgs<ExtArgs>>): Prisma__ClaseDirectoClient<$Result.GetResult<Prisma.$ClaseDirectoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ClaseDirecto that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ClaseDirectoFindUniqueOrThrowArgs} args - Arguments to find a ClaseDirecto
+     * @example
+     * // Get one ClaseDirecto
+     * const claseDirecto = await prisma.claseDirecto.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ClaseDirectoFindUniqueOrThrowArgs>(args: SelectSubset<T, ClaseDirectoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ClaseDirectoClient<$Result.GetResult<Prisma.$ClaseDirectoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ClaseDirecto that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClaseDirectoFindFirstArgs} args - Arguments to find a ClaseDirecto
+     * @example
+     * // Get one ClaseDirecto
+     * const claseDirecto = await prisma.claseDirecto.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ClaseDirectoFindFirstArgs>(args?: SelectSubset<T, ClaseDirectoFindFirstArgs<ExtArgs>>): Prisma__ClaseDirectoClient<$Result.GetResult<Prisma.$ClaseDirectoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ClaseDirecto that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClaseDirectoFindFirstOrThrowArgs} args - Arguments to find a ClaseDirecto
+     * @example
+     * // Get one ClaseDirecto
+     * const claseDirecto = await prisma.claseDirecto.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ClaseDirectoFindFirstOrThrowArgs>(args?: SelectSubset<T, ClaseDirectoFindFirstOrThrowArgs<ExtArgs>>): Prisma__ClaseDirectoClient<$Result.GetResult<Prisma.$ClaseDirectoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ClaseDirectos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClaseDirectoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ClaseDirectos
+     * const claseDirectos = await prisma.claseDirecto.findMany()
+     * 
+     * // Get first 10 ClaseDirectos
+     * const claseDirectos = await prisma.claseDirecto.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const claseDirectoWithIdOnly = await prisma.claseDirecto.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ClaseDirectoFindManyArgs>(args?: SelectSubset<T, ClaseDirectoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClaseDirectoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ClaseDirecto.
+     * @param {ClaseDirectoCreateArgs} args - Arguments to create a ClaseDirecto.
+     * @example
+     * // Create one ClaseDirecto
+     * const ClaseDirecto = await prisma.claseDirecto.create({
+     *   data: {
+     *     // ... data to create a ClaseDirecto
+     *   }
+     * })
+     * 
+     */
+    create<T extends ClaseDirectoCreateArgs>(args: SelectSubset<T, ClaseDirectoCreateArgs<ExtArgs>>): Prisma__ClaseDirectoClient<$Result.GetResult<Prisma.$ClaseDirectoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ClaseDirectos.
+     * @param {ClaseDirectoCreateManyArgs} args - Arguments to create many ClaseDirectos.
+     * @example
+     * // Create many ClaseDirectos
+     * const claseDirecto = await prisma.claseDirecto.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ClaseDirectoCreateManyArgs>(args?: SelectSubset<T, ClaseDirectoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ClaseDirectos and returns the data saved in the database.
+     * @param {ClaseDirectoCreateManyAndReturnArgs} args - Arguments to create many ClaseDirectos.
+     * @example
+     * // Create many ClaseDirectos
+     * const claseDirecto = await prisma.claseDirecto.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ClaseDirectos and only return the `id`
+     * const claseDirectoWithIdOnly = await prisma.claseDirecto.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ClaseDirectoCreateManyAndReturnArgs>(args?: SelectSubset<T, ClaseDirectoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClaseDirectoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ClaseDirecto.
+     * @param {ClaseDirectoDeleteArgs} args - Arguments to delete one ClaseDirecto.
+     * @example
+     * // Delete one ClaseDirecto
+     * const ClaseDirecto = await prisma.claseDirecto.delete({
+     *   where: {
+     *     // ... filter to delete one ClaseDirecto
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ClaseDirectoDeleteArgs>(args: SelectSubset<T, ClaseDirectoDeleteArgs<ExtArgs>>): Prisma__ClaseDirectoClient<$Result.GetResult<Prisma.$ClaseDirectoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ClaseDirecto.
+     * @param {ClaseDirectoUpdateArgs} args - Arguments to update one ClaseDirecto.
+     * @example
+     * // Update one ClaseDirecto
+     * const claseDirecto = await prisma.claseDirecto.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ClaseDirectoUpdateArgs>(args: SelectSubset<T, ClaseDirectoUpdateArgs<ExtArgs>>): Prisma__ClaseDirectoClient<$Result.GetResult<Prisma.$ClaseDirectoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ClaseDirectos.
+     * @param {ClaseDirectoDeleteManyArgs} args - Arguments to filter ClaseDirectos to delete.
+     * @example
+     * // Delete a few ClaseDirectos
+     * const { count } = await prisma.claseDirecto.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ClaseDirectoDeleteManyArgs>(args?: SelectSubset<T, ClaseDirectoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ClaseDirectos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClaseDirectoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ClaseDirectos
+     * const claseDirecto = await prisma.claseDirecto.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ClaseDirectoUpdateManyArgs>(args: SelectSubset<T, ClaseDirectoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ClaseDirectos and returns the data updated in the database.
+     * @param {ClaseDirectoUpdateManyAndReturnArgs} args - Arguments to update many ClaseDirectos.
+     * @example
+     * // Update many ClaseDirectos
+     * const claseDirecto = await prisma.claseDirecto.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ClaseDirectos and only return the `id`
+     * const claseDirectoWithIdOnly = await prisma.claseDirecto.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ClaseDirectoUpdateManyAndReturnArgs>(args: SelectSubset<T, ClaseDirectoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClaseDirectoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ClaseDirecto.
+     * @param {ClaseDirectoUpsertArgs} args - Arguments to update or create a ClaseDirecto.
+     * @example
+     * // Update or create a ClaseDirecto
+     * const claseDirecto = await prisma.claseDirecto.upsert({
+     *   create: {
+     *     // ... data to create a ClaseDirecto
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ClaseDirecto we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ClaseDirectoUpsertArgs>(args: SelectSubset<T, ClaseDirectoUpsertArgs<ExtArgs>>): Prisma__ClaseDirectoClient<$Result.GetResult<Prisma.$ClaseDirectoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ClaseDirectos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClaseDirectoCountArgs} args - Arguments to filter ClaseDirectos to count.
+     * @example
+     * // Count the number of ClaseDirectos
+     * const count = await prisma.claseDirecto.count({
+     *   where: {
+     *     // ... the filter for the ClaseDirectos we want to count
+     *   }
+     * })
+    **/
+    count<T extends ClaseDirectoCountArgs>(
+      args?: Subset<T, ClaseDirectoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ClaseDirectoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ClaseDirecto.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClaseDirectoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ClaseDirectoAggregateArgs>(args: Subset<T, ClaseDirectoAggregateArgs>): Prisma.PrismaPromise<GetClaseDirectoAggregateType<T>>
+
+    /**
+     * Group by ClaseDirecto.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClaseDirectoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ClaseDirectoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ClaseDirectoGroupByArgs['orderBy'] }
+        : { orderBy?: ClaseDirectoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ClaseDirectoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetClaseDirectoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ClaseDirecto model
+   */
+  readonly fields: ClaseDirectoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ClaseDirecto.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ClaseDirectoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    profesor<T extends ClaseDirecto$profesorArgs<ExtArgs> = {}>(args?: Subset<T, ClaseDirecto$profesorArgs<ExtArgs>>): Prisma__ProfesorClient<$Result.GetResult<Prisma.$ProfesorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ClaseDirecto model
+   */
+  interface ClaseDirectoFieldRefs {
+    readonly id: FieldRef<"ClaseDirecto", 'String'>
+    readonly titulo: FieldRef<"ClaseDirecto", 'String'>
+    readonly descripcion: FieldRef<"ClaseDirecto", 'String'>
+    readonly videoUrl: FieldRef<"ClaseDirecto", 'String'>
+    readonly duracionSegundos: FieldRef<"ClaseDirecto", 'Int'>
+    readonly profesorId: FieldRef<"ClaseDirecto", 'String'>
+    readonly permiso: FieldRef<"ClaseDirecto", 'String'>
+    readonly activa: FieldRef<"ClaseDirecto", 'Boolean'>
+    readonly createdAt: FieldRef<"ClaseDirecto", 'DateTime'>
+    readonly updatedAt: FieldRef<"ClaseDirecto", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ClaseDirecto findUnique
+   */
+  export type ClaseDirectoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClaseDirecto
+     */
+    select?: ClaseDirectoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClaseDirecto
+     */
+    omit?: ClaseDirectoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClaseDirectoInclude<ExtArgs> | null
+    /**
+     * Filter, which ClaseDirecto to fetch.
+     */
+    where: ClaseDirectoWhereUniqueInput
+  }
+
+  /**
+   * ClaseDirecto findUniqueOrThrow
+   */
+  export type ClaseDirectoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClaseDirecto
+     */
+    select?: ClaseDirectoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClaseDirecto
+     */
+    omit?: ClaseDirectoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClaseDirectoInclude<ExtArgs> | null
+    /**
+     * Filter, which ClaseDirecto to fetch.
+     */
+    where: ClaseDirectoWhereUniqueInput
+  }
+
+  /**
+   * ClaseDirecto findFirst
+   */
+  export type ClaseDirectoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClaseDirecto
+     */
+    select?: ClaseDirectoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClaseDirecto
+     */
+    omit?: ClaseDirectoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClaseDirectoInclude<ExtArgs> | null
+    /**
+     * Filter, which ClaseDirecto to fetch.
+     */
+    where?: ClaseDirectoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClaseDirectos to fetch.
+     */
+    orderBy?: ClaseDirectoOrderByWithRelationInput | ClaseDirectoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ClaseDirectos.
+     */
+    cursor?: ClaseDirectoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClaseDirectos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClaseDirectos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ClaseDirectos.
+     */
+    distinct?: ClaseDirectoScalarFieldEnum | ClaseDirectoScalarFieldEnum[]
+  }
+
+  /**
+   * ClaseDirecto findFirstOrThrow
+   */
+  export type ClaseDirectoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClaseDirecto
+     */
+    select?: ClaseDirectoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClaseDirecto
+     */
+    omit?: ClaseDirectoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClaseDirectoInclude<ExtArgs> | null
+    /**
+     * Filter, which ClaseDirecto to fetch.
+     */
+    where?: ClaseDirectoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClaseDirectos to fetch.
+     */
+    orderBy?: ClaseDirectoOrderByWithRelationInput | ClaseDirectoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ClaseDirectos.
+     */
+    cursor?: ClaseDirectoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClaseDirectos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClaseDirectos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ClaseDirectos.
+     */
+    distinct?: ClaseDirectoScalarFieldEnum | ClaseDirectoScalarFieldEnum[]
+  }
+
+  /**
+   * ClaseDirecto findMany
+   */
+  export type ClaseDirectoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClaseDirecto
+     */
+    select?: ClaseDirectoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClaseDirecto
+     */
+    omit?: ClaseDirectoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClaseDirectoInclude<ExtArgs> | null
+    /**
+     * Filter, which ClaseDirectos to fetch.
+     */
+    where?: ClaseDirectoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClaseDirectos to fetch.
+     */
+    orderBy?: ClaseDirectoOrderByWithRelationInput | ClaseDirectoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ClaseDirectos.
+     */
+    cursor?: ClaseDirectoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClaseDirectos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClaseDirectos.
+     */
+    skip?: number
+    distinct?: ClaseDirectoScalarFieldEnum | ClaseDirectoScalarFieldEnum[]
+  }
+
+  /**
+   * ClaseDirecto create
+   */
+  export type ClaseDirectoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClaseDirecto
+     */
+    select?: ClaseDirectoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClaseDirecto
+     */
+    omit?: ClaseDirectoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClaseDirectoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ClaseDirecto.
+     */
+    data: XOR<ClaseDirectoCreateInput, ClaseDirectoUncheckedCreateInput>
+  }
+
+  /**
+   * ClaseDirecto createMany
+   */
+  export type ClaseDirectoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ClaseDirectos.
+     */
+    data: ClaseDirectoCreateManyInput | ClaseDirectoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ClaseDirecto createManyAndReturn
+   */
+  export type ClaseDirectoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClaseDirecto
+     */
+    select?: ClaseDirectoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClaseDirecto
+     */
+    omit?: ClaseDirectoOmit<ExtArgs> | null
+    /**
+     * The data used to create many ClaseDirectos.
+     */
+    data: ClaseDirectoCreateManyInput | ClaseDirectoCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClaseDirectoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ClaseDirecto update
+   */
+  export type ClaseDirectoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClaseDirecto
+     */
+    select?: ClaseDirectoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClaseDirecto
+     */
+    omit?: ClaseDirectoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClaseDirectoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ClaseDirecto.
+     */
+    data: XOR<ClaseDirectoUpdateInput, ClaseDirectoUncheckedUpdateInput>
+    /**
+     * Choose, which ClaseDirecto to update.
+     */
+    where: ClaseDirectoWhereUniqueInput
+  }
+
+  /**
+   * ClaseDirecto updateMany
+   */
+  export type ClaseDirectoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ClaseDirectos.
+     */
+    data: XOR<ClaseDirectoUpdateManyMutationInput, ClaseDirectoUncheckedUpdateManyInput>
+    /**
+     * Filter which ClaseDirectos to update
+     */
+    where?: ClaseDirectoWhereInput
+    /**
+     * Limit how many ClaseDirectos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ClaseDirecto updateManyAndReturn
+   */
+  export type ClaseDirectoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClaseDirecto
+     */
+    select?: ClaseDirectoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClaseDirecto
+     */
+    omit?: ClaseDirectoOmit<ExtArgs> | null
+    /**
+     * The data used to update ClaseDirectos.
+     */
+    data: XOR<ClaseDirectoUpdateManyMutationInput, ClaseDirectoUncheckedUpdateManyInput>
+    /**
+     * Filter which ClaseDirectos to update
+     */
+    where?: ClaseDirectoWhereInput
+    /**
+     * Limit how many ClaseDirectos to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClaseDirectoIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ClaseDirecto upsert
+   */
+  export type ClaseDirectoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClaseDirecto
+     */
+    select?: ClaseDirectoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClaseDirecto
+     */
+    omit?: ClaseDirectoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClaseDirectoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ClaseDirecto to update in case it exists.
+     */
+    where: ClaseDirectoWhereUniqueInput
+    /**
+     * In case the ClaseDirecto found by the `where` argument doesn't exist, create a new ClaseDirecto with this data.
+     */
+    create: XOR<ClaseDirectoCreateInput, ClaseDirectoUncheckedCreateInput>
+    /**
+     * In case the ClaseDirecto was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ClaseDirectoUpdateInput, ClaseDirectoUncheckedUpdateInput>
+  }
+
+  /**
+   * ClaseDirecto delete
+   */
+  export type ClaseDirectoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClaseDirecto
+     */
+    select?: ClaseDirectoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClaseDirecto
+     */
+    omit?: ClaseDirectoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClaseDirectoInclude<ExtArgs> | null
+    /**
+     * Filter which ClaseDirecto to delete.
+     */
+    where: ClaseDirectoWhereUniqueInput
+  }
+
+  /**
+   * ClaseDirecto deleteMany
+   */
+  export type ClaseDirectoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ClaseDirectos to delete
+     */
+    where?: ClaseDirectoWhereInput
+    /**
+     * Limit how many ClaseDirectos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ClaseDirecto.profesor
+   */
+  export type ClaseDirecto$profesorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Profesor
+     */
+    select?: ProfesorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Profesor
+     */
+    omit?: ProfesorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProfesorInclude<ExtArgs> | null
+    where?: ProfesorWhereInput
+  }
+
+  /**
+   * ClaseDirecto without action
+   */
+  export type ClaseDirectoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClaseDirecto
+     */
+    select?: ClaseDirectoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClaseDirecto
+     */
+    omit?: ClaseDirectoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClaseDirectoInclude<ExtArgs> | null
   }
 
 
@@ -18290,6 +19594,22 @@ export namespace Prisma {
   export type TemarioProgresoScalarFieldEnum = (typeof TemarioProgresoScalarFieldEnum)[keyof typeof TemarioProgresoScalarFieldEnum]
 
 
+  export const ClaseDirectoScalarFieldEnum: {
+    id: 'id',
+    titulo: 'titulo',
+    descripcion: 'descripcion',
+    videoUrl: 'videoUrl',
+    duracionSegundos: 'duracionSegundos',
+    profesorId: 'profesorId',
+    permiso: 'permiso',
+    activa: 'activa',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ClaseDirectoScalarFieldEnum = (typeof ClaseDirectoScalarFieldEnum)[keyof typeof ClaseDirectoScalarFieldEnum]
+
+
   export const TestPracticaScalarFieldEnum: {
     id: 'id',
     alumnoId: 'alumnoId',
@@ -18684,6 +20004,7 @@ export namespace Prisma {
     activo?: BoolFilter<"Profesor"> | boolean
     alumnosAsignados?: AlumnoListRelationFilter
     clases?: ClasePracticaListRelationFilter
+    clasesDirecto?: ClaseDirectoListRelationFilter
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
   }
 
@@ -18695,6 +20016,7 @@ export namespace Prisma {
     activo?: SortOrder
     alumnosAsignados?: AlumnoOrderByRelationAggregateInput
     clases?: ClasePracticaOrderByRelationAggregateInput
+    clasesDirecto?: ClaseDirectoOrderByRelationAggregateInput
     usuario?: UsuarioOrderByWithRelationInput
   }
 
@@ -18709,6 +20031,7 @@ export namespace Prisma {
     activo?: BoolFilter<"Profesor"> | boolean
     alumnosAsignados?: AlumnoListRelationFilter
     clases?: ClasePracticaListRelationFilter
+    clasesDirecto?: ClaseDirectoListRelationFilter
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
   }, "id">
 
@@ -18950,6 +20273,88 @@ export namespace Prisma {
     revisado?: BoolWithAggregatesFilter<"TemarioProgreso"> | boolean
     dominio?: IntWithAggregatesFilter<"TemarioProgreso"> | number
     ultimaRevision?: DateTimeNullableWithAggregatesFilter<"TemarioProgreso"> | Date | string | null
+  }
+
+  export type ClaseDirectoWhereInput = {
+    AND?: ClaseDirectoWhereInput | ClaseDirectoWhereInput[]
+    OR?: ClaseDirectoWhereInput[]
+    NOT?: ClaseDirectoWhereInput | ClaseDirectoWhereInput[]
+    id?: StringFilter<"ClaseDirecto"> | string
+    titulo?: StringFilter<"ClaseDirecto"> | string
+    descripcion?: StringNullableFilter<"ClaseDirecto"> | string | null
+    videoUrl?: StringFilter<"ClaseDirecto"> | string
+    duracionSegundos?: IntFilter<"ClaseDirecto"> | number
+    profesorId?: StringNullableFilter<"ClaseDirecto"> | string | null
+    permiso?: StringFilter<"ClaseDirecto"> | string
+    activa?: BoolFilter<"ClaseDirecto"> | boolean
+    createdAt?: DateTimeFilter<"ClaseDirecto"> | Date | string
+    updatedAt?: DateTimeFilter<"ClaseDirecto"> | Date | string
+    profesor?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
+  }
+
+  export type ClaseDirectoOrderByWithRelationInput = {
+    id?: SortOrder
+    titulo?: SortOrder
+    descripcion?: SortOrderInput | SortOrder
+    videoUrl?: SortOrder
+    duracionSegundos?: SortOrder
+    profesorId?: SortOrderInput | SortOrder
+    permiso?: SortOrder
+    activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    profesor?: ProfesorOrderByWithRelationInput
+  }
+
+  export type ClaseDirectoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ClaseDirectoWhereInput | ClaseDirectoWhereInput[]
+    OR?: ClaseDirectoWhereInput[]
+    NOT?: ClaseDirectoWhereInput | ClaseDirectoWhereInput[]
+    titulo?: StringFilter<"ClaseDirecto"> | string
+    descripcion?: StringNullableFilter<"ClaseDirecto"> | string | null
+    videoUrl?: StringFilter<"ClaseDirecto"> | string
+    duracionSegundos?: IntFilter<"ClaseDirecto"> | number
+    profesorId?: StringNullableFilter<"ClaseDirecto"> | string | null
+    permiso?: StringFilter<"ClaseDirecto"> | string
+    activa?: BoolFilter<"ClaseDirecto"> | boolean
+    createdAt?: DateTimeFilter<"ClaseDirecto"> | Date | string
+    updatedAt?: DateTimeFilter<"ClaseDirecto"> | Date | string
+    profesor?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
+  }, "id">
+
+  export type ClaseDirectoOrderByWithAggregationInput = {
+    id?: SortOrder
+    titulo?: SortOrder
+    descripcion?: SortOrderInput | SortOrder
+    videoUrl?: SortOrder
+    duracionSegundos?: SortOrder
+    profesorId?: SortOrderInput | SortOrder
+    permiso?: SortOrder
+    activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ClaseDirectoCountOrderByAggregateInput
+    _avg?: ClaseDirectoAvgOrderByAggregateInput
+    _max?: ClaseDirectoMaxOrderByAggregateInput
+    _min?: ClaseDirectoMinOrderByAggregateInput
+    _sum?: ClaseDirectoSumOrderByAggregateInput
+  }
+
+  export type ClaseDirectoScalarWhereWithAggregatesInput = {
+    AND?: ClaseDirectoScalarWhereWithAggregatesInput | ClaseDirectoScalarWhereWithAggregatesInput[]
+    OR?: ClaseDirectoScalarWhereWithAggregatesInput[]
+    NOT?: ClaseDirectoScalarWhereWithAggregatesInput | ClaseDirectoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ClaseDirecto"> | string
+    titulo?: StringWithAggregatesFilter<"ClaseDirecto"> | string
+    descripcion?: StringNullableWithAggregatesFilter<"ClaseDirecto"> | string | null
+    videoUrl?: StringWithAggregatesFilter<"ClaseDirecto"> | string
+    duracionSegundos?: IntWithAggregatesFilter<"ClaseDirecto"> | number
+    profesorId?: StringNullableWithAggregatesFilter<"ClaseDirecto"> | string | null
+    permiso?: StringWithAggregatesFilter<"ClaseDirecto"> | string
+    activa?: BoolWithAggregatesFilter<"ClaseDirecto"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"ClaseDirecto"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ClaseDirecto"> | Date | string
   }
 
   export type TestPracticaWhereInput = {
@@ -19685,6 +21090,7 @@ export namespace Prisma {
     activo?: boolean
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
 
@@ -19696,6 +21102,7 @@ export namespace Prisma {
     activo?: boolean
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
   }
 
   export type ProfesorUpdateInput = {
@@ -19705,6 +21112,7 @@ export namespace Prisma {
     activo?: BoolFieldUpdateOperationsInput | boolean
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
 
@@ -19716,6 +21124,7 @@ export namespace Prisma {
     activo?: BoolFieldUpdateOperationsInput | boolean
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
   export type ProfesorCreateManyInput = {
@@ -19963,6 +21372,96 @@ export namespace Prisma {
     revisado?: BoolFieldUpdateOperationsInput | boolean
     dominio?: IntFieldUpdateOperationsInput | number
     ultimaRevision?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ClaseDirectoCreateInput = {
+    id?: string
+    titulo: string
+    descripcion?: string | null
+    videoUrl: string
+    duracionSegundos?: number
+    permiso?: string
+    activa?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    profesor?: ProfesorCreateNestedOneWithoutClasesDirectoInput
+  }
+
+  export type ClaseDirectoUncheckedCreateInput = {
+    id?: string
+    titulo: string
+    descripcion?: string | null
+    videoUrl: string
+    duracionSegundos?: number
+    profesorId?: string | null
+    permiso?: string
+    activa?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClaseDirectoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    duracionSegundos?: IntFieldUpdateOperationsInput | number
+    permiso?: StringFieldUpdateOperationsInput | string
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    profesor?: ProfesorUpdateOneWithoutClasesDirectoNestedInput
+  }
+
+  export type ClaseDirectoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    duracionSegundos?: IntFieldUpdateOperationsInput | number
+    profesorId?: NullableStringFieldUpdateOperationsInput | string | null
+    permiso?: StringFieldUpdateOperationsInput | string
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClaseDirectoCreateManyInput = {
+    id?: string
+    titulo: string
+    descripcion?: string | null
+    videoUrl: string
+    duracionSegundos?: number
+    profesorId?: string | null
+    permiso?: string
+    activa?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClaseDirectoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    duracionSegundos?: IntFieldUpdateOperationsInput | number
+    permiso?: StringFieldUpdateOperationsInput | string
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClaseDirectoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    duracionSegundos?: IntFieldUpdateOperationsInput | number
+    profesorId?: NullableStringFieldUpdateOperationsInput | string | null
+    permiso?: StringFieldUpdateOperationsInput | string
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TestPracticaCreateInput = {
@@ -20845,11 +22344,21 @@ export namespace Prisma {
     none?: ClasePracticaWhereInput
   }
 
+  export type ClaseDirectoListRelationFilter = {
+    every?: ClaseDirectoWhereInput
+    some?: ClaseDirectoWhereInput
+    none?: ClaseDirectoWhereInput
+  }
+
   export type AlumnoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type ClasePracticaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ClaseDirectoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -21041,6 +22550,53 @@ export namespace Prisma {
 
   export type TemarioProgresoSumOrderByAggregateInput = {
     dominio?: SortOrder
+  }
+
+  export type ClaseDirectoCountOrderByAggregateInput = {
+    id?: SortOrder
+    titulo?: SortOrder
+    descripcion?: SortOrder
+    videoUrl?: SortOrder
+    duracionSegundos?: SortOrder
+    profesorId?: SortOrder
+    permiso?: SortOrder
+    activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ClaseDirectoAvgOrderByAggregateInput = {
+    duracionSegundos?: SortOrder
+  }
+
+  export type ClaseDirectoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    titulo?: SortOrder
+    descripcion?: SortOrder
+    videoUrl?: SortOrder
+    duracionSegundos?: SortOrder
+    profesorId?: SortOrder
+    permiso?: SortOrder
+    activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ClaseDirectoMinOrderByAggregateInput = {
+    id?: SortOrder
+    titulo?: SortOrder
+    descripcion?: SortOrder
+    videoUrl?: SortOrder
+    duracionSegundos?: SortOrder
+    profesorId?: SortOrder
+    permiso?: SortOrder
+    activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ClaseDirectoSumOrderByAggregateInput = {
+    duracionSegundos?: SortOrder
   }
 
   export type TemarioNullableScalarRelationFilter = {
@@ -21555,6 +23111,13 @@ export namespace Prisma {
     connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
   }
 
+  export type ClaseDirectoCreateNestedManyWithoutProfesorInput = {
+    create?: XOR<ClaseDirectoCreateWithoutProfesorInput, ClaseDirectoUncheckedCreateWithoutProfesorInput> | ClaseDirectoCreateWithoutProfesorInput[] | ClaseDirectoUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: ClaseDirectoCreateOrConnectWithoutProfesorInput | ClaseDirectoCreateOrConnectWithoutProfesorInput[]
+    createMany?: ClaseDirectoCreateManyProfesorInputEnvelope
+    connect?: ClaseDirectoWhereUniqueInput | ClaseDirectoWhereUniqueInput[]
+  }
+
   export type UsuarioCreateNestedOneWithoutProfesorInput = {
     create?: XOR<UsuarioCreateWithoutProfesorInput, UsuarioUncheckedCreateWithoutProfesorInput>
     connectOrCreate?: UsuarioCreateOrConnectWithoutProfesorInput
@@ -21573,6 +23136,13 @@ export namespace Prisma {
     connectOrCreate?: ClasePracticaCreateOrConnectWithoutProfesorInput | ClasePracticaCreateOrConnectWithoutProfesorInput[]
     createMany?: ClasePracticaCreateManyProfesorInputEnvelope
     connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+  }
+
+  export type ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput = {
+    create?: XOR<ClaseDirectoCreateWithoutProfesorInput, ClaseDirectoUncheckedCreateWithoutProfesorInput> | ClaseDirectoCreateWithoutProfesorInput[] | ClaseDirectoUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: ClaseDirectoCreateOrConnectWithoutProfesorInput | ClaseDirectoCreateOrConnectWithoutProfesorInput[]
+    createMany?: ClaseDirectoCreateManyProfesorInputEnvelope
+    connect?: ClaseDirectoWhereUniqueInput | ClaseDirectoWhereUniqueInput[]
   }
 
   export type ProfesorUpdatepermisosLicenciasInput = {
@@ -21606,6 +23176,20 @@ export namespace Prisma {
     update?: ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput | ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput[]
     updateMany?: ClasePracticaUpdateManyWithWhereWithoutProfesorInput | ClasePracticaUpdateManyWithWhereWithoutProfesorInput[]
     deleteMany?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
+  }
+
+  export type ClaseDirectoUpdateManyWithoutProfesorNestedInput = {
+    create?: XOR<ClaseDirectoCreateWithoutProfesorInput, ClaseDirectoUncheckedCreateWithoutProfesorInput> | ClaseDirectoCreateWithoutProfesorInput[] | ClaseDirectoUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: ClaseDirectoCreateOrConnectWithoutProfesorInput | ClaseDirectoCreateOrConnectWithoutProfesorInput[]
+    upsert?: ClaseDirectoUpsertWithWhereUniqueWithoutProfesorInput | ClaseDirectoUpsertWithWhereUniqueWithoutProfesorInput[]
+    createMany?: ClaseDirectoCreateManyProfesorInputEnvelope
+    set?: ClaseDirectoWhereUniqueInput | ClaseDirectoWhereUniqueInput[]
+    disconnect?: ClaseDirectoWhereUniqueInput | ClaseDirectoWhereUniqueInput[]
+    delete?: ClaseDirectoWhereUniqueInput | ClaseDirectoWhereUniqueInput[]
+    connect?: ClaseDirectoWhereUniqueInput | ClaseDirectoWhereUniqueInput[]
+    update?: ClaseDirectoUpdateWithWhereUniqueWithoutProfesorInput | ClaseDirectoUpdateWithWhereUniqueWithoutProfesorInput[]
+    updateMany?: ClaseDirectoUpdateManyWithWhereWithoutProfesorInput | ClaseDirectoUpdateManyWithWhereWithoutProfesorInput[]
+    deleteMany?: ClaseDirectoScalarWhereInput | ClaseDirectoScalarWhereInput[]
   }
 
   export type UsuarioUpdateOneRequiredWithoutProfesorNestedInput = {
@@ -21642,6 +23226,20 @@ export namespace Prisma {
     update?: ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput | ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput[]
     updateMany?: ClasePracticaUpdateManyWithWhereWithoutProfesorInput | ClasePracticaUpdateManyWithWhereWithoutProfesorInput[]
     deleteMany?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
+  }
+
+  export type ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput = {
+    create?: XOR<ClaseDirectoCreateWithoutProfesorInput, ClaseDirectoUncheckedCreateWithoutProfesorInput> | ClaseDirectoCreateWithoutProfesorInput[] | ClaseDirectoUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: ClaseDirectoCreateOrConnectWithoutProfesorInput | ClaseDirectoCreateOrConnectWithoutProfesorInput[]
+    upsert?: ClaseDirectoUpsertWithWhereUniqueWithoutProfesorInput | ClaseDirectoUpsertWithWhereUniqueWithoutProfesorInput[]
+    createMany?: ClaseDirectoCreateManyProfesorInputEnvelope
+    set?: ClaseDirectoWhereUniqueInput | ClaseDirectoWhereUniqueInput[]
+    disconnect?: ClaseDirectoWhereUniqueInput | ClaseDirectoWhereUniqueInput[]
+    delete?: ClaseDirectoWhereUniqueInput | ClaseDirectoWhereUniqueInput[]
+    connect?: ClaseDirectoWhereUniqueInput | ClaseDirectoWhereUniqueInput[]
+    update?: ClaseDirectoUpdateWithWhereUniqueWithoutProfesorInput | ClaseDirectoUpdateWithWhereUniqueWithoutProfesorInput[]
+    updateMany?: ClaseDirectoUpdateManyWithWhereWithoutProfesorInput | ClaseDirectoUpdateManyWithWhereWithoutProfesorInput[]
+    deleteMany?: ClaseDirectoScalarWhereInput | ClaseDirectoScalarWhereInput[]
   }
 
   export type UsuarioCreateNestedOneWithoutAlumnoInput = {
@@ -22036,6 +23634,22 @@ export namespace Prisma {
     upsert?: TemarioUpsertWithoutProgresoInput
     connect?: TemarioWhereUniqueInput
     update?: XOR<XOR<TemarioUpdateToOneWithWhereWithoutProgresoInput, TemarioUpdateWithoutProgresoInput>, TemarioUncheckedUpdateWithoutProgresoInput>
+  }
+
+  export type ProfesorCreateNestedOneWithoutClasesDirectoInput = {
+    create?: XOR<ProfesorCreateWithoutClasesDirectoInput, ProfesorUncheckedCreateWithoutClasesDirectoInput>
+    connectOrCreate?: ProfesorCreateOrConnectWithoutClasesDirectoInput
+    connect?: ProfesorWhereUniqueInput
+  }
+
+  export type ProfesorUpdateOneWithoutClasesDirectoNestedInput = {
+    create?: XOR<ProfesorCreateWithoutClasesDirectoInput, ProfesorUncheckedCreateWithoutClasesDirectoInput>
+    connectOrCreate?: ProfesorCreateOrConnectWithoutClasesDirectoInput
+    upsert?: ProfesorUpsertWithoutClasesDirectoInput
+    disconnect?: ProfesorWhereInput | boolean
+    delete?: ProfesorWhereInput | boolean
+    connect?: ProfesorWhereUniqueInput
+    update?: XOR<XOR<ProfesorUpdateToOneWithWhereWithoutClasesDirectoInput, ProfesorUpdateWithoutClasesDirectoInput>, ProfesorUncheckedUpdateWithoutClasesDirectoInput>
   }
 
   export type AlumnoCreateNestedOneWithoutTestsPracticaInput = {
@@ -22529,6 +24143,7 @@ export namespace Prisma {
     activo?: boolean
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
   }
 
   export type ProfesorUncheckedCreateWithoutUsuarioInput = {
@@ -22538,6 +24153,7 @@ export namespace Prisma {
     activo?: boolean
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
   }
 
   export type ProfesorCreateOrConnectWithoutUsuarioInput = {
@@ -22636,6 +24252,7 @@ export namespace Prisma {
     activo?: BoolFieldUpdateOperationsInput | boolean
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
   }
 
   export type ProfesorUncheckedUpdateWithoutUsuarioInput = {
@@ -22645,6 +24262,7 @@ export namespace Prisma {
     activo?: BoolFieldUpdateOperationsInput | boolean
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
   export type ActivacionCuentaUpsertWithWhereUniqueWithoutUsuarioInput = {
@@ -22819,6 +24437,40 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ClaseDirectoCreateWithoutProfesorInput = {
+    id?: string
+    titulo: string
+    descripcion?: string | null
+    videoUrl: string
+    duracionSegundos?: number
+    permiso?: string
+    activa?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClaseDirectoUncheckedCreateWithoutProfesorInput = {
+    id?: string
+    titulo: string
+    descripcion?: string | null
+    videoUrl: string
+    duracionSegundos?: number
+    permiso?: string
+    activa?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClaseDirectoCreateOrConnectWithoutProfesorInput = {
+    where: ClaseDirectoWhereUniqueInput
+    create: XOR<ClaseDirectoCreateWithoutProfesorInput, ClaseDirectoUncheckedCreateWithoutProfesorInput>
+  }
+
+  export type ClaseDirectoCreateManyProfesorInputEnvelope = {
+    data: ClaseDirectoCreateManyProfesorInput | ClaseDirectoCreateManyProfesorInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UsuarioCreateWithoutProfesorInput = {
     id?: string
     nombre: string
@@ -22911,6 +24563,38 @@ export namespace Prisma {
     estado?: StringFilter<"ClasePractica"> | string
   }
 
+  export type ClaseDirectoUpsertWithWhereUniqueWithoutProfesorInput = {
+    where: ClaseDirectoWhereUniqueInput
+    update: XOR<ClaseDirectoUpdateWithoutProfesorInput, ClaseDirectoUncheckedUpdateWithoutProfesorInput>
+    create: XOR<ClaseDirectoCreateWithoutProfesorInput, ClaseDirectoUncheckedCreateWithoutProfesorInput>
+  }
+
+  export type ClaseDirectoUpdateWithWhereUniqueWithoutProfesorInput = {
+    where: ClaseDirectoWhereUniqueInput
+    data: XOR<ClaseDirectoUpdateWithoutProfesorInput, ClaseDirectoUncheckedUpdateWithoutProfesorInput>
+  }
+
+  export type ClaseDirectoUpdateManyWithWhereWithoutProfesorInput = {
+    where: ClaseDirectoScalarWhereInput
+    data: XOR<ClaseDirectoUpdateManyMutationInput, ClaseDirectoUncheckedUpdateManyWithoutProfesorInput>
+  }
+
+  export type ClaseDirectoScalarWhereInput = {
+    AND?: ClaseDirectoScalarWhereInput | ClaseDirectoScalarWhereInput[]
+    OR?: ClaseDirectoScalarWhereInput[]
+    NOT?: ClaseDirectoScalarWhereInput | ClaseDirectoScalarWhereInput[]
+    id?: StringFilter<"ClaseDirecto"> | string
+    titulo?: StringFilter<"ClaseDirecto"> | string
+    descripcion?: StringNullableFilter<"ClaseDirecto"> | string | null
+    videoUrl?: StringFilter<"ClaseDirecto"> | string
+    duracionSegundos?: IntFilter<"ClaseDirecto"> | number
+    profesorId?: StringNullableFilter<"ClaseDirecto"> | string | null
+    permiso?: StringFilter<"ClaseDirecto"> | string
+    activa?: BoolFilter<"ClaseDirecto"> | boolean
+    createdAt?: DateTimeFilter<"ClaseDirecto"> | Date | string
+    updatedAt?: DateTimeFilter<"ClaseDirecto"> | Date | string
+  }
+
   export type UsuarioUpsertWithoutProfesorInput = {
     update: XOR<UsuarioUpdateWithoutProfesorInput, UsuarioUncheckedUpdateWithoutProfesorInput>
     create: XOR<UsuarioCreateWithoutProfesorInput, UsuarioUncheckedCreateWithoutProfesorInput>
@@ -22989,6 +24673,7 @@ export namespace Prisma {
     telefono: string
     activo?: boolean
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
 
@@ -22999,6 +24684,7 @@ export namespace Prisma {
     telefono: string
     activo?: boolean
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
   }
 
   export type ProfesorCreateOrConnectWithoutAlumnosAsignadosInput = {
@@ -23226,6 +24912,7 @@ export namespace Prisma {
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
 
@@ -23236,6 +24923,7 @@ export namespace Prisma {
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
   export type ClasePracticaUpsertWithWhereUniqueWithoutAlumnoInput = {
@@ -23613,6 +25301,62 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     orden?: IntFieldUpdateOperationsInput | number
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutTemarioNestedInput
+  }
+
+  export type ProfesorCreateWithoutClasesDirectoInput = {
+    licenciaConducir: string
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
+    telefono: string
+    activo?: boolean
+    alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
+    clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    usuario: UsuarioCreateNestedOneWithoutProfesorInput
+  }
+
+  export type ProfesorUncheckedCreateWithoutClasesDirectoInput = {
+    id: string
+    licenciaConducir: string
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
+    telefono: string
+    activo?: boolean
+    alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+  }
+
+  export type ProfesorCreateOrConnectWithoutClasesDirectoInput = {
+    where: ProfesorWhereUniqueInput
+    create: XOR<ProfesorCreateWithoutClasesDirectoInput, ProfesorUncheckedCreateWithoutClasesDirectoInput>
+  }
+
+  export type ProfesorUpsertWithoutClasesDirectoInput = {
+    update: XOR<ProfesorUpdateWithoutClasesDirectoInput, ProfesorUncheckedUpdateWithoutClasesDirectoInput>
+    create: XOR<ProfesorCreateWithoutClasesDirectoInput, ProfesorUncheckedCreateWithoutClasesDirectoInput>
+    where?: ProfesorWhereInput
+  }
+
+  export type ProfesorUpdateToOneWithWhereWithoutClasesDirectoInput = {
+    where?: ProfesorWhereInput
+    data: XOR<ProfesorUpdateWithoutClasesDirectoInput, ProfesorUncheckedUpdateWithoutClasesDirectoInput>
+  }
+
+  export type ProfesorUpdateWithoutClasesDirectoInput = {
+    licenciaConducir?: StringFieldUpdateOperationsInput | string
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
+    telefono?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
+    clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
+  }
+
+  export type ProfesorUncheckedUpdateWithoutClasesDirectoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    licenciaConducir?: StringFieldUpdateOperationsInput | string
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
+    telefono?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
+    clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
   export type AlumnoCreateWithoutTestsPracticaInput = {
@@ -24092,6 +25836,7 @@ export namespace Prisma {
     telefono: string
     activo?: boolean
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
+    clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
 
@@ -24102,6 +25847,7 @@ export namespace Prisma {
     telefono: string
     activo?: boolean
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
+    clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
   }
 
   export type ProfesorCreateOrConnectWithoutClasesInput = {
@@ -24194,6 +25940,7 @@ export namespace Prisma {
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
+    clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
 
@@ -24204,6 +25951,7 @@ export namespace Prisma {
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
+    clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
   export type VehiculoUpsertWithoutClasesInput = {
@@ -24376,6 +26124,18 @@ export namespace Prisma {
     estado: string
   }
 
+  export type ClaseDirectoCreateManyProfesorInput = {
+    id?: string
+    titulo: string
+    descripcion?: string | null
+    videoUrl: string
+    duracionSegundos?: number
+    permiso?: string
+    activa?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type AlumnoUpdateWithoutProfesorAsignadoInput = {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -24443,6 +26203,42 @@ export namespace Prisma {
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ClaseDirectoUpdateWithoutProfesorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    duracionSegundos?: IntFieldUpdateOperationsInput | number
+    permiso?: StringFieldUpdateOperationsInput | string
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClaseDirectoUncheckedUpdateWithoutProfesorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    duracionSegundos?: IntFieldUpdateOperationsInput | number
+    permiso?: StringFieldUpdateOperationsInput | string
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClaseDirectoUncheckedUpdateManyWithoutProfesorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    duracionSegundos?: IntFieldUpdateOperationsInput | number
+    permiso?: StringFieldUpdateOperationsInput | string
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ClasePracticaCreateManyAlumnoInput = {

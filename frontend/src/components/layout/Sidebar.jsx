@@ -26,6 +26,7 @@ const menus = {
         { label: "Vehículos", path: "/vehiculos" },
         { label: "Temarios", path: "/temarios" },
         { label: "Bonos", path: "/bonos" },
+        { label: "Promociones", path: "/promociones" },
         { label: "Solicitudes Examen", path: "/solicitudes-examen" },
         { label: "Clases", path: "/clases" },
       ],
@@ -43,7 +44,7 @@ const menus = {
       title: "NEGOCIO",
       items: [
         { label: "Facturación", path: "/facturacion" },
-        { label: "Promociones", path: "/promociones" },
+        { label: "Gastos", path: "/gastos" },
       ],
     },
   ],

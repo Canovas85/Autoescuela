@@ -62,6 +62,16 @@ export class AlumnosRepository {
       where: {
         id,
       },
+
+      include: {
+        usuario: true,
+
+        profesorAsignado: {
+          include: {
+            usuario: true,
+          },
+        },
+      },
     });
   }
 
