@@ -4,7 +4,11 @@ export class ProfesoresController {
   }
 
   async create(req, res) {
-    const profesor = await this.service.create(req.body);
+    const profesor = req.user?.id
+      ? await this.service.create(req.body, {
+          createdById: req.user.id,
+        })
+      : await this.service.create(req.body);
 
     return res.status(201).json(profesor);
   }

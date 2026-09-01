@@ -348,6 +348,11 @@ export default function Clases() {
             onChange={(event) =>
               setForm((prev) => ({ ...prev, fecha: event.target.value }))
             }
+            sx={{
+              "& input::-webkit-datetime-edit": {
+                color: form.fecha ? "inherit" : "transparent",
+              },
+            }}
           />
 
           <TextField

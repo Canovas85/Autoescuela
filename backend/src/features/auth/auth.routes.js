@@ -2,16 +2,26 @@ import { Router } from "express";
 
 import prisma from "../../config/prisma.js";
 import { authenticate } from "../../shared/middleware/auth.middleware.js";
+import { authorize } from "../../shared/middleware/role.middleware.js";
+import { EmailService } from "../../shared/services/email.service.js";
 
 import { AuthRepository } from "./auth.repository.js";
 import { AuthService } from "./auth.service.js";
 import { AuthController } from "./auth.controller.js";
+import { AccountActivationService } from "./account-activation.service.js";
 
 const router = Router();
 
 const repository = new AuthRepository(prisma);
 
-const service = new AuthService(repository);
+const emailService = new EmailService();
+
+const accountActivationService = new AccountActivationService(
+  repository,
+  emailService,
+);
+
+const service = new AuthService(repository, accountActivationService);
 
 const controller = new AuthController(service);
 
@@ -53,5 +63,22 @@ router.post(
 );
 
 router.get("/me", authenticate, controller.me.bind(controller));
+
+router.post(
+  "/activacion/validar",
+  controller.validateActivationToken.bind(controller),
+);
+
+router.post(
+  "/activacion/completar",
+  controller.activateFirstAccess.bind(controller),
+);
+
+router.post(
+  "/activacion/reenviar/:userId",
+  authenticate,
+  authorize("ADMIN"),
+  controller.resendActivation.bind(controller),
+);
 
 export default router;

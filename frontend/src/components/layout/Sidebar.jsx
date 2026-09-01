@@ -34,8 +34,8 @@ const menus = {
     {
       title: "EVALUACIÓN",
       items: [
-        { label: "Exámenes", path: "/examenes" },
         { label: "Exámenes Teóricos", path: "/examenes-teoricos" },
+        { label: "Exámenes Prácticos", path: "/examenes" },
       ],
     },
 

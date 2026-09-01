@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Box, Button, Paper, Typography } from "@mui/material";
+import { Box, Button, Paper, Typography, Chip } from "@mui/material";
 
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -9,11 +9,13 @@ import { profesoresService } from "../../services/profesoresService";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+import ToggleOffIcon from "@mui/icons-material/ToggleOff";
+import ToggleOnIcon from "@mui/icons-material/ToggleOn";
+
 import { IconButton } from "@mui/material";
 
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -26,11 +28,19 @@ import Select from "@mui/material/Select";
 import InputAdornment from "@mui/material/InputAdornment";
 import CloseIcon from "@mui/icons-material/Close";
 
+import DownloadIcon from "@mui/icons-material/Download";
+import Menu from "@mui/material/Menu";
+
+import { exportProfesoresExcel } from "../../utils/exportProfesoresExcel";
+
+import { exportProfesoresPdf } from "../../utils/exportProfesoresPdf";
+
 import {
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
+  DialogContentText,
   TextField,
 } from "@mui/material";
 
@@ -45,11 +55,29 @@ export default function Profesores() {
 
   const [estadoFiltro, setEstadoFiltro] = useState("activos");
 
-  const [profesorFiltro, setProfesorFiltro] = useState("");
-
   const [search, setSearch] = useState("");
 
   const licencias = ["B", "A1", "A2", "A", "C", "D", "E"];
+
+  const [exportAnchor, setExportAnchor] = useState(null);
+
+  const openExportMenu = (event) => {
+    setExportAnchor(event.currentTarget);
+  };
+
+  const closeExportMenu = () => {
+    setExportAnchor(null);
+  };
+
+  const handleExportExcel = () => {
+    exportProfesoresExcel(rows);
+    closeExportMenu();
+  };
+
+  const handleExportPdf = () => {
+    exportProfesoresPdf(rows);
+    closeExportMenu();
+  };
 
   useEffect(() => {
     loadProfesores();
@@ -120,14 +148,20 @@ export default function Profesores() {
       };
 
       if (editingId) {
-        await profesoresService.update(editingId, {
+        const payload = {
           nombre: payloadBase.nombre,
           email: payloadBase.email,
           dni: payloadBase.dni,
           telefono: payloadBase.telefono,
           licenciaConducir: payloadBase.licenciaConducir,
           permisosLicencias: payloadBase.permisosLicencias,
-        });
+        };
+
+        if (nuevoProfesor.password?.trim()) {
+          payload.password = nuevoProfesor.password.trim();
+        }
+
+        await profesoresService.update(editingId, payload);
       } else {
         await profesoresService.create({
           ...payloadBase,
@@ -170,45 +204,85 @@ export default function Profesores() {
     }
   };
 
-  const handleDeactivate = async (id) => {
-    try {
-      const confirmar = window.confirm(
-        "¿Seguro que deseas desactivar este Profesor?",
-      );
+  const handleDeactivate = async (row) => {
+    const nombreProfesor = row?.usuario?.nombre || "este profesor";
 
-      if (!confirmar) {
-        return;
-      }
-
-      await profesoresService.deactivate(id);
-
-      loadProfesores();
-
-      setNotification({
-        open: true,
-        message: "Profesor desactivado correctamente",
-        severity: "success",
-      });
-    } catch (error) {
-      console.error(error);
-
-      setNotification({
-        open: true,
-        message: "Error desactivando Profesor",
-        severity: "error",
-      });
-    }
+    setConfirmDialog({
+      open: true,
+      action: "deactivate",
+      profesorId: row.id,
+      profesorNombre: nombreProfesor,
+      title: "Confirmar desactivación",
+      message: `Vas a desactivar a ${nombreProfesor} en la plataforma Autoescuela Eguzkilore. No podrá operar hasta su reactivación. ¿Deseas continuar?`,
+    });
   };
 
-  const handleActivate = async (id) => {
+  const handleActivate = async (row) => {
+    const nombreProfesor = row?.usuario?.nombre || "este profesor";
+
+    setConfirmDialog({
+      open: true,
+      action: "activate",
+      profesorId: row.id,
+      profesorNombre: nombreProfesor,
+      title: "Confirmar activación",
+      message: `Vas a reactivar a ${nombreProfesor} en la plataforma Autoescuela Eguzkilore. Recuperará acceso operativo de inmediato. ¿Deseas continuar?`,
+    });
+  };
+
+  const handleDelete = async (row) => {
+    const nombreProfesor = row?.usuario?.nombre || "este profesor";
+
+    setConfirmDialog({
+      open: true,
+      action: "delete",
+      profesorId: row.id,
+      profesorNombre: nombreProfesor,
+      title: "Confirmar eliminación",
+      message: `Vas a eliminar definitivamente a ${nombreProfesor} de Autoescuela Eguzkilore. Toda la información asociada será eliminada de forma permanente. Esta acción no podrá deshacerse. ¿Deseas continuar?`,
+    });
+  };
+
+  const closeConfirmDialog = () => {
+    setConfirmDialog({
+      open: false,
+      action: null,
+      profesorId: null,
+      profesorNombre: "",
+      title: "",
+      message: "",
+    });
+  };
+
+  const handleConfirmAction = async () => {
+    if (!confirmDialog.profesorId || !confirmDialog.action) {
+      closeConfirmDialog();
+      return;
+    }
+
     try {
-      await profesoresService.activate(id);
+      if (confirmDialog.action === "deactivate") {
+        await profesoresService.deactivate(confirmDialog.profesorId);
+      }
+
+      if (confirmDialog.action === "activate") {
+        await profesoresService.activate(confirmDialog.profesorId);
+      }
+
+      if (confirmDialog.action === "delete") {
+        await profesoresService.delete(confirmDialog.profesorId);
+      }
 
       loadProfesores();
 
       setNotification({
         open: true,
-        message: "Profesor activado correctamente",
+        message:
+          confirmDialog.action === "deactivate"
+            ? "Profesor desactivado correctamente"
+            : confirmDialog.action === "activate"
+              ? "Profesor activado correctamente"
+              : "Profesor eliminado correctamente",
         severity: "success",
       });
     } catch (error) {
@@ -216,9 +290,16 @@ export default function Profesores() {
 
       setNotification({
         open: true,
-        message: "Error activando Profesor",
+        message:
+          confirmDialog.action === "deactivate"
+            ? "Error desactivando profesor"
+            : confirmDialog.action === "activate"
+              ? "Error activando profesor"
+              : "Error eliminando profesor",
         severity: "error",
       });
+    } finally {
+      closeConfirmDialog();
     }
   };
 
@@ -258,14 +339,20 @@ export default function Profesores() {
     {
       field: "activo",
       headerName: "Estado",
-      width: 120,
-      valueGetter: (_, row) => (row.activo ? "Activo" : "Inactivo"),
+      width: 130,
+      renderCell: (params) => (
+        <Chip
+          label={(params.row.activo ?? true) ? "Activo" : "Inactivo"}
+          color={(params.row.activo ?? true) ? "success" : "error"}
+          size="small"
+        />
+      ),
     },
 
     {
       field: "acciones",
       headerName: "Acciones",
-      width: 120,
+      width: 160,
 
       renderCell: (params) => (
         <>
@@ -275,19 +362,23 @@ export default function Profesores() {
 
           {params.row.activo ? (
             <IconButton
-              color="error"
-              onClick={() => handleDeactivate(params.row.id)}
+              color="warning"
+              onClick={() => handleDeactivate(params.row)}
             >
-              <DeleteIcon />
+              <ToggleOffIcon />
             </IconButton>
           ) : (
             <IconButton
               color="success"
-              onClick={() => handleActivate(params.row.id)}
+              onClick={() => handleActivate(params.row)}
             >
-              <CheckCircleIcon />
+              <ToggleOnIcon />
             </IconButton>
           )}
+
+          <IconButton color="error" onClick={() => handleDelete(params.row)}>
+            <DeleteIcon />
+          </IconButton>
         </>
       ),
     },
@@ -304,6 +395,15 @@ export default function Profesores() {
     permisosLicencias: ["B"],
     telefono: "",
     activo: true,
+  });
+
+  const [confirmDialog, setConfirmDialog] = useState({
+    open: false,
+    action: null,
+    profesorId: null,
+    profesorNombre: "",
+    title: "",
+    message: "",
   });
 
   const [notification, setNotification] = useState({
@@ -384,15 +484,6 @@ export default function Profesores() {
           <FormControlLabel value="todos" control={<Radio />} label="Todos" />
         </RadioGroup>
 
-        <Select
-          size="small"
-          value={profesorFiltro}
-          onChange={(e) => setProfesorFiltro(e.target.value)}
-          sx={{ minWidth: 220 }}
-        >
-          <MenuItem value="">Todos los profesores</MenuItem>
-        </Select>
-
         <TextField
           size="small"
           label="Buscar profesor"
@@ -410,6 +501,24 @@ export default function Profesores() {
             ),
           }}
         />
+
+        <Button
+          variant="outlined"
+          startIcon={<DownloadIcon />}
+          onClick={openExportMenu}
+        >
+          Exportar
+        </Button>
+
+        <Menu
+          anchorEl={exportAnchor}
+          open={Boolean(exportAnchor)}
+          onClose={closeExportMenu}
+        >
+          <MenuItem onClick={handleExportExcel}>Exportar a Excel</MenuItem>
+
+          <MenuItem onClick={handleExportPdf}>Exportar a PDF</MenuItem>
+        </Menu>
       </Box>
 
       <Paper
@@ -469,10 +578,9 @@ export default function Profesores() {
             fullWidth
             label="Contraseña"
             type="password"
-            disabled={Boolean(editingId)}
             helperText={
               editingId
-                ? "No se modifica desde esta pantalla. Si está vacía, se mantiene la contraseña actual."
+                ? "Si la dejas vacía, se mantiene la contraseña actual."
                 : "Mínimo 8 caracteres"
             }
             value={nuevoProfesor.password}
@@ -546,6 +654,31 @@ export default function Profesores() {
 
           <Button variant="contained" onClick={saveProfesor}>
             {editingId ? "Actualizar" : "Guardar"}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={confirmDialog.open}
+        onClose={closeConfirmDialog}
+        fullWidth
+        maxWidth="xs"
+      >
+        <DialogTitle>{confirmDialog.title}</DialogTitle>
+
+        <DialogContent>
+          <DialogContentText>{confirmDialog.message}</DialogContentText>
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={closeConfirmDialog}>Cancelar</Button>
+
+          <Button
+            variant="contained"
+            color={confirmDialog.action === "activate" ? "success" : "error"}
+            onClick={handleConfirmAction}
+          >
+            Confirmar
           </Button>
         </DialogActions>
       </Dialog>

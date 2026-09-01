@@ -51,11 +51,12 @@ const normalizarDni = (valor) => {
 };
 
 export class AlumnosService {
-  constructor(repository) {
+  constructor(repository, accountActivationService = null) {
     this.repository = repository;
+    this.accountActivationService = accountActivationService;
   }
 
-  async create(data) {
+  async create(data, context = {}) {
     const nombre = typeof data.nombre === "string" ? data.nombre.trim() : "";
 
     if (!nombre) {
@@ -128,7 +129,7 @@ export class AlumnosService {
 
     const passwordHash = await bcrypt.hash(data.password, 10);
 
-    return this.repository.create({
+    const alumno = await this.repository.create({
       ...data,
       nombre,
       dni,
@@ -139,6 +140,22 @@ export class AlumnosService {
       rol: "ALUMNO",
       activo: true,
     });
+
+    if (this.accountActivationService) {
+      try {
+        await this.accountActivationService.issueActivationForUser({
+          usuarioId: alumno.id,
+          createdById: context.createdById || null,
+        });
+      } catch (error) {
+        console.error(
+          "No se pudo enviar el enlace de activación al alumno:",
+          error.message,
+        );
+      }
+    }
+
+    return alumno;
   }
 
   async getAll() {

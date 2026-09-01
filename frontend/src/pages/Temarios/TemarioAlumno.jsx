@@ -60,11 +60,17 @@ export default function TemarioAlumno() {
           <CircularProgress />
         </Box>
       ) : (
-        <Grid container spacing={3}>
+        <Grid container spacing={3} justifyContent="flex-start">
           {temarios.length === 0 && (
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6} md={3}>
               <Card sx={{ borderRadius: 3, border: "1px solid #e2e8f0" }}>
-                <CardContent>
+                <CardContent
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100%",
+                  }}
+                >
                   <Typography color="text.secondary">
                     No hay temas asignados para tu permiso todavía.
                   </Typography>
@@ -74,10 +80,19 @@ export default function TemarioAlumno() {
           )}
 
           {temarios.map((temario) => (
-            <Grid item xs={12} md={6} lg={4} key={temario.id}>
+            <Grid
+              item
+              key={temario.id}
+              sx={{
+                width: 330,
+              }}
+            >
               <Card
                 sx={{
-                  height: "100%",
+                  width: 330,
+                  height: 320,
+                  display: "flex",
+                  flexDirection: "column",
                   borderRadius: 3,
                   border: "1px solid #e2e8f0",
                   boxShadow: "0 18px 36px rgba(15, 23, 42, 0.08)",
@@ -109,14 +124,32 @@ export default function TemarioAlumno() {
                     />
                   </Box>
 
-                  <Typography variant="h6" fontWeight={800} sx={{ mb: 1 }}>
+                  <Typography
+                    variant="h6"
+                    fontWeight={800}
+                    sx={{
+                      mb: 1,
+                      minHeight: 64,
+                      display: "-webkit-box",
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                    }}
+                  >
                     {temario.titulo}
                   </Typography>
 
                   <Typography
                     variant="body2"
                     color="text.secondary"
-                    sx={{ mb: 2 }}
+                    sx={{
+                      mb: 2,
+                      minHeight: 48,
+                      display: "-webkit-box",
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                    }}
                   >
                     {temario.descripcion ||
                       "El contenido teórico de este tema se irá desarrollando en próximas entregas."}
@@ -126,7 +159,9 @@ export default function TemarioAlumno() {
 
                   <Box
                     sx={{
-                      display: "grid",
+                      display: "flex",
+                      flexDirection: "column",
+                      flex: 1,
                       gap: 2,
                       color: "#0f172a",
                     }}
@@ -136,32 +171,41 @@ export default function TemarioAlumno() {
                       alignItems="center"
                       justifyContent="space-between"
                     >
-                      <Typography variant="body2" fontWeight={700}>
-                        Estado del tema
-                      </Typography>
-
                       <Box
-                        sx={{
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: 0.75,
-                          color: temario.revisado ? "#15803d" : "#b45309",
-                          fontWeight: 700,
-                        }}
+                        sx={{ display: "flex", alignItems: "center", gap: 1.5 }}
                       >
-                        {temario.revisado ? "Completado" : "Por empezar"}
-                        <CheckCircleIcon fontSize="small" />
+                        <Typography
+                          variant="body2"
+                          fontWeight={700}
+                          sx={{ color: "text.secondary" }}
+                        >
+                          Estado del tema:
+                        </Typography>
+
+                        <Box
+                          sx={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 0.75,
+                            color: temario.revisado ? "#15803d" : "#b45309",
+                            fontWeight: 700,
+                            fontSize: "0.875rem", // Para emparejar el tamaño con el variant="body2"
+                          }}
+                        >
+                          {temario.revisado ? "Revisado" : "Por empezar"}
+                        </Box>
                       </Box>
                     </Stack>
-
-                    <Button
-                      fullWidth
-                      variant="contained"
-                      endIcon={<ArrowForwardIcon />}
-                      onClick={() => navigate(`/temario/${temario.id}`)}
-                    >
-                      Entrar al tema
-                    </Button>
+                    <Box sx={{ mt: "auto" }}>
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        endIcon={<ArrowForwardIcon />}
+                        onClick={() => navigate(`/temario/${temario.id}`)}
+                      >
+                        Entrar al tema
+                      </Button>
+                    </Box>
                   </Box>
                 </CardContent>
               </Card>

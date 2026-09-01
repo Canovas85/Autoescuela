@@ -8,6 +8,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  DialogContentText,
   IconButton,
   MenuItem,
   Paper,
@@ -15,15 +16,25 @@ import {
   Snackbar,
   TextField,
   Typography,
+  Chip,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ToggleOffIcon from "@mui/icons-material/ToggleOff";
+import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import UndoIcon from "@mui/icons-material/Undo";
 import { vehiculosService } from "../../services/vehiculosService";
+
+import DownloadIcon from "@mui/icons-material/Download";
+import Menu from "@mui/material/Menu";
+
+import { exportVehiculosExcel } from "../../utils/exportVehiculosExcel";
+
+import { exportVehiculosPdf } from "../../utils/exportVehiculosPdf";
 
 const PERMISOS = ["B", "A1", "A2", "A", "C", "D", "E"];
 const TAMANO_MAXIMO_IMAGEN = 5 * 1024 * 1024;
@@ -57,6 +68,8 @@ export default function Vehiculos() {
   const [selectedVehiculo, setSelectedVehiculo] = useState(null);
   const [search, setSearch] = useState("");
 
+  const [exportAnchor, setExportAnchor] = useState(null);
+
   const [nuevoVehiculo, setNuevoVehiculo] = useState({
     matricula: "",
     marca: "",
@@ -74,6 +87,15 @@ export default function Vehiculos() {
     open: false,
     message: "",
     severity: "success",
+  });
+
+  const [confirmDialog, setConfirmDialog] = useState({
+    open: false,
+    action: null,
+    vehiculoId: null,
+    matricula: "",
+    title: "",
+    message: "",
   });
 
   const buildImageSrc = (ruta) => {
@@ -312,50 +334,77 @@ export default function Vehiculos() {
     setOpen(true);
   };
 
-  const handleDeactivate = async (id) => {
-    try {
-      const confirmar = window.confirm(
-        "¿Seguro que deseas desactivar este vehículo?",
-      );
-      if (!confirmar) {
-        return;
-      }
-
-      await vehiculosService.deactivate(id);
-      await loadVehiculos();
-
-      setNotification({
-        open: true,
-        message: "Vehículo desactivado correctamente",
-        severity: "success",
-      });
-    } catch (error) {
-      console.error(error);
-      setNotification({
-        open: true,
-        message: error.response?.data?.message || "Error desactivando vehículo",
-        severity: "error",
-      });
-    }
+  const handleDeactivate = async (row) => {
+    setConfirmDialog({
+      open: true,
+      action: "deactivate",
+      vehiculoId: row.id,
+      matricula: row.matricula,
+      title: "Confirmar desactivación",
+      message: `Vas a desactivar el vehículo ${row.matricula} en la plataforma Autoescuela Eguzkilore. No podrá ser utilizado hasta su reactivación. ¿Deseas continuar?`,
+    });
   };
 
-  const handleActivate = async (id) => {
+  const handleActivate = async (row) => {
+    setConfirmDialog({
+      open: true,
+      action: "activate",
+      vehiculoId: row.id,
+      matricula: row.matricula,
+      title: "Confirmar activación",
+      message: `Vas a reactivar el vehículo ${row.matricula} en la plataforma Autoescuela Eguzkilore. Volverá a estar disponible de inmediato. ¿Deseas continuar?`,
+    });
+  };
+
+  const closeConfirmDialog = () => {
+    setConfirmDialog({
+      open: false,
+      action: null,
+      vehiculoId: null,
+      matricula: "",
+      title: "",
+      message: "",
+    });
+  };
+
+  const handleConfirmAction = async () => {
+    if (!confirmDialog.vehiculoId || !confirmDialog.action) {
+      closeConfirmDialog();
+      return;
+    }
+
     try {
-      await vehiculosService.activate(id);
+      if (confirmDialog.action === "deactivate") {
+        await vehiculosService.deactivate(confirmDialog.vehiculoId);
+      }
+
+      if (confirmDialog.action === "activate") {
+        await vehiculosService.activate(confirmDialog.vehiculoId);
+      }
+
       await loadVehiculos();
 
       setNotification({
         open: true,
-        message: "Vehículo activado correctamente",
+        message:
+          confirmDialog.action === "deactivate"
+            ? "Vehículo desactivado correctamente"
+            : "Vehículo activado correctamente",
         severity: "success",
       });
     } catch (error) {
       console.error(error);
+
       setNotification({
         open: true,
-        message: error.response?.data?.message || "Error activando vehículo",
+        message:
+          confirmDialog.action === "deactivate"
+            ? "Error desactivando vehículo"
+            : "Error activando vehículo",
         severity: "error",
       });
+    } finally {
+      closeConfirmDialog();
     }
   };
 
@@ -384,33 +433,18 @@ export default function Vehiculos() {
     { field: "marca", headerName: "Marca", flex: 1 },
     { field: "modelo", headerName: "Modelo", flex: 1 },
     { field: "tipoPermiso", headerName: "Permiso", flex: 0.7 },
-    {
-      field: "imagen",
-      headerName: "Imagen",
-      flex: 0.8,
-      sortable: false,
-      renderCell: (params) => {
-        const src = buildImageSrc(params.row.imagenRuta);
 
-        if (!src) {
-          return <Typography variant="caption">Sin imagen</Typography>;
-        }
-
-        return (
-          <Box
-            component="img"
-            src={src}
-            alt={params.row.matricula}
-            sx={{ width: 56, height: 40, objectFit: "cover", borderRadius: 1 }}
-          />
-        );
-      },
-    },
     {
       field: "activo",
       headerName: "Estado",
-      flex: 0.7,
-      valueGetter: (_, row) => (row.activo ? "Activo" : "Inactivo"),
+      width: 130,
+      renderCell: (params) => (
+        <Chip
+          label={(params.row.activo ?? true) ? "Activo" : "Inactivo"}
+          color={(params.row.activo ?? true) ? "success" : "error"}
+          size="small"
+        />
+      ),
     },
     {
       field: "acciones",
@@ -431,29 +465,49 @@ export default function Vehiculos() {
 
           {params.row.activo ? (
             <IconButton
-              color="error"
+              color="warning"
               onClick={(event) => {
                 event.stopPropagation();
-                handleDeactivate(params.row.id);
+                handleDeactivate(params.row);
               }}
             >
-              <DeleteIcon />
+              <ToggleOffIcon />
             </IconButton>
           ) : (
             <IconButton
               color="success"
               onClick={(event) => {
                 event.stopPropagation();
-                handleActivate(params.row.id);
+                handleActivate(params.row);
               }}
             >
-              <CheckCircleIcon />
+              <ToggleOnIcon />
             </IconButton>
           )}
         </>
       ),
     },
   ];
+
+  const openExportMenu = (event) => {
+    setExportAnchor(event.currentTarget);
+  };
+
+  const closeExportMenu = () => {
+    setExportAnchor(null);
+  };
+
+  const handleExportExcel = () => {
+    exportVehiculosExcel(filteredRows);
+
+    closeExportMenu();
+  };
+
+  const handleExportPdf = () => {
+    exportVehiculosPdf(filteredRows);
+
+    closeExportMenu();
+  };
 
   return (
     <Box>
@@ -481,6 +535,24 @@ export default function Vehiculos() {
           onChange={(e) => setSearch(e.target.value)}
           sx={{ width: 340 }}
         />
+
+        <Button
+          variant="outlined"
+          startIcon={<DownloadIcon />}
+          onClick={openExportMenu}
+        >
+          Exportar
+        </Button>
+
+        <Menu
+          anchorEl={exportAnchor}
+          open={Boolean(exportAnchor)}
+          onClose={closeExportMenu}
+        >
+          <MenuItem onClick={handleExportExcel}>Exportar a Excel</MenuItem>
+
+          <MenuItem onClick={handleExportPdf}>Exportar a PDF</MenuItem>
+        </Menu>
       </Box>
 
       <Paper sx={{ height: 600, p: 2 }}>
@@ -513,7 +585,7 @@ export default function Vehiculos() {
               alignItems: "start",
             }}
           >
-            <Box sx={{ display: "grid", gap: 2 }}>
+            <Box sx={{ display: "grid", gap: 2, mt: 2 }}>
               <TextField
                 fullWidth
                 required
@@ -534,7 +606,10 @@ export default function Vehiculos() {
                   },
                 }}
                 InputLabelProps={{
-                  sx: { fontSize: "0.9rem" },
+                  shrink: true,
+                  sx: {
+                    fontSize: "0.9rem",
+                  },
                 }}
               />
 
@@ -749,7 +824,7 @@ export default function Vehiculos() {
                 alignItems: "start",
               }}
             >
-              <Box sx={{ display: "grid", gap: 2 }}>
+              <Box sx={{ display: "grid", gap: 2, mt: 2 }}>
                 <TextField
                   label="Matrícula"
                   value={selectedVehiculo?.matricula || ""}
@@ -762,7 +837,10 @@ export default function Vehiculos() {
                     },
                   }}
                   InputLabelProps={{
-                    sx: { fontSize: "0.9rem" },
+                    shrink: true,
+                    sx: {
+                      fontSize: "0.9rem",
+                    },
                   }}
                   fullWidth
                 />
@@ -842,6 +920,31 @@ export default function Vehiculos() {
             Editar vehículo
           </Button>
           <Button onClick={() => setOpenDetail(false)}>Cerrar</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={confirmDialog.open}
+        onClose={closeConfirmDialog}
+        fullWidth
+        maxWidth="xs"
+      >
+        <DialogTitle>{confirmDialog.title}</DialogTitle>
+
+        <DialogContent>
+          <DialogContentText>{confirmDialog.message}</DialogContentText>
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={closeConfirmDialog}>Cancelar</Button>
+
+          <Button
+            variant="contained"
+            color={confirmDialog.action === "deactivate" ? "error" : "success"}
+            onClick={handleConfirmAction}
+          >
+            Confirmar
+          </Button>
         </DialogActions>
       </Dialog>
 

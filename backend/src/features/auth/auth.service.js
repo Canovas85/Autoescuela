@@ -2,8 +2,9 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export class AuthService {
-  constructor(repository) {
+  constructor(repository, accountActivationService = null) {
     this.repository = repository;
+    this.accountActivationService = accountActivationService;
   }
 
   validarPasswordNueva(password) {
@@ -106,5 +107,36 @@ export class AuthService {
     }
 
     return user;
+  }
+
+  async validateActivationToken(token) {
+    if (!this.accountActivationService) {
+      throw new Error("Servicio de activación no configurado");
+    }
+
+    return this.accountActivationService.validateActivationToken(token);
+  }
+
+  async activateAccountFirstAccess(token, newPassword, confirmPassword) {
+    if (!this.accountActivationService) {
+      throw new Error("Servicio de activación no configurado");
+    }
+
+    return this.accountActivationService.activateWithToken({
+      token,
+      newPassword,
+      confirmPassword,
+    });
+  }
+
+  async resendActivation(userId, adminUserId) {
+    if (!this.accountActivationService) {
+      throw new Error("Servicio de activación no configurado");
+    }
+
+    return this.accountActivationService.resendActivationForUser({
+      usuarioId: userId,
+      createdById: adminUserId,
+    });
   }
 }

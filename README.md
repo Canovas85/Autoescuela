@@ -147,6 +147,12 @@ forman parte del alcance definitivo y deberán incorporarse durante el desarroll
 - Reactivar usuarios.
 - Gestionar roles.
 - Gestionar permisos.
+- Gestionar Profesores
+- Gestionar Vehiculos
+- Gestionar Temarios
+- Gestionar Bonos
+- Gestionar Promociones
+- Gestionar Facturacion
 - Supervisar la actividad del sistema.
 
 ---
@@ -1306,3 +1312,12 @@ La API de Express sirve esos archivos desde el backend, por lo que la imagen se 
 - se implementa una vista de detalle desde el listado para mostrar datos completos e imagen en tamano mayor
 - la edición incluye un bloque visual de imagen a la derecha y un botón de eliminación real de la foto actual
 - cuando se elimina una imagen, se borra el fichero físico y el valor en la base de datos
+
+## NOTAS Limpia procesos conflictivos + Arranca backend
+
+Si una ruta nueva devuelve "Cannot GET",
+ejecutar:
+
+.\start-clean-backend.ps1
+
+antes de depurar el código.

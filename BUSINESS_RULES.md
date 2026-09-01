@@ -598,6 +598,47 @@ Las siguientes reglas forman parte del roadmap funcional y aún no están cubier
 - control completo de solapamiento de calendario
 - penalización por cancelaciones tardías con créditos reales
 
+## BR-FUT-007 - Precios, Promociones, Bonos
+
+El objetivo es definir la estructura de precios, la gestión de tasas oficiales, la caducidad y vigencia de bonos y tarifas, así como las políticas de devoluciones y acumulación de promociones dentro de la plataforma de la autoescuela online.
+
+El alcance de estas reglas aplican a todos los usuarios alumnos matriculados en la plataforma, así como al módulo administrativo encargado de la gestión de tarifas, pasarelas de pago y control de bonos o códigos promocionales.
+
+## BR-FUT-007-1 - Vigencia y Control de Precios y Tasas
+
+- Control de Versiones y Fechas: Todos los precios asociados a la matrícula, clases sueltas, tasas y promociones contarán obligatoriamente con una fecha de inicio de vigencia, fecha de fin de vigencia y un control de versión en la base de datos.
+- Tasas Oficiales DGT: Se reflejarán las tarifas oficiales vigentes establecidas por el organismo competente (ej. Tasa 2.1 estándar de 94,05 € para dos convocatorias de examen), actualizándose de forma independiente a los precios de los servicios de la autoescuela.
+
+## BR-FUT-007-2 - Caducidad de Bonos y Promociones
+
+- Definición Temporal: Todo bono de clases prácticas o promoción comercial tendrá una fecha u offset de caducidad definido explícitamente en el momento de su creación en el sistema.
+- Inutilización por Vencimiento: Transcurrido el plazo de caducidad asignado al bono o promoción, las unidades restantes o los beneficios asociados expirarán de forma automática y no podrán ser recuperados ni aplicados.
+
+## BR-FUT-007-3 - Política de Devoluciones y Cancelaciones
+
+- No Devolución en Efectivo de Bonos: Si un alumno adquiere un bono de clases (por ejemplo, un bono de 20 clases) y aprueba el examen teórica o prágicamente habiendo consumido únicamente una parte (ej. 5 clases), no se realizará ninguna devolución del importe económico en efectivo de las clases no disfrutadas.
+- Fundamento: El alumno debe planificar con antelación el volumen de su preparación y propósito de ejecución de clases antes de presentarse a los procesos de examen. Los bonos representan un compromiso de adquisición por volumen.
+
+## BR-FUT-007-4 - Acumulación de Promociones y Bonos
+
+- Independencia de Transacciones: Se permite la acumulación de promociones en el sistema bajo el criterio de que cada promoción o descuento debe procesarse de manera independiente y separada en la pasarela o cesta de compra.
+- Separación de la Compra de Bonos: La aplicación de descuentos promocionales y la adquisición de bonos o clases se gestionarán como entidades desacopladas que pueden combinarse operativamente en el checkout según las restricciones específicas de cada campaña.
+
+## BR-FUT-007-5 - Precios Matrícula / Pack Teórico Online
+
+- Precio Matricula: 90€.
+- Suele incluir acceso a la plataforma durante un periodo determinado (ej. 6 meses o 1 año) y temario digital.
+
+## BR-FUT-007-6 - Precios Clase Práctica (Duración de 45 minutos)
+
+- Precio Matricula: 32€.
+
+## BR-FUT-007- 7- Ejemplos Precios Bonos de Clases Prácticas
+
+- Bono de 5 clases: 140 euros (Aprox. 28 euros/clase).
+- Bono de 10 clases: 270 euros (Aprox. 27 euros/clase).
+- Bono de 20 clases: 520 euros (Aprox. 26 euros/clase).
+
 ---
 
 # 10. Conclusión

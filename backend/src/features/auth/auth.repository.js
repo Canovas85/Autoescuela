@@ -25,6 +25,20 @@ export class AuthRepository {
     });
   }
 
+  async findUserByIdWithCredentials(id) {
+    return this.prisma.usuario.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        id: true,
+        nombre: true,
+        email: true,
+        requiereCambioPassword: true,
+      },
+    });
+  }
+
   async updatePasswordAndClearFirstLogin(id, passwordHash) {
     return this.prisma.usuario.update({
       where: {
@@ -33,6 +47,62 @@ export class AuthRepository {
       data: {
         passwordHash,
         requiereCambioPassword: false,
+      },
+    });
+  }
+
+  async invalidatePendingActivationTokens(usuarioId, excludeId = null) {
+    return this.prisma.activacionCuenta.updateMany({
+      where: {
+        usuarioId,
+        usedAt: null,
+        ...(excludeId && {
+          id: {
+            not: excludeId,
+          },
+        }),
+      },
+      data: {
+        usedAt: new Date(),
+      },
+    });
+  }
+
+  async createActivationToken(data) {
+    return this.prisma.activacionCuenta.create({
+      data: {
+        usuarioId: data.usuarioId,
+        tokenHash: data.tokenHash,
+        expiresAt: data.expiresAt,
+        createdById: data.createdById || null,
+        resendCount: data.resendCount ?? 0,
+      },
+    });
+  }
+
+  async findActivationTokenByHash(tokenHash) {
+    return this.prisma.activacionCuenta.findUnique({
+      where: {
+        tokenHash,
+      },
+      include: {
+        usuario: {
+          select: {
+            id: true,
+            email: true,
+          },
+        },
+      },
+    });
+  }
+
+  async markActivationTokenAsUsed(id) {
+    return this.prisma.activacionCuenta.update({
+      where: {
+        id,
+      },
+      data: {
+        usedAt: new Date(),
       },
     });
   }

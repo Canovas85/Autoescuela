@@ -3,9 +3,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
-import pack10ClasesImg from "../../assets/promotions/pack10clases.jpeg";
-import carnetBImg from "../../assets/promotions/carnetb.jpeg";
-import intensivoVeranoImg from "../../assets/promotions/intensivo-verano.jpeg";
 
 import {
   Alert,
@@ -14,6 +11,7 @@ import {
   Card,
   CardContent,
   Checkbox,
+  Chip,
   CircularProgress,
   FormControlLabel,
   IconButton,
@@ -21,6 +19,14 @@ import {
   Tabs,
   TextField,
   Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
 } from "@mui/material";
 
 import Visibility from "@mui/icons-material/Visibility";
@@ -45,49 +51,54 @@ export default function Login() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const promotions = [
-    {
-      image: pack10ClasesImg,
-      title: "Pack 10 Clases",
-      oldPrice: "350€",
-      newPrice: "299€",
-      benefits: ["Profesor asignado", "Vehículo incluido", "Reserva flexible"],
-    },
+  const [openRegister, setOpenRegister] = useState(false);
 
-    {
-      image: carnetBImg,
-      title: "Matrícula Carnet B",
-      oldPrice: "220€",
-      newPrice: "149€",
-      benefits: [
-        "Teórica online",
-        "Seguimiento personalizado",
-        "Material incluido",
-      ],
-    },
+  const [openForgotPassword, setOpenForgotPassword] = useState(false);
 
-    {
-      image: intensivoVeranoImg,
-      title: "Pack Intensivo Verano",
-      oldPrice: "450€",
-      newPrice: "349€",
-      benefits: [
-        "Tutor dedicado",
-        "Simulacros incluidos",
-        "Preparación acelerada",
-      ],
-    },
-  ];
+  const [forgotPasswordEmail, setForgotPasswordEmail] = useState("");
+
+  const [registerForm, setRegisterForm] = useState({
+    nombre: "",
+    email: "",
+    telefono: "",
+    dni: "",
+    fechaNacimiento: "",
+    licenciaObjetivo: "B",
+  });
 
   const [activePromotion, setActivePromotion] = useState(0);
 
+  const [promotions, setPromotions] = useState([]);
+
   useEffect(() => {
+    const loadPromotions = async () => {
+      try {
+        const response = await api.get("/promociones/public");
+
+        setPromotions(
+          response.data.filter(
+            (promocion) => promocion.activa && promocion.imagenRuta,
+          ),
+        );
+      } catch (error) {
+        console.error("Error cargando promociones públicas", error);
+      }
+    };
+
+    loadPromotions();
+  }, []);
+
+  useEffect(() => {
+    if (!promotions.length) {
+      return;
+    }
+
     const interval = setInterval(() => {
       setActivePromotion((prev) => (prev + 1) % promotions.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [promotions]);
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -134,7 +145,15 @@ export default function Login() {
     }
   };
 
-  const promotion = promotions[activePromotion];
+  const promotion = promotions.length > 0 ? promotions[activePromotion] : null;
+
+  const descuento = promotion
+    ? Math.round(
+        ((promotion.precioOriginal - promotion.precioPromocional) /
+          promotion.precioOriginal) *
+          100,
+      )
+    : 0;
 
   return (
     <Box className="login-page">
@@ -146,36 +165,135 @@ export default function Login() {
           <Card className="promo-card">
             <CardContent>
               <div className="promo-content">
-                <div className="promo-image-container">
-                  <img
-                    src={promotion.image}
-                    alt={promotion.title}
-                    className="promo-image"
-                  />
-                </div>
+                {promotion ? (
+                  <>
+                    <Box
+                      sx={{
+                        display: "grid",
+                        gridTemplateColumns: "250px 1fr",
+                        gap: 3,
+                        alignItems: "center",
+                        height: "100%",
+                      }}
+                    >
+                      <img
+                        src={promotion.imagenRuta}
+                        alt={promotion.nombre}
+                        style={{
+                          width: "230px",
+                          height: "320px",
+                          objectFit: "contain",
+                          borderRadius: "12px",
+                        }}
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        gap: 1.5,
+                      }}
+                    >
+                      <Typography
+                        variant="h4"
+                        fontWeight={700}
+                        sx={{
+                          textAlign: "left",
+                        }}
+                      >
+                        {promotion.nombre}
+                      </Typography>
 
-                <div className="promo-info">
-                  <h2>{promotion.title}</h2>
-                  <ul>
-                    {promotion.benefits.map((benefit) => (
-                      <li key={benefit}>{benefit}</li>
-                    ))}
-                  </ul>
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          textAlign: "left",
+                          minHeight: 70,
+                          overflow: "hidden",
+                          display: "-webkit-box",
+                          WebkitLineClamp: 4,
+                          WebkitBoxOrient: "vertical",
+                        }}
+                      >
+                        {promotion.descripcion}
+                      </Typography>
 
-                  <div className="price-container">
-                    <span className="old-price">
-                      Antes: {promotion.oldPrice}
-                    </span>
+                      <Chip label={`🔥 ${descuento}% DTO`} color="error" />
 
-                    <span className="new-price">
-                      Ahora: {promotion.newPrice}
-                    </span>
-                  </div>
+                      <Typography
+                        sx={{
+                          textDecoration: "line-through",
+                          color: "#999",
+                          fontSize: "1rem",
+                        }}
+                      >
+                        Antes: {promotion.precioOriginal} €
+                      </Typography>
 
-                  <Button variant="contained" color="warning">
-                    Ver promoción
-                  </Button>
-                </div>
+                      <Typography
+                        sx={{
+                          fontSize: "2.2rem",
+                          fontWeight: 800,
+                          color: "#ff6f00",
+                          lineHeight: 1,
+                        }}
+                      >
+                        Ahora: {promotion.precioPromocional} €
+                      </Typography>
+
+                      <Button
+                        variant="contained"
+                        sx={{
+                          width: "fit-content",
+                          mt: 1,
+                          borderRadius: "30px",
+                          px: 4,
+                          background: "linear-gradient(135deg,#ff9800,#f57c00)",
+                        }}
+                      >
+                        Ver promoción
+                      </Button>
+                    </Box>
+                  </>
+                ) : (
+                  <Box
+                    sx={{
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      textAlign: "center",
+                      px: 4,
+                    }}
+                  >
+                    <Typography
+                      variant="h2"
+                      sx={{
+                        mb: 2,
+                      }}
+                    >
+                      🎁
+                    </Typography>
+
+                    <Typography variant="h5" fontWeight={700} sx={{ mb: 2 }}>
+                      Próximamente nuevas promociones
+                    </Typography>
+
+                    <Typography
+                      variant="body1"
+                      color="text.secondary"
+                      sx={{
+                        maxWidth: 420,
+                      }}
+                    >
+                      Estamos preparando nuevas ofertas, descuentos exclusivos y
+                      campañas especiales para nuestros alumnos. Vuelve pronto
+                      para descubrir nuestras próximas promociones.
+                    </Typography>
+                  </Box>
+                )}
               </div>
 
               <div className="indicators">
@@ -195,7 +313,18 @@ export default function Login() {
         <section className="promo-section">
           <Card className="login-card">
             <CardContent>
-              <Tabs value={tab} onChange={(e, value) => setTab(value)} centered>
+              <Tabs
+                value={tab}
+                onChange={(e, value) => {
+                  if (value === 1) {
+                    setOpenRegister(true);
+                    return;
+                  }
+
+                  setTab(value);
+                }}
+                centered
+              >
                 <Tab label="Iniciar Sesión" />
                 <Tab label="Registrarse" />
               </Tabs>
@@ -248,7 +377,16 @@ export default function Login() {
                 </Box>
 
                 {tab === 0 && (
-                  <Typography textAlign="right" variant="body2" color="primary">
+                  <Typography
+                    variant="body2"
+                    color="primary"
+                    sx={{
+                      cursor: "pointer",
+                      fontWeight: 600,
+                      textAlign: "right",
+                    }}
+                    onClick={() => setOpenForgotPassword(true)}
+                  >
                     ¿Olvidaste tu contraseña?
                   </Typography>
                 )}
@@ -299,6 +437,238 @@ export default function Login() {
           </Card>
         </section>
       </div>
+
+      <Dialog
+        open={openRegister}
+        onClose={() => setOpenRegister(false)}
+        fullWidth
+        maxWidth="md"
+      >
+        <DialogTitle>Registro de Alumno</DialogTitle>
+
+        <DialogContent>
+          <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+            Bienvenido a Autoescuela Eguzkilore. Completa la siguiente
+            información para solicitar tu alta como alumno. Una vez validado el
+            registro por la autoescuela, podrás acceder a todos los servicios de
+            formación. La contraseña inicial será asignada automáticamente.
+          </Typography>
+
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "1fr",
+                md: "1fr 1fr",
+              },
+              gap: 2,
+            }}
+          >
+            <TextField
+              label="Nombre"
+              fullWidth
+              value={registerForm.nombre}
+              onChange={(e) =>
+                setRegisterForm({
+                  ...registerForm,
+                  nombre: e.target.value,
+                })
+              }
+            />
+
+            <TextField
+              label="Email"
+              fullWidth
+              value={registerForm.email}
+              onChange={(e) =>
+                setRegisterForm({
+                  ...registerForm,
+                  email: e.target.value,
+                })
+              }
+            />
+
+            <TextField
+              label="Teléfono"
+              fullWidth
+              value={registerForm.telefono}
+              onChange={(e) =>
+                setRegisterForm({
+                  ...registerForm,
+                  telefono: e.target.value,
+                })
+              }
+            />
+
+            <TextField
+              label="DNI"
+              fullWidth
+              value={registerForm.dni}
+              onChange={(e) =>
+                setRegisterForm({
+                  ...registerForm,
+                  dni: e.target.value,
+                })
+              }
+            />
+
+            <TextField
+              label="Fecha de nacimiento"
+              type="date"
+              fullWidth
+              value={registerForm.fechaNacimiento}
+              onChange={(e) =>
+                setRegisterForm({
+                  ...registerForm,
+                  fechaNacimiento: e.target.value,
+                })
+              }
+              sx={{
+                "& input::-webkit-datetime-edit": {
+                  color: registerForm.fechaNacimiento
+                    ? "inherit"
+                    : "transparent",
+                },
+              }}
+            />
+
+            <FormControl fullWidth>
+              <InputLabel>Licencia objetivo</InputLabel>
+
+              <Select
+                label="Licencia objetivo"
+                value={registerForm.licenciaObjetivo}
+                onChange={(e) =>
+                  setRegisterForm({
+                    ...registerForm,
+                    licenciaObjetivo: e.target.value,
+                  })
+                }
+              >
+                <MenuItem value="B">B - Turismo</MenuItem>
+                <MenuItem value="A1">A1 - Motocicletas</MenuItem>
+                <MenuItem value="A2">A2 - Motocicletas</MenuItem>
+                <MenuItem value="A">A - Motocicletas</MenuItem>
+                <MenuItem value="C">C - Camión</MenuItem>
+                <MenuItem value="D">D - Autobús</MenuItem>
+                <MenuItem value="E">E - Remolques</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={() => setOpenRegister(false)}>Cancelar</Button>
+
+          <Button variant="contained">Guardar</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={openForgotPassword}
+        onClose={() => setOpenForgotPassword(false)}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>Olvidaste tu contraseña</DialogTitle>
+
+        <DialogContent>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 2,
+              mb: 3,
+              mt: 1,
+            }}
+          >
+            <Box
+              sx={{
+                width: 32,
+                height: 32,
+                borderRadius: "50%",
+                backgroundColor: "#2563eb",
+                color: "#fff",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                fontWeight: 700,
+              }}
+            >
+              1
+            </Box>
+
+            <Box
+              sx={{
+                width: 60,
+                height: 2,
+                backgroundColor: "#cbd5e1",
+              }}
+            />
+
+            <Box
+              sx={{
+                width: 32,
+                height: 32,
+                borderRadius: "50%",
+                backgroundColor: "#e2e8f0",
+                color: "#64748b",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                fontWeight: 700,
+              }}
+            >
+              2
+            </Box>
+
+            <Box
+              sx={{
+                width: 60,
+                height: 2,
+                backgroundColor: "#cbd5e1",
+              }}
+            />
+
+            <Box
+              sx={{
+                width: 32,
+                height: 32,
+                borderRadius: "50%",
+                backgroundColor: "#e2e8f0",
+                color: "#64748b",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                fontWeight: 700,
+              }}
+            >
+              3
+            </Box>
+          </Box>
+
+          <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+            No te preocupes. Si has olvidado tu contraseña, podremos ayudarte a
+            recuperarla. Introduce el correo electrónico asociado a tu cuenta y
+            te enviaremos instrucciones para restablecer tu contraseña de forma
+            segura.
+          </Typography>
+
+          <TextField
+            label="Correo electrónico"
+            fullWidth
+            value={forgotPasswordEmail}
+            onChange={(e) => setForgotPasswordEmail(e.target.value)}
+          />
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={() => setOpenForgotPassword(false)}>Cancelar</Button>
+
+          <Button variant="contained">Continuar</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

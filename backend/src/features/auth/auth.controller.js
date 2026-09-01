@@ -57,4 +57,50 @@ export class AuthController {
       });
     }
   }
+
+  async validateActivationToken(req, res) {
+    try {
+      const { token } = req.body;
+      const result = await this.service.validateActivationToken(token);
+      return res.status(200).json(result);
+    } catch (error) {
+      return res.status(error.statusCode || 400).json({
+        message: error.message,
+      });
+    }
+  }
+
+  async activateFirstAccess(req, res) {
+    try {
+      const { token, newPassword, confirmPassword } = req.body;
+      const result = await this.service.activateAccountFirstAccess(
+        token,
+        newPassword,
+        confirmPassword,
+      );
+      return res.status(200).json(result);
+    } catch (error) {
+      return res.status(error.statusCode || 400).json({
+        message: error.message,
+      });
+    }
+  }
+
+  async resendActivation(req, res) {
+    try {
+      const result = await this.service.resendActivation(
+        req.params.userId,
+        req.user?.id,
+      );
+
+      return res.status(200).json({
+        message: "Enlace de activación reenviado",
+        expiresAt: result.expiresAt,
+      });
+    } catch (error) {
+      return res.status(error.statusCode || 400).json({
+        message: error.message,
+      });
+    }
+  }
 }

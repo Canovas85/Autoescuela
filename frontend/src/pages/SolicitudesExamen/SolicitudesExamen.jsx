@@ -8,8 +8,10 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogContentText,
   DialogTitle,
   FormControl,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -67,6 +69,15 @@ export default function SolicitudesExamen() {
     severity: "success",
   });
 
+  const [confirmDialog, setConfirmDialog] = useState({
+    open: false,
+    action: null,
+    solicitudId: null,
+    alumnoNombre: "",
+    title: "",
+    message: "",
+  });
+
   const loadData = async () => {
     try {
       const [solicitudes, alumnosData] = await Promise.all([
@@ -119,14 +130,36 @@ export default function SolicitudesExamen() {
     setOpen(true);
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("¿Seguro que deseas eliminar esta solicitud?")) {
-      return;
-    }
+  const handleDelete = (row) => {
+    const nombreAlumno = row.alumno?.usuario?.nombre || "este alumno";
 
+    setConfirmDialog({
+      open: true,
+      action: "delete",
+      solicitudId: row.id,
+      alumnoNombre: nombreAlumno,
+      title: "Confirmar eliminación",
+      message: `Vas a eliminar definitivamente la solicitud de examen de ${nombreAlumno}. Esta acción eliminará toda la información asociada a la solicitud y no podrá deshacerse. ¿Deseas continuar?`,
+    });
+  };
+
+  const closeConfirmDialog = () => {
+    setConfirmDialog({
+      open: false,
+      action: null,
+      solicitudId: null,
+      alumnoNombre: "",
+      title: "",
+      message: "",
+    });
+  };
+
+  const handleConfirmAction = async () => {
     try {
-      await solicitudesExamenService.delete(id);
+      await solicitudesExamenService.delete(confirmDialog.solicitudId);
+
       await loadData();
+
       setNotification({
         open: true,
         message: "Solicitud eliminada correctamente",
@@ -134,11 +167,14 @@ export default function SolicitudesExamen() {
       });
     } catch (error) {
       console.error(error);
+
       setNotification({
         open: true,
         message: error.response?.data?.message || "Error eliminando solicitud",
         severity: "error",
       });
+    } finally {
+      closeConfirmDialog();
     }
   };
 
@@ -206,9 +242,18 @@ export default function SolicitudesExamen() {
       headerName: "Observaciones",
       flex: 1.3,
       renderCell: (params) => (
-        <Typography variant="body2" noWrap>
-          {params.row.observaciones || "Sin observaciones"}
-        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            height: "100%",
+            width: "100%",
+          }}
+        >
+          <Typography variant="body2" noWrap>
+            {params.row.observaciones || "Sin observaciones"}
+          </Typography>
+        </Box>
       ),
     },
     {
@@ -218,21 +263,13 @@ export default function SolicitudesExamen() {
       sortable: false,
       renderCell: (params) => (
         <Box sx={{ display: "flex", gap: 1 }}>
-          <Button
-            size="small"
-            startIcon={<EditIcon />}
-            onClick={() => handleEdit(params.row)}
-          >
-            Editar
-          </Button>
-          <Button
-            size="small"
-            color="error"
-            startIcon={<DeleteIcon />}
-            onClick={() => handleDelete(params.row.id)}
-          >
-            Borrar
-          </Button>
+          <IconButton color="primary" onClick={() => handleEdit(params.row)}>
+            <EditIcon />
+          </IconButton>
+
+          <IconButton color="error" onClick={() => handleDelete(params.row)}>
+            <DeleteIcon />
+          </IconButton>
         </Box>
       ),
     },
@@ -357,6 +394,11 @@ export default function SolicitudesExamen() {
                 fechaProgramada: event.target.value,
               }))
             }
+            sx={{
+              "& input::-webkit-datetime-edit": {
+                color: form.fechaProgramada ? "inherit" : "transparent",
+              },
+            }}
           />
           <TextField
             label="Observaciones"
@@ -376,6 +418,31 @@ export default function SolicitudesExamen() {
           <Button onClick={() => setOpen(false)}>Cancelar</Button>
           <Button variant="contained" onClick={handleSave}>
             Guardar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={confirmDialog.open}
+        onClose={closeConfirmDialog}
+        fullWidth
+        maxWidth="xs"
+      >
+        <DialogTitle>{confirmDialog.title}</DialogTitle>
+
+        <DialogContent>
+          <DialogContentText>{confirmDialog.message}</DialogContentText>
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={closeConfirmDialog}>Cancelar</Button>
+
+          <Button
+            variant="contained"
+            color="error"
+            onClick={handleConfirmAction}
+          >
+            Confirmar
           </Button>
         </DialogActions>
       </Dialog>

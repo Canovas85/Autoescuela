@@ -7,12 +7,22 @@ import { AlumnosRepository } from "./alumnos.repository.js";
 import { AlumnosService } from "./alumnos.service.js";
 import { AlumnosController } from "./alumnos.controller.js";
 import prisma from "../../config/prisma.js";
+import { AuthRepository } from "../auth/auth.repository.js";
+import { AccountActivationService } from "../auth/account-activation.service.js";
+import { EmailService } from "../../shared/services/email.service.js";
 
 const router = Router();
 
 const repository = new AlumnosRepository(prisma);
 
-const service = new AlumnosService(repository);
+const authRepository = new AuthRepository(prisma);
+const emailService = new EmailService();
+const accountActivationService = new AccountActivationService(
+  authRepository,
+  emailService,
+);
+
+const service = new AlumnosService(repository, accountActivationService);
 
 const controller = new AlumnosController(service);
 

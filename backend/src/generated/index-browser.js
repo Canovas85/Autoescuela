@@ -133,6 +133,17 @@ exports.Prisma.UsuarioScalarFieldEnum = {
   fechaCreacion: 'fechaCreacion'
 };
 
+exports.Prisma.ActivacionCuentaScalarFieldEnum = {
+  id: 'id',
+  usuarioId: 'usuarioId',
+  tokenHash: 'tokenHash',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt',
+  createdById: 'createdById',
+  resendCount: 'resendCount'
+};
+
 exports.Prisma.ProfesorScalarFieldEnum = {
   id: 'id',
   licenciaConducir: 'licenciaConducir',
@@ -237,6 +248,21 @@ exports.Prisma.ExamenScalarFieldEnum = {
   estado: 'estado'
 };
 
+exports.Prisma.PromocionScalarFieldEnum = {
+  id: 'id',
+  nombre: 'nombre',
+  descripcion: 'descripcion',
+  precioOriginal: 'precioOriginal',
+  precioPromocional: 'precioPromocional',
+  licenciasAplicables: 'licenciasAplicables',
+  imagenRuta: 'imagenRuta',
+  fechaInicio: 'fechaInicio',
+  fechaFin: 'fechaFin',
+  activa: 'activa',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -259,6 +285,7 @@ exports.Rol = exports.$Enums.Rol = {
 
 exports.Prisma.ModelName = {
   Usuario: 'Usuario',
+  ActivacionCuenta: 'ActivacionCuenta',
   Profesor: 'Profesor',
   Alumno: 'Alumno',
   Temario: 'Temario',
@@ -269,7 +296,8 @@ exports.Prisma.ModelName = {
   SolicitudExamen: 'SolicitudExamen',
   Vehiculo: 'Vehiculo',
   ClasePractica: 'ClasePractica',
-  Examen: 'Examen'
+  Examen: 'Examen',
+  Promocion: 'Promocion'
 };
 
 /**

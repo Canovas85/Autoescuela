@@ -8,6 +8,8 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogContentText,
+  IconButton,
   DialogTitle,
   FormControl,
   InputLabel,
@@ -43,6 +45,15 @@ export default function Bonos() {
     open: false,
     message: "",
     severity: "success",
+  });
+
+  const [confirmDialog, setConfirmDialog] = useState({
+    open: false,
+    action: null,
+    bonoId: null,
+    nombreBono: "",
+    title: "",
+    message: "",
   });
 
   const loadBonos = async () => {
@@ -87,52 +98,82 @@ export default function Bonos() {
     setOpen(true);
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("¿Seguro que deseas eliminar este bono?")) {
+  const handleDelete = (row) => {
+    setConfirmDialog({
+      open: true,
+      action: "delete",
+      bonoId: row.id,
+      nombreBono: row.nombre,
+      title: "Confirmar eliminación",
+      message: `Vas a eliminar definitivamente el bono "${row.nombre}" de Autoescuela Eguzkilore. Toda la información asociada será eliminada de forma permanente. Esta acción no podrá deshacerse. ¿Deseas continuar?`,
+    });
+  };
+
+  const handleToggleActivo = (row) => {
+    setConfirmDialog({
+      open: true,
+      action: row.activo ? "deactivate" : "activate",
+      bonoId: row.id,
+      nombreBono: row.nombre,
+      title: row.activo ? "Confirmar desactivación" : "Confirmar activación",
+      message: row.activo
+        ? `Vas a desactivar el bono "${row.nombre}" en Autoescuela Eguzkilore. No podrá utilizarse hasta su reactivación. ¿Deseas continuar?`
+        : `Vas a reactivar el bono "${row.nombre}" en Autoescuela Eguzkilore. Volverá a estar disponible de inmediato. ¿Deseas continuar?`,
+    });
+  };
+
+  const closeConfirmDialog = () => {
+    setConfirmDialog({
+      open: false,
+      action: null,
+      bonoId: null,
+      nombreBono: "",
+      title: "",
+      message: "",
+    });
+  };
+
+  const handleConfirmAction = async () => {
+    if (!confirmDialog.bonoId || !confirmDialog.action) {
+      closeConfirmDialog();
       return;
     }
 
     try {
-      await bonosService.delete(id);
-      await loadBonos();
-      setNotification({
-        open: true,
-        message: "Bono eliminado correctamente",
-        severity: "success",
-      });
-    } catch (error) {
-      console.error(error);
-      setNotification({
-        open: true,
-        message: error.response?.data?.message || "Error eliminando bono",
-        severity: "error",
-      });
-    }
-  };
+      if (confirmDialog.action === "delete") {
+        await bonosService.delete(confirmDialog.bonoId);
+      }
 
-  const handleToggleActivo = async (row) => {
-    try {
-      if (row.activo) {
-        await bonosService.deactivate(row.id);
-      } else {
-        await bonosService.activate(row.id);
+      if (confirmDialog.action === "deactivate") {
+        await bonosService.deactivate(confirmDialog.bonoId);
+      }
+
+      if (confirmDialog.action === "activate") {
+        await bonosService.activate(confirmDialog.bonoId);
       }
 
       await loadBonos();
+
       setNotification({
         open: true,
-        message: row.activo
-          ? "Bono desactivado correctamente"
-          : "Bono activado correctamente",
+        message:
+          confirmDialog.action === "delete"
+            ? "Bono eliminado correctamente"
+            : confirmDialog.action === "deactivate"
+              ? "Bono desactivado correctamente"
+              : "Bono activado correctamente",
         severity: "success",
       });
     } catch (error) {
       console.error(error);
+
       setNotification({
         open: true,
-        message: error.response?.data?.message || "Error actualizando bono",
+        message: error.response?.data?.message || "Error procesando la acción",
         severity: "error",
       });
+    } finally {
+      closeConfirmDialog();
     }
   };
 
@@ -179,9 +220,18 @@ export default function Bonos() {
       headerName: "Descripción",
       flex: 1.4,
       renderCell: (params) => (
-        <Typography variant="body2" noWrap>
-          {params.row.descripcion || "Sin descripción"}
-        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            height: "100%",
+            width: "100%",
+          }}
+        >
+          <Typography variant="body2" noWrap>
+            {params.row.descripcion || "Sin descripción"}
+          </Typography>
+        </Box>
       ),
     },
     {
@@ -199,33 +249,32 @@ export default function Bonos() {
     {
       field: "acciones",
       headerName: "Acciones",
-      width: 220,
+      width: 180,
       sortable: false,
       renderCell: (params) => (
-        <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-          <Button
-            size="small"
-            startIcon={<EditIcon />}
-            onClick={() => handleEdit(params.row)}
-          >
-            Editar
-          </Button>
-          <Button
-            size="small"
-            color="error"
-            startIcon={<DeleteIcon />}
-            onClick={() => handleDelete(params.row.id)}
-          >
-            Borrar
-          </Button>
-          <Button
-            size="small"
-            variant="outlined"
-            startIcon={params.row.activo ? <ToggleOffIcon /> : <ToggleOnIcon />}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 0.5,
+            width: "100%",
+          }}
+        >
+          <IconButton color="primary" onClick={() => handleEdit(params.row)}>
+            <EditIcon />
+          </IconButton>
+
+          <IconButton
+            color={params.row.activo ? "warning" : "success"}
             onClick={() => handleToggleActivo(params.row)}
           >
-            {params.row.activo ? "Desactivar" : "Activar"}
-          </Button>
+            {params.row.activo ? <ToggleOffIcon /> : <ToggleOnIcon />}
+          </IconButton>
+
+          <IconButton color="error" onClick={() => handleDelete(params.row)}>
+            <DeleteIcon />
+          </IconButton>
         </Box>
       ),
     },
@@ -335,6 +384,31 @@ export default function Bonos() {
           <Button onClick={() => setOpen(false)}>Cancelar</Button>
           <Button variant="contained" onClick={handleSave}>
             Guardar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={confirmDialog.open}
+        onClose={closeConfirmDialog}
+        fullWidth
+        maxWidth="xs"
+      >
+        <DialogTitle>{confirmDialog.title}</DialogTitle>
+
+        <DialogContent>
+          <DialogContentText>{confirmDialog.message}</DialogContentText>
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={closeConfirmDialog}>Cancelar</Button>
+
+          <Button
+            variant="contained"
+            color={confirmDialog.action === "activate" ? "success" : "error"}
+            onClick={handleConfirmAction}
+          >
+            Confirmar
           </Button>
         </DialogActions>
       </Dialog>

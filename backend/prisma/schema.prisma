@@ -1,54 +1,72 @@
 generator client {
-  provider = "prisma-client-js"
-  output = "../src/generated"
+  provider      = "prisma-client-js"
+  output        = "../src/generated"
   binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
   provider = "postgresql"
-  url = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 model Usuario {
-  id            String    @id @default(uuid())
-  nombre        String
-  dni           String?   @unique
-  email         String    @unique
-  telefono      String?
-  passwordHash  String
-  requiereCambioPassword Boolean @default(true)
-  rol           Rol
-  fechaCreacion DateTime  @default(now())
-  alumno        Alumno?
-  profesor      Profesor?
+  id                     String             @id @default(uuid())
+  nombre                 String
+  dni                    String?            @unique
+  email                  String             @unique
+  telefono               String?
+  passwordHash           String
+  requiereCambioPassword Boolean            @default(true)
+  rol                    Rol
+  fechaCreacion          DateTime           @default(now())
+  alumno                 Alumno?
+  profesor               Profesor?
+  activacionesCuenta     ActivacionCuenta[]
 
   @@map("usuarios")
 }
 
+model ActivacionCuenta {
+  id          String    @id @default(uuid())
+  usuarioId   String
+  tokenHash   String    @unique
+  expiresAt   DateTime
+  usedAt      DateTime?
+  createdAt   DateTime  @default(now())
+  createdById String?
+  resendCount Int       @default(0)
+  usuario     Usuario   @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId])
+  @@index([expiresAt])
+  @@index([usedAt])
+  @@map("activaciones_cuenta")
+}
+
 model Profesor {
-  id               String          @id
-  licenciaConducir String
-  permisosLicencias String[]       @default([])
-  telefono         String
-  activo           Boolean         @default(true)
-  alumnosAsignados Alumno[]
-  clases           ClasePractica[]
-  usuario          Usuario         @relation(fields: [id], references: [id], onDelete: Cascade)
+  id                String          @id
+  licenciaConducir  String
+  permisosLicencias String[]        @default([])
+  telefono          String
+  activo            Boolean         @default(true)
+  alumnosAsignados  Alumno[]
+  clases            ClasePractica[]
+  usuario           Usuario         @relation(fields: [id], references: [id], onDelete: Cascade)
 
   @@map("profesores")
 }
 
 model Alumno {
-  id                        String          @id
+  id                        String            @id
   tipoLicenciaObjetivo      String
   fechaNacimiento           DateTime?
-  horasPracticasCompletadas Int             @default(0)
-  matriculaPagada           Boolean         @default(false)
+  horasPracticasCompletadas Int               @default(0)
+  matriculaPagada           Boolean           @default(false)
   fechaMatriculaPago        DateTime?
   profesorAsignadoId        String?
-  usuario                   Usuario         @relation(fields: [id], references: [id], onDelete: Cascade)
-  profesorAsignado          Profesor?       @relation(fields: [profesorAsignadoId], references: [id])
-  activo                    Boolean         @default(true)
+  usuario                   Usuario           @relation(fields: [id], references: [id], onDelete: Cascade)
+  profesorAsignado          Profesor?         @relation(fields: [profesorAsignadoId], references: [id])
+  activo                    Boolean           @default(true)
   clases                    ClasePractica[]
   examenes                  Examen[]
   testsPractica             TestPractica[]
@@ -73,14 +91,14 @@ model Temario {
 }
 
 model TemarioProgreso {
-  id              String   @id @default(uuid())
-  alumnoId        String
-  temarioId       String
-  revisado        Boolean  @default(false)
-  dominio         Int      @default(0)
-  ultimaRevision  DateTime?
-  alumno          Alumno   @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
-  temario         Temario  @relation(fields: [temarioId], references: [id], onDelete: Cascade)
+  id             String    @id @default(uuid())
+  alumnoId       String
+  temarioId      String
+  revisado       Boolean   @default(false)
+  dominio        Int       @default(0)
+  ultimaRevision DateTime?
+  alumno         Alumno    @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  temario        Temario   @relation(fields: [temarioId], references: [id], onDelete: Cascade)
 
   @@index([alumnoId])
   @@index([temarioId])
@@ -88,15 +106,15 @@ model TemarioProgreso {
 }
 
 model TestPractica {
-  id                 String   @id @default(uuid())
-  alumnoId           String
-  temarioId          String?
-  fecha              DateTime @default(now())
-  resultado          String
+  id                  String   @id @default(uuid())
+  alumnoId            String
+  temarioId           String?
+  fecha               DateTime @default(now())
+  resultado           String
   respuestasCorrectas Int
-  totalPreguntas     Int
-  alumno             Alumno   @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
-  temario            Temario? @relation(fields: [temarioId], references: [id])
+  totalPreguntas      Int
+  alumno              Alumno   @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  temario             Temario? @relation(fields: [temarioId], references: [id])
 
   @@index([alumnoId])
   @@index([temarioId])
@@ -105,12 +123,12 @@ model TestPractica {
 }
 
 model Bono {
-  id              String      @id @default(uuid())
+  id              String       @id @default(uuid())
   nombre          String
   descripcion     String?
   clasesIncluidas Int
-  validezDias     Int         @default(90)
-  activo          Boolean     @default(true)
+  validezDias     Int          @default(90)
+  activo          Boolean      @default(true)
   compras         CompraBono[]
 
   @@map("bonos")
@@ -135,14 +153,14 @@ model CompraBono {
 }
 
 model SolicitudExamen {
-  id              String   @id @default(uuid())
+  id              String    @id @default(uuid())
   alumnoId        String
   tipo            String
-  estado          String   @default("PENDIENTE")
-  fechaSolicitud  DateTime @default(now())
+  estado          String    @default("PENDIENTE")
+  fechaSolicitud  DateTime  @default(now())
   fechaProgramada DateTime?
   observaciones   String?
-  alumno          Alumno   @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  alumno          Alumno    @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
 
   @@index([alumnoId])
   @@index([tipo])
@@ -193,6 +211,30 @@ model Examen {
   @@index([alumnoId])
   @@index([fecha])
   @@map("examenes")
+}
+
+model Promocion {
+  id String @id @default(uuid())
+
+  nombre      String
+  descripcion String?
+
+  precioOriginal    Decimal @db.Decimal(10, 2)
+  precioPromocional Decimal @db.Decimal(10, 2)
+
+  licenciasAplicables String[]
+
+  imagenRuta String?
+
+  fechaInicio DateTime?
+  fechaFin    DateTime?
+
+  activa Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("promociones")
 }
 
 enum Rol {

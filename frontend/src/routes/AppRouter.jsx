@@ -8,6 +8,7 @@ import {
 
 import Login from "../pages/Login/Login";
 import FirstLoginPassword from "../pages/Login/FirstLoginPassword";
+import AccountActivation from "../pages/Login/AccountActivation";
 import Dashboard from "../pages/Dashboard/Dashboard";
 
 import AdminLayout from "../layouts/AdminLayout";
@@ -22,6 +23,7 @@ import TemarioAlumno from "../pages/Temarios/TemarioAlumno";
 import TemarioTemaDetalle from "../pages/Temarios/TemarioTemaDetalle";
 import Bonos from "../pages/Bonos/Bonos";
 import SolicitudesExamen from "../pages/SolicitudesExamen/SolicitudesExamen";
+import Promociones from "../pages/Promociones/Promociones";
 
 function RequireAuth() {
   const token = localStorage.getItem("token");
@@ -49,6 +51,7 @@ export default function AppRouter() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/activar-cuenta" element={<AccountActivation />} />
 
         <Route element={<RequireAuth />}>
           <Route path="/primer-login" element={<FirstLoginPassword />} />
@@ -74,6 +77,8 @@ export default function AppRouter() {
                 path="/solicitudes-examen"
                 element={<SolicitudesExamen />}
               />
+
+              <Route path="/promociones" element={<Promociones />} />
 
               <Route path="/clases" element={<Clases />} />
 

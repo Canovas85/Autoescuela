@@ -1,10 +1,18 @@
 import { useEffect, useState } from "react";
 
-import { Box, Button, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Paper,
+  Typography,
+  Chip,
+  CircularProgress,
+} from "@mui/material";
 
 import { DataGrid } from "@mui/x-data-grid";
 
 import { alumnosService } from "../../services/alumnosService";
+import { profesoresService } from "../../services/profesoresService";
 
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -25,6 +33,16 @@ import Select from "@mui/material/Select";
 
 import InputAdornment from "@mui/material/InputAdornment";
 import CloseIcon from "@mui/icons-material/Close";
+
+import DownloadIcon from "@mui/icons-material/Download";
+import Menu from "@mui/material/Menu";
+
+import { exportAlumnosExcel } from "../../utils/exportAlumnosExcel";
+
+import { exportAlumnosPdf } from "../../utils/exportAlumnosPdf";
+
+import ToggleOffIcon from "@mui/icons-material/ToggleOff";
+import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 
 import {
   Dialog,
@@ -117,16 +135,24 @@ const esFechaCompletaValida = (valor) => {
   );
 };
 
+// BUSCA ESTA FUNCIÓN Y REEMPLÁZALA COMPLETAMENTE:
 const formatearFechaParaApi = (valor) => {
   const texto = String(valor || "").trim();
 
+  // Si no cumple el patrón dd/mm/aaaa, devolvemos el valor original como fallback
   if (!/^\d{2}\/\d{2}\/\d{4}$/.test(texto)) {
     return texto;
   }
 
   const [dia, mes, anio] = texto.split("/");
 
-  return `${anio}-${mes}-${dia}`;
+  // 🌟 CAMBIO: Creamos un objeto Date de JavaScript en formato UTC neutro medianoche
+  const fechaObjeto = new Date(
+    Date.UTC(Number(anio), Number(mes) - 1, Number(dia)),
+  );
+
+  // Convertimos a string ISO (ej: "1986-01-31T00:00:00.000Z") que Prisma exige
+  return fechaObjeto.toISOString();
 };
 
 export default function Alumnos() {
@@ -136,11 +162,27 @@ export default function Alumnos() {
 
   const [profesorFiltro, setProfesorFiltro] = useState("");
 
+  const [profesores, setProfesores] = useState([]);
+
   const [search, setSearch] = useState("");
+
+  const loadProfesores = async () => {
+    try {
+      const data = await profesoresService.getAll();
+
+      setProfesores(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     loadAlumnos();
-  }, [estadoFiltro, search]);
+  }, [estadoFiltro, profesorFiltro, search]);
+
+  useEffect(() => {
+    loadProfesores();
+  }, []);
 
   const loadAlumnos = async () => {
     try {
@@ -182,6 +224,13 @@ export default function Alumnos() {
             alumno.usuario?.nombre?.toLowerCase().includes(texto) ||
             alumno.usuario?.email?.toLowerCase().includes(texto) ||
             alumno.usuario?.telefono?.toLowerCase().includes(texto),
+        );
+      }
+
+      if (profesorFiltro) {
+        filteredData = filteredData.filter(
+          (alumno) =>
+            String(alumno.profesorAsignado?.id) === String(profesorFiltro),
         );
       }
 
@@ -332,8 +381,7 @@ export default function Alumnos() {
       alumnoId: row.id,
       alumnoNombre: nombreAlumno,
       title: "Confirmar desactivación",
-      message:
-        `Vas a desactivar a ${nombreAlumno} en la plataforma Autoescuela Eguzkilore. No podrá operar hasta su reactivación. ¿Deseas continuar?`,
+      message: `Vas a desactivar a ${nombreAlumno} en la plataforma Autoescuela Eguzkilore. No podrá operar hasta su reactivación. ¿Deseas continuar?`,
     });
   };
 
@@ -346,8 +394,7 @@ export default function Alumnos() {
       alumnoId: row.id,
       alumnoNombre: nombreAlumno,
       title: "Confirmar activación",
-      message:
-        `Vas a reactivar a ${nombreAlumno} en la plataforma Autoescuela Eguzkilore. Recuperará acceso operativo de inmediato. ¿Deseas continuar?`,
+      message: `Vas a reactivar a ${nombreAlumno} en la plataforma Autoescuela Eguzkilore. Recuperará acceso operativo de inmediato. ¿Deseas continuar?`,
     });
   };
 
@@ -459,8 +506,14 @@ export default function Alumnos() {
     {
       field: "activo",
       headerName: "Estado",
-      width: 120,
-      valueGetter: (_, row) => ((row.activo ?? true) ? "Activo" : "Inactivo"),
+      width: 130,
+      renderCell: (params) => (
+        <Chip
+          label={(params.row.activo ?? true) ? "Activo" : "Inactivo"}
+          color={(params.row.activo ?? true) ? "success" : "error"}
+          size="small"
+        />
+      ),
     },
 
     {
@@ -470,23 +523,35 @@ export default function Alumnos() {
 
       renderCell: (params) => (
         <>
-          <IconButton color="primary" onClick={() => handleEdit(params.row)}>
+          <IconButton
+            color="primary"
+            onClick={(event) => {
+              event.stopPropagation();
+              handleEdit(params.row);
+            }}
+          >
             <EditIcon />
           </IconButton>
 
           {params.row.activo ? (
             <IconButton
-              color="error"
-              onClick={() => handleDeactivate(params.row)}
+              color="warning"
+              onClick={(event) => {
+                event.stopPropagation();
+                handleDeactivate(params.row);
+              }}
             >
-              <DeleteIcon />
+              <ToggleOffIcon />
             </IconButton>
           ) : (
             <IconButton
               color="success"
-              onClick={() => handleActivate(params.row)}
+              onClick={(event) => {
+                event.stopPropagation();
+                handleActivate(params.row);
+              }}
             >
-              <CheckCircleIcon />
+              <ToggleOnIcon />
             </IconButton>
           )}
         </>
@@ -496,6 +561,9 @@ export default function Alumnos() {
 
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [openDetail, setOpenDetail] = useState(false);
+  const [loadingDetail, setLoadingDetail] = useState(false);
+  const [selectedAlumno, setSelectedAlumno] = useState(null);
 
   const [newAlumno, setNewAlumno] = useState({
     nombre: "",
@@ -517,6 +585,8 @@ export default function Alumnos() {
     message: "",
     severity: "success",
   });
+
+  const [exportAnchor, setExportAnchor] = useState(null);
 
   const dniIncompleto = fieldTouched.dni && !esDniCompleto(newAlumno.dni);
   const fechaIncompleta =
@@ -542,6 +612,48 @@ export default function Alumnos() {
     });
 
     setOpen(true);
+  };
+
+  const openExportMenu = (event) => {
+    setExportAnchor(event.currentTarget);
+  };
+
+  const closeExportMenu = () => {
+    setExportAnchor(null);
+  };
+
+  const handleExportExcel = () => {
+    exportAlumnosExcel(rows);
+
+    closeExportMenu();
+  };
+
+  const handleExportPdf = () => {
+    exportAlumnosPdf(rows);
+
+    closeExportMenu();
+  };
+
+  const handleOpenDetail = async (row) => {
+    setOpenDetail(true);
+    setLoadingDetail(true);
+    setSelectedAlumno(row);
+
+    try {
+      const detalle = await alumnosService.getById(row.id);
+
+      setSelectedAlumno(detalle);
+    } catch (error) {
+      console.error(error);
+
+      setNotification({
+        open: true,
+        message: "No se pudo cargar el detalle del alumno",
+        severity: "error",
+      });
+    } finally {
+      setLoadingDetail(false);
+    }
   };
 
   return (
@@ -611,6 +723,12 @@ export default function Alumnos() {
           sx={{ minWidth: 220 }}
         >
           <MenuItem value="">Todos los profesores</MenuItem>
+
+          {profesores.map((profesor) => (
+            <MenuItem key={profesor.id} value={profesor.id}>
+              {profesor.usuario?.nombre}
+            </MenuItem>
+          ))}
         </Select>
 
         <TextField
@@ -630,6 +748,24 @@ export default function Alumnos() {
             ),
           }}
         />
+
+        <Button
+          variant="outlined"
+          startIcon={<DownloadIcon />}
+          onClick={openExportMenu}
+        >
+          Exportar
+        </Button>
+
+        <Menu
+          anchorEl={exportAnchor}
+          open={Boolean(exportAnchor)}
+          onClose={closeExportMenu}
+        >
+          <MenuItem onClick={handleExportExcel}>Exportar a Excel</MenuItem>
+
+          <MenuItem onClick={handleExportPdf}>Exportar a PDF</MenuItem>
+        </Menu>
       </Box>
 
       <Paper
@@ -644,6 +780,12 @@ export default function Alumnos() {
           getRowId={(row) => row.id}
           disableRowSelectionOnClick
           pageSizeOptions={[5, 10, 25]}
+          onRowClick={(params) => handleOpenDetail(params.row)}
+          localeText={{
+            noRowsLabel: profesorFiltro
+              ? "No hay alumnos asignados al profesor seleccionado"
+              : "No hay alumnos disponibles",
+          }}
         />
       </Paper>
 
@@ -812,6 +954,112 @@ export default function Alumnos() {
           <Button variant="contained" onClick={saveAlumno}>
             {editingId ? "Actualizar" : "Guardar"}
           </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={openDetail}
+        onClose={() => setOpenDetail(false)}
+        fullWidth
+        maxWidth="md"
+      >
+        <DialogTitle>Detalle del Alumno</DialogTitle>
+
+        <DialogContent>
+          {loadingDetail ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                py: 4,
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                display: "grid",
+                gap: 2,
+                mt: 2,
+              }}
+            >
+              <TextField
+                label="Nombre"
+                value={selectedAlumno?.usuario?.nombre || ""}
+                InputProps={{ readOnly: true }}
+                fullWidth
+              />
+
+              <TextField
+                label="Email"
+                value={selectedAlumno?.usuario?.email || ""}
+                InputProps={{ readOnly: true }}
+                fullWidth
+              />
+
+              <TextField
+                label="Teléfono"
+                value={selectedAlumno?.usuario?.telefono || ""}
+                InputProps={{ readOnly: true }}
+                fullWidth
+              />
+
+              <TextField
+                label="DNI"
+                value={selectedAlumno?.usuario?.dni || ""}
+                InputProps={{ readOnly: true }}
+                fullWidth
+              />
+
+              <TextField
+                label="Licencia Objetivo"
+                value={selectedAlumno?.tipoLicenciaObjetivo || ""}
+                InputProps={{ readOnly: true }}
+                fullWidth
+              />
+
+              <TextField
+                label="Horas Prácticas"
+                value={selectedAlumno?.horasPracticasCompletadas ?? 0}
+                InputProps={{ readOnly: true }}
+                fullWidth
+              />
+
+              <TextField
+                label="Profesor Asignado"
+                value={
+                  selectedAlumno?.profesorAsignado?.usuario?.nombre ||
+                  "Sin asignar"
+                }
+                InputProps={{ readOnly: true }}
+                fullWidth
+              />
+
+              <TextField
+                label="Estado"
+                value={selectedAlumno?.activo ? "Activo" : "Inactivo"}
+                InputProps={{ readOnly: true }}
+                fullWidth
+              />
+            </Box>
+          )}
+        </DialogContent>
+
+        <DialogActions>
+          <Button
+            variant="contained"
+            onClick={() => {
+              if (selectedAlumno) {
+                setOpenDetail(false);
+                handleEdit(selectedAlumno);
+              }
+            }}
+          >
+            Editar alumno
+          </Button>
+
+          <Button onClick={() => setOpenDetail(false)}>Cerrar</Button>
         </DialogActions>
       </Dialog>
 

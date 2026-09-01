@@ -6,6 +6,9 @@ import { ProfesoresController } from "./profesores.controller.js";
 
 import { authenticate } from "../../shared/middleware/auth.middleware.js";
 import { authorize } from "../../shared/middleware/role.middleware.js";
+import { AuthRepository } from "../auth/auth.repository.js";
+import { AccountActivationService } from "../auth/account-activation.service.js";
+import { EmailService } from "../../shared/services/email.service.js";
 
 import prisma from "../../config/prisma.js";
 
@@ -13,7 +16,14 @@ const router = Router();
 
 const repository = new ProfesoresRepository(prisma);
 
-const service = new ProfesoresService(repository);
+const authRepository = new AuthRepository(prisma);
+const emailService = new EmailService();
+const accountActivationService = new AccountActivationService(
+  authRepository,
+  emailService,
+);
+
+const service = new ProfesoresService(repository, accountActivationService);
 
 const controller = new ProfesoresController(service);
 

@@ -25,6 +25,7 @@ import { jwtDecode } from "jwt-decode";
 
 import SuccessChart from "../../components/dashboard/SuccessChart";
 import StudentDashboard from "./StudentDashboard";
+import ProfessorDashboard from "./ProfessorDashboard";
 
 import { api } from "../../services/api";
 
@@ -66,7 +67,7 @@ function AdminDashboardView({ metrics }) {
 
       <Grid container spacing={3}>
         {cards.map((card) => (
-          <Grid item xs={12} md={6} lg={3} key={card.title}>
+          <Grid xs={12} md={6} lg={3} key={card.title}>
             <Card>
               <CardContent>
                 <Box
@@ -107,13 +108,15 @@ function AdminDashboardView({ metrics }) {
       <Box sx={{ height: 20 }} />
 
       <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
+        <Grid xs={12} md={6}>
           <Card>
             <CardContent>
               <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
               >
                 <Box>
                   <Typography color="text.secondary">
@@ -138,13 +141,15 @@ function AdminDashboardView({ metrics }) {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid xs={12} md={6}>
           <Card>
             <CardContent>
               <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
               >
                 <Box>
                   <Typography color="text.secondary">
@@ -263,10 +268,17 @@ export default function Dashboard() {
         }
 
         const decoded = token ? jwtDecode(token) : null;
+
+        if (decoded?.rol === "PROFESOR") {
+          setMetrics({});
+          return;
+        }
+
         const endpoint =
           decoded?.rol === "ALUMNO"
             ? "/dashboard/student"
             : "/dashboard/executive";
+
         const response = await api.get(endpoint);
 
         setMetrics(response.data);
@@ -280,6 +292,10 @@ export default function Dashboard() {
 
   if (!metrics) {
     return <p>Cargando dashboard...</p>;
+  }
+
+  if (role === "PROFESOR") {
+    return <ProfessorDashboard />;
   }
 
   if (role === "ALUMNO") {

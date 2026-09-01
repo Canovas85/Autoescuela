@@ -6,8 +6,10 @@ import {
   Button,
   Dialog,
   DialogActions,
+  IconButton,
   DialogContent,
   DialogTitle,
+  DialogContentText,
   FormControl,
   InputLabel,
   MenuItem,
@@ -42,6 +44,15 @@ export default function Temarios() {
     open: false,
     message: "",
     severity: "success",
+  });
+
+  const [confirmDialog, setConfirmDialog] = useState({
+    open: false,
+    action: null,
+    temarioId: null,
+    tituloTemario: "",
+    title: "",
+    message: "",
   });
 
   const loadTemarios = async () => {
@@ -85,14 +96,41 @@ export default function Temarios() {
     setOpen(true);
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("¿Seguro que deseas eliminar este temario?")) {
+  const handleDelete = async (row) => {
+    const tituloTemario = row?.titulo || "este temario";
+
+    setConfirmDialog({
+      open: true,
+      action: "delete",
+      temarioId: row.id,
+      tituloTemario,
+      title: "Confirmar eliminación",
+      message: `Vas a eliminar definitivamente el temario "${tituloTemario}" de Autoescuela Eguzkilore. Todo el contenido asociado será eliminado de forma permanente. Esta acción no podrá deshacerse. ¿Deseas continuar?`,
+    });
+  };
+
+  const closeConfirmDialog = () => {
+    setConfirmDialog({
+      open: false,
+      action: null,
+      temarioId: null,
+      tituloTemario: "",
+      title: "",
+      message: "",
+    });
+  };
+
+  const handleConfirmAction = async () => {
+    if (!confirmDialog.temarioId) {
+      closeConfirmDialog();
       return;
     }
 
     try {
-      await temariosService.delete(id);
+      await temariosService.delete(confirmDialog.temarioId);
+
       await loadTemarios();
+
       setNotification({
         open: true,
         message: "Temario eliminado correctamente",
@@ -100,11 +138,14 @@ export default function Temarios() {
       });
     } catch (error) {
       console.error(error);
+
       setNotification({
         open: true,
         message: error.response?.data?.message || "Error eliminando temario",
         severity: "error",
       });
+    } finally {
+      closeConfirmDialog();
     }
   };
 
@@ -150,9 +191,18 @@ export default function Temarios() {
       headerName: "Descripción",
       flex: 1.6,
       renderCell: (params) => (
-        <Typography variant="body2" noWrap>
-          {params.row.descripcion || "Sin descripción"}
-        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            height: "100%",
+            width: "100%",
+          }}
+        >
+          <Typography variant="body2" noWrap>
+            {params.row.descripcion || "Sin descripción"}
+          </Typography>
+        </Box>
       ),
     },
     {
@@ -161,22 +211,22 @@ export default function Temarios() {
       width: 140,
       sortable: false,
       renderCell: (params) => (
-        <Box sx={{ display: "flex", gap: 1 }}>
-          <Button
-            size="small"
-            startIcon={<EditIcon />}
-            onClick={() => handleEdit(params.row)}
-          >
-            Editar
-          </Button>
-          <Button
-            size="small"
-            color="error"
-            startIcon={<DeleteIcon />}
-            onClick={() => handleDelete(params.row.id)}
-          >
-            Borrar
-          </Button>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+            gap: 0.5,
+          }}
+        >
+          <IconButton color="primary" onClick={() => handleEdit(params.row)}>
+            <EditIcon />
+          </IconButton>
+
+          <IconButton color="error" onClick={() => handleDelete(params.row)}>
+            <DeleteIcon />
+          </IconButton>
         </Box>
       ),
     },
@@ -281,6 +331,31 @@ export default function Temarios() {
           <Button onClick={() => setOpen(false)}>Cancelar</Button>
           <Button variant="contained" onClick={handleSave}>
             Guardar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={confirmDialog.open}
+        onClose={closeConfirmDialog}
+        fullWidth
+        maxWidth="xs"
+      >
+        <DialogTitle>{confirmDialog.title}</DialogTitle>
+
+        <DialogContent>
+          <DialogContentText>{confirmDialog.message}</DialogContentText>
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={closeConfirmDialog}>Cancelar</Button>
+
+          <Button
+            variant="contained"
+            color="error"
+            onClick={handleConfirmAction}
+          >
+            Confirmar
           </Button>
         </DialogActions>
       </Dialog>

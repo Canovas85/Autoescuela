@@ -10,19 +10,37 @@ datasource db {
 }
 
 model Usuario {
-  id                     String    @id @default(uuid())
+  id                     String             @id @default(uuid())
   nombre                 String
-  dni                    String?   @unique
-  email                  String    @unique
+  dni                    String?            @unique
+  email                  String             @unique
   telefono               String?
   passwordHash           String
-  requiereCambioPassword Boolean   @default(true)
+  requiereCambioPassword Boolean            @default(true)
   rol                    Rol
-  fechaCreacion          DateTime  @default(now())
+  fechaCreacion          DateTime           @default(now())
   alumno                 Alumno?
   profesor               Profesor?
+  activacionesCuenta     ActivacionCuenta[]
 
   @@map("usuarios")
+}
+
+model ActivacionCuenta {
+  id          String    @id @default(uuid())
+  usuarioId   String
+  tokenHash   String    @unique
+  expiresAt   DateTime
+  usedAt      DateTime?
+  createdAt   DateTime  @default(now())
+  createdById String?
+  resendCount Int       @default(0)
+  usuario     Usuario   @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId])
+  @@index([expiresAt])
+  @@index([usedAt])
+  @@map("activaciones_cuenta")
 }
 
 model Profesor {
@@ -193,6 +211,30 @@ model Examen {
   @@index([alumnoId])
   @@index([fecha])
   @@map("examenes")
+}
+
+model Promocion {
+  id String @id @default(uuid())
+
+  nombre      String
+  descripcion String?
+
+  precioOriginal    Decimal @db.Decimal(10, 2)
+  precioPromocional Decimal @db.Decimal(10, 2)
+
+  licenciasAplicables String[]
+
+  imagenRuta String?
+
+  fechaInicio DateTime?
+  fechaFin    DateTime?
+
+  activa Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("promociones")
 }
 
 enum Rol {

@@ -51,11 +51,12 @@ const normalizarPermisosLicencias = (valor, fallbackLicencia = undefined) => {
 };
 
 export class ProfesoresService {
-  constructor(repository) {
+  constructor(repository, accountActivationService = null) {
     this.repository = repository;
+    this.accountActivationService = accountActivationService;
   }
 
-  async create(data) {
+  async create(data, context = {}) {
     const nombre = typeof data.nombre === "string" ? data.nombre.trim() : "";
 
     if (!nombre) {
@@ -104,7 +105,7 @@ export class ProfesoresService {
 
     const passwordHash = await bcrypt.hash(data.password, 10);
 
-    return this.repository.create({
+    const profesor = await this.repository.create({
       ...data,
       nombre,
       dni,
@@ -114,6 +115,22 @@ export class ProfesoresService {
       rol: "PROFESOR",
       activo: true,
     });
+
+    if (this.accountActivationService) {
+      try {
+        await this.accountActivationService.issueActivationForUser({
+          usuarioId: profesor.id,
+          createdById: context.createdById || null,
+        });
+      } catch (error) {
+        console.error(
+          "No se pudo enviar el enlace de activación al profesor:",
+          error.message,
+        );
+      }
+    }
+
+    return profesor;
   }
 
   async getAll() {

@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type Usuario = $Result.DefaultSelection<Prisma.$UsuarioPayload>
 /**
+ * Model ActivacionCuenta
+ * 
+ */
+export type ActivacionCuenta = $Result.DefaultSelection<Prisma.$ActivacionCuentaPayload>
+/**
  * Model Profesor
  * 
  */
@@ -73,6 +78,11 @@ export type ClasePractica = $Result.DefaultSelection<Prisma.$ClasePracticaPayloa
  * 
  */
 export type Examen = $Result.DefaultSelection<Prisma.$ExamenPayload>
+/**
+ * Model Promocion
+ * 
+ */
+export type Promocion = $Result.DefaultSelection<Prisma.$PromocionPayload>
 
 /**
  * Enums
@@ -221,6 +231,16 @@ export class PrismaClient<
   get usuario(): Prisma.UsuarioDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.activacionCuenta`: Exposes CRUD operations for the **ActivacionCuenta** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ActivacionCuentas
+    * const activacionCuentas = await prisma.activacionCuenta.findMany()
+    * ```
+    */
+  get activacionCuenta(): Prisma.ActivacionCuentaDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.profesor`: Exposes CRUD operations for the **Profesor** model.
     * Example usage:
     * ```ts
@@ -329,6 +349,16 @@ export class PrismaClient<
     * ```
     */
   get examen(): Prisma.ExamenDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.promocion`: Exposes CRUD operations for the **Promocion** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Promocions
+    * const promocions = await prisma.promocion.findMany()
+    * ```
+    */
+  get promocion(): Prisma.PromocionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -771,6 +801,7 @@ export namespace Prisma {
 
   export const ModelName: {
     Usuario: 'Usuario',
+    ActivacionCuenta: 'ActivacionCuenta',
     Profesor: 'Profesor',
     Alumno: 'Alumno',
     Temario: 'Temario',
@@ -781,7 +812,8 @@ export namespace Prisma {
     SolicitudExamen: 'SolicitudExamen',
     Vehiculo: 'Vehiculo',
     ClasePractica: 'ClasePractica',
-    Examen: 'Examen'
+    Examen: 'Examen',
+    Promocion: 'Promocion'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -800,7 +832,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "usuario" | "profesor" | "alumno" | "temario" | "temarioProgreso" | "testPractica" | "bono" | "compraBono" | "solicitudExamen" | "vehiculo" | "clasePractica" | "examen"
+      modelProps: "usuario" | "activacionCuenta" | "profesor" | "alumno" | "temario" | "temarioProgreso" | "testPractica" | "bono" | "compraBono" | "solicitudExamen" | "vehiculo" | "clasePractica" | "examen" | "promocion"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -875,6 +907,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UsuarioCountArgs<ExtArgs>
             result: $Utils.Optional<UsuarioCountAggregateOutputType> | number
+          }
+        }
+      }
+      ActivacionCuenta: {
+        payload: Prisma.$ActivacionCuentaPayload<ExtArgs>
+        fields: Prisma.ActivacionCuentaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ActivacionCuentaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivacionCuentaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ActivacionCuentaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivacionCuentaPayload>
+          }
+          findFirst: {
+            args: Prisma.ActivacionCuentaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivacionCuentaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ActivacionCuentaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivacionCuentaPayload>
+          }
+          findMany: {
+            args: Prisma.ActivacionCuentaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivacionCuentaPayload>[]
+          }
+          create: {
+            args: Prisma.ActivacionCuentaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivacionCuentaPayload>
+          }
+          createMany: {
+            args: Prisma.ActivacionCuentaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ActivacionCuentaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivacionCuentaPayload>[]
+          }
+          delete: {
+            args: Prisma.ActivacionCuentaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivacionCuentaPayload>
+          }
+          update: {
+            args: Prisma.ActivacionCuentaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivacionCuentaPayload>
+          }
+          deleteMany: {
+            args: Prisma.ActivacionCuentaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ActivacionCuentaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ActivacionCuentaUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivacionCuentaPayload>[]
+          }
+          upsert: {
+            args: Prisma.ActivacionCuentaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivacionCuentaPayload>
+          }
+          aggregate: {
+            args: Prisma.ActivacionCuentaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateActivacionCuenta>
+          }
+          groupBy: {
+            args: Prisma.ActivacionCuentaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ActivacionCuentaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ActivacionCuentaCountArgs<ExtArgs>
+            result: $Utils.Optional<ActivacionCuentaCountAggregateOutputType> | number
           }
         }
       }
@@ -1692,6 +1798,80 @@ export namespace Prisma {
           }
         }
       }
+      Promocion: {
+        payload: Prisma.$PromocionPayload<ExtArgs>
+        fields: Prisma.PromocionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PromocionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromocionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PromocionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromocionPayload>
+          }
+          findFirst: {
+            args: Prisma.PromocionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromocionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PromocionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromocionPayload>
+          }
+          findMany: {
+            args: Prisma.PromocionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromocionPayload>[]
+          }
+          create: {
+            args: Prisma.PromocionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromocionPayload>
+          }
+          createMany: {
+            args: Prisma.PromocionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PromocionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromocionPayload>[]
+          }
+          delete: {
+            args: Prisma.PromocionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromocionPayload>
+          }
+          update: {
+            args: Prisma.PromocionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromocionPayload>
+          }
+          deleteMany: {
+            args: Prisma.PromocionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PromocionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PromocionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromocionPayload>[]
+          }
+          upsert: {
+            args: Prisma.PromocionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PromocionPayload>
+          }
+          aggregate: {
+            args: Prisma.PromocionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePromocion>
+          }
+          groupBy: {
+            args: Prisma.PromocionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PromocionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PromocionCountArgs<ExtArgs>
+            result: $Utils.Optional<PromocionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1789,6 +1969,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     usuario?: UsuarioOmit
+    activacionCuenta?: ActivacionCuentaOmit
     profesor?: ProfesorOmit
     alumno?: AlumnoOmit
     temario?: TemarioOmit
@@ -1800,6 +1981,7 @@ export namespace Prisma {
     vehiculo?: VehiculoOmit
     clasePractica?: ClasePracticaOmit
     examen?: ExamenOmit
+    promocion?: PromocionOmit
   }
 
   /* Types for Logging */
@@ -1873,6 +2055,37 @@ export namespace Prisma {
   /**
    * Count Types
    */
+
+
+  /**
+   * Count Type UsuarioCountOutputType
+   */
+
+  export type UsuarioCountOutputType = {
+    activacionesCuenta: number
+  }
+
+  export type UsuarioCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    activacionesCuenta?: boolean | UsuarioCountOutputTypeCountActivacionesCuentaArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * UsuarioCountOutputType without action
+   */
+  export type UsuarioCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UsuarioCountOutputType
+     */
+    select?: UsuarioCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UsuarioCountOutputType without action
+   */
+  export type UsuarioCountOutputTypeCountActivacionesCuentaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActivacionCuentaWhereInput
+  }
 
 
   /**
@@ -2295,6 +2508,8 @@ export namespace Prisma {
     fechaCreacion?: boolean
     alumno?: boolean | Usuario$alumnoArgs<ExtArgs>
     profesor?: boolean | Usuario$profesorArgs<ExtArgs>
+    activacionesCuenta?: boolean | Usuario$activacionesCuentaArgs<ExtArgs>
+    _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["usuario"]>
 
   export type UsuarioSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2337,6 +2552,8 @@ export namespace Prisma {
   export type UsuarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | Usuario$alumnoArgs<ExtArgs>
     profesor?: boolean | Usuario$profesorArgs<ExtArgs>
+    activacionesCuenta?: boolean | Usuario$activacionesCuentaArgs<ExtArgs>
+    _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UsuarioIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
   export type UsuarioIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2346,6 +2563,7 @@ export namespace Prisma {
     objects: {
       alumno: Prisma.$AlumnoPayload<ExtArgs> | null
       profesor: Prisma.$ProfesorPayload<ExtArgs> | null
+      activacionesCuenta: Prisma.$ActivacionCuentaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2753,6 +2971,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     alumno<T extends Usuario$alumnoArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$alumnoArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     profesor<T extends Usuario$profesorArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$profesorArgs<ExtArgs>>): Prisma__ProfesorClient<$Result.GetResult<Prisma.$ProfesorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    activacionesCuenta<T extends Usuario$activacionesCuentaArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$activacionesCuentaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivacionCuentaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3217,6 +3436,30 @@ export namespace Prisma {
   }
 
   /**
+   * Usuario.activacionesCuenta
+   */
+  export type Usuario$activacionesCuentaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivacionCuenta
+     */
+    select?: ActivacionCuentaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivacionCuenta
+     */
+    omit?: ActivacionCuentaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivacionCuentaInclude<ExtArgs> | null
+    where?: ActivacionCuentaWhereInput
+    orderBy?: ActivacionCuentaOrderByWithRelationInput | ActivacionCuentaOrderByWithRelationInput[]
+    cursor?: ActivacionCuentaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ActivacionCuentaScalarFieldEnum | ActivacionCuentaScalarFieldEnum[]
+  }
+
+  /**
    * Usuario without action
    */
   export type UsuarioDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3232,6 +3475,1137 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UsuarioInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ActivacionCuenta
+   */
+
+  export type AggregateActivacionCuenta = {
+    _count: ActivacionCuentaCountAggregateOutputType | null
+    _avg: ActivacionCuentaAvgAggregateOutputType | null
+    _sum: ActivacionCuentaSumAggregateOutputType | null
+    _min: ActivacionCuentaMinAggregateOutputType | null
+    _max: ActivacionCuentaMaxAggregateOutputType | null
+  }
+
+  export type ActivacionCuentaAvgAggregateOutputType = {
+    resendCount: number | null
+  }
+
+  export type ActivacionCuentaSumAggregateOutputType = {
+    resendCount: number | null
+  }
+
+  export type ActivacionCuentaMinAggregateOutputType = {
+    id: string | null
+    usuarioId: string | null
+    tokenHash: string | null
+    expiresAt: Date | null
+    usedAt: Date | null
+    createdAt: Date | null
+    createdById: string | null
+    resendCount: number | null
+  }
+
+  export type ActivacionCuentaMaxAggregateOutputType = {
+    id: string | null
+    usuarioId: string | null
+    tokenHash: string | null
+    expiresAt: Date | null
+    usedAt: Date | null
+    createdAt: Date | null
+    createdById: string | null
+    resendCount: number | null
+  }
+
+  export type ActivacionCuentaCountAggregateOutputType = {
+    id: number
+    usuarioId: number
+    tokenHash: number
+    expiresAt: number
+    usedAt: number
+    createdAt: number
+    createdById: number
+    resendCount: number
+    _all: number
+  }
+
+
+  export type ActivacionCuentaAvgAggregateInputType = {
+    resendCount?: true
+  }
+
+  export type ActivacionCuentaSumAggregateInputType = {
+    resendCount?: true
+  }
+
+  export type ActivacionCuentaMinAggregateInputType = {
+    id?: true
+    usuarioId?: true
+    tokenHash?: true
+    expiresAt?: true
+    usedAt?: true
+    createdAt?: true
+    createdById?: true
+    resendCount?: true
+  }
+
+  export type ActivacionCuentaMaxAggregateInputType = {
+    id?: true
+    usuarioId?: true
+    tokenHash?: true
+    expiresAt?: true
+    usedAt?: true
+    createdAt?: true
+    createdById?: true
+    resendCount?: true
+  }
+
+  export type ActivacionCuentaCountAggregateInputType = {
+    id?: true
+    usuarioId?: true
+    tokenHash?: true
+    expiresAt?: true
+    usedAt?: true
+    createdAt?: true
+    createdById?: true
+    resendCount?: true
+    _all?: true
+  }
+
+  export type ActivacionCuentaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ActivacionCuenta to aggregate.
+     */
+    where?: ActivacionCuentaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActivacionCuentas to fetch.
+     */
+    orderBy?: ActivacionCuentaOrderByWithRelationInput | ActivacionCuentaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ActivacionCuentaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActivacionCuentas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActivacionCuentas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ActivacionCuentas
+    **/
+    _count?: true | ActivacionCuentaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ActivacionCuentaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ActivacionCuentaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ActivacionCuentaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ActivacionCuentaMaxAggregateInputType
+  }
+
+  export type GetActivacionCuentaAggregateType<T extends ActivacionCuentaAggregateArgs> = {
+        [P in keyof T & keyof AggregateActivacionCuenta]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateActivacionCuenta[P]>
+      : GetScalarType<T[P], AggregateActivacionCuenta[P]>
+  }
+
+
+
+
+  export type ActivacionCuentaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActivacionCuentaWhereInput
+    orderBy?: ActivacionCuentaOrderByWithAggregationInput | ActivacionCuentaOrderByWithAggregationInput[]
+    by: ActivacionCuentaScalarFieldEnum[] | ActivacionCuentaScalarFieldEnum
+    having?: ActivacionCuentaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ActivacionCuentaCountAggregateInputType | true
+    _avg?: ActivacionCuentaAvgAggregateInputType
+    _sum?: ActivacionCuentaSumAggregateInputType
+    _min?: ActivacionCuentaMinAggregateInputType
+    _max?: ActivacionCuentaMaxAggregateInputType
+  }
+
+  export type ActivacionCuentaGroupByOutputType = {
+    id: string
+    usuarioId: string
+    tokenHash: string
+    expiresAt: Date
+    usedAt: Date | null
+    createdAt: Date
+    createdById: string | null
+    resendCount: number
+    _count: ActivacionCuentaCountAggregateOutputType | null
+    _avg: ActivacionCuentaAvgAggregateOutputType | null
+    _sum: ActivacionCuentaSumAggregateOutputType | null
+    _min: ActivacionCuentaMinAggregateOutputType | null
+    _max: ActivacionCuentaMaxAggregateOutputType | null
+  }
+
+  type GetActivacionCuentaGroupByPayload<T extends ActivacionCuentaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ActivacionCuentaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ActivacionCuentaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ActivacionCuentaGroupByOutputType[P]>
+            : GetScalarType<T[P], ActivacionCuentaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ActivacionCuentaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    usuarioId?: boolean
+    tokenHash?: boolean
+    expiresAt?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+    createdById?: boolean
+    resendCount?: boolean
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["activacionCuenta"]>
+
+  export type ActivacionCuentaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    usuarioId?: boolean
+    tokenHash?: boolean
+    expiresAt?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+    createdById?: boolean
+    resendCount?: boolean
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["activacionCuenta"]>
+
+  export type ActivacionCuentaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    usuarioId?: boolean
+    tokenHash?: boolean
+    expiresAt?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+    createdById?: boolean
+    resendCount?: boolean
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["activacionCuenta"]>
+
+  export type ActivacionCuentaSelectScalar = {
+    id?: boolean
+    usuarioId?: boolean
+    tokenHash?: boolean
+    expiresAt?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+    createdById?: boolean
+    resendCount?: boolean
+  }
+
+  export type ActivacionCuentaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "usuarioId" | "tokenHash" | "expiresAt" | "usedAt" | "createdAt" | "createdById" | "resendCount", ExtArgs["result"]["activacionCuenta"]>
+  export type ActivacionCuentaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+  export type ActivacionCuentaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+  export type ActivacionCuentaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+
+  export type $ActivacionCuentaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ActivacionCuenta"
+    objects: {
+      usuario: Prisma.$UsuarioPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      usuarioId: string
+      tokenHash: string
+      expiresAt: Date
+      usedAt: Date | null
+      createdAt: Date
+      createdById: string | null
+      resendCount: number
+    }, ExtArgs["result"]["activacionCuenta"]>
+    composites: {}
+  }
+
+  type ActivacionCuentaGetPayload<S extends boolean | null | undefined | ActivacionCuentaDefaultArgs> = $Result.GetResult<Prisma.$ActivacionCuentaPayload, S>
+
+  type ActivacionCuentaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ActivacionCuentaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ActivacionCuentaCountAggregateInputType | true
+    }
+
+  export interface ActivacionCuentaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ActivacionCuenta'], meta: { name: 'ActivacionCuenta' } }
+    /**
+     * Find zero or one ActivacionCuenta that matches the filter.
+     * @param {ActivacionCuentaFindUniqueArgs} args - Arguments to find a ActivacionCuenta
+     * @example
+     * // Get one ActivacionCuenta
+     * const activacionCuenta = await prisma.activacionCuenta.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ActivacionCuentaFindUniqueArgs>(args: SelectSubset<T, ActivacionCuentaFindUniqueArgs<ExtArgs>>): Prisma__ActivacionCuentaClient<$Result.GetResult<Prisma.$ActivacionCuentaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ActivacionCuenta that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ActivacionCuentaFindUniqueOrThrowArgs} args - Arguments to find a ActivacionCuenta
+     * @example
+     * // Get one ActivacionCuenta
+     * const activacionCuenta = await prisma.activacionCuenta.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ActivacionCuentaFindUniqueOrThrowArgs>(args: SelectSubset<T, ActivacionCuentaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ActivacionCuentaClient<$Result.GetResult<Prisma.$ActivacionCuentaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ActivacionCuenta that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivacionCuentaFindFirstArgs} args - Arguments to find a ActivacionCuenta
+     * @example
+     * // Get one ActivacionCuenta
+     * const activacionCuenta = await prisma.activacionCuenta.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ActivacionCuentaFindFirstArgs>(args?: SelectSubset<T, ActivacionCuentaFindFirstArgs<ExtArgs>>): Prisma__ActivacionCuentaClient<$Result.GetResult<Prisma.$ActivacionCuentaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ActivacionCuenta that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivacionCuentaFindFirstOrThrowArgs} args - Arguments to find a ActivacionCuenta
+     * @example
+     * // Get one ActivacionCuenta
+     * const activacionCuenta = await prisma.activacionCuenta.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ActivacionCuentaFindFirstOrThrowArgs>(args?: SelectSubset<T, ActivacionCuentaFindFirstOrThrowArgs<ExtArgs>>): Prisma__ActivacionCuentaClient<$Result.GetResult<Prisma.$ActivacionCuentaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ActivacionCuentas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivacionCuentaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ActivacionCuentas
+     * const activacionCuentas = await prisma.activacionCuenta.findMany()
+     * 
+     * // Get first 10 ActivacionCuentas
+     * const activacionCuentas = await prisma.activacionCuenta.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const activacionCuentaWithIdOnly = await prisma.activacionCuenta.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ActivacionCuentaFindManyArgs>(args?: SelectSubset<T, ActivacionCuentaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivacionCuentaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ActivacionCuenta.
+     * @param {ActivacionCuentaCreateArgs} args - Arguments to create a ActivacionCuenta.
+     * @example
+     * // Create one ActivacionCuenta
+     * const ActivacionCuenta = await prisma.activacionCuenta.create({
+     *   data: {
+     *     // ... data to create a ActivacionCuenta
+     *   }
+     * })
+     * 
+     */
+    create<T extends ActivacionCuentaCreateArgs>(args: SelectSubset<T, ActivacionCuentaCreateArgs<ExtArgs>>): Prisma__ActivacionCuentaClient<$Result.GetResult<Prisma.$ActivacionCuentaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ActivacionCuentas.
+     * @param {ActivacionCuentaCreateManyArgs} args - Arguments to create many ActivacionCuentas.
+     * @example
+     * // Create many ActivacionCuentas
+     * const activacionCuenta = await prisma.activacionCuenta.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ActivacionCuentaCreateManyArgs>(args?: SelectSubset<T, ActivacionCuentaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ActivacionCuentas and returns the data saved in the database.
+     * @param {ActivacionCuentaCreateManyAndReturnArgs} args - Arguments to create many ActivacionCuentas.
+     * @example
+     * // Create many ActivacionCuentas
+     * const activacionCuenta = await prisma.activacionCuenta.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ActivacionCuentas and only return the `id`
+     * const activacionCuentaWithIdOnly = await prisma.activacionCuenta.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ActivacionCuentaCreateManyAndReturnArgs>(args?: SelectSubset<T, ActivacionCuentaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivacionCuentaPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ActivacionCuenta.
+     * @param {ActivacionCuentaDeleteArgs} args - Arguments to delete one ActivacionCuenta.
+     * @example
+     * // Delete one ActivacionCuenta
+     * const ActivacionCuenta = await prisma.activacionCuenta.delete({
+     *   where: {
+     *     // ... filter to delete one ActivacionCuenta
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ActivacionCuentaDeleteArgs>(args: SelectSubset<T, ActivacionCuentaDeleteArgs<ExtArgs>>): Prisma__ActivacionCuentaClient<$Result.GetResult<Prisma.$ActivacionCuentaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ActivacionCuenta.
+     * @param {ActivacionCuentaUpdateArgs} args - Arguments to update one ActivacionCuenta.
+     * @example
+     * // Update one ActivacionCuenta
+     * const activacionCuenta = await prisma.activacionCuenta.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ActivacionCuentaUpdateArgs>(args: SelectSubset<T, ActivacionCuentaUpdateArgs<ExtArgs>>): Prisma__ActivacionCuentaClient<$Result.GetResult<Prisma.$ActivacionCuentaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ActivacionCuentas.
+     * @param {ActivacionCuentaDeleteManyArgs} args - Arguments to filter ActivacionCuentas to delete.
+     * @example
+     * // Delete a few ActivacionCuentas
+     * const { count } = await prisma.activacionCuenta.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ActivacionCuentaDeleteManyArgs>(args?: SelectSubset<T, ActivacionCuentaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ActivacionCuentas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivacionCuentaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ActivacionCuentas
+     * const activacionCuenta = await prisma.activacionCuenta.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ActivacionCuentaUpdateManyArgs>(args: SelectSubset<T, ActivacionCuentaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ActivacionCuentas and returns the data updated in the database.
+     * @param {ActivacionCuentaUpdateManyAndReturnArgs} args - Arguments to update many ActivacionCuentas.
+     * @example
+     * // Update many ActivacionCuentas
+     * const activacionCuenta = await prisma.activacionCuenta.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ActivacionCuentas and only return the `id`
+     * const activacionCuentaWithIdOnly = await prisma.activacionCuenta.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ActivacionCuentaUpdateManyAndReturnArgs>(args: SelectSubset<T, ActivacionCuentaUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivacionCuentaPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ActivacionCuenta.
+     * @param {ActivacionCuentaUpsertArgs} args - Arguments to update or create a ActivacionCuenta.
+     * @example
+     * // Update or create a ActivacionCuenta
+     * const activacionCuenta = await prisma.activacionCuenta.upsert({
+     *   create: {
+     *     // ... data to create a ActivacionCuenta
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ActivacionCuenta we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ActivacionCuentaUpsertArgs>(args: SelectSubset<T, ActivacionCuentaUpsertArgs<ExtArgs>>): Prisma__ActivacionCuentaClient<$Result.GetResult<Prisma.$ActivacionCuentaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ActivacionCuentas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivacionCuentaCountArgs} args - Arguments to filter ActivacionCuentas to count.
+     * @example
+     * // Count the number of ActivacionCuentas
+     * const count = await prisma.activacionCuenta.count({
+     *   where: {
+     *     // ... the filter for the ActivacionCuentas we want to count
+     *   }
+     * })
+    **/
+    count<T extends ActivacionCuentaCountArgs>(
+      args?: Subset<T, ActivacionCuentaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ActivacionCuentaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ActivacionCuenta.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivacionCuentaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ActivacionCuentaAggregateArgs>(args: Subset<T, ActivacionCuentaAggregateArgs>): Prisma.PrismaPromise<GetActivacionCuentaAggregateType<T>>
+
+    /**
+     * Group by ActivacionCuenta.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivacionCuentaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ActivacionCuentaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ActivacionCuentaGroupByArgs['orderBy'] }
+        : { orderBy?: ActivacionCuentaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ActivacionCuentaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetActivacionCuentaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ActivacionCuenta model
+   */
+  readonly fields: ActivacionCuentaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ActivacionCuenta.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ActivacionCuentaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    usuario<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ActivacionCuenta model
+   */
+  interface ActivacionCuentaFieldRefs {
+    readonly id: FieldRef<"ActivacionCuenta", 'String'>
+    readonly usuarioId: FieldRef<"ActivacionCuenta", 'String'>
+    readonly tokenHash: FieldRef<"ActivacionCuenta", 'String'>
+    readonly expiresAt: FieldRef<"ActivacionCuenta", 'DateTime'>
+    readonly usedAt: FieldRef<"ActivacionCuenta", 'DateTime'>
+    readonly createdAt: FieldRef<"ActivacionCuenta", 'DateTime'>
+    readonly createdById: FieldRef<"ActivacionCuenta", 'String'>
+    readonly resendCount: FieldRef<"ActivacionCuenta", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ActivacionCuenta findUnique
+   */
+  export type ActivacionCuentaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivacionCuenta
+     */
+    select?: ActivacionCuentaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivacionCuenta
+     */
+    omit?: ActivacionCuentaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivacionCuentaInclude<ExtArgs> | null
+    /**
+     * Filter, which ActivacionCuenta to fetch.
+     */
+    where: ActivacionCuentaWhereUniqueInput
+  }
+
+  /**
+   * ActivacionCuenta findUniqueOrThrow
+   */
+  export type ActivacionCuentaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivacionCuenta
+     */
+    select?: ActivacionCuentaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivacionCuenta
+     */
+    omit?: ActivacionCuentaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivacionCuentaInclude<ExtArgs> | null
+    /**
+     * Filter, which ActivacionCuenta to fetch.
+     */
+    where: ActivacionCuentaWhereUniqueInput
+  }
+
+  /**
+   * ActivacionCuenta findFirst
+   */
+  export type ActivacionCuentaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivacionCuenta
+     */
+    select?: ActivacionCuentaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivacionCuenta
+     */
+    omit?: ActivacionCuentaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivacionCuentaInclude<ExtArgs> | null
+    /**
+     * Filter, which ActivacionCuenta to fetch.
+     */
+    where?: ActivacionCuentaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActivacionCuentas to fetch.
+     */
+    orderBy?: ActivacionCuentaOrderByWithRelationInput | ActivacionCuentaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ActivacionCuentas.
+     */
+    cursor?: ActivacionCuentaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActivacionCuentas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActivacionCuentas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ActivacionCuentas.
+     */
+    distinct?: ActivacionCuentaScalarFieldEnum | ActivacionCuentaScalarFieldEnum[]
+  }
+
+  /**
+   * ActivacionCuenta findFirstOrThrow
+   */
+  export type ActivacionCuentaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivacionCuenta
+     */
+    select?: ActivacionCuentaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivacionCuenta
+     */
+    omit?: ActivacionCuentaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivacionCuentaInclude<ExtArgs> | null
+    /**
+     * Filter, which ActivacionCuenta to fetch.
+     */
+    where?: ActivacionCuentaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActivacionCuentas to fetch.
+     */
+    orderBy?: ActivacionCuentaOrderByWithRelationInput | ActivacionCuentaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ActivacionCuentas.
+     */
+    cursor?: ActivacionCuentaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActivacionCuentas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActivacionCuentas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ActivacionCuentas.
+     */
+    distinct?: ActivacionCuentaScalarFieldEnum | ActivacionCuentaScalarFieldEnum[]
+  }
+
+  /**
+   * ActivacionCuenta findMany
+   */
+  export type ActivacionCuentaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivacionCuenta
+     */
+    select?: ActivacionCuentaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivacionCuenta
+     */
+    omit?: ActivacionCuentaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivacionCuentaInclude<ExtArgs> | null
+    /**
+     * Filter, which ActivacionCuentas to fetch.
+     */
+    where?: ActivacionCuentaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActivacionCuentas to fetch.
+     */
+    orderBy?: ActivacionCuentaOrderByWithRelationInput | ActivacionCuentaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ActivacionCuentas.
+     */
+    cursor?: ActivacionCuentaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActivacionCuentas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActivacionCuentas.
+     */
+    skip?: number
+    distinct?: ActivacionCuentaScalarFieldEnum | ActivacionCuentaScalarFieldEnum[]
+  }
+
+  /**
+   * ActivacionCuenta create
+   */
+  export type ActivacionCuentaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivacionCuenta
+     */
+    select?: ActivacionCuentaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivacionCuenta
+     */
+    omit?: ActivacionCuentaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivacionCuentaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ActivacionCuenta.
+     */
+    data: XOR<ActivacionCuentaCreateInput, ActivacionCuentaUncheckedCreateInput>
+  }
+
+  /**
+   * ActivacionCuenta createMany
+   */
+  export type ActivacionCuentaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ActivacionCuentas.
+     */
+    data: ActivacionCuentaCreateManyInput | ActivacionCuentaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ActivacionCuenta createManyAndReturn
+   */
+  export type ActivacionCuentaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivacionCuenta
+     */
+    select?: ActivacionCuentaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivacionCuenta
+     */
+    omit?: ActivacionCuentaOmit<ExtArgs> | null
+    /**
+     * The data used to create many ActivacionCuentas.
+     */
+    data: ActivacionCuentaCreateManyInput | ActivacionCuentaCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivacionCuentaIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ActivacionCuenta update
+   */
+  export type ActivacionCuentaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivacionCuenta
+     */
+    select?: ActivacionCuentaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivacionCuenta
+     */
+    omit?: ActivacionCuentaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivacionCuentaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ActivacionCuenta.
+     */
+    data: XOR<ActivacionCuentaUpdateInput, ActivacionCuentaUncheckedUpdateInput>
+    /**
+     * Choose, which ActivacionCuenta to update.
+     */
+    where: ActivacionCuentaWhereUniqueInput
+  }
+
+  /**
+   * ActivacionCuenta updateMany
+   */
+  export type ActivacionCuentaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ActivacionCuentas.
+     */
+    data: XOR<ActivacionCuentaUpdateManyMutationInput, ActivacionCuentaUncheckedUpdateManyInput>
+    /**
+     * Filter which ActivacionCuentas to update
+     */
+    where?: ActivacionCuentaWhereInput
+    /**
+     * Limit how many ActivacionCuentas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ActivacionCuenta updateManyAndReturn
+   */
+  export type ActivacionCuentaUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivacionCuenta
+     */
+    select?: ActivacionCuentaSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivacionCuenta
+     */
+    omit?: ActivacionCuentaOmit<ExtArgs> | null
+    /**
+     * The data used to update ActivacionCuentas.
+     */
+    data: XOR<ActivacionCuentaUpdateManyMutationInput, ActivacionCuentaUncheckedUpdateManyInput>
+    /**
+     * Filter which ActivacionCuentas to update
+     */
+    where?: ActivacionCuentaWhereInput
+    /**
+     * Limit how many ActivacionCuentas to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivacionCuentaIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ActivacionCuenta upsert
+   */
+  export type ActivacionCuentaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivacionCuenta
+     */
+    select?: ActivacionCuentaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivacionCuenta
+     */
+    omit?: ActivacionCuentaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivacionCuentaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ActivacionCuenta to update in case it exists.
+     */
+    where: ActivacionCuentaWhereUniqueInput
+    /**
+     * In case the ActivacionCuenta found by the `where` argument doesn't exist, create a new ActivacionCuenta with this data.
+     */
+    create: XOR<ActivacionCuentaCreateInput, ActivacionCuentaUncheckedCreateInput>
+    /**
+     * In case the ActivacionCuenta was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ActivacionCuentaUpdateInput, ActivacionCuentaUncheckedUpdateInput>
+  }
+
+  /**
+   * ActivacionCuenta delete
+   */
+  export type ActivacionCuentaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivacionCuenta
+     */
+    select?: ActivacionCuentaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivacionCuenta
+     */
+    omit?: ActivacionCuentaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivacionCuentaInclude<ExtArgs> | null
+    /**
+     * Filter which ActivacionCuenta to delete.
+     */
+    where: ActivacionCuentaWhereUniqueInput
+  }
+
+  /**
+   * ActivacionCuenta deleteMany
+   */
+  export type ActivacionCuentaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ActivacionCuentas to delete
+     */
+    where?: ActivacionCuentaWhereInput
+    /**
+     * Limit how many ActivacionCuentas to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ActivacionCuenta without action
+   */
+  export type ActivacionCuentaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivacionCuenta
+     */
+    select?: ActivacionCuentaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivacionCuenta
+     */
+    omit?: ActivacionCuentaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivacionCuentaInclude<ExtArgs> | null
   }
 
 
@@ -15706,6 +17080,1126 @@ export namespace Prisma {
 
 
   /**
+   * Model Promocion
+   */
+
+  export type AggregatePromocion = {
+    _count: PromocionCountAggregateOutputType | null
+    _avg: PromocionAvgAggregateOutputType | null
+    _sum: PromocionSumAggregateOutputType | null
+    _min: PromocionMinAggregateOutputType | null
+    _max: PromocionMaxAggregateOutputType | null
+  }
+
+  export type PromocionAvgAggregateOutputType = {
+    precioOriginal: Decimal | null
+    precioPromocional: Decimal | null
+  }
+
+  export type PromocionSumAggregateOutputType = {
+    precioOriginal: Decimal | null
+    precioPromocional: Decimal | null
+  }
+
+  export type PromocionMinAggregateOutputType = {
+    id: string | null
+    nombre: string | null
+    descripcion: string | null
+    precioOriginal: Decimal | null
+    precioPromocional: Decimal | null
+    imagenRuta: string | null
+    fechaInicio: Date | null
+    fechaFin: Date | null
+    activa: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PromocionMaxAggregateOutputType = {
+    id: string | null
+    nombre: string | null
+    descripcion: string | null
+    precioOriginal: Decimal | null
+    precioPromocional: Decimal | null
+    imagenRuta: string | null
+    fechaInicio: Date | null
+    fechaFin: Date | null
+    activa: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PromocionCountAggregateOutputType = {
+    id: number
+    nombre: number
+    descripcion: number
+    precioOriginal: number
+    precioPromocional: number
+    licenciasAplicables: number
+    imagenRuta: number
+    fechaInicio: number
+    fechaFin: number
+    activa: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PromocionAvgAggregateInputType = {
+    precioOriginal?: true
+    precioPromocional?: true
+  }
+
+  export type PromocionSumAggregateInputType = {
+    precioOriginal?: true
+    precioPromocional?: true
+  }
+
+  export type PromocionMinAggregateInputType = {
+    id?: true
+    nombre?: true
+    descripcion?: true
+    precioOriginal?: true
+    precioPromocional?: true
+    imagenRuta?: true
+    fechaInicio?: true
+    fechaFin?: true
+    activa?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PromocionMaxAggregateInputType = {
+    id?: true
+    nombre?: true
+    descripcion?: true
+    precioOriginal?: true
+    precioPromocional?: true
+    imagenRuta?: true
+    fechaInicio?: true
+    fechaFin?: true
+    activa?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PromocionCountAggregateInputType = {
+    id?: true
+    nombre?: true
+    descripcion?: true
+    precioOriginal?: true
+    precioPromocional?: true
+    licenciasAplicables?: true
+    imagenRuta?: true
+    fechaInicio?: true
+    fechaFin?: true
+    activa?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PromocionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Promocion to aggregate.
+     */
+    where?: PromocionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Promocions to fetch.
+     */
+    orderBy?: PromocionOrderByWithRelationInput | PromocionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PromocionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Promocions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Promocions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Promocions
+    **/
+    _count?: true | PromocionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PromocionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PromocionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PromocionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PromocionMaxAggregateInputType
+  }
+
+  export type GetPromocionAggregateType<T extends PromocionAggregateArgs> = {
+        [P in keyof T & keyof AggregatePromocion]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePromocion[P]>
+      : GetScalarType<T[P], AggregatePromocion[P]>
+  }
+
+
+
+
+  export type PromocionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PromocionWhereInput
+    orderBy?: PromocionOrderByWithAggregationInput | PromocionOrderByWithAggregationInput[]
+    by: PromocionScalarFieldEnum[] | PromocionScalarFieldEnum
+    having?: PromocionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PromocionCountAggregateInputType | true
+    _avg?: PromocionAvgAggregateInputType
+    _sum?: PromocionSumAggregateInputType
+    _min?: PromocionMinAggregateInputType
+    _max?: PromocionMaxAggregateInputType
+  }
+
+  export type PromocionGroupByOutputType = {
+    id: string
+    nombre: string
+    descripcion: string | null
+    precioOriginal: Decimal
+    precioPromocional: Decimal
+    licenciasAplicables: string[]
+    imagenRuta: string | null
+    fechaInicio: Date | null
+    fechaFin: Date | null
+    activa: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: PromocionCountAggregateOutputType | null
+    _avg: PromocionAvgAggregateOutputType | null
+    _sum: PromocionSumAggregateOutputType | null
+    _min: PromocionMinAggregateOutputType | null
+    _max: PromocionMaxAggregateOutputType | null
+  }
+
+  type GetPromocionGroupByPayload<T extends PromocionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PromocionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PromocionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PromocionGroupByOutputType[P]>
+            : GetScalarType<T[P], PromocionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PromocionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    descripcion?: boolean
+    precioOriginal?: boolean
+    precioPromocional?: boolean
+    licenciasAplicables?: boolean
+    imagenRuta?: boolean
+    fechaInicio?: boolean
+    fechaFin?: boolean
+    activa?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["promocion"]>
+
+  export type PromocionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    descripcion?: boolean
+    precioOriginal?: boolean
+    precioPromocional?: boolean
+    licenciasAplicables?: boolean
+    imagenRuta?: boolean
+    fechaInicio?: boolean
+    fechaFin?: boolean
+    activa?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["promocion"]>
+
+  export type PromocionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    descripcion?: boolean
+    precioOriginal?: boolean
+    precioPromocional?: boolean
+    licenciasAplicables?: boolean
+    imagenRuta?: boolean
+    fechaInicio?: boolean
+    fechaFin?: boolean
+    activa?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["promocion"]>
+
+  export type PromocionSelectScalar = {
+    id?: boolean
+    nombre?: boolean
+    descripcion?: boolean
+    precioOriginal?: boolean
+    precioPromocional?: boolean
+    licenciasAplicables?: boolean
+    imagenRuta?: boolean
+    fechaInicio?: boolean
+    fechaFin?: boolean
+    activa?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PromocionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "descripcion" | "precioOriginal" | "precioPromocional" | "licenciasAplicables" | "imagenRuta" | "fechaInicio" | "fechaFin" | "activa" | "createdAt" | "updatedAt", ExtArgs["result"]["promocion"]>
+
+  export type $PromocionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Promocion"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      nombre: string
+      descripcion: string | null
+      precioOriginal: Prisma.Decimal
+      precioPromocional: Prisma.Decimal
+      licenciasAplicables: string[]
+      imagenRuta: string | null
+      fechaInicio: Date | null
+      fechaFin: Date | null
+      activa: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["promocion"]>
+    composites: {}
+  }
+
+  type PromocionGetPayload<S extends boolean | null | undefined | PromocionDefaultArgs> = $Result.GetResult<Prisma.$PromocionPayload, S>
+
+  type PromocionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PromocionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PromocionCountAggregateInputType | true
+    }
+
+  export interface PromocionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Promocion'], meta: { name: 'Promocion' } }
+    /**
+     * Find zero or one Promocion that matches the filter.
+     * @param {PromocionFindUniqueArgs} args - Arguments to find a Promocion
+     * @example
+     * // Get one Promocion
+     * const promocion = await prisma.promocion.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PromocionFindUniqueArgs>(args: SelectSubset<T, PromocionFindUniqueArgs<ExtArgs>>): Prisma__PromocionClient<$Result.GetResult<Prisma.$PromocionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Promocion that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PromocionFindUniqueOrThrowArgs} args - Arguments to find a Promocion
+     * @example
+     * // Get one Promocion
+     * const promocion = await prisma.promocion.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PromocionFindUniqueOrThrowArgs>(args: SelectSubset<T, PromocionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PromocionClient<$Result.GetResult<Prisma.$PromocionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Promocion that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PromocionFindFirstArgs} args - Arguments to find a Promocion
+     * @example
+     * // Get one Promocion
+     * const promocion = await prisma.promocion.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PromocionFindFirstArgs>(args?: SelectSubset<T, PromocionFindFirstArgs<ExtArgs>>): Prisma__PromocionClient<$Result.GetResult<Prisma.$PromocionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Promocion that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PromocionFindFirstOrThrowArgs} args - Arguments to find a Promocion
+     * @example
+     * // Get one Promocion
+     * const promocion = await prisma.promocion.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PromocionFindFirstOrThrowArgs>(args?: SelectSubset<T, PromocionFindFirstOrThrowArgs<ExtArgs>>): Prisma__PromocionClient<$Result.GetResult<Prisma.$PromocionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Promocions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PromocionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Promocions
+     * const promocions = await prisma.promocion.findMany()
+     * 
+     * // Get first 10 Promocions
+     * const promocions = await prisma.promocion.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const promocionWithIdOnly = await prisma.promocion.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PromocionFindManyArgs>(args?: SelectSubset<T, PromocionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromocionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Promocion.
+     * @param {PromocionCreateArgs} args - Arguments to create a Promocion.
+     * @example
+     * // Create one Promocion
+     * const Promocion = await prisma.promocion.create({
+     *   data: {
+     *     // ... data to create a Promocion
+     *   }
+     * })
+     * 
+     */
+    create<T extends PromocionCreateArgs>(args: SelectSubset<T, PromocionCreateArgs<ExtArgs>>): Prisma__PromocionClient<$Result.GetResult<Prisma.$PromocionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Promocions.
+     * @param {PromocionCreateManyArgs} args - Arguments to create many Promocions.
+     * @example
+     * // Create many Promocions
+     * const promocion = await prisma.promocion.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PromocionCreateManyArgs>(args?: SelectSubset<T, PromocionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Promocions and returns the data saved in the database.
+     * @param {PromocionCreateManyAndReturnArgs} args - Arguments to create many Promocions.
+     * @example
+     * // Create many Promocions
+     * const promocion = await prisma.promocion.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Promocions and only return the `id`
+     * const promocionWithIdOnly = await prisma.promocion.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PromocionCreateManyAndReturnArgs>(args?: SelectSubset<T, PromocionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromocionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Promocion.
+     * @param {PromocionDeleteArgs} args - Arguments to delete one Promocion.
+     * @example
+     * // Delete one Promocion
+     * const Promocion = await prisma.promocion.delete({
+     *   where: {
+     *     // ... filter to delete one Promocion
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PromocionDeleteArgs>(args: SelectSubset<T, PromocionDeleteArgs<ExtArgs>>): Prisma__PromocionClient<$Result.GetResult<Prisma.$PromocionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Promocion.
+     * @param {PromocionUpdateArgs} args - Arguments to update one Promocion.
+     * @example
+     * // Update one Promocion
+     * const promocion = await prisma.promocion.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PromocionUpdateArgs>(args: SelectSubset<T, PromocionUpdateArgs<ExtArgs>>): Prisma__PromocionClient<$Result.GetResult<Prisma.$PromocionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Promocions.
+     * @param {PromocionDeleteManyArgs} args - Arguments to filter Promocions to delete.
+     * @example
+     * // Delete a few Promocions
+     * const { count } = await prisma.promocion.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PromocionDeleteManyArgs>(args?: SelectSubset<T, PromocionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Promocions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PromocionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Promocions
+     * const promocion = await prisma.promocion.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PromocionUpdateManyArgs>(args: SelectSubset<T, PromocionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Promocions and returns the data updated in the database.
+     * @param {PromocionUpdateManyAndReturnArgs} args - Arguments to update many Promocions.
+     * @example
+     * // Update many Promocions
+     * const promocion = await prisma.promocion.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Promocions and only return the `id`
+     * const promocionWithIdOnly = await prisma.promocion.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PromocionUpdateManyAndReturnArgs>(args: SelectSubset<T, PromocionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromocionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Promocion.
+     * @param {PromocionUpsertArgs} args - Arguments to update or create a Promocion.
+     * @example
+     * // Update or create a Promocion
+     * const promocion = await prisma.promocion.upsert({
+     *   create: {
+     *     // ... data to create a Promocion
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Promocion we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PromocionUpsertArgs>(args: SelectSubset<T, PromocionUpsertArgs<ExtArgs>>): Prisma__PromocionClient<$Result.GetResult<Prisma.$PromocionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Promocions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PromocionCountArgs} args - Arguments to filter Promocions to count.
+     * @example
+     * // Count the number of Promocions
+     * const count = await prisma.promocion.count({
+     *   where: {
+     *     // ... the filter for the Promocions we want to count
+     *   }
+     * })
+    **/
+    count<T extends PromocionCountArgs>(
+      args?: Subset<T, PromocionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PromocionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Promocion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PromocionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PromocionAggregateArgs>(args: Subset<T, PromocionAggregateArgs>): Prisma.PrismaPromise<GetPromocionAggregateType<T>>
+
+    /**
+     * Group by Promocion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PromocionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PromocionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PromocionGroupByArgs['orderBy'] }
+        : { orderBy?: PromocionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PromocionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPromocionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Promocion model
+   */
+  readonly fields: PromocionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Promocion.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PromocionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Promocion model
+   */
+  interface PromocionFieldRefs {
+    readonly id: FieldRef<"Promocion", 'String'>
+    readonly nombre: FieldRef<"Promocion", 'String'>
+    readonly descripcion: FieldRef<"Promocion", 'String'>
+    readonly precioOriginal: FieldRef<"Promocion", 'Decimal'>
+    readonly precioPromocional: FieldRef<"Promocion", 'Decimal'>
+    readonly licenciasAplicables: FieldRef<"Promocion", 'String[]'>
+    readonly imagenRuta: FieldRef<"Promocion", 'String'>
+    readonly fechaInicio: FieldRef<"Promocion", 'DateTime'>
+    readonly fechaFin: FieldRef<"Promocion", 'DateTime'>
+    readonly activa: FieldRef<"Promocion", 'Boolean'>
+    readonly createdAt: FieldRef<"Promocion", 'DateTime'>
+    readonly updatedAt: FieldRef<"Promocion", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Promocion findUnique
+   */
+  export type PromocionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promocion
+     */
+    select?: PromocionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promocion
+     */
+    omit?: PromocionOmit<ExtArgs> | null
+    /**
+     * Filter, which Promocion to fetch.
+     */
+    where: PromocionWhereUniqueInput
+  }
+
+  /**
+   * Promocion findUniqueOrThrow
+   */
+  export type PromocionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promocion
+     */
+    select?: PromocionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promocion
+     */
+    omit?: PromocionOmit<ExtArgs> | null
+    /**
+     * Filter, which Promocion to fetch.
+     */
+    where: PromocionWhereUniqueInput
+  }
+
+  /**
+   * Promocion findFirst
+   */
+  export type PromocionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promocion
+     */
+    select?: PromocionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promocion
+     */
+    omit?: PromocionOmit<ExtArgs> | null
+    /**
+     * Filter, which Promocion to fetch.
+     */
+    where?: PromocionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Promocions to fetch.
+     */
+    orderBy?: PromocionOrderByWithRelationInput | PromocionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Promocions.
+     */
+    cursor?: PromocionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Promocions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Promocions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Promocions.
+     */
+    distinct?: PromocionScalarFieldEnum | PromocionScalarFieldEnum[]
+  }
+
+  /**
+   * Promocion findFirstOrThrow
+   */
+  export type PromocionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promocion
+     */
+    select?: PromocionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promocion
+     */
+    omit?: PromocionOmit<ExtArgs> | null
+    /**
+     * Filter, which Promocion to fetch.
+     */
+    where?: PromocionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Promocions to fetch.
+     */
+    orderBy?: PromocionOrderByWithRelationInput | PromocionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Promocions.
+     */
+    cursor?: PromocionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Promocions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Promocions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Promocions.
+     */
+    distinct?: PromocionScalarFieldEnum | PromocionScalarFieldEnum[]
+  }
+
+  /**
+   * Promocion findMany
+   */
+  export type PromocionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promocion
+     */
+    select?: PromocionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promocion
+     */
+    omit?: PromocionOmit<ExtArgs> | null
+    /**
+     * Filter, which Promocions to fetch.
+     */
+    where?: PromocionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Promocions to fetch.
+     */
+    orderBy?: PromocionOrderByWithRelationInput | PromocionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Promocions.
+     */
+    cursor?: PromocionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Promocions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Promocions.
+     */
+    skip?: number
+    distinct?: PromocionScalarFieldEnum | PromocionScalarFieldEnum[]
+  }
+
+  /**
+   * Promocion create
+   */
+  export type PromocionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promocion
+     */
+    select?: PromocionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promocion
+     */
+    omit?: PromocionOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Promocion.
+     */
+    data: XOR<PromocionCreateInput, PromocionUncheckedCreateInput>
+  }
+
+  /**
+   * Promocion createMany
+   */
+  export type PromocionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Promocions.
+     */
+    data: PromocionCreateManyInput | PromocionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Promocion createManyAndReturn
+   */
+  export type PromocionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promocion
+     */
+    select?: PromocionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promocion
+     */
+    omit?: PromocionOmit<ExtArgs> | null
+    /**
+     * The data used to create many Promocions.
+     */
+    data: PromocionCreateManyInput | PromocionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Promocion update
+   */
+  export type PromocionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promocion
+     */
+    select?: PromocionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promocion
+     */
+    omit?: PromocionOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Promocion.
+     */
+    data: XOR<PromocionUpdateInput, PromocionUncheckedUpdateInput>
+    /**
+     * Choose, which Promocion to update.
+     */
+    where: PromocionWhereUniqueInput
+  }
+
+  /**
+   * Promocion updateMany
+   */
+  export type PromocionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Promocions.
+     */
+    data: XOR<PromocionUpdateManyMutationInput, PromocionUncheckedUpdateManyInput>
+    /**
+     * Filter which Promocions to update
+     */
+    where?: PromocionWhereInput
+    /**
+     * Limit how many Promocions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Promocion updateManyAndReturn
+   */
+  export type PromocionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promocion
+     */
+    select?: PromocionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promocion
+     */
+    omit?: PromocionOmit<ExtArgs> | null
+    /**
+     * The data used to update Promocions.
+     */
+    data: XOR<PromocionUpdateManyMutationInput, PromocionUncheckedUpdateManyInput>
+    /**
+     * Filter which Promocions to update
+     */
+    where?: PromocionWhereInput
+    /**
+     * Limit how many Promocions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Promocion upsert
+   */
+  export type PromocionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promocion
+     */
+    select?: PromocionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promocion
+     */
+    omit?: PromocionOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Promocion to update in case it exists.
+     */
+    where: PromocionWhereUniqueInput
+    /**
+     * In case the Promocion found by the `where` argument doesn't exist, create a new Promocion with this data.
+     */
+    create: XOR<PromocionCreateInput, PromocionUncheckedCreateInput>
+    /**
+     * In case the Promocion was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PromocionUpdateInput, PromocionUncheckedUpdateInput>
+  }
+
+  /**
+   * Promocion delete
+   */
+  export type PromocionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promocion
+     */
+    select?: PromocionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promocion
+     */
+    omit?: PromocionOmit<ExtArgs> | null
+    /**
+     * Filter which Promocion to delete.
+     */
+    where: PromocionWhereUniqueInput
+  }
+
+  /**
+   * Promocion deleteMany
+   */
+  export type PromocionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Promocions to delete
+     */
+    where?: PromocionWhereInput
+    /**
+     * Limit how many Promocions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Promocion without action
+   */
+  export type PromocionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promocion
+     */
+    select?: PromocionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promocion
+     */
+    omit?: PromocionOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -15732,6 +18226,20 @@ export namespace Prisma {
   };
 
   export type UsuarioScalarFieldEnum = (typeof UsuarioScalarFieldEnum)[keyof typeof UsuarioScalarFieldEnum]
+
+
+  export const ActivacionCuentaScalarFieldEnum: {
+    id: 'id',
+    usuarioId: 'usuarioId',
+    tokenHash: 'tokenHash',
+    expiresAt: 'expiresAt',
+    usedAt: 'usedAt',
+    createdAt: 'createdAt',
+    createdById: 'createdById',
+    resendCount: 'resendCount'
+  };
+
+  export type ActivacionCuentaScalarFieldEnum = (typeof ActivacionCuentaScalarFieldEnum)[keyof typeof ActivacionCuentaScalarFieldEnum]
 
 
   export const ProfesorScalarFieldEnum: {
@@ -15871,6 +18379,24 @@ export namespace Prisma {
   export type ExamenScalarFieldEnum = (typeof ExamenScalarFieldEnum)[keyof typeof ExamenScalarFieldEnum]
 
 
+  export const PromocionScalarFieldEnum: {
+    id: 'id',
+    nombre: 'nombre',
+    descripcion: 'descripcion',
+    precioOriginal: 'precioOriginal',
+    precioPromocional: 'precioPromocional',
+    licenciasAplicables: 'licenciasAplicables',
+    imagenRuta: 'imagenRuta',
+    fechaInicio: 'fechaInicio',
+    fechaFin: 'fechaFin',
+    activa: 'activa',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PromocionScalarFieldEnum = (typeof PromocionScalarFieldEnum)[keyof typeof PromocionScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -15964,6 +18490,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Decimal'
+   */
+  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+  /**
+   * Reference to a field of type 'Decimal[]'
+   */
+  export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -15995,6 +18535,7 @@ export namespace Prisma {
     fechaCreacion?: DateTimeFilter<"Usuario"> | Date | string
     alumno?: XOR<AlumnoNullableScalarRelationFilter, AlumnoWhereInput> | null
     profesor?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
+    activacionesCuenta?: ActivacionCuentaListRelationFilter
   }
 
   export type UsuarioOrderByWithRelationInput = {
@@ -16009,6 +18550,7 @@ export namespace Prisma {
     fechaCreacion?: SortOrder
     alumno?: AlumnoOrderByWithRelationInput
     profesor?: ProfesorOrderByWithRelationInput
+    activacionesCuenta?: ActivacionCuentaOrderByRelationAggregateInput
   }
 
   export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
@@ -16026,6 +18568,7 @@ export namespace Prisma {
     fechaCreacion?: DateTimeFilter<"Usuario"> | Date | string
     alumno?: XOR<AlumnoNullableScalarRelationFilter, AlumnoWhereInput> | null
     profesor?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
+    activacionesCuenta?: ActivacionCuentaListRelationFilter
   }, "id" | "dni" | "email">
 
   export type UsuarioOrderByWithAggregationInput = {
@@ -16056,6 +18599,78 @@ export namespace Prisma {
     requiereCambioPassword?: BoolWithAggregatesFilter<"Usuario"> | boolean
     rol?: EnumRolWithAggregatesFilter<"Usuario"> | $Enums.Rol
     fechaCreacion?: DateTimeWithAggregatesFilter<"Usuario"> | Date | string
+  }
+
+  export type ActivacionCuentaWhereInput = {
+    AND?: ActivacionCuentaWhereInput | ActivacionCuentaWhereInput[]
+    OR?: ActivacionCuentaWhereInput[]
+    NOT?: ActivacionCuentaWhereInput | ActivacionCuentaWhereInput[]
+    id?: StringFilter<"ActivacionCuenta"> | string
+    usuarioId?: StringFilter<"ActivacionCuenta"> | string
+    tokenHash?: StringFilter<"ActivacionCuenta"> | string
+    expiresAt?: DateTimeFilter<"ActivacionCuenta"> | Date | string
+    usedAt?: DateTimeNullableFilter<"ActivacionCuenta"> | Date | string | null
+    createdAt?: DateTimeFilter<"ActivacionCuenta"> | Date | string
+    createdById?: StringNullableFilter<"ActivacionCuenta"> | string | null
+    resendCount?: IntFilter<"ActivacionCuenta"> | number
+    usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+  }
+
+  export type ActivacionCuentaOrderByWithRelationInput = {
+    id?: SortOrder
+    usuarioId?: SortOrder
+    tokenHash?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    resendCount?: SortOrder
+    usuario?: UsuarioOrderByWithRelationInput
+  }
+
+  export type ActivacionCuentaWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tokenHash?: string
+    AND?: ActivacionCuentaWhereInput | ActivacionCuentaWhereInput[]
+    OR?: ActivacionCuentaWhereInput[]
+    NOT?: ActivacionCuentaWhereInput | ActivacionCuentaWhereInput[]
+    usuarioId?: StringFilter<"ActivacionCuenta"> | string
+    expiresAt?: DateTimeFilter<"ActivacionCuenta"> | Date | string
+    usedAt?: DateTimeNullableFilter<"ActivacionCuenta"> | Date | string | null
+    createdAt?: DateTimeFilter<"ActivacionCuenta"> | Date | string
+    createdById?: StringNullableFilter<"ActivacionCuenta"> | string | null
+    resendCount?: IntFilter<"ActivacionCuenta"> | number
+    usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+  }, "id" | "tokenHash">
+
+  export type ActivacionCuentaOrderByWithAggregationInput = {
+    id?: SortOrder
+    usuarioId?: SortOrder
+    tokenHash?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    resendCount?: SortOrder
+    _count?: ActivacionCuentaCountOrderByAggregateInput
+    _avg?: ActivacionCuentaAvgOrderByAggregateInput
+    _max?: ActivacionCuentaMaxOrderByAggregateInput
+    _min?: ActivacionCuentaMinOrderByAggregateInput
+    _sum?: ActivacionCuentaSumOrderByAggregateInput
+  }
+
+  export type ActivacionCuentaScalarWhereWithAggregatesInput = {
+    AND?: ActivacionCuentaScalarWhereWithAggregatesInput | ActivacionCuentaScalarWhereWithAggregatesInput[]
+    OR?: ActivacionCuentaScalarWhereWithAggregatesInput[]
+    NOT?: ActivacionCuentaScalarWhereWithAggregatesInput | ActivacionCuentaScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ActivacionCuenta"> | string
+    usuarioId?: StringWithAggregatesFilter<"ActivacionCuenta"> | string
+    tokenHash?: StringWithAggregatesFilter<"ActivacionCuenta"> | string
+    expiresAt?: DateTimeWithAggregatesFilter<"ActivacionCuenta"> | Date | string
+    usedAt?: DateTimeNullableWithAggregatesFilter<"ActivacionCuenta"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ActivacionCuenta"> | Date | string
+    createdById?: StringNullableWithAggregatesFilter<"ActivacionCuenta"> | string | null
+    resendCount?: IntWithAggregatesFilter<"ActivacionCuenta"> | number
   }
 
   export type ProfesorWhereInput = {
@@ -16802,6 +19417,95 @@ export namespace Prisma {
     estado?: StringWithAggregatesFilter<"Examen"> | string
   }
 
+  export type PromocionWhereInput = {
+    AND?: PromocionWhereInput | PromocionWhereInput[]
+    OR?: PromocionWhereInput[]
+    NOT?: PromocionWhereInput | PromocionWhereInput[]
+    id?: StringFilter<"Promocion"> | string
+    nombre?: StringFilter<"Promocion"> | string
+    descripcion?: StringNullableFilter<"Promocion"> | string | null
+    precioOriginal?: DecimalFilter<"Promocion"> | Decimal | DecimalJsLike | number | string
+    precioPromocional?: DecimalFilter<"Promocion"> | Decimal | DecimalJsLike | number | string
+    licenciasAplicables?: StringNullableListFilter<"Promocion">
+    imagenRuta?: StringNullableFilter<"Promocion"> | string | null
+    fechaInicio?: DateTimeNullableFilter<"Promocion"> | Date | string | null
+    fechaFin?: DateTimeNullableFilter<"Promocion"> | Date | string | null
+    activa?: BoolFilter<"Promocion"> | boolean
+    createdAt?: DateTimeFilter<"Promocion"> | Date | string
+    updatedAt?: DateTimeFilter<"Promocion"> | Date | string
+  }
+
+  export type PromocionOrderByWithRelationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrderInput | SortOrder
+    precioOriginal?: SortOrder
+    precioPromocional?: SortOrder
+    licenciasAplicables?: SortOrder
+    imagenRuta?: SortOrderInput | SortOrder
+    fechaInicio?: SortOrderInput | SortOrder
+    fechaFin?: SortOrderInput | SortOrder
+    activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PromocionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PromocionWhereInput | PromocionWhereInput[]
+    OR?: PromocionWhereInput[]
+    NOT?: PromocionWhereInput | PromocionWhereInput[]
+    nombre?: StringFilter<"Promocion"> | string
+    descripcion?: StringNullableFilter<"Promocion"> | string | null
+    precioOriginal?: DecimalFilter<"Promocion"> | Decimal | DecimalJsLike | number | string
+    precioPromocional?: DecimalFilter<"Promocion"> | Decimal | DecimalJsLike | number | string
+    licenciasAplicables?: StringNullableListFilter<"Promocion">
+    imagenRuta?: StringNullableFilter<"Promocion"> | string | null
+    fechaInicio?: DateTimeNullableFilter<"Promocion"> | Date | string | null
+    fechaFin?: DateTimeNullableFilter<"Promocion"> | Date | string | null
+    activa?: BoolFilter<"Promocion"> | boolean
+    createdAt?: DateTimeFilter<"Promocion"> | Date | string
+    updatedAt?: DateTimeFilter<"Promocion"> | Date | string
+  }, "id">
+
+  export type PromocionOrderByWithAggregationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrderInput | SortOrder
+    precioOriginal?: SortOrder
+    precioPromocional?: SortOrder
+    licenciasAplicables?: SortOrder
+    imagenRuta?: SortOrderInput | SortOrder
+    fechaInicio?: SortOrderInput | SortOrder
+    fechaFin?: SortOrderInput | SortOrder
+    activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PromocionCountOrderByAggregateInput
+    _avg?: PromocionAvgOrderByAggregateInput
+    _max?: PromocionMaxOrderByAggregateInput
+    _min?: PromocionMinOrderByAggregateInput
+    _sum?: PromocionSumOrderByAggregateInput
+  }
+
+  export type PromocionScalarWhereWithAggregatesInput = {
+    AND?: PromocionScalarWhereWithAggregatesInput | PromocionScalarWhereWithAggregatesInput[]
+    OR?: PromocionScalarWhereWithAggregatesInput[]
+    NOT?: PromocionScalarWhereWithAggregatesInput | PromocionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Promocion"> | string
+    nombre?: StringWithAggregatesFilter<"Promocion"> | string
+    descripcion?: StringNullableWithAggregatesFilter<"Promocion"> | string | null
+    precioOriginal?: DecimalWithAggregatesFilter<"Promocion"> | Decimal | DecimalJsLike | number | string
+    precioPromocional?: DecimalWithAggregatesFilter<"Promocion"> | Decimal | DecimalJsLike | number | string
+    licenciasAplicables?: StringNullableListFilter<"Promocion">
+    imagenRuta?: StringNullableWithAggregatesFilter<"Promocion"> | string | null
+    fechaInicio?: DateTimeNullableWithAggregatesFilter<"Promocion"> | Date | string | null
+    fechaFin?: DateTimeNullableWithAggregatesFilter<"Promocion"> | Date | string | null
+    activa?: BoolWithAggregatesFilter<"Promocion"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Promocion"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Promocion"> | Date | string
+  }
+
   export type UsuarioCreateInput = {
     id?: string
     nombre: string
@@ -16814,6 +19518,7 @@ export namespace Prisma {
     fechaCreacion?: Date | string
     alumno?: AlumnoCreateNestedOneWithoutUsuarioInput
     profesor?: ProfesorCreateNestedOneWithoutUsuarioInput
+    activacionesCuenta?: ActivacionCuentaCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioUncheckedCreateInput = {
@@ -16828,6 +19533,7 @@ export namespace Prisma {
     fechaCreacion?: Date | string
     alumno?: AlumnoUncheckedCreateNestedOneWithoutUsuarioInput
     profesor?: ProfesorUncheckedCreateNestedOneWithoutUsuarioInput
+    activacionesCuenta?: ActivacionCuentaUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioUpdateInput = {
@@ -16842,6 +19548,7 @@ export namespace Prisma {
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     alumno?: AlumnoUpdateOneWithoutUsuarioNestedInput
     profesor?: ProfesorUpdateOneWithoutUsuarioNestedInput
+    activacionesCuenta?: ActivacionCuentaUpdateManyWithoutUsuarioNestedInput
   }
 
   export type UsuarioUncheckedUpdateInput = {
@@ -16856,6 +19563,7 @@ export namespace Prisma {
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     alumno?: AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput
     profesor?: ProfesorUncheckedUpdateOneWithoutUsuarioNestedInput
+    activacionesCuenta?: ActivacionCuentaUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
   export type UsuarioCreateManyInput = {
@@ -16892,6 +19600,82 @@ export namespace Prisma {
     requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActivacionCuentaCreateInput = {
+    id?: string
+    tokenHash: string
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+    createdById?: string | null
+    resendCount?: number
+    usuario: UsuarioCreateNestedOneWithoutActivacionesCuentaInput
+  }
+
+  export type ActivacionCuentaUncheckedCreateInput = {
+    id?: string
+    usuarioId: string
+    tokenHash: string
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+    createdById?: string | null
+    resendCount?: number
+  }
+
+  export type ActivacionCuentaUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    resendCount?: IntFieldUpdateOperationsInput | number
+    usuario?: UsuarioUpdateOneRequiredWithoutActivacionesCuentaNestedInput
+  }
+
+  export type ActivacionCuentaUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    usuarioId?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    resendCount?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ActivacionCuentaCreateManyInput = {
+    id?: string
+    usuarioId: string
+    tokenHash: string
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+    createdById?: string | null
+    resendCount?: number
+  }
+
+  export type ActivacionCuentaUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    resendCount?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ActivacionCuentaUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    usuarioId?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    resendCount?: IntFieldUpdateOperationsInput | number
   }
 
   export type ProfesorCreateInput = {
@@ -17656,6 +20440,111 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
   }
 
+  export type PromocionCreateInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    precioOriginal: Decimal | DecimalJsLike | number | string
+    precioPromocional: Decimal | DecimalJsLike | number | string
+    licenciasAplicables?: PromocionCreatelicenciasAplicablesInput | string[]
+    imagenRuta?: string | null
+    fechaInicio?: Date | string | null
+    fechaFin?: Date | string | null
+    activa?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PromocionUncheckedCreateInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    precioOriginal: Decimal | DecimalJsLike | number | string
+    precioPromocional: Decimal | DecimalJsLike | number | string
+    licenciasAplicables?: PromocionCreatelicenciasAplicablesInput | string[]
+    imagenRuta?: string | null
+    fechaInicio?: Date | string | null
+    fechaFin?: Date | string | null
+    activa?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PromocionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    precioOriginal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioPromocional?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    licenciasAplicables?: PromocionUpdatelicenciasAplicablesInput | string[]
+    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PromocionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    precioOriginal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioPromocional?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    licenciasAplicables?: PromocionUpdatelicenciasAplicablesInput | string[]
+    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PromocionCreateManyInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    precioOriginal: Decimal | DecimalJsLike | number | string
+    precioPromocional: Decimal | DecimalJsLike | number | string
+    licenciasAplicables?: PromocionCreatelicenciasAplicablesInput | string[]
+    imagenRuta?: string | null
+    fechaInicio?: Date | string | null
+    fechaFin?: Date | string | null
+    activa?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PromocionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    precioOriginal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioPromocional?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    licenciasAplicables?: PromocionUpdatelicenciasAplicablesInput | string[]
+    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PromocionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    precioOriginal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioPromocional?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    licenciasAplicables?: PromocionUpdatelicenciasAplicablesInput | string[]
+    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -17719,9 +20608,19 @@ export namespace Prisma {
     isNot?: ProfesorWhereInput | null
   }
 
+  export type ActivacionCuentaListRelationFilter = {
+    every?: ActivacionCuentaWhereInput
+    some?: ActivacionCuentaWhereInput
+    none?: ActivacionCuentaWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type ActivacionCuentaOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type UsuarioCountOrderByAggregateInput = {
@@ -17828,6 +20727,104 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type UsuarioScalarRelationFilter = {
+    is?: UsuarioWhereInput
+    isNot?: UsuarioWhereInput
+  }
+
+  export type ActivacionCuentaCountOrderByAggregateInput = {
+    id?: SortOrder
+    usuarioId?: SortOrder
+    tokenHash?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrder
+    createdAt?: SortOrder
+    createdById?: SortOrder
+    resendCount?: SortOrder
+  }
+
+  export type ActivacionCuentaAvgOrderByAggregateInput = {
+    resendCount?: SortOrder
+  }
+
+  export type ActivacionCuentaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    usuarioId?: SortOrder
+    tokenHash?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrder
+    createdAt?: SortOrder
+    createdById?: SortOrder
+    resendCount?: SortOrder
+  }
+
+  export type ActivacionCuentaMinOrderByAggregateInput = {
+    id?: SortOrder
+    usuarioId?: SortOrder
+    tokenHash?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrder
+    createdAt?: SortOrder
+    createdById?: SortOrder
+    resendCount?: SortOrder
+  }
+
+  export type ActivacionCuentaSumOrderByAggregateInput = {
+    resendCount?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
   export type StringNullableListFilter<$PrismaModel = never> = {
     equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     has?: string | StringFieldRefInput<$PrismaModel> | null
@@ -17846,11 +20843,6 @@ export namespace Prisma {
     every?: ClasePracticaWhereInput
     some?: ClasePracticaWhereInput
     none?: ClasePracticaWhereInput
-  }
-
-  export type UsuarioScalarRelationFilter = {
-    is?: UsuarioWhereInput
-    isNot?: UsuarioWhereInput
   }
 
   export type AlumnoOrderByRelationAggregateInput = {
@@ -17881,28 +20873,6 @@ export namespace Prisma {
     licenciaConducir?: SortOrder
     telefono?: SortOrder
     activo?: SortOrder
-  }
-
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type ExamenListRelationFilter = {
@@ -17994,36 +20964,6 @@ export namespace Prisma {
 
   export type AlumnoSumOrderByAggregateInput = {
     horasPracticasCompletadas?: SortOrder
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type TemarioCountOrderByAggregateInput = {
@@ -18365,6 +21305,86 @@ export namespace Prisma {
     estado?: SortOrder
   }
 
+  export type DecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type PromocionCountOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrder
+    precioOriginal?: SortOrder
+    precioPromocional?: SortOrder
+    licenciasAplicables?: SortOrder
+    imagenRuta?: SortOrder
+    fechaInicio?: SortOrder
+    fechaFin?: SortOrder
+    activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PromocionAvgOrderByAggregateInput = {
+    precioOriginal?: SortOrder
+    precioPromocional?: SortOrder
+  }
+
+  export type PromocionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrder
+    precioOriginal?: SortOrder
+    precioPromocional?: SortOrder
+    imagenRuta?: SortOrder
+    fechaInicio?: SortOrder
+    fechaFin?: SortOrder
+    activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PromocionMinOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrder
+    precioOriginal?: SortOrder
+    precioPromocional?: SortOrder
+    imagenRuta?: SortOrder
+    fechaInicio?: SortOrder
+    fechaFin?: SortOrder
+    activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PromocionSumOrderByAggregateInput = {
+    precioOriginal?: SortOrder
+    precioPromocional?: SortOrder
+  }
+
+  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
+  }
+
   export type AlumnoCreateNestedOneWithoutUsuarioInput = {
     create?: XOR<AlumnoCreateWithoutUsuarioInput, AlumnoUncheckedCreateWithoutUsuarioInput>
     connectOrCreate?: AlumnoCreateOrConnectWithoutUsuarioInput
@@ -18377,6 +21397,13 @@ export namespace Prisma {
     connect?: ProfesorWhereUniqueInput
   }
 
+  export type ActivacionCuentaCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<ActivacionCuentaCreateWithoutUsuarioInput, ActivacionCuentaUncheckedCreateWithoutUsuarioInput> | ActivacionCuentaCreateWithoutUsuarioInput[] | ActivacionCuentaUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: ActivacionCuentaCreateOrConnectWithoutUsuarioInput | ActivacionCuentaCreateOrConnectWithoutUsuarioInput[]
+    createMany?: ActivacionCuentaCreateManyUsuarioInputEnvelope
+    connect?: ActivacionCuentaWhereUniqueInput | ActivacionCuentaWhereUniqueInput[]
+  }
+
   export type AlumnoUncheckedCreateNestedOneWithoutUsuarioInput = {
     create?: XOR<AlumnoCreateWithoutUsuarioInput, AlumnoUncheckedCreateWithoutUsuarioInput>
     connectOrCreate?: AlumnoCreateOrConnectWithoutUsuarioInput
@@ -18387,6 +21414,13 @@ export namespace Prisma {
     create?: XOR<ProfesorCreateWithoutUsuarioInput, ProfesorUncheckedCreateWithoutUsuarioInput>
     connectOrCreate?: ProfesorCreateOrConnectWithoutUsuarioInput
     connect?: ProfesorWhereUniqueInput
+  }
+
+  export type ActivacionCuentaUncheckedCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<ActivacionCuentaCreateWithoutUsuarioInput, ActivacionCuentaUncheckedCreateWithoutUsuarioInput> | ActivacionCuentaCreateWithoutUsuarioInput[] | ActivacionCuentaUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: ActivacionCuentaCreateOrConnectWithoutUsuarioInput | ActivacionCuentaCreateOrConnectWithoutUsuarioInput[]
+    createMany?: ActivacionCuentaCreateManyUsuarioInputEnvelope
+    connect?: ActivacionCuentaWhereUniqueInput | ActivacionCuentaWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -18429,6 +21463,20 @@ export namespace Prisma {
     update?: XOR<XOR<ProfesorUpdateToOneWithWhereWithoutUsuarioInput, ProfesorUpdateWithoutUsuarioInput>, ProfesorUncheckedUpdateWithoutUsuarioInput>
   }
 
+  export type ActivacionCuentaUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<ActivacionCuentaCreateWithoutUsuarioInput, ActivacionCuentaUncheckedCreateWithoutUsuarioInput> | ActivacionCuentaCreateWithoutUsuarioInput[] | ActivacionCuentaUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: ActivacionCuentaCreateOrConnectWithoutUsuarioInput | ActivacionCuentaCreateOrConnectWithoutUsuarioInput[]
+    upsert?: ActivacionCuentaUpsertWithWhereUniqueWithoutUsuarioInput | ActivacionCuentaUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: ActivacionCuentaCreateManyUsuarioInputEnvelope
+    set?: ActivacionCuentaWhereUniqueInput | ActivacionCuentaWhereUniqueInput[]
+    disconnect?: ActivacionCuentaWhereUniqueInput | ActivacionCuentaWhereUniqueInput[]
+    delete?: ActivacionCuentaWhereUniqueInput | ActivacionCuentaWhereUniqueInput[]
+    connect?: ActivacionCuentaWhereUniqueInput | ActivacionCuentaWhereUniqueInput[]
+    update?: ActivacionCuentaUpdateWithWhereUniqueWithoutUsuarioInput | ActivacionCuentaUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: ActivacionCuentaUpdateManyWithWhereWithoutUsuarioInput | ActivacionCuentaUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: ActivacionCuentaScalarWhereInput | ActivacionCuentaScalarWhereInput[]
+  }
+
   export type AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput = {
     create?: XOR<AlumnoCreateWithoutUsuarioInput, AlumnoUncheckedCreateWithoutUsuarioInput>
     connectOrCreate?: AlumnoCreateOrConnectWithoutUsuarioInput
@@ -18447,6 +21495,46 @@ export namespace Prisma {
     delete?: ProfesorWhereInput | boolean
     connect?: ProfesorWhereUniqueInput
     update?: XOR<XOR<ProfesorUpdateToOneWithWhereWithoutUsuarioInput, ProfesorUpdateWithoutUsuarioInput>, ProfesorUncheckedUpdateWithoutUsuarioInput>
+  }
+
+  export type ActivacionCuentaUncheckedUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<ActivacionCuentaCreateWithoutUsuarioInput, ActivacionCuentaUncheckedCreateWithoutUsuarioInput> | ActivacionCuentaCreateWithoutUsuarioInput[] | ActivacionCuentaUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: ActivacionCuentaCreateOrConnectWithoutUsuarioInput | ActivacionCuentaCreateOrConnectWithoutUsuarioInput[]
+    upsert?: ActivacionCuentaUpsertWithWhereUniqueWithoutUsuarioInput | ActivacionCuentaUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: ActivacionCuentaCreateManyUsuarioInputEnvelope
+    set?: ActivacionCuentaWhereUniqueInput | ActivacionCuentaWhereUniqueInput[]
+    disconnect?: ActivacionCuentaWhereUniqueInput | ActivacionCuentaWhereUniqueInput[]
+    delete?: ActivacionCuentaWhereUniqueInput | ActivacionCuentaWhereUniqueInput[]
+    connect?: ActivacionCuentaWhereUniqueInput | ActivacionCuentaWhereUniqueInput[]
+    update?: ActivacionCuentaUpdateWithWhereUniqueWithoutUsuarioInput | ActivacionCuentaUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: ActivacionCuentaUpdateManyWithWhereWithoutUsuarioInput | ActivacionCuentaUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: ActivacionCuentaScalarWhereInput | ActivacionCuentaScalarWhereInput[]
+  }
+
+  export type UsuarioCreateNestedOneWithoutActivacionesCuentaInput = {
+    create?: XOR<UsuarioCreateWithoutActivacionesCuentaInput, UsuarioUncheckedCreateWithoutActivacionesCuentaInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutActivacionesCuentaInput
+    connect?: UsuarioWhereUniqueInput
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type UsuarioUpdateOneRequiredWithoutActivacionesCuentaNestedInput = {
+    create?: XOR<UsuarioCreateWithoutActivacionesCuentaInput, UsuarioUncheckedCreateWithoutActivacionesCuentaInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutActivacionesCuentaInput
+    upsert?: UsuarioUpsertWithoutActivacionesCuentaInput
+    connect?: UsuarioWhereUniqueInput
+    update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutActivacionesCuentaInput, UsuarioUpdateWithoutActivacionesCuentaInput>, UsuarioUncheckedUpdateWithoutActivacionesCuentaInput>
   }
 
   export type ProfesorCreatepermisosLicenciasInput = {
@@ -18650,18 +21738,6 @@ export namespace Prisma {
     connectOrCreate?: SolicitudExamenCreateOrConnectWithoutAlumnoInput | SolicitudExamenCreateOrConnectWithoutAlumnoInput[]
     createMany?: SolicitudExamenCreateManyAlumnoInputEnvelope
     connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type UsuarioUpdateOneRequiredWithoutAlumnoNestedInput = {
@@ -19174,6 +22250,23 @@ export namespace Prisma {
     update?: XOR<XOR<AlumnoUpdateToOneWithWhereWithoutExamenesInput, AlumnoUpdateWithoutExamenesInput>, AlumnoUncheckedUpdateWithoutExamenesInput>
   }
 
+  export type PromocionCreatelicenciasAplicablesInput = {
+    set: string[]
+  }
+
+  export type DecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type PromocionUpdatelicenciasAplicablesInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -19365,6 +22458,33 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedDecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
+  }
+
   export type AlumnoCreateWithoutUsuarioInput = {
     tipoLicenciaObjetivo: string
     fechaNacimiento?: Date | string | null
@@ -19423,6 +22543,36 @@ export namespace Prisma {
   export type ProfesorCreateOrConnectWithoutUsuarioInput = {
     where: ProfesorWhereUniqueInput
     create: XOR<ProfesorCreateWithoutUsuarioInput, ProfesorUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type ActivacionCuentaCreateWithoutUsuarioInput = {
+    id?: string
+    tokenHash: string
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+    createdById?: string | null
+    resendCount?: number
+  }
+
+  export type ActivacionCuentaUncheckedCreateWithoutUsuarioInput = {
+    id?: string
+    tokenHash: string
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+    createdById?: string | null
+    resendCount?: number
+  }
+
+  export type ActivacionCuentaCreateOrConnectWithoutUsuarioInput = {
+    where: ActivacionCuentaWhereUniqueInput
+    create: XOR<ActivacionCuentaCreateWithoutUsuarioInput, ActivacionCuentaUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type ActivacionCuentaCreateManyUsuarioInputEnvelope = {
+    data: ActivacionCuentaCreateManyUsuarioInput | ActivacionCuentaCreateManyUsuarioInput[]
+    skipDuplicates?: boolean
   }
 
   export type AlumnoUpsertWithoutUsuarioInput = {
@@ -19495,6 +22645,108 @@ export namespace Prisma {
     activo?: BoolFieldUpdateOperationsInput | boolean
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+  }
+
+  export type ActivacionCuentaUpsertWithWhereUniqueWithoutUsuarioInput = {
+    where: ActivacionCuentaWhereUniqueInput
+    update: XOR<ActivacionCuentaUpdateWithoutUsuarioInput, ActivacionCuentaUncheckedUpdateWithoutUsuarioInput>
+    create: XOR<ActivacionCuentaCreateWithoutUsuarioInput, ActivacionCuentaUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type ActivacionCuentaUpdateWithWhereUniqueWithoutUsuarioInput = {
+    where: ActivacionCuentaWhereUniqueInput
+    data: XOR<ActivacionCuentaUpdateWithoutUsuarioInput, ActivacionCuentaUncheckedUpdateWithoutUsuarioInput>
+  }
+
+  export type ActivacionCuentaUpdateManyWithWhereWithoutUsuarioInput = {
+    where: ActivacionCuentaScalarWhereInput
+    data: XOR<ActivacionCuentaUpdateManyMutationInput, ActivacionCuentaUncheckedUpdateManyWithoutUsuarioInput>
+  }
+
+  export type ActivacionCuentaScalarWhereInput = {
+    AND?: ActivacionCuentaScalarWhereInput | ActivacionCuentaScalarWhereInput[]
+    OR?: ActivacionCuentaScalarWhereInput[]
+    NOT?: ActivacionCuentaScalarWhereInput | ActivacionCuentaScalarWhereInput[]
+    id?: StringFilter<"ActivacionCuenta"> | string
+    usuarioId?: StringFilter<"ActivacionCuenta"> | string
+    tokenHash?: StringFilter<"ActivacionCuenta"> | string
+    expiresAt?: DateTimeFilter<"ActivacionCuenta"> | Date | string
+    usedAt?: DateTimeNullableFilter<"ActivacionCuenta"> | Date | string | null
+    createdAt?: DateTimeFilter<"ActivacionCuenta"> | Date | string
+    createdById?: StringNullableFilter<"ActivacionCuenta"> | string | null
+    resendCount?: IntFilter<"ActivacionCuenta"> | number
+  }
+
+  export type UsuarioCreateWithoutActivacionesCuentaInput = {
+    id?: string
+    nombre: string
+    dni?: string | null
+    email: string
+    telefono?: string | null
+    passwordHash: string
+    requiereCambioPassword?: boolean
+    rol: $Enums.Rol
+    fechaCreacion?: Date | string
+    alumno?: AlumnoCreateNestedOneWithoutUsuarioInput
+    profesor?: ProfesorCreateNestedOneWithoutUsuarioInput
+  }
+
+  export type UsuarioUncheckedCreateWithoutActivacionesCuentaInput = {
+    id?: string
+    nombre: string
+    dni?: string | null
+    email: string
+    telefono?: string | null
+    passwordHash: string
+    requiereCambioPassword?: boolean
+    rol: $Enums.Rol
+    fechaCreacion?: Date | string
+    alumno?: AlumnoUncheckedCreateNestedOneWithoutUsuarioInput
+    profesor?: ProfesorUncheckedCreateNestedOneWithoutUsuarioInput
+  }
+
+  export type UsuarioCreateOrConnectWithoutActivacionesCuentaInput = {
+    where: UsuarioWhereUniqueInput
+    create: XOR<UsuarioCreateWithoutActivacionesCuentaInput, UsuarioUncheckedCreateWithoutActivacionesCuentaInput>
+  }
+
+  export type UsuarioUpsertWithoutActivacionesCuentaInput = {
+    update: XOR<UsuarioUpdateWithoutActivacionesCuentaInput, UsuarioUncheckedUpdateWithoutActivacionesCuentaInput>
+    create: XOR<UsuarioCreateWithoutActivacionesCuentaInput, UsuarioUncheckedCreateWithoutActivacionesCuentaInput>
+    where?: UsuarioWhereInput
+  }
+
+  export type UsuarioUpdateToOneWithWhereWithoutActivacionesCuentaInput = {
+    where?: UsuarioWhereInput
+    data: XOR<UsuarioUpdateWithoutActivacionesCuentaInput, UsuarioUncheckedUpdateWithoutActivacionesCuentaInput>
+  }
+
+  export type UsuarioUpdateWithoutActivacionesCuentaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
+    rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    alumno?: AlumnoUpdateOneWithoutUsuarioNestedInput
+    profesor?: ProfesorUpdateOneWithoutUsuarioNestedInput
+  }
+
+  export type UsuarioUncheckedUpdateWithoutActivacionesCuentaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
+    rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    alumno?: AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput
+    profesor?: ProfesorUncheckedUpdateOneWithoutUsuarioNestedInput
   }
 
   export type AlumnoCreateWithoutProfesorAsignadoInput = {
@@ -19578,6 +22830,7 @@ export namespace Prisma {
     rol: $Enums.Rol
     fechaCreacion?: Date | string
     alumno?: AlumnoCreateNestedOneWithoutUsuarioInput
+    activacionesCuenta?: ActivacionCuentaCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioUncheckedCreateWithoutProfesorInput = {
@@ -19591,6 +22844,7 @@ export namespace Prisma {
     rol: $Enums.Rol
     fechaCreacion?: Date | string
     alumno?: AlumnoUncheckedCreateNestedOneWithoutUsuarioInput
+    activacionesCuenta?: ActivacionCuentaUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioCreateOrConnectWithoutProfesorInput = {
@@ -19679,6 +22933,7 @@ export namespace Prisma {
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     alumno?: AlumnoUpdateOneWithoutUsuarioNestedInput
+    activacionesCuenta?: ActivacionCuentaUpdateManyWithoutUsuarioNestedInput
   }
 
   export type UsuarioUncheckedUpdateWithoutProfesorInput = {
@@ -19692,6 +22947,7 @@ export namespace Prisma {
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     alumno?: AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput
+    activacionesCuenta?: ActivacionCuentaUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
   export type UsuarioCreateWithoutAlumnoInput = {
@@ -19705,6 +22961,7 @@ export namespace Prisma {
     rol: $Enums.Rol
     fechaCreacion?: Date | string
     profesor?: ProfesorCreateNestedOneWithoutUsuarioInput
+    activacionesCuenta?: ActivacionCuentaCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioUncheckedCreateWithoutAlumnoInput = {
@@ -19718,6 +22975,7 @@ export namespace Prisma {
     rol: $Enums.Rol
     fechaCreacion?: Date | string
     profesor?: ProfesorUncheckedCreateNestedOneWithoutUsuarioInput
+    activacionesCuenta?: ActivacionCuentaUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioCreateOrConnectWithoutAlumnoInput = {
@@ -19934,6 +23192,7 @@ export namespace Prisma {
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     profesor?: ProfesorUpdateOneWithoutUsuarioNestedInput
+    activacionesCuenta?: ActivacionCuentaUpdateManyWithoutUsuarioNestedInput
   }
 
   export type UsuarioUncheckedUpdateWithoutAlumnoInput = {
@@ -19947,6 +23206,7 @@ export namespace Prisma {
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     profesor?: ProfesorUncheckedUpdateOneWithoutUsuarioNestedInput
+    activacionesCuenta?: ActivacionCuentaUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
   export type ProfesorUpsertWithoutAlumnosAsignadosInput = {
@@ -21055,6 +24315,46 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type ActivacionCuentaCreateManyUsuarioInput = {
+    id?: string
+    tokenHash: string
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+    createdById?: string | null
+    resendCount?: number
+  }
+
+  export type ActivacionCuentaUpdateWithoutUsuarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    resendCount?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ActivacionCuentaUncheckedUpdateWithoutUsuarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    resendCount?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ActivacionCuentaUncheckedUpdateManyWithoutUsuarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    resendCount?: IntFieldUpdateOperationsInput | number
   }
 
   export type AlumnoCreateManyProfesorAsignadoInput = {

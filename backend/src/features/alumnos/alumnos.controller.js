@@ -6,7 +6,11 @@ export class AlumnosController {
   async create(req, res) {
     console.log("CONTROLADOR CREATE NUEVO");
     try {
-      const alumno = await this.service.create(req.body);
+      const alumno = req.user?.id
+        ? await this.service.create(req.body, {
+            createdById: req.user.id,
+          })
+        : await this.service.create(req.body);
 
       return res.status(201).json(alumno);
     } catch (error) {

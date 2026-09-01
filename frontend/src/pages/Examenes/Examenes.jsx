@@ -8,7 +8,9 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogContentText,
   DialogTitle,
+  IconButton,
   FormControl,
   InputLabel,
   MenuItem,
@@ -64,6 +66,15 @@ export default function Examenes() {
     severity: "success",
   });
 
+  const [confirmDialog, setConfirmDialog] = useState({
+    open: false,
+    action: null,
+    examenId: null,
+    alumnoNombre: "",
+    title: "",
+    message: "",
+  });
+
   const loadData = async () => {
     try {
       const [examenes, alumnosData] = await Promise.all([
@@ -113,12 +124,36 @@ export default function Examenes() {
     setOpen(true);
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("¿Seguro que deseas eliminar este examen?")) return;
+  const handleDelete = (row) => {
+    const nombreAlumno = row.alumno?.usuario?.nombre || "este alumno";
 
+    setConfirmDialog({
+      open: true,
+      action: "delete",
+      examenId: row.id,
+      alumnoNombre: nombreAlumno,
+      title: "Confirmar eliminación",
+      message: `Vas a eliminar definitivamente el examen asociado a ${nombreAlumno}. Toda la información relacionada con el examen será eliminada de forma permanente. Esta acción no podrá deshacerse. ¿Deseas continuar?`,
+    });
+  };
+
+  const closeConfirmDialog = () => {
+    setConfirmDialog({
+      open: false,
+      action: null,
+      examenId: null,
+      alumnoNombre: "",
+      title: "",
+      message: "",
+    });
+  };
+
+  const handleConfirmAction = async () => {
     try {
-      await examenesService.delete(id);
+      await examenesService.delete(confirmDialog.examenId);
+
       await loadData();
+
       setNotification({
         open: true,
         message: "Examen eliminado correctamente",
@@ -126,11 +161,14 @@ export default function Examenes() {
       });
     } catch (error) {
       console.error(error);
+
       setNotification({
         open: true,
         message: error.response?.data?.message || "Error eliminando examen",
         severity: "error",
       });
+    } finally {
+      closeConfirmDialog();
     }
   };
 
@@ -204,9 +242,18 @@ export default function Examenes() {
       headerName: "Observaciones",
       flex: 1.2,
       renderCell: (params) => (
-        <Typography variant="body2" noWrap>
-          {params.row.observaciones || "Sin observaciones"}
-        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            height: "100%",
+            width: "100%",
+          }}
+        >
+          <Typography variant="body2" noWrap>
+            {params.row.observaciones || "Sin observaciones"}
+          </Typography>
+        </Box>
       ),
     },
     {
@@ -216,21 +263,13 @@ export default function Examenes() {
       sortable: false,
       renderCell: (params) => (
         <Box sx={{ display: "flex", gap: 1 }}>
-          <Button
-            size="small"
-            startIcon={<EditIcon />}
-            onClick={() => handleEdit(params.row)}
-          >
-            Editar
-          </Button>
-          <Button
-            size="small"
-            color="error"
-            startIcon={<DeleteIcon />}
-            onClick={() => handleDelete(params.row.id)}
-          >
-            Borrar
-          </Button>
+          <IconButton color="primary" onClick={() => handleEdit(params.row)}>
+            <EditIcon />
+          </IconButton>
+
+          <IconButton color="error" onClick={() => handleDelete(params.row)}>
+            <DeleteIcon />
+          </IconButton>
         </Box>
       ),
     },
@@ -362,6 +401,31 @@ export default function Examenes() {
           <Button onClick={() => setOpen(false)}>Cancelar</Button>
           <Button variant="contained" onClick={handleSave}>
             Guardar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={confirmDialog.open}
+        onClose={closeConfirmDialog}
+        fullWidth
+        maxWidth="xs"
+      >
+        <DialogTitle>{confirmDialog.title}</DialogTitle>
+
+        <DialogContent>
+          <DialogContentText>{confirmDialog.message}</DialogContentText>
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={closeConfirmDialog}>Cancelar</Button>
+
+          <Button
+            variant="contained"
+            color="error"
+            onClick={handleConfirmAction}
+          >
+            Confirmar
           </Button>
         </DialogActions>
       </Dialog>
