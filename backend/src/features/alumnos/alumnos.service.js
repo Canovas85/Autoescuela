@@ -173,7 +173,23 @@ export class AlumnosService {
   }
 
   async update(id, data) {
-    return this.repository.update(id, data);
+    const payload = {
+      ...data,
+    };
+
+    if (data.password?.trim()) {
+      if (data.password.length < 8) {
+        throw new Error("La contraseña debe tener al menos 8 caracteres");
+      }
+
+      payload.passwordHash = await bcrypt.hash(data.password, 10);
+
+      delete payload.password;
+    } else {
+      delete payload.password;
+    }
+
+    return this.repository.update(id, payload);
   }
 
   async deactivate(id) {

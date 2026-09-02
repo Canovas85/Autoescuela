@@ -214,6 +214,14 @@ export class ProfesoresService {
       payload.licenciaConducir = permisosLicencias[0];
     }
 
+    if (data.password?.trim()) {
+      if (data.password.length < 8) {
+        throw new Error("La contraseña debe tener al menos 8 caracteres");
+      }
+
+      payload.passwordHash = await bcrypt.hash(data.password, 10);
+    }
+
     return this.repository.update(id, payload);
   }
 

@@ -84,6 +84,10 @@ export class ProfesoresRepository {
       usuarioData.telefono = data.telefono;
       profesorData.telefono = data.telefono;
     }
+
+    if (data.passwordHash !== undefined) {
+      usuarioData.passwordHash = data.passwordHash;
+    }
     if (data.licenciaConducir !== undefined) {
       profesorData.licenciaConducir = data.licenciaConducir;
     }
