@@ -16,17 +16,52 @@ const service = new ClasesDirectoService(repository);
 const controller = new ClasesDirectoController(service);
 
 router.get(
-  "/",
+  "/alumno",
   authenticate,
   authorize("ALUMNO"),
+  controller.getAllActive.bind(controller),
+);
+
+router.get(
+  "/",
+  authenticate,
+  authorize("ALUMNO", "ADMIN"),
   controller.getAll.bind(controller),
 );
 
 router.get(
   "/:id",
   authenticate,
-  authorize("ALUMNO"),
+  authorize("ALUMNO", "ADMIN"),
   controller.getById.bind(controller),
+);
+
+router.post(
+  "/",
+  authenticate,
+  authorize("ADMIN"),
+  controller.create.bind(controller),
+);
+
+router.put(
+  "/:id",
+  authenticate,
+  authorize("ADMIN"),
+  controller.update.bind(controller),
+);
+
+router.delete(
+  "/:id",
+  authenticate,
+  authorize("ADMIN"),
+  controller.deactivate.bind(controller),
+);
+
+router.patch(
+  "/:id/activar",
+  authenticate,
+  authorize("ADMIN"),
+  controller.activate.bind(controller),
 );
 
 export default router;

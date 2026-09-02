@@ -26,6 +26,7 @@ import SolicitudesExamen from "../pages/SolicitudesExamen/SolicitudesExamen";
 import Promociones from "../pages/Promociones/Promociones";
 import ClasesDirecto from "../pages/ClasesDirecto/ClasesDirecto";
 import ClaseDirectoDetalle from "../pages/ClasesDirecto/ClaseDirectoDetalle";
+import ClasesDirectoAdmin from "../pages/ClasesDirectoAdmin/ClasesDirectoAdmin";
 
 function RequireAuth() {
   const token = localStorage.getItem("token");
@@ -88,6 +89,10 @@ export default function AppRouter() {
               />
 
               <Route path="/promociones" element={<Promociones />} />
+              <Route
+                path="/admin-clases-directo"
+                element={<ClasesDirectoAdmin />}
+              />
 
               <Route path="/clases" element={<Clases />} />
 
