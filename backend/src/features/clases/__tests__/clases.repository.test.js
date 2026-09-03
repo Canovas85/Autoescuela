@@ -106,6 +106,19 @@ describe("ClasesRepository", () => {
       where: {
         id: "clase-1",
       },
+      include: {
+        alumno: {
+          include: {
+            usuario: true,
+          },
+        },
+        profesor: {
+          include: {
+            usuario: true,
+          },
+        },
+        vehiculo: true,
+      },
     });
 
     expect(result).toEqual(clase);

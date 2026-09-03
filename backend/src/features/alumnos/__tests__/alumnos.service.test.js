@@ -491,7 +491,15 @@ describe("AlumnosService", () => {
       update: vi.fn().mockResolvedValue(alumnoActualizado),
     };
 
-    const service = new AlumnosService(repositoryMock);
+    const matriculasRepositoryMock = {
+      findActiveByAlumnoId: vi.fn().mockResolvedValue(null),
+    };
+
+    const service = new AlumnosService(
+      repositoryMock,
+      null,
+      matriculasRepositoryMock,
+    );
 
     const result = await service.update("alumno-1", {
       nombre: "Pedro Sánchez Actualizado",

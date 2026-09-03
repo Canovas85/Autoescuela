@@ -158,6 +158,14 @@ describe("AlumnosRepository", () => {
       where: {
         id: "alumno-1",
       },
+      include: {
+        usuario: true,
+        profesorAsignado: {
+          include: {
+            usuario: true,
+          },
+        },
+      },
     });
 
     expect(result).toEqual(alumno);
