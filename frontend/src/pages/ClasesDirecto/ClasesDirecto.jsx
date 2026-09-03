@@ -12,12 +12,16 @@ import {
 import SchoolIcon from "@mui/icons-material/School";
 
 import { clasesDirectoService } from "../../services/clasesDirecto.service";
+import { matriculasService } from "../../services/matriculasService";
+
+import AccesoRestringidoMatricula from "../../components/matricula/AccesoRestringidoMatricula";
 import { useNavigate } from "react-router-dom";
 
 export default function ClasesDirecto() {
   const navigate = useNavigate();
   const [clases, setClases] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [matricula, setMatricula] = useState(null);
 
   useEffect(() => {
     cargarClases();
@@ -38,6 +42,10 @@ export default function ClasesDirecto() {
 
   const cargarClases = async () => {
     try {
+      const matriculaData = await matriculasService.getMine();
+
+      setMatricula(matriculaData);
+
       const data = await clasesDirectoService.getAllAlumno();
 
       const ordenadas = [...data].sort((a, b) => {
@@ -54,6 +62,9 @@ export default function ClasesDirecto() {
 
   if (loading) {
     return <Typography>Cargando clases...</Typography>;
+  }
+  if (matricula && matricula.estado !== "PAGADA") {
+    return <AccesoRestringidoMatricula matricula={matricula} />;
   }
 
   return (

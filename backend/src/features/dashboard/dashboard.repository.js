@@ -93,7 +93,14 @@ export class DashboardRepository {
             horasPracticasCompletadas: true,
             matriculaPagada: true,
             fechaMatriculaPago: true,
+            matriculas: {
+              orderBy: {
+                fechaCreacion: "desc",
+              },
+              take: 1,
+            },
             activo: true,
+
             profesorAsignado: {
               select: {
                 id: true,

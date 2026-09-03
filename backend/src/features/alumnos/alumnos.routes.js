@@ -10,10 +10,12 @@ import prisma from "../../config/prisma.js";
 import { AuthRepository } from "../auth/auth.repository.js";
 import { AccountActivationService } from "../auth/account-activation.service.js";
 import { EmailService } from "../../shared/services/email.service.js";
+import { MatriculasRepository } from "../matriculas/matriculas.repository.js";
 
 const router = Router();
 
 const repository = new AlumnosRepository(prisma);
+const matriculasRepository = new MatriculasRepository(prisma);
 
 const authRepository = new AuthRepository(prisma);
 const emailService = new EmailService();
@@ -22,7 +24,11 @@ const accountActivationService = new AccountActivationService(
   emailService,
 );
 
-const service = new AlumnosService(repository, accountActivationService);
+const service = new AlumnosService(
+  repository,
+  accountActivationService,
+  matriculasRepository,
+);
 
 const controller = new AlumnosController(service);
 

@@ -48,6 +48,8 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 
+import { matriculasService } from "../../services/matriculasService";
+
 const drawerWidth = 240;
 
 const menus = {
@@ -333,6 +335,8 @@ export default function Sidebar({ navigate, location }) {
     return {};
   });
 
+  const [matriculaPagada, setMatriculaPagada] = useState(true);
+
   const toggleMenu = (label) => {
     setOpenMenus((prev) => ({
       ...prev,
@@ -355,7 +359,68 @@ export default function Sidebar({ navigate, location }) {
     }
   }
 
-  const menu = menus[role];
+  useEffect(() => {
+    const loadMatricula = async () => {
+      if (role !== "ALUMNO") {
+        return;
+      }
+
+      try {
+        const matricula = await matriculasService.getMine();
+
+        setMatriculaPagada(matricula.estado === "PAGADA");
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    loadMatricula();
+  }, [role]);
+
+  let menu = menus[role];
+
+  if (role === "ALUMNO" && !matriculaPagada) {
+    menu = [
+      {
+        label: "Mi progreso",
+        icon: <TrendingUpIcon />,
+        path: "/dashboard",
+      },
+
+      {
+        label: "Clases teóricas",
+        icon: <SchoolIcon />,
+        children: [
+          {
+            label: "Clases En Directo",
+            path: "/clases-directo",
+            icon: <OndemandVideoIcon fontSize="small" />,
+          },
+          {
+            label: "Material de apoyo",
+            path: "/temario",
+            icon: <MenuBookOutlinedIcon fontSize="small" />,
+          },
+          {
+            label: "Test Teóricos",
+            path: "/test-teoricos",
+            icon: <TaskAltIcon fontSize="small" />,
+          },
+          {
+            label: "Test DGT",
+            path: "/test-dgt",
+            icon: <TrafficIcon fontSize="small" />,
+          },
+        ],
+      },
+
+      {
+        label: "Pago matrícula",
+        icon: <CreditCardIcon />,
+        path: "/pago-matricula",
+      },
+    ];
+  }
   if (!menu) {
     return null;
   }

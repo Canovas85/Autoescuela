@@ -442,6 +442,35 @@ async function main() {
     },
   });
 
+  const tarifasMatricula = [
+    { licencia: "B", precio: 220 },
+    { licencia: "A1", precio: 150 },
+    { licencia: "A2", precio: 180 },
+    { licencia: "A", precio: 300 },
+    { licencia: "C", precio: 450 },
+    { licencia: "D", precio: 550 },
+    { licencia: "E", precio: 300 },
+  ];
+
+  for (const tarifa of tarifasMatricula) {
+    await prisma.tarifaMatricula.upsert({
+      where: {
+        licencia: tarifa.licencia,
+      },
+
+      update: {
+        precio: tarifa.precio,
+        activa: true,
+      },
+
+      create: {
+        licencia: tarifa.licencia,
+        precio: tarifa.precio,
+        activa: true,
+      },
+    });
+  }
+
   await prisma.compraBono.upsert({
     where: { id: "compra-bono-002" },
     update: {

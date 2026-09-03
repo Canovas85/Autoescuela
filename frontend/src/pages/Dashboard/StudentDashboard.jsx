@@ -27,6 +27,10 @@ import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 
+import { Button } from "@mui/material";
+
+import { useNavigate } from "react-router-dom";
+
 const statusStyles = {
   PAGADA: {
     label: "Pagada",
@@ -187,6 +191,8 @@ export default function StudentDashboard({ data }) {
     return <p>Cargando dashboard...</p>;
   }
 
+  const navigate = useNavigate();
+
   const {
     perfil,
     teoria,
@@ -198,6 +204,8 @@ export default function StudentDashboard({ data }) {
     evolucion,
     resumen,
   } = data;
+
+  const matriculaPendiente = resumen?.matricula === "PENDIENTE";
 
   const totalBonoDisponible = bonos.reduce(
     (acumulado, bono) => acumulado + bono.clasesDisponibles,
@@ -211,6 +219,43 @@ export default function StudentDashboard({ data }) {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+      {matriculaPendiente && (
+        <Card
+          sx={{
+            borderRadius: 4,
+            border: "2px solid #f59e0b",
+            backgroundColor: "#fef3c7",
+            borderLeft: "6px solid #f59e0b",
+            boxShadow: "none",
+          }}
+        >
+          <CardContent>
+            <Typography variant="h5" fontWeight={800} color="warning.main">
+              Matrícula pendiente de pago
+            </Typography>
+
+            <Typography
+              sx={{
+                mt: 1,
+                mb: 2,
+              }}
+            >
+              Debes completar el pago de tu matrícula para acceder a todos los
+              contenidos formativos de la plataforma.
+            </Typography>
+
+            <Button
+              variant="contained"
+              color="success"
+              startIcon={<CreditCardIcon />}
+              onClick={() => navigate("/pago-matricula")}
+            >
+              Pagar matrícula
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+
       <Box
         sx={{
           p: 3,
@@ -241,7 +286,6 @@ export default function StudentDashboard({ data }) {
           </Box>
 
           <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
-            {statusChip(resumen.matricula)}
             <Chip
               label={
                 resumen.preparadoParaTeorico
@@ -330,14 +374,7 @@ export default function StudentDashboard({ data }) {
                   label={perfil.activo ? "Alumno activo" : "Alumno inactivo"}
                   color={perfil.activo ? "success" : "default"}
                 />
-                {perfil.matriculaPagada ? (
-                  <Chip
-                    label={`Matrícula pagada el ${formatDate(perfil.fechaMatriculaPago)}`}
-                    color="success"
-                  />
-                ) : (
-                  <Chip label="Matrícula pendiente de pago" color="warning" />
-                )}
+
                 <Chip
                   label={`${perfil.horasPracticasCompletadas} horas prácticas completadas`}
                   color="primary"

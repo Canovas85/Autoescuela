@@ -74,6 +74,7 @@ model Alumno {
   temariosProgreso          TemarioProgreso[]
   bonosComprados            CompraBono[]
   solicitudesExamen         SolicitudExamen[]
+  matriculas                Matricula[]
 
   @@map("alumnos")
 }
@@ -251,10 +252,41 @@ model Promocion {
 
   activa Boolean @default(true)
 
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  matriculas Matricula[]
+
+  @@map("promociones")
+}
+
+model TarifaMatricula {
+  id        String   @id @default(uuid())
+  licencia  String   @unique
+  precio    Decimal  @db.Decimal(10, 2)
+  activa    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("promociones")
+  @@map("tarifas_matricula")
+}
+
+model Matricula {
+  id            String     @id @default(uuid())
+  alumnoId      String
+  licencia      String
+  precioBase    Decimal    @db.Decimal(10, 2)
+  precioFinal   Decimal    @db.Decimal(10, 2)
+  promocionId   String?
+  estado        String     @default("PENDIENTE")
+  fechaCreacion DateTime   @default(now())
+  fechaPago     DateTime?
+  observaciones String?
+  alumno        Alumno     @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  promocion     Promocion? @relation(fields: [promocionId], references: [id])
+
+  @@index([alumnoId])
+  @@index([estado])
+  @@map("matriculas")
 }
 
 enum Rol {

@@ -305,6 +305,12 @@ export class DashboardService {
 
     const examenes = dashboard.examenes || [];
 
+    const matriculaActual = dashboard.profile.alumno.matriculas?.[0] ?? null;
+
+    const matriculaPagada = matriculaActual?.estado === "PAGADA";
+
+    const fechaPago = matriculaActual?.fechaPago ?? null;
+
     return {
       perfil: {
         id: dashboard.profile.id,
@@ -317,8 +323,8 @@ export class DashboardService {
         tipoLicenciaObjetivo: dashboard.profile.alumno.tipoLicenciaObjetivo,
         horasPracticasCompletadas:
           dashboard.profile.alumno.horasPracticasCompletadas,
-        matriculaPagada: dashboard.profile.alumno.matriculaPagada,
-        fechaMatriculaPago: dashboard.profile.alumno.fechaMatriculaPago,
+        matriculaPagada: matriculaPagada,
+        fechaMatriculaPago: fechaPago,
         profesorAsignado: dashboard.profile.alumno.profesorAsignado
           ? {
               id: dashboard.profile.alumno.profesorAsignado.id,
@@ -355,9 +361,7 @@ export class DashboardService {
       reservas: clasesReservadas,
       evolucion,
       resumen: {
-        matricula: dashboard.profile.alumno.matriculaPagada
-          ? "PAGADA"
-          : "PENDIENTE",
+        matricula: matriculaPagada ? "PAGADA" : "PENDIENTE",
         preparadoParaTeorico,
         porcentajeAprobado,
       },

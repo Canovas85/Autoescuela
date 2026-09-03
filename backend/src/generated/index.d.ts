@@ -88,6 +88,16 @@ export type Examen = $Result.DefaultSelection<Prisma.$ExamenPayload>
  * 
  */
 export type Promocion = $Result.DefaultSelection<Prisma.$PromocionPayload>
+/**
+ * Model TarifaMatricula
+ * 
+ */
+export type TarifaMatricula = $Result.DefaultSelection<Prisma.$TarifaMatriculaPayload>
+/**
+ * Model Matricula
+ * 
+ */
+export type Matricula = $Result.DefaultSelection<Prisma.$MatriculaPayload>
 
 /**
  * Enums
@@ -374,6 +384,26 @@ export class PrismaClient<
     * ```
     */
   get promocion(): Prisma.PromocionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tarifaMatricula`: Exposes CRUD operations for the **TarifaMatricula** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TarifaMatriculas
+    * const tarifaMatriculas = await prisma.tarifaMatricula.findMany()
+    * ```
+    */
+  get tarifaMatricula(): Prisma.TarifaMatriculaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.matricula`: Exposes CRUD operations for the **Matricula** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Matriculas
+    * const matriculas = await prisma.matricula.findMany()
+    * ```
+    */
+  get matricula(): Prisma.MatriculaDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -829,7 +859,9 @@ export namespace Prisma {
     Vehiculo: 'Vehiculo',
     ClasePractica: 'ClasePractica',
     Examen: 'Examen',
-    Promocion: 'Promocion'
+    Promocion: 'Promocion',
+    TarifaMatricula: 'TarifaMatricula',
+    Matricula: 'Matricula'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -848,7 +880,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "usuario" | "activacionCuenta" | "profesor" | "alumno" | "temario" | "temarioProgreso" | "claseDirecto" | "testPractica" | "bono" | "compraBono" | "solicitudExamen" | "vehiculo" | "clasePractica" | "examen" | "promocion"
+      modelProps: "usuario" | "activacionCuenta" | "profesor" | "alumno" | "temario" | "temarioProgreso" | "claseDirecto" | "testPractica" | "bono" | "compraBono" | "solicitudExamen" | "vehiculo" | "clasePractica" | "examen" | "promocion" | "tarifaMatricula" | "matricula"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1962,6 +1994,154 @@ export namespace Prisma {
           }
         }
       }
+      TarifaMatricula: {
+        payload: Prisma.$TarifaMatriculaPayload<ExtArgs>
+        fields: Prisma.TarifaMatriculaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TarifaMatriculaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TarifaMatriculaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TarifaMatriculaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TarifaMatriculaPayload>
+          }
+          findFirst: {
+            args: Prisma.TarifaMatriculaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TarifaMatriculaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TarifaMatriculaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TarifaMatriculaPayload>
+          }
+          findMany: {
+            args: Prisma.TarifaMatriculaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TarifaMatriculaPayload>[]
+          }
+          create: {
+            args: Prisma.TarifaMatriculaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TarifaMatriculaPayload>
+          }
+          createMany: {
+            args: Prisma.TarifaMatriculaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TarifaMatriculaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TarifaMatriculaPayload>[]
+          }
+          delete: {
+            args: Prisma.TarifaMatriculaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TarifaMatriculaPayload>
+          }
+          update: {
+            args: Prisma.TarifaMatriculaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TarifaMatriculaPayload>
+          }
+          deleteMany: {
+            args: Prisma.TarifaMatriculaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TarifaMatriculaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TarifaMatriculaUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TarifaMatriculaPayload>[]
+          }
+          upsert: {
+            args: Prisma.TarifaMatriculaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TarifaMatriculaPayload>
+          }
+          aggregate: {
+            args: Prisma.TarifaMatriculaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTarifaMatricula>
+          }
+          groupBy: {
+            args: Prisma.TarifaMatriculaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TarifaMatriculaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TarifaMatriculaCountArgs<ExtArgs>
+            result: $Utils.Optional<TarifaMatriculaCountAggregateOutputType> | number
+          }
+        }
+      }
+      Matricula: {
+        payload: Prisma.$MatriculaPayload<ExtArgs>
+        fields: Prisma.MatriculaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MatriculaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatriculaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MatriculaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatriculaPayload>
+          }
+          findFirst: {
+            args: Prisma.MatriculaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatriculaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MatriculaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatriculaPayload>
+          }
+          findMany: {
+            args: Prisma.MatriculaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatriculaPayload>[]
+          }
+          create: {
+            args: Prisma.MatriculaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatriculaPayload>
+          }
+          createMany: {
+            args: Prisma.MatriculaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MatriculaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatriculaPayload>[]
+          }
+          delete: {
+            args: Prisma.MatriculaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatriculaPayload>
+          }
+          update: {
+            args: Prisma.MatriculaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatriculaPayload>
+          }
+          deleteMany: {
+            args: Prisma.MatriculaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MatriculaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MatriculaUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatriculaPayload>[]
+          }
+          upsert: {
+            args: Prisma.MatriculaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MatriculaPayload>
+          }
+          aggregate: {
+            args: Prisma.MatriculaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMatricula>
+          }
+          groupBy: {
+            args: Prisma.MatriculaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MatriculaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MatriculaCountArgs<ExtArgs>
+            result: $Utils.Optional<MatriculaCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2073,6 +2253,8 @@ export namespace Prisma {
     clasePractica?: ClasePracticaOmit
     examen?: ExamenOmit
     promocion?: PromocionOmit
+    tarifaMatricula?: TarifaMatriculaOmit
+    matricula?: MatriculaOmit
   }
 
   /* Types for Logging */
@@ -2239,6 +2421,7 @@ export namespace Prisma {
     temariosProgreso: number
     bonosComprados: number
     solicitudesExamen: number
+    matriculas: number
   }
 
   export type AlumnoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2248,6 +2431,7 @@ export namespace Prisma {
     temariosProgreso?: boolean | AlumnoCountOutputTypeCountTemariosProgresoArgs
     bonosComprados?: boolean | AlumnoCountOutputTypeCountBonosCompradosArgs
     solicitudesExamen?: boolean | AlumnoCountOutputTypeCountSolicitudesExamenArgs
+    matriculas?: boolean | AlumnoCountOutputTypeCountMatriculasArgs
   }
 
   // Custom InputTypes
@@ -2301,6 +2485,13 @@ export namespace Prisma {
    */
   export type AlumnoCountOutputTypeCountSolicitudesExamenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SolicitudExamenWhereInput
+  }
+
+  /**
+   * AlumnoCountOutputType without action
+   */
+  export type AlumnoCountOutputTypeCountMatriculasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MatriculaWhereInput
   }
 
 
@@ -2403,6 +2594,37 @@ export namespace Prisma {
    */
   export type VehiculoCountOutputTypeCountClasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ClasePracticaWhereInput
+  }
+
+
+  /**
+   * Count Type PromocionCountOutputType
+   */
+
+  export type PromocionCountOutputType = {
+    matriculas: number
+  }
+
+  export type PromocionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    matriculas?: boolean | PromocionCountOutputTypeCountMatriculasArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PromocionCountOutputType without action
+   */
+  export type PromocionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PromocionCountOutputType
+     */
+    select?: PromocionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PromocionCountOutputType without action
+   */
+  export type PromocionCountOutputTypeCountMatriculasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MatriculaWhereInput
   }
 
 
@@ -6079,6 +6301,7 @@ export namespace Prisma {
     temariosProgreso?: boolean | Alumno$temariosProgresoArgs<ExtArgs>
     bonosComprados?: boolean | Alumno$bonosCompradosArgs<ExtArgs>
     solicitudesExamen?: boolean | Alumno$solicitudesExamenArgs<ExtArgs>
+    matriculas?: boolean | Alumno$matriculasArgs<ExtArgs>
     _count?: boolean | AlumnoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["alumno"]>
 
@@ -6129,6 +6352,7 @@ export namespace Prisma {
     temariosProgreso?: boolean | Alumno$temariosProgresoArgs<ExtArgs>
     bonosComprados?: boolean | Alumno$bonosCompradosArgs<ExtArgs>
     solicitudesExamen?: boolean | Alumno$solicitudesExamenArgs<ExtArgs>
+    matriculas?: boolean | Alumno$matriculasArgs<ExtArgs>
     _count?: boolean | AlumnoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AlumnoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6151,6 +6375,7 @@ export namespace Prisma {
       temariosProgreso: Prisma.$TemarioProgresoPayload<ExtArgs>[]
       bonosComprados: Prisma.$CompraBonoPayload<ExtArgs>[]
       solicitudesExamen: Prisma.$SolicitudExamenPayload<ExtArgs>[]
+      matriculas: Prisma.$MatriculaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6563,6 +6788,7 @@ export namespace Prisma {
     temariosProgreso<T extends Alumno$temariosProgresoArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$temariosProgresoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemarioProgresoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bonosComprados<T extends Alumno$bonosCompradosArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$bonosCompradosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompraBonoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     solicitudesExamen<T extends Alumno$solicitudesExamenArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$solicitudesExamenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SolicitudExamenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    matriculas<T extends Alumno$matriculasArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$matriculasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7156,6 +7382,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SolicitudExamenScalarFieldEnum | SolicitudExamenScalarFieldEnum[]
+  }
+
+  /**
+   * Alumno.matriculas
+   */
+  export type Alumno$matriculasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matricula
+     */
+    select?: MatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Matricula
+     */
+    omit?: MatriculaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatriculaInclude<ExtArgs> | null
+    where?: MatriculaWhereInput
+    orderBy?: MatriculaOrderByWithRelationInput | MatriculaOrderByWithRelationInput[]
+    cursor?: MatriculaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MatriculaScalarFieldEnum | MatriculaScalarFieldEnum[]
   }
 
   /**
@@ -18637,6 +18887,8 @@ export namespace Prisma {
     activa?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    matriculas?: boolean | Promocion$matriculasArgs<ExtArgs>
+    _count?: boolean | PromocionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["promocion"]>
 
   export type PromocionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -18685,10 +18937,18 @@ export namespace Prisma {
   }
 
   export type PromocionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "descripcion" | "precioOriginal" | "precioPromocional" | "licenciasAplicables" | "imagenRuta" | "fechaInicio" | "fechaFin" | "activa" | "createdAt" | "updatedAt", ExtArgs["result"]["promocion"]>
+  export type PromocionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    matriculas?: boolean | Promocion$matriculasArgs<ExtArgs>
+    _count?: boolean | PromocionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PromocionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type PromocionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $PromocionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Promocion"
-    objects: {}
+    objects: {
+      matriculas: Prisma.$MatriculaPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       nombre: string
@@ -19096,6 +19356,7 @@ export namespace Prisma {
    */
   export interface Prisma__PromocionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    matriculas<T extends Promocion$matriculasArgs<ExtArgs> = {}>(args?: Subset<T, Promocion$matriculasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -19154,6 +19415,10 @@ export namespace Prisma {
      */
     omit?: PromocionOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromocionInclude<ExtArgs> | null
+    /**
      * Filter, which Promocion to fetch.
      */
     where: PromocionWhereUniqueInput
@@ -19172,6 +19437,10 @@ export namespace Prisma {
      */
     omit?: PromocionOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromocionInclude<ExtArgs> | null
+    /**
      * Filter, which Promocion to fetch.
      */
     where: PromocionWhereUniqueInput
@@ -19189,6 +19458,10 @@ export namespace Prisma {
      * Omit specific fields from the Promocion
      */
     omit?: PromocionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromocionInclude<ExtArgs> | null
     /**
      * Filter, which Promocion to fetch.
      */
@@ -19238,6 +19511,10 @@ export namespace Prisma {
      */
     omit?: PromocionOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromocionInclude<ExtArgs> | null
+    /**
      * Filter, which Promocion to fetch.
      */
     where?: PromocionWhereInput
@@ -19286,6 +19563,10 @@ export namespace Prisma {
      */
     omit?: PromocionOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromocionInclude<ExtArgs> | null
+    /**
      * Filter, which Promocions to fetch.
      */
     where?: PromocionWhereInput
@@ -19328,6 +19609,10 @@ export namespace Prisma {
      * Omit specific fields from the Promocion
      */
     omit?: PromocionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromocionInclude<ExtArgs> | null
     /**
      * The data needed to create a Promocion.
      */
@@ -19376,6 +19661,10 @@ export namespace Prisma {
      * Omit specific fields from the Promocion
      */
     omit?: PromocionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromocionInclude<ExtArgs> | null
     /**
      * The data needed to update a Promocion.
      */
@@ -19443,6 +19732,10 @@ export namespace Prisma {
      */
     omit?: PromocionOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromocionInclude<ExtArgs> | null
+    /**
      * The filter to search for the Promocion to update in case it exists.
      */
     where: PromocionWhereUniqueInput
@@ -19469,6 +19762,10 @@ export namespace Prisma {
      */
     omit?: PromocionOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromocionInclude<ExtArgs> | null
+    /**
      * Filter which Promocion to delete.
      */
     where: PromocionWhereUniqueInput
@@ -19489,6 +19786,30 @@ export namespace Prisma {
   }
 
   /**
+   * Promocion.matriculas
+   */
+  export type Promocion$matriculasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matricula
+     */
+    select?: MatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Matricula
+     */
+    omit?: MatriculaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatriculaInclude<ExtArgs> | null
+    where?: MatriculaWhereInput
+    orderBy?: MatriculaOrderByWithRelationInput | MatriculaOrderByWithRelationInput[]
+    cursor?: MatriculaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MatriculaScalarFieldEnum | MatriculaScalarFieldEnum[]
+  }
+
+  /**
    * Promocion without action
    */
   export type PromocionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -19500,6 +19821,2240 @@ export namespace Prisma {
      * Omit specific fields from the Promocion
      */
     omit?: PromocionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromocionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TarifaMatricula
+   */
+
+  export type AggregateTarifaMatricula = {
+    _count: TarifaMatriculaCountAggregateOutputType | null
+    _avg: TarifaMatriculaAvgAggregateOutputType | null
+    _sum: TarifaMatriculaSumAggregateOutputType | null
+    _min: TarifaMatriculaMinAggregateOutputType | null
+    _max: TarifaMatriculaMaxAggregateOutputType | null
+  }
+
+  export type TarifaMatriculaAvgAggregateOutputType = {
+    precio: Decimal | null
+  }
+
+  export type TarifaMatriculaSumAggregateOutputType = {
+    precio: Decimal | null
+  }
+
+  export type TarifaMatriculaMinAggregateOutputType = {
+    id: string | null
+    licencia: string | null
+    precio: Decimal | null
+    activa: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TarifaMatriculaMaxAggregateOutputType = {
+    id: string | null
+    licencia: string | null
+    precio: Decimal | null
+    activa: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TarifaMatriculaCountAggregateOutputType = {
+    id: number
+    licencia: number
+    precio: number
+    activa: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TarifaMatriculaAvgAggregateInputType = {
+    precio?: true
+  }
+
+  export type TarifaMatriculaSumAggregateInputType = {
+    precio?: true
+  }
+
+  export type TarifaMatriculaMinAggregateInputType = {
+    id?: true
+    licencia?: true
+    precio?: true
+    activa?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TarifaMatriculaMaxAggregateInputType = {
+    id?: true
+    licencia?: true
+    precio?: true
+    activa?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TarifaMatriculaCountAggregateInputType = {
+    id?: true
+    licencia?: true
+    precio?: true
+    activa?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TarifaMatriculaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TarifaMatricula to aggregate.
+     */
+    where?: TarifaMatriculaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TarifaMatriculas to fetch.
+     */
+    orderBy?: TarifaMatriculaOrderByWithRelationInput | TarifaMatriculaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TarifaMatriculaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TarifaMatriculas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TarifaMatriculas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TarifaMatriculas
+    **/
+    _count?: true | TarifaMatriculaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TarifaMatriculaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TarifaMatriculaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TarifaMatriculaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TarifaMatriculaMaxAggregateInputType
+  }
+
+  export type GetTarifaMatriculaAggregateType<T extends TarifaMatriculaAggregateArgs> = {
+        [P in keyof T & keyof AggregateTarifaMatricula]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTarifaMatricula[P]>
+      : GetScalarType<T[P], AggregateTarifaMatricula[P]>
+  }
+
+
+
+
+  export type TarifaMatriculaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TarifaMatriculaWhereInput
+    orderBy?: TarifaMatriculaOrderByWithAggregationInput | TarifaMatriculaOrderByWithAggregationInput[]
+    by: TarifaMatriculaScalarFieldEnum[] | TarifaMatriculaScalarFieldEnum
+    having?: TarifaMatriculaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TarifaMatriculaCountAggregateInputType | true
+    _avg?: TarifaMatriculaAvgAggregateInputType
+    _sum?: TarifaMatriculaSumAggregateInputType
+    _min?: TarifaMatriculaMinAggregateInputType
+    _max?: TarifaMatriculaMaxAggregateInputType
+  }
+
+  export type TarifaMatriculaGroupByOutputType = {
+    id: string
+    licencia: string
+    precio: Decimal
+    activa: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: TarifaMatriculaCountAggregateOutputType | null
+    _avg: TarifaMatriculaAvgAggregateOutputType | null
+    _sum: TarifaMatriculaSumAggregateOutputType | null
+    _min: TarifaMatriculaMinAggregateOutputType | null
+    _max: TarifaMatriculaMaxAggregateOutputType | null
+  }
+
+  type GetTarifaMatriculaGroupByPayload<T extends TarifaMatriculaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TarifaMatriculaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TarifaMatriculaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TarifaMatriculaGroupByOutputType[P]>
+            : GetScalarType<T[P], TarifaMatriculaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TarifaMatriculaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    licencia?: boolean
+    precio?: boolean
+    activa?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["tarifaMatricula"]>
+
+  export type TarifaMatriculaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    licencia?: boolean
+    precio?: boolean
+    activa?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["tarifaMatricula"]>
+
+  export type TarifaMatriculaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    licencia?: boolean
+    precio?: boolean
+    activa?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["tarifaMatricula"]>
+
+  export type TarifaMatriculaSelectScalar = {
+    id?: boolean
+    licencia?: boolean
+    precio?: boolean
+    activa?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TarifaMatriculaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "licencia" | "precio" | "activa" | "createdAt" | "updatedAt", ExtArgs["result"]["tarifaMatricula"]>
+
+  export type $TarifaMatriculaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TarifaMatricula"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      licencia: string
+      precio: Prisma.Decimal
+      activa: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["tarifaMatricula"]>
+    composites: {}
+  }
+
+  type TarifaMatriculaGetPayload<S extends boolean | null | undefined | TarifaMatriculaDefaultArgs> = $Result.GetResult<Prisma.$TarifaMatriculaPayload, S>
+
+  type TarifaMatriculaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TarifaMatriculaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TarifaMatriculaCountAggregateInputType | true
+    }
+
+  export interface TarifaMatriculaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TarifaMatricula'], meta: { name: 'TarifaMatricula' } }
+    /**
+     * Find zero or one TarifaMatricula that matches the filter.
+     * @param {TarifaMatriculaFindUniqueArgs} args - Arguments to find a TarifaMatricula
+     * @example
+     * // Get one TarifaMatricula
+     * const tarifaMatricula = await prisma.tarifaMatricula.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TarifaMatriculaFindUniqueArgs>(args: SelectSubset<T, TarifaMatriculaFindUniqueArgs<ExtArgs>>): Prisma__TarifaMatriculaClient<$Result.GetResult<Prisma.$TarifaMatriculaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TarifaMatricula that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TarifaMatriculaFindUniqueOrThrowArgs} args - Arguments to find a TarifaMatricula
+     * @example
+     * // Get one TarifaMatricula
+     * const tarifaMatricula = await prisma.tarifaMatricula.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TarifaMatriculaFindUniqueOrThrowArgs>(args: SelectSubset<T, TarifaMatriculaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TarifaMatriculaClient<$Result.GetResult<Prisma.$TarifaMatriculaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TarifaMatricula that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TarifaMatriculaFindFirstArgs} args - Arguments to find a TarifaMatricula
+     * @example
+     * // Get one TarifaMatricula
+     * const tarifaMatricula = await prisma.tarifaMatricula.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TarifaMatriculaFindFirstArgs>(args?: SelectSubset<T, TarifaMatriculaFindFirstArgs<ExtArgs>>): Prisma__TarifaMatriculaClient<$Result.GetResult<Prisma.$TarifaMatriculaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TarifaMatricula that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TarifaMatriculaFindFirstOrThrowArgs} args - Arguments to find a TarifaMatricula
+     * @example
+     * // Get one TarifaMatricula
+     * const tarifaMatricula = await prisma.tarifaMatricula.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TarifaMatriculaFindFirstOrThrowArgs>(args?: SelectSubset<T, TarifaMatriculaFindFirstOrThrowArgs<ExtArgs>>): Prisma__TarifaMatriculaClient<$Result.GetResult<Prisma.$TarifaMatriculaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TarifaMatriculas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TarifaMatriculaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TarifaMatriculas
+     * const tarifaMatriculas = await prisma.tarifaMatricula.findMany()
+     * 
+     * // Get first 10 TarifaMatriculas
+     * const tarifaMatriculas = await prisma.tarifaMatricula.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tarifaMatriculaWithIdOnly = await prisma.tarifaMatricula.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TarifaMatriculaFindManyArgs>(args?: SelectSubset<T, TarifaMatriculaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TarifaMatriculaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TarifaMatricula.
+     * @param {TarifaMatriculaCreateArgs} args - Arguments to create a TarifaMatricula.
+     * @example
+     * // Create one TarifaMatricula
+     * const TarifaMatricula = await prisma.tarifaMatricula.create({
+     *   data: {
+     *     // ... data to create a TarifaMatricula
+     *   }
+     * })
+     * 
+     */
+    create<T extends TarifaMatriculaCreateArgs>(args: SelectSubset<T, TarifaMatriculaCreateArgs<ExtArgs>>): Prisma__TarifaMatriculaClient<$Result.GetResult<Prisma.$TarifaMatriculaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TarifaMatriculas.
+     * @param {TarifaMatriculaCreateManyArgs} args - Arguments to create many TarifaMatriculas.
+     * @example
+     * // Create many TarifaMatriculas
+     * const tarifaMatricula = await prisma.tarifaMatricula.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TarifaMatriculaCreateManyArgs>(args?: SelectSubset<T, TarifaMatriculaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TarifaMatriculas and returns the data saved in the database.
+     * @param {TarifaMatriculaCreateManyAndReturnArgs} args - Arguments to create many TarifaMatriculas.
+     * @example
+     * // Create many TarifaMatriculas
+     * const tarifaMatricula = await prisma.tarifaMatricula.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TarifaMatriculas and only return the `id`
+     * const tarifaMatriculaWithIdOnly = await prisma.tarifaMatricula.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TarifaMatriculaCreateManyAndReturnArgs>(args?: SelectSubset<T, TarifaMatriculaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TarifaMatriculaPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TarifaMatricula.
+     * @param {TarifaMatriculaDeleteArgs} args - Arguments to delete one TarifaMatricula.
+     * @example
+     * // Delete one TarifaMatricula
+     * const TarifaMatricula = await prisma.tarifaMatricula.delete({
+     *   where: {
+     *     // ... filter to delete one TarifaMatricula
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TarifaMatriculaDeleteArgs>(args: SelectSubset<T, TarifaMatriculaDeleteArgs<ExtArgs>>): Prisma__TarifaMatriculaClient<$Result.GetResult<Prisma.$TarifaMatriculaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TarifaMatricula.
+     * @param {TarifaMatriculaUpdateArgs} args - Arguments to update one TarifaMatricula.
+     * @example
+     * // Update one TarifaMatricula
+     * const tarifaMatricula = await prisma.tarifaMatricula.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TarifaMatriculaUpdateArgs>(args: SelectSubset<T, TarifaMatriculaUpdateArgs<ExtArgs>>): Prisma__TarifaMatriculaClient<$Result.GetResult<Prisma.$TarifaMatriculaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TarifaMatriculas.
+     * @param {TarifaMatriculaDeleteManyArgs} args - Arguments to filter TarifaMatriculas to delete.
+     * @example
+     * // Delete a few TarifaMatriculas
+     * const { count } = await prisma.tarifaMatricula.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TarifaMatriculaDeleteManyArgs>(args?: SelectSubset<T, TarifaMatriculaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TarifaMatriculas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TarifaMatriculaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TarifaMatriculas
+     * const tarifaMatricula = await prisma.tarifaMatricula.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TarifaMatriculaUpdateManyArgs>(args: SelectSubset<T, TarifaMatriculaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TarifaMatriculas and returns the data updated in the database.
+     * @param {TarifaMatriculaUpdateManyAndReturnArgs} args - Arguments to update many TarifaMatriculas.
+     * @example
+     * // Update many TarifaMatriculas
+     * const tarifaMatricula = await prisma.tarifaMatricula.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TarifaMatriculas and only return the `id`
+     * const tarifaMatriculaWithIdOnly = await prisma.tarifaMatricula.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TarifaMatriculaUpdateManyAndReturnArgs>(args: SelectSubset<T, TarifaMatriculaUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TarifaMatriculaPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TarifaMatricula.
+     * @param {TarifaMatriculaUpsertArgs} args - Arguments to update or create a TarifaMatricula.
+     * @example
+     * // Update or create a TarifaMatricula
+     * const tarifaMatricula = await prisma.tarifaMatricula.upsert({
+     *   create: {
+     *     // ... data to create a TarifaMatricula
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TarifaMatricula we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TarifaMatriculaUpsertArgs>(args: SelectSubset<T, TarifaMatriculaUpsertArgs<ExtArgs>>): Prisma__TarifaMatriculaClient<$Result.GetResult<Prisma.$TarifaMatriculaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TarifaMatriculas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TarifaMatriculaCountArgs} args - Arguments to filter TarifaMatriculas to count.
+     * @example
+     * // Count the number of TarifaMatriculas
+     * const count = await prisma.tarifaMatricula.count({
+     *   where: {
+     *     // ... the filter for the TarifaMatriculas we want to count
+     *   }
+     * })
+    **/
+    count<T extends TarifaMatriculaCountArgs>(
+      args?: Subset<T, TarifaMatriculaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TarifaMatriculaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TarifaMatricula.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TarifaMatriculaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TarifaMatriculaAggregateArgs>(args: Subset<T, TarifaMatriculaAggregateArgs>): Prisma.PrismaPromise<GetTarifaMatriculaAggregateType<T>>
+
+    /**
+     * Group by TarifaMatricula.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TarifaMatriculaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TarifaMatriculaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TarifaMatriculaGroupByArgs['orderBy'] }
+        : { orderBy?: TarifaMatriculaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TarifaMatriculaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTarifaMatriculaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TarifaMatricula model
+   */
+  readonly fields: TarifaMatriculaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TarifaMatricula.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TarifaMatriculaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TarifaMatricula model
+   */
+  interface TarifaMatriculaFieldRefs {
+    readonly id: FieldRef<"TarifaMatricula", 'String'>
+    readonly licencia: FieldRef<"TarifaMatricula", 'String'>
+    readonly precio: FieldRef<"TarifaMatricula", 'Decimal'>
+    readonly activa: FieldRef<"TarifaMatricula", 'Boolean'>
+    readonly createdAt: FieldRef<"TarifaMatricula", 'DateTime'>
+    readonly updatedAt: FieldRef<"TarifaMatricula", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TarifaMatricula findUnique
+   */
+  export type TarifaMatriculaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaMatricula
+     */
+    select?: TarifaMatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaMatricula
+     */
+    omit?: TarifaMatriculaOmit<ExtArgs> | null
+    /**
+     * Filter, which TarifaMatricula to fetch.
+     */
+    where: TarifaMatriculaWhereUniqueInput
+  }
+
+  /**
+   * TarifaMatricula findUniqueOrThrow
+   */
+  export type TarifaMatriculaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaMatricula
+     */
+    select?: TarifaMatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaMatricula
+     */
+    omit?: TarifaMatriculaOmit<ExtArgs> | null
+    /**
+     * Filter, which TarifaMatricula to fetch.
+     */
+    where: TarifaMatriculaWhereUniqueInput
+  }
+
+  /**
+   * TarifaMatricula findFirst
+   */
+  export type TarifaMatriculaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaMatricula
+     */
+    select?: TarifaMatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaMatricula
+     */
+    omit?: TarifaMatriculaOmit<ExtArgs> | null
+    /**
+     * Filter, which TarifaMatricula to fetch.
+     */
+    where?: TarifaMatriculaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TarifaMatriculas to fetch.
+     */
+    orderBy?: TarifaMatriculaOrderByWithRelationInput | TarifaMatriculaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TarifaMatriculas.
+     */
+    cursor?: TarifaMatriculaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TarifaMatriculas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TarifaMatriculas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TarifaMatriculas.
+     */
+    distinct?: TarifaMatriculaScalarFieldEnum | TarifaMatriculaScalarFieldEnum[]
+  }
+
+  /**
+   * TarifaMatricula findFirstOrThrow
+   */
+  export type TarifaMatriculaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaMatricula
+     */
+    select?: TarifaMatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaMatricula
+     */
+    omit?: TarifaMatriculaOmit<ExtArgs> | null
+    /**
+     * Filter, which TarifaMatricula to fetch.
+     */
+    where?: TarifaMatriculaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TarifaMatriculas to fetch.
+     */
+    orderBy?: TarifaMatriculaOrderByWithRelationInput | TarifaMatriculaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TarifaMatriculas.
+     */
+    cursor?: TarifaMatriculaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TarifaMatriculas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TarifaMatriculas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TarifaMatriculas.
+     */
+    distinct?: TarifaMatriculaScalarFieldEnum | TarifaMatriculaScalarFieldEnum[]
+  }
+
+  /**
+   * TarifaMatricula findMany
+   */
+  export type TarifaMatriculaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaMatricula
+     */
+    select?: TarifaMatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaMatricula
+     */
+    omit?: TarifaMatriculaOmit<ExtArgs> | null
+    /**
+     * Filter, which TarifaMatriculas to fetch.
+     */
+    where?: TarifaMatriculaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TarifaMatriculas to fetch.
+     */
+    orderBy?: TarifaMatriculaOrderByWithRelationInput | TarifaMatriculaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TarifaMatriculas.
+     */
+    cursor?: TarifaMatriculaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TarifaMatriculas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TarifaMatriculas.
+     */
+    skip?: number
+    distinct?: TarifaMatriculaScalarFieldEnum | TarifaMatriculaScalarFieldEnum[]
+  }
+
+  /**
+   * TarifaMatricula create
+   */
+  export type TarifaMatriculaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaMatricula
+     */
+    select?: TarifaMatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaMatricula
+     */
+    omit?: TarifaMatriculaOmit<ExtArgs> | null
+    /**
+     * The data needed to create a TarifaMatricula.
+     */
+    data: XOR<TarifaMatriculaCreateInput, TarifaMatriculaUncheckedCreateInput>
+  }
+
+  /**
+   * TarifaMatricula createMany
+   */
+  export type TarifaMatriculaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TarifaMatriculas.
+     */
+    data: TarifaMatriculaCreateManyInput | TarifaMatriculaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TarifaMatricula createManyAndReturn
+   */
+  export type TarifaMatriculaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaMatricula
+     */
+    select?: TarifaMatriculaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaMatricula
+     */
+    omit?: TarifaMatriculaOmit<ExtArgs> | null
+    /**
+     * The data used to create many TarifaMatriculas.
+     */
+    data: TarifaMatriculaCreateManyInput | TarifaMatriculaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TarifaMatricula update
+   */
+  export type TarifaMatriculaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaMatricula
+     */
+    select?: TarifaMatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaMatricula
+     */
+    omit?: TarifaMatriculaOmit<ExtArgs> | null
+    /**
+     * The data needed to update a TarifaMatricula.
+     */
+    data: XOR<TarifaMatriculaUpdateInput, TarifaMatriculaUncheckedUpdateInput>
+    /**
+     * Choose, which TarifaMatricula to update.
+     */
+    where: TarifaMatriculaWhereUniqueInput
+  }
+
+  /**
+   * TarifaMatricula updateMany
+   */
+  export type TarifaMatriculaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TarifaMatriculas.
+     */
+    data: XOR<TarifaMatriculaUpdateManyMutationInput, TarifaMatriculaUncheckedUpdateManyInput>
+    /**
+     * Filter which TarifaMatriculas to update
+     */
+    where?: TarifaMatriculaWhereInput
+    /**
+     * Limit how many TarifaMatriculas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TarifaMatricula updateManyAndReturn
+   */
+  export type TarifaMatriculaUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaMatricula
+     */
+    select?: TarifaMatriculaSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaMatricula
+     */
+    omit?: TarifaMatriculaOmit<ExtArgs> | null
+    /**
+     * The data used to update TarifaMatriculas.
+     */
+    data: XOR<TarifaMatriculaUpdateManyMutationInput, TarifaMatriculaUncheckedUpdateManyInput>
+    /**
+     * Filter which TarifaMatriculas to update
+     */
+    where?: TarifaMatriculaWhereInput
+    /**
+     * Limit how many TarifaMatriculas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TarifaMatricula upsert
+   */
+  export type TarifaMatriculaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaMatricula
+     */
+    select?: TarifaMatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaMatricula
+     */
+    omit?: TarifaMatriculaOmit<ExtArgs> | null
+    /**
+     * The filter to search for the TarifaMatricula to update in case it exists.
+     */
+    where: TarifaMatriculaWhereUniqueInput
+    /**
+     * In case the TarifaMatricula found by the `where` argument doesn't exist, create a new TarifaMatricula with this data.
+     */
+    create: XOR<TarifaMatriculaCreateInput, TarifaMatriculaUncheckedCreateInput>
+    /**
+     * In case the TarifaMatricula was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TarifaMatriculaUpdateInput, TarifaMatriculaUncheckedUpdateInput>
+  }
+
+  /**
+   * TarifaMatricula delete
+   */
+  export type TarifaMatriculaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaMatricula
+     */
+    select?: TarifaMatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaMatricula
+     */
+    omit?: TarifaMatriculaOmit<ExtArgs> | null
+    /**
+     * Filter which TarifaMatricula to delete.
+     */
+    where: TarifaMatriculaWhereUniqueInput
+  }
+
+  /**
+   * TarifaMatricula deleteMany
+   */
+  export type TarifaMatriculaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TarifaMatriculas to delete
+     */
+    where?: TarifaMatriculaWhereInput
+    /**
+     * Limit how many TarifaMatriculas to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TarifaMatricula without action
+   */
+  export type TarifaMatriculaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaMatricula
+     */
+    select?: TarifaMatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaMatricula
+     */
+    omit?: TarifaMatriculaOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Matricula
+   */
+
+  export type AggregateMatricula = {
+    _count: MatriculaCountAggregateOutputType | null
+    _avg: MatriculaAvgAggregateOutputType | null
+    _sum: MatriculaSumAggregateOutputType | null
+    _min: MatriculaMinAggregateOutputType | null
+    _max: MatriculaMaxAggregateOutputType | null
+  }
+
+  export type MatriculaAvgAggregateOutputType = {
+    precioBase: Decimal | null
+    precioFinal: Decimal | null
+  }
+
+  export type MatriculaSumAggregateOutputType = {
+    precioBase: Decimal | null
+    precioFinal: Decimal | null
+  }
+
+  export type MatriculaMinAggregateOutputType = {
+    id: string | null
+    alumnoId: string | null
+    licencia: string | null
+    precioBase: Decimal | null
+    precioFinal: Decimal | null
+    promocionId: string | null
+    estado: string | null
+    fechaCreacion: Date | null
+    fechaPago: Date | null
+    observaciones: string | null
+  }
+
+  export type MatriculaMaxAggregateOutputType = {
+    id: string | null
+    alumnoId: string | null
+    licencia: string | null
+    precioBase: Decimal | null
+    precioFinal: Decimal | null
+    promocionId: string | null
+    estado: string | null
+    fechaCreacion: Date | null
+    fechaPago: Date | null
+    observaciones: string | null
+  }
+
+  export type MatriculaCountAggregateOutputType = {
+    id: number
+    alumnoId: number
+    licencia: number
+    precioBase: number
+    precioFinal: number
+    promocionId: number
+    estado: number
+    fechaCreacion: number
+    fechaPago: number
+    observaciones: number
+    _all: number
+  }
+
+
+  export type MatriculaAvgAggregateInputType = {
+    precioBase?: true
+    precioFinal?: true
+  }
+
+  export type MatriculaSumAggregateInputType = {
+    precioBase?: true
+    precioFinal?: true
+  }
+
+  export type MatriculaMinAggregateInputType = {
+    id?: true
+    alumnoId?: true
+    licencia?: true
+    precioBase?: true
+    precioFinal?: true
+    promocionId?: true
+    estado?: true
+    fechaCreacion?: true
+    fechaPago?: true
+    observaciones?: true
+  }
+
+  export type MatriculaMaxAggregateInputType = {
+    id?: true
+    alumnoId?: true
+    licencia?: true
+    precioBase?: true
+    precioFinal?: true
+    promocionId?: true
+    estado?: true
+    fechaCreacion?: true
+    fechaPago?: true
+    observaciones?: true
+  }
+
+  export type MatriculaCountAggregateInputType = {
+    id?: true
+    alumnoId?: true
+    licencia?: true
+    precioBase?: true
+    precioFinal?: true
+    promocionId?: true
+    estado?: true
+    fechaCreacion?: true
+    fechaPago?: true
+    observaciones?: true
+    _all?: true
+  }
+
+  export type MatriculaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Matricula to aggregate.
+     */
+    where?: MatriculaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Matriculas to fetch.
+     */
+    orderBy?: MatriculaOrderByWithRelationInput | MatriculaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MatriculaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Matriculas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Matriculas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Matriculas
+    **/
+    _count?: true | MatriculaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MatriculaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MatriculaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MatriculaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MatriculaMaxAggregateInputType
+  }
+
+  export type GetMatriculaAggregateType<T extends MatriculaAggregateArgs> = {
+        [P in keyof T & keyof AggregateMatricula]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMatricula[P]>
+      : GetScalarType<T[P], AggregateMatricula[P]>
+  }
+
+
+
+
+  export type MatriculaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MatriculaWhereInput
+    orderBy?: MatriculaOrderByWithAggregationInput | MatriculaOrderByWithAggregationInput[]
+    by: MatriculaScalarFieldEnum[] | MatriculaScalarFieldEnum
+    having?: MatriculaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MatriculaCountAggregateInputType | true
+    _avg?: MatriculaAvgAggregateInputType
+    _sum?: MatriculaSumAggregateInputType
+    _min?: MatriculaMinAggregateInputType
+    _max?: MatriculaMaxAggregateInputType
+  }
+
+  export type MatriculaGroupByOutputType = {
+    id: string
+    alumnoId: string
+    licencia: string
+    precioBase: Decimal
+    precioFinal: Decimal
+    promocionId: string | null
+    estado: string
+    fechaCreacion: Date
+    fechaPago: Date | null
+    observaciones: string | null
+    _count: MatriculaCountAggregateOutputType | null
+    _avg: MatriculaAvgAggregateOutputType | null
+    _sum: MatriculaSumAggregateOutputType | null
+    _min: MatriculaMinAggregateOutputType | null
+    _max: MatriculaMaxAggregateOutputType | null
+  }
+
+  type GetMatriculaGroupByPayload<T extends MatriculaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MatriculaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MatriculaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MatriculaGroupByOutputType[P]>
+            : GetScalarType<T[P], MatriculaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MatriculaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alumnoId?: boolean
+    licencia?: boolean
+    precioBase?: boolean
+    precioFinal?: boolean
+    promocionId?: boolean
+    estado?: boolean
+    fechaCreacion?: boolean
+    fechaPago?: boolean
+    observaciones?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    promocion?: boolean | Matricula$promocionArgs<ExtArgs>
+  }, ExtArgs["result"]["matricula"]>
+
+  export type MatriculaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alumnoId?: boolean
+    licencia?: boolean
+    precioBase?: boolean
+    precioFinal?: boolean
+    promocionId?: boolean
+    estado?: boolean
+    fechaCreacion?: boolean
+    fechaPago?: boolean
+    observaciones?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    promocion?: boolean | Matricula$promocionArgs<ExtArgs>
+  }, ExtArgs["result"]["matricula"]>
+
+  export type MatriculaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alumnoId?: boolean
+    licencia?: boolean
+    precioBase?: boolean
+    precioFinal?: boolean
+    promocionId?: boolean
+    estado?: boolean
+    fechaCreacion?: boolean
+    fechaPago?: boolean
+    observaciones?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    promocion?: boolean | Matricula$promocionArgs<ExtArgs>
+  }, ExtArgs["result"]["matricula"]>
+
+  export type MatriculaSelectScalar = {
+    id?: boolean
+    alumnoId?: boolean
+    licencia?: boolean
+    precioBase?: boolean
+    precioFinal?: boolean
+    promocionId?: boolean
+    estado?: boolean
+    fechaCreacion?: boolean
+    fechaPago?: boolean
+    observaciones?: boolean
+  }
+
+  export type MatriculaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "licencia" | "precioBase" | "precioFinal" | "promocionId" | "estado" | "fechaCreacion" | "fechaPago" | "observaciones", ExtArgs["result"]["matricula"]>
+  export type MatriculaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    promocion?: boolean | Matricula$promocionArgs<ExtArgs>
+  }
+  export type MatriculaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    promocion?: boolean | Matricula$promocionArgs<ExtArgs>
+  }
+  export type MatriculaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    promocion?: boolean | Matricula$promocionArgs<ExtArgs>
+  }
+
+  export type $MatriculaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Matricula"
+    objects: {
+      alumno: Prisma.$AlumnoPayload<ExtArgs>
+      promocion: Prisma.$PromocionPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      alumnoId: string
+      licencia: string
+      precioBase: Prisma.Decimal
+      precioFinal: Prisma.Decimal
+      promocionId: string | null
+      estado: string
+      fechaCreacion: Date
+      fechaPago: Date | null
+      observaciones: string | null
+    }, ExtArgs["result"]["matricula"]>
+    composites: {}
+  }
+
+  type MatriculaGetPayload<S extends boolean | null | undefined | MatriculaDefaultArgs> = $Result.GetResult<Prisma.$MatriculaPayload, S>
+
+  type MatriculaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MatriculaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MatriculaCountAggregateInputType | true
+    }
+
+  export interface MatriculaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Matricula'], meta: { name: 'Matricula' } }
+    /**
+     * Find zero or one Matricula that matches the filter.
+     * @param {MatriculaFindUniqueArgs} args - Arguments to find a Matricula
+     * @example
+     * // Get one Matricula
+     * const matricula = await prisma.matricula.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MatriculaFindUniqueArgs>(args: SelectSubset<T, MatriculaFindUniqueArgs<ExtArgs>>): Prisma__MatriculaClient<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Matricula that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MatriculaFindUniqueOrThrowArgs} args - Arguments to find a Matricula
+     * @example
+     * // Get one Matricula
+     * const matricula = await prisma.matricula.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MatriculaFindUniqueOrThrowArgs>(args: SelectSubset<T, MatriculaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MatriculaClient<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Matricula that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatriculaFindFirstArgs} args - Arguments to find a Matricula
+     * @example
+     * // Get one Matricula
+     * const matricula = await prisma.matricula.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MatriculaFindFirstArgs>(args?: SelectSubset<T, MatriculaFindFirstArgs<ExtArgs>>): Prisma__MatriculaClient<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Matricula that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatriculaFindFirstOrThrowArgs} args - Arguments to find a Matricula
+     * @example
+     * // Get one Matricula
+     * const matricula = await prisma.matricula.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MatriculaFindFirstOrThrowArgs>(args?: SelectSubset<T, MatriculaFindFirstOrThrowArgs<ExtArgs>>): Prisma__MatriculaClient<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Matriculas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatriculaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Matriculas
+     * const matriculas = await prisma.matricula.findMany()
+     * 
+     * // Get first 10 Matriculas
+     * const matriculas = await prisma.matricula.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const matriculaWithIdOnly = await prisma.matricula.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MatriculaFindManyArgs>(args?: SelectSubset<T, MatriculaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Matricula.
+     * @param {MatriculaCreateArgs} args - Arguments to create a Matricula.
+     * @example
+     * // Create one Matricula
+     * const Matricula = await prisma.matricula.create({
+     *   data: {
+     *     // ... data to create a Matricula
+     *   }
+     * })
+     * 
+     */
+    create<T extends MatriculaCreateArgs>(args: SelectSubset<T, MatriculaCreateArgs<ExtArgs>>): Prisma__MatriculaClient<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Matriculas.
+     * @param {MatriculaCreateManyArgs} args - Arguments to create many Matriculas.
+     * @example
+     * // Create many Matriculas
+     * const matricula = await prisma.matricula.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MatriculaCreateManyArgs>(args?: SelectSubset<T, MatriculaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Matriculas and returns the data saved in the database.
+     * @param {MatriculaCreateManyAndReturnArgs} args - Arguments to create many Matriculas.
+     * @example
+     * // Create many Matriculas
+     * const matricula = await prisma.matricula.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Matriculas and only return the `id`
+     * const matriculaWithIdOnly = await prisma.matricula.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MatriculaCreateManyAndReturnArgs>(args?: SelectSubset<T, MatriculaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Matricula.
+     * @param {MatriculaDeleteArgs} args - Arguments to delete one Matricula.
+     * @example
+     * // Delete one Matricula
+     * const Matricula = await prisma.matricula.delete({
+     *   where: {
+     *     // ... filter to delete one Matricula
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MatriculaDeleteArgs>(args: SelectSubset<T, MatriculaDeleteArgs<ExtArgs>>): Prisma__MatriculaClient<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Matricula.
+     * @param {MatriculaUpdateArgs} args - Arguments to update one Matricula.
+     * @example
+     * // Update one Matricula
+     * const matricula = await prisma.matricula.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MatriculaUpdateArgs>(args: SelectSubset<T, MatriculaUpdateArgs<ExtArgs>>): Prisma__MatriculaClient<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Matriculas.
+     * @param {MatriculaDeleteManyArgs} args - Arguments to filter Matriculas to delete.
+     * @example
+     * // Delete a few Matriculas
+     * const { count } = await prisma.matricula.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MatriculaDeleteManyArgs>(args?: SelectSubset<T, MatriculaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Matriculas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatriculaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Matriculas
+     * const matricula = await prisma.matricula.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MatriculaUpdateManyArgs>(args: SelectSubset<T, MatriculaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Matriculas and returns the data updated in the database.
+     * @param {MatriculaUpdateManyAndReturnArgs} args - Arguments to update many Matriculas.
+     * @example
+     * // Update many Matriculas
+     * const matricula = await prisma.matricula.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Matriculas and only return the `id`
+     * const matriculaWithIdOnly = await prisma.matricula.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MatriculaUpdateManyAndReturnArgs>(args: SelectSubset<T, MatriculaUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Matricula.
+     * @param {MatriculaUpsertArgs} args - Arguments to update or create a Matricula.
+     * @example
+     * // Update or create a Matricula
+     * const matricula = await prisma.matricula.upsert({
+     *   create: {
+     *     // ... data to create a Matricula
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Matricula we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MatriculaUpsertArgs>(args: SelectSubset<T, MatriculaUpsertArgs<ExtArgs>>): Prisma__MatriculaClient<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Matriculas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatriculaCountArgs} args - Arguments to filter Matriculas to count.
+     * @example
+     * // Count the number of Matriculas
+     * const count = await prisma.matricula.count({
+     *   where: {
+     *     // ... the filter for the Matriculas we want to count
+     *   }
+     * })
+    **/
+    count<T extends MatriculaCountArgs>(
+      args?: Subset<T, MatriculaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MatriculaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Matricula.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatriculaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MatriculaAggregateArgs>(args: Subset<T, MatriculaAggregateArgs>): Prisma.PrismaPromise<GetMatriculaAggregateType<T>>
+
+    /**
+     * Group by Matricula.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatriculaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MatriculaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MatriculaGroupByArgs['orderBy'] }
+        : { orderBy?: MatriculaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MatriculaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMatriculaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Matricula model
+   */
+  readonly fields: MatriculaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Matricula.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MatriculaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    alumno<T extends AlumnoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AlumnoDefaultArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    promocion<T extends Matricula$promocionArgs<ExtArgs> = {}>(args?: Subset<T, Matricula$promocionArgs<ExtArgs>>): Prisma__PromocionClient<$Result.GetResult<Prisma.$PromocionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Matricula model
+   */
+  interface MatriculaFieldRefs {
+    readonly id: FieldRef<"Matricula", 'String'>
+    readonly alumnoId: FieldRef<"Matricula", 'String'>
+    readonly licencia: FieldRef<"Matricula", 'String'>
+    readonly precioBase: FieldRef<"Matricula", 'Decimal'>
+    readonly precioFinal: FieldRef<"Matricula", 'Decimal'>
+    readonly promocionId: FieldRef<"Matricula", 'String'>
+    readonly estado: FieldRef<"Matricula", 'String'>
+    readonly fechaCreacion: FieldRef<"Matricula", 'DateTime'>
+    readonly fechaPago: FieldRef<"Matricula", 'DateTime'>
+    readonly observaciones: FieldRef<"Matricula", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Matricula findUnique
+   */
+  export type MatriculaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matricula
+     */
+    select?: MatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Matricula
+     */
+    omit?: MatriculaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatriculaInclude<ExtArgs> | null
+    /**
+     * Filter, which Matricula to fetch.
+     */
+    where: MatriculaWhereUniqueInput
+  }
+
+  /**
+   * Matricula findUniqueOrThrow
+   */
+  export type MatriculaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matricula
+     */
+    select?: MatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Matricula
+     */
+    omit?: MatriculaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatriculaInclude<ExtArgs> | null
+    /**
+     * Filter, which Matricula to fetch.
+     */
+    where: MatriculaWhereUniqueInput
+  }
+
+  /**
+   * Matricula findFirst
+   */
+  export type MatriculaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matricula
+     */
+    select?: MatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Matricula
+     */
+    omit?: MatriculaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatriculaInclude<ExtArgs> | null
+    /**
+     * Filter, which Matricula to fetch.
+     */
+    where?: MatriculaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Matriculas to fetch.
+     */
+    orderBy?: MatriculaOrderByWithRelationInput | MatriculaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Matriculas.
+     */
+    cursor?: MatriculaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Matriculas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Matriculas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Matriculas.
+     */
+    distinct?: MatriculaScalarFieldEnum | MatriculaScalarFieldEnum[]
+  }
+
+  /**
+   * Matricula findFirstOrThrow
+   */
+  export type MatriculaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matricula
+     */
+    select?: MatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Matricula
+     */
+    omit?: MatriculaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatriculaInclude<ExtArgs> | null
+    /**
+     * Filter, which Matricula to fetch.
+     */
+    where?: MatriculaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Matriculas to fetch.
+     */
+    orderBy?: MatriculaOrderByWithRelationInput | MatriculaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Matriculas.
+     */
+    cursor?: MatriculaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Matriculas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Matriculas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Matriculas.
+     */
+    distinct?: MatriculaScalarFieldEnum | MatriculaScalarFieldEnum[]
+  }
+
+  /**
+   * Matricula findMany
+   */
+  export type MatriculaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matricula
+     */
+    select?: MatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Matricula
+     */
+    omit?: MatriculaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatriculaInclude<ExtArgs> | null
+    /**
+     * Filter, which Matriculas to fetch.
+     */
+    where?: MatriculaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Matriculas to fetch.
+     */
+    orderBy?: MatriculaOrderByWithRelationInput | MatriculaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Matriculas.
+     */
+    cursor?: MatriculaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Matriculas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Matriculas.
+     */
+    skip?: number
+    distinct?: MatriculaScalarFieldEnum | MatriculaScalarFieldEnum[]
+  }
+
+  /**
+   * Matricula create
+   */
+  export type MatriculaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matricula
+     */
+    select?: MatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Matricula
+     */
+    omit?: MatriculaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatriculaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Matricula.
+     */
+    data: XOR<MatriculaCreateInput, MatriculaUncheckedCreateInput>
+  }
+
+  /**
+   * Matricula createMany
+   */
+  export type MatriculaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Matriculas.
+     */
+    data: MatriculaCreateManyInput | MatriculaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Matricula createManyAndReturn
+   */
+  export type MatriculaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matricula
+     */
+    select?: MatriculaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Matricula
+     */
+    omit?: MatriculaOmit<ExtArgs> | null
+    /**
+     * The data used to create many Matriculas.
+     */
+    data: MatriculaCreateManyInput | MatriculaCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatriculaIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Matricula update
+   */
+  export type MatriculaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matricula
+     */
+    select?: MatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Matricula
+     */
+    omit?: MatriculaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatriculaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Matricula.
+     */
+    data: XOR<MatriculaUpdateInput, MatriculaUncheckedUpdateInput>
+    /**
+     * Choose, which Matricula to update.
+     */
+    where: MatriculaWhereUniqueInput
+  }
+
+  /**
+   * Matricula updateMany
+   */
+  export type MatriculaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Matriculas.
+     */
+    data: XOR<MatriculaUpdateManyMutationInput, MatriculaUncheckedUpdateManyInput>
+    /**
+     * Filter which Matriculas to update
+     */
+    where?: MatriculaWhereInput
+    /**
+     * Limit how many Matriculas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Matricula updateManyAndReturn
+   */
+  export type MatriculaUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matricula
+     */
+    select?: MatriculaSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Matricula
+     */
+    omit?: MatriculaOmit<ExtArgs> | null
+    /**
+     * The data used to update Matriculas.
+     */
+    data: XOR<MatriculaUpdateManyMutationInput, MatriculaUncheckedUpdateManyInput>
+    /**
+     * Filter which Matriculas to update
+     */
+    where?: MatriculaWhereInput
+    /**
+     * Limit how many Matriculas to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatriculaIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Matricula upsert
+   */
+  export type MatriculaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matricula
+     */
+    select?: MatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Matricula
+     */
+    omit?: MatriculaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatriculaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Matricula to update in case it exists.
+     */
+    where: MatriculaWhereUniqueInput
+    /**
+     * In case the Matricula found by the `where` argument doesn't exist, create a new Matricula with this data.
+     */
+    create: XOR<MatriculaCreateInput, MatriculaUncheckedCreateInput>
+    /**
+     * In case the Matricula was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MatriculaUpdateInput, MatriculaUncheckedUpdateInput>
+  }
+
+  /**
+   * Matricula delete
+   */
+  export type MatriculaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matricula
+     */
+    select?: MatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Matricula
+     */
+    omit?: MatriculaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatriculaInclude<ExtArgs> | null
+    /**
+     * Filter which Matricula to delete.
+     */
+    where: MatriculaWhereUniqueInput
+  }
+
+  /**
+   * Matricula deleteMany
+   */
+  export type MatriculaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Matriculas to delete
+     */
+    where?: MatriculaWhereInput
+    /**
+     * Limit how many Matriculas to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Matricula.promocion
+   */
+  export type Matricula$promocionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promocion
+     */
+    select?: PromocionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promocion
+     */
+    omit?: PromocionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromocionInclude<ExtArgs> | null
+    where?: PromocionWhereInput
+  }
+
+  /**
+   * Matricula without action
+   */
+  export type MatriculaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matricula
+     */
+    select?: MatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Matricula
+     */
+    omit?: MatriculaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatriculaInclude<ExtArgs> | null
   }
 
 
@@ -19715,6 +22270,34 @@ export namespace Prisma {
   };
 
   export type PromocionScalarFieldEnum = (typeof PromocionScalarFieldEnum)[keyof typeof PromocionScalarFieldEnum]
+
+
+  export const TarifaMatriculaScalarFieldEnum: {
+    id: 'id',
+    licencia: 'licencia',
+    precio: 'precio',
+    activa: 'activa',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TarifaMatriculaScalarFieldEnum = (typeof TarifaMatriculaScalarFieldEnum)[keyof typeof TarifaMatriculaScalarFieldEnum]
+
+
+  export const MatriculaScalarFieldEnum: {
+    id: 'id',
+    alumnoId: 'alumnoId',
+    licencia: 'licencia',
+    precioBase: 'precioBase',
+    precioFinal: 'precioFinal',
+    promocionId: 'promocionId',
+    estado: 'estado',
+    fechaCreacion: 'fechaCreacion',
+    fechaPago: 'fechaPago',
+    observaciones: 'observaciones'
+  };
+
+  export type MatriculaScalarFieldEnum = (typeof MatriculaScalarFieldEnum)[keyof typeof MatriculaScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -20077,6 +22660,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoListRelationFilter
     bonosComprados?: CompraBonoListRelationFilter
     solicitudesExamen?: SolicitudExamenListRelationFilter
+    matriculas?: MatriculaListRelationFilter
   }
 
   export type AlumnoOrderByWithRelationInput = {
@@ -20096,6 +22680,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoOrderByRelationAggregateInput
     bonosComprados?: CompraBonoOrderByRelationAggregateInput
     solicitudesExamen?: SolicitudExamenOrderByRelationAggregateInput
+    matriculas?: MatriculaOrderByRelationAggregateInput
   }
 
   export type AlumnoWhereUniqueInput = Prisma.AtLeast<{
@@ -20118,6 +22703,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoListRelationFilter
     bonosComprados?: CompraBonoListRelationFilter
     solicitudesExamen?: SolicitudExamenListRelationFilter
+    matriculas?: MatriculaListRelationFilter
   }, "id">
 
   export type AlumnoOrderByWithAggregationInput = {
@@ -20838,6 +23424,7 @@ export namespace Prisma {
     activa?: BoolFilter<"Promocion"> | boolean
     createdAt?: DateTimeFilter<"Promocion"> | Date | string
     updatedAt?: DateTimeFilter<"Promocion"> | Date | string
+    matriculas?: MatriculaListRelationFilter
   }
 
   export type PromocionOrderByWithRelationInput = {
@@ -20853,6 +23440,7 @@ export namespace Prisma {
     activa?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    matriculas?: MatriculaOrderByRelationAggregateInput
   }
 
   export type PromocionWhereUniqueInput = Prisma.AtLeast<{
@@ -20871,6 +23459,7 @@ export namespace Prisma {
     activa?: BoolFilter<"Promocion"> | boolean
     createdAt?: DateTimeFilter<"Promocion"> | Date | string
     updatedAt?: DateTimeFilter<"Promocion"> | Date | string
+    matriculas?: MatriculaListRelationFilter
   }, "id">
 
   export type PromocionOrderByWithAggregationInput = {
@@ -20909,6 +23498,150 @@ export namespace Prisma {
     activa?: BoolWithAggregatesFilter<"Promocion"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Promocion"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Promocion"> | Date | string
+  }
+
+  export type TarifaMatriculaWhereInput = {
+    AND?: TarifaMatriculaWhereInput | TarifaMatriculaWhereInput[]
+    OR?: TarifaMatriculaWhereInput[]
+    NOT?: TarifaMatriculaWhereInput | TarifaMatriculaWhereInput[]
+    id?: StringFilter<"TarifaMatricula"> | string
+    licencia?: StringFilter<"TarifaMatricula"> | string
+    precio?: DecimalFilter<"TarifaMatricula"> | Decimal | DecimalJsLike | number | string
+    activa?: BoolFilter<"TarifaMatricula"> | boolean
+    createdAt?: DateTimeFilter<"TarifaMatricula"> | Date | string
+    updatedAt?: DateTimeFilter<"TarifaMatricula"> | Date | string
+  }
+
+  export type TarifaMatriculaOrderByWithRelationInput = {
+    id?: SortOrder
+    licencia?: SortOrder
+    precio?: SortOrder
+    activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TarifaMatriculaWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    licencia?: string
+    AND?: TarifaMatriculaWhereInput | TarifaMatriculaWhereInput[]
+    OR?: TarifaMatriculaWhereInput[]
+    NOT?: TarifaMatriculaWhereInput | TarifaMatriculaWhereInput[]
+    precio?: DecimalFilter<"TarifaMatricula"> | Decimal | DecimalJsLike | number | string
+    activa?: BoolFilter<"TarifaMatricula"> | boolean
+    createdAt?: DateTimeFilter<"TarifaMatricula"> | Date | string
+    updatedAt?: DateTimeFilter<"TarifaMatricula"> | Date | string
+  }, "id" | "licencia">
+
+  export type TarifaMatriculaOrderByWithAggregationInput = {
+    id?: SortOrder
+    licencia?: SortOrder
+    precio?: SortOrder
+    activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TarifaMatriculaCountOrderByAggregateInput
+    _avg?: TarifaMatriculaAvgOrderByAggregateInput
+    _max?: TarifaMatriculaMaxOrderByAggregateInput
+    _min?: TarifaMatriculaMinOrderByAggregateInput
+    _sum?: TarifaMatriculaSumOrderByAggregateInput
+  }
+
+  export type TarifaMatriculaScalarWhereWithAggregatesInput = {
+    AND?: TarifaMatriculaScalarWhereWithAggregatesInput | TarifaMatriculaScalarWhereWithAggregatesInput[]
+    OR?: TarifaMatriculaScalarWhereWithAggregatesInput[]
+    NOT?: TarifaMatriculaScalarWhereWithAggregatesInput | TarifaMatriculaScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TarifaMatricula"> | string
+    licencia?: StringWithAggregatesFilter<"TarifaMatricula"> | string
+    precio?: DecimalWithAggregatesFilter<"TarifaMatricula"> | Decimal | DecimalJsLike | number | string
+    activa?: BoolWithAggregatesFilter<"TarifaMatricula"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"TarifaMatricula"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"TarifaMatricula"> | Date | string
+  }
+
+  export type MatriculaWhereInput = {
+    AND?: MatriculaWhereInput | MatriculaWhereInput[]
+    OR?: MatriculaWhereInput[]
+    NOT?: MatriculaWhereInput | MatriculaWhereInput[]
+    id?: StringFilter<"Matricula"> | string
+    alumnoId?: StringFilter<"Matricula"> | string
+    licencia?: StringFilter<"Matricula"> | string
+    precioBase?: DecimalFilter<"Matricula"> | Decimal | DecimalJsLike | number | string
+    precioFinal?: DecimalFilter<"Matricula"> | Decimal | DecimalJsLike | number | string
+    promocionId?: StringNullableFilter<"Matricula"> | string | null
+    estado?: StringFilter<"Matricula"> | string
+    fechaCreacion?: DateTimeFilter<"Matricula"> | Date | string
+    fechaPago?: DateTimeNullableFilter<"Matricula"> | Date | string | null
+    observaciones?: StringNullableFilter<"Matricula"> | string | null
+    alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+    promocion?: XOR<PromocionNullableScalarRelationFilter, PromocionWhereInput> | null
+  }
+
+  export type MatriculaOrderByWithRelationInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    licencia?: SortOrder
+    precioBase?: SortOrder
+    precioFinal?: SortOrder
+    promocionId?: SortOrderInput | SortOrder
+    estado?: SortOrder
+    fechaCreacion?: SortOrder
+    fechaPago?: SortOrderInput | SortOrder
+    observaciones?: SortOrderInput | SortOrder
+    alumno?: AlumnoOrderByWithRelationInput
+    promocion?: PromocionOrderByWithRelationInput
+  }
+
+  export type MatriculaWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: MatriculaWhereInput | MatriculaWhereInput[]
+    OR?: MatriculaWhereInput[]
+    NOT?: MatriculaWhereInput | MatriculaWhereInput[]
+    alumnoId?: StringFilter<"Matricula"> | string
+    licencia?: StringFilter<"Matricula"> | string
+    precioBase?: DecimalFilter<"Matricula"> | Decimal | DecimalJsLike | number | string
+    precioFinal?: DecimalFilter<"Matricula"> | Decimal | DecimalJsLike | number | string
+    promocionId?: StringNullableFilter<"Matricula"> | string | null
+    estado?: StringFilter<"Matricula"> | string
+    fechaCreacion?: DateTimeFilter<"Matricula"> | Date | string
+    fechaPago?: DateTimeNullableFilter<"Matricula"> | Date | string | null
+    observaciones?: StringNullableFilter<"Matricula"> | string | null
+    alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+    promocion?: XOR<PromocionNullableScalarRelationFilter, PromocionWhereInput> | null
+  }, "id">
+
+  export type MatriculaOrderByWithAggregationInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    licencia?: SortOrder
+    precioBase?: SortOrder
+    precioFinal?: SortOrder
+    promocionId?: SortOrderInput | SortOrder
+    estado?: SortOrder
+    fechaCreacion?: SortOrder
+    fechaPago?: SortOrderInput | SortOrder
+    observaciones?: SortOrderInput | SortOrder
+    _count?: MatriculaCountOrderByAggregateInput
+    _avg?: MatriculaAvgOrderByAggregateInput
+    _max?: MatriculaMaxOrderByAggregateInput
+    _min?: MatriculaMinOrderByAggregateInput
+    _sum?: MatriculaSumOrderByAggregateInput
+  }
+
+  export type MatriculaScalarWhereWithAggregatesInput = {
+    AND?: MatriculaScalarWhereWithAggregatesInput | MatriculaScalarWhereWithAggregatesInput[]
+    OR?: MatriculaScalarWhereWithAggregatesInput[]
+    NOT?: MatriculaScalarWhereWithAggregatesInput | MatriculaScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Matricula"> | string
+    alumnoId?: StringWithAggregatesFilter<"Matricula"> | string
+    licencia?: StringWithAggregatesFilter<"Matricula"> | string
+    precioBase?: DecimalWithAggregatesFilter<"Matricula"> | Decimal | DecimalJsLike | number | string
+    precioFinal?: DecimalWithAggregatesFilter<"Matricula"> | Decimal | DecimalJsLike | number | string
+    promocionId?: StringNullableWithAggregatesFilter<"Matricula"> | string | null
+    estado?: StringWithAggregatesFilter<"Matricula"> | string
+    fechaCreacion?: DateTimeWithAggregatesFilter<"Matricula"> | Date | string
+    fechaPago?: DateTimeNullableWithAggregatesFilter<"Matricula"> | Date | string | null
+    observaciones?: StringNullableWithAggregatesFilter<"Matricula"> | string | null
   }
 
   export type UsuarioCreateInput = {
@@ -21165,6 +23898,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateInput = {
@@ -21182,6 +23916,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUpdateInput = {
@@ -21199,6 +23934,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateInput = {
@@ -21216,6 +23952,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoCreateManyInput = {
@@ -21952,6 +24689,7 @@ export namespace Prisma {
     activa?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    matriculas?: MatriculaCreateNestedManyWithoutPromocionInput
   }
 
   export type PromocionUncheckedCreateInput = {
@@ -21967,6 +24705,7 @@ export namespace Prisma {
     activa?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutPromocionInput
   }
 
   export type PromocionUpdateInput = {
@@ -21982,6 +24721,7 @@ export namespace Prisma {
     activa?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    matriculas?: MatriculaUpdateManyWithoutPromocionNestedInput
   }
 
   export type PromocionUncheckedUpdateInput = {
@@ -21997,6 +24737,7 @@ export namespace Prisma {
     activa?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    matriculas?: MatriculaUncheckedUpdateManyWithoutPromocionNestedInput
   }
 
   export type PromocionCreateManyInput = {
@@ -22042,6 +24783,158 @@ export namespace Prisma {
     activa?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TarifaMatriculaCreateInput = {
+    id?: string
+    licencia: string
+    precio: Decimal | DecimalJsLike | number | string
+    activa?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TarifaMatriculaUncheckedCreateInput = {
+    id?: string
+    licencia: string
+    precio: Decimal | DecimalJsLike | number | string
+    activa?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TarifaMatriculaUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    precio?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TarifaMatriculaUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    precio?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TarifaMatriculaCreateManyInput = {
+    id?: string
+    licencia: string
+    precio: Decimal | DecimalJsLike | number | string
+    activa?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TarifaMatriculaUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    precio?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TarifaMatriculaUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    precio?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MatriculaCreateInput = {
+    id?: string
+    licencia: string
+    precioBase: Decimal | DecimalJsLike | number | string
+    precioFinal: Decimal | DecimalJsLike | number | string
+    estado?: string
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    observaciones?: string | null
+    alumno: AlumnoCreateNestedOneWithoutMatriculasInput
+    promocion?: PromocionCreateNestedOneWithoutMatriculasInput
+  }
+
+  export type MatriculaUncheckedCreateInput = {
+    id?: string
+    alumnoId: string
+    licencia: string
+    precioBase: Decimal | DecimalJsLike | number | string
+    precioFinal: Decimal | DecimalJsLike | number | string
+    promocionId?: string | null
+    estado?: string
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    observaciones?: string | null
+  }
+
+  export type MatriculaUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    precioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioFinal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    alumno?: AlumnoUpdateOneRequiredWithoutMatriculasNestedInput
+    promocion?: PromocionUpdateOneWithoutMatriculasNestedInput
+  }
+
+  export type MatriculaUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    precioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioFinal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    promocionId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type MatriculaCreateManyInput = {
+    id?: string
+    alumnoId: string
+    licencia: string
+    precioBase: Decimal | DecimalJsLike | number | string
+    precioFinal: Decimal | DecimalJsLike | number | string
+    promocionId?: string | null
+    estado?: string
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    observaciones?: string | null
+  }
+
+  export type MatriculaUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    precioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioFinal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type MatriculaUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    precioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioFinal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    promocionId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -22414,6 +25307,12 @@ export namespace Prisma {
     none?: SolicitudExamenWhereInput
   }
 
+  export type MatriculaListRelationFilter = {
+    every?: MatriculaWhereInput
+    some?: MatriculaWhereInput
+    none?: MatriculaWhereInput
+  }
+
   export type ExamenOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -22431,6 +25330,10 @@ export namespace Prisma {
   }
 
   export type SolicitudExamenOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MatriculaOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -22941,6 +25844,95 @@ export namespace Prisma {
     _max?: NestedDecimalFilter<$PrismaModel>
   }
 
+  export type TarifaMatriculaCountOrderByAggregateInput = {
+    id?: SortOrder
+    licencia?: SortOrder
+    precio?: SortOrder
+    activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TarifaMatriculaAvgOrderByAggregateInput = {
+    precio?: SortOrder
+  }
+
+  export type TarifaMatriculaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    licencia?: SortOrder
+    precio?: SortOrder
+    activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TarifaMatriculaMinOrderByAggregateInput = {
+    id?: SortOrder
+    licencia?: SortOrder
+    precio?: SortOrder
+    activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TarifaMatriculaSumOrderByAggregateInput = {
+    precio?: SortOrder
+  }
+
+  export type PromocionNullableScalarRelationFilter = {
+    is?: PromocionWhereInput | null
+    isNot?: PromocionWhereInput | null
+  }
+
+  export type MatriculaCountOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    licencia?: SortOrder
+    precioBase?: SortOrder
+    precioFinal?: SortOrder
+    promocionId?: SortOrder
+    estado?: SortOrder
+    fechaCreacion?: SortOrder
+    fechaPago?: SortOrder
+    observaciones?: SortOrder
+  }
+
+  export type MatriculaAvgOrderByAggregateInput = {
+    precioBase?: SortOrder
+    precioFinal?: SortOrder
+  }
+
+  export type MatriculaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    licencia?: SortOrder
+    precioBase?: SortOrder
+    precioFinal?: SortOrder
+    promocionId?: SortOrder
+    estado?: SortOrder
+    fechaCreacion?: SortOrder
+    fechaPago?: SortOrder
+    observaciones?: SortOrder
+  }
+
+  export type MatriculaMinOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    licencia?: SortOrder
+    precioBase?: SortOrder
+    precioFinal?: SortOrder
+    promocionId?: SortOrder
+    estado?: SortOrder
+    fechaCreacion?: SortOrder
+    fechaPago?: SortOrder
+    observaciones?: SortOrder
+  }
+
+  export type MatriculaSumOrderByAggregateInput = {
+    precioBase?: SortOrder
+    precioFinal?: SortOrder
+  }
+
   export type AlumnoCreateNestedOneWithoutUsuarioInput = {
     create?: XOR<AlumnoCreateWithoutUsuarioInput, AlumnoUncheckedCreateWithoutUsuarioInput>
     connectOrCreate?: AlumnoCreateOrConnectWithoutUsuarioInput
@@ -23296,6 +26288,13 @@ export namespace Prisma {
     connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
   }
 
+  export type MatriculaCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<MatriculaCreateWithoutAlumnoInput, MatriculaUncheckedCreateWithoutAlumnoInput> | MatriculaCreateWithoutAlumnoInput[] | MatriculaUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: MatriculaCreateOrConnectWithoutAlumnoInput | MatriculaCreateOrConnectWithoutAlumnoInput[]
+    createMany?: MatriculaCreateManyAlumnoInputEnvelope
+    connect?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+  }
+
   export type ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput = {
     create?: XOR<ClasePracticaCreateWithoutAlumnoInput, ClasePracticaUncheckedCreateWithoutAlumnoInput> | ClasePracticaCreateWithoutAlumnoInput[] | ClasePracticaUncheckedCreateWithoutAlumnoInput[]
     connectOrCreate?: ClasePracticaCreateOrConnectWithoutAlumnoInput | ClasePracticaCreateOrConnectWithoutAlumnoInput[]
@@ -23336,6 +26335,13 @@ export namespace Prisma {
     connectOrCreate?: SolicitudExamenCreateOrConnectWithoutAlumnoInput | SolicitudExamenCreateOrConnectWithoutAlumnoInput[]
     createMany?: SolicitudExamenCreateManyAlumnoInputEnvelope
     connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+  }
+
+  export type MatriculaUncheckedCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<MatriculaCreateWithoutAlumnoInput, MatriculaUncheckedCreateWithoutAlumnoInput> | MatriculaCreateWithoutAlumnoInput[] | MatriculaUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: MatriculaCreateOrConnectWithoutAlumnoInput | MatriculaCreateOrConnectWithoutAlumnoInput[]
+    createMany?: MatriculaCreateManyAlumnoInputEnvelope
+    connect?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
   }
 
   export type UsuarioUpdateOneRequiredWithoutAlumnoNestedInput = {
@@ -23440,6 +26446,20 @@ export namespace Prisma {
     deleteMany?: SolicitudExamenScalarWhereInput | SolicitudExamenScalarWhereInput[]
   }
 
+  export type MatriculaUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<MatriculaCreateWithoutAlumnoInput, MatriculaUncheckedCreateWithoutAlumnoInput> | MatriculaCreateWithoutAlumnoInput[] | MatriculaUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: MatriculaCreateOrConnectWithoutAlumnoInput | MatriculaCreateOrConnectWithoutAlumnoInput[]
+    upsert?: MatriculaUpsertWithWhereUniqueWithoutAlumnoInput | MatriculaUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: MatriculaCreateManyAlumnoInputEnvelope
+    set?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+    disconnect?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+    delete?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+    connect?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+    update?: MatriculaUpdateWithWhereUniqueWithoutAlumnoInput | MatriculaUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: MatriculaUpdateManyWithWhereWithoutAlumnoInput | MatriculaUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: MatriculaScalarWhereInput | MatriculaScalarWhereInput[]
+  }
+
   export type ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput = {
     create?: XOR<ClasePracticaCreateWithoutAlumnoInput, ClasePracticaUncheckedCreateWithoutAlumnoInput> | ClasePracticaCreateWithoutAlumnoInput[] | ClasePracticaUncheckedCreateWithoutAlumnoInput[]
     connectOrCreate?: ClasePracticaCreateOrConnectWithoutAlumnoInput | ClasePracticaCreateOrConnectWithoutAlumnoInput[]
@@ -23522,6 +26542,20 @@ export namespace Prisma {
     update?: SolicitudExamenUpdateWithWhereUniqueWithoutAlumnoInput | SolicitudExamenUpdateWithWhereUniqueWithoutAlumnoInput[]
     updateMany?: SolicitudExamenUpdateManyWithWhereWithoutAlumnoInput | SolicitudExamenUpdateManyWithWhereWithoutAlumnoInput[]
     deleteMany?: SolicitudExamenScalarWhereInput | SolicitudExamenScalarWhereInput[]
+  }
+
+  export type MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<MatriculaCreateWithoutAlumnoInput, MatriculaUncheckedCreateWithoutAlumnoInput> | MatriculaCreateWithoutAlumnoInput[] | MatriculaUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: MatriculaCreateOrConnectWithoutAlumnoInput | MatriculaCreateOrConnectWithoutAlumnoInput[]
+    upsert?: MatriculaUpsertWithWhereUniqueWithoutAlumnoInput | MatriculaUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: MatriculaCreateManyAlumnoInputEnvelope
+    set?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+    disconnect?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+    delete?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+    connect?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+    update?: MatriculaUpdateWithWhereUniqueWithoutAlumnoInput | MatriculaUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: MatriculaUpdateManyWithWhereWithoutAlumnoInput | MatriculaUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: MatriculaScalarWhereInput | MatriculaScalarWhereInput[]
   }
 
   export type TemarioProgresoCreateNestedManyWithoutTemarioInput = {
@@ -23868,6 +26902,20 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type MatriculaCreateNestedManyWithoutPromocionInput = {
+    create?: XOR<MatriculaCreateWithoutPromocionInput, MatriculaUncheckedCreateWithoutPromocionInput> | MatriculaCreateWithoutPromocionInput[] | MatriculaUncheckedCreateWithoutPromocionInput[]
+    connectOrCreate?: MatriculaCreateOrConnectWithoutPromocionInput | MatriculaCreateOrConnectWithoutPromocionInput[]
+    createMany?: MatriculaCreateManyPromocionInputEnvelope
+    connect?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+  }
+
+  export type MatriculaUncheckedCreateNestedManyWithoutPromocionInput = {
+    create?: XOR<MatriculaCreateWithoutPromocionInput, MatriculaUncheckedCreateWithoutPromocionInput> | MatriculaCreateWithoutPromocionInput[] | MatriculaUncheckedCreateWithoutPromocionInput[]
+    connectOrCreate?: MatriculaCreateOrConnectWithoutPromocionInput | MatriculaCreateOrConnectWithoutPromocionInput[]
+    createMany?: MatriculaCreateManyPromocionInputEnvelope
+    connect?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+  }
+
   export type DecimalFieldUpdateOperationsInput = {
     set?: Decimal | DecimalJsLike | number | string
     increment?: Decimal | DecimalJsLike | number | string
@@ -23879,6 +26927,64 @@ export namespace Prisma {
   export type PromocionUpdatelicenciasAplicablesInput = {
     set?: string[]
     push?: string | string[]
+  }
+
+  export type MatriculaUpdateManyWithoutPromocionNestedInput = {
+    create?: XOR<MatriculaCreateWithoutPromocionInput, MatriculaUncheckedCreateWithoutPromocionInput> | MatriculaCreateWithoutPromocionInput[] | MatriculaUncheckedCreateWithoutPromocionInput[]
+    connectOrCreate?: MatriculaCreateOrConnectWithoutPromocionInput | MatriculaCreateOrConnectWithoutPromocionInput[]
+    upsert?: MatriculaUpsertWithWhereUniqueWithoutPromocionInput | MatriculaUpsertWithWhereUniqueWithoutPromocionInput[]
+    createMany?: MatriculaCreateManyPromocionInputEnvelope
+    set?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+    disconnect?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+    delete?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+    connect?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+    update?: MatriculaUpdateWithWhereUniqueWithoutPromocionInput | MatriculaUpdateWithWhereUniqueWithoutPromocionInput[]
+    updateMany?: MatriculaUpdateManyWithWhereWithoutPromocionInput | MatriculaUpdateManyWithWhereWithoutPromocionInput[]
+    deleteMany?: MatriculaScalarWhereInput | MatriculaScalarWhereInput[]
+  }
+
+  export type MatriculaUncheckedUpdateManyWithoutPromocionNestedInput = {
+    create?: XOR<MatriculaCreateWithoutPromocionInput, MatriculaUncheckedCreateWithoutPromocionInput> | MatriculaCreateWithoutPromocionInput[] | MatriculaUncheckedCreateWithoutPromocionInput[]
+    connectOrCreate?: MatriculaCreateOrConnectWithoutPromocionInput | MatriculaCreateOrConnectWithoutPromocionInput[]
+    upsert?: MatriculaUpsertWithWhereUniqueWithoutPromocionInput | MatriculaUpsertWithWhereUniqueWithoutPromocionInput[]
+    createMany?: MatriculaCreateManyPromocionInputEnvelope
+    set?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+    disconnect?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+    delete?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+    connect?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+    update?: MatriculaUpdateWithWhereUniqueWithoutPromocionInput | MatriculaUpdateWithWhereUniqueWithoutPromocionInput[]
+    updateMany?: MatriculaUpdateManyWithWhereWithoutPromocionInput | MatriculaUpdateManyWithWhereWithoutPromocionInput[]
+    deleteMany?: MatriculaScalarWhereInput | MatriculaScalarWhereInput[]
+  }
+
+  export type AlumnoCreateNestedOneWithoutMatriculasInput = {
+    create?: XOR<AlumnoCreateWithoutMatriculasInput, AlumnoUncheckedCreateWithoutMatriculasInput>
+    connectOrCreate?: AlumnoCreateOrConnectWithoutMatriculasInput
+    connect?: AlumnoWhereUniqueInput
+  }
+
+  export type PromocionCreateNestedOneWithoutMatriculasInput = {
+    create?: XOR<PromocionCreateWithoutMatriculasInput, PromocionUncheckedCreateWithoutMatriculasInput>
+    connectOrCreate?: PromocionCreateOrConnectWithoutMatriculasInput
+    connect?: PromocionWhereUniqueInput
+  }
+
+  export type AlumnoUpdateOneRequiredWithoutMatriculasNestedInput = {
+    create?: XOR<AlumnoCreateWithoutMatriculasInput, AlumnoUncheckedCreateWithoutMatriculasInput>
+    connectOrCreate?: AlumnoCreateOrConnectWithoutMatriculasInput
+    upsert?: AlumnoUpsertWithoutMatriculasInput
+    connect?: AlumnoWhereUniqueInput
+    update?: XOR<XOR<AlumnoUpdateToOneWithWhereWithoutMatriculasInput, AlumnoUpdateWithoutMatriculasInput>, AlumnoUncheckedUpdateWithoutMatriculasInput>
+  }
+
+  export type PromocionUpdateOneWithoutMatriculasNestedInput = {
+    create?: XOR<PromocionCreateWithoutMatriculasInput, PromocionUncheckedCreateWithoutMatriculasInput>
+    connectOrCreate?: PromocionCreateOrConnectWithoutMatriculasInput
+    upsert?: PromocionUpsertWithoutMatriculasInput
+    disconnect?: PromocionWhereInput | boolean
+    delete?: PromocionWhereInput | boolean
+    connect?: PromocionWhereUniqueInput
+    update?: XOR<XOR<PromocionUpdateToOneWithWhereWithoutMatriculasInput, PromocionUpdateWithoutMatriculasInput>, PromocionUncheckedUpdateWithoutMatriculasInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -24113,6 +27219,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutUsuarioInput = {
@@ -24129,6 +27236,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutUsuarioInput = {
@@ -24216,6 +27324,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutUsuarioInput = {
@@ -24232,6 +27341,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type ProfesorUpsertWithoutUsuarioInput = {
@@ -24381,6 +27491,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutProfesorAsignadoInput = {
@@ -24397,6 +27508,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutProfesorAsignadoInput = {
@@ -24856,6 +27968,40 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type MatriculaCreateWithoutAlumnoInput = {
+    id?: string
+    licencia: string
+    precioBase: Decimal | DecimalJsLike | number | string
+    precioFinal: Decimal | DecimalJsLike | number | string
+    estado?: string
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    observaciones?: string | null
+    promocion?: PromocionCreateNestedOneWithoutMatriculasInput
+  }
+
+  export type MatriculaUncheckedCreateWithoutAlumnoInput = {
+    id?: string
+    licencia: string
+    precioBase: Decimal | DecimalJsLike | number | string
+    precioFinal: Decimal | DecimalJsLike | number | string
+    promocionId?: string | null
+    estado?: string
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    observaciones?: string | null
+  }
+
+  export type MatriculaCreateOrConnectWithoutAlumnoInput = {
+    where: MatriculaWhereUniqueInput
+    create: XOR<MatriculaCreateWithoutAlumnoInput, MatriculaUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type MatriculaCreateManyAlumnoInputEnvelope = {
+    data: MatriculaCreateManyAlumnoInput | MatriculaCreateManyAlumnoInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UsuarioUpsertWithoutAlumnoInput = {
     update: XOR<UsuarioUpdateWithoutAlumnoInput, UsuarioUncheckedUpdateWithoutAlumnoInput>
     create: XOR<UsuarioCreateWithoutAlumnoInput, UsuarioUncheckedCreateWithoutAlumnoInput>
@@ -25085,6 +28231,38 @@ export namespace Prisma {
     observaciones?: StringNullableFilter<"SolicitudExamen"> | string | null
   }
 
+  export type MatriculaUpsertWithWhereUniqueWithoutAlumnoInput = {
+    where: MatriculaWhereUniqueInput
+    update: XOR<MatriculaUpdateWithoutAlumnoInput, MatriculaUncheckedUpdateWithoutAlumnoInput>
+    create: XOR<MatriculaCreateWithoutAlumnoInput, MatriculaUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type MatriculaUpdateWithWhereUniqueWithoutAlumnoInput = {
+    where: MatriculaWhereUniqueInput
+    data: XOR<MatriculaUpdateWithoutAlumnoInput, MatriculaUncheckedUpdateWithoutAlumnoInput>
+  }
+
+  export type MatriculaUpdateManyWithWhereWithoutAlumnoInput = {
+    where: MatriculaScalarWhereInput
+    data: XOR<MatriculaUpdateManyMutationInput, MatriculaUncheckedUpdateManyWithoutAlumnoInput>
+  }
+
+  export type MatriculaScalarWhereInput = {
+    AND?: MatriculaScalarWhereInput | MatriculaScalarWhereInput[]
+    OR?: MatriculaScalarWhereInput[]
+    NOT?: MatriculaScalarWhereInput | MatriculaScalarWhereInput[]
+    id?: StringFilter<"Matricula"> | string
+    alumnoId?: StringFilter<"Matricula"> | string
+    licencia?: StringFilter<"Matricula"> | string
+    precioBase?: DecimalFilter<"Matricula"> | Decimal | DecimalJsLike | number | string
+    precioFinal?: DecimalFilter<"Matricula"> | Decimal | DecimalJsLike | number | string
+    promocionId?: StringNullableFilter<"Matricula"> | string | null
+    estado?: StringFilter<"Matricula"> | string
+    fechaCreacion?: DateTimeFilter<"Matricula"> | Date | string
+    fechaPago?: DateTimeNullableFilter<"Matricula"> | Date | string | null
+    observaciones?: StringNullableFilter<"Matricula"> | string | null
+  }
+
   export type TemarioProgresoCreateWithoutTemarioInput = {
     id?: string
     revisado?: boolean
@@ -25185,6 +28363,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutTemariosProgresoInput = {
@@ -25201,6 +28380,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutTemariosProgresoInput = {
@@ -25256,6 +28436,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutTemariosProgresoInput = {
@@ -25272,6 +28453,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type TemarioUpsertWithoutProgresoInput = {
@@ -25373,6 +28555,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutTestsPracticaInput = {
@@ -25389,6 +28572,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutTestsPracticaInput = {
@@ -25444,6 +28628,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutTestsPracticaInput = {
@@ -25460,6 +28645,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type TemarioUpsertWithoutTestsPracticaInput = {
@@ -25551,6 +28737,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutBonosCompradosInput = {
@@ -25567,6 +28754,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutBonosCompradosInput = {
@@ -25622,6 +28810,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutBonosCompradosInput = {
@@ -25638,6 +28827,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type BonoUpsertWithoutComprasInput = {
@@ -25683,6 +28873,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutSolicitudesExamenInput = {
@@ -25699,6 +28890,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutSolicitudesExamenInput = {
@@ -25731,6 +28923,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutSolicitudesExamenInput = {
@@ -25747,6 +28940,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type ClasePracticaCreateWithoutVehiculoInput = {
@@ -25807,6 +29001,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutClasesInput = {
@@ -25823,6 +29018,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutClasesInput = {
@@ -25905,6 +29101,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutClasesInput = {
@@ -25921,6 +29118,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type ProfesorUpsertWithoutClasesInput = {
@@ -25999,6 +29197,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutExamenesInput = {
@@ -26015,6 +29214,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutExamenesInput = {
@@ -26047,6 +29247,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutExamenesInput = {
@@ -26063,6 +29264,217 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type MatriculaCreateWithoutPromocionInput = {
+    id?: string
+    licencia: string
+    precioBase: Decimal | DecimalJsLike | number | string
+    precioFinal: Decimal | DecimalJsLike | number | string
+    estado?: string
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    observaciones?: string | null
+    alumno: AlumnoCreateNestedOneWithoutMatriculasInput
+  }
+
+  export type MatriculaUncheckedCreateWithoutPromocionInput = {
+    id?: string
+    alumnoId: string
+    licencia: string
+    precioBase: Decimal | DecimalJsLike | number | string
+    precioFinal: Decimal | DecimalJsLike | number | string
+    estado?: string
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    observaciones?: string | null
+  }
+
+  export type MatriculaCreateOrConnectWithoutPromocionInput = {
+    where: MatriculaWhereUniqueInput
+    create: XOR<MatriculaCreateWithoutPromocionInput, MatriculaUncheckedCreateWithoutPromocionInput>
+  }
+
+  export type MatriculaCreateManyPromocionInputEnvelope = {
+    data: MatriculaCreateManyPromocionInput | MatriculaCreateManyPromocionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MatriculaUpsertWithWhereUniqueWithoutPromocionInput = {
+    where: MatriculaWhereUniqueInput
+    update: XOR<MatriculaUpdateWithoutPromocionInput, MatriculaUncheckedUpdateWithoutPromocionInput>
+    create: XOR<MatriculaCreateWithoutPromocionInput, MatriculaUncheckedCreateWithoutPromocionInput>
+  }
+
+  export type MatriculaUpdateWithWhereUniqueWithoutPromocionInput = {
+    where: MatriculaWhereUniqueInput
+    data: XOR<MatriculaUpdateWithoutPromocionInput, MatriculaUncheckedUpdateWithoutPromocionInput>
+  }
+
+  export type MatriculaUpdateManyWithWhereWithoutPromocionInput = {
+    where: MatriculaScalarWhereInput
+    data: XOR<MatriculaUpdateManyMutationInput, MatriculaUncheckedUpdateManyWithoutPromocionInput>
+  }
+
+  export type AlumnoCreateWithoutMatriculasInput = {
+    tipoLicenciaObjetivo: string
+    fechaNacimiento?: Date | string | null
+    horasPracticasCompletadas?: number
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: Date | string | null
+    activo?: boolean
+    usuario: UsuarioCreateNestedOneWithoutAlumnoInput
+    profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
+    clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+  }
+
+  export type AlumnoUncheckedCreateWithoutMatriculasInput = {
+    id: string
+    tipoLicenciaObjetivo: string
+    fechaNacimiento?: Date | string | null
+    horasPracticasCompletadas?: number
+    matriculaPagada?: boolean
+    fechaMatriculaPago?: Date | string | null
+    profesorAsignadoId?: string | null
+    activo?: boolean
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+  }
+
+  export type AlumnoCreateOrConnectWithoutMatriculasInput = {
+    where: AlumnoWhereUniqueInput
+    create: XOR<AlumnoCreateWithoutMatriculasInput, AlumnoUncheckedCreateWithoutMatriculasInput>
+  }
+
+  export type PromocionCreateWithoutMatriculasInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    precioOriginal: Decimal | DecimalJsLike | number | string
+    precioPromocional: Decimal | DecimalJsLike | number | string
+    licenciasAplicables?: PromocionCreatelicenciasAplicablesInput | string[]
+    imagenRuta?: string | null
+    fechaInicio?: Date | string | null
+    fechaFin?: Date | string | null
+    activa?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PromocionUncheckedCreateWithoutMatriculasInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    precioOriginal: Decimal | DecimalJsLike | number | string
+    precioPromocional: Decimal | DecimalJsLike | number | string
+    licenciasAplicables?: PromocionCreatelicenciasAplicablesInput | string[]
+    imagenRuta?: string | null
+    fechaInicio?: Date | string | null
+    fechaFin?: Date | string | null
+    activa?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PromocionCreateOrConnectWithoutMatriculasInput = {
+    where: PromocionWhereUniqueInput
+    create: XOR<PromocionCreateWithoutMatriculasInput, PromocionUncheckedCreateWithoutMatriculasInput>
+  }
+
+  export type AlumnoUpsertWithoutMatriculasInput = {
+    update: XOR<AlumnoUpdateWithoutMatriculasInput, AlumnoUncheckedUpdateWithoutMatriculasInput>
+    create: XOR<AlumnoCreateWithoutMatriculasInput, AlumnoUncheckedCreateWithoutMatriculasInput>
+    where?: AlumnoWhereInput
+  }
+
+  export type AlumnoUpdateToOneWithWhereWithoutMatriculasInput = {
+    where?: AlumnoWhereInput
+    data: XOR<AlumnoUpdateWithoutMatriculasInput, AlumnoUncheckedUpdateWithoutMatriculasInput>
+  }
+
+  export type AlumnoUpdateWithoutMatriculasInput = {
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
+    profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
+    clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type AlumnoUncheckedUpdateWithoutMatriculasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    matriculaPagada?: BoolFieldUpdateOperationsInput | boolean
+    fechaMatriculaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type PromocionUpsertWithoutMatriculasInput = {
+    update: XOR<PromocionUpdateWithoutMatriculasInput, PromocionUncheckedUpdateWithoutMatriculasInput>
+    create: XOR<PromocionCreateWithoutMatriculasInput, PromocionUncheckedCreateWithoutMatriculasInput>
+    where?: PromocionWhereInput
+  }
+
+  export type PromocionUpdateToOneWithWhereWithoutMatriculasInput = {
+    where?: PromocionWhereInput
+    data: XOR<PromocionUpdateWithoutMatriculasInput, PromocionUncheckedUpdateWithoutMatriculasInput>
+  }
+
+  export type PromocionUpdateWithoutMatriculasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    precioOriginal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioPromocional?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    licenciasAplicables?: PromocionUpdatelicenciasAplicablesInput | string[]
+    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PromocionUncheckedUpdateWithoutMatriculasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    precioOriginal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioPromocional?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    licenciasAplicables?: PromocionUpdatelicenciasAplicablesInput | string[]
+    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ActivacionCuentaCreateManyUsuarioInput = {
@@ -26150,6 +29562,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutProfesorAsignadoInput = {
@@ -26166,6 +29579,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateManyWithoutProfesorAsignadoInput = {
@@ -26290,6 +29704,18 @@ export namespace Prisma {
     estado?: string
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
+    observaciones?: string | null
+  }
+
+  export type MatriculaCreateManyAlumnoInput = {
+    id?: string
+    licencia: string
+    precioBase: Decimal | DecimalJsLike | number | string
+    precioFinal: Decimal | DecimalJsLike | number | string
+    promocionId?: string | null
+    estado?: string
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
     observaciones?: string | null
   }
 
@@ -26449,6 +29875,42 @@ export namespace Prisma {
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type MatriculaUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    precioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioFinal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    promocion?: PromocionUpdateOneWithoutMatriculasNestedInput
+  }
+
+  export type MatriculaUncheckedUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    precioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioFinal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    promocionId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type MatriculaUncheckedUpdateManyWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    precioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioFinal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    promocionId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type TemarioProgresoCreateManyTemarioInput = {
     id?: string
     alumnoId: string
@@ -26591,6 +30053,54 @@ export namespace Prisma {
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type MatriculaCreateManyPromocionInput = {
+    id?: string
+    alumnoId: string
+    licencia: string
+    precioBase: Decimal | DecimalJsLike | number | string
+    precioFinal: Decimal | DecimalJsLike | number | string
+    estado?: string
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    observaciones?: string | null
+  }
+
+  export type MatriculaUpdateWithoutPromocionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    precioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioFinal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    alumno?: AlumnoUpdateOneRequiredWithoutMatriculasNestedInput
+  }
+
+  export type MatriculaUncheckedUpdateWithoutPromocionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    precioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioFinal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type MatriculaUncheckedUpdateManyWithoutPromocionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    precioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioFinal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

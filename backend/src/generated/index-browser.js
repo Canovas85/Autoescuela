@@ -276,6 +276,28 @@ exports.Prisma.PromocionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.TarifaMatriculaScalarFieldEnum = {
+  id: 'id',
+  licencia: 'licencia',
+  precio: 'precio',
+  activa: 'activa',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MatriculaScalarFieldEnum = {
+  id: 'id',
+  alumnoId: 'alumnoId',
+  licencia: 'licencia',
+  precioBase: 'precioBase',
+  precioFinal: 'precioFinal',
+  promocionId: 'promocionId',
+  estado: 'estado',
+  fechaCreacion: 'fechaCreacion',
+  fechaPago: 'fechaPago',
+  observaciones: 'observaciones'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -311,7 +333,9 @@ exports.Prisma.ModelName = {
   Vehiculo: 'Vehiculo',
   ClasePractica: 'ClasePractica',
   Examen: 'Examen',
-  Promocion: 'Promocion'
+  Promocion: 'Promocion',
+  TarifaMatricula: 'TarifaMatricula',
+  Matricula: 'Matricula'
 };
 
 /**

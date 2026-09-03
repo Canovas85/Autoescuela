@@ -24,9 +24,12 @@ import TemarioTemaDetalle from "../pages/Temarios/TemarioTemaDetalle";
 import Bonos from "../pages/Bonos/Bonos";
 import SolicitudesExamen from "../pages/SolicitudesExamen/SolicitudesExamen";
 import Promociones from "../pages/Promociones/Promociones";
+import TarifasMatricula from "../pages/TarifasMatricula/TarifasMatricula";
 import ClasesDirecto from "../pages/ClasesDirecto/ClasesDirecto";
 import ClaseDirectoDetalle from "../pages/ClasesDirecto/ClaseDirectoDetalle";
 import ClasesDirectoAdmin from "../pages/ClasesDirectoAdmin/ClasesDirectoAdmin";
+import Matriculas from "../pages/Matriculas/Matriculas";
+import PagoMatricula from "../pages/Matriculas/PagoMatricula";
 
 function RequireAuth() {
   const token = localStorage.getItem("token");
@@ -82,6 +85,12 @@ export default function AppRouter() {
               />
 
               <Route path="/bonos" element={<Bonos />} />
+
+              <Route path="/matricula" element={<Matriculas />} />
+
+              <Route path="/pago-matricula" element={<PagoMatricula />} />
+
+              <Route path="/matricula" element={<TarifasMatricula />} />
 
               <Route
                 path="/solicitudes-examen"

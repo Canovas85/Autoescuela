@@ -20,15 +20,23 @@ import { useNavigate } from "react-router-dom";
 
 import { temariosService } from "../../services/temariosService";
 import TemarioHero from "./TemarioHero";
+import { matriculasService } from "../../services/matriculasService";
+
+import AccesoRestringidoMatricula from "../../components/matricula/AccesoRestringidoMatricula";
 
 export default function TemarioAlumno() {
   const [temarios, setTemarios] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [matricula, setMatricula] = useState(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     const loadTemarios = async () => {
       try {
+        const matriculaData = await matriculasService.getMine();
+
+        setMatricula(matriculaData);
         const data = await temariosService.getMine();
         setTemarios(data || []);
       } catch (error) {
@@ -40,6 +48,9 @@ export default function TemarioAlumno() {
 
     loadTemarios();
   }, []);
+  if (matricula && matricula.estado !== "PAGADA") {
+    return <AccesoRestringidoMatricula matricula={matricula} />;
+  }
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>

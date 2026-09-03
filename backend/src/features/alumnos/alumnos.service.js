@@ -51,9 +51,14 @@ const normalizarDni = (valor) => {
 };
 
 export class AlumnosService {
-  constructor(repository, accountActivationService = null) {
+  constructor(
+    repository,
+    accountActivationService = null,
+    matriculasRepository = null,
+  ) {
     this.repository = repository;
     this.accountActivationService = accountActivationService;
+    this.matriculasRepository = matriculasRepository;
   }
 
   async create(data, context = {}) {
@@ -140,6 +145,31 @@ export class AlumnosService {
       rol: "ALUMNO",
       activo: true,
     });
+
+    if (this.matriculasRepository) {
+      const tarifa =
+        await this.matriculasRepository.findTarifaByLicencia(
+          licenciaNormalizada,
+        );
+
+      if (!tarifa) {
+        throw new Error(
+          `No existe tarifa configurada para la licencia ${licenciaNormalizada}`,
+        );
+      }
+
+      await this.matriculasRepository.create({
+        alumnoId: alumno.id,
+
+        licencia: licenciaNormalizada,
+
+        precioBase: tarifa.precio,
+
+        precioFinal: tarifa.precio,
+
+        estado: "PENDIENTE",
+      });
+    }
 
     if (this.accountActivationService) {
       try {
