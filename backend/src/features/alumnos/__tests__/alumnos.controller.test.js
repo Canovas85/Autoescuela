@@ -196,4 +196,53 @@ describe("AlumnosController", () => {
 
     expect(res.json).toHaveBeenCalledWith(alumnoDesactivado);
   });
+
+  it("debe devolver promociones elegibles con HTTP 200", async () => {
+    const promociones = [{ id: "promo-1" }];
+
+    const serviceMock = {
+      getEligiblePromotionsForEnrollment: vi
+        .fn()
+        .mockResolvedValue(promociones),
+    };
+
+    const controller = new AlumnosController(serviceMock);
+    const req = {
+      body: {
+        tipoLicenciaObjetivo: "B",
+      },
+    };
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    };
+
+    await controller.getEligiblePromotions(req, res);
+
+    expect(serviceMock.getEligiblePromotionsForEnrollment).toHaveBeenCalledWith(
+      req.body,
+    );
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(promociones);
+  });
+
+  it("debe devolver HTTP 400 cuando falla la evaluación de promociones", async () => {
+    const serviceMock = {
+      getEligiblePromotionsForEnrollment: vi
+        .fn()
+        .mockRejectedValue(new Error("Datos inválidos")),
+    };
+
+    const controller = new AlumnosController(serviceMock);
+    const req = { body: {} };
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    };
+
+    await controller.getEligiblePromotions(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ message: "Datos inválidos" });
+  });
 });

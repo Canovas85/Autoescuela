@@ -88,7 +88,7 @@ const menus = {
       children: [
         {
           label: "Matrícula",
-          path: "/matricula",
+          path: "/tarifas-matricula",
           icon: <LocalOfferIcon fontSize="small" />,
         },
         {

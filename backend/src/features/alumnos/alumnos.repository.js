@@ -71,6 +71,14 @@ export class AlumnosRepository {
             usuario: true,
           },
         },
+        matriculas: {
+          include: {
+            promocion: true,
+          },
+          orderBy: {
+            fechaCreacion: "desc",
+          },
+        },
       },
     });
   }
@@ -130,5 +138,27 @@ export class AlumnosRepository {
         activo: true,
       },
     });
+  }
+
+  async hasApprovedHistoryByDni(dni) {
+    if (!dni) {
+      return false;
+    }
+
+    const examenAprobado = await this.prisma.examen.findFirst({
+      where: {
+        estado: "APROBADO",
+        alumno: {
+          usuario: {
+            dni,
+          },
+        },
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    return Boolean(examenAprobado);
   }
 }

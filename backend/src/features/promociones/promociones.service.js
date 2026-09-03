@@ -6,6 +6,33 @@ import { PROMOCIONES_UPLOAD_DIR } from "./promociones.upload.js";
 const normalizarTexto = (valor) =>
   typeof valor === "string" ? valor.trim() : "";
 
+const parseBoolean = (valor, defaultValue = false) => {
+  if (valor === undefined || valor === null || valor === "") {
+    return defaultValue;
+  }
+
+  if (typeof valor === "boolean") {
+    return valor;
+  }
+
+  const normalizado = String(valor).trim().toLowerCase();
+  return ["true", "1", "on", "yes", "si", "sí"].includes(normalizado);
+};
+
+const parseOptionalPositiveInt = (valor) => {
+  if (valor === undefined || valor === null || valor === "") {
+    return null;
+  }
+
+  const numero = Number(valor);
+
+  if (!Number.isInteger(numero) || numero < 0) {
+    throw new Error("Los límites de edad deben ser números enteros válidos");
+  }
+
+  return numero;
+};
+
 const LICENCIAS_VALIDAS = ["B", "A1", "A2", "A", "C", "D", "E"];
 
 export class PromocionesService {
@@ -56,6 +83,13 @@ export class PromocionesService {
       throw new Error("Existen licencias no válidas");
     }
 
+    const edadMinima = parseOptionalPositiveInt(data.edadMinima);
+    const edadMaxima = parseOptionalPositiveInt(data.edadMaxima);
+
+    if (edadMinima !== null && edadMaxima !== null && edadMinima > edadMaxima) {
+      throw new Error("La edad mínima no puede ser superior a la edad máxima");
+    }
+
     return {
       nombre,
 
@@ -73,14 +107,22 @@ export class PromocionesService {
 
       fechaFin: data.fechaFin ? new Date(data.fechaFin) : null,
 
-      activa: data.activa === undefined ? true : Boolean(data.activa),
+      activa: parseBoolean(data.activa, true),
+
+      requiereCarnetEstudiante: parseBoolean(
+        data.requiereCarnetEstudiante,
+        false,
+      ),
+
+      edadMinima,
+
+      edadMaxima,
+
+      requiereFidelidad: parseBoolean(data.requiereFidelidad, false),
     };
   }
 
   async create(data, imagenFile) {
-    console.log("CREATE DATA", data);
-    console.log("CREATE FILE", imagenFile);
-
     const payload = this.validarPayload(data);
 
     payload.imagenRuta = imagenFile

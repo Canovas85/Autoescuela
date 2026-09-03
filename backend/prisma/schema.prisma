@@ -74,6 +74,7 @@ model Alumno {
   bonosComprados     CompraBono[]
   solicitudesExamen  SolicitudExamen[]
   matriculas         Matricula[]
+  facturas           Factura[]
 
   @@map("alumnos")
 }
@@ -251,6 +252,11 @@ model Promocion {
 
   activa Boolean @default(true)
 
+  requiereCarnetEstudiante Boolean @default(false)
+  edadMinima               Int?
+  edadMaxima               Int?
+  requiereFidelidad        Boolean @default(false)
+
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
   matriculas Matricula[]
@@ -282,10 +288,33 @@ model Matricula {
   observaciones String?
   alumno        Alumno     @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
   promocion     Promocion? @relation(fields: [promocionId], references: [id])
+  factura       Factura?
 
   @@index([alumnoId])
   @@index([estado])
   @@map("matriculas")
+}
+
+model Factura {
+  id            String   @id @default(uuid())
+  numero        String   @unique
+  alumnoId      String
+  matriculaId   String   @unique
+  concepto      String
+  baseImponible Decimal  @db.Decimal(10, 2)
+  descuento     Decimal  @db.Decimal(10, 2)
+  total         Decimal  @db.Decimal(10, 2)
+  estado        String   @default("EMITIDA")
+  fechaEmision  DateTime @default(now())
+  fechaPago     DateTime?
+
+  alumno    Alumno    @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  matricula Matricula @relation(fields: [matriculaId], references: [id], onDelete: Cascade)
+
+  @@index([alumnoId])
+  @@index([estado])
+  @@index([fechaEmision])
+  @@map("facturas")
 }
 
 enum Rol {

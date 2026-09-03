@@ -20,6 +20,7 @@ import promocionesRoutes from "./features/promociones/promociones.routes.js";
 import solicitudesExamenRoutes from "./features/solicitudes-examen/solicitudes-examen.routes.js";
 import clasesDirectoRoutes from "./features/clases-directo/clases-directo.routes.js";
 import matriculasRoutes from "./features/matriculas/matriculas.routes.js";
+import facturasRoutes from "./features/facturas/facturas.routes.js";
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -61,6 +62,7 @@ app.use("/api/tarifas-matricula", tarifasMatriculaRoutes);
 app.use("/api/promociones", promocionesRoutes);
 app.use("/api/solicitudes-examen", solicitudesExamenRoutes);
 app.use("/api/clases-directo", clasesDirectoRoutes);
+app.use("/api/facturas", facturasRoutes);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 

@@ -114,4 +114,54 @@ export class PromocionesRepository {
       },
     });
   }
+
+  async findActiveByLicense(licencia, referenceDate = new Date()) {
+    return this.prisma.promocion.findMany({
+      where: {
+        activa: true,
+        licenciasAplicables: {
+          has: licencia,
+        },
+        OR: [
+          {
+            fechaInicio: null,
+          },
+          {
+            fechaInicio: {
+              lte: referenceDate,
+            },
+          },
+        ],
+        AND: [
+          {
+            OR: [
+              {
+                fechaFin: null,
+              },
+              {
+                fechaFin: {
+                  gte: referenceDate,
+                },
+              },
+            ],
+          },
+        ],
+      },
+      orderBy: [{ precioPromocional: "asc" }, { nombre: "asc" }],
+    });
+  }
+
+  async findByIds(ids) {
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return [];
+    }
+
+    return this.prisma.promocion.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    });
+  }
 }

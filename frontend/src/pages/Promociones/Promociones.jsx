@@ -4,6 +4,7 @@ import {
   Alert,
   Box,
   Button,
+  Checkbox,
   Chip,
   Dialog,
   DialogActions,
@@ -12,6 +13,7 @@ import {
   IconButton,
   DialogTitle,
   FormControl,
+  FormControlLabel,
   InputLabel,
   MenuItem,
   Select,
@@ -43,6 +45,10 @@ const emptyForm = {
   fechaInicio: "",
   fechaFin: "",
   activa: true,
+  requiereCarnetEstudiante: false,
+  requiereFidelidad: false,
+  edadMinima: "",
+  edadMaxima: "",
 };
 
 export default function Promociones() {
@@ -191,6 +197,16 @@ export default function Promociones() {
       fechaFin: row.fechaFin ? row.fechaFin.split("T")[0] : "",
       activa: Boolean(row.activa),
       imagenRuta: row.imagenRuta || "",
+      requiereCarnetEstudiante: Boolean(row.requiereCarnetEstudiante),
+      requiereFidelidad: Boolean(row.requiereFidelidad),
+      edadMinima:
+        row.edadMinima === null || row.edadMinima === undefined
+          ? ""
+          : row.edadMinima,
+      edadMaxima:
+        row.edadMaxima === null || row.edadMaxima === undefined
+          ? ""
+          : row.edadMaxima,
     });
     setImagenFile(null);
 
@@ -285,6 +301,14 @@ export default function Promociones() {
         ...form,
         precioOriginal: Number(form.precioOriginal),
         precioPromocional: Number(form.precioPromocional),
+        edadMinima:
+          form.edadMinima === "" || form.edadMinima === null
+            ? null
+            : Number(form.edadMinima),
+        edadMaxima:
+          form.edadMaxima === "" || form.edadMaxima === null
+            ? null
+            : Number(form.edadMaxima),
       };
 
       if (editingId) {
@@ -323,6 +347,32 @@ export default function Promociones() {
       field: "nombre",
       headerName: "Nombre",
       flex: 1.5,
+    },
+    {
+      field: "reglas",
+      headerName: "Reglas",
+      flex: 1.8,
+      valueGetter: (_, row) => {
+        const reglas = [];
+
+        if (row.requiereCarnetEstudiante) {
+          reglas.push("Carnet estudiante");
+        }
+
+        if (row.requiereFidelidad) {
+          reglas.push("Fidelidad");
+        }
+
+        if (row.edadMinima !== null && row.edadMinima !== undefined) {
+          reglas.push(`Edad mínima ${row.edadMinima}`);
+        }
+
+        if (row.edadMaxima !== null && row.edadMaxima !== undefined) {
+          reglas.push(`Edad máxima ${row.edadMaxima}`);
+        }
+
+        return reglas.length > 0 ? reglas.join(" | ") : "Público general";
+      },
     },
 
     {
@@ -619,6 +669,70 @@ export default function Promociones() {
                   ))}
                 </Select>
               </FormControl>
+
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={Boolean(form.requiereCarnetEstudiante)}
+                    onChange={(event) =>
+                      setForm((prev) => ({
+                        ...prev,
+                        requiereCarnetEstudiante: event.target.checked,
+                      }))
+                    }
+                  />
+                }
+                label="Requiere carnet de estudiante"
+              />
+
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={Boolean(form.requiereFidelidad)}
+                    onChange={(event) =>
+                      setForm((prev) => ({
+                        ...prev,
+                        requiereFidelidad: event.target.checked,
+                      }))
+                    }
+                  />
+                }
+                label="Requiere fidelidad (licencia aprobada previa)"
+              />
+
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 2,
+                }}
+              >
+                <TextField
+                  label="Edad mínima"
+                  type="number"
+                  fullWidth
+                  value={form.edadMinima}
+                  onChange={(event) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      edadMinima: event.target.value,
+                    }))
+                  }
+                />
+
+                <TextField
+                  label="Edad máxima"
+                  type="number"
+                  fullWidth
+                  value={form.edadMaxima}
+                  onChange={(event) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      edadMaxima: event.target.value,
+                    }))
+                  }
+                />
+              </Box>
             </Box>
             <Box
               sx={{

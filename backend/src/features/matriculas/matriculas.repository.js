@@ -3,6 +3,14 @@ export class MatriculasRepository {
     this.prisma = prisma;
   }
 
+  generarNumeroFactura(attempt = 0) {
+    const timestamp = Date.now();
+    const suffixBase = Math.floor(Math.random() * 10000) + attempt;
+    const suffix = suffixBase.toString().padStart(4, "0");
+
+    return `FAC-${timestamp}-${suffix}`;
+  }
+
   async create(data) {
     return this.prisma.matricula.create({
       data,
@@ -18,6 +26,7 @@ export class MatriculasRepository {
           },
         },
         promocion: true,
+        factura: true,
       },
       orderBy: {
         fechaCreacion: "desc",
@@ -37,6 +46,7 @@ export class MatriculasRepository {
           },
         },
         promocion: true,
+        factura: true,
       },
     });
   }
@@ -51,25 +61,77 @@ export class MatriculasRepository {
   }
 
   async pagar(id) {
-    return this.prisma.matricula.update({
-      where: {
-        id,
-      },
-      data: {
-        estado: "PAGADA",
-        fechaPago: new Date(),
-      },
+    if (typeof this.prisma.$transaction !== "function") {
+      return this.prisma.matricula.update({
+        where: {
+          id,
+        },
+        data: {
+          estado: "PAGADA",
+          fechaPago: new Date(),
+        },
+      });
+    }
+
+    return this.prisma.$transaction(async (tx) => {
+      const fechaPago = new Date();
+
+      const matricula = await tx.matricula.update({
+        where: {
+          id,
+        },
+        data: {
+          estado: "PAGADA",
+          fechaPago,
+        },
+      });
+
+      await tx.factura.updateMany({
+        where: {
+          matriculaId: id,
+        },
+        data: {
+          estado: "PAGADA",
+          fechaPago,
+        },
+      });
+
+      return matricula;
     });
   }
 
   async anular(id) {
-    return this.prisma.matricula.update({
-      where: {
-        id,
-      },
-      data: {
-        estado: "ANULADA",
-      },
+    if (typeof this.prisma.$transaction !== "function") {
+      return this.prisma.matricula.update({
+        where: {
+          id,
+        },
+        data: {
+          estado: "ANULADA",
+        },
+      });
+    }
+
+    return this.prisma.$transaction(async (tx) => {
+      const matricula = await tx.matricula.update({
+        where: {
+          id,
+        },
+        data: {
+          estado: "ANULADA",
+        },
+      });
+
+      await tx.factura.updateMany({
+        where: {
+          matriculaId: id,
+        },
+        data: {
+          estado: "ANULADA",
+        },
+      });
+
+      return matricula;
     });
   }
 
@@ -81,6 +143,7 @@ export class MatriculasRepository {
 
       include: {
         promocion: true,
+        factura: true,
       },
 
       orderBy: {
@@ -105,6 +168,44 @@ export class MatriculasRepository {
       orderBy: {
         fechaCreacion: "desc",
       },
+    });
+  }
+
+  async createWithFactura(data, facturaData) {
+    return this.prisma.$transaction(async (tx) => {
+      const matricula = await tx.matricula.create({
+        data,
+      });
+
+      let created = false;
+      let attempt = 0;
+
+      while (!created && attempt < 3) {
+        try {
+          await tx.factura.create({
+            data: {
+              numero: this.generarNumeroFactura(attempt),
+              alumnoId: data.alumnoId,
+              matriculaId: matricula.id,
+              concepto: facturaData.concepto,
+              baseImponible: facturaData.baseImponible,
+              descuento: facturaData.descuento,
+              total: facturaData.total,
+              estado: facturaData.estado || "EMITIDA",
+            },
+          });
+
+          created = true;
+        } catch (error) {
+          if (error?.code !== "P2002" || attempt === 2) {
+            throw error;
+          }
+
+          attempt += 1;
+        }
+      }
+
+      return matricula;
     });
   }
 }

@@ -60,6 +60,7 @@ describe("MatriculasRepository", () => {
           },
         },
         promocion: true,
+        factura: true,
       },
       orderBy: {
         fechaCreacion: "desc",
@@ -97,6 +98,7 @@ describe("MatriculasRepository", () => {
           },
         },
         promocion: true,
+        factura: true,
       },
     });
 
@@ -218,6 +220,7 @@ describe("MatriculasRepository", () => {
       },
       include: {
         promocion: true,
+        factura: true,
       },
       orderBy: {
         fechaCreacion: "desc",
@@ -280,5 +283,64 @@ describe("MatriculasRepository", () => {
     });
 
     expect(result).toEqual(matricula);
+  });
+
+  it("debe crear matrícula y factura en una transacción", async () => {
+    const txMock = {
+      matricula: {
+        create: vi.fn().mockResolvedValue({ id: "matricula-1" }),
+      },
+      factura: {
+        create: vi.fn().mockResolvedValue({ id: "factura-1" }),
+      },
+    };
+
+    const prismaMock = {
+      $transaction: vi.fn(async (callback) => callback(txMock)),
+    };
+
+    const repository = new MatriculasRepository(prismaMock);
+
+    await repository.createWithFactura(
+      {
+        alumnoId: "alumno-1",
+        licencia: "B",
+        precioBase: 700,
+        precioFinal: 650,
+        promocionId: "promo-1",
+        estado: "PENDIENTE",
+      },
+      {
+        concepto: "Matricula licencia B - Promo",
+        baseImponible: 700,
+        descuento: 50,
+        total: 650,
+      },
+    );
+
+    expect(txMock.matricula.create).toHaveBeenCalledWith({
+      data: {
+        alumnoId: "alumno-1",
+        licencia: "B",
+        precioBase: 700,
+        precioFinal: 650,
+        promocionId: "promo-1",
+        estado: "PENDIENTE",
+      },
+    });
+
+    expect(txMock.factura.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          alumnoId: "alumno-1",
+          matriculaId: "matricula-1",
+          concepto: "Matricula licencia B - Promo",
+          baseImponible: 700,
+          descuento: 50,
+          total: 650,
+          estado: "EMITIDA",
+        }),
+      }),
+    );
   });
 });

@@ -30,6 +30,18 @@ export const alumnosService = {
     return response.data;
   },
 
+  async getEligiblePromotions(data) {
+    const token = localStorage.getItem("token");
+
+    const response = await api.post("/alumnos/promociones-elegibles", data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  },
+
   async update(id, data) {
     const token = localStorage.getItem("token");
 

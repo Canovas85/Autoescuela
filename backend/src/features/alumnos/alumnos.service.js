@@ -2,6 +2,20 @@ import bcrypt from "bcryptjs";
 
 const LICENCIAS_PERMITIDAS = ["B", "A1", "A2", "A", "C", "D", "E"];
 
+const parseBoolean = (valor, defaultValue = false) => {
+  if (valor === undefined || valor === null || valor === "") {
+    return defaultValue;
+  }
+
+  if (typeof valor === "boolean") {
+    return valor;
+  }
+
+  return ["true", "1", "on", "yes", "si", "sí"].includes(
+    String(valor).trim().toLowerCase(),
+  );
+};
+
 const parseFechaNacimiento = (valor) => {
   if (valor === null || valor === undefined || valor === "") {
     return null;
@@ -48,6 +62,28 @@ const normalizarDni = (valor) => {
   }
 
   return /^\d{8}[A-Za-z]$/.test(dni) ? dni.toUpperCase() : null;
+};
+
+const calcularEdad = (fechaNacimiento) => {
+  if (
+    !(fechaNacimiento instanceof Date) ||
+    Number.isNaN(fechaNacimiento.getTime())
+  ) {
+    return null;
+  }
+
+  const hoy = new Date();
+  let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+  const mesDiff = hoy.getMonth() - fechaNacimiento.getMonth();
+
+  if (
+    mesDiff < 0 ||
+    (mesDiff === 0 && hoy.getDate() < fechaNacimiento.getDate())
+  ) {
+    edad -= 1;
+  }
+
+  return edad;
 };
 
 export class AlumnosService {
@@ -134,6 +170,20 @@ export class AlumnosService {
       throw new Error("La fecha de nacimiento debe ser una fecha válida");
     }
 
+    const esEstudiante = parseBoolean(data.esEstudiante, false);
+
+    const promocionesElegibles = await this.getEligiblePromotionsForEnrollment({
+      tipoLicenciaObjetivo: licenciaNormalizada,
+      fechaNacimiento,
+      dni,
+      esEstudiante,
+    });
+
+    const promocionSeleccionada = this.resolveSelectedPromotion({
+      promocionesElegibles,
+      promocionId: data.promocionId,
+    });
+
     const passwordHash = await bcrypt.hash(data.password, 10);
 
     const alumno = await this.repository.create({
@@ -160,30 +210,45 @@ export class AlumnosService {
         );
       }
 
-      const promocion =
-        await this.promocionesRepository?.findBestPromotionForLicense(
-          licenciaNormalizada,
-        );
-
       const precioBase = tarifa.precio;
 
-      const precioFinal = promocion
-        ? promocion.precioPromocional
+      const precioFinal = promocionSeleccionada
+        ? promocionSeleccionada.precioPromocional
         : tarifa.precio;
 
-      await this.matriculasRepository.create({
+      const matriculaPayload = {
         alumnoId: alumno.id,
-
         licencia: licenciaNormalizada,
-
         precioBase,
-
         precioFinal,
-
-        promocionId: promocion?.id ?? null,
-
+        promocionId: promocionSeleccionada?.id ?? null,
         estado: "PENDIENTE",
-      });
+      };
+
+      const baseNumerica = Number(precioBase);
+      const finalNumerico = Number(precioFinal);
+
+      const facturaPayload = {
+        concepto: promocionSeleccionada
+          ? `Matricula licencia ${licenciaNormalizada} - ${promocionSeleccionada.nombre}`
+          : `Matricula licencia ${licenciaNormalizada}`,
+        baseImponible: precioBase,
+        descuento:
+          baseNumerica > finalNumerico
+            ? Number((baseNumerica - finalNumerico).toFixed(2))
+            : 0,
+        total: precioFinal,
+        estado: "EMITIDA",
+      };
+
+      if (typeof this.matriculasRepository.createWithFactura === "function") {
+        await this.matriculasRepository.createWithFactura(
+          matriculaPayload,
+          facturaPayload,
+        );
+      } else {
+        await this.matriculasRepository.create(matriculaPayload);
+      }
     }
 
     if (this.accountActivationService) {
@@ -201,6 +266,115 @@ export class AlumnosService {
     }
 
     return alumno;
+  }
+
+  async getEligiblePromotionsForEnrollment(data) {
+    if (!this.promocionesRepository) {
+      return [];
+    }
+
+    const tipoLicenciaObjetivo =
+      data.tipoLicenciaObjetivo ?? data.tipoLicencia ?? "";
+
+    const licenciaNormalizada = String(tipoLicenciaObjetivo)
+      .trim()
+      .toUpperCase();
+
+    if (
+      !licenciaNormalizada ||
+      !LICENCIAS_PERMITIDAS.includes(licenciaNormalizada)
+    ) {
+      throw new Error(
+        "La licencia objetivo debe ser una de las permitidas: B, A1, A2, A, C, D, E",
+      );
+    }
+
+    const fechaNacimiento =
+      data.fechaNacimiento instanceof Date
+        ? data.fechaNacimiento
+        : parseFechaNacimiento(data.fechaNacimiento);
+
+    if (!fechaNacimiento) {
+      throw new Error("La fecha de nacimiento debe ser una fecha válida");
+    }
+
+    const dni = normalizarDni(data.dni);
+    const esEstudiante = parseBoolean(data.esEstudiante, false);
+
+    const promocionesBase =
+      await this.promocionesRepository.findActiveByLicense(
+        licenciaNormalizada,
+        new Date(),
+      );
+
+    const edad = calcularEdad(fechaNacimiento);
+
+    const requiereFidelidad = promocionesBase.some(
+      (promocion) => promocion.requiereFidelidad,
+    );
+
+    const cumpleFidelidad = requiereFidelidad
+      ? await this.repository.hasApprovedHistoryByDni(dni)
+      : false;
+
+    return promocionesBase.filter((promocion) => {
+      if (promocion.requiereCarnetEstudiante && !esEstudiante) {
+        return false;
+      }
+
+      if (
+        promocion.edadMinima !== null &&
+        promocion.edadMinima !== undefined &&
+        (edad === null || edad < promocion.edadMinima)
+      ) {
+        return false;
+      }
+
+      if (
+        promocion.edadMaxima !== null &&
+        promocion.edadMaxima !== undefined &&
+        (edad === null || edad > promocion.edadMaxima)
+      ) {
+        return false;
+      }
+
+      if (promocion.requiereFidelidad && !cumpleFidelidad) {
+        return false;
+      }
+
+      return true;
+    });
+  }
+
+  resolveSelectedPromotion({ promocionesElegibles, promocionId }) {
+    if (
+      !Array.isArray(promocionesElegibles) ||
+      promocionesElegibles.length === 0
+    ) {
+      return null;
+    }
+
+    if (!promocionId) {
+      if (promocionesElegibles.length > 1) {
+        throw new Error(
+          "Existen varias promociones aplicables. Debe seleccionar una promoción antes de confirmar el alta.",
+        );
+      }
+
+      return promocionesElegibles[0];
+    }
+
+    const promocionSeleccionada = promocionesElegibles.find(
+      (promocion) => promocion.id === promocionId,
+    );
+
+    if (!promocionSeleccionada) {
+      throw new Error(
+        "La promoción seleccionada no es válida para el alumno o no está vigente.",
+      );
+    }
+
+    return promocionSeleccionada;
   }
 
   async getAll() {

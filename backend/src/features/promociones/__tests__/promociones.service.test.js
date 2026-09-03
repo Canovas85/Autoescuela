@@ -46,6 +46,10 @@ describe("PromocionesService", () => {
       fechaInicio: new Date("2026-09-01T00:00:00.000Z"),
       fechaFin: new Date("2026-09-30T00:00:00.000Z"),
       activa: true,
+      requiereCarnetEstudiante: false,
+      requiereFidelidad: false,
+      edadMinima: null,
+      edadMaxima: null,
     });
 
     expect(result).toEqual(promocionCreada);
@@ -246,6 +250,10 @@ describe("PromocionesService", () => {
       fechaInicio: null,
       fechaFin: null,
       activa: true,
+      requiereCarnetEstudiante: false,
+      edadMinima: null,
+      edadMaxima: null,
+      requiereFidelidad: false,
     });
 
     expect(result).toEqual(promocionActualizada);
@@ -309,5 +317,52 @@ describe("PromocionesService", () => {
 
     expect(repositoryMock.findPublic).toHaveBeenCalledOnce();
     expect(result).toEqual(promociones);
+  });
+
+  it("debe persistir reglas avanzadas cuando se informan", async () => {
+    const repositoryMock = {
+      create: vi.fn().mockResolvedValue({ id: "promo-1" }),
+    };
+
+    const service = new PromocionesService(repositoryMock);
+
+    await service.create({
+      nombre: "Promo estudiante fidelidad",
+      precioOriginal: 800,
+      precioPromocional: 700,
+      licenciasAplicables: ["B"],
+      requiereCarnetEstudiante: true,
+      requiereFidelidad: true,
+      edadMinima: 18,
+      edadMaxima: 30,
+    });
+
+    expect(repositoryMock.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        requiereCarnetEstudiante: true,
+        requiereFidelidad: true,
+        edadMinima: 18,
+        edadMaxima: 30,
+      }),
+    );
+  });
+
+  it("debe fallar si edad mínima es mayor que edad máxima", async () => {
+    const repositoryMock = {
+      create: vi.fn(),
+    };
+
+    const service = new PromocionesService(repositoryMock);
+
+    await expect(
+      service.create({
+        nombre: "Promo",
+        precioOriginal: 700,
+        precioPromocional: 600,
+        licenciasAplicables: ["B"],
+        edadMinima: 40,
+        edadMaxima: 25,
+      }),
+    ).rejects.toThrow("La edad mínima no puede ser superior a la edad máxima");
   });
 });

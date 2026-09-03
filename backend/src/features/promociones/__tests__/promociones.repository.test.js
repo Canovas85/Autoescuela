@@ -254,4 +254,60 @@ describe("PromocionesRepository", () => {
 
     expect(result).toEqual(promo);
   });
+
+  it("debe listar promociones activas por licencia", async () => {
+    const promociones = [{ id: "promo-1" }];
+
+    const prismaMock = {
+      promocion: {
+        findMany: vi.fn().mockResolvedValue(promociones),
+      },
+    };
+
+    const repository = new PromocionesRepository(prismaMock);
+
+    const result = await repository.findActiveByLicense("B", new Date());
+
+    expect(prismaMock.promocion.findMany).toHaveBeenCalledWith({
+      where: {
+        activa: true,
+        licenciasAplicables: {
+          has: "B",
+        },
+        OR: [{ fechaInicio: null }, { fechaInicio: { lte: expect.any(Date) } }],
+        AND: [
+          {
+            OR: [{ fechaFin: null }, { fechaFin: { gte: expect.any(Date) } }],
+          },
+        ],
+      },
+      orderBy: [{ precioPromocional: "asc" }, { nombre: "asc" }],
+    });
+
+    expect(result).toEqual(promociones);
+  });
+
+  it("debe devolver promociones por listado de ids", async () => {
+    const promociones = [{ id: "promo-1" }, { id: "promo-2" }];
+
+    const prismaMock = {
+      promocion: {
+        findMany: vi.fn().mockResolvedValue(promociones),
+      },
+    };
+
+    const repository = new PromocionesRepository(prismaMock);
+
+    const result = await repository.findByIds(["promo-1", "promo-2"]);
+
+    expect(prismaMock.promocion.findMany).toHaveBeenCalledWith({
+      where: {
+        id: {
+          in: ["promo-1", "promo-2"],
+        },
+      },
+    });
+
+    expect(result).toEqual(promociones);
+  });
 });

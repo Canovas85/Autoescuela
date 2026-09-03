@@ -86,6 +86,13 @@ const controller = new AlumnosController(service);
  */
 
 router.post(
+  "/promociones-elegibles",
+  authenticate,
+  authorize("ADMIN"),
+  controller.getEligiblePromotions.bind(controller),
+);
+
+router.post(
   "/",
   authenticate,
   authorize("ADMIN"),

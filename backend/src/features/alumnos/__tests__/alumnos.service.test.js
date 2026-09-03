@@ -534,4 +534,209 @@ describe("AlumnosService", () => {
 
     expect(result).toEqual(alumnoDesactivado);
   });
+
+  it("debe lanzar error si hay varias promociones elegibles y no se selecciona una", async () => {
+    const repositoryMock = {
+      findByEmail: vi.fn().mockResolvedValue(null),
+      create: vi.fn().mockResolvedValue({ id: "alumno-1" }),
+      hasApprovedHistoryByDni: vi.fn().mockResolvedValue(false),
+    };
+
+    const matriculasRepositoryMock = {
+      findTarifaByLicencia: vi.fn().mockResolvedValue({
+        id: "tarifa-1",
+        licencia: "B",
+        precio: 700,
+      }),
+      createWithFactura: vi.fn(),
+    };
+
+    const promocionesRepositoryMock = {
+      findActiveByLicense: vi.fn().mockResolvedValue([
+        {
+          id: "promo-1",
+          nombre: "Promo 1",
+          precioPromocional: 650,
+          requiereCarnetEstudiante: false,
+          requiereFidelidad: false,
+          edadMinima: null,
+          edadMaxima: null,
+        },
+        {
+          id: "promo-2",
+          nombre: "Promo 2",
+          precioPromocional: 640,
+          requiereCarnetEstudiante: false,
+          requiereFidelidad: false,
+          edadMinima: null,
+          edadMaxima: null,
+        },
+      ]),
+    };
+
+    const service = new AlumnosService(
+      repositoryMock,
+      null,
+      matriculasRepositoryMock,
+      promocionesRepositoryMock,
+    );
+
+    await expect(
+      service.create({
+        nombre: "Laura",
+        email: "laura@autodrive.com",
+        password: "Password123",
+        telefono: "600000000",
+        dni: "12345678Z",
+        fechaNacimiento: "15/06/1998",
+        tipoLicenciaObjetivo: "B",
+      }),
+    ).rejects.toThrow(
+      "Existen varias promociones aplicables. Debe seleccionar una promoción antes de confirmar el alta.",
+    );
+
+    expect(repositoryMock.create).not.toHaveBeenCalled();
+  });
+
+  it("debe crear matrícula y factura con la promoción seleccionada", async () => {
+    const repositoryMock = {
+      findByEmail: vi.fn().mockResolvedValue(null),
+      create: vi.fn().mockResolvedValue({ id: "alumno-1" }),
+      hasApprovedHistoryByDni: vi.fn().mockResolvedValue(false),
+    };
+
+    const matriculasRepositoryMock = {
+      findTarifaByLicencia: vi.fn().mockResolvedValue({
+        id: "tarifa-1",
+        licencia: "B",
+        precio: 700,
+      }),
+      createWithFactura: vi.fn().mockResolvedValue({ id: "matricula-1" }),
+    };
+
+    const promocionesRepositoryMock = {
+      findActiveByLicense: vi.fn().mockResolvedValue([
+        {
+          id: "promo-1",
+          nombre: "Promo Estudiante",
+          precioPromocional: 650,
+          requiereCarnetEstudiante: true,
+          requiereFidelidad: false,
+          edadMinima: null,
+          edadMaxima: null,
+        },
+      ]),
+    };
+
+    const service = new AlumnosService(
+      repositoryMock,
+      null,
+      matriculasRepositoryMock,
+      promocionesRepositoryMock,
+    );
+
+    await service.create({
+      nombre: "Laura",
+      email: "laura2@autodrive.com",
+      password: "Password123",
+      telefono: "600000001",
+      dni: "22345678Z",
+      fechaNacimiento: "15/06/1998",
+      tipoLicenciaObjetivo: "B",
+      esEstudiante: true,
+      promocionId: "promo-1",
+    });
+
+    expect(matriculasRepositoryMock.createWithFactura).toHaveBeenCalledWith(
+      expect.objectContaining({
+        alumnoId: "alumno-1",
+        licencia: "B",
+        precioBase: 700,
+        precioFinal: 650,
+        promocionId: "promo-1",
+      }),
+      expect.objectContaining({
+        baseImponible: 700,
+        descuento: 50,
+        total: 650,
+      }),
+    );
+  });
+
+  it("debe filtrar promociones por regla de estudiante", async () => {
+    const repositoryMock = {
+      hasApprovedHistoryByDni: vi.fn().mockResolvedValue(false),
+    };
+
+    const promocionesRepositoryMock = {
+      findActiveByLicense: vi.fn().mockResolvedValue([
+        {
+          id: "promo-est",
+          requiereCarnetEstudiante: true,
+          requiereFidelidad: false,
+          edadMinima: null,
+          edadMaxima: null,
+        },
+        {
+          id: "promo-public",
+          requiereCarnetEstudiante: false,
+          requiereFidelidad: false,
+          edadMinima: null,
+          edadMaxima: null,
+        },
+      ]),
+    };
+
+    const service = new AlumnosService(
+      repositoryMock,
+      null,
+      null,
+      promocionesRepositoryMock,
+    );
+
+    const result = await service.getEligiblePromotionsForEnrollment({
+      tipoLicenciaObjetivo: "B",
+      dni: "12345678Z",
+      fechaNacimiento: "2000-01-01T00:00:00.000Z",
+      esEstudiante: false,
+    });
+
+    expect(result).toHaveLength(1);
+    expect(result[0].id).toBe("promo-public");
+  });
+
+  it("debe filtrar promociones por fidelidad", async () => {
+    const repositoryMock = {
+      hasApprovedHistoryByDni: vi.fn().mockResolvedValue(true),
+    };
+
+    const promocionesRepositoryMock = {
+      findActiveByLicense: vi.fn().mockResolvedValue([
+        {
+          id: "promo-fidelidad",
+          requiereCarnetEstudiante: false,
+          requiereFidelidad: true,
+          edadMinima: null,
+          edadMaxima: null,
+        },
+      ]),
+    };
+
+    const service = new AlumnosService(
+      repositoryMock,
+      null,
+      null,
+      promocionesRepositoryMock,
+    );
+
+    const result = await service.getEligiblePromotionsForEnrollment({
+      tipoLicenciaObjetivo: "B",
+      dni: "12345678Z",
+      fechaNacimiento: "2000-01-01T00:00:00.000Z",
+      esEstudiante: false,
+    });
+
+    expect(result).toHaveLength(1);
+    expect(result[0].id).toBe("promo-fidelidad");
+  });
 });

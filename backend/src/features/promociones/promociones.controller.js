@@ -5,16 +5,11 @@ export class PromocionesController {
 
   async create(req, res) {
     try {
-      console.log("ENTRA CONTROLLER");
-      console.log("BODY:", req.body);
-      console.log("FILE:", req.file);
-
       const promocion = await this.service.create(req.body, req.file);
 
       return res.status(201).json(promocion);
     } catch (error) {
-      console.error("ERROR CREATE:", error);
-      console.error("STACK:", error.stack);
+      console.error("ERROR CREATE:", error.message);
 
       return res.status(500).json({
         message: error.message,

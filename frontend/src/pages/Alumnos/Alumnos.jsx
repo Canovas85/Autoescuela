@@ -15,13 +15,11 @@ import { alumnosService } from "../../services/alumnosService";
 import { profesoresService } from "../../services/profesoresService";
 
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 import { IconButton } from "@mui/material";
 
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -51,6 +49,7 @@ import {
   DialogActions,
   DialogContentText,
   TextField,
+  Checkbox,
 } from "@mui/material";
 
 const LICENCIAS_OPCIONES = [
@@ -307,6 +306,48 @@ export default function Alumnos() {
         return;
       }
 
+      let promocionesAplicables = promocionesElegibles;
+
+      if (!editingId) {
+        promocionesAplicables = await alumnosService.getEligiblePromotions({
+          tipoLicenciaObjetivo: tipoLicencia,
+          dni,
+          fechaNacimiento: formatearFechaParaApi(fechaNacimiento),
+          esEstudiante: Boolean(newAlumno.esEstudiante),
+        });
+
+        setPromocionesElegibles(promocionesAplicables);
+
+        if (promocionesAplicables.length > 1 && !newAlumno.promocionId) {
+          setNotification({
+            open: true,
+            message:
+              "Hay varias promociones vigentes para esta licencia. Debes seleccionar una antes de confirmar el alta.",
+            severity: "error",
+          });
+          return;
+        }
+
+        if (
+          newAlumno.promocionId &&
+          !promocionesAplicables.some(
+            (promocion) => promocion.id === newAlumno.promocionId,
+          )
+        ) {
+          setNotification({
+            open: true,
+            message:
+              "La promoción seleccionada ya no es aplicable para este alumno.",
+            severity: "error",
+          });
+          return;
+        }
+      }
+
+      const promocionAsignada =
+        newAlumno.promocionId ||
+        (promocionesAplicables.length === 1 ? promocionesAplicables[0].id : "");
+
       const payload = {
         ...newAlumno,
         nombre,
@@ -316,9 +357,16 @@ export default function Alumnos() {
         fechaNacimiento: formatearFechaParaApi(fechaNacimiento),
         tipoLicenciaObjetivo:
           newAlumno.tipoLicenciaObjetivo ?? newAlumno.tipoLicencia ?? "B",
+        esEstudiante: Boolean(newAlumno.esEstudiante),
+        promocionId: promocionAsignada || undefined,
       };
 
       delete payload.tipoLicencia;
+
+      if (editingId) {
+        delete payload.esEstudiante;
+        delete payload.promocionId;
+      }
 
       // En edición, si no se informa contraseña, se conserva la actual en BD.
       if (editingId && !payload.password?.trim()) {
@@ -343,7 +391,11 @@ export default function Alumnos() {
         dni: "",
         fechaNacimiento: "",
         tipoLicencia: "B",
+        esEstudiante: false,
+        promocionId: "",
       });
+
+      setPromocionesElegibles([]);
 
       setFieldTouched({
         dni: false,
@@ -573,7 +625,12 @@ export default function Alumnos() {
     dni: "",
     fechaNacimiento: "",
     tipoLicencia: "B",
+    esEstudiante: false,
+    promocionId: "",
   });
+
+  const [promocionesElegibles, setPromocionesElegibles] = useState([]);
+  const [loadingPromociones, setLoadingPromociones] = useState(false);
 
   const [fieldTouched, setFieldTouched] = useState({
     dni: false,
@@ -604,7 +661,11 @@ export default function Alumnos() {
       dni: normalizarDniFormulario(row.usuario?.dni || ""),
       fechaNacimiento: formatearFechaParaFormulario(row.fechaNacimiento),
       tipoLicencia: row.tipoLicenciaObjetivo || "B",
+      esEstudiante: false,
+      promocionId: "",
     });
+
+    setPromocionesElegibles([]);
 
     setFieldTouched({
       dni: false,
@@ -655,6 +716,53 @@ export default function Alumnos() {
     }
   };
 
+  const cargarPromocionesElegibles = async () => {
+    if (editingId) {
+      return;
+    }
+
+    const licencia = newAlumno.tipoLicencia?.trim();
+    const dni = limpiarDni(newAlumno.dni);
+    const fechaNacimiento = newAlumno.fechaNacimiento?.trim();
+
+    if (!licencia || !dni || !esFechaCompletaValida(fechaNacimiento)) {
+      setPromocionesElegibles([]);
+      return;
+    }
+
+    setLoadingPromociones(true);
+
+    try {
+      const promociones = await alumnosService.getEligiblePromotions({
+        tipoLicenciaObjetivo: licencia,
+        dni,
+        fechaNacimiento: formatearFechaParaApi(fechaNacimiento),
+        esEstudiante: Boolean(newAlumno.esEstudiante),
+      });
+
+      setPromocionesElegibles(promociones);
+
+      if (
+        newAlumno.promocionId &&
+        !promociones.some((promocion) => promocion.id === newAlumno.promocionId)
+      ) {
+        setNewAlumno((prev) => ({ ...prev, promocionId: "" }));
+      }
+    } catch (error) {
+      console.error(error);
+      setPromocionesElegibles([]);
+      setNotification({
+        open: true,
+        message:
+          error.response?.data?.message ||
+          "No se pudieron evaluar las promociones elegibles",
+        severity: "error",
+      });
+    } finally {
+      setLoadingPromociones(false);
+    }
+  };
+
   return (
     <Box>
       <Typography variant="h4" fontWeight="bold" mb={4}>
@@ -682,7 +790,11 @@ export default function Alumnos() {
               dni: "",
               fechaNacimiento: "",
               tipoLicencia: "B",
+              esEstudiante: false,
+              promocionId: "",
             });
+
+            setPromocionesElegibles([]);
 
             setFieldTouched({
               dni: false,
@@ -930,6 +1042,7 @@ export default function Alumnos() {
               setNewAlumno({
                 ...newAlumno,
                 tipoLicencia: e.target.value,
+                promocionId: "",
               })
             }
           >
@@ -939,6 +1052,120 @@ export default function Alumnos() {
               </MenuItem>
             ))}
           </TextField>
+
+          {!editingId && (
+            <>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={Boolean(newAlumno.esEstudiante)}
+                    onChange={(event) =>
+                      setNewAlumno((prev) => ({
+                        ...prev,
+                        esEstudiante: event.target.checked,
+                        promocionId: "",
+                      }))
+                    }
+                  />
+                }
+                label="Acredita carnet de estudiante"
+              />
+
+              <Button
+                variant="outlined"
+                onClick={cargarPromocionesElegibles}
+                disabled={loadingPromociones}
+                sx={{ mt: 1 }}
+              >
+                {loadingPromociones
+                  ? "Comprobando promociones..."
+                  : "Comprobar promociones vigentes"}
+              </Button>
+
+              {promocionesElegibles.length > 0 && (
+                <Box
+                  sx={{
+                    mt: 2,
+                    p: 2,
+                    borderRadius: 2,
+                    border: "1px solid",
+                    borderColor: "divider",
+                    display: "grid",
+                    gap: 1,
+                  }}
+                >
+                  <Typography variant="subtitle2">
+                    Promociones elegibles para este alta
+                  </Typography>
+
+                  {promocionesElegibles.map((promocion) => (
+                    <Box
+                      key={promocion.id}
+                      sx={{
+                        p: 1,
+                        borderRadius: 1,
+                        backgroundColor: "background.default",
+                      }}
+                    >
+                      <Typography fontWeight={700}>
+                        {promocion.nombre}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {promocion.descripcion || "Sin descripción"}
+                      </Typography>
+                      <Typography variant="body2">
+                        Precio promoción: {promocion.precioPromocional} EUR
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        Reglas:{" "}
+                        {promocion.requiereCarnetEstudiante
+                          ? "requiere carnet estudiante"
+                          : "público general"}
+                        {promocion.requiereFidelidad
+                          ? " + fidelidad (licencia aprobada previa)"
+                          : ""}
+                        {promocion.edadMinima !== null &&
+                        promocion.edadMinima !== undefined
+                          ? ` + edad mínima ${promocion.edadMinima}`
+                          : ""}
+                        {promocion.edadMaxima !== null &&
+                        promocion.edadMaxima !== undefined
+                          ? ` + edad máxima ${promocion.edadMaxima}`
+                          : ""}
+                      </Typography>
+                    </Box>
+                  ))}
+
+                  <TextField
+                    select
+                    fullWidth
+                    label="Promoción a asignar"
+                    value={newAlumno.promocionId}
+                    onChange={(event) =>
+                      setNewAlumno((prev) => ({
+                        ...prev,
+                        promocionId: event.target.value,
+                      }))
+                    }
+                    helperText={
+                      promocionesElegibles.length > 1
+                        ? "Obligatorio seleccionar una promoción"
+                        : "Si solo hay una promoción aplicable se asignará automáticamente"
+                    }
+                  >
+                    {promocionesElegibles.length > 1 && (
+                      <MenuItem value="">Seleccionar promoción...</MenuItem>
+                    )}
+                    {promocionesElegibles.map((promocion) => (
+                      <MenuItem key={promocion.id} value={promocion.id}>
+                        {promocion.nombre} - {promocion.precioPromocional} EUR
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Box>
+              )}
+            </>
+          )}
         </DialogContent>
 
         <DialogActions>

@@ -165,6 +165,14 @@ describe("AlumnosRepository", () => {
             usuario: true,
           },
         },
+        matriculas: {
+          include: {
+            promocion: true,
+          },
+          orderBy: {
+            fechaCreacion: "desc",
+          },
+        },
       },
     });
 

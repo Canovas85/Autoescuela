@@ -35,6 +35,24 @@ describe("Alumnos Routes", () => {
     expect(response.status).toBe(401); // 401 Unauthorized, ya que no se proporciona un token válido
   });
 
+  it("debe exponer POST /api/alumnos/promociones-elegibles", async () => {
+    const app = express();
+
+    app.use(express.json());
+
+    app.use("/api/alumnos", alumnosRoutes);
+
+    const response = await request(app)
+      .post("/api/alumnos/promociones-elegibles")
+      .send({
+        tipoLicenciaObjetivo: "B",
+        dni: "12345678Z",
+        fechaNacimiento: "2000-01-01T00:00:00.000Z",
+      });
+
+    expect(response.status).toBe(401);
+  });
+
   it("debe exponer GET /api/alumnos/:id", async () => {
     const app = express();
 

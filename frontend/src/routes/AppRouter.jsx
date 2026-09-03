@@ -30,6 +30,8 @@ import ClaseDirectoDetalle from "../pages/ClasesDirecto/ClaseDirectoDetalle";
 import ClasesDirectoAdmin from "../pages/ClasesDirectoAdmin/ClasesDirectoAdmin";
 import Matriculas from "../pages/Matriculas/Matriculas";
 import PagoMatricula from "../pages/Matriculas/PagoMatricula";
+import Facturas from "../pages/Facturas/Facturas";
+import MisFacturas from "../pages/Facturas/MisFacturas";
 
 function RequireAuth() {
   const token = localStorage.getItem("token");
@@ -90,7 +92,7 @@ export default function AppRouter() {
 
               <Route path="/pago-matricula" element={<PagoMatricula />} />
 
-              <Route path="/matricula" element={<TarifasMatricula />} />
+              <Route path="/tarifas-matricula" element={<TarifasMatricula />} />
 
               <Route
                 path="/solicitudes-examen"
@@ -106,6 +108,9 @@ export default function AppRouter() {
               <Route path="/clases" element={<Clases />} />
 
               <Route path="/examenes" element={<Examenes />} />
+
+              <Route path="/facturas" element={<Facturas />} />
+              <Route path="/mis-facturas" element={<MisFacturas />} />
             </Route>
           </Route>
         </Route>
