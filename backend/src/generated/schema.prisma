@@ -58,23 +58,22 @@ model Profesor {
 }
 
 model Alumno {
-  id                        String            @id
+  id                        String    @id
   tipoLicenciaObjetivo      String
   fechaNacimiento           DateTime?
-  horasPracticasCompletadas Int               @default(0)
-  matriculaPagada           Boolean           @default(false)
-  fechaMatriculaPago        DateTime?
-  profesorAsignadoId        String?
-  usuario                   Usuario           @relation(fields: [id], references: [id], onDelete: Cascade)
-  profesorAsignado          Profesor?         @relation(fields: [profesorAsignadoId], references: [id])
-  activo                    Boolean           @default(true)
-  clases                    ClasePractica[]
-  examenes                  Examen[]
-  testsPractica             TestPractica[]
-  temariosProgreso          TemarioProgreso[]
-  bonosComprados            CompraBono[]
-  solicitudesExamen         SolicitudExamen[]
-  matriculas                Matricula[]
+  horasPracticasCompletadas Int       @default(0)
+
+  profesorAsignadoId String?
+  usuario            Usuario           @relation(fields: [id], references: [id], onDelete: Cascade)
+  profesorAsignado   Profesor?         @relation(fields: [profesorAsignadoId], references: [id])
+  activo             Boolean           @default(true)
+  clases             ClasePractica[]
+  examenes           Examen[]
+  testsPractica      TestPractica[]
+  temariosProgreso   TemarioProgreso[]
+  bonosComprados     CompraBono[]
+  solicitudesExamen  SolicitudExamen[]
+  matriculas         Matricula[]
 
   @@map("alumnos")
 }

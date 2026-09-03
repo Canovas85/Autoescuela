@@ -91,8 +91,6 @@ export class DashboardRepository {
           select: {
             tipoLicenciaObjetivo: true,
             horasPracticasCompletadas: true,
-            matriculaPagada: true,
-            fechaMatriculaPago: true,
             matriculas: {
               orderBy: {
                 fechaCreacion: "desc",

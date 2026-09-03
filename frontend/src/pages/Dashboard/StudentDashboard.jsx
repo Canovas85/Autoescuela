@@ -391,13 +391,13 @@ export default function StudentDashboard({ data }) {
               <DashboardStatCard
                 icon={<CreditCardIcon />}
                 title="Matrícula"
-                value={perfil.matriculaPagada ? "Pagada" : "Pendiente"}
+                value={resumen.matricula === "PAGADA" ? "Pagada" : "Pendiente"}
                 subtitle={
-                  perfil.matriculaPagada
-                    ? "Todo listo para seguir avanzando"
+                  resumen.matricula === "PAGADA"
+                    ? `Pagada el ${formatDate(perfil.fechaMatriculaPago)}`
                     : "Falta completar el pago de matrícula"
                 }
-                color={perfil.matriculaPagada ? "#16a34a" : "#f59e0b"}
+                color={resumen.matricula === "PAGADA" ? "#16a34a" : "#f59e0b"}
               />
             </Grid>
             <Grid item xs={12} sm={6}>

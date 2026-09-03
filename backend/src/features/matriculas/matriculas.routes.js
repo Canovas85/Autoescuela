@@ -52,12 +52,7 @@ router.put(
   controller.update.bind(controller),
 );
 
-router.patch(
-  "/:id/pagar",
-  authenticate,
-  authorize("ADMIN"),
-  controller.pagar.bind(controller),
-);
+router.patch("/:id/pagar", authenticate, controller.pagar.bind(controller));
 
 router.patch(
   "/:id/anular",

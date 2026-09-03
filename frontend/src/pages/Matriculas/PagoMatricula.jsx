@@ -6,6 +6,12 @@ import {
   TextField,
   Typography,
   Divider,
+  Snackbar,
+  Alert,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
 
 import { useEffect, useState } from "react";
@@ -19,6 +25,48 @@ export default function PagoMatricula() {
   const [matricula, setMatricula] = useState(null);
 
   const [loading, setLoading] = useState(true);
+
+  const [notification, setNotification] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+
+  const [titular, setTitular] = useState("");
+
+  const [numeroTarjeta, setNumeroTarjeta] = useState("");
+
+  const [caducidad, setCaducidad] = useState("");
+
+  const [cvv, setCvv] = useState("");
+
+  const [errores, setErrores] = useState({});
+
+  const [openConfirmarPago, setOpenConfirmarPago] = useState(false);
+
+  const validarFormulario = () => {
+    const nuevosErrores = {};
+
+    if (!titular.trim()) {
+      nuevosErrores.titular = "El titular es obligatorio";
+    }
+
+    if (!/^\d{16}$/.test(numeroTarjeta)) {
+      nuevosErrores.numeroTarjeta = "La tarjeta debe tener 16 dígitos";
+    }
+
+    if (!/^\d{2}\/\d{2}$/.test(caducidad)) {
+      nuevosErrores.caducidad = "Formato MM/AA";
+    }
+
+    if (!/^\d{3}$/.test(cvv)) {
+      nuevosErrores.cvv = "El CVV debe tener 3 dígitos";
+    }
+
+    setErrores(nuevosErrores);
+
+    return Object.keys(nuevosErrores).length === 0;
+  };
 
   useEffect(() => {
     const loadMatricula = async () => {
@@ -37,10 +85,24 @@ export default function PagoMatricula() {
   }, []);
 
   const handlePagar = async () => {
+    if (!validarFormulario()) {
+      return;
+    }
+
     try {
       await matriculasService.pagar(matricula.id);
 
-      navigate("/dashboard");
+      setNotification({
+        open: true,
+        message: "Pago realizado correctamente",
+        severity: "success",
+      });
+
+      navigate("/dashboard", {
+        replace: true,
+      });
+
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }
@@ -107,12 +169,28 @@ export default function PagoMatricula() {
             </Typography>
           </Box>
 
-          <TextField fullWidth label="Titular de la tarjeta" sx={{ mb: 2 }} />
+          <TextField
+            fullWidth
+            label="Titular de la tarjeta"
+            value={titular}
+            onChange={(e) => setTitular(e.target.value)}
+            error={Boolean(errores.titular)}
+            helperText={errores.titular}
+            sx={{ mb: 2 }}
+          />
 
           <TextField
             fullWidth
             label="Número de tarjeta"
-            placeholder="1234 5678 9012 3456"
+            value={numeroTarjeta}
+            inputProps={{
+              maxLength: 16,
+            }}
+            onChange={(e) =>
+              setNumeroTarjeta(e.target.value.replace(/\D/g, ""))
+            }
+            error={Boolean(errores.numeroTarjeta)}
+            helperText={errores.numeroTarjeta}
             sx={{ mb: 2 }}
           />
 
@@ -124,9 +202,24 @@ export default function PagoMatricula() {
               mb: 3,
             }}
           >
-            <TextField label="Caducidad" placeholder="MM/AA" />
+            <TextField
+              label="Caducidad"
+              value={caducidad}
+              onChange={(e) => setCaducidad(e.target.value)}
+              error={Boolean(errores.caducidad)}
+              helperText={errores.caducidad}
+            />
 
-            <TextField label="CVV" placeholder="123" />
+            <TextField
+              label="CVV"
+              value={cvv}
+              inputProps={{
+                maxLength: 3,
+              }}
+              onChange={(e) => setCvv(e.target.value.replace(/\D/g, ""))}
+              error={Boolean(errores.cvv)}
+              helperText={errores.cvv}
+            />
           </Box>
 
           <Button
@@ -134,12 +227,60 @@ export default function PagoMatricula() {
             fullWidth
             size="large"
             color="success"
-            onClick={handlePagar}
+            onClick={() => {
+              if (validarFormulario()) {
+                setOpenConfirmarPago(true);
+              }
+            }}
           >
             Pagar Matrícula
           </Button>
+
+          <Dialog
+            open={openConfirmarPago}
+            onClose={() => setOpenConfirmarPago(false)}
+            maxWidth="sm"
+            fullWidth
+          >
+            <DialogTitle>Confirmar pago</DialogTitle>
+
+            <DialogContent>
+              <Typography>Vas a realizar el pago de tu matrícula.</Typography>
+
+              <Typography sx={{ mt: 2 }} fontWeight={700}>
+                Permiso: {matricula?.licencia}
+              </Typography>
+
+              <Typography>Importe: {matricula?.precioFinal} €</Typography>
+            </DialogContent>
+
+            <DialogActions>
+              <Button onClick={() => setOpenConfirmarPago(false)}>
+                Cancelar
+              </Button>
+
+              <Button variant="contained" color="success" onClick={handlePagar}>
+                Confirmar pago
+              </Button>
+            </DialogActions>
+          </Dialog>
         </CardContent>
       </Card>
+
+      <Snackbar
+        open={notification.open}
+        autoHideDuration={3000}
+        onClose={() =>
+          setNotification((prev) => ({
+            ...prev,
+            open: false,
+          }))
+        }
+      >
+        <Alert severity={notification.severity} variant="filled">
+          {notification.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
