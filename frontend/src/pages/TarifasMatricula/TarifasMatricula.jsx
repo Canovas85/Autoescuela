@@ -36,7 +36,7 @@ const emptyForm = {
   activa: true,
 };
 
-export default function Bonos() {
+export default function TarifasMatricula() {
   const [rows, setRows] = useState([]);
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -50,28 +50,28 @@ export default function Bonos() {
   const [confirmDialog, setConfirmDialog] = useState({
     open: false,
     action: null,
-    bonoId: null,
-    nombreBono: "",
+    tarifaId: null,
+    licenciaTarifa: "",
     title: "",
     message: "",
   });
 
-  const loadBonos = async () => {
+  const loadTarifas = async () => {
     try {
-      const data = await bonosService.getAll();
+      const data = await tarifasMatriculaService.getAll();
       setRows(data);
     } catch (error) {
       console.error(error);
       setNotification({
         open: true,
-        message: "No se pudieron cargar los bonos",
+        message: "No se pudieron cargar las tarifas de matricula",
         severity: "error",
       });
     }
   };
 
   useEffect(() => {
-    loadBonos();
+    loadTarifas();
   }, []);
 
   const filteredRows = useMemo(() => rows, [rows]);
@@ -89,11 +89,9 @@ export default function Bonos() {
   const handleEdit = (row) => {
     setEditingId(row.id);
     setForm({
-      nombre: row.nombre || "",
-      descripcion: row.descripcion || "",
-      clasesIncluidas: row.clasesIncluidas ?? 10,
-      validezDias: row.validezDias ?? 90,
-      activo: Boolean(row.activo),
+      licencia: row.licencia || "B",
+      precio: row.precio ?? "",
+      activa: Boolean(row.activa),
     });
     setOpen(true);
   };
@@ -102,23 +100,23 @@ export default function Bonos() {
     setConfirmDialog({
       open: true,
       action: "delete",
-      bonoId: row.id,
-      nombreBono: row.nombre,
+      tarifaId: row.id,
+      licenciaTarifa: row.licencia,
       title: "Confirmar eliminación",
-      message: `Vas a eliminar definitivamente el bono "${row.nombre}" de Autoescuela Eguzkilore. Toda la información asociada será eliminada de forma permanente. Esta acción no podrá deshacerse. ¿Deseas continuar?`,
+      message: `Vas a eliminar definitivamente la tarifa de la licencia "${row.licencia}" de Autoescuela Eguzkilore. Esta accion no podra deshacerse. Deseas continuar?`,
     });
   };
 
   const handleToggleActivo = (row) => {
     setConfirmDialog({
       open: true,
-      action: row.activo ? "deactivate" : "activate",
-      bonoId: row.id,
-      nombreBono: row.nombre,
-      title: row.activo ? "Confirmar desactivación" : "Confirmar activación",
-      message: row.activo
-        ? `Vas a desactivar el bono "${row.nombre}" en Autoescuela Eguzkilore. No podrá utilizarse hasta su reactivación. ¿Deseas continuar?`
-        : `Vas a reactivar el bono "${row.nombre}" en Autoescuela Eguzkilore. Volverá a estar disponible de inmediato. ¿Deseas continuar?`,
+      action: row.activa ? "deactivate" : "activate",
+      tarifaId: row.id,
+      licenciaTarifa: row.licencia,
+      title: row.activa ? "Confirmar desactivación" : "Confirmar activación",
+      message: row.activa
+        ? `Vas a desactivar la tarifa de la licencia "${row.licencia}" en Autoescuela Eguzkilore. No podra utilizarse hasta su reactivacion. Deseas continuar?`
+        : `Vas a reactivar la tarifa de la licencia "${row.licencia}" en Autoescuela Eguzkilore. Volvera a estar disponible de inmediato. Deseas continuar?`,
     });
   };
 
@@ -126,42 +124,42 @@ export default function Bonos() {
     setConfirmDialog({
       open: false,
       action: null,
-      bonoId: null,
-      nombreBono: "",
+      tarifaId: null,
+      licenciaTarifa: "",
       title: "",
       message: "",
     });
   };
 
   const handleConfirmAction = async () => {
-    if (!confirmDialog.bonoId || !confirmDialog.action) {
+    if (!confirmDialog.tarifaId || !confirmDialog.action) {
       closeConfirmDialog();
       return;
     }
 
     try {
       if (confirmDialog.action === "delete") {
-        await bonosService.delete(confirmDialog.bonoId);
+        await tarifasMatriculaService.delete(confirmDialog.tarifaId);
       }
 
       if (confirmDialog.action === "deactivate") {
-        await bonosService.deactivate(confirmDialog.bonoId);
+        await tarifasMatriculaService.deactivate(confirmDialog.tarifaId);
       }
 
       if (confirmDialog.action === "activate") {
-        await bonosService.activate(confirmDialog.bonoId);
+        await tarifasMatriculaService.activate(confirmDialog.tarifaId);
       }
 
-      await loadBonos();
+      await loadTarifas();
 
       setNotification({
         open: true,
         message:
           confirmDialog.action === "delete"
-            ? "Bono eliminado correctamente"
+            ? "Tarifa eliminada correctamente"
             : confirmDialog.action === "deactivate"
-              ? "Bono desactivado correctamente"
-              : "Bono activado correctamente",
+              ? "Tarifa desactivada correctamente"
+              : "Tarifa activada correctamente",
         severity: "success",
       });
     } catch (error) {
@@ -181,31 +179,30 @@ export default function Bonos() {
     try {
       const payload = {
         ...form,
-        clasesIncluidas: Number(form.clasesIncluidas),
-        validezDias: Number(form.validezDias),
+        precio: Number(form.precio),
       };
 
       if (editingId) {
-        await bonosService.update(editingId, payload);
+        await tarifasMatriculaService.update(editingId, payload);
       } else {
-        await bonosService.create(payload);
+        await tarifasMatriculaService.create(payload);
       }
 
-      await loadBonos();
+      await loadTarifas();
       setOpen(false);
       resetForm();
       setNotification({
         open: true,
         message: editingId
-          ? "Bono actualizado correctamente"
-          : "Bono creado correctamente",
+          ? "Tarifa actualizada correctamente"
+          : "Tarifa creada correctamente",
         severity: "success",
       });
     } catch (error) {
       console.error(error);
       setNotification({
         open: true,
-        message: error.response?.data?.message || "Error guardando bono",
+        message: error.response?.data?.message || "Error guardando tarifa",
         severity: "error",
       });
     }
@@ -237,6 +234,39 @@ export default function Bonos() {
           color={params.row.activa ? "success" : "default"}
           size="small"
         />
+      ),
+    },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      width: 180,
+      sortable: false,
+      renderCell: (params) => (
+        <Box sx={{ display: "flex", gap: 1 }}>
+          <IconButton onClick={() => handleEdit(params.row)} size="small">
+            <EditIcon fontSize="small" />
+          </IconButton>
+
+          <IconButton
+            onClick={() => handleToggleActivo(params.row)}
+            size="small"
+            color={params.row.activa ? "warning" : "success"}
+          >
+            {params.row.activa ? (
+              <ToggleOffIcon fontSize="small" />
+            ) : (
+              <ToggleOnIcon fontSize="small" />
+            )}
+          </IconButton>
+
+          <IconButton
+            onClick={() => handleDelete(params.row)}
+            size="small"
+            color="error"
+          >
+            <DeleteIcon fontSize="small" />
+          </IconButton>
+        </Box>
       ),
     },
   ];
@@ -283,7 +313,9 @@ export default function Bonos() {
         fullWidth
         maxWidth="sm"
       >
-        <DialogTitle>{editingId ? "Editar bono" : "Nuevo bono"}</DialogTitle>
+        <DialogTitle>
+          {editingId ? "Editar tarifa" : "Nueva tarifa"}
+        </DialogTitle>
         <DialogContent
           sx={{
             pt: 1,
