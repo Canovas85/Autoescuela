@@ -78,6 +78,11 @@ export class MatriculasRepository {
       where: {
         alumnoId,
       },
+
+      include: {
+        promocion: true,
+      },
+
       orderBy: {
         fechaCreacion: "desc",
       },
@@ -88,6 +93,17 @@ export class MatriculasRepository {
     return this.prisma.tarifaMatricula.findUnique({
       where: {
         licencia,
+      },
+    });
+  }
+  async findActiveByAlumnoId(alumnoId) {
+    return this.prisma.matricula.findFirst({
+      where: {
+        alumnoId,
+      },
+
+      orderBy: {
+        fechaCreacion: "desc",
       },
     });
   }

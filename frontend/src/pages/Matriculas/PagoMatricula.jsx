@@ -26,6 +26,14 @@ export default function PagoMatricula() {
 
   const [loading, setLoading] = useState(true);
 
+  const descuento = matricula
+    ? Math.round(
+        ((Number(matricula.precioBase) - Number(matricula.precioFinal)) /
+          Number(matricula.precioBase)) *
+          100,
+      )
+    : 0;
+
   const [notification, setNotification] = useState({
     open: false,
     message: "",
@@ -160,8 +168,28 @@ export default function PagoMatricula() {
               Permiso: {matricula?.licencia}
             </Typography>
 
-            <Typography>
-              Importe pendiente: {matricula?.precioFinal} €
+            <Typography>Precio original: {matricula?.precioBase} €</Typography>
+
+            {matricula?.promocion && (
+              <Typography color="success.main">
+                Promoción aplicada: {matricula.promocion.nombre}
+              </Typography>
+            )}
+
+            {matricula?.promocion && (
+              <Typography color="success.main">
+                Descuento: {descuento} %
+              </Typography>
+            )}
+
+            <Typography
+              sx={{
+                mt: 1,
+                fontWeight: 700,
+                fontSize: "1.1rem",
+              }}
+            >
+              Importe final: {matricula?.precioFinal} €
             </Typography>
 
             <Typography color="warning.main">
@@ -251,7 +279,19 @@ export default function PagoMatricula() {
                 Permiso: {matricula?.licencia}
               </Typography>
 
-              <Typography>Importe: {matricula?.precioFinal} €</Typography>
+              <Typography>
+                Precio original: {matricula?.precioBase} €
+              </Typography>
+
+              {matricula?.promocion && (
+                <Typography color="success.main">
+                  Promoción: {matricula.promocion.nombre}
+                </Typography>
+              )}
+
+              <Typography fontWeight={700} sx={{ mt: 1 }}>
+                Total a pagar: {matricula?.precioFinal} €
+              </Typography>
             </DialogContent>
 
             <DialogActions>

@@ -4,6 +4,7 @@ import { authorize } from "../../shared/middleware/role.middleware.js";
 
 // ✅ CÓDIGO CORREGIDO (Subiendo un nivel con "../")
 import { AlumnosRepository } from "./alumnos.repository.js";
+import { PromocionesRepository } from "../promociones/promociones.repository.js";
 import { AlumnosService } from "./alumnos.service.js";
 import { AlumnosController } from "./alumnos.controller.js";
 import prisma from "../../config/prisma.js";
@@ -16,6 +17,7 @@ const router = Router();
 
 const repository = new AlumnosRepository(prisma);
 const matriculasRepository = new MatriculasRepository(prisma);
+const promocionesRepository = new PromocionesRepository(prisma);
 
 const authRepository = new AuthRepository(prisma);
 const emailService = new EmailService();
@@ -28,8 +30,8 @@ const service = new AlumnosService(
   repository,
   accountActivationService,
   matriculasRepository,
+  promocionesRepository,
 );
-
 const controller = new AlumnosController(service);
 
 /**

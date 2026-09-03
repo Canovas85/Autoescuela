@@ -55,10 +55,12 @@ export class AlumnosService {
     repository,
     accountActivationService = null,
     matriculasRepository = null,
+    promocionesRepository = null,
   ) {
     this.repository = repository;
     this.accountActivationService = accountActivationService;
     this.matriculasRepository = matriculasRepository;
+    this.promocionesRepository = promocionesRepository;
   }
 
   async create(data, context = {}) {
@@ -158,14 +160,27 @@ export class AlumnosService {
         );
       }
 
+      const promocion =
+        await this.promocionesRepository?.findBestPromotionForLicense(
+          licenciaNormalizada,
+        );
+
+      const precioBase = tarifa.precio;
+
+      const precioFinal = promocion
+        ? promocion.precioPromocional
+        : tarifa.precio;
+
       await this.matriculasRepository.create({
         alumnoId: alumno.id,
 
         licencia: licenciaNormalizada,
 
-        precioBase: tarifa.precio,
+        precioBase,
 
-        precioFinal: tarifa.precio,
+        precioFinal,
+
+        promocionId: promocion?.id ?? null,
 
         estado: "PENDIENTE",
       });
@@ -203,10 +218,19 @@ export class AlumnosService {
   }
 
   async update(id, data) {
+    const matricula = await this.matriculasRepository.findActiveByAlumnoId(id);
     const payload = {
       ...data,
     };
+    if (matricula && matricula.estado === "PAGADA") {
+      const licenciaNueva = data.tipoLicenciaObjetivo ?? data.tipoLicencia;
 
+      if (licenciaNueva && licenciaNueva !== matricula.licencia) {
+        throw new Error(
+          "No se puede modificar la licencia porque la matrícula ya ha sido abonada.",
+        );
+      }
+    }
     if (data.password?.trim()) {
       if (data.password.length < 8) {
         throw new Error("La contraseña debe tener al menos 8 caracteres");

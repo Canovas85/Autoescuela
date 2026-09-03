@@ -265,16 +265,61 @@ export default function Matriculas() {
       field: "precioBase",
       headerName: "Precio Base",
       flex: 0.8,
-
       valueFormatter: (value) => `${value} €`,
     },
-
     {
       field: "precioFinal",
       headerName: "Precio Final",
       flex: 0.8,
+      renderCell: (params) => (
+        <div style={{ display: "flex", alignItems: "center", height: "100%" }}>
+          <Typography
+            fontWeight={700}
+            color={
+              params.row.precioFinal < params.row.precioBase
+                ? "success.main"
+                : "text.primary"
+            }
+          >
+            {params.row.precioFinal} €
+          </Typography>
+        </div>
+      ),
+    },
 
-      valueFormatter: (value) => `${value} €`,
+    {
+      field: "promocion",
+      headerName: "Promoción",
+      flex: 1.5,
+
+      renderCell: (params) =>
+        params.row.promocion ? (
+          <Chip
+            label={params.row.promocion.nombre}
+            color="success"
+            size="small"
+          />
+        ) : (
+          <Chip label="Sin promoción" size="small" />
+        ),
+    },
+
+    {
+      field: "descuento",
+      headerName: "Descuento",
+      flex: 0.8,
+
+      valueGetter: (_, row) => {
+        const base = Number(row.precioBase);
+
+        const final = Number(row.precioFinal);
+
+        if (!base || !final) {
+          return "0%";
+        }
+
+        return `${Math.round(((base - final) / base) * 100)}%`;
+      },
     },
 
     {
@@ -368,6 +413,35 @@ export default function Matriculas() {
       </Box>
 
       <Box sx={{ height: 620 }}>
+        <Box
+          sx={{
+            display: "flex",
+            gap: 2,
+            mb: 2,
+            flexWrap: "wrap",
+          }}
+        >
+          <Chip
+            color="warning"
+            label={`Pendientes: ${
+              rows.filter((m) => m.estado === "PENDIENTE").length
+            }`}
+          />
+
+          <Chip
+            color="success"
+            label={`Pagadas: ${
+              rows.filter((m) => m.estado === "PAGADA").length
+            }`}
+          />
+
+          <Chip
+            color="error"
+            label={`Anuladas: ${
+              rows.filter((m) => m.estado === "ANULADA").length
+            }`}
+          />
+        </Box>
         <DataGrid
           rows={filteredRows}
           columns={columns}

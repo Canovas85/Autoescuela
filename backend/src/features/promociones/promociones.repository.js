@@ -70,4 +70,48 @@ export class PromocionesRepository {
       orderBy: [{ createdAt: "desc" }],
     });
   }
+
+  async findBestPromotionForLicense(licencia) {
+    const hoy = new Date();
+
+    return this.prisma.promocion.findFirst({
+      where: {
+        activa: true,
+
+        licenciasAplicables: {
+          has: licencia,
+        },
+
+        OR: [
+          {
+            fechaInicio: null,
+          },
+          {
+            fechaInicio: {
+              lte: hoy,
+            },
+          },
+        ],
+
+        AND: [
+          {
+            OR: [
+              {
+                fechaFin: null,
+              },
+              {
+                fechaFin: {
+                  gte: hoy,
+                },
+              },
+            ],
+          },
+        ],
+      },
+
+      orderBy: {
+        precioPromocional: "asc",
+      },
+    });
+  }
 }
