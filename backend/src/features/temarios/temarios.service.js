@@ -3,6 +3,32 @@ const LICENCIAS_PERMITIDAS = ["B", "A1", "A2", "A", "C", "D", "E"];
 const normalizarTexto = (valor) =>
   typeof valor === "string" ? valor.trim() : "";
 
+const normalizarLicenciasObjetivo = (valor) => {
+  const listaBase = Array.isArray(valor) ? valor : [valor];
+
+  const licencias = [
+    ...new Set(
+      listaBase
+        .map((item) => normalizarTexto(item).toUpperCase())
+        .filter(Boolean),
+    ),
+  ];
+
+  if (licencias.length === 0) {
+    throw new Error("Debe existir al menos una licencia objetivo");
+  }
+
+  const invalidas = licencias.filter(
+    (licencia) => !LICENCIAS_PERMITIDAS.includes(licencia),
+  );
+
+  if (invalidas.length > 0) {
+    throw new Error("Licencias objetivo no válidas: " + invalidas.join(", "));
+  }
+
+  return licencias;
+};
+
 export class TemariosService {
   constructor(repository) {
     this.repository = repository;
@@ -46,17 +72,9 @@ export class TemariosService {
       throw new Error("El título es obligatorio");
     }
 
-    const tipoLicenciaObjetivo = normalizarTexto(
+    const tipoLicenciaObjetivo = normalizarLicenciasObjetivo(
       data.tipoLicenciaObjetivo,
-    ).toUpperCase();
-
-    if (!tipoLicenciaObjetivo) {
-      throw new Error("El tipo de licencia objetivo es obligatorio");
-    }
-
-    if (!LICENCIAS_PERMITIDAS.includes(tipoLicenciaObjetivo)) {
-      throw new Error("El tipo de licencia objetivo no es válido");
-    }
+    );
 
     const orden = Number(data.orden);
     if (!Number.isInteger(orden) || orden < 0) {

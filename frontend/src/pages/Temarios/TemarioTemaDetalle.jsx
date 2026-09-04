@@ -70,6 +70,13 @@ export default function TemarioTemaDetalle() {
   const theory = useMemo(() => getTemarioBTheory(temario), [temario]);
   const miniTest = theory?.miniTest || [];
   const historialIntentos = temario?.historialIntentos || [];
+  const licenciasTemario = Array.isArray(temario?.tipoLicenciaObjetivo)
+    ? temario.tipoLicenciaObjetivo
+    : temario?.tipoLicenciaObjetivo
+      ? [temario.tipoLicenciaObjetivo]
+      : [];
+  const licenciasTemarioLabel =
+    licenciasTemario.length > 0 ? licenciasTemario.join(", ") : "-";
   const preguntasRespondidas = Object.keys(respuestas).length;
   const miniTestCompleto =
     miniTest.length > 0 && preguntasRespondidas === miniTest.length;
@@ -197,7 +204,7 @@ export default function TemarioTemaDetalle() {
                 <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
                   <Chip
                     icon={<SchoolIcon fontSize="small" />}
-                    label={`Permiso ${temario?.tipoLicenciaObjetivo ?? "-"}`}
+                    label={"Permisos " + licenciasTemarioLabel}
                     sx={{
                       backgroundColor: "rgba(255,255,255,0.15)",
                       color: "#fff",

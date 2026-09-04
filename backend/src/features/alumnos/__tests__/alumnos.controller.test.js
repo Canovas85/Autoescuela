@@ -245,4 +245,31 @@ describe("AlumnosController", () => {
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({ message: "Datos inválidos" });
   });
+
+  it("debe devolver profesores elegibles con HTTP 200", async () => {
+    const profesores = [{ id: "profesor-1" }];
+
+    const serviceMock = {
+      getEligibleProfesoresForAlumno: vi.fn().mockResolvedValue(profesores),
+    };
+
+    const controller = new AlumnosController(serviceMock);
+    const req = {
+      params: {
+        id: "alumno-1",
+      },
+    };
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    };
+
+    await controller.getEligibleProfesores(req, res);
+
+    expect(serviceMock.getEligibleProfesoresForAlumno).toHaveBeenCalledWith(
+      "alumno-1",
+    );
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(profesores);
+  });
 });

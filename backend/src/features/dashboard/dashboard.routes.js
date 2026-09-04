@@ -115,4 +115,39 @@ router.get(
   controller.getStudentDashboard.bind(controller),
 );
 
+router.get(
+  "/professor",
+  authenticate,
+  authorize("PROFESOR"),
+  controller.getProfessorDashboard.bind(controller),
+);
+
+router.get(
+  "/professor/students",
+  authenticate,
+  authorize("PROFESOR"),
+  controller.getProfessorStudents.bind(controller),
+);
+
+router.get(
+  "/professor/students/:alumnoId",
+  authenticate,
+  authorize("PROFESOR"),
+  controller.getProfessorStudentDetail.bind(controller),
+);
+
+router.get(
+  "/professor/vehicles",
+  authenticate,
+  authorize("PROFESOR"),
+  controller.getProfessorVehicles.bind(controller),
+);
+
+router.get(
+  "/professor/vehicles/:vehiculoId/schedule",
+  authenticate,
+  authorize("PROFESOR"),
+  controller.getProfessorVehicleSchedule.bind(controller),
+);
+
 export default router;

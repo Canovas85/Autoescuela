@@ -23,7 +23,7 @@ export class TemariosRepository {
 
   async findAll() {
     return this.prisma.temario.findMany({
-      orderBy: [{ tipoLicenciaObjetivo: "asc" }, { orden: "asc" }],
+      orderBy: [{ orden: "asc" }, { titulo: "asc" }],
     });
   }
 
@@ -38,7 +38,9 @@ export class TemariosRepository {
   async findForAlumnoByLicencia(alumnoId, tipoLicenciaObjetivo) {
     return this.prisma.temario.findMany({
       where: {
-        tipoLicenciaObjetivo,
+        tipoLicenciaObjetivo: {
+          has: tipoLicenciaObjetivo,
+        },
       },
       orderBy: [{ orden: "asc" }],
       include: {
@@ -60,7 +62,9 @@ export class TemariosRepository {
     return this.prisma.temario.findFirst({
       where: {
         id: temarioId,
-        tipoLicenciaObjetivo,
+        tipoLicenciaObjetivo: {
+          has: tipoLicenciaObjetivo,
+        },
       },
       include: {
         progreso: {

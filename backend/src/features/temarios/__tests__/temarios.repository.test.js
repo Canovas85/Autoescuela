@@ -60,7 +60,7 @@ describe("TemariosRepository", () => {
     const result = await repository.findAll();
 
     expect(prismaMock.temario.findMany).toHaveBeenCalledWith({
-      orderBy: [{ tipoLicenciaObjetivo: "asc" }, { orden: "asc" }],
+      orderBy: [{ orden: "asc" }, { titulo: "asc" }],
     });
     expect(result).toEqual(temarios);
   });

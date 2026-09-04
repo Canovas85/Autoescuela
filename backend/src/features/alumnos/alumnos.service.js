@@ -392,10 +392,20 @@ export class AlumnosService {
   }
 
   async update(id, data) {
-    const matricula = await this.matriculasRepository.findActiveByAlumnoId(id);
+    const alumnoActual = await this.repository.findById(id);
+
+    if (!alumnoActual) {
+      throw new Error("Alumno no encontrado");
+    }
+
+    const matricula = this.matriculasRepository
+      ? await this.matriculasRepository.findActiveByAlumnoId(id)
+      : null;
+
     const payload = {
       ...data,
     };
+
     if (matricula && matricula.estado === "PAGADA") {
       const licenciaNueva = data.tipoLicenciaObjetivo ?? data.tipoLicencia;
 
@@ -405,6 +415,55 @@ export class AlumnosService {
         );
       }
     }
+
+    if (Object.prototype.hasOwnProperty.call(data, "profesorAsignadoId")) {
+      const profesorAsignadoId = data.profesorAsignadoId || null;
+
+      if (profesorAsignadoId) {
+        if (!this.matriculasRepository) {
+          throw new Error("No se puede validar la matrícula del alumno");
+        }
+
+        if (!matricula || matricula.estado !== "PAGADA") {
+          throw new Error(
+            "Solo se puede asignar profesor cuando la matrícula está pagada.",
+          );
+        }
+
+        const profesor =
+          await this.repository.findProfesorById(profesorAsignadoId);
+
+        if (!profesor || profesor.activo === false) {
+          throw new Error("El profesor seleccionado no existe o está inactivo");
+        }
+
+        const licenciaObjetivo = String(
+          data.tipoLicenciaObjetivo ??
+            data.tipoLicencia ??
+            alumnoActual.tipoLicenciaObjetivo ??
+            "",
+        )
+          .trim()
+          .toUpperCase();
+
+        const permisos = Array.isArray(profesor.permisosLicencias)
+          ? profesor.permisosLicencias.map((permiso) =>
+              String(permiso || "")
+                .trim()
+                .toUpperCase(),
+            )
+          : [];
+
+        if (!permisos.includes(licenciaObjetivo)) {
+          throw new Error(
+            "El profesor seleccionado no tiene permiso para la licencia del alumno.",
+          );
+        }
+      }
+
+      payload.profesorAsignadoId = profesorAsignadoId;
+    }
+
     if (data.password?.trim()) {
       if (data.password.length < 8) {
         throw new Error("La contraseña debe tener al menos 8 caracteres");
@@ -418,6 +477,35 @@ export class AlumnosService {
     }
 
     return this.repository.update(id, payload);
+  }
+
+  async getEligibleProfesoresForAlumno(alumnoId) {
+    const alumno = await this.repository.findById(alumnoId);
+
+    if (!alumno) {
+      throw new Error("Alumno no encontrado");
+    }
+
+    if (!this.matriculasRepository) {
+      return [];
+    }
+
+    const matricula =
+      await this.matriculasRepository.findActiveByAlumnoId(alumnoId);
+
+    if (!matricula || matricula.estado !== "PAGADA") {
+      return [];
+    }
+
+    const licenciaObjetivo = String(alumno.tipoLicenciaObjetivo || "")
+      .trim()
+      .toUpperCase();
+
+    if (!licenciaObjetivo) {
+      return [];
+    }
+
+    return this.repository.findActiveProfesoresByLicencia(licenciaObjetivo);
   }
 
   async deactivate(id) {

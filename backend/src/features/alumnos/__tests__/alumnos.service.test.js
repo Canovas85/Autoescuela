@@ -488,6 +488,10 @@ describe("AlumnosService", () => {
     };
 
     const repositoryMock = {
+      findById: vi.fn().mockResolvedValue({
+        id: "alumno-1",
+        tipoLicenciaObjetivo: "B",
+      }),
       update: vi.fn().mockResolvedValue(alumnoActualizado),
     };
 
@@ -512,6 +516,79 @@ describe("AlumnosService", () => {
     });
 
     expect(result).toEqual(alumnoActualizado);
+  });
+
+  it("debe lanzar error al asignar profesor si la matrícula no está pagada", async () => {
+    const repositoryMock = {
+      findById: vi.fn().mockResolvedValue({
+        id: "alumno-1",
+        tipoLicenciaObjetivo: "B",
+      }),
+      update: vi.fn(),
+    };
+
+    const matriculasRepositoryMock = {
+      findActiveByAlumnoId: vi.fn().mockResolvedValue({
+        id: "matricula-1",
+        estado: "PENDIENTE",
+        licencia: "B",
+      }),
+    };
+
+    const service = new AlumnosService(
+      repositoryMock,
+      null,
+      matriculasRepositoryMock,
+    );
+
+    await expect(
+      service.update("alumno-1", {
+        profesorAsignadoId: "profesor-1",
+      }),
+    ).rejects.toThrow(
+      "Solo se puede asignar profesor cuando la matrícula está pagada.",
+    );
+
+    expect(repositoryMock.update).not.toHaveBeenCalled();
+  });
+
+  it("debe lanzar error al asignar profesor sin permiso para la licencia", async () => {
+    const repositoryMock = {
+      findById: vi.fn().mockResolvedValue({
+        id: "alumno-1",
+        tipoLicenciaObjetivo: "A",
+      }),
+      findProfesorById: vi.fn().mockResolvedValue({
+        id: "profesor-1",
+        activo: true,
+        permisosLicencias: ["B"],
+      }),
+      update: vi.fn(),
+    };
+
+    const matriculasRepositoryMock = {
+      findActiveByAlumnoId: vi.fn().mockResolvedValue({
+        id: "matricula-1",
+        estado: "PAGADA",
+        licencia: "A",
+      }),
+    };
+
+    const service = new AlumnosService(
+      repositoryMock,
+      null,
+      matriculasRepositoryMock,
+    );
+
+    await expect(
+      service.update("alumno-1", {
+        profesorAsignadoId: "profesor-1",
+      }),
+    ).rejects.toThrow(
+      "El profesor seleccionado no tiene permiso para la licencia del alumno.",
+    );
+
+    expect(repositoryMock.update).not.toHaveBeenCalled();
   });
   it("debe desactivar un alumno existente", async () => {
     const alumnoDesactivado = {

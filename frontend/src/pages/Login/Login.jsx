@@ -180,8 +180,8 @@ export default function Login() {
                         src={promotion.imagenRuta}
                         alt={promotion.nombre}
                         style={{
-                          width: "230px",
-                          height: "320px",
+                          width: "260px",
+                          height: "350px",
                           objectFit: "contain",
                           borderRadius: "12px",
                         }}
@@ -233,7 +233,7 @@ export default function Login() {
 
                       <Typography
                         sx={{
-                          fontSize: "2.2rem",
+                          fontSize: "2.0rem",
                           fontWeight: 800,
                           color: "#ff6f00",
                           lineHeight: 1,

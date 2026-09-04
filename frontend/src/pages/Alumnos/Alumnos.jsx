@@ -154,6 +154,9 @@ const formatearFechaParaApi = (valor) => {
   return fechaObjeto.toISOString();
 };
 
+const obtenerEstadoMatricula = (alumno) =>
+  alumno?.matriculas?.[0]?.estado === "PAGADA" ? "PAGADA" : "PENDIENTE";
+
 export default function Alumnos() {
   const [rows, setRows] = useState([]);
 
@@ -366,6 +369,9 @@ export default function Alumnos() {
       if (editingId) {
         delete payload.esEstudiante;
         delete payload.promocionId;
+        payload.profesorAsignadoId = payload.profesorAsignadoId || null;
+      } else {
+        delete payload.profesorAsignadoId;
       }
 
       // En edición, si no se informa contraseña, se conserva la actual en BD.
@@ -391,11 +397,14 @@ export default function Alumnos() {
         dni: "",
         fechaNacimiento: "",
         tipoLicencia: "B",
+        profesorAsignadoId: "",
         esEstudiante: false,
         promocionId: "",
       });
 
       setPromocionesElegibles([]);
+      setProfesoresElegibles([]);
+      setPuedeAsignarProfesor(false);
 
       setFieldTouched({
         dni: false,
@@ -535,6 +544,23 @@ export default function Alumnos() {
     },
 
     {
+      field: "matriculaEstado",
+      headerName: "Matrícula",
+      width: 140,
+      renderCell: (params) => {
+        const estado = obtenerEstadoMatricula(params.row);
+
+        return (
+          <Chip
+            label={estado}
+            color={estado === "PAGADA" ? "success" : "warning"}
+            size="small"
+          />
+        );
+      },
+    },
+
+    {
       field: "horasPracticasCompletadas",
       headerName: "Horas Prácticas",
       flex: 1,
@@ -625,12 +651,17 @@ export default function Alumnos() {
     dni: "",
     fechaNacimiento: "",
     tipoLicencia: "B",
+    profesorAsignadoId: "",
     esEstudiante: false,
     promocionId: "",
   });
 
   const [promocionesElegibles, setPromocionesElegibles] = useState([]);
   const [loadingPromociones, setLoadingPromociones] = useState(false);
+  const [profesoresElegibles, setProfesoresElegibles] = useState([]);
+  const [loadingProfesoresElegibles, setLoadingProfesoresElegibles] =
+    useState(false);
+  const [puedeAsignarProfesor, setPuedeAsignarProfesor] = useState(false);
 
   const [fieldTouched, setFieldTouched] = useState({
     dni: false,
@@ -650,8 +681,11 @@ export default function Alumnos() {
     fieldTouched.fechaNacimiento &&
     !esFechaCompletaValida(newAlumno.fechaNacimiento);
 
-  const handleEdit = (row) => {
+  const handleEdit = async (row) => {
     setEditingId(row.id);
+
+    const matriculaActual = row?.matriculas?.[0] || null;
+    const matriculaPagada = matriculaActual?.estado === "PAGADA";
 
     setNewAlumno({
       nombre: row.usuario?.nombre || "",
@@ -661,11 +695,14 @@ export default function Alumnos() {
       dni: normalizarDniFormulario(row.usuario?.dni || ""),
       fechaNacimiento: formatearFechaParaFormulario(row.fechaNacimiento),
       tipoLicencia: row.tipoLicenciaObjetivo || "B",
+      profesorAsignadoId: row.profesorAsignado?.id || "",
       esEstudiante: false,
       promocionId: "",
     });
 
     setPromocionesElegibles([]);
+    setProfesoresElegibles([]);
+    setPuedeAsignarProfesor(matriculaPagada);
 
     setFieldTouched({
       dni: false,
@@ -673,6 +710,29 @@ export default function Alumnos() {
     });
 
     setOpen(true);
+
+    if (!matriculaPagada) {
+      return;
+    }
+
+    setLoadingProfesoresElegibles(true);
+
+    try {
+      const elegibles = await alumnosService.getEligibleProfesores(row.id);
+      setProfesoresElegibles(elegibles);
+    } catch (error) {
+      console.error(error);
+      setProfesoresElegibles([]);
+      setNotification({
+        open: true,
+        message:
+          error.response?.data?.message ||
+          "No se pudieron cargar los profesores elegibles",
+        severity: "error",
+      });
+    } finally {
+      setLoadingProfesoresElegibles(false);
+    }
   };
 
   const openExportMenu = (event) => {
@@ -790,11 +850,14 @@ export default function Alumnos() {
               dni: "",
               fechaNacimiento: "",
               tipoLicencia: "B",
+              profesorAsignadoId: "",
               esEstudiante: false,
               promocionId: "",
             });
 
             setPromocionesElegibles([]);
+            setProfesoresElegibles([]);
+            setPuedeAsignarProfesor(false);
 
             setFieldTouched({
               dni: false,
@@ -1052,6 +1115,46 @@ export default function Alumnos() {
               </MenuItem>
             ))}
           </TextField>
+
+          {editingId && (
+            <>
+              {!puedeAsignarProfesor && (
+                <Alert severity="info" sx={{ mt: 1 }}>
+                  Solo se puede asignar profesor cuando la matrícula del alumno
+                  está pagada.
+                </Alert>
+              )}
+
+              <TextField
+                margin="normal"
+                fullWidth
+                select
+                label="Profesor Asignado"
+                value={newAlumno.profesorAsignadoId || ""}
+                disabled={!puedeAsignarProfesor || loadingProfesoresElegibles}
+                onChange={(e) =>
+                  setNewAlumno((prev) => ({
+                    ...prev,
+                    profesorAsignadoId: e.target.value,
+                  }))
+                }
+                helperText={
+                  !puedeAsignarProfesor
+                    ? "Matrícula pendiente de pago"
+                    : "Solo se muestran profesores activos con permiso para esta licencia"
+                }
+              >
+                <MenuItem value="">Sin asignar</MenuItem>
+
+                {profesoresElegibles.map((profesor) => (
+                  <MenuItem key={profesor.id} value={profesor.id}>
+                    {profesor.usuario?.nombre} (
+                    {(profesor.permisosLicencias || []).join(", ")})
+                  </MenuItem>
+                ))}
+              </TextField>
+            </>
+          )}
 
           {!editingId && (
             <>

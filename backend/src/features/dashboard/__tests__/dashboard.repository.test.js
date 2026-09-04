@@ -498,4 +498,52 @@ describe("DashboardRepository", () => {
     expect(result.bonos).toHaveLength(1);
     expect(result.examenes).toHaveLength(1);
   });
+
+  it("debe consultar el perfil del profesor", async () => {
+    const prismaMock = {
+      profesor: {
+        findUnique: vi.fn().mockResolvedValue({ id: "profesor-1" }),
+      },
+    };
+
+    const repository = new DashboardRepository(prismaMock);
+
+    await repository.getProfessorProfile("profesor-1");
+
+    expect(prismaMock.profesor.findUnique).toHaveBeenCalledWith({
+      where: {
+        id: "profesor-1",
+      },
+      include: {
+        usuario: {
+          select: {
+            nombre: true,
+            email: true,
+          },
+        },
+      },
+    });
+  });
+
+  it("debe consultar vehículos disponibles por permisos", async () => {
+    const prismaMock = {
+      vehiculo: {
+        findMany: vi.fn().mockResolvedValue([]),
+      },
+    };
+
+    const repository = new DashboardRepository(prismaMock);
+
+    await repository.getProfessorAvailableVehicles(["B", "A2"]);
+
+    expect(prismaMock.vehiculo.findMany).toHaveBeenCalledWith({
+      where: {
+        activo: true,
+        tipoPermiso: {
+          in: ["B", "A2"],
+        },
+      },
+      orderBy: [{ tipoPermiso: "asc" }, { matricula: "asc" }],
+    });
+  });
 });

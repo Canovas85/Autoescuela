@@ -47,6 +47,12 @@ export class AlumnosRepository {
     return this.prisma.alumno.findMany({
       include: {
         usuario: true,
+        matriculas: {
+          orderBy: {
+            fechaCreacion: "desc",
+          },
+          take: 1,
+        },
 
         profesorAsignado: {
           include: {
@@ -109,8 +115,47 @@ export class AlumnosRepository {
       data: {
         tipoLicenciaObjetivo: data.tipoLicenciaObjetivo ?? data.tipoLicencia,
         fechaNacimiento: data.fechaNacimiento ?? undefined,
+        profesorAsignadoId:
+          data.profesorAsignadoId !== undefined
+            ? data.profesorAsignadoId || null
+            : undefined,
       },
 
+      include: {
+        usuario: true,
+        profesorAsignado: {
+          include: {
+            usuario: true,
+          },
+        },
+      },
+    });
+  }
+
+  async findActiveProfesoresByLicencia(licencia) {
+    return this.prisma.profesor.findMany({
+      where: {
+        activo: true,
+        permisosLicencias: {
+          has: licencia,
+        },
+      },
+      include: {
+        usuario: true,
+      },
+      orderBy: {
+        usuario: {
+          nombre: "asc",
+        },
+      },
+    });
+  }
+
+  async findProfesorById(id) {
+    return this.prisma.profesor.findUnique({
+      where: {
+        id,
+      },
       include: {
         usuario: true,
       },

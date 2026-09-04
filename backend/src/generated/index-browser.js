@@ -270,6 +270,10 @@ exports.Prisma.PromocionScalarFieldEnum = {
   fechaInicio: 'fechaInicio',
   fechaFin: 'fechaFin',
   activa: 'activa',
+  requiereCarnetEstudiante: 'requiereCarnetEstudiante',
+  edadMinima: 'edadMinima',
+  edadMaxima: 'edadMaxima',
+  requiereFidelidad: 'requiereFidelidad',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -294,6 +298,20 @@ exports.Prisma.MatriculaScalarFieldEnum = {
   fechaCreacion: 'fechaCreacion',
   fechaPago: 'fechaPago',
   observaciones: 'observaciones'
+};
+
+exports.Prisma.FacturaScalarFieldEnum = {
+  id: 'id',
+  numero: 'numero',
+  alumnoId: 'alumnoId',
+  matriculaId: 'matriculaId',
+  concepto: 'concepto',
+  baseImponible: 'baseImponible',
+  descuento: 'descuento',
+  total: 'total',
+  estado: 'estado',
+  fechaEmision: 'fechaEmision',
+  fechaPago: 'fechaPago'
 };
 
 exports.Prisma.SortOrder = {
@@ -333,7 +351,8 @@ exports.Prisma.ModelName = {
   Examen: 'Examen',
   Promocion: 'Promocion',
   TarifaMatricula: 'TarifaMatricula',
-  Matricula: 'Matricula'
+  Matricula: 'Matricula',
+  Factura: 'Factura'
 };
 
 /**

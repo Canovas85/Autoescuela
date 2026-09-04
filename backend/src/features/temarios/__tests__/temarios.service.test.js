@@ -28,7 +28,7 @@ describe("TemariosService", () => {
     expect(repositoryMock.create).toHaveBeenCalledWith({
       titulo: "Señales",
       descripcion: "Temario base",
-      tipoLicenciaObjetivo: "B",
+      tipoLicenciaObjetivo: ["B"],
       orden: 1,
     });
     expect(result).toEqual(temarioCreado);
@@ -64,7 +64,7 @@ describe("TemariosService", () => {
         tipoLicenciaObjetivo: "X",
         orden: 1,
       }),
-    ).rejects.toThrow("El tipo de licencia objetivo no es válido");
+    ).rejects.toThrow("Licencias objetivo no válidas: X");
   });
 
   it("debe lanzar un error cuando el orden no es un entero válido", async () => {
@@ -331,7 +331,7 @@ describe("TemariosService", () => {
     expect(repositoryMock.update).toHaveBeenCalledWith("temario-1", {
       titulo: "Prioridad",
       descripcion: null,
-      tipoLicenciaObjetivo: "B",
+      tipoLicenciaObjetivo: ["B"],
       orden: 2,
     });
     expect(result).toEqual(temarioActualizado);

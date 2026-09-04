@@ -227,7 +227,7 @@ const menus = {
     {
       label: "Vehículos",
       icon: <CommuteIcon />,
-      path: "/vehiculos",
+      path: "/profesor-vehiculos",
     },
   ],
 

@@ -83,12 +83,12 @@ model Temario {
   id                   String            @id @default(uuid())
   titulo               String
   descripcion          String?
-  tipoLicenciaObjetivo String
+  tipoLicenciaObjetivo String[]
   orden                Int               @default(0)
   progreso             TemarioProgreso[]
   testsPractica        TestPractica[]
 
-  @@index([tipoLicenciaObjetivo])
+  @@index([tipoLicenciaObjetivo], type: Gin)
   @@map("temarios")
 }
 

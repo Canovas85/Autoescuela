@@ -230,11 +230,16 @@ describe("AlumnosRepository", () => {
       where: {
         id: "alumno-1",
       },
-      data: {
+      data: expect.objectContaining({
         tipoLicenciaObjetivo: "B",
-      },
+      }),
       include: {
         usuario: true,
+        profesorAsignado: {
+          include: {
+            usuario: true,
+          },
+        },
       },
     });
 

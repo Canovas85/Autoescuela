@@ -53,6 +53,20 @@ describe("Alumnos Routes", () => {
     expect(response.status).toBe(401);
   });
 
+  it("debe exponer GET /api/alumnos/:id/profesores-elegibles", async () => {
+    const app = express();
+
+    app.use(express.json());
+
+    app.use("/api/alumnos", alumnosRoutes);
+
+    const response = await request(app).get(
+      "/api/alumnos/alumno-1/profesores-elegibles",
+    );
+
+    expect(response.status).toBe(401);
+  });
+
   it("debe exponer GET /api/alumnos/:id", async () => {
     const app = express();
 

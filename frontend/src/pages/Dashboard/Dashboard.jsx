@@ -269,15 +269,12 @@ export default function Dashboard() {
 
         const decoded = token ? jwtDecode(token) : null;
 
-        if (decoded?.rol === "PROFESOR") {
-          setMetrics({});
-          return;
-        }
-
         const endpoint =
           decoded?.rol === "ALUMNO"
             ? "/dashboard/student"
-            : "/dashboard/executive";
+            : decoded?.rol === "PROFESOR"
+              ? "/dashboard/professor"
+              : "/dashboard/executive";
 
         const response = await api.get(endpoint);
 
@@ -295,7 +292,7 @@ export default function Dashboard() {
   }
 
   if (role === "PROFESOR") {
-    return <ProfessorDashboard />;
+    return <ProfessorDashboard data={metrics} />;
   }
 
   if (role === "ALUMNO") {

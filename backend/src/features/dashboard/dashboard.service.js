@@ -382,4 +382,273 @@ export class DashboardService {
       topProfesorByHours: await this.getTopProfesorPorHoras(),
     };
   }
+
+  async getProfessorDashboard(userId) {
+    const profile = await this.repository.getProfessorProfile(userId);
+
+    if (!profile) {
+      throw new Error("Profesor no encontrado");
+    }
+
+    const permisosLicencias = Array.isArray(profile.permisosLicencias)
+      ? profile.permisosLicencias
+      : [];
+
+    const [alumnosAsignados, vehiculosDisponibles] = await Promise.all([
+      this.repository.getProfessorAssignedStudents(userId),
+      this.repository.getProfessorAvailableVehicles(permisosLicencias),
+    ]);
+
+    const alumnos = (alumnosAsignados || []).map((alumno) => {
+      const matriculaActual = alumno.matriculas?.[0] ?? null;
+
+      return {
+        id: alumno.id,
+        nombre: alumno.usuario?.nombre ?? "Alumno",
+        email: alumno.usuario?.email ?? "",
+        telefono: alumno.usuario?.telefono ?? "",
+        tipoLicenciaObjetivo: alumno.tipoLicenciaObjetivo,
+        horasPracticasCompletadas: alumno.horasPracticasCompletadas ?? 0,
+        matriculaEstado: matriculaActual?.estado ?? "PENDIENTE",
+      };
+    });
+
+    const vehiculos = (vehiculosDisponibles || []).map((vehiculo) => ({
+      id: vehiculo.id,
+      matricula: vehiculo.matricula,
+      marca: vehiculo.marca,
+      modelo: vehiculo.modelo,
+      tipoPermiso: vehiculo.tipoPermiso,
+    }));
+
+    const alumnosMatriculaPagada = alumnos.filter(
+      (alumno) => alumno.matriculaEstado === "PAGADA",
+    ).length;
+
+    return {
+      perfil: {
+        id: profile.id,
+        nombre: profile.usuario?.nombre ?? "Profesor",
+        email: profile.usuario?.email ?? "",
+        permisosLicencias,
+      },
+      resumen: {
+        alumnosAsignados: alumnos.length,
+        alumnosMatriculaPagada,
+        vehiculosDisponibles: vehiculos.length,
+      },
+      alumnos,
+      vehiculos,
+    };
+  }
+
+  async getProfessorStudents(userId) {
+    const profile = await this.repository.getProfessorProfile(userId);
+
+    if (!profile) {
+      throw new Error("Profesor no encontrado");
+    }
+
+    const alumnosAsignados =
+      await this.repository.getProfessorAssignedStudents(userId);
+
+    return (alumnosAsignados || []).map((alumno) => {
+      const matriculaActual = alumno.matriculas?.[0] ?? null;
+
+      return {
+        id: alumno.id,
+        nombre: alumno.usuario?.nombre ?? "Alumno",
+        email: alumno.usuario?.email ?? "",
+        telefono: alumno.usuario?.telefono ?? "",
+        tipoLicenciaObjetivo: alumno.tipoLicenciaObjetivo,
+        horasPracticasCompletadas: alumno.horasPracticasCompletadas ?? 0,
+        matriculaEstado: matriculaActual?.estado ?? "PENDIENTE",
+      };
+    });
+  }
+
+  async getProfessorStudentDetail(userId, alumnoId) {
+    const alumno = await this.repository.findProfessorAssignedStudentById(
+      userId,
+      alumnoId,
+    );
+
+    if (!alumno) {
+      throw new Error("Alumno no encontrado o no asignado a este profesor");
+    }
+
+    const matriculaActual = alumno.matriculas?.[0] ?? null;
+    const tests = Array.isArray(alumno.testsPractica)
+      ? alumno.testsPractica
+      : [];
+    const clases = Array.isArray(alumno.clases) ? alumno.clases : [];
+
+    const testsAprobados = tests.filter(
+      (test) => test.resultado === "APROBADO",
+    ).length;
+    const testsSuspendidos = tests.filter(
+      (test) => test.resultado === "SUSPENDIDO",
+    ).length;
+    const testsTotales = tests.length;
+
+    const porcentajeAprobado =
+      testsTotales === 0 ? 0 : (testsAprobados / testsTotales) * 100;
+
+    const areasRefuerzoMap = new Map();
+
+    for (const test of tests) {
+      if (test.resultado !== "SUSPENDIDO") {
+        continue;
+      }
+
+      const key = test.temario?.titulo || "Temario general";
+      areasRefuerzoMap.set(key, (areasRefuerzoMap.get(key) || 0) + 1);
+    }
+
+    const areasRefuerzo = [...areasRefuerzoMap.entries()]
+      .map(([tema, fallos]) => ({ tema, fallos }))
+      .sort((a, b) => b.fallos - a.fallos)
+      .slice(0, 5);
+
+    const proximasClases = clases
+      .filter(
+        (clase) =>
+          clase.estado === "PROGRAMADA" && new Date(clase.fecha) >= new Date(),
+      )
+      .map((clase) => ({
+        id: clase.id,
+        fecha: clase.fecha,
+        duracion: clase.duracion,
+        estado: clase.estado,
+        vehiculo: clase.vehiculo
+          ? {
+              matricula: clase.vehiculo.matricula,
+              marca: clase.vehiculo.marca,
+              modelo: clase.vehiculo.modelo,
+            }
+          : null,
+      }));
+
+    const clasesRealizadas = clases.filter(
+      (clase) => clase.estado === "REALIZADA" || clase.estado === "COMPLETADA",
+    ).length;
+
+    const horasPracticas = alumno.horasPracticasCompletadas ?? 0;
+    const preparadoParaTeorico = testsTotales >= 10 && porcentajeAprobado >= 80;
+    const preparadoParaPractico =
+      horasPracticas >= 20 &&
+      clasesRealizadas >= 15 &&
+      proximasClases.length <= 3;
+
+    const estadoGeneral =
+      preparadoParaTeorico && preparadoParaPractico
+        ? "EXCELENTE"
+        : preparadoParaTeorico || preparadoParaPractico
+          ? "BUENA_EVOLUCION"
+          : porcentajeAprobado >= 60 || horasPracticas >= 10
+            ? "EN_PROGRESO"
+            : "REQUIERE_REFUERZO";
+
+    return {
+      perfil: {
+        id: alumno.id,
+        nombre: alumno.usuario?.nombre ?? "Alumno",
+        email: alumno.usuario?.email ?? "",
+        telefono: alumno.usuario?.telefono ?? "",
+        dni: alumno.usuario?.dni ?? "",
+        tipoLicenciaObjetivo: alumno.tipoLicenciaObjetivo,
+        matriculaEstado: matriculaActual?.estado ?? "PENDIENTE",
+        horasPracticasCompletadas: horasPracticas,
+      },
+      tests: {
+        total: testsTotales,
+        aprobados: testsAprobados,
+        suspendidos: testsSuspendidos,
+        porcentajeAprobado,
+      },
+      areasRefuerzo,
+      practica: {
+        clasesRealizadas,
+        proximasClases,
+      },
+      evaluacion: {
+        estadoGeneral,
+        preparadoParaTeorico,
+        preparadoParaPractico,
+      },
+    };
+  }
+
+  async getProfessorVehicles(userId) {
+    const profile = await this.repository.getProfessorProfile(userId);
+
+    if (!profile) {
+      throw new Error("Profesor no encontrado");
+    }
+
+    const permisosLicencias = Array.isArray(profile.permisosLicencias)
+      ? profile.permisosLicencias
+      : [];
+
+    const vehiculos =
+      await this.repository.getProfessorAvailableVehicles(permisosLicencias);
+
+    return vehiculos.map((vehiculo) => ({
+      id: vehiculo.id,
+      matricula: vehiculo.matricula,
+      marca: vehiculo.marca,
+      modelo: vehiculo.modelo,
+      tipoPermiso: vehiculo.tipoPermiso,
+    }));
+  }
+
+  async getProfessorVehicleSchedule(userId, vehiculoId) {
+    const profile = await this.repository.getProfessorProfile(userId);
+
+    if (!profile) {
+      throw new Error("Profesor no encontrado");
+    }
+
+    const permisosLicencias = Array.isArray(profile.permisosLicencias)
+      ? profile.permisosLicencias
+      : [];
+
+    const vehiculo = await this.repository.findProfessorVehicleById(
+      permisosLicencias,
+      vehiculoId,
+    );
+
+    if (!vehiculo) {
+      throw new Error(
+        "Vehículo no encontrado o no compatible con los permisos del profesor",
+      );
+    }
+
+    const clases = await this.repository.getVehicleScheduledClasses(vehiculoId);
+
+    const reservas = clases.map((clase) => ({
+      id: clase.id,
+      fecha: clase.fecha,
+      duracion: clase.duracion,
+      estado: clase.estado,
+      profesorId: clase.profesorId,
+      profesorNombre: clase.profesor?.usuario?.nombre ?? "Profesor",
+      esMiClase: clase.profesorId === userId,
+      alumno: {
+        id: clase.alumnoId,
+        nombre: clase.alumno?.usuario?.nombre ?? "Alumno",
+      },
+    }));
+
+    return {
+      vehiculo: {
+        id: vehiculo.id,
+        matricula: vehiculo.matricula,
+        marca: vehiculo.marca,
+        modelo: vehiculo.modelo,
+        tipoPermiso: vehiculo.tipoPermiso,
+      },
+      reservas,
+    };
+  }
 }

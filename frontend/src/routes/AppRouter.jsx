@@ -32,6 +32,8 @@ import Matriculas from "../pages/Matriculas/Matriculas";
 import PagoMatricula from "../pages/Matriculas/PagoMatricula";
 import Facturas from "../pages/Facturas/Facturas";
 import MisFacturas from "../pages/Facturas/MisFacturas";
+import ProfesorAlumnos from "../pages/ProfesorAlumnos/ProfesorAlumnos";
+import ProfesorVehiculos from "../pages/ProfesorVehiculos/ProfesorVehiculos";
 
 function RequireAuth() {
   const token = localStorage.getItem("token");
@@ -69,10 +71,15 @@ export default function AppRouter() {
               <Route path="/dashboard" element={<Dashboard />} />
 
               <Route path="/alumnos" element={<Alumnos />} />
+              <Route path="/profesor-alumnos" element={<ProfesorAlumnos />} />
 
               <Route path="/profesores" element={<Profesores />} />
 
               <Route path="/vehiculos" element={<Vehiculos />} />
+              <Route
+                path="/profesor-vehiculos"
+                element={<ProfesorVehiculos />}
+              />
 
               <Route path="/temarios" element={<Temarios />} />
 

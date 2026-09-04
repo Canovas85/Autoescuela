@@ -418,4 +418,156 @@ describe("DashboardService", () => {
     expect(result.examenes.teoricos).toHaveLength(1);
     expect(result.examenes.practicos).toHaveLength(1);
   });
+
+  it("debe devolver el dashboard del profesor con alumnos y vehículos", async () => {
+    const repositoryMock = {
+      getProfessorProfile: vi.fn().mockResolvedValue({
+        id: "profesor-1",
+        permisosLicencias: ["B", "A2"],
+        usuario: {
+          nombre: "Profesor Demo",
+          email: "profesor@demo.com",
+        },
+      }),
+      getProfessorAssignedStudents: vi.fn().mockResolvedValue([
+        {
+          id: "alumno-1",
+          tipoLicenciaObjetivo: "B",
+          horasPracticasCompletadas: 8,
+          usuario: {
+            nombre: "Alumno Uno",
+            email: "alumno1@demo.com",
+            telefono: "600000001",
+          },
+          matriculas: [{ estado: "PAGADA" }],
+        },
+      ]),
+      getProfessorAvailableVehicles: vi.fn().mockResolvedValue([
+        {
+          id: "vehiculo-1",
+          matricula: "1234ABC",
+          marca: "Seat",
+          modelo: "Ibiza",
+          tipoPermiso: "B",
+        },
+      ]),
+    };
+
+    const service = new DashboardService(repositoryMock);
+
+    const result = await service.getProfessorDashboard("profesor-1");
+
+    expect(repositoryMock.getProfessorProfile).toHaveBeenCalledWith(
+      "profesor-1",
+    );
+    expect(repositoryMock.getProfessorAssignedStudents).toHaveBeenCalledWith(
+      "profesor-1",
+    );
+    expect(repositoryMock.getProfessorAvailableVehicles).toHaveBeenCalledWith([
+      "B",
+      "A2",
+    ]);
+    expect(result.resumen.alumnosAsignados).toBe(1);
+    expect(result.resumen.alumnosMatriculaPagada).toBe(1);
+    expect(result.resumen.vehiculosDisponibles).toBe(1);
+  });
+
+  it("debe devolver el detalle de un alumno asignado a profesor", async () => {
+    const repositoryMock = {
+      findProfessorAssignedStudentById: vi.fn().mockResolvedValue({
+        id: "alumno-1",
+        tipoLicenciaObjetivo: "B",
+        horasPracticasCompletadas: 22,
+        usuario: {
+          nombre: "Alumno Uno",
+          email: "alumno1@demo.com",
+          telefono: "600000001",
+          dni: "12345678A",
+        },
+        matriculas: [{ estado: "PAGADA" }],
+        testsPractica: [
+          { resultado: "APROBADO", temario: { titulo: "Señales" } },
+          { resultado: "SUSPENDIDO", temario: { titulo: "Prioridad" } },
+        ],
+        clases: [
+          {
+            id: "clase-1",
+            fecha: new Date(Date.now() + 3600 * 1000),
+            duracion: 60,
+            estado: "PROGRAMADA",
+            vehiculo: {
+              matricula: "1234ABC",
+              marca: "Seat",
+              modelo: "Ibiza",
+            },
+          },
+          {
+            id: "clase-2",
+            fecha: new Date(Date.now() - 3600 * 1000),
+            duracion: 45,
+            estado: "REALIZADA",
+            vehiculo: null,
+          },
+        ],
+      }),
+    };
+
+    const service = new DashboardService(repositoryMock);
+
+    const result = await service.getProfessorStudentDetail(
+      "profesor-1",
+      "alumno-1",
+    );
+
+    expect(
+      repositoryMock.findProfessorAssignedStudentById,
+    ).toHaveBeenCalledWith("profesor-1", "alumno-1");
+    expect(result.tests.aprobados).toBe(1);
+    expect(result.tests.suspendidos).toBe(1);
+    expect(result.practica.clasesRealizadas).toBe(1);
+    expect(result.practica.proximasClases).toHaveLength(1);
+  });
+
+  it("debe devolver reservas de un vehículo compatible del profesor", async () => {
+    const repositoryMock = {
+      getProfessorProfile: vi.fn().mockResolvedValue({
+        id: "profesor-1",
+        permisosLicencias: ["B"],
+      }),
+      findProfessorVehicleById: vi.fn().mockResolvedValue({
+        id: "vehiculo-1",
+        matricula: "1234ABC",
+        marca: "Seat",
+        modelo: "Ibiza",
+        tipoPermiso: "B",
+      }),
+      getVehicleScheduledClasses: vi.fn().mockResolvedValue([
+        {
+          id: "clase-1",
+          fecha: new Date(Date.now() + 3600 * 1000),
+          duracion: 60,
+          estado: "PROGRAMADA",
+          profesorId: "profesor-1",
+          profesor: { usuario: { nombre: "Profesor Demo" } },
+          alumnoId: "alumno-1",
+          alumno: { usuario: { nombre: "Alumno Uno" } },
+        },
+      ]),
+    };
+
+    const service = new DashboardService(repositoryMock);
+
+    const result = await service.getProfessorVehicleSchedule(
+      "profesor-1",
+      "vehiculo-1",
+    );
+
+    expect(repositoryMock.findProfessorVehicleById).toHaveBeenCalledWith(
+      ["B"],
+      "vehiculo-1",
+    );
+    expect(result.vehiculo.id).toBe("vehiculo-1");
+    expect(result.reservas).toHaveLength(1);
+    expect(result.reservas[0].esMiClase).toBe(true);
+  });
 });

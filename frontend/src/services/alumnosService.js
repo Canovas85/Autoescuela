@@ -42,6 +42,11 @@ export const alumnosService = {
     return response.data;
   },
 
+  async getEligibleProfesores(id) {
+    const response = await api.get(`/alumnos/${id}/profesores-elegibles`);
+    return response.data;
+  },
+
   async update(id, data) {
     const token = localStorage.getItem("token");
 

@@ -143,6 +143,13 @@ router.get(
  */
 
 router.get(
+  "/:id/profesores-elegibles",
+  authenticate,
+  authorize("ADMIN"),
+  controller.getEligibleProfesores.bind(controller),
+);
+
+router.get(
   "/:id",
   authenticate,
   authorize("ADMIN"),

@@ -70,4 +70,18 @@ export class AlumnosController {
       });
     }
   }
+
+  async getEligibleProfesores(req, res) {
+    try {
+      const profesores = await this.service.getEligibleProfesoresForAlumno(
+        req.params.id,
+      );
+
+      return res.status(200).json(profesores);
+    } catch (error) {
+      return res.status(400).json({
+        message: error.message,
+      });
+    }
+  }
 }

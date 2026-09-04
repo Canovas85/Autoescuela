@@ -27,16 +27,32 @@ import { temariosService } from "../../services/temariosService";
 import TemarioHero from "./TemarioHero";
 
 const LICENCIAS = ["B", "A1", "A2", "A", "C", "D", "E"];
+const LICENCIAS_MOTO = ["A1", "A2", "A"];
+
+const LICENCIAS_FILTRO = [
+  { value: "B", label: "B Turismos" },
+  { value: "A_MOTOS", label: "A1, A2 y A Motocicletas" },
+  { value: "C", label: "C Camiones" },
+  { value: "D", label: "D Autobuses" },
+  { value: "E", label: "E Remolques y Conjuntos de Vehiculos" },
+];
+
+const toLicenciasArray = (valor) => {
+  if (Array.isArray(valor)) return valor;
+  if (typeof valor === "string" && valor.trim()) return [valor.trim()];
+  return [];
+};
 
 const emptyForm = {
   titulo: "",
   descripcion: "",
-  tipoLicenciaObjetivo: "B",
+  tipoLicenciaObjetivo: ["B"],
   orden: 0,
 };
 
 export default function Temarios() {
   const [rows, setRows] = useState([]);
+  const [filtroLicencia, setFiltroLicencia] = useState("");
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(emptyForm);
@@ -73,7 +89,19 @@ export default function Temarios() {
     loadTemarios();
   }, []);
 
-  const filteredRows = useMemo(() => rows, [rows]);
+  const filteredRows = useMemo(() => {
+    if (!filtroLicencia) return rows;
+
+    return rows.filter((row) => {
+      const licencias = toLicenciasArray(row.tipoLicenciaObjetivo);
+
+      if (filtroLicencia === "A_MOTOS") {
+        return licencias.some((licencia) => LICENCIAS_MOTO.includes(licencia));
+      }
+
+      return licencias.includes(filtroLicencia);
+    });
+  }, [rows, filtroLicencia]);
 
   const resetForm = () => {
     setForm(emptyForm);
@@ -90,7 +118,7 @@ export default function Temarios() {
     setForm({
       titulo: row.titulo || "",
       descripcion: row.descripcion || "",
-      tipoLicenciaObjetivo: row.tipoLicenciaObjetivo || "B",
+      tipoLicenciaObjetivo: toLicenciasArray(row.tipoLicenciaObjetivo),
       orden: row.orden ?? 0,
     });
     setOpen(true);
@@ -153,6 +181,7 @@ export default function Temarios() {
     try {
       const payload = {
         ...form,
+        tipoLicenciaObjetivo: toLicenciasArray(form.tipoLicenciaObjetivo),
         orden: Number(form.orden),
       };
 
@@ -184,7 +213,15 @@ export default function Temarios() {
 
   const columns = [
     { field: "titulo", headerName: "Título", flex: 1.2 },
-    { field: "tipoLicenciaObjetivo", headerName: "Permiso", flex: 0.8 },
+    {
+      field: "tipoLicenciaObjetivo",
+      headerName: "Permisos",
+      flex: 1,
+      renderCell: (params) => {
+        const licencias = toLicenciasArray(params.row.tipoLicenciaObjetivo);
+        return licencias.length > 0 ? licencias.join(", ") : "-";
+      },
+    },
     { field: "orden", headerName: "Orden", flex: 0.6 },
     {
       field: "descripcion",
@@ -252,6 +289,46 @@ export default function Temarios() {
             Gestión de contenido teórico asociado al permiso objetivo.
           </Typography>
         </Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            mb: 2,
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 2,
+              width: "100%",
+              maxWidth: 560,
+              justifyContent: "center",
+            }}
+          >
+            <Typography variant="subtitle1" fontWeight={600}>
+              Licencia
+            </Typography>
+
+            <FormControl size="small" sx={{ minWidth: 340 }}>
+              <InputLabel id="filtro-licencia-label">Licencia</InputLabel>
+              <Select
+                labelId="filtro-licencia-label"
+                label="Licencia"
+                value={filtroLicencia}
+                onChange={(event) => setFiltroLicencia(event.target.value)}
+              >
+                <MenuItem value="">Todas</MenuItem>
+                {LICENCIAS_FILTRO.map((licencia) => (
+                  <MenuItem key={licencia.value} value={licencia.value}>
+                    {licencia.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+        </Box>
         <Button
           variant="contained"
           startIcon={<AddIcon />}
@@ -299,16 +376,21 @@ export default function Temarios() {
             }
           />
           <FormControl fullWidth>
-            <InputLabel>Permiso</InputLabel>
+            <InputLabel id="permisos-label">Permisos</InputLabel>
             <Select
-              label="Permiso"
+              labelId="permisos-label"
+              multiple
+              label="Permisos"
               value={form.tipoLicenciaObjetivo}
-              onChange={(event) =>
+              renderValue={(selected) => selected.join(", ")}
+              onChange={(event) => {
+                const value = event.target.value;
                 setForm((prev) => ({
                   ...prev,
-                  tipoLicenciaObjetivo: event.target.value,
-                }))
-              }
+                  tipoLicenciaObjetivo:
+                    typeof value === "string" ? value.split(",") : value,
+                }));
+              }}
             >
               {LICENCIAS.map((licencia) => (
                 <MenuItem key={licencia} value={licencia}>

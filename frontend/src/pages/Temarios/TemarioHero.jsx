@@ -56,9 +56,6 @@ export default function TemarioHero({ mode = "admin" }) {
             }}
           >
             TEMARIOS PERMISO DE CONDUCIR{" "}
-            <Box component="span" sx={{ color: "#6ee7b7" }}>
-              B
-            </Box>
           </Typography>
 
           <Typography

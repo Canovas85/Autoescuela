@@ -211,6 +211,178 @@ export class DashboardRepository {
       examenes,
     };
   }
+
+  async getProfessorProfile(userId) {
+    return this.prisma.profesor.findUnique({
+      where: {
+        id: userId,
+      },
+      include: {
+        usuario: {
+          select: {
+            nombre: true,
+            email: true,
+          },
+        },
+      },
+    });
+  }
+
+  async getProfessorAssignedStudents(userId) {
+    return this.prisma.alumno.findMany({
+      where: {
+        profesorAsignadoId: userId,
+        activo: true,
+      },
+      include: {
+        usuario: {
+          select: {
+            nombre: true,
+            email: true,
+            telefono: true,
+          },
+        },
+        matriculas: {
+          orderBy: {
+            fechaCreacion: "desc",
+          },
+          take: 1,
+        },
+      },
+      orderBy: {
+        usuario: {
+          nombre: "asc",
+        },
+      },
+    });
+  }
+
+  async findProfessorAssignedStudentById(profesorId, alumnoId) {
+    return this.prisma.alumno.findFirst({
+      where: {
+        id: alumnoId,
+        profesorAsignadoId: profesorId,
+      },
+      include: {
+        usuario: {
+          select: {
+            nombre: true,
+            email: true,
+            telefono: true,
+            dni: true,
+          },
+        },
+        matriculas: {
+          orderBy: {
+            fechaCreacion: "desc",
+          },
+          take: 1,
+        },
+        testsPractica: {
+          include: {
+            temario: {
+              select: {
+                titulo: true,
+              },
+            },
+          },
+          orderBy: {
+            fecha: "desc",
+          },
+        },
+        clases: {
+          include: {
+            vehiculo: {
+              select: {
+                matricula: true,
+                marca: true,
+                modelo: true,
+              },
+            },
+            profesor: {
+              include: {
+                usuario: {
+                  select: {
+                    nombre: true,
+                  },
+                },
+              },
+            },
+          },
+          orderBy: {
+            fecha: "asc",
+          },
+        },
+      },
+    });
+  }
+
+  async getProfessorAvailableVehicles(permisosLicencias) {
+    if (!Array.isArray(permisosLicencias) || permisosLicencias.length === 0) {
+      return [];
+    }
+
+    return this.prisma.vehiculo.findMany({
+      where: {
+        activo: true,
+        tipoPermiso: {
+          in: permisosLicencias,
+        },
+      },
+      orderBy: [{ tipoPermiso: "asc" }, { matricula: "asc" }],
+    });
+  }
+
+  async findProfessorVehicleById(permisosLicencias, vehiculoId) {
+    if (!Array.isArray(permisosLicencias) || permisosLicencias.length === 0) {
+      return null;
+    }
+
+    return this.prisma.vehiculo.findFirst({
+      where: {
+        id: vehiculoId,
+        activo: true,
+        tipoPermiso: {
+          in: permisosLicencias,
+        },
+      },
+    });
+  }
+
+  async getVehicleScheduledClasses(vehiculoId) {
+    return this.prisma.clasePractica.findMany({
+      where: {
+        vehiculoId,
+        estado: "PROGRAMADA",
+        fecha: {
+          gte: new Date(),
+        },
+      },
+      include: {
+        alumno: {
+          include: {
+            usuario: {
+              select: {
+                nombre: true,
+              },
+            },
+          },
+        },
+        profesor: {
+          include: {
+            usuario: {
+              select: {
+                nombre: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        fecha: "asc",
+      },
+    });
+  }
   async getTotalExamenesPendientes() {
     return this.prisma.examen.count({
       where: {
