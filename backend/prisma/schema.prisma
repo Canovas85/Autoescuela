@@ -12,16 +12,16 @@ datasource db {
 model Usuario {
   id                     String             @id @default(uuid())
   nombre                 String
-  dni                    String?            @unique
   email                  String             @unique
-  telefono               String?
   passwordHash           String
-  requiereCambioPassword Boolean            @default(true)
   rol                    Rol
   fechaCreacion          DateTime           @default(now())
+  telefono               String?
+  dni                    String?            @unique
+  requiereCambioPassword Boolean            @default(true)
+  activacionesCuenta     ActivacionCuenta[]
   alumno                 Alumno?
   profesor               Profesor?
-  activacionesCuenta     ActivacionCuenta[]
 
   @@map("usuarios")
 }
@@ -46,35 +46,34 @@ model ActivacionCuenta {
 model Profesor {
   id                String          @id
   licenciaConducir  String
-  permisosLicencias String[]        @default([])
   telefono          String
   activo            Boolean         @default(true)
+  permisosLicencias String[]        @default([])
   alumnosAsignados  Alumno[]
-  clases            ClasePractica[]
   clasesDirecto     ClaseDirecto[]
+  clases            ClasePractica[]
   usuario           Usuario         @relation(fields: [id], references: [id], onDelete: Cascade)
 
   @@map("profesores")
 }
 
 model Alumno {
-  id                        String    @id
+  id                        String            @id
   tipoLicenciaObjetivo      String
+  horasPracticasCompletadas Int               @default(0)
+  profesorAsignadoId        String?
+  activo                    Boolean           @default(true)
   fechaNacimiento           DateTime?
-  horasPracticasCompletadas Int       @default(0)
-
-  profesorAsignadoId String?
-  usuario            Usuario           @relation(fields: [id], references: [id], onDelete: Cascade)
-  profesorAsignado   Profesor?         @relation(fields: [profesorAsignadoId], references: [id])
-  activo             Boolean           @default(true)
-  clases             ClasePractica[]
-  examenes           Examen[]
-  testsPractica      TestPractica[]
-  temariosProgreso   TemarioProgreso[]
-  bonosComprados     CompraBono[]
-  solicitudesExamen  SolicitudExamen[]
-  matriculas         Matricula[]
-  facturas           Factura[]
+  usuario                   Usuario           @relation(fields: [id], references: [id], onDelete: Cascade)
+  profesorAsignado          Profesor?         @relation(fields: [profesorAsignadoId], references: [id])
+  clases                    ClasePractica[]
+  bonosComprados            CompraBono[]
+  examenes                  Examen[]
+  facturas                  Factura[]
+  matriculas                Matricula[]
+  solicitudesExamen         SolicitudExamen[]
+  temariosProgreso          TemarioProgreso[]
+  testsPractica             TestPractica[]
 
   @@map("alumnos")
 }
@@ -83,8 +82,8 @@ model Temario {
   id                   String            @id @default(uuid())
   titulo               String
   descripcion          String?
-  tipoLicenciaObjetivo String[]
   orden                Int               @default(0)
+  tipoLicenciaObjetivo String[]
   progreso             TemarioProgreso[]
   testsPractica        TestPractica[]
 
@@ -195,8 +194,8 @@ model Vehiculo {
   marca       String?
   modelo      String?
   tipoPermiso String
-  imagenRuta  String?
   activo      Boolean         @default(true)
+  imagenRuta  String?
   clases      ClasePractica[]
 
   @@map("vehiculos")
@@ -235,31 +234,23 @@ model Examen {
 }
 
 model Promocion {
-  id String @id @default(uuid())
-
-  nombre      String
-  descripcion String?
-
-  precioOriginal    Decimal @db.Decimal(10, 2)
-  precioPromocional Decimal @db.Decimal(10, 2)
-
-  licenciasAplicables String[]
-
-  imagenRuta String?
-
-  fechaInicio DateTime?
-  fechaFin    DateTime?
-
-  activa Boolean @default(true)
-
-  requiereCarnetEstudiante Boolean @default(false)
+  id                       String      @id @default(uuid())
+  nombre                   String
+  descripcion              String?
+  precioOriginal           Decimal     @db.Decimal(10, 2)
+  precioPromocional        Decimal     @db.Decimal(10, 2)
+  licenciasAplicables      String[]
+  imagenRuta               String?
+  fechaInicio              DateTime?
+  fechaFin                 DateTime?
+  activa                   Boolean     @default(true)
+  createdAt                DateTime    @default(now())
+  updatedAt                DateTime    @updatedAt
+  requiereCarnetEstudiante Boolean     @default(false)
   edadMinima               Int?
   edadMaxima               Int?
-  requiereFidelidad        Boolean @default(false)
-
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  matriculas Matricula[]
+  requiereFidelidad        Boolean     @default(false)
+  matriculas               Matricula[]
 
   @@map("promociones")
 }
@@ -286,9 +277,9 @@ model Matricula {
   fechaCreacion DateTime   @default(now())
   fechaPago     DateTime?
   observaciones String?
+  factura       Factura?
   alumno        Alumno     @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
   promocion     Promocion? @relation(fields: [promocionId], references: [id])
-  factura       Factura?
 
   @@index([alumnoId])
   @@index([estado])
@@ -296,20 +287,19 @@ model Matricula {
 }
 
 model Factura {
-  id            String   @id @default(uuid())
-  numero        String   @unique
+  id            String    @id @default(uuid())
+  numero        String    @unique
   alumnoId      String
-  matriculaId   String   @unique
+  matriculaId   String    @unique
   concepto      String
-  baseImponible Decimal  @db.Decimal(10, 2)
-  descuento     Decimal  @db.Decimal(10, 2)
-  total         Decimal  @db.Decimal(10, 2)
-  estado        String   @default("EMITIDA")
-  fechaEmision  DateTime @default(now())
+  baseImponible Decimal   @db.Decimal(10, 2)
+  descuento     Decimal   @db.Decimal(10, 2)
+  total         Decimal   @db.Decimal(10, 2)
+  estado        String    @default("EMITIDA")
+  fechaEmision  DateTime  @default(now())
   fechaPago     DateTime?
-
-  alumno    Alumno    @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
-  matricula Matricula @relation(fields: [matriculaId], references: [id], onDelete: Cascade)
+  alumno        Alumno    @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  matricula     Matricula @relation(fields: [matriculaId], references: [id], onDelete: Cascade)
 
   @@index([alumnoId])
   @@index([estado])

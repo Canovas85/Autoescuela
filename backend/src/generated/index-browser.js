@@ -124,13 +124,13 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.UsuarioScalarFieldEnum = {
   id: 'id',
   nombre: 'nombre',
-  dni: 'dni',
   email: 'email',
-  telefono: 'telefono',
   passwordHash: 'passwordHash',
-  requiereCambioPassword: 'requiereCambioPassword',
   rol: 'rol',
-  fechaCreacion: 'fechaCreacion'
+  fechaCreacion: 'fechaCreacion',
+  telefono: 'telefono',
+  dni: 'dni',
+  requiereCambioPassword: 'requiereCambioPassword'
 };
 
 exports.Prisma.ActivacionCuentaScalarFieldEnum = {
@@ -147,26 +147,26 @@ exports.Prisma.ActivacionCuentaScalarFieldEnum = {
 exports.Prisma.ProfesorScalarFieldEnum = {
   id: 'id',
   licenciaConducir: 'licenciaConducir',
-  permisosLicencias: 'permisosLicencias',
   telefono: 'telefono',
-  activo: 'activo'
+  activo: 'activo',
+  permisosLicencias: 'permisosLicencias'
 };
 
 exports.Prisma.AlumnoScalarFieldEnum = {
   id: 'id',
   tipoLicenciaObjetivo: 'tipoLicenciaObjetivo',
-  fechaNacimiento: 'fechaNacimiento',
   horasPracticasCompletadas: 'horasPracticasCompletadas',
   profesorAsignadoId: 'profesorAsignadoId',
-  activo: 'activo'
+  activo: 'activo',
+  fechaNacimiento: 'fechaNacimiento'
 };
 
 exports.Prisma.TemarioScalarFieldEnum = {
   id: 'id',
   titulo: 'titulo',
   descripcion: 'descripcion',
-  tipoLicenciaObjetivo: 'tipoLicenciaObjetivo',
-  orden: 'orden'
+  orden: 'orden',
+  tipoLicenciaObjetivo: 'tipoLicenciaObjetivo'
 };
 
 exports.Prisma.TemarioProgresoScalarFieldEnum = {
@@ -237,8 +237,8 @@ exports.Prisma.VehiculoScalarFieldEnum = {
   marca: 'marca',
   modelo: 'modelo',
   tipoPermiso: 'tipoPermiso',
-  imagenRuta: 'imagenRuta',
-  activo: 'activo'
+  activo: 'activo',
+  imagenRuta: 'imagenRuta'
 };
 
 exports.Prisma.ClasePracticaScalarFieldEnum = {
@@ -270,12 +270,12 @@ exports.Prisma.PromocionScalarFieldEnum = {
   fechaInicio: 'fechaInicio',
   fechaFin: 'fechaFin',
   activa: 'activa',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   requiereCarnetEstudiante: 'requiereCarnetEstudiante',
   edadMinima: 'edadMinima',
   edadMaxima: 'edadMaxima',
-  requiereFidelidad: 'requiereFidelidad',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  requiereFidelidad: 'requiereFidelidad'
 };
 
 exports.Prisma.TarifaMatriculaScalarFieldEnum = {

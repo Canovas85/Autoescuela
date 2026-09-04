@@ -2458,14 +2458,14 @@ export namespace Prisma {
 
   export type ProfesorCountOutputType = {
     alumnosAsignados: number
-    clases: number
     clasesDirecto: number
+    clases: number
   }
 
   export type ProfesorCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumnosAsignados?: boolean | ProfesorCountOutputTypeCountAlumnosAsignadosArgs
-    clases?: boolean | ProfesorCountOutputTypeCountClasesArgs
     clasesDirecto?: boolean | ProfesorCountOutputTypeCountClasesDirectoArgs
+    clases?: boolean | ProfesorCountOutputTypeCountClasesArgs
   }
 
   // Custom InputTypes
@@ -2489,15 +2489,15 @@ export namespace Prisma {
   /**
    * ProfesorCountOutputType without action
    */
-  export type ProfesorCountOutputTypeCountClasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ClasePracticaWhereInput
+  export type ProfesorCountOutputTypeCountClasesDirectoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClaseDirectoWhereInput
   }
 
   /**
    * ProfesorCountOutputType without action
    */
-  export type ProfesorCountOutputTypeCountClasesDirectoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ClaseDirectoWhereInput
+  export type ProfesorCountOutputTypeCountClasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClasePracticaWhereInput
   }
 
 
@@ -2507,24 +2507,24 @@ export namespace Prisma {
 
   export type AlumnoCountOutputType = {
     clases: number
-    examenes: number
-    testsPractica: number
-    temariosProgreso: number
     bonosComprados: number
-    solicitudesExamen: number
-    matriculas: number
+    examenes: number
     facturas: number
+    matriculas: number
+    solicitudesExamen: number
+    temariosProgreso: number
+    testsPractica: number
   }
 
   export type AlumnoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     clases?: boolean | AlumnoCountOutputTypeCountClasesArgs
-    examenes?: boolean | AlumnoCountOutputTypeCountExamenesArgs
-    testsPractica?: boolean | AlumnoCountOutputTypeCountTestsPracticaArgs
-    temariosProgreso?: boolean | AlumnoCountOutputTypeCountTemariosProgresoArgs
     bonosComprados?: boolean | AlumnoCountOutputTypeCountBonosCompradosArgs
-    solicitudesExamen?: boolean | AlumnoCountOutputTypeCountSolicitudesExamenArgs
-    matriculas?: boolean | AlumnoCountOutputTypeCountMatriculasArgs
+    examenes?: boolean | AlumnoCountOutputTypeCountExamenesArgs
     facturas?: boolean | AlumnoCountOutputTypeCountFacturasArgs
+    matriculas?: boolean | AlumnoCountOutputTypeCountMatriculasArgs
+    solicitudesExamen?: boolean | AlumnoCountOutputTypeCountSolicitudesExamenArgs
+    temariosProgreso?: boolean | AlumnoCountOutputTypeCountTemariosProgresoArgs
+    testsPractica?: boolean | AlumnoCountOutputTypeCountTestsPracticaArgs
   }
 
   // Custom InputTypes
@@ -2548,27 +2548,6 @@ export namespace Prisma {
   /**
    * AlumnoCountOutputType without action
    */
-  export type AlumnoCountOutputTypeCountExamenesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ExamenWhereInput
-  }
-
-  /**
-   * AlumnoCountOutputType without action
-   */
-  export type AlumnoCountOutputTypeCountTestsPracticaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TestPracticaWhereInput
-  }
-
-  /**
-   * AlumnoCountOutputType without action
-   */
-  export type AlumnoCountOutputTypeCountTemariosProgresoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TemarioProgresoWhereInput
-  }
-
-  /**
-   * AlumnoCountOutputType without action
-   */
   export type AlumnoCountOutputTypeCountBonosCompradosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CompraBonoWhereInput
   }
@@ -2576,8 +2555,15 @@ export namespace Prisma {
   /**
    * AlumnoCountOutputType without action
    */
-  export type AlumnoCountOutputTypeCountSolicitudesExamenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SolicitudExamenWhereInput
+  export type AlumnoCountOutputTypeCountExamenesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExamenWhereInput
+  }
+
+  /**
+   * AlumnoCountOutputType without action
+   */
+  export type AlumnoCountOutputTypeCountFacturasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FacturaWhereInput
   }
 
   /**
@@ -2590,8 +2576,22 @@ export namespace Prisma {
   /**
    * AlumnoCountOutputType without action
    */
-  export type AlumnoCountOutputTypeCountFacturasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FacturaWhereInput
+  export type AlumnoCountOutputTypeCountSolicitudesExamenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SolicitudExamenWhereInput
+  }
+
+  /**
+   * AlumnoCountOutputType without action
+   */
+  export type AlumnoCountOutputTypeCountTemariosProgresoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TemarioProgresoWhereInput
+  }
+
+  /**
+   * AlumnoCountOutputType without action
+   */
+  export type AlumnoCountOutputTypeCountTestsPracticaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TestPracticaWhereInput
   }
 
 
@@ -2745,37 +2745,37 @@ export namespace Prisma {
   export type UsuarioMinAggregateOutputType = {
     id: string | null
     nombre: string | null
-    dni: string | null
     email: string | null
-    telefono: string | null
     passwordHash: string | null
-    requiereCambioPassword: boolean | null
     rol: $Enums.Rol | null
     fechaCreacion: Date | null
+    telefono: string | null
+    dni: string | null
+    requiereCambioPassword: boolean | null
   }
 
   export type UsuarioMaxAggregateOutputType = {
     id: string | null
     nombre: string | null
-    dni: string | null
     email: string | null
-    telefono: string | null
     passwordHash: string | null
-    requiereCambioPassword: boolean | null
     rol: $Enums.Rol | null
     fechaCreacion: Date | null
+    telefono: string | null
+    dni: string | null
+    requiereCambioPassword: boolean | null
   }
 
   export type UsuarioCountAggregateOutputType = {
     id: number
     nombre: number
-    dni: number
     email: number
-    telefono: number
     passwordHash: number
-    requiereCambioPassword: number
     rol: number
     fechaCreacion: number
+    telefono: number
+    dni: number
+    requiereCambioPassword: number
     _all: number
   }
 
@@ -2783,37 +2783,37 @@ export namespace Prisma {
   export type UsuarioMinAggregateInputType = {
     id?: true
     nombre?: true
-    dni?: true
     email?: true
-    telefono?: true
     passwordHash?: true
-    requiereCambioPassword?: true
     rol?: true
     fechaCreacion?: true
+    telefono?: true
+    dni?: true
+    requiereCambioPassword?: true
   }
 
   export type UsuarioMaxAggregateInputType = {
     id?: true
     nombre?: true
-    dni?: true
     email?: true
-    telefono?: true
     passwordHash?: true
-    requiereCambioPassword?: true
     rol?: true
     fechaCreacion?: true
+    telefono?: true
+    dni?: true
+    requiereCambioPassword?: true
   }
 
   export type UsuarioCountAggregateInputType = {
     id?: true
     nombre?: true
-    dni?: true
     email?: true
-    telefono?: true
     passwordHash?: true
-    requiereCambioPassword?: true
     rol?: true
     fechaCreacion?: true
+    telefono?: true
+    dni?: true
+    requiereCambioPassword?: true
     _all?: true
   }
 
@@ -2892,13 +2892,13 @@ export namespace Prisma {
   export type UsuarioGroupByOutputType = {
     id: string
     nombre: string
-    dni: string | null
     email: string
-    telefono: string | null
     passwordHash: string
-    requiereCambioPassword: boolean
     rol: $Enums.Rol
     fechaCreacion: Date
+    telefono: string | null
+    dni: string | null
+    requiereCambioPassword: boolean
     _count: UsuarioCountAggregateOutputType | null
     _min: UsuarioMinAggregateOutputType | null
     _max: UsuarioMaxAggregateOutputType | null
@@ -2921,60 +2921,60 @@ export namespace Prisma {
   export type UsuarioSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     nombre?: boolean
-    dni?: boolean
     email?: boolean
-    telefono?: boolean
     passwordHash?: boolean
-    requiereCambioPassword?: boolean
     rol?: boolean
     fechaCreacion?: boolean
+    telefono?: boolean
+    dni?: boolean
+    requiereCambioPassword?: boolean
+    activacionesCuenta?: boolean | Usuario$activacionesCuentaArgs<ExtArgs>
     alumno?: boolean | Usuario$alumnoArgs<ExtArgs>
     profesor?: boolean | Usuario$profesorArgs<ExtArgs>
-    activacionesCuenta?: boolean | Usuario$activacionesCuentaArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["usuario"]>
 
   export type UsuarioSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     nombre?: boolean
-    dni?: boolean
     email?: boolean
-    telefono?: boolean
     passwordHash?: boolean
-    requiereCambioPassword?: boolean
     rol?: boolean
     fechaCreacion?: boolean
+    telefono?: boolean
+    dni?: boolean
+    requiereCambioPassword?: boolean
   }, ExtArgs["result"]["usuario"]>
 
   export type UsuarioSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     nombre?: boolean
-    dni?: boolean
     email?: boolean
-    telefono?: boolean
     passwordHash?: boolean
-    requiereCambioPassword?: boolean
     rol?: boolean
     fechaCreacion?: boolean
+    telefono?: boolean
+    dni?: boolean
+    requiereCambioPassword?: boolean
   }, ExtArgs["result"]["usuario"]>
 
   export type UsuarioSelectScalar = {
     id?: boolean
     nombre?: boolean
-    dni?: boolean
     email?: boolean
-    telefono?: boolean
     passwordHash?: boolean
-    requiereCambioPassword?: boolean
     rol?: boolean
     fechaCreacion?: boolean
+    telefono?: boolean
+    dni?: boolean
+    requiereCambioPassword?: boolean
   }
 
-  export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "dni" | "email" | "telefono" | "passwordHash" | "requiereCambioPassword" | "rol" | "fechaCreacion", ExtArgs["result"]["usuario"]>
+  export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "email" | "passwordHash" | "rol" | "fechaCreacion" | "telefono" | "dni" | "requiereCambioPassword", ExtArgs["result"]["usuario"]>
   export type UsuarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    activacionesCuenta?: boolean | Usuario$activacionesCuentaArgs<ExtArgs>
     alumno?: boolean | Usuario$alumnoArgs<ExtArgs>
     profesor?: boolean | Usuario$profesorArgs<ExtArgs>
-    activacionesCuenta?: boolean | Usuario$activacionesCuentaArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UsuarioIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2983,20 +2983,20 @@ export namespace Prisma {
   export type $UsuarioPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Usuario"
     objects: {
+      activacionesCuenta: Prisma.$ActivacionCuentaPayload<ExtArgs>[]
       alumno: Prisma.$AlumnoPayload<ExtArgs> | null
       profesor: Prisma.$ProfesorPayload<ExtArgs> | null
-      activacionesCuenta: Prisma.$ActivacionCuentaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       nombre: string
-      dni: string | null
       email: string
-      telefono: string | null
       passwordHash: string
-      requiereCambioPassword: boolean
       rol: $Enums.Rol
       fechaCreacion: Date
+      telefono: string | null
+      dni: string | null
+      requiereCambioPassword: boolean
     }, ExtArgs["result"]["usuario"]>
     composites: {}
   }
@@ -3391,9 +3391,9 @@ export namespace Prisma {
    */
   export interface Prisma__UsuarioClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    activacionesCuenta<T extends Usuario$activacionesCuentaArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$activacionesCuentaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivacionCuentaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     alumno<T extends Usuario$alumnoArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$alumnoArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     profesor<T extends Usuario$profesorArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$profesorArgs<ExtArgs>>): Prisma__ProfesorClient<$Result.GetResult<Prisma.$ProfesorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    activacionesCuenta<T extends Usuario$activacionesCuentaArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$activacionesCuentaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivacionCuentaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3425,13 +3425,13 @@ export namespace Prisma {
   interface UsuarioFieldRefs {
     readonly id: FieldRef<"Usuario", 'String'>
     readonly nombre: FieldRef<"Usuario", 'String'>
-    readonly dni: FieldRef<"Usuario", 'String'>
     readonly email: FieldRef<"Usuario", 'String'>
-    readonly telefono: FieldRef<"Usuario", 'String'>
     readonly passwordHash: FieldRef<"Usuario", 'String'>
-    readonly requiereCambioPassword: FieldRef<"Usuario", 'Boolean'>
     readonly rol: FieldRef<"Usuario", 'Rol'>
     readonly fechaCreacion: FieldRef<"Usuario", 'DateTime'>
+    readonly telefono: FieldRef<"Usuario", 'String'>
+    readonly dni: FieldRef<"Usuario", 'String'>
+    readonly requiereCambioPassword: FieldRef<"Usuario", 'Boolean'>
   }
     
 
@@ -3820,6 +3820,30 @@ export namespace Prisma {
   }
 
   /**
+   * Usuario.activacionesCuenta
+   */
+  export type Usuario$activacionesCuentaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivacionCuenta
+     */
+    select?: ActivacionCuentaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActivacionCuenta
+     */
+    omit?: ActivacionCuentaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivacionCuentaInclude<ExtArgs> | null
+    where?: ActivacionCuentaWhereInput
+    orderBy?: ActivacionCuentaOrderByWithRelationInput | ActivacionCuentaOrderByWithRelationInput[]
+    cursor?: ActivacionCuentaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ActivacionCuentaScalarFieldEnum | ActivacionCuentaScalarFieldEnum[]
+  }
+
+  /**
    * Usuario.alumno
    */
   export type Usuario$alumnoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3855,30 +3879,6 @@ export namespace Prisma {
      */
     include?: ProfesorInclude<ExtArgs> | null
     where?: ProfesorWhereInput
-  }
-
-  /**
-   * Usuario.activacionesCuenta
-   */
-  export type Usuario$activacionesCuentaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ActivacionCuenta
-     */
-    select?: ActivacionCuentaSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ActivacionCuenta
-     */
-    omit?: ActivacionCuentaOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ActivacionCuentaInclude<ExtArgs> | null
-    where?: ActivacionCuentaWhereInput
-    orderBy?: ActivacionCuentaOrderByWithRelationInput | ActivacionCuentaOrderByWithRelationInput[]
-    cursor?: ActivacionCuentaWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ActivacionCuentaScalarFieldEnum | ActivacionCuentaScalarFieldEnum[]
   }
 
   /**
@@ -5058,9 +5058,9 @@ export namespace Prisma {
   export type ProfesorCountAggregateOutputType = {
     id: number
     licenciaConducir: number
-    permisosLicencias: number
     telefono: number
     activo: number
+    permisosLicencias: number
     _all: number
   }
 
@@ -5082,9 +5082,9 @@ export namespace Prisma {
   export type ProfesorCountAggregateInputType = {
     id?: true
     licenciaConducir?: true
-    permisosLicencias?: true
     telefono?: true
     activo?: true
+    permisosLicencias?: true
     _all?: true
   }
 
@@ -5163,9 +5163,9 @@ export namespace Prisma {
   export type ProfesorGroupByOutputType = {
     id: string
     licenciaConducir: string
-    permisosLicencias: string[]
     telefono: string
     activo: boolean
+    permisosLicencias: string[]
     _count: ProfesorCountAggregateOutputType | null
     _min: ProfesorMinAggregateOutputType | null
     _max: ProfesorMaxAggregateOutputType | null
@@ -5188,12 +5188,12 @@ export namespace Prisma {
   export type ProfesorSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     licenciaConducir?: boolean
-    permisosLicencias?: boolean
     telefono?: boolean
     activo?: boolean
+    permisosLicencias?: boolean
     alumnosAsignados?: boolean | Profesor$alumnosAsignadosArgs<ExtArgs>
-    clases?: boolean | Profesor$clasesArgs<ExtArgs>
     clasesDirecto?: boolean | Profesor$clasesDirectoArgs<ExtArgs>
+    clases?: boolean | Profesor$clasesArgs<ExtArgs>
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     _count?: boolean | ProfesorCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["profesor"]>
@@ -5201,34 +5201,34 @@ export namespace Prisma {
   export type ProfesorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     licenciaConducir?: boolean
-    permisosLicencias?: boolean
     telefono?: boolean
     activo?: boolean
+    permisosLicencias?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["profesor"]>
 
   export type ProfesorSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     licenciaConducir?: boolean
-    permisosLicencias?: boolean
     telefono?: boolean
     activo?: boolean
+    permisosLicencias?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["profesor"]>
 
   export type ProfesorSelectScalar = {
     id?: boolean
     licenciaConducir?: boolean
-    permisosLicencias?: boolean
     telefono?: boolean
     activo?: boolean
+    permisosLicencias?: boolean
   }
 
-  export type ProfesorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "licenciaConducir" | "permisosLicencias" | "telefono" | "activo", ExtArgs["result"]["profesor"]>
+  export type ProfesorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "licenciaConducir" | "telefono" | "activo" | "permisosLicencias", ExtArgs["result"]["profesor"]>
   export type ProfesorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumnosAsignados?: boolean | Profesor$alumnosAsignadosArgs<ExtArgs>
-    clases?: boolean | Profesor$clasesArgs<ExtArgs>
     clasesDirecto?: boolean | Profesor$clasesDirectoArgs<ExtArgs>
+    clases?: boolean | Profesor$clasesArgs<ExtArgs>
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     _count?: boolean | ProfesorCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -5243,16 +5243,16 @@ export namespace Prisma {
     name: "Profesor"
     objects: {
       alumnosAsignados: Prisma.$AlumnoPayload<ExtArgs>[]
-      clases: Prisma.$ClasePracticaPayload<ExtArgs>[]
       clasesDirecto: Prisma.$ClaseDirectoPayload<ExtArgs>[]
+      clases: Prisma.$ClasePracticaPayload<ExtArgs>[]
       usuario: Prisma.$UsuarioPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       licenciaConducir: string
-      permisosLicencias: string[]
       telefono: string
       activo: boolean
+      permisosLicencias: string[]
     }, ExtArgs["result"]["profesor"]>
     composites: {}
   }
@@ -5648,8 +5648,8 @@ export namespace Prisma {
   export interface Prisma__ProfesorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     alumnosAsignados<T extends Profesor$alumnosAsignadosArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$alumnosAsignadosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    clases<T extends Profesor$clasesArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$clasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClasePracticaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     clasesDirecto<T extends Profesor$clasesDirectoArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$clasesDirectoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClaseDirectoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    clases<T extends Profesor$clasesArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$clasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClasePracticaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     usuario<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -5682,9 +5682,9 @@ export namespace Prisma {
   interface ProfesorFieldRefs {
     readonly id: FieldRef<"Profesor", 'String'>
     readonly licenciaConducir: FieldRef<"Profesor", 'String'>
-    readonly permisosLicencias: FieldRef<"Profesor", 'String[]'>
     readonly telefono: FieldRef<"Profesor", 'String'>
     readonly activo: FieldRef<"Profesor", 'Boolean'>
+    readonly permisosLicencias: FieldRef<"Profesor", 'String[]'>
   }
     
 
@@ -6105,30 +6105,6 @@ export namespace Prisma {
   }
 
   /**
-   * Profesor.clases
-   */
-  export type Profesor$clasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ClasePractica
-     */
-    select?: ClasePracticaSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ClasePractica
-     */
-    omit?: ClasePracticaOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ClasePracticaInclude<ExtArgs> | null
-    where?: ClasePracticaWhereInput
-    orderBy?: ClasePracticaOrderByWithRelationInput | ClasePracticaOrderByWithRelationInput[]
-    cursor?: ClasePracticaWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ClasePracticaScalarFieldEnum | ClasePracticaScalarFieldEnum[]
-  }
-
-  /**
    * Profesor.clasesDirecto
    */
   export type Profesor$clasesDirectoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6150,6 +6126,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ClaseDirectoScalarFieldEnum | ClaseDirectoScalarFieldEnum[]
+  }
+
+  /**
+   * Profesor.clases
+   */
+  export type Profesor$clasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClasePractica
+     */
+    select?: ClasePracticaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClasePractica
+     */
+    omit?: ClasePracticaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClasePracticaInclude<ExtArgs> | null
+    where?: ClasePracticaWhereInput
+    orderBy?: ClasePracticaOrderByWithRelationInput | ClasePracticaOrderByWithRelationInput[]
+    cursor?: ClasePracticaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ClasePracticaScalarFieldEnum | ClasePracticaScalarFieldEnum[]
   }
 
   /**
@@ -6194,28 +6194,28 @@ export namespace Prisma {
   export type AlumnoMinAggregateOutputType = {
     id: string | null
     tipoLicenciaObjetivo: string | null
-    fechaNacimiento: Date | null
     horasPracticasCompletadas: number | null
     profesorAsignadoId: string | null
     activo: boolean | null
+    fechaNacimiento: Date | null
   }
 
   export type AlumnoMaxAggregateOutputType = {
     id: string | null
     tipoLicenciaObjetivo: string | null
-    fechaNacimiento: Date | null
     horasPracticasCompletadas: number | null
     profesorAsignadoId: string | null
     activo: boolean | null
+    fechaNacimiento: Date | null
   }
 
   export type AlumnoCountAggregateOutputType = {
     id: number
     tipoLicenciaObjetivo: number
-    fechaNacimiento: number
     horasPracticasCompletadas: number
     profesorAsignadoId: number
     activo: number
+    fechaNacimiento: number
     _all: number
   }
 
@@ -6231,28 +6231,28 @@ export namespace Prisma {
   export type AlumnoMinAggregateInputType = {
     id?: true
     tipoLicenciaObjetivo?: true
-    fechaNacimiento?: true
     horasPracticasCompletadas?: true
     profesorAsignadoId?: true
     activo?: true
+    fechaNacimiento?: true
   }
 
   export type AlumnoMaxAggregateInputType = {
     id?: true
     tipoLicenciaObjetivo?: true
-    fechaNacimiento?: true
     horasPracticasCompletadas?: true
     profesorAsignadoId?: true
     activo?: true
+    fechaNacimiento?: true
   }
 
   export type AlumnoCountAggregateInputType = {
     id?: true
     tipoLicenciaObjetivo?: true
-    fechaNacimiento?: true
     horasPracticasCompletadas?: true
     profesorAsignadoId?: true
     activo?: true
+    fechaNacimiento?: true
     _all?: true
   }
 
@@ -6345,10 +6345,10 @@ export namespace Prisma {
   export type AlumnoGroupByOutputType = {
     id: string
     tipoLicenciaObjetivo: string
-    fechaNacimiento: Date | null
     horasPracticasCompletadas: number
     profesorAsignadoId: string | null
     activo: boolean
+    fechaNacimiento: Date | null
     _count: AlumnoCountAggregateOutputType | null
     _avg: AlumnoAvgAggregateOutputType | null
     _sum: AlumnoSumAggregateOutputType | null
@@ -6373,30 +6373,30 @@ export namespace Prisma {
   export type AlumnoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     tipoLicenciaObjetivo?: boolean
-    fechaNacimiento?: boolean
     horasPracticasCompletadas?: boolean
     profesorAsignadoId?: boolean
     activo?: boolean
+    fechaNacimiento?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     profesorAsignado?: boolean | Alumno$profesorAsignadoArgs<ExtArgs>
     clases?: boolean | Alumno$clasesArgs<ExtArgs>
-    examenes?: boolean | Alumno$examenesArgs<ExtArgs>
-    testsPractica?: boolean | Alumno$testsPracticaArgs<ExtArgs>
-    temariosProgreso?: boolean | Alumno$temariosProgresoArgs<ExtArgs>
     bonosComprados?: boolean | Alumno$bonosCompradosArgs<ExtArgs>
-    solicitudesExamen?: boolean | Alumno$solicitudesExamenArgs<ExtArgs>
-    matriculas?: boolean | Alumno$matriculasArgs<ExtArgs>
+    examenes?: boolean | Alumno$examenesArgs<ExtArgs>
     facturas?: boolean | Alumno$facturasArgs<ExtArgs>
+    matriculas?: boolean | Alumno$matriculasArgs<ExtArgs>
+    solicitudesExamen?: boolean | Alumno$solicitudesExamenArgs<ExtArgs>
+    temariosProgreso?: boolean | Alumno$temariosProgresoArgs<ExtArgs>
+    testsPractica?: boolean | Alumno$testsPracticaArgs<ExtArgs>
     _count?: boolean | AlumnoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["alumno"]>
 
   export type AlumnoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     tipoLicenciaObjetivo?: boolean
-    fechaNacimiento?: boolean
     horasPracticasCompletadas?: boolean
     profesorAsignadoId?: boolean
     activo?: boolean
+    fechaNacimiento?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     profesorAsignado?: boolean | Alumno$profesorAsignadoArgs<ExtArgs>
   }, ExtArgs["result"]["alumno"]>
@@ -6404,10 +6404,10 @@ export namespace Prisma {
   export type AlumnoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     tipoLicenciaObjetivo?: boolean
-    fechaNacimiento?: boolean
     horasPracticasCompletadas?: boolean
     profesorAsignadoId?: boolean
     activo?: boolean
+    fechaNacimiento?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     profesorAsignado?: boolean | Alumno$profesorAsignadoArgs<ExtArgs>
   }, ExtArgs["result"]["alumno"]>
@@ -6415,24 +6415,24 @@ export namespace Prisma {
   export type AlumnoSelectScalar = {
     id?: boolean
     tipoLicenciaObjetivo?: boolean
-    fechaNacimiento?: boolean
     horasPracticasCompletadas?: boolean
     profesorAsignadoId?: boolean
     activo?: boolean
+    fechaNacimiento?: boolean
   }
 
-  export type AlumnoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tipoLicenciaObjetivo" | "fechaNacimiento" | "horasPracticasCompletadas" | "profesorAsignadoId" | "activo", ExtArgs["result"]["alumno"]>
+  export type AlumnoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tipoLicenciaObjetivo" | "horasPracticasCompletadas" | "profesorAsignadoId" | "activo" | "fechaNacimiento", ExtArgs["result"]["alumno"]>
   export type AlumnoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     profesorAsignado?: boolean | Alumno$profesorAsignadoArgs<ExtArgs>
     clases?: boolean | Alumno$clasesArgs<ExtArgs>
-    examenes?: boolean | Alumno$examenesArgs<ExtArgs>
-    testsPractica?: boolean | Alumno$testsPracticaArgs<ExtArgs>
-    temariosProgreso?: boolean | Alumno$temariosProgresoArgs<ExtArgs>
     bonosComprados?: boolean | Alumno$bonosCompradosArgs<ExtArgs>
-    solicitudesExamen?: boolean | Alumno$solicitudesExamenArgs<ExtArgs>
-    matriculas?: boolean | Alumno$matriculasArgs<ExtArgs>
+    examenes?: boolean | Alumno$examenesArgs<ExtArgs>
     facturas?: boolean | Alumno$facturasArgs<ExtArgs>
+    matriculas?: boolean | Alumno$matriculasArgs<ExtArgs>
+    solicitudesExamen?: boolean | Alumno$solicitudesExamenArgs<ExtArgs>
+    temariosProgreso?: boolean | Alumno$temariosProgresoArgs<ExtArgs>
+    testsPractica?: boolean | Alumno$testsPracticaArgs<ExtArgs>
     _count?: boolean | AlumnoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AlumnoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6450,21 +6450,21 @@ export namespace Prisma {
       usuario: Prisma.$UsuarioPayload<ExtArgs>
       profesorAsignado: Prisma.$ProfesorPayload<ExtArgs> | null
       clases: Prisma.$ClasePracticaPayload<ExtArgs>[]
-      examenes: Prisma.$ExamenPayload<ExtArgs>[]
-      testsPractica: Prisma.$TestPracticaPayload<ExtArgs>[]
-      temariosProgreso: Prisma.$TemarioProgresoPayload<ExtArgs>[]
       bonosComprados: Prisma.$CompraBonoPayload<ExtArgs>[]
-      solicitudesExamen: Prisma.$SolicitudExamenPayload<ExtArgs>[]
-      matriculas: Prisma.$MatriculaPayload<ExtArgs>[]
+      examenes: Prisma.$ExamenPayload<ExtArgs>[]
       facturas: Prisma.$FacturaPayload<ExtArgs>[]
+      matriculas: Prisma.$MatriculaPayload<ExtArgs>[]
+      solicitudesExamen: Prisma.$SolicitudExamenPayload<ExtArgs>[]
+      temariosProgreso: Prisma.$TemarioProgresoPayload<ExtArgs>[]
+      testsPractica: Prisma.$TestPracticaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       tipoLicenciaObjetivo: string
-      fechaNacimiento: Date | null
       horasPracticasCompletadas: number
       profesorAsignadoId: string | null
       activo: boolean
+      fechaNacimiento: Date | null
     }, ExtArgs["result"]["alumno"]>
     composites: {}
   }
@@ -6862,13 +6862,13 @@ export namespace Prisma {
     usuario<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     profesorAsignado<T extends Alumno$profesorAsignadoArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$profesorAsignadoArgs<ExtArgs>>): Prisma__ProfesorClient<$Result.GetResult<Prisma.$ProfesorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     clases<T extends Alumno$clasesArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$clasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClasePracticaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    examenes<T extends Alumno$examenesArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$examenesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    testsPractica<T extends Alumno$testsPracticaArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$testsPracticaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestPracticaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    temariosProgreso<T extends Alumno$temariosProgresoArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$temariosProgresoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemarioProgresoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bonosComprados<T extends Alumno$bonosCompradosArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$bonosCompradosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompraBonoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    solicitudesExamen<T extends Alumno$solicitudesExamenArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$solicitudesExamenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SolicitudExamenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    matriculas<T extends Alumno$matriculasArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$matriculasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    examenes<T extends Alumno$examenesArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$examenesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     facturas<T extends Alumno$facturasArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$facturasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FacturaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    matriculas<T extends Alumno$matriculasArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$matriculasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    solicitudesExamen<T extends Alumno$solicitudesExamenArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$solicitudesExamenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SolicitudExamenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    temariosProgreso<T extends Alumno$temariosProgresoArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$temariosProgresoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemarioProgresoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    testsPractica<T extends Alumno$testsPracticaArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$testsPracticaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestPracticaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6900,10 +6900,10 @@ export namespace Prisma {
   interface AlumnoFieldRefs {
     readonly id: FieldRef<"Alumno", 'String'>
     readonly tipoLicenciaObjetivo: FieldRef<"Alumno", 'String'>
-    readonly fechaNacimiento: FieldRef<"Alumno", 'DateTime'>
     readonly horasPracticasCompletadas: FieldRef<"Alumno", 'Int'>
     readonly profesorAsignadoId: FieldRef<"Alumno", 'String'>
     readonly activo: FieldRef<"Alumno", 'Boolean'>
+    readonly fechaNacimiento: FieldRef<"Alumno", 'DateTime'>
   }
     
 
@@ -7343,78 +7343,6 @@ export namespace Prisma {
   }
 
   /**
-   * Alumno.examenes
-   */
-  export type Alumno$examenesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Examen
-     */
-    select?: ExamenSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Examen
-     */
-    omit?: ExamenOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ExamenInclude<ExtArgs> | null
-    where?: ExamenWhereInput
-    orderBy?: ExamenOrderByWithRelationInput | ExamenOrderByWithRelationInput[]
-    cursor?: ExamenWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ExamenScalarFieldEnum | ExamenScalarFieldEnum[]
-  }
-
-  /**
-   * Alumno.testsPractica
-   */
-  export type Alumno$testsPracticaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TestPractica
-     */
-    select?: TestPracticaSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TestPractica
-     */
-    omit?: TestPracticaOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TestPracticaInclude<ExtArgs> | null
-    where?: TestPracticaWhereInput
-    orderBy?: TestPracticaOrderByWithRelationInput | TestPracticaOrderByWithRelationInput[]
-    cursor?: TestPracticaWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: TestPracticaScalarFieldEnum | TestPracticaScalarFieldEnum[]
-  }
-
-  /**
-   * Alumno.temariosProgreso
-   */
-  export type Alumno$temariosProgresoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TemarioProgreso
-     */
-    select?: TemarioProgresoSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TemarioProgreso
-     */
-    omit?: TemarioProgresoOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TemarioProgresoInclude<ExtArgs> | null
-    where?: TemarioProgresoWhereInput
-    orderBy?: TemarioProgresoOrderByWithRelationInput | TemarioProgresoOrderByWithRelationInput[]
-    cursor?: TemarioProgresoWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: TemarioProgresoScalarFieldEnum | TemarioProgresoScalarFieldEnum[]
-  }
-
-  /**
    * Alumno.bonosComprados
    */
   export type Alumno$bonosCompradosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7439,27 +7367,51 @@ export namespace Prisma {
   }
 
   /**
-   * Alumno.solicitudesExamen
+   * Alumno.examenes
    */
-  export type Alumno$solicitudesExamenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Alumno$examenesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SolicitudExamen
+     * Select specific fields to fetch from the Examen
      */
-    select?: SolicitudExamenSelect<ExtArgs> | null
+    select?: ExamenSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SolicitudExamen
+     * Omit specific fields from the Examen
      */
-    omit?: SolicitudExamenOmit<ExtArgs> | null
+    omit?: ExamenOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SolicitudExamenInclude<ExtArgs> | null
-    where?: SolicitudExamenWhereInput
-    orderBy?: SolicitudExamenOrderByWithRelationInput | SolicitudExamenOrderByWithRelationInput[]
-    cursor?: SolicitudExamenWhereUniqueInput
+    include?: ExamenInclude<ExtArgs> | null
+    where?: ExamenWhereInput
+    orderBy?: ExamenOrderByWithRelationInput | ExamenOrderByWithRelationInput[]
+    cursor?: ExamenWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: SolicitudExamenScalarFieldEnum | SolicitudExamenScalarFieldEnum[]
+    distinct?: ExamenScalarFieldEnum | ExamenScalarFieldEnum[]
+  }
+
+  /**
+   * Alumno.facturas
+   */
+  export type Alumno$facturasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Factura
+     */
+    select?: FacturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Factura
+     */
+    omit?: FacturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacturaInclude<ExtArgs> | null
+    where?: FacturaWhereInput
+    orderBy?: FacturaOrderByWithRelationInput | FacturaOrderByWithRelationInput[]
+    cursor?: FacturaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FacturaScalarFieldEnum | FacturaScalarFieldEnum[]
   }
 
   /**
@@ -7487,27 +7439,75 @@ export namespace Prisma {
   }
 
   /**
-   * Alumno.facturas
+   * Alumno.solicitudesExamen
    */
-  export type Alumno$facturasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Alumno$solicitudesExamenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Factura
+     * Select specific fields to fetch from the SolicitudExamen
      */
-    select?: FacturaSelect<ExtArgs> | null
+    select?: SolicitudExamenSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Factura
+     * Omit specific fields from the SolicitudExamen
      */
-    omit?: FacturaOmit<ExtArgs> | null
+    omit?: SolicitudExamenOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: FacturaInclude<ExtArgs> | null
-    where?: FacturaWhereInput
-    orderBy?: FacturaOrderByWithRelationInput | FacturaOrderByWithRelationInput[]
-    cursor?: FacturaWhereUniqueInput
+    include?: SolicitudExamenInclude<ExtArgs> | null
+    where?: SolicitudExamenWhereInput
+    orderBy?: SolicitudExamenOrderByWithRelationInput | SolicitudExamenOrderByWithRelationInput[]
+    cursor?: SolicitudExamenWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: FacturaScalarFieldEnum | FacturaScalarFieldEnum[]
+    distinct?: SolicitudExamenScalarFieldEnum | SolicitudExamenScalarFieldEnum[]
+  }
+
+  /**
+   * Alumno.temariosProgreso
+   */
+  export type Alumno$temariosProgresoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemarioProgreso
+     */
+    select?: TemarioProgresoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemarioProgreso
+     */
+    omit?: TemarioProgresoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemarioProgresoInclude<ExtArgs> | null
+    where?: TemarioProgresoWhereInput
+    orderBy?: TemarioProgresoOrderByWithRelationInput | TemarioProgresoOrderByWithRelationInput[]
+    cursor?: TemarioProgresoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TemarioProgresoScalarFieldEnum | TemarioProgresoScalarFieldEnum[]
+  }
+
+  /**
+   * Alumno.testsPractica
+   */
+  export type Alumno$testsPracticaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestPractica
+     */
+    select?: TestPracticaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestPractica
+     */
+    omit?: TestPracticaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestPracticaInclude<ExtArgs> | null
+    where?: TestPracticaWhereInput
+    orderBy?: TestPracticaOrderByWithRelationInput | TestPracticaOrderByWithRelationInput[]
+    cursor?: TestPracticaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TestPracticaScalarFieldEnum | TestPracticaScalarFieldEnum[]
   }
 
   /**
@@ -7567,8 +7567,8 @@ export namespace Prisma {
     id: number
     titulo: number
     descripcion: number
-    tipoLicenciaObjetivo: number
     orden: number
+    tipoLicenciaObjetivo: number
     _all: number
   }
 
@@ -7599,8 +7599,8 @@ export namespace Prisma {
     id?: true
     titulo?: true
     descripcion?: true
-    tipoLicenciaObjetivo?: true
     orden?: true
+    tipoLicenciaObjetivo?: true
     _all?: true
   }
 
@@ -7694,8 +7694,8 @@ export namespace Prisma {
     id: string
     titulo: string
     descripcion: string | null
-    tipoLicenciaObjetivo: string[]
     orden: number
+    tipoLicenciaObjetivo: string[]
     _count: TemarioCountAggregateOutputType | null
     _avg: TemarioAvgAggregateOutputType | null
     _sum: TemarioSumAggregateOutputType | null
@@ -7721,8 +7721,8 @@ export namespace Prisma {
     id?: boolean
     titulo?: boolean
     descripcion?: boolean
-    tipoLicenciaObjetivo?: boolean
     orden?: boolean
+    tipoLicenciaObjetivo?: boolean
     progreso?: boolean | Temario$progresoArgs<ExtArgs>
     testsPractica?: boolean | Temario$testsPracticaArgs<ExtArgs>
     _count?: boolean | TemarioCountOutputTypeDefaultArgs<ExtArgs>
@@ -7732,27 +7732,27 @@ export namespace Prisma {
     id?: boolean
     titulo?: boolean
     descripcion?: boolean
-    tipoLicenciaObjetivo?: boolean
     orden?: boolean
+    tipoLicenciaObjetivo?: boolean
   }, ExtArgs["result"]["temario"]>
 
   export type TemarioSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     titulo?: boolean
     descripcion?: boolean
-    tipoLicenciaObjetivo?: boolean
     orden?: boolean
+    tipoLicenciaObjetivo?: boolean
   }, ExtArgs["result"]["temario"]>
 
   export type TemarioSelectScalar = {
     id?: boolean
     titulo?: boolean
     descripcion?: boolean
-    tipoLicenciaObjetivo?: boolean
     orden?: boolean
+    tipoLicenciaObjetivo?: boolean
   }
 
-  export type TemarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titulo" | "descripcion" | "tipoLicenciaObjetivo" | "orden", ExtArgs["result"]["temario"]>
+  export type TemarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titulo" | "descripcion" | "orden" | "tipoLicenciaObjetivo", ExtArgs["result"]["temario"]>
   export type TemarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     progreso?: boolean | Temario$progresoArgs<ExtArgs>
     testsPractica?: boolean | Temario$testsPracticaArgs<ExtArgs>
@@ -7771,8 +7771,8 @@ export namespace Prisma {
       id: string
       titulo: string
       descripcion: string | null
-      tipoLicenciaObjetivo: string[]
       orden: number
+      tipoLicenciaObjetivo: string[]
     }, ExtArgs["result"]["temario"]>
     composites: {}
   }
@@ -8201,8 +8201,8 @@ export namespace Prisma {
     readonly id: FieldRef<"Temario", 'String'>
     readonly titulo: FieldRef<"Temario", 'String'>
     readonly descripcion: FieldRef<"Temario", 'String'>
-    readonly tipoLicenciaObjetivo: FieldRef<"Temario", 'String[]'>
     readonly orden: FieldRef<"Temario", 'Int'>
+    readonly tipoLicenciaObjetivo: FieldRef<"Temario", 'String[]'>
   }
     
 
@@ -15459,8 +15459,8 @@ export namespace Prisma {
     marca: string | null
     modelo: string | null
     tipoPermiso: string | null
-    imagenRuta: string | null
     activo: boolean | null
+    imagenRuta: string | null
   }
 
   export type VehiculoMaxAggregateOutputType = {
@@ -15469,8 +15469,8 @@ export namespace Prisma {
     marca: string | null
     modelo: string | null
     tipoPermiso: string | null
-    imagenRuta: string | null
     activo: boolean | null
+    imagenRuta: string | null
   }
 
   export type VehiculoCountAggregateOutputType = {
@@ -15479,8 +15479,8 @@ export namespace Prisma {
     marca: number
     modelo: number
     tipoPermiso: number
-    imagenRuta: number
     activo: number
+    imagenRuta: number
     _all: number
   }
 
@@ -15491,8 +15491,8 @@ export namespace Prisma {
     marca?: true
     modelo?: true
     tipoPermiso?: true
-    imagenRuta?: true
     activo?: true
+    imagenRuta?: true
   }
 
   export type VehiculoMaxAggregateInputType = {
@@ -15501,8 +15501,8 @@ export namespace Prisma {
     marca?: true
     modelo?: true
     tipoPermiso?: true
-    imagenRuta?: true
     activo?: true
+    imagenRuta?: true
   }
 
   export type VehiculoCountAggregateInputType = {
@@ -15511,8 +15511,8 @@ export namespace Prisma {
     marca?: true
     modelo?: true
     tipoPermiso?: true
-    imagenRuta?: true
     activo?: true
+    imagenRuta?: true
     _all?: true
   }
 
@@ -15594,8 +15594,8 @@ export namespace Prisma {
     marca: string | null
     modelo: string | null
     tipoPermiso: string
-    imagenRuta: string | null
     activo: boolean
+    imagenRuta: string | null
     _count: VehiculoCountAggregateOutputType | null
     _min: VehiculoMinAggregateOutputType | null
     _max: VehiculoMaxAggregateOutputType | null
@@ -15621,8 +15621,8 @@ export namespace Prisma {
     marca?: boolean
     modelo?: boolean
     tipoPermiso?: boolean
-    imagenRuta?: boolean
     activo?: boolean
+    imagenRuta?: boolean
     clases?: boolean | Vehiculo$clasesArgs<ExtArgs>
     _count?: boolean | VehiculoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["vehiculo"]>
@@ -15633,8 +15633,8 @@ export namespace Prisma {
     marca?: boolean
     modelo?: boolean
     tipoPermiso?: boolean
-    imagenRuta?: boolean
     activo?: boolean
+    imagenRuta?: boolean
   }, ExtArgs["result"]["vehiculo"]>
 
   export type VehiculoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -15643,8 +15643,8 @@ export namespace Prisma {
     marca?: boolean
     modelo?: boolean
     tipoPermiso?: boolean
-    imagenRuta?: boolean
     activo?: boolean
+    imagenRuta?: boolean
   }, ExtArgs["result"]["vehiculo"]>
 
   export type VehiculoSelectScalar = {
@@ -15653,11 +15653,11 @@ export namespace Prisma {
     marca?: boolean
     modelo?: boolean
     tipoPermiso?: boolean
-    imagenRuta?: boolean
     activo?: boolean
+    imagenRuta?: boolean
   }
 
-  export type VehiculoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "matricula" | "marca" | "modelo" | "tipoPermiso" | "imagenRuta" | "activo", ExtArgs["result"]["vehiculo"]>
+  export type VehiculoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "matricula" | "marca" | "modelo" | "tipoPermiso" | "activo" | "imagenRuta", ExtArgs["result"]["vehiculo"]>
   export type VehiculoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     clases?: boolean | Vehiculo$clasesArgs<ExtArgs>
     _count?: boolean | VehiculoCountOutputTypeDefaultArgs<ExtArgs>
@@ -15676,8 +15676,8 @@ export namespace Prisma {
       marca: string | null
       modelo: string | null
       tipoPermiso: string
-      imagenRuta: string | null
       activo: boolean
+      imagenRuta: string | null
     }, ExtArgs["result"]["vehiculo"]>
     composites: {}
   }
@@ -16107,8 +16107,8 @@ export namespace Prisma {
     readonly marca: FieldRef<"Vehiculo", 'String'>
     readonly modelo: FieldRef<"Vehiculo", 'String'>
     readonly tipoPermiso: FieldRef<"Vehiculo", 'String'>
-    readonly imagenRuta: FieldRef<"Vehiculo", 'String'>
     readonly activo: FieldRef<"Vehiculo", 'Boolean'>
+    readonly imagenRuta: FieldRef<"Vehiculo", 'String'>
   }
     
 
@@ -18767,12 +18767,12 @@ export namespace Prisma {
     fechaInicio: Date | null
     fechaFin: Date | null
     activa: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
     requiereCarnetEstudiante: boolean | null
     edadMinima: number | null
     edadMaxima: number | null
     requiereFidelidad: boolean | null
-    createdAt: Date | null
-    updatedAt: Date | null
   }
 
   export type PromocionMaxAggregateOutputType = {
@@ -18785,12 +18785,12 @@ export namespace Prisma {
     fechaInicio: Date | null
     fechaFin: Date | null
     activa: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
     requiereCarnetEstudiante: boolean | null
     edadMinima: number | null
     edadMaxima: number | null
     requiereFidelidad: boolean | null
-    createdAt: Date | null
-    updatedAt: Date | null
   }
 
   export type PromocionCountAggregateOutputType = {
@@ -18804,12 +18804,12 @@ export namespace Prisma {
     fechaInicio: number
     fechaFin: number
     activa: number
+    createdAt: number
+    updatedAt: number
     requiereCarnetEstudiante: number
     edadMinima: number
     edadMaxima: number
     requiereFidelidad: number
-    createdAt: number
-    updatedAt: number
     _all: number
   }
 
@@ -18838,12 +18838,12 @@ export namespace Prisma {
     fechaInicio?: true
     fechaFin?: true
     activa?: true
+    createdAt?: true
+    updatedAt?: true
     requiereCarnetEstudiante?: true
     edadMinima?: true
     edadMaxima?: true
     requiereFidelidad?: true
-    createdAt?: true
-    updatedAt?: true
   }
 
   export type PromocionMaxAggregateInputType = {
@@ -18856,12 +18856,12 @@ export namespace Prisma {
     fechaInicio?: true
     fechaFin?: true
     activa?: true
+    createdAt?: true
+    updatedAt?: true
     requiereCarnetEstudiante?: true
     edadMinima?: true
     edadMaxima?: true
     requiereFidelidad?: true
-    createdAt?: true
-    updatedAt?: true
   }
 
   export type PromocionCountAggregateInputType = {
@@ -18875,12 +18875,12 @@ export namespace Prisma {
     fechaInicio?: true
     fechaFin?: true
     activa?: true
+    createdAt?: true
+    updatedAt?: true
     requiereCarnetEstudiante?: true
     edadMinima?: true
     edadMaxima?: true
     requiereFidelidad?: true
-    createdAt?: true
-    updatedAt?: true
     _all?: true
   }
 
@@ -18981,12 +18981,12 @@ export namespace Prisma {
     fechaInicio: Date | null
     fechaFin: Date | null
     activa: boolean
+    createdAt: Date
+    updatedAt: Date
     requiereCarnetEstudiante: boolean
     edadMinima: number | null
     edadMaxima: number | null
     requiereFidelidad: boolean
-    createdAt: Date
-    updatedAt: Date
     _count: PromocionCountAggregateOutputType | null
     _avg: PromocionAvgAggregateOutputType | null
     _sum: PromocionSumAggregateOutputType | null
@@ -19019,12 +19019,12 @@ export namespace Prisma {
     fechaInicio?: boolean
     fechaFin?: boolean
     activa?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     requiereCarnetEstudiante?: boolean
     edadMinima?: boolean
     edadMaxima?: boolean
     requiereFidelidad?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
     matriculas?: boolean | Promocion$matriculasArgs<ExtArgs>
     _count?: boolean | PromocionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["promocion"]>
@@ -19040,12 +19040,12 @@ export namespace Prisma {
     fechaInicio?: boolean
     fechaFin?: boolean
     activa?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     requiereCarnetEstudiante?: boolean
     edadMinima?: boolean
     edadMaxima?: boolean
     requiereFidelidad?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
   }, ExtArgs["result"]["promocion"]>
 
   export type PromocionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -19059,12 +19059,12 @@ export namespace Prisma {
     fechaInicio?: boolean
     fechaFin?: boolean
     activa?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     requiereCarnetEstudiante?: boolean
     edadMinima?: boolean
     edadMaxima?: boolean
     requiereFidelidad?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
   }, ExtArgs["result"]["promocion"]>
 
   export type PromocionSelectScalar = {
@@ -19078,15 +19078,15 @@ export namespace Prisma {
     fechaInicio?: boolean
     fechaFin?: boolean
     activa?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     requiereCarnetEstudiante?: boolean
     edadMinima?: boolean
     edadMaxima?: boolean
     requiereFidelidad?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
   }
 
-  export type PromocionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "descripcion" | "precioOriginal" | "precioPromocional" | "licenciasAplicables" | "imagenRuta" | "fechaInicio" | "fechaFin" | "activa" | "requiereCarnetEstudiante" | "edadMinima" | "edadMaxima" | "requiereFidelidad" | "createdAt" | "updatedAt", ExtArgs["result"]["promocion"]>
+  export type PromocionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "descripcion" | "precioOriginal" | "precioPromocional" | "licenciasAplicables" | "imagenRuta" | "fechaInicio" | "fechaFin" | "activa" | "createdAt" | "updatedAt" | "requiereCarnetEstudiante" | "edadMinima" | "edadMaxima" | "requiereFidelidad", ExtArgs["result"]["promocion"]>
   export type PromocionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     matriculas?: boolean | Promocion$matriculasArgs<ExtArgs>
     _count?: boolean | PromocionCountOutputTypeDefaultArgs<ExtArgs>
@@ -19110,12 +19110,12 @@ export namespace Prisma {
       fechaInicio: Date | null
       fechaFin: Date | null
       activa: boolean
+      createdAt: Date
+      updatedAt: Date
       requiereCarnetEstudiante: boolean
       edadMinima: number | null
       edadMaxima: number | null
       requiereFidelidad: boolean
-      createdAt: Date
-      updatedAt: Date
     }, ExtArgs["result"]["promocion"]>
     composites: {}
   }
@@ -19550,12 +19550,12 @@ export namespace Prisma {
     readonly fechaInicio: FieldRef<"Promocion", 'DateTime'>
     readonly fechaFin: FieldRef<"Promocion", 'DateTime'>
     readonly activa: FieldRef<"Promocion", 'Boolean'>
+    readonly createdAt: FieldRef<"Promocion", 'DateTime'>
+    readonly updatedAt: FieldRef<"Promocion", 'DateTime'>
     readonly requiereCarnetEstudiante: FieldRef<"Promocion", 'Boolean'>
     readonly edadMinima: FieldRef<"Promocion", 'Int'>
     readonly edadMaxima: FieldRef<"Promocion", 'Int'>
     readonly requiereFidelidad: FieldRef<"Promocion", 'Boolean'>
-    readonly createdAt: FieldRef<"Promocion", 'DateTime'>
-    readonly updatedAt: FieldRef<"Promocion", 'DateTime'>
   }
     
 
@@ -21270,9 +21270,9 @@ export namespace Prisma {
     fechaCreacion?: boolean
     fechaPago?: boolean
     observaciones?: boolean
+    factura?: boolean | Matricula$facturaArgs<ExtArgs>
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     promocion?: boolean | Matricula$promocionArgs<ExtArgs>
-    factura?: boolean | Matricula$facturaArgs<ExtArgs>
   }, ExtArgs["result"]["matricula"]>
 
   export type MatriculaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -21320,9 +21320,9 @@ export namespace Prisma {
 
   export type MatriculaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "licencia" | "precioBase" | "precioFinal" | "promocionId" | "estado" | "fechaCreacion" | "fechaPago" | "observaciones", ExtArgs["result"]["matricula"]>
   export type MatriculaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    factura?: boolean | Matricula$facturaArgs<ExtArgs>
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     promocion?: boolean | Matricula$promocionArgs<ExtArgs>
-    factura?: boolean | Matricula$facturaArgs<ExtArgs>
   }
   export type MatriculaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
@@ -21336,9 +21336,9 @@ export namespace Prisma {
   export type $MatriculaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Matricula"
     objects: {
+      factura: Prisma.$FacturaPayload<ExtArgs> | null
       alumno: Prisma.$AlumnoPayload<ExtArgs>
       promocion: Prisma.$PromocionPayload<ExtArgs> | null
-      factura: Prisma.$FacturaPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -21745,9 +21745,9 @@ export namespace Prisma {
    */
   export interface Prisma__MatriculaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    factura<T extends Matricula$facturaArgs<ExtArgs> = {}>(args?: Subset<T, Matricula$facturaArgs<ExtArgs>>): Prisma__FacturaClient<$Result.GetResult<Prisma.$FacturaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     alumno<T extends AlumnoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AlumnoDefaultArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     promocion<T extends Matricula$promocionArgs<ExtArgs> = {}>(args?: Subset<T, Matricula$promocionArgs<ExtArgs>>): Prisma__PromocionClient<$Result.GetResult<Prisma.$PromocionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    factura<T extends Matricula$facturaArgs<ExtArgs> = {}>(args?: Subset<T, Matricula$facturaArgs<ExtArgs>>): Prisma__FacturaClient<$Result.GetResult<Prisma.$FacturaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -22183,25 +22183,6 @@ export namespace Prisma {
   }
 
   /**
-   * Matricula.promocion
-   */
-  export type Matricula$promocionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Promocion
-     */
-    select?: PromocionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Promocion
-     */
-    omit?: PromocionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PromocionInclude<ExtArgs> | null
-    where?: PromocionWhereInput
-  }
-
-  /**
    * Matricula.factura
    */
   export type Matricula$facturaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -22218,6 +22199,25 @@ export namespace Prisma {
      */
     include?: FacturaInclude<ExtArgs> | null
     where?: FacturaWhereInput
+  }
+
+  /**
+   * Matricula.promocion
+   */
+  export type Matricula$promocionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Promocion
+     */
+    select?: PromocionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Promocion
+     */
+    omit?: PromocionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromocionInclude<ExtArgs> | null
+    where?: PromocionWhereInput
   }
 
   /**
@@ -23442,13 +23442,13 @@ export namespace Prisma {
   export const UsuarioScalarFieldEnum: {
     id: 'id',
     nombre: 'nombre',
-    dni: 'dni',
     email: 'email',
-    telefono: 'telefono',
     passwordHash: 'passwordHash',
-    requiereCambioPassword: 'requiereCambioPassword',
     rol: 'rol',
-    fechaCreacion: 'fechaCreacion'
+    fechaCreacion: 'fechaCreacion',
+    telefono: 'telefono',
+    dni: 'dni',
+    requiereCambioPassword: 'requiereCambioPassword'
   };
 
   export type UsuarioScalarFieldEnum = (typeof UsuarioScalarFieldEnum)[keyof typeof UsuarioScalarFieldEnum]
@@ -23471,9 +23471,9 @@ export namespace Prisma {
   export const ProfesorScalarFieldEnum: {
     id: 'id',
     licenciaConducir: 'licenciaConducir',
-    permisosLicencias: 'permisosLicencias',
     telefono: 'telefono',
-    activo: 'activo'
+    activo: 'activo',
+    permisosLicencias: 'permisosLicencias'
   };
 
   export type ProfesorScalarFieldEnum = (typeof ProfesorScalarFieldEnum)[keyof typeof ProfesorScalarFieldEnum]
@@ -23482,10 +23482,10 @@ export namespace Prisma {
   export const AlumnoScalarFieldEnum: {
     id: 'id',
     tipoLicenciaObjetivo: 'tipoLicenciaObjetivo',
-    fechaNacimiento: 'fechaNacimiento',
     horasPracticasCompletadas: 'horasPracticasCompletadas',
     profesorAsignadoId: 'profesorAsignadoId',
-    activo: 'activo'
+    activo: 'activo',
+    fechaNacimiento: 'fechaNacimiento'
   };
 
   export type AlumnoScalarFieldEnum = (typeof AlumnoScalarFieldEnum)[keyof typeof AlumnoScalarFieldEnum]
@@ -23495,8 +23495,8 @@ export namespace Prisma {
     id: 'id',
     titulo: 'titulo',
     descripcion: 'descripcion',
-    tipoLicenciaObjetivo: 'tipoLicenciaObjetivo',
-    orden: 'orden'
+    orden: 'orden',
+    tipoLicenciaObjetivo: 'tipoLicenciaObjetivo'
   };
 
   export type TemarioScalarFieldEnum = (typeof TemarioScalarFieldEnum)[keyof typeof TemarioScalarFieldEnum]
@@ -23588,8 +23588,8 @@ export namespace Prisma {
     marca: 'marca',
     modelo: 'modelo',
     tipoPermiso: 'tipoPermiso',
-    imagenRuta: 'imagenRuta',
-    activo: 'activo'
+    activo: 'activo',
+    imagenRuta: 'imagenRuta'
   };
 
   export type VehiculoScalarFieldEnum = (typeof VehiculoScalarFieldEnum)[keyof typeof VehiculoScalarFieldEnum]
@@ -23630,12 +23630,12 @@ export namespace Prisma {
     fechaInicio: 'fechaInicio',
     fechaFin: 'fechaFin',
     activa: 'activa',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     requiereCarnetEstudiante: 'requiereCarnetEstudiante',
     edadMinima: 'edadMinima',
     edadMaxima: 'edadMaxima',
-    requiereFidelidad: 'requiereFidelidad',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    requiereFidelidad: 'requiereFidelidad'
   };
 
   export type PromocionScalarFieldEnum = (typeof PromocionScalarFieldEnum)[keyof typeof PromocionScalarFieldEnum]
@@ -23730,13 +23730,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
    * Reference to a field of type 'Rol'
    */
   export type EnumRolFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Rol'>
@@ -23761,6 +23754,13 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -23815,61 +23815,61 @@ export namespace Prisma {
     NOT?: UsuarioWhereInput | UsuarioWhereInput[]
     id?: StringFilter<"Usuario"> | string
     nombre?: StringFilter<"Usuario"> | string
-    dni?: StringNullableFilter<"Usuario"> | string | null
     email?: StringFilter<"Usuario"> | string
-    telefono?: StringNullableFilter<"Usuario"> | string | null
     passwordHash?: StringFilter<"Usuario"> | string
-    requiereCambioPassword?: BoolFilter<"Usuario"> | boolean
     rol?: EnumRolFilter<"Usuario"> | $Enums.Rol
     fechaCreacion?: DateTimeFilter<"Usuario"> | Date | string
+    telefono?: StringNullableFilter<"Usuario"> | string | null
+    dni?: StringNullableFilter<"Usuario"> | string | null
+    requiereCambioPassword?: BoolFilter<"Usuario"> | boolean
+    activacionesCuenta?: ActivacionCuentaListRelationFilter
     alumno?: XOR<AlumnoNullableScalarRelationFilter, AlumnoWhereInput> | null
     profesor?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
-    activacionesCuenta?: ActivacionCuentaListRelationFilter
   }
 
   export type UsuarioOrderByWithRelationInput = {
     id?: SortOrder
     nombre?: SortOrder
-    dni?: SortOrderInput | SortOrder
     email?: SortOrder
-    telefono?: SortOrderInput | SortOrder
     passwordHash?: SortOrder
-    requiereCambioPassword?: SortOrder
     rol?: SortOrder
     fechaCreacion?: SortOrder
+    telefono?: SortOrderInput | SortOrder
+    dni?: SortOrderInput | SortOrder
+    requiereCambioPassword?: SortOrder
+    activacionesCuenta?: ActivacionCuentaOrderByRelationAggregateInput
     alumno?: AlumnoOrderByWithRelationInput
     profesor?: ProfesorOrderByWithRelationInput
-    activacionesCuenta?: ActivacionCuentaOrderByRelationAggregateInput
   }
 
   export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    dni?: string
     email?: string
+    dni?: string
     AND?: UsuarioWhereInput | UsuarioWhereInput[]
     OR?: UsuarioWhereInput[]
     NOT?: UsuarioWhereInput | UsuarioWhereInput[]
     nombre?: StringFilter<"Usuario"> | string
-    telefono?: StringNullableFilter<"Usuario"> | string | null
     passwordHash?: StringFilter<"Usuario"> | string
-    requiereCambioPassword?: BoolFilter<"Usuario"> | boolean
     rol?: EnumRolFilter<"Usuario"> | $Enums.Rol
     fechaCreacion?: DateTimeFilter<"Usuario"> | Date | string
+    telefono?: StringNullableFilter<"Usuario"> | string | null
+    requiereCambioPassword?: BoolFilter<"Usuario"> | boolean
+    activacionesCuenta?: ActivacionCuentaListRelationFilter
     alumno?: XOR<AlumnoNullableScalarRelationFilter, AlumnoWhereInput> | null
     profesor?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
-    activacionesCuenta?: ActivacionCuentaListRelationFilter
-  }, "id" | "dni" | "email">
+  }, "id" | "email" | "dni">
 
   export type UsuarioOrderByWithAggregationInput = {
     id?: SortOrder
     nombre?: SortOrder
-    dni?: SortOrderInput | SortOrder
     email?: SortOrder
-    telefono?: SortOrderInput | SortOrder
     passwordHash?: SortOrder
-    requiereCambioPassword?: SortOrder
     rol?: SortOrder
     fechaCreacion?: SortOrder
+    telefono?: SortOrderInput | SortOrder
+    dni?: SortOrderInput | SortOrder
+    requiereCambioPassword?: SortOrder
     _count?: UsuarioCountOrderByAggregateInput
     _max?: UsuarioMaxOrderByAggregateInput
     _min?: UsuarioMinOrderByAggregateInput
@@ -23881,13 +23881,13 @@ export namespace Prisma {
     NOT?: UsuarioScalarWhereWithAggregatesInput | UsuarioScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Usuario"> | string
     nombre?: StringWithAggregatesFilter<"Usuario"> | string
-    dni?: StringNullableWithAggregatesFilter<"Usuario"> | string | null
     email?: StringWithAggregatesFilter<"Usuario"> | string
-    telefono?: StringNullableWithAggregatesFilter<"Usuario"> | string | null
     passwordHash?: StringWithAggregatesFilter<"Usuario"> | string
-    requiereCambioPassword?: BoolWithAggregatesFilter<"Usuario"> | boolean
     rol?: EnumRolWithAggregatesFilter<"Usuario"> | $Enums.Rol
     fechaCreacion?: DateTimeWithAggregatesFilter<"Usuario"> | Date | string
+    telefono?: StringNullableWithAggregatesFilter<"Usuario"> | string | null
+    dni?: StringNullableWithAggregatesFilter<"Usuario"> | string | null
+    requiereCambioPassword?: BoolWithAggregatesFilter<"Usuario"> | boolean
   }
 
   export type ActivacionCuentaWhereInput = {
@@ -23968,24 +23968,24 @@ export namespace Prisma {
     NOT?: ProfesorWhereInput | ProfesorWhereInput[]
     id?: StringFilter<"Profesor"> | string
     licenciaConducir?: StringFilter<"Profesor"> | string
-    permisosLicencias?: StringNullableListFilter<"Profesor">
     telefono?: StringFilter<"Profesor"> | string
     activo?: BoolFilter<"Profesor"> | boolean
+    permisosLicencias?: StringNullableListFilter<"Profesor">
     alumnosAsignados?: AlumnoListRelationFilter
-    clases?: ClasePracticaListRelationFilter
     clasesDirecto?: ClaseDirectoListRelationFilter
+    clases?: ClasePracticaListRelationFilter
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
   }
 
   export type ProfesorOrderByWithRelationInput = {
     id?: SortOrder
     licenciaConducir?: SortOrder
-    permisosLicencias?: SortOrder
     telefono?: SortOrder
     activo?: SortOrder
+    permisosLicencias?: SortOrder
     alumnosAsignados?: AlumnoOrderByRelationAggregateInput
-    clases?: ClasePracticaOrderByRelationAggregateInput
     clasesDirecto?: ClaseDirectoOrderByRelationAggregateInput
+    clases?: ClasePracticaOrderByRelationAggregateInput
     usuario?: UsuarioOrderByWithRelationInput
   }
 
@@ -23995,21 +23995,21 @@ export namespace Prisma {
     OR?: ProfesorWhereInput[]
     NOT?: ProfesorWhereInput | ProfesorWhereInput[]
     licenciaConducir?: StringFilter<"Profesor"> | string
-    permisosLicencias?: StringNullableListFilter<"Profesor">
     telefono?: StringFilter<"Profesor"> | string
     activo?: BoolFilter<"Profesor"> | boolean
+    permisosLicencias?: StringNullableListFilter<"Profesor">
     alumnosAsignados?: AlumnoListRelationFilter
-    clases?: ClasePracticaListRelationFilter
     clasesDirecto?: ClaseDirectoListRelationFilter
+    clases?: ClasePracticaListRelationFilter
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
   }, "id">
 
   export type ProfesorOrderByWithAggregationInput = {
     id?: SortOrder
     licenciaConducir?: SortOrder
-    permisosLicencias?: SortOrder
     telefono?: SortOrder
     activo?: SortOrder
+    permisosLicencias?: SortOrder
     _count?: ProfesorCountOrderByAggregateInput
     _max?: ProfesorMaxOrderByAggregateInput
     _min?: ProfesorMinOrderByAggregateInput
@@ -24021,9 +24021,9 @@ export namespace Prisma {
     NOT?: ProfesorScalarWhereWithAggregatesInput | ProfesorScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Profesor"> | string
     licenciaConducir?: StringWithAggregatesFilter<"Profesor"> | string
-    permisosLicencias?: StringNullableListFilter<"Profesor">
     telefono?: StringWithAggregatesFilter<"Profesor"> | string
     activo?: BoolWithAggregatesFilter<"Profesor"> | boolean
+    permisosLicencias?: StringNullableListFilter<"Profesor">
   }
 
   export type AlumnoWhereInput = {
@@ -24032,39 +24032,39 @@ export namespace Prisma {
     NOT?: AlumnoWhereInput | AlumnoWhereInput[]
     id?: StringFilter<"Alumno"> | string
     tipoLicenciaObjetivo?: StringFilter<"Alumno"> | string
-    fechaNacimiento?: DateTimeNullableFilter<"Alumno"> | Date | string | null
     horasPracticasCompletadas?: IntFilter<"Alumno"> | number
     profesorAsignadoId?: StringNullableFilter<"Alumno"> | string | null
     activo?: BoolFilter<"Alumno"> | boolean
+    fechaNacimiento?: DateTimeNullableFilter<"Alumno"> | Date | string | null
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
     profesorAsignado?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
     clases?: ClasePracticaListRelationFilter
-    examenes?: ExamenListRelationFilter
-    testsPractica?: TestPracticaListRelationFilter
-    temariosProgreso?: TemarioProgresoListRelationFilter
     bonosComprados?: CompraBonoListRelationFilter
-    solicitudesExamen?: SolicitudExamenListRelationFilter
-    matriculas?: MatriculaListRelationFilter
+    examenes?: ExamenListRelationFilter
     facturas?: FacturaListRelationFilter
+    matriculas?: MatriculaListRelationFilter
+    solicitudesExamen?: SolicitudExamenListRelationFilter
+    temariosProgreso?: TemarioProgresoListRelationFilter
+    testsPractica?: TestPracticaListRelationFilter
   }
 
   export type AlumnoOrderByWithRelationInput = {
     id?: SortOrder
     tipoLicenciaObjetivo?: SortOrder
-    fechaNacimiento?: SortOrderInput | SortOrder
     horasPracticasCompletadas?: SortOrder
     profesorAsignadoId?: SortOrderInput | SortOrder
     activo?: SortOrder
+    fechaNacimiento?: SortOrderInput | SortOrder
     usuario?: UsuarioOrderByWithRelationInput
     profesorAsignado?: ProfesorOrderByWithRelationInput
     clases?: ClasePracticaOrderByRelationAggregateInput
-    examenes?: ExamenOrderByRelationAggregateInput
-    testsPractica?: TestPracticaOrderByRelationAggregateInput
-    temariosProgreso?: TemarioProgresoOrderByRelationAggregateInput
     bonosComprados?: CompraBonoOrderByRelationAggregateInput
-    solicitudesExamen?: SolicitudExamenOrderByRelationAggregateInput
-    matriculas?: MatriculaOrderByRelationAggregateInput
+    examenes?: ExamenOrderByRelationAggregateInput
     facturas?: FacturaOrderByRelationAggregateInput
+    matriculas?: MatriculaOrderByRelationAggregateInput
+    solicitudesExamen?: SolicitudExamenOrderByRelationAggregateInput
+    temariosProgreso?: TemarioProgresoOrderByRelationAggregateInput
+    testsPractica?: TestPracticaOrderByRelationAggregateInput
   }
 
   export type AlumnoWhereUniqueInput = Prisma.AtLeast<{
@@ -24073,29 +24073,29 @@ export namespace Prisma {
     OR?: AlumnoWhereInput[]
     NOT?: AlumnoWhereInput | AlumnoWhereInput[]
     tipoLicenciaObjetivo?: StringFilter<"Alumno"> | string
-    fechaNacimiento?: DateTimeNullableFilter<"Alumno"> | Date | string | null
     horasPracticasCompletadas?: IntFilter<"Alumno"> | number
     profesorAsignadoId?: StringNullableFilter<"Alumno"> | string | null
     activo?: BoolFilter<"Alumno"> | boolean
+    fechaNacimiento?: DateTimeNullableFilter<"Alumno"> | Date | string | null
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
     profesorAsignado?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
     clases?: ClasePracticaListRelationFilter
-    examenes?: ExamenListRelationFilter
-    testsPractica?: TestPracticaListRelationFilter
-    temariosProgreso?: TemarioProgresoListRelationFilter
     bonosComprados?: CompraBonoListRelationFilter
-    solicitudesExamen?: SolicitudExamenListRelationFilter
-    matriculas?: MatriculaListRelationFilter
+    examenes?: ExamenListRelationFilter
     facturas?: FacturaListRelationFilter
+    matriculas?: MatriculaListRelationFilter
+    solicitudesExamen?: SolicitudExamenListRelationFilter
+    temariosProgreso?: TemarioProgresoListRelationFilter
+    testsPractica?: TestPracticaListRelationFilter
   }, "id">
 
   export type AlumnoOrderByWithAggregationInput = {
     id?: SortOrder
     tipoLicenciaObjetivo?: SortOrder
-    fechaNacimiento?: SortOrderInput | SortOrder
     horasPracticasCompletadas?: SortOrder
     profesorAsignadoId?: SortOrderInput | SortOrder
     activo?: SortOrder
+    fechaNacimiento?: SortOrderInput | SortOrder
     _count?: AlumnoCountOrderByAggregateInput
     _avg?: AlumnoAvgOrderByAggregateInput
     _max?: AlumnoMaxOrderByAggregateInput
@@ -24109,10 +24109,10 @@ export namespace Prisma {
     NOT?: AlumnoScalarWhereWithAggregatesInput | AlumnoScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Alumno"> | string
     tipoLicenciaObjetivo?: StringWithAggregatesFilter<"Alumno"> | string
-    fechaNacimiento?: DateTimeNullableWithAggregatesFilter<"Alumno"> | Date | string | null
     horasPracticasCompletadas?: IntWithAggregatesFilter<"Alumno"> | number
     profesorAsignadoId?: StringNullableWithAggregatesFilter<"Alumno"> | string | null
     activo?: BoolWithAggregatesFilter<"Alumno"> | boolean
+    fechaNacimiento?: DateTimeNullableWithAggregatesFilter<"Alumno"> | Date | string | null
   }
 
   export type TemarioWhereInput = {
@@ -24122,8 +24122,8 @@ export namespace Prisma {
     id?: StringFilter<"Temario"> | string
     titulo?: StringFilter<"Temario"> | string
     descripcion?: StringNullableFilter<"Temario"> | string | null
-    tipoLicenciaObjetivo?: StringNullableListFilter<"Temario">
     orden?: IntFilter<"Temario"> | number
+    tipoLicenciaObjetivo?: StringNullableListFilter<"Temario">
     progreso?: TemarioProgresoListRelationFilter
     testsPractica?: TestPracticaListRelationFilter
   }
@@ -24132,8 +24132,8 @@ export namespace Prisma {
     id?: SortOrder
     titulo?: SortOrder
     descripcion?: SortOrderInput | SortOrder
-    tipoLicenciaObjetivo?: SortOrder
     orden?: SortOrder
+    tipoLicenciaObjetivo?: SortOrder
     progreso?: TemarioProgresoOrderByRelationAggregateInput
     testsPractica?: TestPracticaOrderByRelationAggregateInput
   }
@@ -24145,8 +24145,8 @@ export namespace Prisma {
     NOT?: TemarioWhereInput | TemarioWhereInput[]
     titulo?: StringFilter<"Temario"> | string
     descripcion?: StringNullableFilter<"Temario"> | string | null
-    tipoLicenciaObjetivo?: StringNullableListFilter<"Temario">
     orden?: IntFilter<"Temario"> | number
+    tipoLicenciaObjetivo?: StringNullableListFilter<"Temario">
     progreso?: TemarioProgresoListRelationFilter
     testsPractica?: TestPracticaListRelationFilter
   }, "id">
@@ -24155,8 +24155,8 @@ export namespace Prisma {
     id?: SortOrder
     titulo?: SortOrder
     descripcion?: SortOrderInput | SortOrder
-    tipoLicenciaObjetivo?: SortOrder
     orden?: SortOrder
+    tipoLicenciaObjetivo?: SortOrder
     _count?: TemarioCountOrderByAggregateInput
     _avg?: TemarioAvgOrderByAggregateInput
     _max?: TemarioMaxOrderByAggregateInput
@@ -24171,8 +24171,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Temario"> | string
     titulo?: StringWithAggregatesFilter<"Temario"> | string
     descripcion?: StringNullableWithAggregatesFilter<"Temario"> | string | null
-    tipoLicenciaObjetivo?: StringNullableListFilter<"Temario">
     orden?: IntWithAggregatesFilter<"Temario"> | number
+    tipoLicenciaObjetivo?: StringNullableListFilter<"Temario">
   }
 
   export type TemarioProgresoWhereInput = {
@@ -24603,8 +24603,8 @@ export namespace Prisma {
     marca?: StringNullableFilter<"Vehiculo"> | string | null
     modelo?: StringNullableFilter<"Vehiculo"> | string | null
     tipoPermiso?: StringFilter<"Vehiculo"> | string
-    imagenRuta?: StringNullableFilter<"Vehiculo"> | string | null
     activo?: BoolFilter<"Vehiculo"> | boolean
+    imagenRuta?: StringNullableFilter<"Vehiculo"> | string | null
     clases?: ClasePracticaListRelationFilter
   }
 
@@ -24614,8 +24614,8 @@ export namespace Prisma {
     marca?: SortOrderInput | SortOrder
     modelo?: SortOrderInput | SortOrder
     tipoPermiso?: SortOrder
-    imagenRuta?: SortOrderInput | SortOrder
     activo?: SortOrder
+    imagenRuta?: SortOrderInput | SortOrder
     clases?: ClasePracticaOrderByRelationAggregateInput
   }
 
@@ -24628,8 +24628,8 @@ export namespace Prisma {
     marca?: StringNullableFilter<"Vehiculo"> | string | null
     modelo?: StringNullableFilter<"Vehiculo"> | string | null
     tipoPermiso?: StringFilter<"Vehiculo"> | string
-    imagenRuta?: StringNullableFilter<"Vehiculo"> | string | null
     activo?: BoolFilter<"Vehiculo"> | boolean
+    imagenRuta?: StringNullableFilter<"Vehiculo"> | string | null
     clases?: ClasePracticaListRelationFilter
   }, "id" | "matricula">
 
@@ -24639,8 +24639,8 @@ export namespace Prisma {
     marca?: SortOrderInput | SortOrder
     modelo?: SortOrderInput | SortOrder
     tipoPermiso?: SortOrder
-    imagenRuta?: SortOrderInput | SortOrder
     activo?: SortOrder
+    imagenRuta?: SortOrderInput | SortOrder
     _count?: VehiculoCountOrderByAggregateInput
     _max?: VehiculoMaxOrderByAggregateInput
     _min?: VehiculoMinOrderByAggregateInput
@@ -24655,8 +24655,8 @@ export namespace Prisma {
     marca?: StringNullableWithAggregatesFilter<"Vehiculo"> | string | null
     modelo?: StringNullableWithAggregatesFilter<"Vehiculo"> | string | null
     tipoPermiso?: StringWithAggregatesFilter<"Vehiculo"> | string
-    imagenRuta?: StringNullableWithAggregatesFilter<"Vehiculo"> | string | null
     activo?: BoolWithAggregatesFilter<"Vehiculo"> | boolean
+    imagenRuta?: StringNullableWithAggregatesFilter<"Vehiculo"> | string | null
   }
 
   export type ClasePracticaWhereInput = {
@@ -24801,12 +24801,12 @@ export namespace Prisma {
     fechaInicio?: DateTimeNullableFilter<"Promocion"> | Date | string | null
     fechaFin?: DateTimeNullableFilter<"Promocion"> | Date | string | null
     activa?: BoolFilter<"Promocion"> | boolean
+    createdAt?: DateTimeFilter<"Promocion"> | Date | string
+    updatedAt?: DateTimeFilter<"Promocion"> | Date | string
     requiereCarnetEstudiante?: BoolFilter<"Promocion"> | boolean
     edadMinima?: IntNullableFilter<"Promocion"> | number | null
     edadMaxima?: IntNullableFilter<"Promocion"> | number | null
     requiereFidelidad?: BoolFilter<"Promocion"> | boolean
-    createdAt?: DateTimeFilter<"Promocion"> | Date | string
-    updatedAt?: DateTimeFilter<"Promocion"> | Date | string
     matriculas?: MatriculaListRelationFilter
   }
 
@@ -24821,12 +24821,12 @@ export namespace Prisma {
     fechaInicio?: SortOrderInput | SortOrder
     fechaFin?: SortOrderInput | SortOrder
     activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     requiereCarnetEstudiante?: SortOrder
     edadMinima?: SortOrderInput | SortOrder
     edadMaxima?: SortOrderInput | SortOrder
     requiereFidelidad?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
     matriculas?: MatriculaOrderByRelationAggregateInput
   }
 
@@ -24844,12 +24844,12 @@ export namespace Prisma {
     fechaInicio?: DateTimeNullableFilter<"Promocion"> | Date | string | null
     fechaFin?: DateTimeNullableFilter<"Promocion"> | Date | string | null
     activa?: BoolFilter<"Promocion"> | boolean
+    createdAt?: DateTimeFilter<"Promocion"> | Date | string
+    updatedAt?: DateTimeFilter<"Promocion"> | Date | string
     requiereCarnetEstudiante?: BoolFilter<"Promocion"> | boolean
     edadMinima?: IntNullableFilter<"Promocion"> | number | null
     edadMaxima?: IntNullableFilter<"Promocion"> | number | null
     requiereFidelidad?: BoolFilter<"Promocion"> | boolean
-    createdAt?: DateTimeFilter<"Promocion"> | Date | string
-    updatedAt?: DateTimeFilter<"Promocion"> | Date | string
     matriculas?: MatriculaListRelationFilter
   }, "id">
 
@@ -24864,12 +24864,12 @@ export namespace Prisma {
     fechaInicio?: SortOrderInput | SortOrder
     fechaFin?: SortOrderInput | SortOrder
     activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     requiereCarnetEstudiante?: SortOrder
     edadMinima?: SortOrderInput | SortOrder
     edadMaxima?: SortOrderInput | SortOrder
     requiereFidelidad?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
     _count?: PromocionCountOrderByAggregateInput
     _avg?: PromocionAvgOrderByAggregateInput
     _max?: PromocionMaxOrderByAggregateInput
@@ -24891,12 +24891,12 @@ export namespace Prisma {
     fechaInicio?: DateTimeNullableWithAggregatesFilter<"Promocion"> | Date | string | null
     fechaFin?: DateTimeNullableWithAggregatesFilter<"Promocion"> | Date | string | null
     activa?: BoolWithAggregatesFilter<"Promocion"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Promocion"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Promocion"> | Date | string
     requiereCarnetEstudiante?: BoolWithAggregatesFilter<"Promocion"> | boolean
     edadMinima?: IntNullableWithAggregatesFilter<"Promocion"> | number | null
     edadMaxima?: IntNullableWithAggregatesFilter<"Promocion"> | number | null
     requiereFidelidad?: BoolWithAggregatesFilter<"Promocion"> | boolean
-    createdAt?: DateTimeWithAggregatesFilter<"Promocion"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Promocion"> | Date | string
   }
 
   export type TarifaMatriculaWhereInput = {
@@ -24972,9 +24972,9 @@ export namespace Prisma {
     fechaCreacion?: DateTimeFilter<"Matricula"> | Date | string
     fechaPago?: DateTimeNullableFilter<"Matricula"> | Date | string | null
     observaciones?: StringNullableFilter<"Matricula"> | string | null
+    factura?: XOR<FacturaNullableScalarRelationFilter, FacturaWhereInput> | null
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
     promocion?: XOR<PromocionNullableScalarRelationFilter, PromocionWhereInput> | null
-    factura?: XOR<FacturaNullableScalarRelationFilter, FacturaWhereInput> | null
   }
 
   export type MatriculaOrderByWithRelationInput = {
@@ -24988,9 +24988,9 @@ export namespace Prisma {
     fechaCreacion?: SortOrder
     fechaPago?: SortOrderInput | SortOrder
     observaciones?: SortOrderInput | SortOrder
+    factura?: FacturaOrderByWithRelationInput
     alumno?: AlumnoOrderByWithRelationInput
     promocion?: PromocionOrderByWithRelationInput
-    factura?: FacturaOrderByWithRelationInput
   }
 
   export type MatriculaWhereUniqueInput = Prisma.AtLeast<{
@@ -25007,9 +25007,9 @@ export namespace Prisma {
     fechaCreacion?: DateTimeFilter<"Matricula"> | Date | string
     fechaPago?: DateTimeNullableFilter<"Matricula"> | Date | string | null
     observaciones?: StringNullableFilter<"Matricula"> | string | null
+    factura?: XOR<FacturaNullableScalarRelationFilter, FacturaWhereInput> | null
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
     promocion?: XOR<PromocionNullableScalarRelationFilter, PromocionWhereInput> | null
-    factura?: XOR<FacturaNullableScalarRelationFilter, FacturaWhereInput> | null
   }, "id">
 
   export type MatriculaOrderByWithAggregationInput = {
@@ -25139,97 +25139,97 @@ export namespace Prisma {
   export type UsuarioCreateInput = {
     id?: string
     nombre: string
-    dni?: string | null
     email: string
-    telefono?: string | null
     passwordHash: string
-    requiereCambioPassword?: boolean
     rol: $Enums.Rol
     fechaCreacion?: Date | string
+    telefono?: string | null
+    dni?: string | null
+    requiereCambioPassword?: boolean
+    activacionesCuenta?: ActivacionCuentaCreateNestedManyWithoutUsuarioInput
     alumno?: AlumnoCreateNestedOneWithoutUsuarioInput
     profesor?: ProfesorCreateNestedOneWithoutUsuarioInput
-    activacionesCuenta?: ActivacionCuentaCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioUncheckedCreateInput = {
     id?: string
     nombre: string
-    dni?: string | null
     email: string
-    telefono?: string | null
     passwordHash: string
-    requiereCambioPassword?: boolean
     rol: $Enums.Rol
     fechaCreacion?: Date | string
+    telefono?: string | null
+    dni?: string | null
+    requiereCambioPassword?: boolean
+    activacionesCuenta?: ActivacionCuentaUncheckedCreateNestedManyWithoutUsuarioInput
     alumno?: AlumnoUncheckedCreateNestedOneWithoutUsuarioInput
     profesor?: ProfesorUncheckedCreateNestedOneWithoutUsuarioInput
-    activacionesCuenta?: ActivacionCuentaUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
-    dni?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
-    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
+    activacionesCuenta?: ActivacionCuentaUpdateManyWithoutUsuarioNestedInput
     alumno?: AlumnoUpdateOneWithoutUsuarioNestedInput
     profesor?: ProfesorUpdateOneWithoutUsuarioNestedInput
-    activacionesCuenta?: ActivacionCuentaUpdateManyWithoutUsuarioNestedInput
   }
 
   export type UsuarioUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
-    dni?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
-    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
+    activacionesCuenta?: ActivacionCuentaUncheckedUpdateManyWithoutUsuarioNestedInput
     alumno?: AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput
     profesor?: ProfesorUncheckedUpdateOneWithoutUsuarioNestedInput
-    activacionesCuenta?: ActivacionCuentaUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
   export type UsuarioCreateManyInput = {
     id?: string
     nombre: string
-    dni?: string | null
     email: string
-    telefono?: string | null
     passwordHash: string
-    requiereCambioPassword?: boolean
     rol: $Enums.Rol
     fechaCreacion?: Date | string
+    telefono?: string | null
+    dni?: string | null
+    requiereCambioPassword?: boolean
   }
 
   export type UsuarioUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
-    dni?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
-    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UsuarioUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
-    dni?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
-    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ActivacionCuentaCreateInput = {
@@ -25310,170 +25310,170 @@ export namespace Prisma {
 
   export type ProfesorCreateInput = {
     licenciaConducir: string
-    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     telefono: string
     activo?: boolean
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
-    clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
+    clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
 
   export type ProfesorUncheckedCreateInput = {
     id: string
     licenciaConducir: string
-    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     telefono: string
     activo?: boolean
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
-    clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
   }
 
   export type ProfesorUpdateInput = {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
-    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
-    clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
+    clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
 
   export type ProfesorUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     licenciaConducir?: StringFieldUpdateOperationsInput | string
-    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
-    clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
+    clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
   export type ProfesorCreateManyInput = {
     id: string
     licenciaConducir: string
-    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     telefono: string
     activo?: boolean
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
   }
 
   export type ProfesorUpdateManyMutationInput = {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
-    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
   }
 
   export type ProfesorUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     licenciaConducir?: StringFieldUpdateOperationsInput | string
-    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
   }
 
   export type AlumnoCreateInput = {
     tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     activo?: boolean
+    fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
     clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
-    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
-    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
-    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
-    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
-    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateInput = {
     id: string
     tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
-    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
-    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
-    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
-    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
-    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUpdateInput = {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
     clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
-    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
-    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
-    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
-    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
-    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
-    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
-    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
-    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
-    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
-    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoCreateManyInput = {
     id: string
     tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    fechaNacimiento?: Date | string | null
   }
 
   export type AlumnoUpdateManyMutationInput = {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AlumnoUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TemarioCreateInput = {
     id?: string
     titulo: string
     descripcion?: string | null
-    tipoLicenciaObjetivo?: TemarioCreatetipoLicenciaObjetivoInput | string[]
     orden?: number
+    tipoLicenciaObjetivo?: TemarioCreatetipoLicenciaObjetivoInput | string[]
     progreso?: TemarioProgresoCreateNestedManyWithoutTemarioInput
     testsPractica?: TestPracticaCreateNestedManyWithoutTemarioInput
   }
@@ -25482,8 +25482,8 @@ export namespace Prisma {
     id?: string
     titulo: string
     descripcion?: string | null
-    tipoLicenciaObjetivo?: TemarioCreatetipoLicenciaObjetivoInput | string[]
     orden?: number
+    tipoLicenciaObjetivo?: TemarioCreatetipoLicenciaObjetivoInput | string[]
     progreso?: TemarioProgresoUncheckedCreateNestedManyWithoutTemarioInput
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutTemarioInput
   }
@@ -25492,8 +25492,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     titulo?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
-    tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
     orden?: IntFieldUpdateOperationsInput | number
+    tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
     progreso?: TemarioProgresoUpdateManyWithoutTemarioNestedInput
     testsPractica?: TestPracticaUpdateManyWithoutTemarioNestedInput
   }
@@ -25502,8 +25502,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     titulo?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
-    tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
     orden?: IntFieldUpdateOperationsInput | number
+    tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
     progreso?: TemarioProgresoUncheckedUpdateManyWithoutTemarioNestedInput
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutTemarioNestedInput
   }
@@ -25512,24 +25512,24 @@ export namespace Prisma {
     id?: string
     titulo: string
     descripcion?: string | null
-    tipoLicenciaObjetivo?: TemarioCreatetipoLicenciaObjetivoInput | string[]
     orden?: number
+    tipoLicenciaObjetivo?: TemarioCreatetipoLicenciaObjetivoInput | string[]
   }
 
   export type TemarioUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     titulo?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
-    tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
     orden?: IntFieldUpdateOperationsInput | number
+    tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
   }
 
   export type TemarioUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     titulo?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
-    tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
     orden?: IntFieldUpdateOperationsInput | number
+    tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
   }
 
   export type TemarioProgresoCreateInput = {
@@ -25968,8 +25968,8 @@ export namespace Prisma {
     marca?: string | null
     modelo?: string | null
     tipoPermiso: string
-    imagenRuta?: string | null
     activo?: boolean
+    imagenRuta?: string | null
     clases?: ClasePracticaCreateNestedManyWithoutVehiculoInput
   }
 
@@ -25979,8 +25979,8 @@ export namespace Prisma {
     marca?: string | null
     modelo?: string | null
     tipoPermiso: string
-    imagenRuta?: string | null
     activo?: boolean
+    imagenRuta?: string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutVehiculoInput
   }
 
@@ -25990,8 +25990,8 @@ export namespace Prisma {
     marca?: NullableStringFieldUpdateOperationsInput | string | null
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     tipoPermiso?: StringFieldUpdateOperationsInput | string
-    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
     clases?: ClasePracticaUpdateManyWithoutVehiculoNestedInput
   }
 
@@ -26001,8 +26001,8 @@ export namespace Prisma {
     marca?: NullableStringFieldUpdateOperationsInput | string | null
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     tipoPermiso?: StringFieldUpdateOperationsInput | string
-    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutVehiculoNestedInput
   }
 
@@ -26012,8 +26012,8 @@ export namespace Prisma {
     marca?: string | null
     modelo?: string | null
     tipoPermiso: string
-    imagenRuta?: string | null
     activo?: boolean
+    imagenRuta?: string | null
   }
 
   export type VehiculoUpdateManyMutationInput = {
@@ -26022,8 +26022,8 @@ export namespace Prisma {
     marca?: NullableStringFieldUpdateOperationsInput | string | null
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     tipoPermiso?: StringFieldUpdateOperationsInput | string
-    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type VehiculoUncheckedUpdateManyInput = {
@@ -26032,8 +26032,8 @@ export namespace Prisma {
     marca?: NullableStringFieldUpdateOperationsInput | string | null
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     tipoPermiso?: StringFieldUpdateOperationsInput | string
-    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ClasePracticaCreateInput = {
@@ -26169,12 +26169,12 @@ export namespace Prisma {
     fechaInicio?: Date | string | null
     fechaFin?: Date | string | null
     activa?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     requiereCarnetEstudiante?: boolean
     edadMinima?: number | null
     edadMaxima?: number | null
     requiereFidelidad?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
     matriculas?: MatriculaCreateNestedManyWithoutPromocionInput
   }
 
@@ -26189,12 +26189,12 @@ export namespace Prisma {
     fechaInicio?: Date | string | null
     fechaFin?: Date | string | null
     activa?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     requiereCarnetEstudiante?: boolean
     edadMinima?: number | null
     edadMaxima?: number | null
     requiereFidelidad?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutPromocionInput
   }
 
@@ -26209,12 +26209,12 @@ export namespace Prisma {
     fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     requiereCarnetEstudiante?: BoolFieldUpdateOperationsInput | boolean
     edadMinima?: NullableIntFieldUpdateOperationsInput | number | null
     edadMaxima?: NullableIntFieldUpdateOperationsInput | number | null
     requiereFidelidad?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     matriculas?: MatriculaUpdateManyWithoutPromocionNestedInput
   }
 
@@ -26229,12 +26229,12 @@ export namespace Prisma {
     fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     requiereCarnetEstudiante?: BoolFieldUpdateOperationsInput | boolean
     edadMinima?: NullableIntFieldUpdateOperationsInput | number | null
     edadMaxima?: NullableIntFieldUpdateOperationsInput | number | null
     requiereFidelidad?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     matriculas?: MatriculaUncheckedUpdateManyWithoutPromocionNestedInput
   }
 
@@ -26249,12 +26249,12 @@ export namespace Prisma {
     fechaInicio?: Date | string | null
     fechaFin?: Date | string | null
     activa?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     requiereCarnetEstudiante?: boolean
     edadMinima?: number | null
     edadMaxima?: number | null
     requiereFidelidad?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
   export type PromocionUpdateManyMutationInput = {
@@ -26268,12 +26268,12 @@ export namespace Prisma {
     fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     requiereCarnetEstudiante?: BoolFieldUpdateOperationsInput | boolean
     edadMinima?: NullableIntFieldUpdateOperationsInput | number | null
     edadMaxima?: NullableIntFieldUpdateOperationsInput | number | null
     requiereFidelidad?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PromocionUncheckedUpdateManyInput = {
@@ -26287,12 +26287,12 @@ export namespace Prisma {
     fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     requiereCarnetEstudiante?: BoolFieldUpdateOperationsInput | boolean
     edadMinima?: NullableIntFieldUpdateOperationsInput | number | null
     edadMaxima?: NullableIntFieldUpdateOperationsInput | number | null
     requiereFidelidad?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TarifaMatriculaCreateInput = {
@@ -26367,9 +26367,9 @@ export namespace Prisma {
     fechaCreacion?: Date | string
     fechaPago?: Date | string | null
     observaciones?: string | null
+    factura?: FacturaCreateNestedOneWithoutMatriculaInput
     alumno: AlumnoCreateNestedOneWithoutMatriculasInput
     promocion?: PromocionCreateNestedOneWithoutMatriculasInput
-    factura?: FacturaCreateNestedOneWithoutMatriculaInput
   }
 
   export type MatriculaUncheckedCreateInput = {
@@ -26395,9 +26395,9 @@ export namespace Prisma {
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    factura?: FacturaUpdateOneWithoutMatriculaNestedInput
     alumno?: AlumnoUpdateOneRequiredWithoutMatriculasNestedInput
     promocion?: PromocionUpdateOneWithoutMatriculasNestedInput
-    factura?: FacturaUpdateOneWithoutMatriculaNestedInput
   }
 
   export type MatriculaUncheckedUpdateInput = {
@@ -26562,6 +26562,24 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type EnumRolFilter<$PrismaModel = never> = {
+    equals?: $Enums.Rol | EnumRolFieldRefInput<$PrismaModel>
+    in?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
+    not?: NestedEnumRolFilter<$PrismaModel> | $Enums.Rol
+  }
+
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -26582,22 +26600,10 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
-  export type EnumRolFilter<$PrismaModel = never> = {
-    equals?: $Enums.Rol | EnumRolFieldRefInput<$PrismaModel>
-    in?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
-    not?: NestedEnumRolFilter<$PrismaModel> | $Enums.Rol
-  }
-
-  export type DateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  export type ActivacionCuentaListRelationFilter = {
+    every?: ActivacionCuentaWhereInput
+    some?: ActivacionCuentaWhereInput
+    none?: ActivacionCuentaWhereInput
   }
 
   export type AlumnoNullableScalarRelationFilter = {
@@ -26608,12 +26614,6 @@ export namespace Prisma {
   export type ProfesorNullableScalarRelationFilter = {
     is?: ProfesorWhereInput | null
     isNot?: ProfesorWhereInput | null
-  }
-
-  export type ActivacionCuentaListRelationFilter = {
-    every?: ActivacionCuentaWhereInput
-    some?: ActivacionCuentaWhereInput
-    none?: ActivacionCuentaWhereInput
   }
 
   export type SortOrderInput = {
@@ -26628,37 +26628,37 @@ export namespace Prisma {
   export type UsuarioCountOrderByAggregateInput = {
     id?: SortOrder
     nombre?: SortOrder
-    dni?: SortOrder
     email?: SortOrder
-    telefono?: SortOrder
     passwordHash?: SortOrder
-    requiereCambioPassword?: SortOrder
     rol?: SortOrder
     fechaCreacion?: SortOrder
+    telefono?: SortOrder
+    dni?: SortOrder
+    requiereCambioPassword?: SortOrder
   }
 
   export type UsuarioMaxOrderByAggregateInput = {
     id?: SortOrder
     nombre?: SortOrder
-    dni?: SortOrder
     email?: SortOrder
-    telefono?: SortOrder
     passwordHash?: SortOrder
-    requiereCambioPassword?: SortOrder
     rol?: SortOrder
     fechaCreacion?: SortOrder
+    telefono?: SortOrder
+    dni?: SortOrder
+    requiereCambioPassword?: SortOrder
   }
 
   export type UsuarioMinOrderByAggregateInput = {
     id?: SortOrder
     nombre?: SortOrder
-    dni?: SortOrder
     email?: SortOrder
-    telefono?: SortOrder
     passwordHash?: SortOrder
-    requiereCambioPassword?: SortOrder
     rol?: SortOrder
     fechaCreacion?: SortOrder
+    telefono?: SortOrder
+    dni?: SortOrder
+    requiereCambioPassword?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -26677,6 +26677,30 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type EnumRolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Rol | EnumRolFieldRefInput<$PrismaModel>
+    in?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
+    not?: NestedEnumRolWithAggregatesFilter<$PrismaModel> | $Enums.Rol
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRolFilter<$PrismaModel>
+    _max?: NestedEnumRolFilter<$PrismaModel>
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -26703,30 +26727,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type EnumRolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Rol | EnumRolFieldRefInput<$PrismaModel>
-    in?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
-    not?: NestedEnumRolWithAggregatesFilter<$PrismaModel> | $Enums.Rol
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRolFilter<$PrismaModel>
-    _max?: NestedEnumRolFilter<$PrismaModel>
-  }
-
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type DateTimeNullableFilter<$PrismaModel = never> = {
@@ -26841,23 +26841,19 @@ export namespace Prisma {
     none?: AlumnoWhereInput
   }
 
-  export type ClasePracticaListRelationFilter = {
-    every?: ClasePracticaWhereInput
-    some?: ClasePracticaWhereInput
-    none?: ClasePracticaWhereInput
-  }
-
   export type ClaseDirectoListRelationFilter = {
     every?: ClaseDirectoWhereInput
     some?: ClaseDirectoWhereInput
     none?: ClaseDirectoWhereInput
   }
 
-  export type AlumnoOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type ClasePracticaListRelationFilter = {
+    every?: ClasePracticaWhereInput
+    some?: ClasePracticaWhereInput
+    none?: ClasePracticaWhereInput
   }
 
-  export type ClasePracticaOrderByRelationAggregateInput = {
+  export type AlumnoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -26865,12 +26861,16 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type ClasePracticaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type ProfesorCountOrderByAggregateInput = {
     id?: SortOrder
     licenciaConducir?: SortOrder
-    permisosLicencias?: SortOrder
     telefono?: SortOrder
     activo?: SortOrder
+    permisosLicencias?: SortOrder
   }
 
   export type ProfesorMaxOrderByAggregateInput = {
@@ -26887,40 +26887,16 @@ export namespace Prisma {
     activo?: SortOrder
   }
 
-  export type ExamenListRelationFilter = {
-    every?: ExamenWhereInput
-    some?: ExamenWhereInput
-    none?: ExamenWhereInput
-  }
-
-  export type TestPracticaListRelationFilter = {
-    every?: TestPracticaWhereInput
-    some?: TestPracticaWhereInput
-    none?: TestPracticaWhereInput
-  }
-
-  export type TemarioProgresoListRelationFilter = {
-    every?: TemarioProgresoWhereInput
-    some?: TemarioProgresoWhereInput
-    none?: TemarioProgresoWhereInput
-  }
-
   export type CompraBonoListRelationFilter = {
     every?: CompraBonoWhereInput
     some?: CompraBonoWhereInput
     none?: CompraBonoWhereInput
   }
 
-  export type SolicitudExamenListRelationFilter = {
-    every?: SolicitudExamenWhereInput
-    some?: SolicitudExamenWhereInput
-    none?: SolicitudExamenWhereInput
-  }
-
-  export type MatriculaListRelationFilter = {
-    every?: MatriculaWhereInput
-    some?: MatriculaWhereInput
-    none?: MatriculaWhereInput
+  export type ExamenListRelationFilter = {
+    every?: ExamenWhereInput
+    some?: ExamenWhereInput
+    none?: ExamenWhereInput
   }
 
   export type FacturaListRelationFilter = {
@@ -26929,27 +26905,35 @@ export namespace Prisma {
     none?: FacturaWhereInput
   }
 
-  export type ExamenOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type MatriculaListRelationFilter = {
+    every?: MatriculaWhereInput
+    some?: MatriculaWhereInput
+    none?: MatriculaWhereInput
   }
 
-  export type TestPracticaOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type SolicitudExamenListRelationFilter = {
+    every?: SolicitudExamenWhereInput
+    some?: SolicitudExamenWhereInput
+    none?: SolicitudExamenWhereInput
   }
 
-  export type TemarioProgresoOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type TemarioProgresoListRelationFilter = {
+    every?: TemarioProgresoWhereInput
+    some?: TemarioProgresoWhereInput
+    none?: TemarioProgresoWhereInput
+  }
+
+  export type TestPracticaListRelationFilter = {
+    every?: TestPracticaWhereInput
+    some?: TestPracticaWhereInput
+    none?: TestPracticaWhereInput
   }
 
   export type CompraBonoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type SolicitudExamenOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type MatriculaOrderByRelationAggregateInput = {
+  export type ExamenOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -26957,13 +26941,29 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type MatriculaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SolicitudExamenOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TemarioProgresoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TestPracticaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type AlumnoCountOrderByAggregateInput = {
     id?: SortOrder
     tipoLicenciaObjetivo?: SortOrder
-    fechaNacimiento?: SortOrder
     horasPracticasCompletadas?: SortOrder
     profesorAsignadoId?: SortOrder
     activo?: SortOrder
+    fechaNacimiento?: SortOrder
   }
 
   export type AlumnoAvgOrderByAggregateInput = {
@@ -26973,19 +26973,19 @@ export namespace Prisma {
   export type AlumnoMaxOrderByAggregateInput = {
     id?: SortOrder
     tipoLicenciaObjetivo?: SortOrder
-    fechaNacimiento?: SortOrder
     horasPracticasCompletadas?: SortOrder
     profesorAsignadoId?: SortOrder
     activo?: SortOrder
+    fechaNacimiento?: SortOrder
   }
 
   export type AlumnoMinOrderByAggregateInput = {
     id?: SortOrder
     tipoLicenciaObjetivo?: SortOrder
-    fechaNacimiento?: SortOrder
     horasPracticasCompletadas?: SortOrder
     profesorAsignadoId?: SortOrder
     activo?: SortOrder
+    fechaNacimiento?: SortOrder
   }
 
   export type AlumnoSumOrderByAggregateInput = {
@@ -26996,8 +26996,8 @@ export namespace Prisma {
     id?: SortOrder
     titulo?: SortOrder
     descripcion?: SortOrder
-    tipoLicenciaObjetivo?: SortOrder
     orden?: SortOrder
+    tipoLicenciaObjetivo?: SortOrder
   }
 
   export type TemarioAvgOrderByAggregateInput = {
@@ -27280,8 +27280,8 @@ export namespace Prisma {
     marca?: SortOrder
     modelo?: SortOrder
     tipoPermiso?: SortOrder
-    imagenRuta?: SortOrder
     activo?: SortOrder
+    imagenRuta?: SortOrder
   }
 
   export type VehiculoMaxOrderByAggregateInput = {
@@ -27290,8 +27290,8 @@ export namespace Prisma {
     marca?: SortOrder
     modelo?: SortOrder
     tipoPermiso?: SortOrder
-    imagenRuta?: SortOrder
     activo?: SortOrder
+    imagenRuta?: SortOrder
   }
 
   export type VehiculoMinOrderByAggregateInput = {
@@ -27300,8 +27300,8 @@ export namespace Prisma {
     marca?: SortOrder
     modelo?: SortOrder
     tipoPermiso?: SortOrder
-    imagenRuta?: SortOrder
     activo?: SortOrder
+    imagenRuta?: SortOrder
   }
 
   export type ProfesorScalarRelationFilter = {
@@ -27409,12 +27409,12 @@ export namespace Prisma {
     fechaInicio?: SortOrder
     fechaFin?: SortOrder
     activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     requiereCarnetEstudiante?: SortOrder
     edadMinima?: SortOrder
     edadMaxima?: SortOrder
     requiereFidelidad?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
   }
 
   export type PromocionAvgOrderByAggregateInput = {
@@ -27434,12 +27434,12 @@ export namespace Prisma {
     fechaInicio?: SortOrder
     fechaFin?: SortOrder
     activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     requiereCarnetEstudiante?: SortOrder
     edadMinima?: SortOrder
     edadMaxima?: SortOrder
     requiereFidelidad?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
   }
 
   export type PromocionMinOrderByAggregateInput = {
@@ -27452,12 +27452,12 @@ export namespace Prisma {
     fechaInicio?: SortOrder
     fechaFin?: SortOrder
     activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     requiereCarnetEstudiante?: SortOrder
     edadMinima?: SortOrder
     edadMaxima?: SortOrder
     requiereFidelidad?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
   }
 
   export type PromocionSumOrderByAggregateInput = {
@@ -27534,14 +27534,14 @@ export namespace Prisma {
     precio?: SortOrder
   }
 
-  export type PromocionNullableScalarRelationFilter = {
-    is?: PromocionWhereInput | null
-    isNot?: PromocionWhereInput | null
-  }
-
   export type FacturaNullableScalarRelationFilter = {
     is?: FacturaWhereInput | null
     isNot?: FacturaWhereInput | null
+  }
+
+  export type PromocionNullableScalarRelationFilter = {
+    is?: PromocionWhereInput | null
+    isNot?: PromocionWhereInput | null
   }
 
   export type MatriculaCountOrderByAggregateInput = {
@@ -27652,6 +27652,13 @@ export namespace Prisma {
     total?: SortOrder
   }
 
+  export type ActivacionCuentaCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<ActivacionCuentaCreateWithoutUsuarioInput, ActivacionCuentaUncheckedCreateWithoutUsuarioInput> | ActivacionCuentaCreateWithoutUsuarioInput[] | ActivacionCuentaUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: ActivacionCuentaCreateOrConnectWithoutUsuarioInput | ActivacionCuentaCreateOrConnectWithoutUsuarioInput[]
+    createMany?: ActivacionCuentaCreateManyUsuarioInputEnvelope
+    connect?: ActivacionCuentaWhereUniqueInput | ActivacionCuentaWhereUniqueInput[]
+  }
+
   export type AlumnoCreateNestedOneWithoutUsuarioInput = {
     create?: XOR<AlumnoCreateWithoutUsuarioInput, AlumnoUncheckedCreateWithoutUsuarioInput>
     connectOrCreate?: AlumnoCreateOrConnectWithoutUsuarioInput
@@ -27664,7 +27671,7 @@ export namespace Prisma {
     connect?: ProfesorWhereUniqueInput
   }
 
-  export type ActivacionCuentaCreateNestedManyWithoutUsuarioInput = {
+  export type ActivacionCuentaUncheckedCreateNestedManyWithoutUsuarioInput = {
     create?: XOR<ActivacionCuentaCreateWithoutUsuarioInput, ActivacionCuentaUncheckedCreateWithoutUsuarioInput> | ActivacionCuentaCreateWithoutUsuarioInput[] | ActivacionCuentaUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: ActivacionCuentaCreateOrConnectWithoutUsuarioInput | ActivacionCuentaCreateOrConnectWithoutUsuarioInput[]
     createMany?: ActivacionCuentaCreateManyUsuarioInputEnvelope
@@ -27683,15 +27690,16 @@ export namespace Prisma {
     connect?: ProfesorWhereUniqueInput
   }
 
-  export type ActivacionCuentaUncheckedCreateNestedManyWithoutUsuarioInput = {
-    create?: XOR<ActivacionCuentaCreateWithoutUsuarioInput, ActivacionCuentaUncheckedCreateWithoutUsuarioInput> | ActivacionCuentaCreateWithoutUsuarioInput[] | ActivacionCuentaUncheckedCreateWithoutUsuarioInput[]
-    connectOrCreate?: ActivacionCuentaCreateOrConnectWithoutUsuarioInput | ActivacionCuentaCreateOrConnectWithoutUsuarioInput[]
-    createMany?: ActivacionCuentaCreateManyUsuarioInputEnvelope
-    connect?: ActivacionCuentaWhereUniqueInput | ActivacionCuentaWhereUniqueInput[]
-  }
-
   export type StringFieldUpdateOperationsInput = {
     set?: string
+  }
+
+  export type EnumRolFieldUpdateOperationsInput = {
+    set?: $Enums.Rol
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -27702,12 +27710,18 @@ export namespace Prisma {
     set?: boolean
   }
 
-  export type EnumRolFieldUpdateOperationsInput = {
-    set?: $Enums.Rol
-  }
-
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
+  export type ActivacionCuentaUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<ActivacionCuentaCreateWithoutUsuarioInput, ActivacionCuentaUncheckedCreateWithoutUsuarioInput> | ActivacionCuentaCreateWithoutUsuarioInput[] | ActivacionCuentaUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: ActivacionCuentaCreateOrConnectWithoutUsuarioInput | ActivacionCuentaCreateOrConnectWithoutUsuarioInput[]
+    upsert?: ActivacionCuentaUpsertWithWhereUniqueWithoutUsuarioInput | ActivacionCuentaUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: ActivacionCuentaCreateManyUsuarioInputEnvelope
+    set?: ActivacionCuentaWhereUniqueInput | ActivacionCuentaWhereUniqueInput[]
+    disconnect?: ActivacionCuentaWhereUniqueInput | ActivacionCuentaWhereUniqueInput[]
+    delete?: ActivacionCuentaWhereUniqueInput | ActivacionCuentaWhereUniqueInput[]
+    connect?: ActivacionCuentaWhereUniqueInput | ActivacionCuentaWhereUniqueInput[]
+    update?: ActivacionCuentaUpdateWithWhereUniqueWithoutUsuarioInput | ActivacionCuentaUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: ActivacionCuentaUpdateManyWithWhereWithoutUsuarioInput | ActivacionCuentaUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: ActivacionCuentaScalarWhereInput | ActivacionCuentaScalarWhereInput[]
   }
 
   export type AlumnoUpdateOneWithoutUsuarioNestedInput = {
@@ -27730,7 +27744,7 @@ export namespace Prisma {
     update?: XOR<XOR<ProfesorUpdateToOneWithWhereWithoutUsuarioInput, ProfesorUpdateWithoutUsuarioInput>, ProfesorUncheckedUpdateWithoutUsuarioInput>
   }
 
-  export type ActivacionCuentaUpdateManyWithoutUsuarioNestedInput = {
+  export type ActivacionCuentaUncheckedUpdateManyWithoutUsuarioNestedInput = {
     create?: XOR<ActivacionCuentaCreateWithoutUsuarioInput, ActivacionCuentaUncheckedCreateWithoutUsuarioInput> | ActivacionCuentaCreateWithoutUsuarioInput[] | ActivacionCuentaUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: ActivacionCuentaCreateOrConnectWithoutUsuarioInput | ActivacionCuentaCreateOrConnectWithoutUsuarioInput[]
     upsert?: ActivacionCuentaUpsertWithWhereUniqueWithoutUsuarioInput | ActivacionCuentaUpsertWithWhereUniqueWithoutUsuarioInput[]
@@ -27762,20 +27776,6 @@ export namespace Prisma {
     delete?: ProfesorWhereInput | boolean
     connect?: ProfesorWhereUniqueInput
     update?: XOR<XOR<ProfesorUpdateToOneWithWhereWithoutUsuarioInput, ProfesorUpdateWithoutUsuarioInput>, ProfesorUncheckedUpdateWithoutUsuarioInput>
-  }
-
-  export type ActivacionCuentaUncheckedUpdateManyWithoutUsuarioNestedInput = {
-    create?: XOR<ActivacionCuentaCreateWithoutUsuarioInput, ActivacionCuentaUncheckedCreateWithoutUsuarioInput> | ActivacionCuentaCreateWithoutUsuarioInput[] | ActivacionCuentaUncheckedCreateWithoutUsuarioInput[]
-    connectOrCreate?: ActivacionCuentaCreateOrConnectWithoutUsuarioInput | ActivacionCuentaCreateOrConnectWithoutUsuarioInput[]
-    upsert?: ActivacionCuentaUpsertWithWhereUniqueWithoutUsuarioInput | ActivacionCuentaUpsertWithWhereUniqueWithoutUsuarioInput[]
-    createMany?: ActivacionCuentaCreateManyUsuarioInputEnvelope
-    set?: ActivacionCuentaWhereUniqueInput | ActivacionCuentaWhereUniqueInput[]
-    disconnect?: ActivacionCuentaWhereUniqueInput | ActivacionCuentaWhereUniqueInput[]
-    delete?: ActivacionCuentaWhereUniqueInput | ActivacionCuentaWhereUniqueInput[]
-    connect?: ActivacionCuentaWhereUniqueInput | ActivacionCuentaWhereUniqueInput[]
-    update?: ActivacionCuentaUpdateWithWhereUniqueWithoutUsuarioInput | ActivacionCuentaUpdateWithWhereUniqueWithoutUsuarioInput[]
-    updateMany?: ActivacionCuentaUpdateManyWithWhereWithoutUsuarioInput | ActivacionCuentaUpdateManyWithWhereWithoutUsuarioInput[]
-    deleteMany?: ActivacionCuentaScalarWhereInput | ActivacionCuentaScalarWhereInput[]
   }
 
   export type UsuarioCreateNestedOneWithoutActivacionesCuentaInput = {
@@ -27815,18 +27815,18 @@ export namespace Prisma {
     connect?: AlumnoWhereUniqueInput | AlumnoWhereUniqueInput[]
   }
 
-  export type ClasePracticaCreateNestedManyWithoutProfesorInput = {
-    create?: XOR<ClasePracticaCreateWithoutProfesorInput, ClasePracticaUncheckedCreateWithoutProfesorInput> | ClasePracticaCreateWithoutProfesorInput[] | ClasePracticaUncheckedCreateWithoutProfesorInput[]
-    connectOrCreate?: ClasePracticaCreateOrConnectWithoutProfesorInput | ClasePracticaCreateOrConnectWithoutProfesorInput[]
-    createMany?: ClasePracticaCreateManyProfesorInputEnvelope
-    connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
-  }
-
   export type ClaseDirectoCreateNestedManyWithoutProfesorInput = {
     create?: XOR<ClaseDirectoCreateWithoutProfesorInput, ClaseDirectoUncheckedCreateWithoutProfesorInput> | ClaseDirectoCreateWithoutProfesorInput[] | ClaseDirectoUncheckedCreateWithoutProfesorInput[]
     connectOrCreate?: ClaseDirectoCreateOrConnectWithoutProfesorInput | ClaseDirectoCreateOrConnectWithoutProfesorInput[]
     createMany?: ClaseDirectoCreateManyProfesorInputEnvelope
     connect?: ClaseDirectoWhereUniqueInput | ClaseDirectoWhereUniqueInput[]
+  }
+
+  export type ClasePracticaCreateNestedManyWithoutProfesorInput = {
+    create?: XOR<ClasePracticaCreateWithoutProfesorInput, ClasePracticaUncheckedCreateWithoutProfesorInput> | ClasePracticaCreateWithoutProfesorInput[] | ClasePracticaUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: ClasePracticaCreateOrConnectWithoutProfesorInput | ClasePracticaCreateOrConnectWithoutProfesorInput[]
+    createMany?: ClasePracticaCreateManyProfesorInputEnvelope
+    connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
   }
 
   export type UsuarioCreateNestedOneWithoutProfesorInput = {
@@ -27842,18 +27842,18 @@ export namespace Prisma {
     connect?: AlumnoWhereUniqueInput | AlumnoWhereUniqueInput[]
   }
 
-  export type ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput = {
-    create?: XOR<ClasePracticaCreateWithoutProfesorInput, ClasePracticaUncheckedCreateWithoutProfesorInput> | ClasePracticaCreateWithoutProfesorInput[] | ClasePracticaUncheckedCreateWithoutProfesorInput[]
-    connectOrCreate?: ClasePracticaCreateOrConnectWithoutProfesorInput | ClasePracticaCreateOrConnectWithoutProfesorInput[]
-    createMany?: ClasePracticaCreateManyProfesorInputEnvelope
-    connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
-  }
-
   export type ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput = {
     create?: XOR<ClaseDirectoCreateWithoutProfesorInput, ClaseDirectoUncheckedCreateWithoutProfesorInput> | ClaseDirectoCreateWithoutProfesorInput[] | ClaseDirectoUncheckedCreateWithoutProfesorInput[]
     connectOrCreate?: ClaseDirectoCreateOrConnectWithoutProfesorInput | ClaseDirectoCreateOrConnectWithoutProfesorInput[]
     createMany?: ClaseDirectoCreateManyProfesorInputEnvelope
     connect?: ClaseDirectoWhereUniqueInput | ClaseDirectoWhereUniqueInput[]
+  }
+
+  export type ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput = {
+    create?: XOR<ClasePracticaCreateWithoutProfesorInput, ClasePracticaUncheckedCreateWithoutProfesorInput> | ClasePracticaCreateWithoutProfesorInput[] | ClasePracticaUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: ClasePracticaCreateOrConnectWithoutProfesorInput | ClasePracticaCreateOrConnectWithoutProfesorInput[]
+    createMany?: ClasePracticaCreateManyProfesorInputEnvelope
+    connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
   }
 
   export type ProfesorUpdatepermisosLicenciasInput = {
@@ -27875,20 +27875,6 @@ export namespace Prisma {
     deleteMany?: AlumnoScalarWhereInput | AlumnoScalarWhereInput[]
   }
 
-  export type ClasePracticaUpdateManyWithoutProfesorNestedInput = {
-    create?: XOR<ClasePracticaCreateWithoutProfesorInput, ClasePracticaUncheckedCreateWithoutProfesorInput> | ClasePracticaCreateWithoutProfesorInput[] | ClasePracticaUncheckedCreateWithoutProfesorInput[]
-    connectOrCreate?: ClasePracticaCreateOrConnectWithoutProfesorInput | ClasePracticaCreateOrConnectWithoutProfesorInput[]
-    upsert?: ClasePracticaUpsertWithWhereUniqueWithoutProfesorInput | ClasePracticaUpsertWithWhereUniqueWithoutProfesorInput[]
-    createMany?: ClasePracticaCreateManyProfesorInputEnvelope
-    set?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
-    disconnect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
-    delete?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
-    connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
-    update?: ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput | ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput[]
-    updateMany?: ClasePracticaUpdateManyWithWhereWithoutProfesorInput | ClasePracticaUpdateManyWithWhereWithoutProfesorInput[]
-    deleteMany?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
-  }
-
   export type ClaseDirectoUpdateManyWithoutProfesorNestedInput = {
     create?: XOR<ClaseDirectoCreateWithoutProfesorInput, ClaseDirectoUncheckedCreateWithoutProfesorInput> | ClaseDirectoCreateWithoutProfesorInput[] | ClaseDirectoUncheckedCreateWithoutProfesorInput[]
     connectOrCreate?: ClaseDirectoCreateOrConnectWithoutProfesorInput | ClaseDirectoCreateOrConnectWithoutProfesorInput[]
@@ -27901,6 +27887,20 @@ export namespace Prisma {
     update?: ClaseDirectoUpdateWithWhereUniqueWithoutProfesorInput | ClaseDirectoUpdateWithWhereUniqueWithoutProfesorInput[]
     updateMany?: ClaseDirectoUpdateManyWithWhereWithoutProfesorInput | ClaseDirectoUpdateManyWithWhereWithoutProfesorInput[]
     deleteMany?: ClaseDirectoScalarWhereInput | ClaseDirectoScalarWhereInput[]
+  }
+
+  export type ClasePracticaUpdateManyWithoutProfesorNestedInput = {
+    create?: XOR<ClasePracticaCreateWithoutProfesorInput, ClasePracticaUncheckedCreateWithoutProfesorInput> | ClasePracticaCreateWithoutProfesorInput[] | ClasePracticaUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: ClasePracticaCreateOrConnectWithoutProfesorInput | ClasePracticaCreateOrConnectWithoutProfesorInput[]
+    upsert?: ClasePracticaUpsertWithWhereUniqueWithoutProfesorInput | ClasePracticaUpsertWithWhereUniqueWithoutProfesorInput[]
+    createMany?: ClasePracticaCreateManyProfesorInputEnvelope
+    set?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+    disconnect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+    delete?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+    connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+    update?: ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput | ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput[]
+    updateMany?: ClasePracticaUpdateManyWithWhereWithoutProfesorInput | ClasePracticaUpdateManyWithWhereWithoutProfesorInput[]
+    deleteMany?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
   }
 
   export type UsuarioUpdateOneRequiredWithoutProfesorNestedInput = {
@@ -27925,20 +27925,6 @@ export namespace Prisma {
     deleteMany?: AlumnoScalarWhereInput | AlumnoScalarWhereInput[]
   }
 
-  export type ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput = {
-    create?: XOR<ClasePracticaCreateWithoutProfesorInput, ClasePracticaUncheckedCreateWithoutProfesorInput> | ClasePracticaCreateWithoutProfesorInput[] | ClasePracticaUncheckedCreateWithoutProfesorInput[]
-    connectOrCreate?: ClasePracticaCreateOrConnectWithoutProfesorInput | ClasePracticaCreateOrConnectWithoutProfesorInput[]
-    upsert?: ClasePracticaUpsertWithWhereUniqueWithoutProfesorInput | ClasePracticaUpsertWithWhereUniqueWithoutProfesorInput[]
-    createMany?: ClasePracticaCreateManyProfesorInputEnvelope
-    set?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
-    disconnect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
-    delete?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
-    connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
-    update?: ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput | ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput[]
-    updateMany?: ClasePracticaUpdateManyWithWhereWithoutProfesorInput | ClasePracticaUpdateManyWithWhereWithoutProfesorInput[]
-    deleteMany?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
-  }
-
   export type ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput = {
     create?: XOR<ClaseDirectoCreateWithoutProfesorInput, ClaseDirectoUncheckedCreateWithoutProfesorInput> | ClaseDirectoCreateWithoutProfesorInput[] | ClaseDirectoUncheckedCreateWithoutProfesorInput[]
     connectOrCreate?: ClaseDirectoCreateOrConnectWithoutProfesorInput | ClaseDirectoCreateOrConnectWithoutProfesorInput[]
@@ -27951,6 +27937,20 @@ export namespace Prisma {
     update?: ClaseDirectoUpdateWithWhereUniqueWithoutProfesorInput | ClaseDirectoUpdateWithWhereUniqueWithoutProfesorInput[]
     updateMany?: ClaseDirectoUpdateManyWithWhereWithoutProfesorInput | ClaseDirectoUpdateManyWithWhereWithoutProfesorInput[]
     deleteMany?: ClaseDirectoScalarWhereInput | ClaseDirectoScalarWhereInput[]
+  }
+
+  export type ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput = {
+    create?: XOR<ClasePracticaCreateWithoutProfesorInput, ClasePracticaUncheckedCreateWithoutProfesorInput> | ClasePracticaCreateWithoutProfesorInput[] | ClasePracticaUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: ClasePracticaCreateOrConnectWithoutProfesorInput | ClasePracticaCreateOrConnectWithoutProfesorInput[]
+    upsert?: ClasePracticaUpsertWithWhereUniqueWithoutProfesorInput | ClasePracticaUpsertWithWhereUniqueWithoutProfesorInput[]
+    createMany?: ClasePracticaCreateManyProfesorInputEnvelope
+    set?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+    disconnect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+    delete?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+    connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+    update?: ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput | ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput[]
+    updateMany?: ClasePracticaUpdateManyWithWhereWithoutProfesorInput | ClasePracticaUpdateManyWithWhereWithoutProfesorInput[]
+    deleteMany?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
   }
 
   export type UsuarioCreateNestedOneWithoutAlumnoInput = {
@@ -27972,27 +27972,6 @@ export namespace Prisma {
     connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
   }
 
-  export type ExamenCreateNestedManyWithoutAlumnoInput = {
-    create?: XOR<ExamenCreateWithoutAlumnoInput, ExamenUncheckedCreateWithoutAlumnoInput> | ExamenCreateWithoutAlumnoInput[] | ExamenUncheckedCreateWithoutAlumnoInput[]
-    connectOrCreate?: ExamenCreateOrConnectWithoutAlumnoInput | ExamenCreateOrConnectWithoutAlumnoInput[]
-    createMany?: ExamenCreateManyAlumnoInputEnvelope
-    connect?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
-  }
-
-  export type TestPracticaCreateNestedManyWithoutAlumnoInput = {
-    create?: XOR<TestPracticaCreateWithoutAlumnoInput, TestPracticaUncheckedCreateWithoutAlumnoInput> | TestPracticaCreateWithoutAlumnoInput[] | TestPracticaUncheckedCreateWithoutAlumnoInput[]
-    connectOrCreate?: TestPracticaCreateOrConnectWithoutAlumnoInput | TestPracticaCreateOrConnectWithoutAlumnoInput[]
-    createMany?: TestPracticaCreateManyAlumnoInputEnvelope
-    connect?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
-  }
-
-  export type TemarioProgresoCreateNestedManyWithoutAlumnoInput = {
-    create?: XOR<TemarioProgresoCreateWithoutAlumnoInput, TemarioProgresoUncheckedCreateWithoutAlumnoInput> | TemarioProgresoCreateWithoutAlumnoInput[] | TemarioProgresoUncheckedCreateWithoutAlumnoInput[]
-    connectOrCreate?: TemarioProgresoCreateOrConnectWithoutAlumnoInput | TemarioProgresoCreateOrConnectWithoutAlumnoInput[]
-    createMany?: TemarioProgresoCreateManyAlumnoInputEnvelope
-    connect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
-  }
-
   export type CompraBonoCreateNestedManyWithoutAlumnoInput = {
     create?: XOR<CompraBonoCreateWithoutAlumnoInput, CompraBonoUncheckedCreateWithoutAlumnoInput> | CompraBonoCreateWithoutAlumnoInput[] | CompraBonoUncheckedCreateWithoutAlumnoInput[]
     connectOrCreate?: CompraBonoCreateOrConnectWithoutAlumnoInput | CompraBonoCreateOrConnectWithoutAlumnoInput[]
@@ -28000,18 +27979,11 @@ export namespace Prisma {
     connect?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
   }
 
-  export type SolicitudExamenCreateNestedManyWithoutAlumnoInput = {
-    create?: XOR<SolicitudExamenCreateWithoutAlumnoInput, SolicitudExamenUncheckedCreateWithoutAlumnoInput> | SolicitudExamenCreateWithoutAlumnoInput[] | SolicitudExamenUncheckedCreateWithoutAlumnoInput[]
-    connectOrCreate?: SolicitudExamenCreateOrConnectWithoutAlumnoInput | SolicitudExamenCreateOrConnectWithoutAlumnoInput[]
-    createMany?: SolicitudExamenCreateManyAlumnoInputEnvelope
-    connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
-  }
-
-  export type MatriculaCreateNestedManyWithoutAlumnoInput = {
-    create?: XOR<MatriculaCreateWithoutAlumnoInput, MatriculaUncheckedCreateWithoutAlumnoInput> | MatriculaCreateWithoutAlumnoInput[] | MatriculaUncheckedCreateWithoutAlumnoInput[]
-    connectOrCreate?: MatriculaCreateOrConnectWithoutAlumnoInput | MatriculaCreateOrConnectWithoutAlumnoInput[]
-    createMany?: MatriculaCreateManyAlumnoInputEnvelope
-    connect?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+  export type ExamenCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<ExamenCreateWithoutAlumnoInput, ExamenUncheckedCreateWithoutAlumnoInput> | ExamenCreateWithoutAlumnoInput[] | ExamenUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: ExamenCreateOrConnectWithoutAlumnoInput | ExamenCreateOrConnectWithoutAlumnoInput[]
+    createMany?: ExamenCreateManyAlumnoInputEnvelope
+    connect?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
   }
 
   export type FacturaCreateNestedManyWithoutAlumnoInput = {
@@ -28021,32 +27993,39 @@ export namespace Prisma {
     connect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
   }
 
-  export type ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput = {
-    create?: XOR<ClasePracticaCreateWithoutAlumnoInput, ClasePracticaUncheckedCreateWithoutAlumnoInput> | ClasePracticaCreateWithoutAlumnoInput[] | ClasePracticaUncheckedCreateWithoutAlumnoInput[]
-    connectOrCreate?: ClasePracticaCreateOrConnectWithoutAlumnoInput | ClasePracticaCreateOrConnectWithoutAlumnoInput[]
-    createMany?: ClasePracticaCreateManyAlumnoInputEnvelope
-    connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+  export type MatriculaCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<MatriculaCreateWithoutAlumnoInput, MatriculaUncheckedCreateWithoutAlumnoInput> | MatriculaCreateWithoutAlumnoInput[] | MatriculaUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: MatriculaCreateOrConnectWithoutAlumnoInput | MatriculaCreateOrConnectWithoutAlumnoInput[]
+    createMany?: MatriculaCreateManyAlumnoInputEnvelope
+    connect?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
   }
 
-  export type ExamenUncheckedCreateNestedManyWithoutAlumnoInput = {
-    create?: XOR<ExamenCreateWithoutAlumnoInput, ExamenUncheckedCreateWithoutAlumnoInput> | ExamenCreateWithoutAlumnoInput[] | ExamenUncheckedCreateWithoutAlumnoInput[]
-    connectOrCreate?: ExamenCreateOrConnectWithoutAlumnoInput | ExamenCreateOrConnectWithoutAlumnoInput[]
-    createMany?: ExamenCreateManyAlumnoInputEnvelope
-    connect?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
+  export type SolicitudExamenCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<SolicitudExamenCreateWithoutAlumnoInput, SolicitudExamenUncheckedCreateWithoutAlumnoInput> | SolicitudExamenCreateWithoutAlumnoInput[] | SolicitudExamenUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: SolicitudExamenCreateOrConnectWithoutAlumnoInput | SolicitudExamenCreateOrConnectWithoutAlumnoInput[]
+    createMany?: SolicitudExamenCreateManyAlumnoInputEnvelope
+    connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
   }
 
-  export type TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput = {
+  export type TemarioProgresoCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<TemarioProgresoCreateWithoutAlumnoInput, TemarioProgresoUncheckedCreateWithoutAlumnoInput> | TemarioProgresoCreateWithoutAlumnoInput[] | TemarioProgresoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: TemarioProgresoCreateOrConnectWithoutAlumnoInput | TemarioProgresoCreateOrConnectWithoutAlumnoInput[]
+    createMany?: TemarioProgresoCreateManyAlumnoInputEnvelope
+    connect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+  }
+
+  export type TestPracticaCreateNestedManyWithoutAlumnoInput = {
     create?: XOR<TestPracticaCreateWithoutAlumnoInput, TestPracticaUncheckedCreateWithoutAlumnoInput> | TestPracticaCreateWithoutAlumnoInput[] | TestPracticaUncheckedCreateWithoutAlumnoInput[]
     connectOrCreate?: TestPracticaCreateOrConnectWithoutAlumnoInput | TestPracticaCreateOrConnectWithoutAlumnoInput[]
     createMany?: TestPracticaCreateManyAlumnoInputEnvelope
     connect?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
   }
 
-  export type TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput = {
-    create?: XOR<TemarioProgresoCreateWithoutAlumnoInput, TemarioProgresoUncheckedCreateWithoutAlumnoInput> | TemarioProgresoCreateWithoutAlumnoInput[] | TemarioProgresoUncheckedCreateWithoutAlumnoInput[]
-    connectOrCreate?: TemarioProgresoCreateOrConnectWithoutAlumnoInput | TemarioProgresoCreateOrConnectWithoutAlumnoInput[]
-    createMany?: TemarioProgresoCreateManyAlumnoInputEnvelope
-    connect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+  export type ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<ClasePracticaCreateWithoutAlumnoInput, ClasePracticaUncheckedCreateWithoutAlumnoInput> | ClasePracticaCreateWithoutAlumnoInput[] | ClasePracticaUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: ClasePracticaCreateOrConnectWithoutAlumnoInput | ClasePracticaCreateOrConnectWithoutAlumnoInput[]
+    createMany?: ClasePracticaCreateManyAlumnoInputEnvelope
+    connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
   }
 
   export type CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput = {
@@ -28056,11 +28035,18 @@ export namespace Prisma {
     connect?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
   }
 
-  export type SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput = {
-    create?: XOR<SolicitudExamenCreateWithoutAlumnoInput, SolicitudExamenUncheckedCreateWithoutAlumnoInput> | SolicitudExamenCreateWithoutAlumnoInput[] | SolicitudExamenUncheckedCreateWithoutAlumnoInput[]
-    connectOrCreate?: SolicitudExamenCreateOrConnectWithoutAlumnoInput | SolicitudExamenCreateOrConnectWithoutAlumnoInput[]
-    createMany?: SolicitudExamenCreateManyAlumnoInputEnvelope
-    connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+  export type ExamenUncheckedCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<ExamenCreateWithoutAlumnoInput, ExamenUncheckedCreateWithoutAlumnoInput> | ExamenCreateWithoutAlumnoInput[] | ExamenUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: ExamenCreateOrConnectWithoutAlumnoInput | ExamenCreateOrConnectWithoutAlumnoInput[]
+    createMany?: ExamenCreateManyAlumnoInputEnvelope
+    connect?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
+  }
+
+  export type FacturaUncheckedCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<FacturaCreateWithoutAlumnoInput, FacturaUncheckedCreateWithoutAlumnoInput> | FacturaCreateWithoutAlumnoInput[] | FacturaUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: FacturaCreateOrConnectWithoutAlumnoInput | FacturaCreateOrConnectWithoutAlumnoInput[]
+    createMany?: FacturaCreateManyAlumnoInputEnvelope
+    connect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
   }
 
   export type MatriculaUncheckedCreateNestedManyWithoutAlumnoInput = {
@@ -28070,11 +28056,25 @@ export namespace Prisma {
     connect?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
   }
 
-  export type FacturaUncheckedCreateNestedManyWithoutAlumnoInput = {
-    create?: XOR<FacturaCreateWithoutAlumnoInput, FacturaUncheckedCreateWithoutAlumnoInput> | FacturaCreateWithoutAlumnoInput[] | FacturaUncheckedCreateWithoutAlumnoInput[]
-    connectOrCreate?: FacturaCreateOrConnectWithoutAlumnoInput | FacturaCreateOrConnectWithoutAlumnoInput[]
-    createMany?: FacturaCreateManyAlumnoInputEnvelope
-    connect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+  export type SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<SolicitudExamenCreateWithoutAlumnoInput, SolicitudExamenUncheckedCreateWithoutAlumnoInput> | SolicitudExamenCreateWithoutAlumnoInput[] | SolicitudExamenUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: SolicitudExamenCreateOrConnectWithoutAlumnoInput | SolicitudExamenCreateOrConnectWithoutAlumnoInput[]
+    createMany?: SolicitudExamenCreateManyAlumnoInputEnvelope
+    connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+  }
+
+  export type TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<TemarioProgresoCreateWithoutAlumnoInput, TemarioProgresoUncheckedCreateWithoutAlumnoInput> | TemarioProgresoCreateWithoutAlumnoInput[] | TemarioProgresoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: TemarioProgresoCreateOrConnectWithoutAlumnoInput | TemarioProgresoCreateOrConnectWithoutAlumnoInput[]
+    createMany?: TemarioProgresoCreateManyAlumnoInputEnvelope
+    connect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+  }
+
+  export type TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<TestPracticaCreateWithoutAlumnoInput, TestPracticaUncheckedCreateWithoutAlumnoInput> | TestPracticaCreateWithoutAlumnoInput[] | TestPracticaUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: TestPracticaCreateOrConnectWithoutAlumnoInput | TestPracticaCreateOrConnectWithoutAlumnoInput[]
+    createMany?: TestPracticaCreateManyAlumnoInputEnvelope
+    connect?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
   }
 
   export type UsuarioUpdateOneRequiredWithoutAlumnoNestedInput = {
@@ -28109,48 +28109,6 @@ export namespace Prisma {
     deleteMany?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
   }
 
-  export type ExamenUpdateManyWithoutAlumnoNestedInput = {
-    create?: XOR<ExamenCreateWithoutAlumnoInput, ExamenUncheckedCreateWithoutAlumnoInput> | ExamenCreateWithoutAlumnoInput[] | ExamenUncheckedCreateWithoutAlumnoInput[]
-    connectOrCreate?: ExamenCreateOrConnectWithoutAlumnoInput | ExamenCreateOrConnectWithoutAlumnoInput[]
-    upsert?: ExamenUpsertWithWhereUniqueWithoutAlumnoInput | ExamenUpsertWithWhereUniqueWithoutAlumnoInput[]
-    createMany?: ExamenCreateManyAlumnoInputEnvelope
-    set?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
-    disconnect?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
-    delete?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
-    connect?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
-    update?: ExamenUpdateWithWhereUniqueWithoutAlumnoInput | ExamenUpdateWithWhereUniqueWithoutAlumnoInput[]
-    updateMany?: ExamenUpdateManyWithWhereWithoutAlumnoInput | ExamenUpdateManyWithWhereWithoutAlumnoInput[]
-    deleteMany?: ExamenScalarWhereInput | ExamenScalarWhereInput[]
-  }
-
-  export type TestPracticaUpdateManyWithoutAlumnoNestedInput = {
-    create?: XOR<TestPracticaCreateWithoutAlumnoInput, TestPracticaUncheckedCreateWithoutAlumnoInput> | TestPracticaCreateWithoutAlumnoInput[] | TestPracticaUncheckedCreateWithoutAlumnoInput[]
-    connectOrCreate?: TestPracticaCreateOrConnectWithoutAlumnoInput | TestPracticaCreateOrConnectWithoutAlumnoInput[]
-    upsert?: TestPracticaUpsertWithWhereUniqueWithoutAlumnoInput | TestPracticaUpsertWithWhereUniqueWithoutAlumnoInput[]
-    createMany?: TestPracticaCreateManyAlumnoInputEnvelope
-    set?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
-    disconnect?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
-    delete?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
-    connect?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
-    update?: TestPracticaUpdateWithWhereUniqueWithoutAlumnoInput | TestPracticaUpdateWithWhereUniqueWithoutAlumnoInput[]
-    updateMany?: TestPracticaUpdateManyWithWhereWithoutAlumnoInput | TestPracticaUpdateManyWithWhereWithoutAlumnoInput[]
-    deleteMany?: TestPracticaScalarWhereInput | TestPracticaScalarWhereInput[]
-  }
-
-  export type TemarioProgresoUpdateManyWithoutAlumnoNestedInput = {
-    create?: XOR<TemarioProgresoCreateWithoutAlumnoInput, TemarioProgresoUncheckedCreateWithoutAlumnoInput> | TemarioProgresoCreateWithoutAlumnoInput[] | TemarioProgresoUncheckedCreateWithoutAlumnoInput[]
-    connectOrCreate?: TemarioProgresoCreateOrConnectWithoutAlumnoInput | TemarioProgresoCreateOrConnectWithoutAlumnoInput[]
-    upsert?: TemarioProgresoUpsertWithWhereUniqueWithoutAlumnoInput | TemarioProgresoUpsertWithWhereUniqueWithoutAlumnoInput[]
-    createMany?: TemarioProgresoCreateManyAlumnoInputEnvelope
-    set?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
-    disconnect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
-    delete?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
-    connect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
-    update?: TemarioProgresoUpdateWithWhereUniqueWithoutAlumnoInput | TemarioProgresoUpdateWithWhereUniqueWithoutAlumnoInput[]
-    updateMany?: TemarioProgresoUpdateManyWithWhereWithoutAlumnoInput | TemarioProgresoUpdateManyWithWhereWithoutAlumnoInput[]
-    deleteMany?: TemarioProgresoScalarWhereInput | TemarioProgresoScalarWhereInput[]
-  }
-
   export type CompraBonoUpdateManyWithoutAlumnoNestedInput = {
     create?: XOR<CompraBonoCreateWithoutAlumnoInput, CompraBonoUncheckedCreateWithoutAlumnoInput> | CompraBonoCreateWithoutAlumnoInput[] | CompraBonoUncheckedCreateWithoutAlumnoInput[]
     connectOrCreate?: CompraBonoCreateOrConnectWithoutAlumnoInput | CompraBonoCreateOrConnectWithoutAlumnoInput[]
@@ -28165,32 +28123,18 @@ export namespace Prisma {
     deleteMany?: CompraBonoScalarWhereInput | CompraBonoScalarWhereInput[]
   }
 
-  export type SolicitudExamenUpdateManyWithoutAlumnoNestedInput = {
-    create?: XOR<SolicitudExamenCreateWithoutAlumnoInput, SolicitudExamenUncheckedCreateWithoutAlumnoInput> | SolicitudExamenCreateWithoutAlumnoInput[] | SolicitudExamenUncheckedCreateWithoutAlumnoInput[]
-    connectOrCreate?: SolicitudExamenCreateOrConnectWithoutAlumnoInput | SolicitudExamenCreateOrConnectWithoutAlumnoInput[]
-    upsert?: SolicitudExamenUpsertWithWhereUniqueWithoutAlumnoInput | SolicitudExamenUpsertWithWhereUniqueWithoutAlumnoInput[]
-    createMany?: SolicitudExamenCreateManyAlumnoInputEnvelope
-    set?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
-    disconnect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
-    delete?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
-    connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
-    update?: SolicitudExamenUpdateWithWhereUniqueWithoutAlumnoInput | SolicitudExamenUpdateWithWhereUniqueWithoutAlumnoInput[]
-    updateMany?: SolicitudExamenUpdateManyWithWhereWithoutAlumnoInput | SolicitudExamenUpdateManyWithWhereWithoutAlumnoInput[]
-    deleteMany?: SolicitudExamenScalarWhereInput | SolicitudExamenScalarWhereInput[]
-  }
-
-  export type MatriculaUpdateManyWithoutAlumnoNestedInput = {
-    create?: XOR<MatriculaCreateWithoutAlumnoInput, MatriculaUncheckedCreateWithoutAlumnoInput> | MatriculaCreateWithoutAlumnoInput[] | MatriculaUncheckedCreateWithoutAlumnoInput[]
-    connectOrCreate?: MatriculaCreateOrConnectWithoutAlumnoInput | MatriculaCreateOrConnectWithoutAlumnoInput[]
-    upsert?: MatriculaUpsertWithWhereUniqueWithoutAlumnoInput | MatriculaUpsertWithWhereUniqueWithoutAlumnoInput[]
-    createMany?: MatriculaCreateManyAlumnoInputEnvelope
-    set?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
-    disconnect?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
-    delete?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
-    connect?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
-    update?: MatriculaUpdateWithWhereUniqueWithoutAlumnoInput | MatriculaUpdateWithWhereUniqueWithoutAlumnoInput[]
-    updateMany?: MatriculaUpdateManyWithWhereWithoutAlumnoInput | MatriculaUpdateManyWithWhereWithoutAlumnoInput[]
-    deleteMany?: MatriculaScalarWhereInput | MatriculaScalarWhereInput[]
+  export type ExamenUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<ExamenCreateWithoutAlumnoInput, ExamenUncheckedCreateWithoutAlumnoInput> | ExamenCreateWithoutAlumnoInput[] | ExamenUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: ExamenCreateOrConnectWithoutAlumnoInput | ExamenCreateOrConnectWithoutAlumnoInput[]
+    upsert?: ExamenUpsertWithWhereUniqueWithoutAlumnoInput | ExamenUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: ExamenCreateManyAlumnoInputEnvelope
+    set?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
+    disconnect?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
+    delete?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
+    connect?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
+    update?: ExamenUpdateWithWhereUniqueWithoutAlumnoInput | ExamenUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: ExamenUpdateManyWithWhereWithoutAlumnoInput | ExamenUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: ExamenScalarWhereInput | ExamenScalarWhereInput[]
   }
 
   export type FacturaUpdateManyWithoutAlumnoNestedInput = {
@@ -28207,35 +28151,49 @@ export namespace Prisma {
     deleteMany?: FacturaScalarWhereInput | FacturaScalarWhereInput[]
   }
 
-  export type ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput = {
-    create?: XOR<ClasePracticaCreateWithoutAlumnoInput, ClasePracticaUncheckedCreateWithoutAlumnoInput> | ClasePracticaCreateWithoutAlumnoInput[] | ClasePracticaUncheckedCreateWithoutAlumnoInput[]
-    connectOrCreate?: ClasePracticaCreateOrConnectWithoutAlumnoInput | ClasePracticaCreateOrConnectWithoutAlumnoInput[]
-    upsert?: ClasePracticaUpsertWithWhereUniqueWithoutAlumnoInput | ClasePracticaUpsertWithWhereUniqueWithoutAlumnoInput[]
-    createMany?: ClasePracticaCreateManyAlumnoInputEnvelope
-    set?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
-    disconnect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
-    delete?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
-    connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
-    update?: ClasePracticaUpdateWithWhereUniqueWithoutAlumnoInput | ClasePracticaUpdateWithWhereUniqueWithoutAlumnoInput[]
-    updateMany?: ClasePracticaUpdateManyWithWhereWithoutAlumnoInput | ClasePracticaUpdateManyWithWhereWithoutAlumnoInput[]
-    deleteMany?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
+  export type MatriculaUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<MatriculaCreateWithoutAlumnoInput, MatriculaUncheckedCreateWithoutAlumnoInput> | MatriculaCreateWithoutAlumnoInput[] | MatriculaUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: MatriculaCreateOrConnectWithoutAlumnoInput | MatriculaCreateOrConnectWithoutAlumnoInput[]
+    upsert?: MatriculaUpsertWithWhereUniqueWithoutAlumnoInput | MatriculaUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: MatriculaCreateManyAlumnoInputEnvelope
+    set?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+    disconnect?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+    delete?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+    connect?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
+    update?: MatriculaUpdateWithWhereUniqueWithoutAlumnoInput | MatriculaUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: MatriculaUpdateManyWithWhereWithoutAlumnoInput | MatriculaUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: MatriculaScalarWhereInput | MatriculaScalarWhereInput[]
   }
 
-  export type ExamenUncheckedUpdateManyWithoutAlumnoNestedInput = {
-    create?: XOR<ExamenCreateWithoutAlumnoInput, ExamenUncheckedCreateWithoutAlumnoInput> | ExamenCreateWithoutAlumnoInput[] | ExamenUncheckedCreateWithoutAlumnoInput[]
-    connectOrCreate?: ExamenCreateOrConnectWithoutAlumnoInput | ExamenCreateOrConnectWithoutAlumnoInput[]
-    upsert?: ExamenUpsertWithWhereUniqueWithoutAlumnoInput | ExamenUpsertWithWhereUniqueWithoutAlumnoInput[]
-    createMany?: ExamenCreateManyAlumnoInputEnvelope
-    set?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
-    disconnect?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
-    delete?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
-    connect?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
-    update?: ExamenUpdateWithWhereUniqueWithoutAlumnoInput | ExamenUpdateWithWhereUniqueWithoutAlumnoInput[]
-    updateMany?: ExamenUpdateManyWithWhereWithoutAlumnoInput | ExamenUpdateManyWithWhereWithoutAlumnoInput[]
-    deleteMany?: ExamenScalarWhereInput | ExamenScalarWhereInput[]
+  export type SolicitudExamenUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<SolicitudExamenCreateWithoutAlumnoInput, SolicitudExamenUncheckedCreateWithoutAlumnoInput> | SolicitudExamenCreateWithoutAlumnoInput[] | SolicitudExamenUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: SolicitudExamenCreateOrConnectWithoutAlumnoInput | SolicitudExamenCreateOrConnectWithoutAlumnoInput[]
+    upsert?: SolicitudExamenUpsertWithWhereUniqueWithoutAlumnoInput | SolicitudExamenUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: SolicitudExamenCreateManyAlumnoInputEnvelope
+    set?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    disconnect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    delete?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    update?: SolicitudExamenUpdateWithWhereUniqueWithoutAlumnoInput | SolicitudExamenUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: SolicitudExamenUpdateManyWithWhereWithoutAlumnoInput | SolicitudExamenUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: SolicitudExamenScalarWhereInput | SolicitudExamenScalarWhereInput[]
   }
 
-  export type TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput = {
+  export type TemarioProgresoUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<TemarioProgresoCreateWithoutAlumnoInput, TemarioProgresoUncheckedCreateWithoutAlumnoInput> | TemarioProgresoCreateWithoutAlumnoInput[] | TemarioProgresoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: TemarioProgresoCreateOrConnectWithoutAlumnoInput | TemarioProgresoCreateOrConnectWithoutAlumnoInput[]
+    upsert?: TemarioProgresoUpsertWithWhereUniqueWithoutAlumnoInput | TemarioProgresoUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: TemarioProgresoCreateManyAlumnoInputEnvelope
+    set?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    disconnect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    delete?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    connect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    update?: TemarioProgresoUpdateWithWhereUniqueWithoutAlumnoInput | TemarioProgresoUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: TemarioProgresoUpdateManyWithWhereWithoutAlumnoInput | TemarioProgresoUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: TemarioProgresoScalarWhereInput | TemarioProgresoScalarWhereInput[]
+  }
+
+  export type TestPracticaUpdateManyWithoutAlumnoNestedInput = {
     create?: XOR<TestPracticaCreateWithoutAlumnoInput, TestPracticaUncheckedCreateWithoutAlumnoInput> | TestPracticaCreateWithoutAlumnoInput[] | TestPracticaUncheckedCreateWithoutAlumnoInput[]
     connectOrCreate?: TestPracticaCreateOrConnectWithoutAlumnoInput | TestPracticaCreateOrConnectWithoutAlumnoInput[]
     upsert?: TestPracticaUpsertWithWhereUniqueWithoutAlumnoInput | TestPracticaUpsertWithWhereUniqueWithoutAlumnoInput[]
@@ -28249,18 +28207,18 @@ export namespace Prisma {
     deleteMany?: TestPracticaScalarWhereInput | TestPracticaScalarWhereInput[]
   }
 
-  export type TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput = {
-    create?: XOR<TemarioProgresoCreateWithoutAlumnoInput, TemarioProgresoUncheckedCreateWithoutAlumnoInput> | TemarioProgresoCreateWithoutAlumnoInput[] | TemarioProgresoUncheckedCreateWithoutAlumnoInput[]
-    connectOrCreate?: TemarioProgresoCreateOrConnectWithoutAlumnoInput | TemarioProgresoCreateOrConnectWithoutAlumnoInput[]
-    upsert?: TemarioProgresoUpsertWithWhereUniqueWithoutAlumnoInput | TemarioProgresoUpsertWithWhereUniqueWithoutAlumnoInput[]
-    createMany?: TemarioProgresoCreateManyAlumnoInputEnvelope
-    set?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
-    disconnect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
-    delete?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
-    connect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
-    update?: TemarioProgresoUpdateWithWhereUniqueWithoutAlumnoInput | TemarioProgresoUpdateWithWhereUniqueWithoutAlumnoInput[]
-    updateMany?: TemarioProgresoUpdateManyWithWhereWithoutAlumnoInput | TemarioProgresoUpdateManyWithWhereWithoutAlumnoInput[]
-    deleteMany?: TemarioProgresoScalarWhereInput | TemarioProgresoScalarWhereInput[]
+  export type ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<ClasePracticaCreateWithoutAlumnoInput, ClasePracticaUncheckedCreateWithoutAlumnoInput> | ClasePracticaCreateWithoutAlumnoInput[] | ClasePracticaUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: ClasePracticaCreateOrConnectWithoutAlumnoInput | ClasePracticaCreateOrConnectWithoutAlumnoInput[]
+    upsert?: ClasePracticaUpsertWithWhereUniqueWithoutAlumnoInput | ClasePracticaUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: ClasePracticaCreateManyAlumnoInputEnvelope
+    set?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+    disconnect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+    delete?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+    connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+    update?: ClasePracticaUpdateWithWhereUniqueWithoutAlumnoInput | ClasePracticaUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: ClasePracticaUpdateManyWithWhereWithoutAlumnoInput | ClasePracticaUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
   }
 
   export type CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput = {
@@ -28277,18 +28235,32 @@ export namespace Prisma {
     deleteMany?: CompraBonoScalarWhereInput | CompraBonoScalarWhereInput[]
   }
 
-  export type SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput = {
-    create?: XOR<SolicitudExamenCreateWithoutAlumnoInput, SolicitudExamenUncheckedCreateWithoutAlumnoInput> | SolicitudExamenCreateWithoutAlumnoInput[] | SolicitudExamenUncheckedCreateWithoutAlumnoInput[]
-    connectOrCreate?: SolicitudExamenCreateOrConnectWithoutAlumnoInput | SolicitudExamenCreateOrConnectWithoutAlumnoInput[]
-    upsert?: SolicitudExamenUpsertWithWhereUniqueWithoutAlumnoInput | SolicitudExamenUpsertWithWhereUniqueWithoutAlumnoInput[]
-    createMany?: SolicitudExamenCreateManyAlumnoInputEnvelope
-    set?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
-    disconnect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
-    delete?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
-    connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
-    update?: SolicitudExamenUpdateWithWhereUniqueWithoutAlumnoInput | SolicitudExamenUpdateWithWhereUniqueWithoutAlumnoInput[]
-    updateMany?: SolicitudExamenUpdateManyWithWhereWithoutAlumnoInput | SolicitudExamenUpdateManyWithWhereWithoutAlumnoInput[]
-    deleteMany?: SolicitudExamenScalarWhereInput | SolicitudExamenScalarWhereInput[]
+  export type ExamenUncheckedUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<ExamenCreateWithoutAlumnoInput, ExamenUncheckedCreateWithoutAlumnoInput> | ExamenCreateWithoutAlumnoInput[] | ExamenUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: ExamenCreateOrConnectWithoutAlumnoInput | ExamenCreateOrConnectWithoutAlumnoInput[]
+    upsert?: ExamenUpsertWithWhereUniqueWithoutAlumnoInput | ExamenUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: ExamenCreateManyAlumnoInputEnvelope
+    set?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
+    disconnect?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
+    delete?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
+    connect?: ExamenWhereUniqueInput | ExamenWhereUniqueInput[]
+    update?: ExamenUpdateWithWhereUniqueWithoutAlumnoInput | ExamenUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: ExamenUpdateManyWithWhereWithoutAlumnoInput | ExamenUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: ExamenScalarWhereInput | ExamenScalarWhereInput[]
+  }
+
+  export type FacturaUncheckedUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<FacturaCreateWithoutAlumnoInput, FacturaUncheckedCreateWithoutAlumnoInput> | FacturaCreateWithoutAlumnoInput[] | FacturaUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: FacturaCreateOrConnectWithoutAlumnoInput | FacturaCreateOrConnectWithoutAlumnoInput[]
+    upsert?: FacturaUpsertWithWhereUniqueWithoutAlumnoInput | FacturaUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: FacturaCreateManyAlumnoInputEnvelope
+    set?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    disconnect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    delete?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    connect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    update?: FacturaUpdateWithWhereUniqueWithoutAlumnoInput | FacturaUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: FacturaUpdateManyWithWhereWithoutAlumnoInput | FacturaUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: FacturaScalarWhereInput | FacturaScalarWhereInput[]
   }
 
   export type MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput = {
@@ -28305,18 +28277,46 @@ export namespace Prisma {
     deleteMany?: MatriculaScalarWhereInput | MatriculaScalarWhereInput[]
   }
 
-  export type FacturaUncheckedUpdateManyWithoutAlumnoNestedInput = {
-    create?: XOR<FacturaCreateWithoutAlumnoInput, FacturaUncheckedCreateWithoutAlumnoInput> | FacturaCreateWithoutAlumnoInput[] | FacturaUncheckedCreateWithoutAlumnoInput[]
-    connectOrCreate?: FacturaCreateOrConnectWithoutAlumnoInput | FacturaCreateOrConnectWithoutAlumnoInput[]
-    upsert?: FacturaUpsertWithWhereUniqueWithoutAlumnoInput | FacturaUpsertWithWhereUniqueWithoutAlumnoInput[]
-    createMany?: FacturaCreateManyAlumnoInputEnvelope
-    set?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
-    disconnect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
-    delete?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
-    connect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
-    update?: FacturaUpdateWithWhereUniqueWithoutAlumnoInput | FacturaUpdateWithWhereUniqueWithoutAlumnoInput[]
-    updateMany?: FacturaUpdateManyWithWhereWithoutAlumnoInput | FacturaUpdateManyWithWhereWithoutAlumnoInput[]
-    deleteMany?: FacturaScalarWhereInput | FacturaScalarWhereInput[]
+  export type SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<SolicitudExamenCreateWithoutAlumnoInput, SolicitudExamenUncheckedCreateWithoutAlumnoInput> | SolicitudExamenCreateWithoutAlumnoInput[] | SolicitudExamenUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: SolicitudExamenCreateOrConnectWithoutAlumnoInput | SolicitudExamenCreateOrConnectWithoutAlumnoInput[]
+    upsert?: SolicitudExamenUpsertWithWhereUniqueWithoutAlumnoInput | SolicitudExamenUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: SolicitudExamenCreateManyAlumnoInputEnvelope
+    set?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    disconnect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    delete?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    update?: SolicitudExamenUpdateWithWhereUniqueWithoutAlumnoInput | SolicitudExamenUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: SolicitudExamenUpdateManyWithWhereWithoutAlumnoInput | SolicitudExamenUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: SolicitudExamenScalarWhereInput | SolicitudExamenScalarWhereInput[]
+  }
+
+  export type TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<TemarioProgresoCreateWithoutAlumnoInput, TemarioProgresoUncheckedCreateWithoutAlumnoInput> | TemarioProgresoCreateWithoutAlumnoInput[] | TemarioProgresoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: TemarioProgresoCreateOrConnectWithoutAlumnoInput | TemarioProgresoCreateOrConnectWithoutAlumnoInput[]
+    upsert?: TemarioProgresoUpsertWithWhereUniqueWithoutAlumnoInput | TemarioProgresoUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: TemarioProgresoCreateManyAlumnoInputEnvelope
+    set?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    disconnect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    delete?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    connect?: TemarioProgresoWhereUniqueInput | TemarioProgresoWhereUniqueInput[]
+    update?: TemarioProgresoUpdateWithWhereUniqueWithoutAlumnoInput | TemarioProgresoUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: TemarioProgresoUpdateManyWithWhereWithoutAlumnoInput | TemarioProgresoUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: TemarioProgresoScalarWhereInput | TemarioProgresoScalarWhereInput[]
+  }
+
+  export type TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<TestPracticaCreateWithoutAlumnoInput, TestPracticaUncheckedCreateWithoutAlumnoInput> | TestPracticaCreateWithoutAlumnoInput[] | TestPracticaUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: TestPracticaCreateOrConnectWithoutAlumnoInput | TestPracticaCreateOrConnectWithoutAlumnoInput[]
+    upsert?: TestPracticaUpsertWithWhereUniqueWithoutAlumnoInput | TestPracticaUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: TestPracticaCreateManyAlumnoInputEnvelope
+    set?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+    disconnect?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+    delete?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+    connect?: TestPracticaWhereUniqueInput | TestPracticaWhereUniqueInput[]
+    update?: TestPracticaUpdateWithWhereUniqueWithoutAlumnoInput | TestPracticaUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: TestPracticaUpdateManyWithWhereWithoutAlumnoInput | TestPracticaUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: TestPracticaScalarWhereInput | TestPracticaScalarWhereInput[]
   }
 
   export type TemarioCreatetipoLicenciaObjetivoInput = {
@@ -28735,6 +28735,12 @@ export namespace Prisma {
     deleteMany?: MatriculaScalarWhereInput | MatriculaScalarWhereInput[]
   }
 
+  export type FacturaCreateNestedOneWithoutMatriculaInput = {
+    create?: XOR<FacturaCreateWithoutMatriculaInput, FacturaUncheckedCreateWithoutMatriculaInput>
+    connectOrCreate?: FacturaCreateOrConnectWithoutMatriculaInput
+    connect?: FacturaWhereUniqueInput
+  }
+
   export type AlumnoCreateNestedOneWithoutMatriculasInput = {
     create?: XOR<AlumnoCreateWithoutMatriculasInput, AlumnoUncheckedCreateWithoutMatriculasInput>
     connectOrCreate?: AlumnoCreateOrConnectWithoutMatriculasInput
@@ -28747,16 +28753,20 @@ export namespace Prisma {
     connect?: PromocionWhereUniqueInput
   }
 
-  export type FacturaCreateNestedOneWithoutMatriculaInput = {
+  export type FacturaUncheckedCreateNestedOneWithoutMatriculaInput = {
     create?: XOR<FacturaCreateWithoutMatriculaInput, FacturaUncheckedCreateWithoutMatriculaInput>
     connectOrCreate?: FacturaCreateOrConnectWithoutMatriculaInput
     connect?: FacturaWhereUniqueInput
   }
 
-  export type FacturaUncheckedCreateNestedOneWithoutMatriculaInput = {
+  export type FacturaUpdateOneWithoutMatriculaNestedInput = {
     create?: XOR<FacturaCreateWithoutMatriculaInput, FacturaUncheckedCreateWithoutMatriculaInput>
     connectOrCreate?: FacturaCreateOrConnectWithoutMatriculaInput
+    upsert?: FacturaUpsertWithoutMatriculaInput
+    disconnect?: FacturaWhereInput | boolean
+    delete?: FacturaWhereInput | boolean
     connect?: FacturaWhereUniqueInput
+    update?: XOR<XOR<FacturaUpdateToOneWithWhereWithoutMatriculaInput, FacturaUpdateWithoutMatriculaInput>, FacturaUncheckedUpdateWithoutMatriculaInput>
   }
 
   export type AlumnoUpdateOneRequiredWithoutMatriculasNestedInput = {
@@ -28775,16 +28785,6 @@ export namespace Prisma {
     delete?: PromocionWhereInput | boolean
     connect?: PromocionWhereUniqueInput
     update?: XOR<XOR<PromocionUpdateToOneWithWhereWithoutMatriculasInput, PromocionUpdateWithoutMatriculasInput>, PromocionUncheckedUpdateWithoutMatriculasInput>
-  }
-
-  export type FacturaUpdateOneWithoutMatriculaNestedInput = {
-    create?: XOR<FacturaCreateWithoutMatriculaInput, FacturaUncheckedCreateWithoutMatriculaInput>
-    connectOrCreate?: FacturaCreateOrConnectWithoutMatriculaInput
-    upsert?: FacturaUpsertWithoutMatriculaInput
-    disconnect?: FacturaWhereInput | boolean
-    delete?: FacturaWhereInput | boolean
-    connect?: FacturaWhereUniqueInput
-    update?: XOR<XOR<FacturaUpdateToOneWithWhereWithoutMatriculaInput, FacturaUpdateWithoutMatriculaInput>, FacturaUncheckedUpdateWithoutMatriculaInput>
   }
 
   export type FacturaUncheckedUpdateOneWithoutMatriculaNestedInput = {
@@ -28839,6 +28839,24 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type NestedEnumRolFilter<$PrismaModel = never> = {
+    equals?: $Enums.Rol | EnumRolFieldRefInput<$PrismaModel>
+    in?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
+    not?: NestedEnumRolFilter<$PrismaModel> | $Enums.Rol
+  }
+
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -28856,24 +28874,6 @@ export namespace Prisma {
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedEnumRolFilter<$PrismaModel = never> = {
-    equals?: $Enums.Rol | EnumRolFieldRefInput<$PrismaModel>
-    in?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
-    not?: NestedEnumRolFilter<$PrismaModel> | $Enums.Rol
-  }
-
-  export type NestedDateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -28902,6 +28902,30 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type NestedEnumRolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Rol | EnumRolFieldRefInput<$PrismaModel>
+    in?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
+    not?: NestedEnumRolWithAggregatesFilter<$PrismaModel> | $Enums.Rol
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRolFilter<$PrismaModel>
+    _max?: NestedEnumRolFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -28938,30 +28962,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type NestedEnumRolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Rol | EnumRolFieldRefInput<$PrismaModel>
-    in?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
-    not?: NestedEnumRolWithAggregatesFilter<$PrismaModel> | $Enums.Rol
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRolFilter<$PrismaModel>
-    _max?: NestedEnumRolFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
@@ -29070,68 +29070,6 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
-  export type AlumnoCreateWithoutUsuarioInput = {
-    tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
-    horasPracticasCompletadas?: number
-    activo?: boolean
-    profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
-    clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
-    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
-    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
-    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
-    bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
-    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
-    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
-    facturas?: FacturaCreateNestedManyWithoutAlumnoInput
-  }
-
-  export type AlumnoUncheckedCreateWithoutUsuarioInput = {
-    tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
-    horasPracticasCompletadas?: number
-    profesorAsignadoId?: string | null
-    activo?: boolean
-    clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
-    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
-    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
-    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
-    bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
-    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
-    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
-    facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
-  }
-
-  export type AlumnoCreateOrConnectWithoutUsuarioInput = {
-    where: AlumnoWhereUniqueInput
-    create: XOR<AlumnoCreateWithoutUsuarioInput, AlumnoUncheckedCreateWithoutUsuarioInput>
-  }
-
-  export type ProfesorCreateWithoutUsuarioInput = {
-    licenciaConducir: string
-    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
-    telefono: string
-    activo?: boolean
-    alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
-    clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
-    clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
-  }
-
-  export type ProfesorUncheckedCreateWithoutUsuarioInput = {
-    licenciaConducir: string
-    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
-    telefono: string
-    activo?: boolean
-    alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
-    clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
-    clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
-  }
-
-  export type ProfesorCreateOrConnectWithoutUsuarioInput = {
-    where: ProfesorWhereUniqueInput
-    create: XOR<ProfesorCreateWithoutUsuarioInput, ProfesorUncheckedCreateWithoutUsuarioInput>
-  }
-
   export type ActivacionCuentaCreateWithoutUsuarioInput = {
     id?: string
     tokenHash: string
@@ -29162,78 +29100,66 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type AlumnoUpsertWithoutUsuarioInput = {
-    update: XOR<AlumnoUpdateWithoutUsuarioInput, AlumnoUncheckedUpdateWithoutUsuarioInput>
+  export type AlumnoCreateWithoutUsuarioInput = {
+    tipoLicenciaObjetivo: string
+    horasPracticasCompletadas?: number
+    activo?: boolean
+    fechaNacimiento?: Date | string | null
+    profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
+    clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
+    facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
+  }
+
+  export type AlumnoUncheckedCreateWithoutUsuarioInput = {
+    tipoLicenciaObjetivo: string
+    horasPracticasCompletadas?: number
+    profesorAsignadoId?: string | null
+    activo?: boolean
+    fechaNacimiento?: Date | string | null
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
+  }
+
+  export type AlumnoCreateOrConnectWithoutUsuarioInput = {
+    where: AlumnoWhereUniqueInput
     create: XOR<AlumnoCreateWithoutUsuarioInput, AlumnoUncheckedCreateWithoutUsuarioInput>
-    where?: AlumnoWhereInput
   }
 
-  export type AlumnoUpdateToOneWithWhereWithoutUsuarioInput = {
-    where?: AlumnoWhereInput
-    data: XOR<AlumnoUpdateWithoutUsuarioInput, AlumnoUncheckedUpdateWithoutUsuarioInput>
+  export type ProfesorCreateWithoutUsuarioInput = {
+    licenciaConducir: string
+    telefono: string
+    activo?: boolean
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
+    clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
+    clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
   }
 
-  export type AlumnoUpdateWithoutUsuarioInput = {
-    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
-    activo?: BoolFieldUpdateOperationsInput | boolean
-    profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
-    clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
-    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
-    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
-    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
-    bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
-    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
-    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
-    facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+  export type ProfesorUncheckedCreateWithoutUsuarioInput = {
+    licenciaConducir: string
+    telefono: string
+    activo?: boolean
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
+    clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
   }
 
-  export type AlumnoUncheckedUpdateWithoutUsuarioInput = {
-    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
-    profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
-    activo?: BoolFieldUpdateOperationsInput | boolean
-    clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
-    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
-    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
-    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
-    bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
-    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
-    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
-    facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
-  }
-
-  export type ProfesorUpsertWithoutUsuarioInput = {
-    update: XOR<ProfesorUpdateWithoutUsuarioInput, ProfesorUncheckedUpdateWithoutUsuarioInput>
+  export type ProfesorCreateOrConnectWithoutUsuarioInput = {
+    where: ProfesorWhereUniqueInput
     create: XOR<ProfesorCreateWithoutUsuarioInput, ProfesorUncheckedCreateWithoutUsuarioInput>
-    where?: ProfesorWhereInput
-  }
-
-  export type ProfesorUpdateToOneWithWhereWithoutUsuarioInput = {
-    where?: ProfesorWhereInput
-    data: XOR<ProfesorUpdateWithoutUsuarioInput, ProfesorUncheckedUpdateWithoutUsuarioInput>
-  }
-
-  export type ProfesorUpdateWithoutUsuarioInput = {
-    licenciaConducir?: StringFieldUpdateOperationsInput | string
-    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
-    telefono?: StringFieldUpdateOperationsInput | string
-    activo?: BoolFieldUpdateOperationsInput | boolean
-    alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
-    clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
-    clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
-  }
-
-  export type ProfesorUncheckedUpdateWithoutUsuarioInput = {
-    licenciaConducir?: StringFieldUpdateOperationsInput | string
-    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
-    telefono?: StringFieldUpdateOperationsInput | string
-    activo?: BoolFieldUpdateOperationsInput | boolean
-    alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
-    clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
-    clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
   export type ActivacionCuentaUpsertWithWhereUniqueWithoutUsuarioInput = {
@@ -29266,16 +29192,90 @@ export namespace Prisma {
     resendCount?: IntFilter<"ActivacionCuenta"> | number
   }
 
+  export type AlumnoUpsertWithoutUsuarioInput = {
+    update: XOR<AlumnoUpdateWithoutUsuarioInput, AlumnoUncheckedUpdateWithoutUsuarioInput>
+    create: XOR<AlumnoCreateWithoutUsuarioInput, AlumnoUncheckedCreateWithoutUsuarioInput>
+    where?: AlumnoWhereInput
+  }
+
+  export type AlumnoUpdateToOneWithWhereWithoutUsuarioInput = {
+    where?: AlumnoWhereInput
+    data: XOR<AlumnoUpdateWithoutUsuarioInput, AlumnoUncheckedUpdateWithoutUsuarioInput>
+  }
+
+  export type AlumnoUpdateWithoutUsuarioInput = {
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
+    clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
+    facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type AlumnoUncheckedUpdateWithoutUsuarioInput = {
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type ProfesorUpsertWithoutUsuarioInput = {
+    update: XOR<ProfesorUpdateWithoutUsuarioInput, ProfesorUncheckedUpdateWithoutUsuarioInput>
+    create: XOR<ProfesorCreateWithoutUsuarioInput, ProfesorUncheckedCreateWithoutUsuarioInput>
+    where?: ProfesorWhereInput
+  }
+
+  export type ProfesorUpdateToOneWithWhereWithoutUsuarioInput = {
+    where?: ProfesorWhereInput
+    data: XOR<ProfesorUpdateWithoutUsuarioInput, ProfesorUncheckedUpdateWithoutUsuarioInput>
+  }
+
+  export type ProfesorUpdateWithoutUsuarioInput = {
+    licenciaConducir?: StringFieldUpdateOperationsInput | string
+    telefono?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
+    clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
+    clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+  }
+
+  export type ProfesorUncheckedUpdateWithoutUsuarioInput = {
+    licenciaConducir?: StringFieldUpdateOperationsInput | string
+    telefono?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
+    clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
+    clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+  }
+
   export type UsuarioCreateWithoutActivacionesCuentaInput = {
     id?: string
     nombre: string
-    dni?: string | null
     email: string
-    telefono?: string | null
     passwordHash: string
-    requiereCambioPassword?: boolean
     rol: $Enums.Rol
     fechaCreacion?: Date | string
+    telefono?: string | null
+    dni?: string | null
+    requiereCambioPassword?: boolean
     alumno?: AlumnoCreateNestedOneWithoutUsuarioInput
     profesor?: ProfesorCreateNestedOneWithoutUsuarioInput
   }
@@ -29283,13 +29283,13 @@ export namespace Prisma {
   export type UsuarioUncheckedCreateWithoutActivacionesCuentaInput = {
     id?: string
     nombre: string
-    dni?: string | null
     email: string
-    telefono?: string | null
     passwordHash: string
-    requiereCambioPassword?: boolean
     rol: $Enums.Rol
     fechaCreacion?: Date | string
+    telefono?: string | null
+    dni?: string | null
+    requiereCambioPassword?: boolean
     alumno?: AlumnoUncheckedCreateNestedOneWithoutUsuarioInput
     profesor?: ProfesorUncheckedCreateNestedOneWithoutUsuarioInput
   }
@@ -29313,13 +29313,13 @@ export namespace Prisma {
   export type UsuarioUpdateWithoutActivacionesCuentaInput = {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
-    dni?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
-    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     alumno?: AlumnoUpdateOneWithoutUsuarioNestedInput
     profesor?: ProfesorUpdateOneWithoutUsuarioNestedInput
   }
@@ -29327,47 +29327,47 @@ export namespace Prisma {
   export type UsuarioUncheckedUpdateWithoutActivacionesCuentaInput = {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
-    dni?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
-    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     alumno?: AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput
     profesor?: ProfesorUncheckedUpdateOneWithoutUsuarioNestedInput
   }
 
   export type AlumnoCreateWithoutProfesorAsignadoInput = {
     tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     activo?: boolean
+    fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
-    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
-    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
-    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
-    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
-    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutProfesorAsignadoInput = {
     id: string
     tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     activo?: boolean
+    fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
-    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
-    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
-    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
-    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
-    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutProfesorAsignadoInput = {
@@ -29377,34 +29377,6 @@ export namespace Prisma {
 
   export type AlumnoCreateManyProfesorAsignadoInputEnvelope = {
     data: AlumnoCreateManyProfesorAsignadoInput | AlumnoCreateManyProfesorAsignadoInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ClasePracticaCreateWithoutProfesorInput = {
-    id?: string
-    fecha: Date | string
-    duracion: number
-    estado: string
-    alumno: AlumnoCreateNestedOneWithoutClasesInput
-    vehiculo: VehiculoCreateNestedOneWithoutClasesInput
-  }
-
-  export type ClasePracticaUncheckedCreateWithoutProfesorInput = {
-    id?: string
-    alumnoId: string
-    vehiculoId: string
-    fecha: Date | string
-    duracion: number
-    estado: string
-  }
-
-  export type ClasePracticaCreateOrConnectWithoutProfesorInput = {
-    where: ClasePracticaWhereUniqueInput
-    create: XOR<ClasePracticaCreateWithoutProfesorInput, ClasePracticaUncheckedCreateWithoutProfesorInput>
-  }
-
-  export type ClasePracticaCreateManyProfesorInputEnvelope = {
-    data: ClasePracticaCreateManyProfesorInput | ClasePracticaCreateManyProfesorInput[]
     skipDuplicates?: boolean
   }
 
@@ -29442,32 +29414,60 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ClasePracticaCreateWithoutProfesorInput = {
+    id?: string
+    fecha: Date | string
+    duracion: number
+    estado: string
+    alumno: AlumnoCreateNestedOneWithoutClasesInput
+    vehiculo: VehiculoCreateNestedOneWithoutClasesInput
+  }
+
+  export type ClasePracticaUncheckedCreateWithoutProfesorInput = {
+    id?: string
+    alumnoId: string
+    vehiculoId: string
+    fecha: Date | string
+    duracion: number
+    estado: string
+  }
+
+  export type ClasePracticaCreateOrConnectWithoutProfesorInput = {
+    where: ClasePracticaWhereUniqueInput
+    create: XOR<ClasePracticaCreateWithoutProfesorInput, ClasePracticaUncheckedCreateWithoutProfesorInput>
+  }
+
+  export type ClasePracticaCreateManyProfesorInputEnvelope = {
+    data: ClasePracticaCreateManyProfesorInput | ClasePracticaCreateManyProfesorInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UsuarioCreateWithoutProfesorInput = {
     id?: string
     nombre: string
-    dni?: string | null
     email: string
-    telefono?: string | null
     passwordHash: string
-    requiereCambioPassword?: boolean
     rol: $Enums.Rol
     fechaCreacion?: Date | string
-    alumno?: AlumnoCreateNestedOneWithoutUsuarioInput
+    telefono?: string | null
+    dni?: string | null
+    requiereCambioPassword?: boolean
     activacionesCuenta?: ActivacionCuentaCreateNestedManyWithoutUsuarioInput
+    alumno?: AlumnoCreateNestedOneWithoutUsuarioInput
   }
 
   export type UsuarioUncheckedCreateWithoutProfesorInput = {
     id?: string
     nombre: string
-    dni?: string | null
     email: string
-    telefono?: string | null
     passwordHash: string
-    requiereCambioPassword?: boolean
     rol: $Enums.Rol
     fechaCreacion?: Date | string
-    alumno?: AlumnoUncheckedCreateNestedOneWithoutUsuarioInput
+    telefono?: string | null
+    dni?: string | null
+    requiereCambioPassword?: boolean
     activacionesCuenta?: ActivacionCuentaUncheckedCreateNestedManyWithoutUsuarioInput
+    alumno?: AlumnoUncheckedCreateNestedOneWithoutUsuarioInput
   }
 
   export type UsuarioCreateOrConnectWithoutProfesorInput = {
@@ -29497,39 +29497,10 @@ export namespace Prisma {
     NOT?: AlumnoScalarWhereInput | AlumnoScalarWhereInput[]
     id?: StringFilter<"Alumno"> | string
     tipoLicenciaObjetivo?: StringFilter<"Alumno"> | string
-    fechaNacimiento?: DateTimeNullableFilter<"Alumno"> | Date | string | null
     horasPracticasCompletadas?: IntFilter<"Alumno"> | number
     profesorAsignadoId?: StringNullableFilter<"Alumno"> | string | null
     activo?: BoolFilter<"Alumno"> | boolean
-  }
-
-  export type ClasePracticaUpsertWithWhereUniqueWithoutProfesorInput = {
-    where: ClasePracticaWhereUniqueInput
-    update: XOR<ClasePracticaUpdateWithoutProfesorInput, ClasePracticaUncheckedUpdateWithoutProfesorInput>
-    create: XOR<ClasePracticaCreateWithoutProfesorInput, ClasePracticaUncheckedCreateWithoutProfesorInput>
-  }
-
-  export type ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput = {
-    where: ClasePracticaWhereUniqueInput
-    data: XOR<ClasePracticaUpdateWithoutProfesorInput, ClasePracticaUncheckedUpdateWithoutProfesorInput>
-  }
-
-  export type ClasePracticaUpdateManyWithWhereWithoutProfesorInput = {
-    where: ClasePracticaScalarWhereInput
-    data: XOR<ClasePracticaUpdateManyMutationInput, ClasePracticaUncheckedUpdateManyWithoutProfesorInput>
-  }
-
-  export type ClasePracticaScalarWhereInput = {
-    AND?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
-    OR?: ClasePracticaScalarWhereInput[]
-    NOT?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
-    id?: StringFilter<"ClasePractica"> | string
-    alumnoId?: StringFilter<"ClasePractica"> | string
-    profesorId?: StringFilter<"ClasePractica"> | string
-    vehiculoId?: StringFilter<"ClasePractica"> | string
-    fecha?: DateTimeFilter<"ClasePractica"> | Date | string
-    duracion?: IntFilter<"ClasePractica"> | number
-    estado?: StringFilter<"ClasePractica"> | string
+    fechaNacimiento?: DateTimeNullableFilter<"Alumno"> | Date | string | null
   }
 
   export type ClaseDirectoUpsertWithWhereUniqueWithoutProfesorInput = {
@@ -29564,6 +29535,35 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"ClaseDirecto"> | Date | string
   }
 
+  export type ClasePracticaUpsertWithWhereUniqueWithoutProfesorInput = {
+    where: ClasePracticaWhereUniqueInput
+    update: XOR<ClasePracticaUpdateWithoutProfesorInput, ClasePracticaUncheckedUpdateWithoutProfesorInput>
+    create: XOR<ClasePracticaCreateWithoutProfesorInput, ClasePracticaUncheckedCreateWithoutProfesorInput>
+  }
+
+  export type ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput = {
+    where: ClasePracticaWhereUniqueInput
+    data: XOR<ClasePracticaUpdateWithoutProfesorInput, ClasePracticaUncheckedUpdateWithoutProfesorInput>
+  }
+
+  export type ClasePracticaUpdateManyWithWhereWithoutProfesorInput = {
+    where: ClasePracticaScalarWhereInput
+    data: XOR<ClasePracticaUpdateManyMutationInput, ClasePracticaUncheckedUpdateManyWithoutProfesorInput>
+  }
+
+  export type ClasePracticaScalarWhereInput = {
+    AND?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
+    OR?: ClasePracticaScalarWhereInput[]
+    NOT?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
+    id?: StringFilter<"ClasePractica"> | string
+    alumnoId?: StringFilter<"ClasePractica"> | string
+    profesorId?: StringFilter<"ClasePractica"> | string
+    vehiculoId?: StringFilter<"ClasePractica"> | string
+    fecha?: DateTimeFilter<"ClasePractica"> | Date | string
+    duracion?: IntFilter<"ClasePractica"> | number
+    estado?: StringFilter<"ClasePractica"> | string
+  }
+
   export type UsuarioUpsertWithoutProfesorInput = {
     update: XOR<UsuarioUpdateWithoutProfesorInput, UsuarioUncheckedUpdateWithoutProfesorInput>
     create: XOR<UsuarioCreateWithoutProfesorInput, UsuarioUncheckedCreateWithoutProfesorInput>
@@ -29578,57 +29578,57 @@ export namespace Prisma {
   export type UsuarioUpdateWithoutProfesorInput = {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
-    dni?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
-    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    alumno?: AlumnoUpdateOneWithoutUsuarioNestedInput
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     activacionesCuenta?: ActivacionCuentaUpdateManyWithoutUsuarioNestedInput
+    alumno?: AlumnoUpdateOneWithoutUsuarioNestedInput
   }
 
   export type UsuarioUncheckedUpdateWithoutProfesorInput = {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
-    dni?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
-    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    alumno?: AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     activacionesCuenta?: ActivacionCuentaUncheckedUpdateManyWithoutUsuarioNestedInput
+    alumno?: AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput
   }
 
   export type UsuarioCreateWithoutAlumnoInput = {
     id?: string
     nombre: string
-    dni?: string | null
     email: string
-    telefono?: string | null
     passwordHash: string
-    requiereCambioPassword?: boolean
     rol: $Enums.Rol
     fechaCreacion?: Date | string
-    profesor?: ProfesorCreateNestedOneWithoutUsuarioInput
+    telefono?: string | null
+    dni?: string | null
+    requiereCambioPassword?: boolean
     activacionesCuenta?: ActivacionCuentaCreateNestedManyWithoutUsuarioInput
+    profesor?: ProfesorCreateNestedOneWithoutUsuarioInput
   }
 
   export type UsuarioUncheckedCreateWithoutAlumnoInput = {
     id?: string
     nombre: string
-    dni?: string | null
     email: string
-    telefono?: string | null
     passwordHash: string
-    requiereCambioPassword?: boolean
     rol: $Enums.Rol
     fechaCreacion?: Date | string
-    profesor?: ProfesorUncheckedCreateNestedOneWithoutUsuarioInput
+    telefono?: string | null
+    dni?: string | null
+    requiereCambioPassword?: boolean
     activacionesCuenta?: ActivacionCuentaUncheckedCreateNestedManyWithoutUsuarioInput
+    profesor?: ProfesorUncheckedCreateNestedOneWithoutUsuarioInput
   }
 
   export type UsuarioCreateOrConnectWithoutAlumnoInput = {
@@ -29638,22 +29638,22 @@ export namespace Prisma {
 
   export type ProfesorCreateWithoutAlumnosAsignadosInput = {
     licenciaConducir: string
-    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     telefono: string
     activo?: boolean
-    clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
+    clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
 
   export type ProfesorUncheckedCreateWithoutAlumnosAsignadosInput = {
     id: string
     licenciaConducir: string
-    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     telefono: string
     activo?: boolean
-    clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
   }
 
   export type ProfesorCreateOrConnectWithoutAlumnosAsignadosInput = {
@@ -29689,84 +29689,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ExamenCreateWithoutAlumnoInput = {
-    id?: string
-    tipo: string
-    fecha: Date | string
-    estado: string
-  }
-
-  export type ExamenUncheckedCreateWithoutAlumnoInput = {
-    id?: string
-    tipo: string
-    fecha: Date | string
-    estado: string
-  }
-
-  export type ExamenCreateOrConnectWithoutAlumnoInput = {
-    where: ExamenWhereUniqueInput
-    create: XOR<ExamenCreateWithoutAlumnoInput, ExamenUncheckedCreateWithoutAlumnoInput>
-  }
-
-  export type ExamenCreateManyAlumnoInputEnvelope = {
-    data: ExamenCreateManyAlumnoInput | ExamenCreateManyAlumnoInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type TestPracticaCreateWithoutAlumnoInput = {
-    id?: string
-    fecha?: Date | string
-    resultado: string
-    respuestasCorrectas: number
-    totalPreguntas: number
-    temario?: TemarioCreateNestedOneWithoutTestsPracticaInput
-  }
-
-  export type TestPracticaUncheckedCreateWithoutAlumnoInput = {
-    id?: string
-    temarioId?: string | null
-    fecha?: Date | string
-    resultado: string
-    respuestasCorrectas: number
-    totalPreguntas: number
-  }
-
-  export type TestPracticaCreateOrConnectWithoutAlumnoInput = {
-    where: TestPracticaWhereUniqueInput
-    create: XOR<TestPracticaCreateWithoutAlumnoInput, TestPracticaUncheckedCreateWithoutAlumnoInput>
-  }
-
-  export type TestPracticaCreateManyAlumnoInputEnvelope = {
-    data: TestPracticaCreateManyAlumnoInput | TestPracticaCreateManyAlumnoInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type TemarioProgresoCreateWithoutAlumnoInput = {
-    id?: string
-    revisado?: boolean
-    dominio?: number
-    ultimaRevision?: Date | string | null
-    temario: TemarioCreateNestedOneWithoutProgresoInput
-  }
-
-  export type TemarioProgresoUncheckedCreateWithoutAlumnoInput = {
-    id?: string
-    temarioId: string
-    revisado?: boolean
-    dominio?: number
-    ultimaRevision?: Date | string | null
-  }
-
-  export type TemarioProgresoCreateOrConnectWithoutAlumnoInput = {
-    where: TemarioProgresoWhereUniqueInput
-    create: XOR<TemarioProgresoCreateWithoutAlumnoInput, TemarioProgresoUncheckedCreateWithoutAlumnoInput>
-  }
-
-  export type TemarioProgresoCreateManyAlumnoInputEnvelope = {
-    data: TemarioProgresoCreateManyAlumnoInput | TemarioProgresoCreateManyAlumnoInput[]
-    skipDuplicates?: boolean
-  }
-
   export type CompraBonoCreateWithoutAlumnoInput = {
     id?: string
     clasesCompradas: number
@@ -29797,67 +29719,27 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type SolicitudExamenCreateWithoutAlumnoInput = {
+  export type ExamenCreateWithoutAlumnoInput = {
     id?: string
     tipo: string
-    estado?: string
-    fechaSolicitud?: Date | string
-    fechaProgramada?: Date | string | null
-    observaciones?: string | null
+    fecha: Date | string
+    estado: string
   }
 
-  export type SolicitudExamenUncheckedCreateWithoutAlumnoInput = {
+  export type ExamenUncheckedCreateWithoutAlumnoInput = {
     id?: string
     tipo: string
-    estado?: string
-    fechaSolicitud?: Date | string
-    fechaProgramada?: Date | string | null
-    observaciones?: string | null
+    fecha: Date | string
+    estado: string
   }
 
-  export type SolicitudExamenCreateOrConnectWithoutAlumnoInput = {
-    where: SolicitudExamenWhereUniqueInput
-    create: XOR<SolicitudExamenCreateWithoutAlumnoInput, SolicitudExamenUncheckedCreateWithoutAlumnoInput>
+  export type ExamenCreateOrConnectWithoutAlumnoInput = {
+    where: ExamenWhereUniqueInput
+    create: XOR<ExamenCreateWithoutAlumnoInput, ExamenUncheckedCreateWithoutAlumnoInput>
   }
 
-  export type SolicitudExamenCreateManyAlumnoInputEnvelope = {
-    data: SolicitudExamenCreateManyAlumnoInput | SolicitudExamenCreateManyAlumnoInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type MatriculaCreateWithoutAlumnoInput = {
-    id?: string
-    licencia: string
-    precioBase: Decimal | DecimalJsLike | number | string
-    precioFinal: Decimal | DecimalJsLike | number | string
-    estado?: string
-    fechaCreacion?: Date | string
-    fechaPago?: Date | string | null
-    observaciones?: string | null
-    promocion?: PromocionCreateNestedOneWithoutMatriculasInput
-    factura?: FacturaCreateNestedOneWithoutMatriculaInput
-  }
-
-  export type MatriculaUncheckedCreateWithoutAlumnoInput = {
-    id?: string
-    licencia: string
-    precioBase: Decimal | DecimalJsLike | number | string
-    precioFinal: Decimal | DecimalJsLike | number | string
-    promocionId?: string | null
-    estado?: string
-    fechaCreacion?: Date | string
-    fechaPago?: Date | string | null
-    observaciones?: string | null
-    factura?: FacturaUncheckedCreateNestedOneWithoutMatriculaInput
-  }
-
-  export type MatriculaCreateOrConnectWithoutAlumnoInput = {
-    where: MatriculaWhereUniqueInput
-    create: XOR<MatriculaCreateWithoutAlumnoInput, MatriculaUncheckedCreateWithoutAlumnoInput>
-  }
-
-  export type MatriculaCreateManyAlumnoInputEnvelope = {
-    data: MatriculaCreateManyAlumnoInput | MatriculaCreateManyAlumnoInput[]
+  export type ExamenCreateManyAlumnoInputEnvelope = {
+    data: ExamenCreateManyAlumnoInput | ExamenCreateManyAlumnoInput[]
     skipDuplicates?: boolean
   }
 
@@ -29897,6 +29779,124 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type MatriculaCreateWithoutAlumnoInput = {
+    id?: string
+    licencia: string
+    precioBase: Decimal | DecimalJsLike | number | string
+    precioFinal: Decimal | DecimalJsLike | number | string
+    estado?: string
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    observaciones?: string | null
+    factura?: FacturaCreateNestedOneWithoutMatriculaInput
+    promocion?: PromocionCreateNestedOneWithoutMatriculasInput
+  }
+
+  export type MatriculaUncheckedCreateWithoutAlumnoInput = {
+    id?: string
+    licencia: string
+    precioBase: Decimal | DecimalJsLike | number | string
+    precioFinal: Decimal | DecimalJsLike | number | string
+    promocionId?: string | null
+    estado?: string
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    observaciones?: string | null
+    factura?: FacturaUncheckedCreateNestedOneWithoutMatriculaInput
+  }
+
+  export type MatriculaCreateOrConnectWithoutAlumnoInput = {
+    where: MatriculaWhereUniqueInput
+    create: XOR<MatriculaCreateWithoutAlumnoInput, MatriculaUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type MatriculaCreateManyAlumnoInputEnvelope = {
+    data: MatriculaCreateManyAlumnoInput | MatriculaCreateManyAlumnoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SolicitudExamenCreateWithoutAlumnoInput = {
+    id?: string
+    tipo: string
+    estado?: string
+    fechaSolicitud?: Date | string
+    fechaProgramada?: Date | string | null
+    observaciones?: string | null
+  }
+
+  export type SolicitudExamenUncheckedCreateWithoutAlumnoInput = {
+    id?: string
+    tipo: string
+    estado?: string
+    fechaSolicitud?: Date | string
+    fechaProgramada?: Date | string | null
+    observaciones?: string | null
+  }
+
+  export type SolicitudExamenCreateOrConnectWithoutAlumnoInput = {
+    where: SolicitudExamenWhereUniqueInput
+    create: XOR<SolicitudExamenCreateWithoutAlumnoInput, SolicitudExamenUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type SolicitudExamenCreateManyAlumnoInputEnvelope = {
+    data: SolicitudExamenCreateManyAlumnoInput | SolicitudExamenCreateManyAlumnoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TemarioProgresoCreateWithoutAlumnoInput = {
+    id?: string
+    revisado?: boolean
+    dominio?: number
+    ultimaRevision?: Date | string | null
+    temario: TemarioCreateNestedOneWithoutProgresoInput
+  }
+
+  export type TemarioProgresoUncheckedCreateWithoutAlumnoInput = {
+    id?: string
+    temarioId: string
+    revisado?: boolean
+    dominio?: number
+    ultimaRevision?: Date | string | null
+  }
+
+  export type TemarioProgresoCreateOrConnectWithoutAlumnoInput = {
+    where: TemarioProgresoWhereUniqueInput
+    create: XOR<TemarioProgresoCreateWithoutAlumnoInput, TemarioProgresoUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type TemarioProgresoCreateManyAlumnoInputEnvelope = {
+    data: TemarioProgresoCreateManyAlumnoInput | TemarioProgresoCreateManyAlumnoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TestPracticaCreateWithoutAlumnoInput = {
+    id?: string
+    fecha?: Date | string
+    resultado: string
+    respuestasCorrectas: number
+    totalPreguntas: number
+    temario?: TemarioCreateNestedOneWithoutTestsPracticaInput
+  }
+
+  export type TestPracticaUncheckedCreateWithoutAlumnoInput = {
+    id?: string
+    temarioId?: string | null
+    fecha?: Date | string
+    resultado: string
+    respuestasCorrectas: number
+    totalPreguntas: number
+  }
+
+  export type TestPracticaCreateOrConnectWithoutAlumnoInput = {
+    where: TestPracticaWhereUniqueInput
+    create: XOR<TestPracticaCreateWithoutAlumnoInput, TestPracticaUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type TestPracticaCreateManyAlumnoInputEnvelope = {
+    data: TestPracticaCreateManyAlumnoInput | TestPracticaCreateManyAlumnoInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UsuarioUpsertWithoutAlumnoInput = {
     update: XOR<UsuarioUpdateWithoutAlumnoInput, UsuarioUncheckedUpdateWithoutAlumnoInput>
     create: XOR<UsuarioCreateWithoutAlumnoInput, UsuarioUncheckedCreateWithoutAlumnoInput>
@@ -29911,29 +29911,29 @@ export namespace Prisma {
   export type UsuarioUpdateWithoutAlumnoInput = {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
-    dni?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
-    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    profesor?: ProfesorUpdateOneWithoutUsuarioNestedInput
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     activacionesCuenta?: ActivacionCuentaUpdateManyWithoutUsuarioNestedInput
+    profesor?: ProfesorUpdateOneWithoutUsuarioNestedInput
   }
 
   export type UsuarioUncheckedUpdateWithoutAlumnoInput = {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
-    dni?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    telefono?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: StringFieldUpdateOperationsInput | string
-    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    profesor?: ProfesorUncheckedUpdateOneWithoutUsuarioNestedInput
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     activacionesCuenta?: ActivacionCuentaUncheckedUpdateManyWithoutUsuarioNestedInput
+    profesor?: ProfesorUncheckedUpdateOneWithoutUsuarioNestedInput
   }
 
   export type ProfesorUpsertWithoutAlumnosAsignadosInput = {
@@ -29949,22 +29949,22 @@ export namespace Prisma {
 
   export type ProfesorUpdateWithoutAlumnosAsignadosInput = {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
-    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
-    clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
+    clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
 
   export type ProfesorUncheckedUpdateWithoutAlumnosAsignadosInput = {
     id?: StringFieldUpdateOperationsInput | string
     licenciaConducir?: StringFieldUpdateOperationsInput | string
-    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
-    clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
+    clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
   export type ClasePracticaUpsertWithWhereUniqueWithoutAlumnoInput = {
@@ -29981,90 +29981,6 @@ export namespace Prisma {
   export type ClasePracticaUpdateManyWithWhereWithoutAlumnoInput = {
     where: ClasePracticaScalarWhereInput
     data: XOR<ClasePracticaUpdateManyMutationInput, ClasePracticaUncheckedUpdateManyWithoutAlumnoInput>
-  }
-
-  export type ExamenUpsertWithWhereUniqueWithoutAlumnoInput = {
-    where: ExamenWhereUniqueInput
-    update: XOR<ExamenUpdateWithoutAlumnoInput, ExamenUncheckedUpdateWithoutAlumnoInput>
-    create: XOR<ExamenCreateWithoutAlumnoInput, ExamenUncheckedCreateWithoutAlumnoInput>
-  }
-
-  export type ExamenUpdateWithWhereUniqueWithoutAlumnoInput = {
-    where: ExamenWhereUniqueInput
-    data: XOR<ExamenUpdateWithoutAlumnoInput, ExamenUncheckedUpdateWithoutAlumnoInput>
-  }
-
-  export type ExamenUpdateManyWithWhereWithoutAlumnoInput = {
-    where: ExamenScalarWhereInput
-    data: XOR<ExamenUpdateManyMutationInput, ExamenUncheckedUpdateManyWithoutAlumnoInput>
-  }
-
-  export type ExamenScalarWhereInput = {
-    AND?: ExamenScalarWhereInput | ExamenScalarWhereInput[]
-    OR?: ExamenScalarWhereInput[]
-    NOT?: ExamenScalarWhereInput | ExamenScalarWhereInput[]
-    id?: StringFilter<"Examen"> | string
-    alumnoId?: StringFilter<"Examen"> | string
-    tipo?: StringFilter<"Examen"> | string
-    fecha?: DateTimeFilter<"Examen"> | Date | string
-    estado?: StringFilter<"Examen"> | string
-  }
-
-  export type TestPracticaUpsertWithWhereUniqueWithoutAlumnoInput = {
-    where: TestPracticaWhereUniqueInput
-    update: XOR<TestPracticaUpdateWithoutAlumnoInput, TestPracticaUncheckedUpdateWithoutAlumnoInput>
-    create: XOR<TestPracticaCreateWithoutAlumnoInput, TestPracticaUncheckedCreateWithoutAlumnoInput>
-  }
-
-  export type TestPracticaUpdateWithWhereUniqueWithoutAlumnoInput = {
-    where: TestPracticaWhereUniqueInput
-    data: XOR<TestPracticaUpdateWithoutAlumnoInput, TestPracticaUncheckedUpdateWithoutAlumnoInput>
-  }
-
-  export type TestPracticaUpdateManyWithWhereWithoutAlumnoInput = {
-    where: TestPracticaScalarWhereInput
-    data: XOR<TestPracticaUpdateManyMutationInput, TestPracticaUncheckedUpdateManyWithoutAlumnoInput>
-  }
-
-  export type TestPracticaScalarWhereInput = {
-    AND?: TestPracticaScalarWhereInput | TestPracticaScalarWhereInput[]
-    OR?: TestPracticaScalarWhereInput[]
-    NOT?: TestPracticaScalarWhereInput | TestPracticaScalarWhereInput[]
-    id?: StringFilter<"TestPractica"> | string
-    alumnoId?: StringFilter<"TestPractica"> | string
-    temarioId?: StringNullableFilter<"TestPractica"> | string | null
-    fecha?: DateTimeFilter<"TestPractica"> | Date | string
-    resultado?: StringFilter<"TestPractica"> | string
-    respuestasCorrectas?: IntFilter<"TestPractica"> | number
-    totalPreguntas?: IntFilter<"TestPractica"> | number
-  }
-
-  export type TemarioProgresoUpsertWithWhereUniqueWithoutAlumnoInput = {
-    where: TemarioProgresoWhereUniqueInput
-    update: XOR<TemarioProgresoUpdateWithoutAlumnoInput, TemarioProgresoUncheckedUpdateWithoutAlumnoInput>
-    create: XOR<TemarioProgresoCreateWithoutAlumnoInput, TemarioProgresoUncheckedCreateWithoutAlumnoInput>
-  }
-
-  export type TemarioProgresoUpdateWithWhereUniqueWithoutAlumnoInput = {
-    where: TemarioProgresoWhereUniqueInput
-    data: XOR<TemarioProgresoUpdateWithoutAlumnoInput, TemarioProgresoUncheckedUpdateWithoutAlumnoInput>
-  }
-
-  export type TemarioProgresoUpdateManyWithWhereWithoutAlumnoInput = {
-    where: TemarioProgresoScalarWhereInput
-    data: XOR<TemarioProgresoUpdateManyMutationInput, TemarioProgresoUncheckedUpdateManyWithoutAlumnoInput>
-  }
-
-  export type TemarioProgresoScalarWhereInput = {
-    AND?: TemarioProgresoScalarWhereInput | TemarioProgresoScalarWhereInput[]
-    OR?: TemarioProgresoScalarWhereInput[]
-    NOT?: TemarioProgresoScalarWhereInput | TemarioProgresoScalarWhereInput[]
-    id?: StringFilter<"TemarioProgreso"> | string
-    alumnoId?: StringFilter<"TemarioProgreso"> | string
-    temarioId?: StringFilter<"TemarioProgreso"> | string
-    revisado?: BoolFilter<"TemarioProgreso"> | boolean
-    dominio?: IntFilter<"TemarioProgreso"> | number
-    ultimaRevision?: DateTimeNullableFilter<"TemarioProgreso"> | Date | string | null
   }
 
   export type CompraBonoUpsertWithWhereUniqueWithoutAlumnoInput = {
@@ -30097,33 +30013,64 @@ export namespace Prisma {
     fechaValidezHasta?: DateTimeFilter<"CompraBono"> | Date | string
   }
 
-  export type SolicitudExamenUpsertWithWhereUniqueWithoutAlumnoInput = {
-    where: SolicitudExamenWhereUniqueInput
-    update: XOR<SolicitudExamenUpdateWithoutAlumnoInput, SolicitudExamenUncheckedUpdateWithoutAlumnoInput>
-    create: XOR<SolicitudExamenCreateWithoutAlumnoInput, SolicitudExamenUncheckedCreateWithoutAlumnoInput>
+  export type ExamenUpsertWithWhereUniqueWithoutAlumnoInput = {
+    where: ExamenWhereUniqueInput
+    update: XOR<ExamenUpdateWithoutAlumnoInput, ExamenUncheckedUpdateWithoutAlumnoInput>
+    create: XOR<ExamenCreateWithoutAlumnoInput, ExamenUncheckedCreateWithoutAlumnoInput>
   }
 
-  export type SolicitudExamenUpdateWithWhereUniqueWithoutAlumnoInput = {
-    where: SolicitudExamenWhereUniqueInput
-    data: XOR<SolicitudExamenUpdateWithoutAlumnoInput, SolicitudExamenUncheckedUpdateWithoutAlumnoInput>
+  export type ExamenUpdateWithWhereUniqueWithoutAlumnoInput = {
+    where: ExamenWhereUniqueInput
+    data: XOR<ExamenUpdateWithoutAlumnoInput, ExamenUncheckedUpdateWithoutAlumnoInput>
   }
 
-  export type SolicitudExamenUpdateManyWithWhereWithoutAlumnoInput = {
-    where: SolicitudExamenScalarWhereInput
-    data: XOR<SolicitudExamenUpdateManyMutationInput, SolicitudExamenUncheckedUpdateManyWithoutAlumnoInput>
+  export type ExamenUpdateManyWithWhereWithoutAlumnoInput = {
+    where: ExamenScalarWhereInput
+    data: XOR<ExamenUpdateManyMutationInput, ExamenUncheckedUpdateManyWithoutAlumnoInput>
   }
 
-  export type SolicitudExamenScalarWhereInput = {
-    AND?: SolicitudExamenScalarWhereInput | SolicitudExamenScalarWhereInput[]
-    OR?: SolicitudExamenScalarWhereInput[]
-    NOT?: SolicitudExamenScalarWhereInput | SolicitudExamenScalarWhereInput[]
-    id?: StringFilter<"SolicitudExamen"> | string
-    alumnoId?: StringFilter<"SolicitudExamen"> | string
-    tipo?: StringFilter<"SolicitudExamen"> | string
-    estado?: StringFilter<"SolicitudExamen"> | string
-    fechaSolicitud?: DateTimeFilter<"SolicitudExamen"> | Date | string
-    fechaProgramada?: DateTimeNullableFilter<"SolicitudExamen"> | Date | string | null
-    observaciones?: StringNullableFilter<"SolicitudExamen"> | string | null
+  export type ExamenScalarWhereInput = {
+    AND?: ExamenScalarWhereInput | ExamenScalarWhereInput[]
+    OR?: ExamenScalarWhereInput[]
+    NOT?: ExamenScalarWhereInput | ExamenScalarWhereInput[]
+    id?: StringFilter<"Examen"> | string
+    alumnoId?: StringFilter<"Examen"> | string
+    tipo?: StringFilter<"Examen"> | string
+    fecha?: DateTimeFilter<"Examen"> | Date | string
+    estado?: StringFilter<"Examen"> | string
+  }
+
+  export type FacturaUpsertWithWhereUniqueWithoutAlumnoInput = {
+    where: FacturaWhereUniqueInput
+    update: XOR<FacturaUpdateWithoutAlumnoInput, FacturaUncheckedUpdateWithoutAlumnoInput>
+    create: XOR<FacturaCreateWithoutAlumnoInput, FacturaUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type FacturaUpdateWithWhereUniqueWithoutAlumnoInput = {
+    where: FacturaWhereUniqueInput
+    data: XOR<FacturaUpdateWithoutAlumnoInput, FacturaUncheckedUpdateWithoutAlumnoInput>
+  }
+
+  export type FacturaUpdateManyWithWhereWithoutAlumnoInput = {
+    where: FacturaScalarWhereInput
+    data: XOR<FacturaUpdateManyMutationInput, FacturaUncheckedUpdateManyWithoutAlumnoInput>
+  }
+
+  export type FacturaScalarWhereInput = {
+    AND?: FacturaScalarWhereInput | FacturaScalarWhereInput[]
+    OR?: FacturaScalarWhereInput[]
+    NOT?: FacturaScalarWhereInput | FacturaScalarWhereInput[]
+    id?: StringFilter<"Factura"> | string
+    numero?: StringFilter<"Factura"> | string
+    alumnoId?: StringFilter<"Factura"> | string
+    matriculaId?: StringFilter<"Factura"> | string
+    concepto?: StringFilter<"Factura"> | string
+    baseImponible?: DecimalFilter<"Factura"> | Decimal | DecimalJsLike | number | string
+    descuento?: DecimalFilter<"Factura"> | Decimal | DecimalJsLike | number | string
+    total?: DecimalFilter<"Factura"> | Decimal | DecimalJsLike | number | string
+    estado?: StringFilter<"Factura"> | string
+    fechaEmision?: DateTimeFilter<"Factura"> | Date | string
+    fechaPago?: DateTimeNullableFilter<"Factura"> | Date | string | null
   }
 
   export type MatriculaUpsertWithWhereUniqueWithoutAlumnoInput = {
@@ -30158,37 +30105,90 @@ export namespace Prisma {
     observaciones?: StringNullableFilter<"Matricula"> | string | null
   }
 
-  export type FacturaUpsertWithWhereUniqueWithoutAlumnoInput = {
-    where: FacturaWhereUniqueInput
-    update: XOR<FacturaUpdateWithoutAlumnoInput, FacturaUncheckedUpdateWithoutAlumnoInput>
-    create: XOR<FacturaCreateWithoutAlumnoInput, FacturaUncheckedCreateWithoutAlumnoInput>
+  export type SolicitudExamenUpsertWithWhereUniqueWithoutAlumnoInput = {
+    where: SolicitudExamenWhereUniqueInput
+    update: XOR<SolicitudExamenUpdateWithoutAlumnoInput, SolicitudExamenUncheckedUpdateWithoutAlumnoInput>
+    create: XOR<SolicitudExamenCreateWithoutAlumnoInput, SolicitudExamenUncheckedCreateWithoutAlumnoInput>
   }
 
-  export type FacturaUpdateWithWhereUniqueWithoutAlumnoInput = {
-    where: FacturaWhereUniqueInput
-    data: XOR<FacturaUpdateWithoutAlumnoInput, FacturaUncheckedUpdateWithoutAlumnoInput>
+  export type SolicitudExamenUpdateWithWhereUniqueWithoutAlumnoInput = {
+    where: SolicitudExamenWhereUniqueInput
+    data: XOR<SolicitudExamenUpdateWithoutAlumnoInput, SolicitudExamenUncheckedUpdateWithoutAlumnoInput>
   }
 
-  export type FacturaUpdateManyWithWhereWithoutAlumnoInput = {
-    where: FacturaScalarWhereInput
-    data: XOR<FacturaUpdateManyMutationInput, FacturaUncheckedUpdateManyWithoutAlumnoInput>
+  export type SolicitudExamenUpdateManyWithWhereWithoutAlumnoInput = {
+    where: SolicitudExamenScalarWhereInput
+    data: XOR<SolicitudExamenUpdateManyMutationInput, SolicitudExamenUncheckedUpdateManyWithoutAlumnoInput>
   }
 
-  export type FacturaScalarWhereInput = {
-    AND?: FacturaScalarWhereInput | FacturaScalarWhereInput[]
-    OR?: FacturaScalarWhereInput[]
-    NOT?: FacturaScalarWhereInput | FacturaScalarWhereInput[]
-    id?: StringFilter<"Factura"> | string
-    numero?: StringFilter<"Factura"> | string
-    alumnoId?: StringFilter<"Factura"> | string
-    matriculaId?: StringFilter<"Factura"> | string
-    concepto?: StringFilter<"Factura"> | string
-    baseImponible?: DecimalFilter<"Factura"> | Decimal | DecimalJsLike | number | string
-    descuento?: DecimalFilter<"Factura"> | Decimal | DecimalJsLike | number | string
-    total?: DecimalFilter<"Factura"> | Decimal | DecimalJsLike | number | string
-    estado?: StringFilter<"Factura"> | string
-    fechaEmision?: DateTimeFilter<"Factura"> | Date | string
-    fechaPago?: DateTimeNullableFilter<"Factura"> | Date | string | null
+  export type SolicitudExamenScalarWhereInput = {
+    AND?: SolicitudExamenScalarWhereInput | SolicitudExamenScalarWhereInput[]
+    OR?: SolicitudExamenScalarWhereInput[]
+    NOT?: SolicitudExamenScalarWhereInput | SolicitudExamenScalarWhereInput[]
+    id?: StringFilter<"SolicitudExamen"> | string
+    alumnoId?: StringFilter<"SolicitudExamen"> | string
+    tipo?: StringFilter<"SolicitudExamen"> | string
+    estado?: StringFilter<"SolicitudExamen"> | string
+    fechaSolicitud?: DateTimeFilter<"SolicitudExamen"> | Date | string
+    fechaProgramada?: DateTimeNullableFilter<"SolicitudExamen"> | Date | string | null
+    observaciones?: StringNullableFilter<"SolicitudExamen"> | string | null
+  }
+
+  export type TemarioProgresoUpsertWithWhereUniqueWithoutAlumnoInput = {
+    where: TemarioProgresoWhereUniqueInput
+    update: XOR<TemarioProgresoUpdateWithoutAlumnoInput, TemarioProgresoUncheckedUpdateWithoutAlumnoInput>
+    create: XOR<TemarioProgresoCreateWithoutAlumnoInput, TemarioProgresoUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type TemarioProgresoUpdateWithWhereUniqueWithoutAlumnoInput = {
+    where: TemarioProgresoWhereUniqueInput
+    data: XOR<TemarioProgresoUpdateWithoutAlumnoInput, TemarioProgresoUncheckedUpdateWithoutAlumnoInput>
+  }
+
+  export type TemarioProgresoUpdateManyWithWhereWithoutAlumnoInput = {
+    where: TemarioProgresoScalarWhereInput
+    data: XOR<TemarioProgresoUpdateManyMutationInput, TemarioProgresoUncheckedUpdateManyWithoutAlumnoInput>
+  }
+
+  export type TemarioProgresoScalarWhereInput = {
+    AND?: TemarioProgresoScalarWhereInput | TemarioProgresoScalarWhereInput[]
+    OR?: TemarioProgresoScalarWhereInput[]
+    NOT?: TemarioProgresoScalarWhereInput | TemarioProgresoScalarWhereInput[]
+    id?: StringFilter<"TemarioProgreso"> | string
+    alumnoId?: StringFilter<"TemarioProgreso"> | string
+    temarioId?: StringFilter<"TemarioProgreso"> | string
+    revisado?: BoolFilter<"TemarioProgreso"> | boolean
+    dominio?: IntFilter<"TemarioProgreso"> | number
+    ultimaRevision?: DateTimeNullableFilter<"TemarioProgreso"> | Date | string | null
+  }
+
+  export type TestPracticaUpsertWithWhereUniqueWithoutAlumnoInput = {
+    where: TestPracticaWhereUniqueInput
+    update: XOR<TestPracticaUpdateWithoutAlumnoInput, TestPracticaUncheckedUpdateWithoutAlumnoInput>
+    create: XOR<TestPracticaCreateWithoutAlumnoInput, TestPracticaUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type TestPracticaUpdateWithWhereUniqueWithoutAlumnoInput = {
+    where: TestPracticaWhereUniqueInput
+    data: XOR<TestPracticaUpdateWithoutAlumnoInput, TestPracticaUncheckedUpdateWithoutAlumnoInput>
+  }
+
+  export type TestPracticaUpdateManyWithWhereWithoutAlumnoInput = {
+    where: TestPracticaScalarWhereInput
+    data: XOR<TestPracticaUpdateManyMutationInput, TestPracticaUncheckedUpdateManyWithoutAlumnoInput>
+  }
+
+  export type TestPracticaScalarWhereInput = {
+    AND?: TestPracticaScalarWhereInput | TestPracticaScalarWhereInput[]
+    OR?: TestPracticaScalarWhereInput[]
+    NOT?: TestPracticaScalarWhereInput | TestPracticaScalarWhereInput[]
+    id?: StringFilter<"TestPractica"> | string
+    alumnoId?: StringFilter<"TestPractica"> | string
+    temarioId?: StringNullableFilter<"TestPractica"> | string | null
+    fecha?: DateTimeFilter<"TestPractica"> | Date | string
+    resultado?: StringFilter<"TestPractica"> | string
+    respuestasCorrectas?: IntFilter<"TestPractica"> | number
+    totalPreguntas?: IntFilter<"TestPractica"> | number
   }
 
   export type TemarioProgresoCreateWithoutTemarioInput = {
@@ -30279,34 +30279,34 @@ export namespace Prisma {
 
   export type AlumnoCreateWithoutTemariosProgresoInput = {
     tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     activo?: boolean
+    fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
     clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
-    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
-    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
-    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
-    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutTemariosProgresoInput = {
     id: string
     tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
-    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
-    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
-    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
-    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutTemariosProgresoInput = {
@@ -30318,8 +30318,8 @@ export namespace Prisma {
     id?: string
     titulo: string
     descripcion?: string | null
-    tipoLicenciaObjetivo?: TemarioCreatetipoLicenciaObjetivoInput | string[]
     orden?: number
+    tipoLicenciaObjetivo?: TemarioCreatetipoLicenciaObjetivoInput | string[]
     testsPractica?: TestPracticaCreateNestedManyWithoutTemarioInput
   }
 
@@ -30327,8 +30327,8 @@ export namespace Prisma {
     id?: string
     titulo: string
     descripcion?: string | null
-    tipoLicenciaObjetivo?: TemarioCreatetipoLicenciaObjetivoInput | string[]
     orden?: number
+    tipoLicenciaObjetivo?: TemarioCreatetipoLicenciaObjetivoInput | string[]
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutTemarioInput
   }
 
@@ -30350,34 +30350,34 @@ export namespace Prisma {
 
   export type AlumnoUpdateWithoutTemariosProgresoInput = {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
     clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
-    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
-    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
-    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
-    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutTemariosProgresoInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
-    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
-    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
-    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
-    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type TemarioUpsertWithoutProgresoInput = {
@@ -30395,8 +30395,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     titulo?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
-    tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
     orden?: IntFieldUpdateOperationsInput | number
+    tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
     testsPractica?: TestPracticaUpdateManyWithoutTemarioNestedInput
   }
 
@@ -30404,16 +30404,16 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     titulo?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
-    tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
     orden?: IntFieldUpdateOperationsInput | number
+    tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutTemarioNestedInput
   }
 
   export type ProfesorCreateWithoutClasesDirectoInput = {
     licenciaConducir: string
-    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     telefono: string
     activo?: boolean
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
@@ -30422,9 +30422,9 @@ export namespace Prisma {
   export type ProfesorUncheckedCreateWithoutClasesDirectoInput = {
     id: string
     licenciaConducir: string
-    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     telefono: string
     activo?: boolean
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
   }
@@ -30447,9 +30447,9 @@ export namespace Prisma {
 
   export type ProfesorUpdateWithoutClasesDirectoInput = {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
-    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
@@ -30458,43 +30458,43 @@ export namespace Prisma {
   export type ProfesorUncheckedUpdateWithoutClasesDirectoInput = {
     id?: StringFieldUpdateOperationsInput | string
     licenciaConducir?: StringFieldUpdateOperationsInput | string
-    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
   export type AlumnoCreateWithoutTestsPracticaInput = {
     tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     activo?: boolean
+    fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
     clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
-    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
-    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
-    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
-    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutTestsPracticaInput = {
     id: string
     tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
-    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
-    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
-    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
-    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutTestsPracticaInput = {
@@ -30506,8 +30506,8 @@ export namespace Prisma {
     id?: string
     titulo: string
     descripcion?: string | null
-    tipoLicenciaObjetivo?: TemarioCreatetipoLicenciaObjetivoInput | string[]
     orden?: number
+    tipoLicenciaObjetivo?: TemarioCreatetipoLicenciaObjetivoInput | string[]
     progreso?: TemarioProgresoCreateNestedManyWithoutTemarioInput
   }
 
@@ -30515,8 +30515,8 @@ export namespace Prisma {
     id?: string
     titulo: string
     descripcion?: string | null
-    tipoLicenciaObjetivo?: TemarioCreatetipoLicenciaObjetivoInput | string[]
     orden?: number
+    tipoLicenciaObjetivo?: TemarioCreatetipoLicenciaObjetivoInput | string[]
     progreso?: TemarioProgresoUncheckedCreateNestedManyWithoutTemarioInput
   }
 
@@ -30538,34 +30538,34 @@ export namespace Prisma {
 
   export type AlumnoUpdateWithoutTestsPracticaInput = {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
     clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
-    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
-    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
-    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
-    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutTestsPracticaInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
-    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
-    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
-    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
-    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type TemarioUpsertWithoutTestsPracticaInput = {
@@ -30583,8 +30583,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     titulo?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
-    tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
     orden?: IntFieldUpdateOperationsInput | number
+    tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
     progreso?: TemarioProgresoUpdateManyWithoutTemarioNestedInput
   }
 
@@ -30592,8 +30592,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     titulo?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
-    tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
     orden?: IntFieldUpdateOperationsInput | number
+    tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
     progreso?: TemarioProgresoUncheckedUpdateManyWithoutTemarioNestedInput
   }
 
@@ -30645,34 +30645,34 @@ export namespace Prisma {
 
   export type AlumnoCreateWithoutBonosCompradosInput = {
     tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     activo?: boolean
+    fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
     clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenCreateNestedManyWithoutAlumnoInput
-    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
-    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
-    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
-    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutBonosCompradosInput = {
     id: string
     tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
-    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
-    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
-    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
-    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutBonosCompradosInput = {
@@ -30716,34 +30716,34 @@ export namespace Prisma {
 
   export type AlumnoUpdateWithoutBonosCompradosInput = {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
     clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
-    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
-    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
-    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
-    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutBonosCompradosInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
-    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
-    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
-    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
-    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type BonoUpsertWithoutComprasInput = {
@@ -30777,34 +30777,34 @@ export namespace Prisma {
 
   export type AlumnoCreateWithoutSolicitudesExamenInput = {
     tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     activo?: boolean
+    fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
     clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
-    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
-    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
-    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
-    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutSolicitudesExamenInput = {
     id: string
     tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
-    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
-    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
-    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
-    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutSolicitudesExamenInput = {
@@ -30825,34 +30825,34 @@ export namespace Prisma {
 
   export type AlumnoUpdateWithoutSolicitudesExamenInput = {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
     clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
-    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
-    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
-    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
-    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutSolicitudesExamenInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
-    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
-    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
-    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
-    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type ClasePracticaCreateWithoutVehiculoInput = {
@@ -30901,34 +30901,34 @@ export namespace Prisma {
 
   export type AlumnoCreateWithoutClasesInput = {
     tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     activo?: boolean
+    fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
-    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
-    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
-    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
-    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
-    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutClasesInput = {
     id: string
     tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
-    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
-    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
-    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
+    fechaNacimiento?: Date | string | null
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
-    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
-    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutClasesInput = {
@@ -30938,9 +30938,9 @@ export namespace Prisma {
 
   export type ProfesorCreateWithoutClasesInput = {
     licenciaConducir: string
-    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     telefono: string
     activo?: boolean
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
@@ -30949,9 +30949,9 @@ export namespace Prisma {
   export type ProfesorUncheckedCreateWithoutClasesInput = {
     id: string
     licenciaConducir: string
-    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     telefono: string
     activo?: boolean
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
   }
@@ -30967,8 +30967,8 @@ export namespace Prisma {
     marca?: string | null
     modelo?: string | null
     tipoPermiso: string
-    imagenRuta?: string | null
     activo?: boolean
+    imagenRuta?: string | null
   }
 
   export type VehiculoUncheckedCreateWithoutClasesInput = {
@@ -30977,8 +30977,8 @@ export namespace Prisma {
     marca?: string | null
     modelo?: string | null
     tipoPermiso: string
-    imagenRuta?: string | null
     activo?: boolean
+    imagenRuta?: string | null
   }
 
   export type VehiculoCreateOrConnectWithoutClasesInput = {
@@ -30999,34 +30999,34 @@ export namespace Prisma {
 
   export type AlumnoUpdateWithoutClasesInput = {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
-    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
-    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
-    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
-    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
-    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutClasesInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
-    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
-    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
-    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
-    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
-    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type ProfesorUpsertWithoutClasesInput = {
@@ -31042,9 +31042,9 @@ export namespace Prisma {
 
   export type ProfesorUpdateWithoutClasesInput = {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
-    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
@@ -31053,9 +31053,9 @@ export namespace Prisma {
   export type ProfesorUncheckedUpdateWithoutClasesInput = {
     id?: StringFieldUpdateOperationsInput | string
     licenciaConducir?: StringFieldUpdateOperationsInput | string
-    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
   }
@@ -31077,8 +31077,8 @@ export namespace Prisma {
     marca?: NullableStringFieldUpdateOperationsInput | string | null
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     tipoPermiso?: StringFieldUpdateOperationsInput | string
-    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type VehiculoUncheckedUpdateWithoutClasesInput = {
@@ -31087,40 +31087,40 @@ export namespace Prisma {
     marca?: NullableStringFieldUpdateOperationsInput | string | null
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     tipoPermiso?: StringFieldUpdateOperationsInput | string
-    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AlumnoCreateWithoutExamenesInput = {
     tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     activo?: boolean
+    fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
     clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
-    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
-    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
-    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
-    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutExamenesInput = {
     id: string
     tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
-    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
-    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
-    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
-    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutExamenesInput = {
@@ -31141,34 +31141,34 @@ export namespace Prisma {
 
   export type AlumnoUpdateWithoutExamenesInput = {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
     clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
-    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
-    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
-    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
-    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutExamenesInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
-    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
-    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
-    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
-    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type MatriculaCreateWithoutPromocionInput = {
@@ -31180,8 +31180,8 @@ export namespace Prisma {
     fechaCreacion?: Date | string
     fechaPago?: Date | string | null
     observaciones?: string | null
-    alumno: AlumnoCreateNestedOneWithoutMatriculasInput
     factura?: FacturaCreateNestedOneWithoutMatriculaInput
+    alumno: AlumnoCreateNestedOneWithoutMatriculasInput
   }
 
   export type MatriculaUncheckedCreateWithoutPromocionInput = {
@@ -31223,86 +31223,6 @@ export namespace Prisma {
     data: XOR<MatriculaUpdateManyMutationInput, MatriculaUncheckedUpdateManyWithoutPromocionInput>
   }
 
-  export type AlumnoCreateWithoutMatriculasInput = {
-    tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
-    horasPracticasCompletadas?: number
-    activo?: boolean
-    usuario: UsuarioCreateNestedOneWithoutAlumnoInput
-    profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
-    clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
-    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
-    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
-    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
-    bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
-    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
-    facturas?: FacturaCreateNestedManyWithoutAlumnoInput
-  }
-
-  export type AlumnoUncheckedCreateWithoutMatriculasInput = {
-    id: string
-    tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
-    horasPracticasCompletadas?: number
-    profesorAsignadoId?: string | null
-    activo?: boolean
-    clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
-    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
-    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
-    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
-    bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
-    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
-    facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
-  }
-
-  export type AlumnoCreateOrConnectWithoutMatriculasInput = {
-    where: AlumnoWhereUniqueInput
-    create: XOR<AlumnoCreateWithoutMatriculasInput, AlumnoUncheckedCreateWithoutMatriculasInput>
-  }
-
-  export type PromocionCreateWithoutMatriculasInput = {
-    id?: string
-    nombre: string
-    descripcion?: string | null
-    precioOriginal: Decimal | DecimalJsLike | number | string
-    precioPromocional: Decimal | DecimalJsLike | number | string
-    licenciasAplicables?: PromocionCreatelicenciasAplicablesInput | string[]
-    imagenRuta?: string | null
-    fechaInicio?: Date | string | null
-    fechaFin?: Date | string | null
-    activa?: boolean
-    requiereCarnetEstudiante?: boolean
-    edadMinima?: number | null
-    edadMaxima?: number | null
-    requiereFidelidad?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type PromocionUncheckedCreateWithoutMatriculasInput = {
-    id?: string
-    nombre: string
-    descripcion?: string | null
-    precioOriginal: Decimal | DecimalJsLike | number | string
-    precioPromocional: Decimal | DecimalJsLike | number | string
-    licenciasAplicables?: PromocionCreatelicenciasAplicablesInput | string[]
-    imagenRuta?: string | null
-    fechaInicio?: Date | string | null
-    fechaFin?: Date | string | null
-    activa?: boolean
-    requiereCarnetEstudiante?: boolean
-    edadMinima?: number | null
-    edadMaxima?: number | null
-    requiereFidelidad?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type PromocionCreateOrConnectWithoutMatriculasInput = {
-    where: PromocionWhereUniqueInput
-    create: XOR<PromocionCreateWithoutMatriculasInput, PromocionUncheckedCreateWithoutMatriculasInput>
-  }
-
   export type FacturaCreateWithoutMatriculaInput = {
     id?: string
     numero: string
@@ -31334,96 +31254,84 @@ export namespace Prisma {
     create: XOR<FacturaCreateWithoutMatriculaInput, FacturaUncheckedCreateWithoutMatriculaInput>
   }
 
-  export type AlumnoUpsertWithoutMatriculasInput = {
-    update: XOR<AlumnoUpdateWithoutMatriculasInput, AlumnoUncheckedUpdateWithoutMatriculasInput>
+  export type AlumnoCreateWithoutMatriculasInput = {
+    tipoLicenciaObjetivo: string
+    horasPracticasCompletadas?: number
+    activo?: boolean
+    fechaNacimiento?: Date | string | null
+    usuario: UsuarioCreateNestedOneWithoutAlumnoInput
+    profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
+    clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
+    facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
+  }
+
+  export type AlumnoUncheckedCreateWithoutMatriculasInput = {
+    id: string
+    tipoLicenciaObjetivo: string
+    horasPracticasCompletadas?: number
+    profesorAsignadoId?: string | null
+    activo?: boolean
+    fechaNacimiento?: Date | string | null
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
+  }
+
+  export type AlumnoCreateOrConnectWithoutMatriculasInput = {
+    where: AlumnoWhereUniqueInput
     create: XOR<AlumnoCreateWithoutMatriculasInput, AlumnoUncheckedCreateWithoutMatriculasInput>
-    where?: AlumnoWhereInput
   }
 
-  export type AlumnoUpdateToOneWithWhereWithoutMatriculasInput = {
-    where?: AlumnoWhereInput
-    data: XOR<AlumnoUpdateWithoutMatriculasInput, AlumnoUncheckedUpdateWithoutMatriculasInput>
+  export type PromocionCreateWithoutMatriculasInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    precioOriginal: Decimal | DecimalJsLike | number | string
+    precioPromocional: Decimal | DecimalJsLike | number | string
+    licenciasAplicables?: PromocionCreatelicenciasAplicablesInput | string[]
+    imagenRuta?: string | null
+    fechaInicio?: Date | string | null
+    fechaFin?: Date | string | null
+    activa?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    requiereCarnetEstudiante?: boolean
+    edadMinima?: number | null
+    edadMaxima?: number | null
+    requiereFidelidad?: boolean
   }
 
-  export type AlumnoUpdateWithoutMatriculasInput = {
-    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
-    activo?: BoolFieldUpdateOperationsInput | boolean
-    usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
-    profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
-    clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
-    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
-    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
-    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
-    bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
-    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
-    facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+  export type PromocionUncheckedCreateWithoutMatriculasInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    precioOriginal: Decimal | DecimalJsLike | number | string
+    precioPromocional: Decimal | DecimalJsLike | number | string
+    licenciasAplicables?: PromocionCreatelicenciasAplicablesInput | string[]
+    imagenRuta?: string | null
+    fechaInicio?: Date | string | null
+    fechaFin?: Date | string | null
+    activa?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    requiereCarnetEstudiante?: boolean
+    edadMinima?: number | null
+    edadMaxima?: number | null
+    requiereFidelidad?: boolean
   }
 
-  export type AlumnoUncheckedUpdateWithoutMatriculasInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
-    profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
-    activo?: BoolFieldUpdateOperationsInput | boolean
-    clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
-    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
-    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
-    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
-    bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
-    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
-    facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
-  }
-
-  export type PromocionUpsertWithoutMatriculasInput = {
-    update: XOR<PromocionUpdateWithoutMatriculasInput, PromocionUncheckedUpdateWithoutMatriculasInput>
+  export type PromocionCreateOrConnectWithoutMatriculasInput = {
+    where: PromocionWhereUniqueInput
     create: XOR<PromocionCreateWithoutMatriculasInput, PromocionUncheckedCreateWithoutMatriculasInput>
-    where?: PromocionWhereInput
-  }
-
-  export type PromocionUpdateToOneWithWhereWithoutMatriculasInput = {
-    where?: PromocionWhereInput
-    data: XOR<PromocionUpdateWithoutMatriculasInput, PromocionUncheckedUpdateWithoutMatriculasInput>
-  }
-
-  export type PromocionUpdateWithoutMatriculasInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    nombre?: StringFieldUpdateOperationsInput | string
-    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
-    precioOriginal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    precioPromocional?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    licenciasAplicables?: PromocionUpdatelicenciasAplicablesInput | string[]
-    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    activa?: BoolFieldUpdateOperationsInput | boolean
-    requiereCarnetEstudiante?: BoolFieldUpdateOperationsInput | boolean
-    edadMinima?: NullableIntFieldUpdateOperationsInput | number | null
-    edadMaxima?: NullableIntFieldUpdateOperationsInput | number | null
-    requiereFidelidad?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type PromocionUncheckedUpdateWithoutMatriculasInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    nombre?: StringFieldUpdateOperationsInput | string
-    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
-    precioOriginal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    precioPromocional?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    licenciasAplicables?: PromocionUpdatelicenciasAplicablesInput | string[]
-    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    activa?: BoolFieldUpdateOperationsInput | boolean
-    requiereCarnetEstudiante?: BoolFieldUpdateOperationsInput | boolean
-    edadMinima?: NullableIntFieldUpdateOperationsInput | number | null
-    edadMaxima?: NullableIntFieldUpdateOperationsInput | number | null
-    requiereFidelidad?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FacturaUpsertWithoutMatriculaInput = {
@@ -31463,36 +31371,128 @@ export namespace Prisma {
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type AlumnoUpsertWithoutMatriculasInput = {
+    update: XOR<AlumnoUpdateWithoutMatriculasInput, AlumnoUncheckedUpdateWithoutMatriculasInput>
+    create: XOR<AlumnoCreateWithoutMatriculasInput, AlumnoUncheckedCreateWithoutMatriculasInput>
+    where?: AlumnoWhereInput
+  }
+
+  export type AlumnoUpdateToOneWithWhereWithoutMatriculasInput = {
+    where?: AlumnoWhereInput
+    data: XOR<AlumnoUpdateWithoutMatriculasInput, AlumnoUncheckedUpdateWithoutMatriculasInput>
+  }
+
+  export type AlumnoUpdateWithoutMatriculasInput = {
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
+    profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
+    clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
+    facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type AlumnoUncheckedUpdateWithoutMatriculasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type PromocionUpsertWithoutMatriculasInput = {
+    update: XOR<PromocionUpdateWithoutMatriculasInput, PromocionUncheckedUpdateWithoutMatriculasInput>
+    create: XOR<PromocionCreateWithoutMatriculasInput, PromocionUncheckedCreateWithoutMatriculasInput>
+    where?: PromocionWhereInput
+  }
+
+  export type PromocionUpdateToOneWithWhereWithoutMatriculasInput = {
+    where?: PromocionWhereInput
+    data: XOR<PromocionUpdateWithoutMatriculasInput, PromocionUncheckedUpdateWithoutMatriculasInput>
+  }
+
+  export type PromocionUpdateWithoutMatriculasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    precioOriginal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioPromocional?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    licenciasAplicables?: PromocionUpdatelicenciasAplicablesInput | string[]
+    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    requiereCarnetEstudiante?: BoolFieldUpdateOperationsInput | boolean
+    edadMinima?: NullableIntFieldUpdateOperationsInput | number | null
+    edadMaxima?: NullableIntFieldUpdateOperationsInput | number | null
+    requiereFidelidad?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type PromocionUncheckedUpdateWithoutMatriculasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    precioOriginal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioPromocional?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    licenciasAplicables?: PromocionUpdatelicenciasAplicablesInput | string[]
+    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    requiereCarnetEstudiante?: BoolFieldUpdateOperationsInput | boolean
+    edadMinima?: NullableIntFieldUpdateOperationsInput | number | null
+    edadMaxima?: NullableIntFieldUpdateOperationsInput | number | null
+    requiereFidelidad?: BoolFieldUpdateOperationsInput | boolean
+  }
+
   export type AlumnoCreateWithoutFacturasInput = {
     tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     activo?: boolean
+    fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
     clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
-    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
-    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
-    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
-    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutFacturasInput = {
     id: string
     tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
-    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
-    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
-    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
-    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutFacturasInput = {
@@ -31544,34 +31544,34 @@ export namespace Prisma {
 
   export type AlumnoUpdateWithoutFacturasInput = {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
     clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
-    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
-    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
-    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
-    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutFacturasInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
-    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
-    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
-    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
-    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type MatriculaUpsertWithoutFacturaInput = {
@@ -31654,18 +31654,9 @@ export namespace Prisma {
   export type AlumnoCreateManyProfesorAsignadoInput = {
     id: string
     tipoLicenciaObjetivo: string
-    fechaNacimiento?: Date | string | null
     horasPracticasCompletadas?: number
     activo?: boolean
-  }
-
-  export type ClasePracticaCreateManyProfesorInput = {
-    id?: string
-    alumnoId: string
-    vehiculoId: string
-    fecha: Date | string
-    duracion: number
-    estado: string
+    fechaNacimiento?: Date | string | null
   }
 
   export type ClaseDirectoCreateManyProfesorInput = {
@@ -31680,71 +31671,53 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ClasePracticaCreateManyProfesorInput = {
+    id?: string
+    alumnoId: string
+    vehiculoId: string
+    fecha: Date | string
+    duracion: number
+    estado: string
+  }
+
   export type AlumnoUpdateWithoutProfesorAsignadoInput = {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
-    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
-    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
-    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
-    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
-    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutProfesorAsignadoInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
-    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
-    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
-    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
-    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
-    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateManyWithoutProfesorAsignadoInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
-  }
-
-  export type ClasePracticaUpdateWithoutProfesorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
-    duracion?: IntFieldUpdateOperationsInput | number
-    estado?: StringFieldUpdateOperationsInput | string
-    alumno?: AlumnoUpdateOneRequiredWithoutClasesNestedInput
-    vehiculo?: VehiculoUpdateOneRequiredWithoutClasesNestedInput
-  }
-
-  export type ClasePracticaUncheckedUpdateWithoutProfesorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    alumnoId?: StringFieldUpdateOperationsInput | string
-    vehiculoId?: StringFieldUpdateOperationsInput | string
-    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
-    duracion?: IntFieldUpdateOperationsInput | number
-    estado?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type ClasePracticaUncheckedUpdateManyWithoutProfesorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    alumnoId?: StringFieldUpdateOperationsInput | string
-    vehiculoId?: StringFieldUpdateOperationsInput | string
-    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
-    duracion?: IntFieldUpdateOperationsInput | number
-    estado?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ClaseDirectoUpdateWithoutProfesorInput = {
@@ -31783,6 +31756,33 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ClasePracticaUpdateWithoutProfesorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    duracion?: IntFieldUpdateOperationsInput | number
+    estado?: StringFieldUpdateOperationsInput | string
+    alumno?: AlumnoUpdateOneRequiredWithoutClasesNestedInput
+    vehiculo?: VehiculoUpdateOneRequiredWithoutClasesNestedInput
+  }
+
+  export type ClasePracticaUncheckedUpdateWithoutProfesorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    vehiculoId?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    duracion?: IntFieldUpdateOperationsInput | number
+    estado?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ClasePracticaUncheckedUpdateManyWithoutProfesorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    vehiculoId?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    duracion?: IntFieldUpdateOperationsInput | number
+    estado?: StringFieldUpdateOperationsInput | string
+  }
+
   export type ClasePracticaCreateManyAlumnoInput = {
     id?: string
     profesorId: string
@@ -31790,30 +31790,6 @@ export namespace Prisma {
     fecha: Date | string
     duracion: number
     estado: string
-  }
-
-  export type ExamenCreateManyAlumnoInput = {
-    id?: string
-    tipo: string
-    fecha: Date | string
-    estado: string
-  }
-
-  export type TestPracticaCreateManyAlumnoInput = {
-    id?: string
-    temarioId?: string | null
-    fecha?: Date | string
-    resultado: string
-    respuestasCorrectas: number
-    totalPreguntas: number
-  }
-
-  export type TemarioProgresoCreateManyAlumnoInput = {
-    id?: string
-    temarioId: string
-    revisado?: boolean
-    dominio?: number
-    ultimaRevision?: Date | string | null
   }
 
   export type CompraBonoCreateManyAlumnoInput = {
@@ -31826,13 +31802,24 @@ export namespace Prisma {
     fechaValidezHasta: Date | string
   }
 
-  export type SolicitudExamenCreateManyAlumnoInput = {
+  export type ExamenCreateManyAlumnoInput = {
     id?: string
     tipo: string
+    fecha: Date | string
+    estado: string
+  }
+
+  export type FacturaCreateManyAlumnoInput = {
+    id?: string
+    numero: string
+    matriculaId: string
+    concepto: string
+    baseImponible: Decimal | DecimalJsLike | number | string
+    descuento: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
     estado?: string
-    fechaSolicitud?: Date | string
-    fechaProgramada?: Date | string | null
-    observaciones?: string | null
+    fechaEmision?: Date | string
+    fechaPago?: Date | string | null
   }
 
   export type MatriculaCreateManyAlumnoInput = {
@@ -31847,17 +31834,30 @@ export namespace Prisma {
     observaciones?: string | null
   }
 
-  export type FacturaCreateManyAlumnoInput = {
+  export type SolicitudExamenCreateManyAlumnoInput = {
     id?: string
-    numero: string
-    matriculaId: string
-    concepto: string
-    baseImponible: Decimal | DecimalJsLike | number | string
-    descuento: Decimal | DecimalJsLike | number | string
-    total: Decimal | DecimalJsLike | number | string
+    tipo: string
     estado?: string
-    fechaEmision?: Date | string
-    fechaPago?: Date | string | null
+    fechaSolicitud?: Date | string
+    fechaProgramada?: Date | string | null
+    observaciones?: string | null
+  }
+
+  export type TemarioProgresoCreateManyAlumnoInput = {
+    id?: string
+    temarioId: string
+    revisado?: boolean
+    dominio?: number
+    ultimaRevision?: Date | string | null
+  }
+
+  export type TestPracticaCreateManyAlumnoInput = {
+    id?: string
+    temarioId?: string | null
+    fecha?: Date | string
+    resultado: string
+    respuestasCorrectas: number
+    totalPreguntas: number
   }
 
   export type ClasePracticaUpdateWithoutAlumnoInput = {
@@ -31885,78 +31885,6 @@ export namespace Prisma {
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type ExamenUpdateWithoutAlumnoInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
-    estado?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type ExamenUncheckedUpdateWithoutAlumnoInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
-    estado?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type ExamenUncheckedUpdateManyWithoutAlumnoInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
-    estado?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type TestPracticaUpdateWithoutAlumnoInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
-    resultado?: StringFieldUpdateOperationsInput | string
-    respuestasCorrectas?: IntFieldUpdateOperationsInput | number
-    totalPreguntas?: IntFieldUpdateOperationsInput | number
-    temario?: TemarioUpdateOneWithoutTestsPracticaNestedInput
-  }
-
-  export type TestPracticaUncheckedUpdateWithoutAlumnoInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    temarioId?: NullableStringFieldUpdateOperationsInput | string | null
-    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
-    resultado?: StringFieldUpdateOperationsInput | string
-    respuestasCorrectas?: IntFieldUpdateOperationsInput | number
-    totalPreguntas?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type TestPracticaUncheckedUpdateManyWithoutAlumnoInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    temarioId?: NullableStringFieldUpdateOperationsInput | string | null
-    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
-    resultado?: StringFieldUpdateOperationsInput | string
-    respuestasCorrectas?: IntFieldUpdateOperationsInput | number
-    totalPreguntas?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type TemarioProgresoUpdateWithoutAlumnoInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    revisado?: BoolFieldUpdateOperationsInput | boolean
-    dominio?: IntFieldUpdateOperationsInput | number
-    ultimaRevision?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    temario?: TemarioUpdateOneRequiredWithoutProgresoNestedInput
-  }
-
-  export type TemarioProgresoUncheckedUpdateWithoutAlumnoInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    temarioId?: StringFieldUpdateOperationsInput | string
-    revisado?: BoolFieldUpdateOperationsInput | boolean
-    dominio?: IntFieldUpdateOperationsInput | number
-    ultimaRevision?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type TemarioProgresoUncheckedUpdateManyWithoutAlumnoInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    temarioId?: StringFieldUpdateOperationsInput | string
-    revisado?: BoolFieldUpdateOperationsInput | boolean
-    dominio?: IntFieldUpdateOperationsInput | number
-    ultimaRevision?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CompraBonoUpdateWithoutAlumnoInput = {
@@ -31989,69 +31917,25 @@ export namespace Prisma {
     fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type SolicitudExamenUpdateWithoutAlumnoInput = {
+  export type ExamenUpdateWithoutAlumnoInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     estado?: StringFieldUpdateOperationsInput | string
-    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type SolicitudExamenUncheckedUpdateWithoutAlumnoInput = {
+  export type ExamenUncheckedUpdateWithoutAlumnoInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     estado?: StringFieldUpdateOperationsInput | string
-    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type SolicitudExamenUncheckedUpdateManyWithoutAlumnoInput = {
+  export type ExamenUncheckedUpdateManyWithoutAlumnoInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     estado?: StringFieldUpdateOperationsInput | string
-    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type MatriculaUpdateWithoutAlumnoInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    licencia?: StringFieldUpdateOperationsInput | string
-    precioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    precioFinal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    estado?: StringFieldUpdateOperationsInput | string
-    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
-    promocion?: PromocionUpdateOneWithoutMatriculasNestedInput
-    factura?: FacturaUpdateOneWithoutMatriculaNestedInput
-  }
-
-  export type MatriculaUncheckedUpdateWithoutAlumnoInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    licencia?: StringFieldUpdateOperationsInput | string
-    precioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    precioFinal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    promocionId?: NullableStringFieldUpdateOperationsInput | string | null
-    estado?: StringFieldUpdateOperationsInput | string
-    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
-    factura?: FacturaUncheckedUpdateOneWithoutMatriculaNestedInput
-  }
-
-  export type MatriculaUncheckedUpdateManyWithoutAlumnoInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    licencia?: StringFieldUpdateOperationsInput | string
-    precioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    precioFinal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    promocionId?: NullableStringFieldUpdateOperationsInput | string | null
-    estado?: StringFieldUpdateOperationsInput | string
-    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type FacturaUpdateWithoutAlumnoInput = {
@@ -32091,6 +31975,122 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
     fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type MatriculaUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    precioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioFinal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    factura?: FacturaUpdateOneWithoutMatriculaNestedInput
+    promocion?: PromocionUpdateOneWithoutMatriculasNestedInput
+  }
+
+  export type MatriculaUncheckedUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    precioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioFinal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    promocionId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    factura?: FacturaUncheckedUpdateOneWithoutMatriculaNestedInput
+  }
+
+  export type MatriculaUncheckedUpdateManyWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    precioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioFinal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    promocionId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SolicitudExamenUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SolicitudExamenUncheckedUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SolicitudExamenUncheckedUpdateManyWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TemarioProgresoUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    revisado?: BoolFieldUpdateOperationsInput | boolean
+    dominio?: IntFieldUpdateOperationsInput | number
+    ultimaRevision?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    temario?: TemarioUpdateOneRequiredWithoutProgresoNestedInput
+  }
+
+  export type TemarioProgresoUncheckedUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    temarioId?: StringFieldUpdateOperationsInput | string
+    revisado?: BoolFieldUpdateOperationsInput | boolean
+    dominio?: IntFieldUpdateOperationsInput | number
+    ultimaRevision?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type TemarioProgresoUncheckedUpdateManyWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    temarioId?: StringFieldUpdateOperationsInput | string
+    revisado?: BoolFieldUpdateOperationsInput | boolean
+    dominio?: IntFieldUpdateOperationsInput | number
+    ultimaRevision?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type TestPracticaUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    resultado?: StringFieldUpdateOperationsInput | string
+    respuestasCorrectas?: IntFieldUpdateOperationsInput | number
+    totalPreguntas?: IntFieldUpdateOperationsInput | number
+    temario?: TemarioUpdateOneWithoutTestsPracticaNestedInput
+  }
+
+  export type TestPracticaUncheckedUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    temarioId?: NullableStringFieldUpdateOperationsInput | string | null
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    resultado?: StringFieldUpdateOperationsInput | string
+    respuestasCorrectas?: IntFieldUpdateOperationsInput | number
+    totalPreguntas?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TestPracticaUncheckedUpdateManyWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    temarioId?: NullableStringFieldUpdateOperationsInput | string | null
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    resultado?: StringFieldUpdateOperationsInput | string
+    respuestasCorrectas?: IntFieldUpdateOperationsInput | number
+    totalPreguntas?: IntFieldUpdateOperationsInput | number
   }
 
   export type TemarioProgresoCreateManyTemarioInput = {
@@ -32258,8 +32258,8 @@ export namespace Prisma {
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
-    alumno?: AlumnoUpdateOneRequiredWithoutMatriculasNestedInput
     factura?: FacturaUpdateOneWithoutMatriculaNestedInput
+    alumno?: AlumnoUpdateOneRequiredWithoutMatriculasNestedInput
   }
 
   export type MatriculaUncheckedUpdateWithoutPromocionInput = {
