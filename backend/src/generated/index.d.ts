@@ -89,6 +89,11 @@ export type Examen = $Result.DefaultSelection<Prisma.$ExamenPayload>
  */
 export type Promocion = $Result.DefaultSelection<Prisma.$PromocionPayload>
 /**
+ * Model TarifaConcepto
+ * 
+ */
+export type TarifaConcepto = $Result.DefaultSelection<Prisma.$TarifaConceptoPayload>
+/**
  * Model TarifaMatricula
  * 
  */
@@ -108,7 +113,17 @@ export type Factura = $Result.DefaultSelection<Prisma.$FacturaPayload>
  * Enums
  */
 export namespace $Enums {
-  export const Rol: {
+  export const TipoPrecio: {
+  FIJO: 'FIJO',
+  VARIABLE: 'VARIABLE',
+  POR_CLASE: 'POR_CLASE',
+  POR_EXAMEN: 'POR_EXAMEN'
+};
+
+export type TipoPrecio = (typeof TipoPrecio)[keyof typeof TipoPrecio]
+
+
+export const Rol: {
   ADMIN: 'ADMIN',
   PROFESOR: 'PROFESOR',
   ALUMNO: 'ALUMNO'
@@ -117,6 +132,10 @@ export namespace $Enums {
 export type Rol = (typeof Rol)[keyof typeof Rol]
 
 }
+
+export type TipoPrecio = $Enums.TipoPrecio
+
+export const TipoPrecio: typeof $Enums.TipoPrecio
 
 export type Rol = $Enums.Rol
 
@@ -389,6 +408,16 @@ export class PrismaClient<
     * ```
     */
   get promocion(): Prisma.PromocionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tarifaConcepto`: Exposes CRUD operations for the **TarifaConcepto** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TarifaConceptos
+    * const tarifaConceptos = await prisma.tarifaConcepto.findMany()
+    * ```
+    */
+  get tarifaConcepto(): Prisma.TarifaConceptoDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.tarifaMatricula`: Exposes CRUD operations for the **TarifaMatricula** model.
@@ -875,6 +904,7 @@ export namespace Prisma {
     ClasePractica: 'ClasePractica',
     Examen: 'Examen',
     Promocion: 'Promocion',
+    TarifaConcepto: 'TarifaConcepto',
     TarifaMatricula: 'TarifaMatricula',
     Matricula: 'Matricula',
     Factura: 'Factura'
@@ -896,7 +926,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "usuario" | "activacionCuenta" | "profesor" | "alumno" | "temario" | "temarioProgreso" | "claseDirecto" | "testPractica" | "bono" | "compraBono" | "solicitudExamen" | "vehiculo" | "clasePractica" | "examen" | "promocion" | "tarifaMatricula" | "matricula" | "factura"
+      modelProps: "usuario" | "activacionCuenta" | "profesor" | "alumno" | "temario" | "temarioProgreso" | "claseDirecto" | "testPractica" | "bono" | "compraBono" | "solicitudExamen" | "vehiculo" | "clasePractica" | "examen" | "promocion" | "tarifaConcepto" | "tarifaMatricula" | "matricula" | "factura"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2010,6 +2040,80 @@ export namespace Prisma {
           }
         }
       }
+      TarifaConcepto: {
+        payload: Prisma.$TarifaConceptoPayload<ExtArgs>
+        fields: Prisma.TarifaConceptoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TarifaConceptoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TarifaConceptoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TarifaConceptoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TarifaConceptoPayload>
+          }
+          findFirst: {
+            args: Prisma.TarifaConceptoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TarifaConceptoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TarifaConceptoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TarifaConceptoPayload>
+          }
+          findMany: {
+            args: Prisma.TarifaConceptoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TarifaConceptoPayload>[]
+          }
+          create: {
+            args: Prisma.TarifaConceptoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TarifaConceptoPayload>
+          }
+          createMany: {
+            args: Prisma.TarifaConceptoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TarifaConceptoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TarifaConceptoPayload>[]
+          }
+          delete: {
+            args: Prisma.TarifaConceptoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TarifaConceptoPayload>
+          }
+          update: {
+            args: Prisma.TarifaConceptoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TarifaConceptoPayload>
+          }
+          deleteMany: {
+            args: Prisma.TarifaConceptoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TarifaConceptoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TarifaConceptoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TarifaConceptoPayload>[]
+          }
+          upsert: {
+            args: Prisma.TarifaConceptoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TarifaConceptoPayload>
+          }
+          aggregate: {
+            args: Prisma.TarifaConceptoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTarifaConcepto>
+          }
+          groupBy: {
+            args: Prisma.TarifaConceptoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TarifaConceptoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TarifaConceptoCountArgs<ExtArgs>
+            result: $Utils.Optional<TarifaConceptoCountAggregateOutputType> | number
+          }
+        }
+      }
       TarifaMatricula: {
         payload: Prisma.$TarifaMatriculaPayload<ExtArgs>
         fields: Prisma.TarifaMatriculaFieldRefs
@@ -2343,6 +2447,7 @@ export namespace Prisma {
     clasePractica?: ClasePracticaOmit
     examen?: ExamenOmit
     promocion?: PromocionOmit
+    tarifaConcepto?: TarifaConceptoOmit
     tarifaMatricula?: TarifaMatriculaOmit
     matricula?: MatriculaOmit
     factura?: FacturaOmit
@@ -19987,6 +20092,1087 @@ export namespace Prisma {
 
 
   /**
+   * Model TarifaConcepto
+   */
+
+  export type AggregateTarifaConcepto = {
+    _count: TarifaConceptoCountAggregateOutputType | null
+    _avg: TarifaConceptoAvgAggregateOutputType | null
+    _sum: TarifaConceptoSumAggregateOutputType | null
+    _min: TarifaConceptoMinAggregateOutputType | null
+    _max: TarifaConceptoMaxAggregateOutputType | null
+  }
+
+  export type TarifaConceptoAvgAggregateOutputType = {
+    precio: Decimal | null
+  }
+
+  export type TarifaConceptoSumAggregateOutputType = {
+    precio: Decimal | null
+  }
+
+  export type TarifaConceptoMinAggregateOutputType = {
+    id: string | null
+    permiso: string | null
+    concepto: string | null
+    precio: Decimal | null
+    tipo: $Enums.TipoPrecio | null
+    descripcion: string | null
+    activa: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TarifaConceptoMaxAggregateOutputType = {
+    id: string | null
+    permiso: string | null
+    concepto: string | null
+    precio: Decimal | null
+    tipo: $Enums.TipoPrecio | null
+    descripcion: string | null
+    activa: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TarifaConceptoCountAggregateOutputType = {
+    id: number
+    permiso: number
+    concepto: number
+    precio: number
+    tipo: number
+    descripcion: number
+    activa: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TarifaConceptoAvgAggregateInputType = {
+    precio?: true
+  }
+
+  export type TarifaConceptoSumAggregateInputType = {
+    precio?: true
+  }
+
+  export type TarifaConceptoMinAggregateInputType = {
+    id?: true
+    permiso?: true
+    concepto?: true
+    precio?: true
+    tipo?: true
+    descripcion?: true
+    activa?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TarifaConceptoMaxAggregateInputType = {
+    id?: true
+    permiso?: true
+    concepto?: true
+    precio?: true
+    tipo?: true
+    descripcion?: true
+    activa?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TarifaConceptoCountAggregateInputType = {
+    id?: true
+    permiso?: true
+    concepto?: true
+    precio?: true
+    tipo?: true
+    descripcion?: true
+    activa?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TarifaConceptoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TarifaConcepto to aggregate.
+     */
+    where?: TarifaConceptoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TarifaConceptos to fetch.
+     */
+    orderBy?: TarifaConceptoOrderByWithRelationInput | TarifaConceptoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TarifaConceptoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TarifaConceptos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TarifaConceptos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TarifaConceptos
+    **/
+    _count?: true | TarifaConceptoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TarifaConceptoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TarifaConceptoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TarifaConceptoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TarifaConceptoMaxAggregateInputType
+  }
+
+  export type GetTarifaConceptoAggregateType<T extends TarifaConceptoAggregateArgs> = {
+        [P in keyof T & keyof AggregateTarifaConcepto]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTarifaConcepto[P]>
+      : GetScalarType<T[P], AggregateTarifaConcepto[P]>
+  }
+
+
+
+
+  export type TarifaConceptoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TarifaConceptoWhereInput
+    orderBy?: TarifaConceptoOrderByWithAggregationInput | TarifaConceptoOrderByWithAggregationInput[]
+    by: TarifaConceptoScalarFieldEnum[] | TarifaConceptoScalarFieldEnum
+    having?: TarifaConceptoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TarifaConceptoCountAggregateInputType | true
+    _avg?: TarifaConceptoAvgAggregateInputType
+    _sum?: TarifaConceptoSumAggregateInputType
+    _min?: TarifaConceptoMinAggregateInputType
+    _max?: TarifaConceptoMaxAggregateInputType
+  }
+
+  export type TarifaConceptoGroupByOutputType = {
+    id: string
+    permiso: string
+    concepto: string
+    precio: Decimal
+    tipo: $Enums.TipoPrecio
+    descripcion: string | null
+    activa: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: TarifaConceptoCountAggregateOutputType | null
+    _avg: TarifaConceptoAvgAggregateOutputType | null
+    _sum: TarifaConceptoSumAggregateOutputType | null
+    _min: TarifaConceptoMinAggregateOutputType | null
+    _max: TarifaConceptoMaxAggregateOutputType | null
+  }
+
+  type GetTarifaConceptoGroupByPayload<T extends TarifaConceptoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TarifaConceptoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TarifaConceptoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TarifaConceptoGroupByOutputType[P]>
+            : GetScalarType<T[P], TarifaConceptoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TarifaConceptoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    permiso?: boolean
+    concepto?: boolean
+    precio?: boolean
+    tipo?: boolean
+    descripcion?: boolean
+    activa?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["tarifaConcepto"]>
+
+  export type TarifaConceptoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    permiso?: boolean
+    concepto?: boolean
+    precio?: boolean
+    tipo?: boolean
+    descripcion?: boolean
+    activa?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["tarifaConcepto"]>
+
+  export type TarifaConceptoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    permiso?: boolean
+    concepto?: boolean
+    precio?: boolean
+    tipo?: boolean
+    descripcion?: boolean
+    activa?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["tarifaConcepto"]>
+
+  export type TarifaConceptoSelectScalar = {
+    id?: boolean
+    permiso?: boolean
+    concepto?: boolean
+    precio?: boolean
+    tipo?: boolean
+    descripcion?: boolean
+    activa?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TarifaConceptoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "permiso" | "concepto" | "precio" | "tipo" | "descripcion" | "activa" | "createdAt" | "updatedAt", ExtArgs["result"]["tarifaConcepto"]>
+
+  export type $TarifaConceptoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TarifaConcepto"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      permiso: string
+      concepto: string
+      precio: Prisma.Decimal
+      tipo: $Enums.TipoPrecio
+      descripcion: string | null
+      activa: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["tarifaConcepto"]>
+    composites: {}
+  }
+
+  type TarifaConceptoGetPayload<S extends boolean | null | undefined | TarifaConceptoDefaultArgs> = $Result.GetResult<Prisma.$TarifaConceptoPayload, S>
+
+  type TarifaConceptoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TarifaConceptoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TarifaConceptoCountAggregateInputType | true
+    }
+
+  export interface TarifaConceptoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TarifaConcepto'], meta: { name: 'TarifaConcepto' } }
+    /**
+     * Find zero or one TarifaConcepto that matches the filter.
+     * @param {TarifaConceptoFindUniqueArgs} args - Arguments to find a TarifaConcepto
+     * @example
+     * // Get one TarifaConcepto
+     * const tarifaConcepto = await prisma.tarifaConcepto.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TarifaConceptoFindUniqueArgs>(args: SelectSubset<T, TarifaConceptoFindUniqueArgs<ExtArgs>>): Prisma__TarifaConceptoClient<$Result.GetResult<Prisma.$TarifaConceptoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TarifaConcepto that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TarifaConceptoFindUniqueOrThrowArgs} args - Arguments to find a TarifaConcepto
+     * @example
+     * // Get one TarifaConcepto
+     * const tarifaConcepto = await prisma.tarifaConcepto.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TarifaConceptoFindUniqueOrThrowArgs>(args: SelectSubset<T, TarifaConceptoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TarifaConceptoClient<$Result.GetResult<Prisma.$TarifaConceptoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TarifaConcepto that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TarifaConceptoFindFirstArgs} args - Arguments to find a TarifaConcepto
+     * @example
+     * // Get one TarifaConcepto
+     * const tarifaConcepto = await prisma.tarifaConcepto.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TarifaConceptoFindFirstArgs>(args?: SelectSubset<T, TarifaConceptoFindFirstArgs<ExtArgs>>): Prisma__TarifaConceptoClient<$Result.GetResult<Prisma.$TarifaConceptoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TarifaConcepto that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TarifaConceptoFindFirstOrThrowArgs} args - Arguments to find a TarifaConcepto
+     * @example
+     * // Get one TarifaConcepto
+     * const tarifaConcepto = await prisma.tarifaConcepto.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TarifaConceptoFindFirstOrThrowArgs>(args?: SelectSubset<T, TarifaConceptoFindFirstOrThrowArgs<ExtArgs>>): Prisma__TarifaConceptoClient<$Result.GetResult<Prisma.$TarifaConceptoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TarifaConceptos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TarifaConceptoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TarifaConceptos
+     * const tarifaConceptos = await prisma.tarifaConcepto.findMany()
+     * 
+     * // Get first 10 TarifaConceptos
+     * const tarifaConceptos = await prisma.tarifaConcepto.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tarifaConceptoWithIdOnly = await prisma.tarifaConcepto.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TarifaConceptoFindManyArgs>(args?: SelectSubset<T, TarifaConceptoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TarifaConceptoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TarifaConcepto.
+     * @param {TarifaConceptoCreateArgs} args - Arguments to create a TarifaConcepto.
+     * @example
+     * // Create one TarifaConcepto
+     * const TarifaConcepto = await prisma.tarifaConcepto.create({
+     *   data: {
+     *     // ... data to create a TarifaConcepto
+     *   }
+     * })
+     * 
+     */
+    create<T extends TarifaConceptoCreateArgs>(args: SelectSubset<T, TarifaConceptoCreateArgs<ExtArgs>>): Prisma__TarifaConceptoClient<$Result.GetResult<Prisma.$TarifaConceptoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TarifaConceptos.
+     * @param {TarifaConceptoCreateManyArgs} args - Arguments to create many TarifaConceptos.
+     * @example
+     * // Create many TarifaConceptos
+     * const tarifaConcepto = await prisma.tarifaConcepto.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TarifaConceptoCreateManyArgs>(args?: SelectSubset<T, TarifaConceptoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TarifaConceptos and returns the data saved in the database.
+     * @param {TarifaConceptoCreateManyAndReturnArgs} args - Arguments to create many TarifaConceptos.
+     * @example
+     * // Create many TarifaConceptos
+     * const tarifaConcepto = await prisma.tarifaConcepto.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TarifaConceptos and only return the `id`
+     * const tarifaConceptoWithIdOnly = await prisma.tarifaConcepto.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TarifaConceptoCreateManyAndReturnArgs>(args?: SelectSubset<T, TarifaConceptoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TarifaConceptoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TarifaConcepto.
+     * @param {TarifaConceptoDeleteArgs} args - Arguments to delete one TarifaConcepto.
+     * @example
+     * // Delete one TarifaConcepto
+     * const TarifaConcepto = await prisma.tarifaConcepto.delete({
+     *   where: {
+     *     // ... filter to delete one TarifaConcepto
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TarifaConceptoDeleteArgs>(args: SelectSubset<T, TarifaConceptoDeleteArgs<ExtArgs>>): Prisma__TarifaConceptoClient<$Result.GetResult<Prisma.$TarifaConceptoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TarifaConcepto.
+     * @param {TarifaConceptoUpdateArgs} args - Arguments to update one TarifaConcepto.
+     * @example
+     * // Update one TarifaConcepto
+     * const tarifaConcepto = await prisma.tarifaConcepto.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TarifaConceptoUpdateArgs>(args: SelectSubset<T, TarifaConceptoUpdateArgs<ExtArgs>>): Prisma__TarifaConceptoClient<$Result.GetResult<Prisma.$TarifaConceptoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TarifaConceptos.
+     * @param {TarifaConceptoDeleteManyArgs} args - Arguments to filter TarifaConceptos to delete.
+     * @example
+     * // Delete a few TarifaConceptos
+     * const { count } = await prisma.tarifaConcepto.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TarifaConceptoDeleteManyArgs>(args?: SelectSubset<T, TarifaConceptoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TarifaConceptos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TarifaConceptoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TarifaConceptos
+     * const tarifaConcepto = await prisma.tarifaConcepto.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TarifaConceptoUpdateManyArgs>(args: SelectSubset<T, TarifaConceptoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TarifaConceptos and returns the data updated in the database.
+     * @param {TarifaConceptoUpdateManyAndReturnArgs} args - Arguments to update many TarifaConceptos.
+     * @example
+     * // Update many TarifaConceptos
+     * const tarifaConcepto = await prisma.tarifaConcepto.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TarifaConceptos and only return the `id`
+     * const tarifaConceptoWithIdOnly = await prisma.tarifaConcepto.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TarifaConceptoUpdateManyAndReturnArgs>(args: SelectSubset<T, TarifaConceptoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TarifaConceptoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TarifaConcepto.
+     * @param {TarifaConceptoUpsertArgs} args - Arguments to update or create a TarifaConcepto.
+     * @example
+     * // Update or create a TarifaConcepto
+     * const tarifaConcepto = await prisma.tarifaConcepto.upsert({
+     *   create: {
+     *     // ... data to create a TarifaConcepto
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TarifaConcepto we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TarifaConceptoUpsertArgs>(args: SelectSubset<T, TarifaConceptoUpsertArgs<ExtArgs>>): Prisma__TarifaConceptoClient<$Result.GetResult<Prisma.$TarifaConceptoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TarifaConceptos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TarifaConceptoCountArgs} args - Arguments to filter TarifaConceptos to count.
+     * @example
+     * // Count the number of TarifaConceptos
+     * const count = await prisma.tarifaConcepto.count({
+     *   where: {
+     *     // ... the filter for the TarifaConceptos we want to count
+     *   }
+     * })
+    **/
+    count<T extends TarifaConceptoCountArgs>(
+      args?: Subset<T, TarifaConceptoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TarifaConceptoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TarifaConcepto.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TarifaConceptoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TarifaConceptoAggregateArgs>(args: Subset<T, TarifaConceptoAggregateArgs>): Prisma.PrismaPromise<GetTarifaConceptoAggregateType<T>>
+
+    /**
+     * Group by TarifaConcepto.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TarifaConceptoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TarifaConceptoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TarifaConceptoGroupByArgs['orderBy'] }
+        : { orderBy?: TarifaConceptoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TarifaConceptoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTarifaConceptoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TarifaConcepto model
+   */
+  readonly fields: TarifaConceptoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TarifaConcepto.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TarifaConceptoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TarifaConcepto model
+   */
+  interface TarifaConceptoFieldRefs {
+    readonly id: FieldRef<"TarifaConcepto", 'String'>
+    readonly permiso: FieldRef<"TarifaConcepto", 'String'>
+    readonly concepto: FieldRef<"TarifaConcepto", 'String'>
+    readonly precio: FieldRef<"TarifaConcepto", 'Decimal'>
+    readonly tipo: FieldRef<"TarifaConcepto", 'TipoPrecio'>
+    readonly descripcion: FieldRef<"TarifaConcepto", 'String'>
+    readonly activa: FieldRef<"TarifaConcepto", 'Boolean'>
+    readonly createdAt: FieldRef<"TarifaConcepto", 'DateTime'>
+    readonly updatedAt: FieldRef<"TarifaConcepto", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TarifaConcepto findUnique
+   */
+  export type TarifaConceptoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaConcepto
+     */
+    select?: TarifaConceptoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaConcepto
+     */
+    omit?: TarifaConceptoOmit<ExtArgs> | null
+    /**
+     * Filter, which TarifaConcepto to fetch.
+     */
+    where: TarifaConceptoWhereUniqueInput
+  }
+
+  /**
+   * TarifaConcepto findUniqueOrThrow
+   */
+  export type TarifaConceptoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaConcepto
+     */
+    select?: TarifaConceptoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaConcepto
+     */
+    omit?: TarifaConceptoOmit<ExtArgs> | null
+    /**
+     * Filter, which TarifaConcepto to fetch.
+     */
+    where: TarifaConceptoWhereUniqueInput
+  }
+
+  /**
+   * TarifaConcepto findFirst
+   */
+  export type TarifaConceptoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaConcepto
+     */
+    select?: TarifaConceptoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaConcepto
+     */
+    omit?: TarifaConceptoOmit<ExtArgs> | null
+    /**
+     * Filter, which TarifaConcepto to fetch.
+     */
+    where?: TarifaConceptoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TarifaConceptos to fetch.
+     */
+    orderBy?: TarifaConceptoOrderByWithRelationInput | TarifaConceptoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TarifaConceptos.
+     */
+    cursor?: TarifaConceptoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TarifaConceptos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TarifaConceptos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TarifaConceptos.
+     */
+    distinct?: TarifaConceptoScalarFieldEnum | TarifaConceptoScalarFieldEnum[]
+  }
+
+  /**
+   * TarifaConcepto findFirstOrThrow
+   */
+  export type TarifaConceptoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaConcepto
+     */
+    select?: TarifaConceptoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaConcepto
+     */
+    omit?: TarifaConceptoOmit<ExtArgs> | null
+    /**
+     * Filter, which TarifaConcepto to fetch.
+     */
+    where?: TarifaConceptoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TarifaConceptos to fetch.
+     */
+    orderBy?: TarifaConceptoOrderByWithRelationInput | TarifaConceptoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TarifaConceptos.
+     */
+    cursor?: TarifaConceptoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TarifaConceptos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TarifaConceptos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TarifaConceptos.
+     */
+    distinct?: TarifaConceptoScalarFieldEnum | TarifaConceptoScalarFieldEnum[]
+  }
+
+  /**
+   * TarifaConcepto findMany
+   */
+  export type TarifaConceptoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaConcepto
+     */
+    select?: TarifaConceptoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaConcepto
+     */
+    omit?: TarifaConceptoOmit<ExtArgs> | null
+    /**
+     * Filter, which TarifaConceptos to fetch.
+     */
+    where?: TarifaConceptoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TarifaConceptos to fetch.
+     */
+    orderBy?: TarifaConceptoOrderByWithRelationInput | TarifaConceptoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TarifaConceptos.
+     */
+    cursor?: TarifaConceptoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TarifaConceptos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TarifaConceptos.
+     */
+    skip?: number
+    distinct?: TarifaConceptoScalarFieldEnum | TarifaConceptoScalarFieldEnum[]
+  }
+
+  /**
+   * TarifaConcepto create
+   */
+  export type TarifaConceptoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaConcepto
+     */
+    select?: TarifaConceptoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaConcepto
+     */
+    omit?: TarifaConceptoOmit<ExtArgs> | null
+    /**
+     * The data needed to create a TarifaConcepto.
+     */
+    data: XOR<TarifaConceptoCreateInput, TarifaConceptoUncheckedCreateInput>
+  }
+
+  /**
+   * TarifaConcepto createMany
+   */
+  export type TarifaConceptoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TarifaConceptos.
+     */
+    data: TarifaConceptoCreateManyInput | TarifaConceptoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TarifaConcepto createManyAndReturn
+   */
+  export type TarifaConceptoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaConcepto
+     */
+    select?: TarifaConceptoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaConcepto
+     */
+    omit?: TarifaConceptoOmit<ExtArgs> | null
+    /**
+     * The data used to create many TarifaConceptos.
+     */
+    data: TarifaConceptoCreateManyInput | TarifaConceptoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TarifaConcepto update
+   */
+  export type TarifaConceptoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaConcepto
+     */
+    select?: TarifaConceptoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaConcepto
+     */
+    omit?: TarifaConceptoOmit<ExtArgs> | null
+    /**
+     * The data needed to update a TarifaConcepto.
+     */
+    data: XOR<TarifaConceptoUpdateInput, TarifaConceptoUncheckedUpdateInput>
+    /**
+     * Choose, which TarifaConcepto to update.
+     */
+    where: TarifaConceptoWhereUniqueInput
+  }
+
+  /**
+   * TarifaConcepto updateMany
+   */
+  export type TarifaConceptoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TarifaConceptos.
+     */
+    data: XOR<TarifaConceptoUpdateManyMutationInput, TarifaConceptoUncheckedUpdateManyInput>
+    /**
+     * Filter which TarifaConceptos to update
+     */
+    where?: TarifaConceptoWhereInput
+    /**
+     * Limit how many TarifaConceptos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TarifaConcepto updateManyAndReturn
+   */
+  export type TarifaConceptoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaConcepto
+     */
+    select?: TarifaConceptoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaConcepto
+     */
+    omit?: TarifaConceptoOmit<ExtArgs> | null
+    /**
+     * The data used to update TarifaConceptos.
+     */
+    data: XOR<TarifaConceptoUpdateManyMutationInput, TarifaConceptoUncheckedUpdateManyInput>
+    /**
+     * Filter which TarifaConceptos to update
+     */
+    where?: TarifaConceptoWhereInput
+    /**
+     * Limit how many TarifaConceptos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TarifaConcepto upsert
+   */
+  export type TarifaConceptoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaConcepto
+     */
+    select?: TarifaConceptoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaConcepto
+     */
+    omit?: TarifaConceptoOmit<ExtArgs> | null
+    /**
+     * The filter to search for the TarifaConcepto to update in case it exists.
+     */
+    where: TarifaConceptoWhereUniqueInput
+    /**
+     * In case the TarifaConcepto found by the `where` argument doesn't exist, create a new TarifaConcepto with this data.
+     */
+    create: XOR<TarifaConceptoCreateInput, TarifaConceptoUncheckedCreateInput>
+    /**
+     * In case the TarifaConcepto was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TarifaConceptoUpdateInput, TarifaConceptoUncheckedUpdateInput>
+  }
+
+  /**
+   * TarifaConcepto delete
+   */
+  export type TarifaConceptoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaConcepto
+     */
+    select?: TarifaConceptoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaConcepto
+     */
+    omit?: TarifaConceptoOmit<ExtArgs> | null
+    /**
+     * Filter which TarifaConcepto to delete.
+     */
+    where: TarifaConceptoWhereUniqueInput
+  }
+
+  /**
+   * TarifaConcepto deleteMany
+   */
+  export type TarifaConceptoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TarifaConceptos to delete
+     */
+    where?: TarifaConceptoWhereInput
+    /**
+     * Limit how many TarifaConceptos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TarifaConcepto without action
+   */
+  export type TarifaConceptoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TarifaConcepto
+     */
+    select?: TarifaConceptoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TarifaConcepto
+     */
+    omit?: TarifaConceptoOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model TarifaMatricula
    */
 
@@ -23641,6 +24827,21 @@ export namespace Prisma {
   export type PromocionScalarFieldEnum = (typeof PromocionScalarFieldEnum)[keyof typeof PromocionScalarFieldEnum]
 
 
+  export const TarifaConceptoScalarFieldEnum: {
+    id: 'id',
+    permiso: 'permiso',
+    concepto: 'concepto',
+    precio: 'precio',
+    tipo: 'tipo',
+    descripcion: 'descripcion',
+    activa: 'activa',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TarifaConceptoScalarFieldEnum = (typeof TarifaConceptoScalarFieldEnum)[keyof typeof TarifaConceptoScalarFieldEnum]
+
+
   export const TarifaMatriculaScalarFieldEnum: {
     id: 'id',
     licencia: 'licencia',
@@ -23789,6 +24990,20 @@ export namespace Prisma {
    * Reference to a field of type 'Decimal[]'
    */
   export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'TipoPrecio'
+   */
+  export type EnumTipoPrecioFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoPrecio'>
+    
+
+
+  /**
+   * Reference to a field of type 'TipoPrecio[]'
+   */
+  export type ListEnumTipoPrecioFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoPrecio[]'>
     
 
 
@@ -24897,6 +26112,81 @@ export namespace Prisma {
     edadMinima?: IntNullableWithAggregatesFilter<"Promocion"> | number | null
     edadMaxima?: IntNullableWithAggregatesFilter<"Promocion"> | number | null
     requiereFidelidad?: BoolWithAggregatesFilter<"Promocion"> | boolean
+  }
+
+  export type TarifaConceptoWhereInput = {
+    AND?: TarifaConceptoWhereInput | TarifaConceptoWhereInput[]
+    OR?: TarifaConceptoWhereInput[]
+    NOT?: TarifaConceptoWhereInput | TarifaConceptoWhereInput[]
+    id?: StringFilter<"TarifaConcepto"> | string
+    permiso?: StringFilter<"TarifaConcepto"> | string
+    concepto?: StringFilter<"TarifaConcepto"> | string
+    precio?: DecimalFilter<"TarifaConcepto"> | Decimal | DecimalJsLike | number | string
+    tipo?: EnumTipoPrecioFilter<"TarifaConcepto"> | $Enums.TipoPrecio
+    descripcion?: StringNullableFilter<"TarifaConcepto"> | string | null
+    activa?: BoolFilter<"TarifaConcepto"> | boolean
+    createdAt?: DateTimeFilter<"TarifaConcepto"> | Date | string
+    updatedAt?: DateTimeFilter<"TarifaConcepto"> | Date | string
+  }
+
+  export type TarifaConceptoOrderByWithRelationInput = {
+    id?: SortOrder
+    permiso?: SortOrder
+    concepto?: SortOrder
+    precio?: SortOrder
+    tipo?: SortOrder
+    descripcion?: SortOrderInput | SortOrder
+    activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TarifaConceptoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    permiso_concepto?: TarifaConceptoPermisoConceptoCompoundUniqueInput
+    AND?: TarifaConceptoWhereInput | TarifaConceptoWhereInput[]
+    OR?: TarifaConceptoWhereInput[]
+    NOT?: TarifaConceptoWhereInput | TarifaConceptoWhereInput[]
+    permiso?: StringFilter<"TarifaConcepto"> | string
+    concepto?: StringFilter<"TarifaConcepto"> | string
+    precio?: DecimalFilter<"TarifaConcepto"> | Decimal | DecimalJsLike | number | string
+    tipo?: EnumTipoPrecioFilter<"TarifaConcepto"> | $Enums.TipoPrecio
+    descripcion?: StringNullableFilter<"TarifaConcepto"> | string | null
+    activa?: BoolFilter<"TarifaConcepto"> | boolean
+    createdAt?: DateTimeFilter<"TarifaConcepto"> | Date | string
+    updatedAt?: DateTimeFilter<"TarifaConcepto"> | Date | string
+  }, "id" | "permiso_concepto">
+
+  export type TarifaConceptoOrderByWithAggregationInput = {
+    id?: SortOrder
+    permiso?: SortOrder
+    concepto?: SortOrder
+    precio?: SortOrder
+    tipo?: SortOrder
+    descripcion?: SortOrderInput | SortOrder
+    activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TarifaConceptoCountOrderByAggregateInput
+    _avg?: TarifaConceptoAvgOrderByAggregateInput
+    _max?: TarifaConceptoMaxOrderByAggregateInput
+    _min?: TarifaConceptoMinOrderByAggregateInput
+    _sum?: TarifaConceptoSumOrderByAggregateInput
+  }
+
+  export type TarifaConceptoScalarWhereWithAggregatesInput = {
+    AND?: TarifaConceptoScalarWhereWithAggregatesInput | TarifaConceptoScalarWhereWithAggregatesInput[]
+    OR?: TarifaConceptoScalarWhereWithAggregatesInput[]
+    NOT?: TarifaConceptoScalarWhereWithAggregatesInput | TarifaConceptoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TarifaConcepto"> | string
+    permiso?: StringWithAggregatesFilter<"TarifaConcepto"> | string
+    concepto?: StringWithAggregatesFilter<"TarifaConcepto"> | string
+    precio?: DecimalWithAggregatesFilter<"TarifaConcepto"> | Decimal | DecimalJsLike | number | string
+    tipo?: EnumTipoPrecioWithAggregatesFilter<"TarifaConcepto"> | $Enums.TipoPrecio
+    descripcion?: StringNullableWithAggregatesFilter<"TarifaConcepto"> | string | null
+    activa?: BoolWithAggregatesFilter<"TarifaConcepto"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"TarifaConcepto"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"TarifaConcepto"> | Date | string
   }
 
   export type TarifaMatriculaWhereInput = {
@@ -26295,6 +27585,90 @@ export namespace Prisma {
     requiereFidelidad?: BoolFieldUpdateOperationsInput | boolean
   }
 
+  export type TarifaConceptoCreateInput = {
+    id?: string
+    permiso: string
+    concepto: string
+    precio: Decimal | DecimalJsLike | number | string
+    tipo: $Enums.TipoPrecio
+    descripcion?: string | null
+    activa?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TarifaConceptoUncheckedCreateInput = {
+    id?: string
+    permiso: string
+    concepto: string
+    precio: Decimal | DecimalJsLike | number | string
+    tipo: $Enums.TipoPrecio
+    descripcion?: string | null
+    activa?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TarifaConceptoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    permiso?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    precio?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    tipo?: EnumTipoPrecioFieldUpdateOperationsInput | $Enums.TipoPrecio
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TarifaConceptoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    permiso?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    precio?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    tipo?: EnumTipoPrecioFieldUpdateOperationsInput | $Enums.TipoPrecio
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TarifaConceptoCreateManyInput = {
+    id?: string
+    permiso: string
+    concepto: string
+    precio: Decimal | DecimalJsLike | number | string
+    tipo: $Enums.TipoPrecio
+    descripcion?: string | null
+    activa?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TarifaConceptoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    permiso?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    precio?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    tipo?: EnumTipoPrecioFieldUpdateOperationsInput | $Enums.TipoPrecio
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TarifaConceptoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    permiso?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    precio?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    tipo?: EnumTipoPrecioFieldUpdateOperationsInput | $Enums.TipoPrecio
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    activa?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type TarifaMatriculaCreateInput = {
     id?: string
     licencia: string
@@ -27497,6 +28871,72 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type EnumTipoPrecioFilter<$PrismaModel = never> = {
+    equals?: $Enums.TipoPrecio | EnumTipoPrecioFieldRefInput<$PrismaModel>
+    in?: $Enums.TipoPrecio[] | ListEnumTipoPrecioFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TipoPrecio[] | ListEnumTipoPrecioFieldRefInput<$PrismaModel>
+    not?: NestedEnumTipoPrecioFilter<$PrismaModel> | $Enums.TipoPrecio
+  }
+
+  export type TarifaConceptoPermisoConceptoCompoundUniqueInput = {
+    permiso: string
+    concepto: string
+  }
+
+  export type TarifaConceptoCountOrderByAggregateInput = {
+    id?: SortOrder
+    permiso?: SortOrder
+    concepto?: SortOrder
+    precio?: SortOrder
+    tipo?: SortOrder
+    descripcion?: SortOrder
+    activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TarifaConceptoAvgOrderByAggregateInput = {
+    precio?: SortOrder
+  }
+
+  export type TarifaConceptoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    permiso?: SortOrder
+    concepto?: SortOrder
+    precio?: SortOrder
+    tipo?: SortOrder
+    descripcion?: SortOrder
+    activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TarifaConceptoMinOrderByAggregateInput = {
+    id?: SortOrder
+    permiso?: SortOrder
+    concepto?: SortOrder
+    precio?: SortOrder
+    tipo?: SortOrder
+    descripcion?: SortOrder
+    activa?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TarifaConceptoSumOrderByAggregateInput = {
+    precio?: SortOrder
+  }
+
+  export type EnumTipoPrecioWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TipoPrecio | EnumTipoPrecioFieldRefInput<$PrismaModel>
+    in?: $Enums.TipoPrecio[] | ListEnumTipoPrecioFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TipoPrecio[] | ListEnumTipoPrecioFieldRefInput<$PrismaModel>
+    not?: NestedEnumTipoPrecioWithAggregatesFilter<$PrismaModel> | $Enums.TipoPrecio
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTipoPrecioFilter<$PrismaModel>
+    _max?: NestedEnumTipoPrecioFilter<$PrismaModel>
   }
 
   export type TarifaMatriculaCountOrderByAggregateInput = {
@@ -28735,6 +30175,10 @@ export namespace Prisma {
     deleteMany?: MatriculaScalarWhereInput | MatriculaScalarWhereInput[]
   }
 
+  export type EnumTipoPrecioFieldUpdateOperationsInput = {
+    set?: $Enums.TipoPrecio
+  }
+
   export type FacturaCreateNestedOneWithoutMatriculaInput = {
     create?: XOR<FacturaCreateWithoutMatriculaInput, FacturaUncheckedCreateWithoutMatriculaInput>
     connectOrCreate?: FacturaCreateOrConnectWithoutMatriculaInput
@@ -29068,6 +30512,23 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumTipoPrecioFilter<$PrismaModel = never> = {
+    equals?: $Enums.TipoPrecio | EnumTipoPrecioFieldRefInput<$PrismaModel>
+    in?: $Enums.TipoPrecio[] | ListEnumTipoPrecioFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TipoPrecio[] | ListEnumTipoPrecioFieldRefInput<$PrismaModel>
+    not?: NestedEnumTipoPrecioFilter<$PrismaModel> | $Enums.TipoPrecio
+  }
+
+  export type NestedEnumTipoPrecioWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TipoPrecio | EnumTipoPrecioFieldRefInput<$PrismaModel>
+    in?: $Enums.TipoPrecio[] | ListEnumTipoPrecioFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TipoPrecio[] | ListEnumTipoPrecioFieldRefInput<$PrismaModel>
+    not?: NestedEnumTipoPrecioWithAggregatesFilter<$PrismaModel> | $Enums.TipoPrecio
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTipoPrecioFilter<$PrismaModel>
+    _max?: NestedEnumTipoPrecioFilter<$PrismaModel>
   }
 
   export type ActivacionCuentaCreateWithoutUsuarioInput = {

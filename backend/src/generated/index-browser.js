@@ -278,6 +278,18 @@ exports.Prisma.PromocionScalarFieldEnum = {
   requiereFidelidad: 'requiereFidelidad'
 };
 
+exports.Prisma.TarifaConceptoScalarFieldEnum = {
+  id: 'id',
+  permiso: 'permiso',
+  concepto: 'concepto',
+  precio: 'precio',
+  tipo: 'tipo',
+  descripcion: 'descripcion',
+  activa: 'activa',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.TarifaMatriculaScalarFieldEnum = {
   id: 'id',
   licencia: 'licencia',
@@ -334,6 +346,13 @@ exports.Rol = exports.$Enums.Rol = {
   ALUMNO: 'ALUMNO'
 };
 
+exports.TipoPrecio = exports.$Enums.TipoPrecio = {
+  FIJO: 'FIJO',
+  VARIABLE: 'VARIABLE',
+  POR_CLASE: 'POR_CLASE',
+  POR_EXAMEN: 'POR_EXAMEN'
+};
+
 exports.Prisma.ModelName = {
   Usuario: 'Usuario',
   ActivacionCuenta: 'ActivacionCuenta',
@@ -350,6 +369,7 @@ exports.Prisma.ModelName = {
   ClasePractica: 'ClasePractica',
   Examen: 'Examen',
   Promocion: 'Promocion',
+  TarifaConcepto: 'TarifaConcepto',
   TarifaMatricula: 'TarifaMatricula',
   Matricula: 'Matricula',
   Factura: 'Factura'

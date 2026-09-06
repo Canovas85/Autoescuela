@@ -8,6 +8,7 @@ import { authorize } from "../../shared/middleware/role.middleware.js";
 import { PreguntasDGTRepository } from "./preguntas-dgt.repository.js";
 import { PreguntasDGTService } from "./preguntas-dgt.service.js";
 import { PreguntasDGTController } from "./preguntas-dgt.controller.js";
+import { uploadPreguntaDGTImagen } from "./preguntas-dgt.upload.js";
 
 const router = Router();
 
@@ -25,6 +26,7 @@ router.post(
   "/",
   authenticate,
   authorize("ADMIN"),
+  uploadPreguntaDGTImagen.single("imagen"),
   controller.create.bind(controller),
 );
 
@@ -46,6 +48,7 @@ router.put(
   "/:id",
   authenticate,
   authorize("ADMIN"),
+  uploadPreguntaDGTImagen.single("imagen"),
   controller.update.bind(controller),
 );
 

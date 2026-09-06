@@ -5,7 +5,7 @@ export class PreguntasDGTController {
 
   async create(req, res) {
     try {
-      const pregunta = await this.service.create(req.body);
+      const pregunta = await this.service.create(req.body, req.file);
 
       return res.status(201).json(pregunta);
     } catch (error) {
@@ -35,7 +35,11 @@ export class PreguntasDGTController {
 
   async update(req, res) {
     try {
-      const pregunta = await this.service.update(req.params.id, req.body);
+      const pregunta = await this.service.update(
+        req.params.id,
+        req.body,
+        req.file,
+      );
 
       return res.status(200).json(pregunta);
     } catch (error) {

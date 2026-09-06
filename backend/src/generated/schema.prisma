@@ -255,6 +255,30 @@ model Promocion {
   @@map("promociones")
 }
 
+enum TipoPrecio {
+  FIJO
+  VARIABLE
+  POR_CLASE
+  POR_EXAMEN
+}
+
+model TarifaConcepto {
+  id          String     @id @default(uuid())
+  permiso     String
+  concepto    String
+  precio      Decimal    @db.Decimal(10, 2)
+  tipo        TipoPrecio
+  descripcion String?
+  activa      Boolean    @default(true)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@unique([permiso, concepto])
+  @@index([permiso])
+  @@index([activa])
+  @@map("tarifas_concepto")
+}
+
 model TarifaMatricula {
   id        String   @id @default(uuid())
   licencia  String   @unique
