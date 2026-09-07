@@ -36,6 +36,7 @@ import SchoolIcon from "@mui/icons-material/School";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
+import PersonIcon from "@mui/icons-material/Person";
 
 import { temariosService } from "../../services/temariosService";
 import { getTemarioBTheory } from "./temarioBTheory";
@@ -402,7 +403,7 @@ export default function TemarioTemaDetalle() {
           {theory ? (
             <Grid container spacing={3}>
               <Grid size={{ xs: 12, md: 7 }}>
-                <Card sx={{ borderRadius: 3, height: "100%" }}>
+                <Card sx={{ borderRadius: 3 }}>
                   <CardContent>
                     <Typography variant="h6" fontWeight={800} sx={{ mb: 1 }}>
                       Objetivo de aprendizaje
@@ -432,6 +433,7 @@ export default function TemarioTemaDetalle() {
                     <Alert
                       icon={<MenuBookIcon fontSize="inherit" />}
                       severity="info"
+                      sx={{ mb: 4 }}
                     >
                       {theory.repasoRapido}
                     </Alert>
@@ -470,185 +472,6 @@ export default function TemarioTemaDetalle() {
                       </List>
                     </CardContent>
                   </Card>
-
-                  <Card sx={{ borderRadius: 3 }}>
-                    <CardContent>
-                      <Typography variant="h6" fontWeight={800} sx={{ mb: 1 }}>
-                        Mini test del tema
-                      </Typography>
-
-                      {miniTest.length === 0 ? (
-                        <Alert severity="info">
-                          Este tema todavía no tiene mini test disponible.
-                        </Alert>
-                      ) : (
-                        <Stack spacing={2}>
-                          {miniTest.map((pregunta, index) => (
-                            <Box key={`${pregunta.pregunta}-${index}`}>
-                              <Typography fontWeight={700} sx={{ mb: 1 }}>
-                                {index + 1}. {pregunta.pregunta}
-                              </Typography>
-                              <FormControl>
-                                <RadioGroup
-                                  value={respuestas[index] || ""}
-                                  onChange={(event) =>
-                                    handleRespuesta(index, event.target.value)
-                                  }
-                                >
-                                  {pregunta.opciones.map((opcion) => (
-                                    <FormControlLabel
-                                      key={opcion}
-                                      value={opcion}
-                                      control={<Radio />}
-                                      label={opcion}
-                                    />
-                                  ))}
-                                </RadioGroup>
-                              </FormControl>
-
-                              {corregido && (
-                                <Typography
-                                  variant="body2"
-                                  sx={{
-                                    color:
-                                      respuestas[index] === pregunta.correcta
-                                        ? "#15803d"
-                                        : "#b91c1c",
-                                    fontWeight: 700,
-                                    mt: 0.5,
-                                  }}
-                                >
-                                  {respuestas[index] === pregunta.correcta
-                                    ? "Respuesta correcta"
-                                    : `Respuesta correcta: ${pregunta.correcta}`}
-                                </Typography>
-                              )}
-
-                              {index < miniTest.length - 1 && (
-                                <Divider sx={{ mt: 1.5 }} />
-                              )}
-                            </Box>
-                          ))}
-
-                          <Button
-                            variant="contained"
-                            onClick={handleCorregir}
-                            disabled={!miniTestCompleto || guardandoResultado}
-                          >
-                            {guardandoResultado
-                              ? "Guardando resultado..."
-                              : "Corregir mini test"}
-                          </Button>
-
-                          <Button
-                            variant="outlined"
-                            onClick={handleReintentar}
-                            disabled={guardandoResultado}
-                          >
-                            Reintentar mini test
-                          </Button>
-
-                          {!miniTestCompleto && (
-                            <Typography variant="body2" color="text.secondary">
-                              Responde todas las preguntas para corregir.
-                            </Typography>
-                          )}
-
-                          {resultadoGuardado && (
-                            <Alert
-                              severity={
-                                resultadoGuardado.ok ? "success" : "error"
-                              }
-                            >
-                              {resultadoGuardado.message}
-                            </Alert>
-                          )}
-
-                          {corregido && (
-                            <Box>
-                              <Typography fontWeight={800} sx={{ mb: 1 }}>
-                                Resultado: {aciertos}/{miniTest.length} (
-                                {porcentaje}%)
-                              </Typography>
-                              <LinearProgress
-                                variant="determinate"
-                                value={porcentaje}
-                                sx={{ height: 10, borderRadius: 999, mb: 1 }}
-                              />
-                              <Alert
-                                severity={
-                                  porcentaje >= 80 ? "success" : "warning"
-                                }
-                              >
-                                {porcentaje >= 80
-                                  ? "Buen dominio del tema. Puedes seguir al siguiente bloque."
-                                  : "Conviene repasar la teoría y volver a intentarlo."}
-                              </Alert>
-                            </Box>
-                          )}
-                        </Stack>
-                      )}
-                    </CardContent>
-                  </Card>
-
-                  <Card sx={{ borderRadius: 3 }}>
-                    <CardContent>
-                      <Typography variant="h6" fontWeight={800} sx={{ mb: 1 }}>
-                        Historial de intentos
-                      </Typography>
-
-                      {historialIntentos.length === 0 ? (
-                        <Typography variant="body2" color="text.secondary">
-                          Todavía no hay intentos guardados para este tema.
-                        </Typography>
-                      ) : (
-                        <Stack spacing={1}>
-                          {historialIntentos.map((intento) => (
-                            <Box
-                              key={intento.id}
-                              sx={{
-                                border: "1px solid #e2e8f0",
-                                borderRadius: 2,
-                                p: 1.25,
-                                backgroundColor: "#f8fafc",
-                              }}
-                            >
-                              <Stack
-                                direction="row"
-                                sx={{
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
-                                  mb: 0.5,
-                                }}
-                              >
-                                <Typography variant="body2" fontWeight={700}>
-                                  {intento.aciertos}/{intento.totalPreguntas} (
-                                  {intento.porcentaje}%)
-                                </Typography>
-                                <Chip
-                                  size="small"
-                                  color={
-                                    intento.resultado === "APROBADO"
-                                      ? "success"
-                                      : "warning"
-                                  }
-                                  label={intento.resultado}
-                                />
-                              </Stack>
-                              <Typography
-                                variant="caption"
-                                color="text.secondary"
-                              >
-                                {new Date(intento.fecha).toLocaleString(
-                                  "es-ES",
-                                )}
-                              </Typography>
-                            </Box>
-                          ))}
-                        </Stack>
-                      )}
-                    </CardContent>
-                  </Card>
                 </Stack>
               </Grid>
             </Grid>
@@ -659,6 +482,348 @@ export default function TemarioTemaDetalle() {
           )}
         </>
       )}
+
+      <Card sx={{ borderRadius: 3 }}>
+        {!isAdmin && (
+          <Box
+            sx={{
+              mt: 2,
+              p: 1.5,
+
+              borderRadius: 0,
+              backgroundColor: "#f5f5f5",
+            }}
+          >
+            <Stack
+              direction="row"
+              sx={{
+                alignItems: "center",
+                justifyContent: "space-between",
+                mb: 2,
+              }}
+            >
+              <Stack direction="row" spacing={1} alignItems="center">
+                <Box
+                  sx={{
+                    width: 28,
+                    height: 28,
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: "#3033ff",
+                    color: "#fff",
+                  }}
+                >
+                  <PersonIcon fontSize="small" />
+                </Box>
+                <Typography variant="h6" fontWeight={900} color="#111827">
+                  Zona del alumno
+                </Typography>
+              </Stack>
+
+              <Chip
+                size="small"
+                label="Evaluación"
+                sx={{
+                  backgroundColor: "#3033ff",
+                  color: "#fff",
+                  fontWeight: 700,
+                  borderRadius: 1,
+                }}
+              />
+            </Stack>
+
+            {miniTest.length === 0 ? (
+              <Alert severity="info">
+                Este tema todavía no tiene mini test disponible.
+              </Alert>
+            ) : (
+              <>
+                <Grid container spacing={2} alignItems="stretch">
+                  {miniTest.slice(0, 3).map((pregunta, index) => (
+                    <Grid
+                      key={`${pregunta.pregunta}-${index}`}
+                      size={{ xs: 12, md: 4 }}
+                    >
+                      <Box
+                        sx={{
+                          border: "3px solid #666565",
+                          borderRadius: 2,
+                          backgroundColor: "#fff",
+                          p: 2,
+                          height: "100%",
+                          minHeight: 260,
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <Typography
+                          variant="h6"
+                          fontWeight={900}
+                          sx={{ mb: 1 }}
+                        >
+                          Pregunta {index + 1}
+                        </Typography>
+                        <Typography fontWeight={700} sx={{ mb: 1 }}>
+                          {pregunta.pregunta}
+                        </Typography>
+                        <FormControl fullWidth>
+                          <RadioGroup
+                            value={respuestas[index] || ""}
+                            onChange={(event) =>
+                              handleRespuesta(index, event.target.value)
+                            }
+                          >
+                            {pregunta.opciones.map((opcion) => (
+                              <FormControlLabel
+                                key={opcion}
+                                value={opcion}
+                                control={<Radio />}
+                                label={opcion}
+                              />
+                            ))}
+                          </RadioGroup>
+                        </FormControl>
+
+                        {corregido && (
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              color:
+                                respuestas[index] === pregunta.correcta
+                                  ? "#15803d"
+                                  : "#b91c1c",
+                              fontWeight: 700,
+                              mt: 1.5,
+                            }}
+                          >
+                            {respuestas[index] === pregunta.correcta
+                              ? "Respuesta correcta"
+                              : `Respuesta correcta: ${pregunta.correcta}`}
+                          </Typography>
+                        )}
+                      </Box>
+                    </Grid>
+                  ))}
+                </Grid>
+
+                <Grid container spacing={2} alignItems="stretch" sx={{ mt: 2 }}>
+                  {miniTest.slice(3, 5).map((pregunta, index) => (
+                    <Grid
+                      key={`${pregunta.pregunta}-${index + 3}`}
+                      size={{ xs: 12, md: 4 }}
+                    >
+                      <Box
+                        sx={{
+                          border: "3px solid #666565",
+                          borderRadius: 2,
+                          backgroundColor: "#fff",
+                          p: 2,
+                          height: "100%",
+                          minHeight: 260,
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <Typography
+                          variant="h6"
+                          fontWeight={900}
+                          sx={{ mb: 1 }}
+                        >
+                          Pregunta {index + 4}
+                        </Typography>
+                        <Typography fontWeight={700} sx={{ mb: 1 }}>
+                          {pregunta.pregunta}
+                        </Typography>
+                        <FormControl fullWidth>
+                          <RadioGroup
+                            value={respuestas[index + 3] || ""}
+                            onChange={(event) =>
+                              handleRespuesta(index + 3, event.target.value)
+                            }
+                          >
+                            {pregunta.opciones.map((opcion) => (
+                              <FormControlLabel
+                                key={opcion}
+                                value={opcion}
+                                control={<Radio />}
+                                label={opcion}
+                              />
+                            ))}
+                          </RadioGroup>
+                        </FormControl>
+
+                        {corregido && (
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              color:
+                                respuestas[index + 3] === pregunta.correcta
+                                  ? "#15803d"
+                                  : "#b91c1c",
+                              fontWeight: 700,
+                              mt: 1.5,
+                            }}
+                          >
+                            {respuestas[index + 3] === pregunta.correcta
+                              ? "Respuesta correcta"
+                              : `Respuesta correcta: ${pregunta.correcta}`}
+                          </Typography>
+                        )}
+                      </Box>
+                    </Grid>
+                  ))}
+                </Grid>
+
+                <Box
+                  sx={{
+                    mt: 2,
+                    border: "3px solid #666565",
+                    borderRadius: 2,
+                    backgroundColor: "#fff",
+                    p: 2,
+                  }}
+                >
+                  <Typography variant="h6" fontWeight={900} sx={{ mb: 2 }}>
+                    Corrección del examen
+                  </Typography>
+
+                  <Stack spacing={1.5}>
+                    <Button
+                      variant="outlined"
+                      onClick={handleCorregir}
+                      disabled={!miniTestCompleto || guardandoResultado}
+                      sx={{
+                        border: "3px solid #111827",
+                        color: "#111827",
+                        borderRadius: 0,
+                        fontWeight: 800,
+                        py: 1.25,
+                        textTransform: "none",
+                      }}
+                    >
+                      {guardandoResultado
+                        ? "Guardando resultado..."
+                        : "Corregir test"}
+                    </Button>
+
+                    <Button
+                      variant="outlined"
+                      onClick={handleReintentar}
+                      disabled={guardandoResultado}
+                      sx={{
+                        border: "3px solid #111827",
+                        color: "#111827",
+                        borderRadius: 0,
+                        fontWeight: 800,
+                        py: 1.25,
+                        textTransform: "none",
+                      }}
+                    >
+                      Reintentar Mini test
+                    </Button>
+                  </Stack>
+
+                  {!miniTestCompleto && (
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ mt: 1.5 }}
+                    >
+                      Responde todas las preguntas para corregir.
+                    </Typography>
+                  )}
+
+                  {resultadoGuardado && (
+                    <Alert
+                      severity={resultadoGuardado.ok ? "success" : "error"}
+                      sx={{ mt: 2 }}
+                    >
+                      {resultadoGuardado.message}
+                    </Alert>
+                  )}
+
+                  {corregido && (
+                    <Box sx={{ mt: 2 }}>
+                      <Typography fontWeight={800} sx={{ mb: 1 }}>
+                        Resultado: {aciertos}/{miniTest.length} ({porcentaje}%)
+                      </Typography>
+                      <LinearProgress
+                        variant="determinate"
+                        value={porcentaje}
+                        sx={{ height: 10, borderRadius: 999, mb: 1 }}
+                      />
+                      <Alert
+                        severity={porcentaje >= 80 ? "success" : "warning"}
+                      >
+                        {porcentaje >= 80
+                          ? "Buen dominio del tema. Puedes seguir al siguiente bloque."
+                          : "Conviene repasar la teoría y volver a intentarlo."}
+                      </Alert>
+                    </Box>
+                  )}
+
+                  <Box sx={{ mt: 3 }}>
+                    <Typography variant="h6" fontWeight={900} sx={{ mb: 1 }}>
+                      Historial de intentos
+                    </Typography>
+
+                    {historialIntentos.length === 0 ? (
+                      <Typography variant="body2" color="text.secondary">
+                        Todavía no hay intentos guardados para este tema.
+                      </Typography>
+                    ) : (
+                      <Stack spacing={1}>
+                        {historialIntentos.map((intento) => (
+                          <Box
+                            key={intento.id}
+                            sx={{
+                              border: "1px solid #e2e8f0",
+                              borderRadius: 2,
+                              p: 1.25,
+                              backgroundColor: "#f8fafc",
+                            }}
+                          >
+                            <Stack
+                              direction="row"
+                              sx={{
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                mb: 0.5,
+                              }}
+                            >
+                              <Typography variant="body2" fontWeight={700}>
+                                {intento.aciertos}/{intento.totalPreguntas} (
+                                {intento.porcentaje}%)
+                              </Typography>
+                              <Chip
+                                size="small"
+                                color={
+                                  intento.resultado === "APROBADO"
+                                    ? "success"
+                                    : "warning"
+                                }
+                                label={intento.resultado}
+                              />
+                            </Stack>
+                            <Typography
+                              variant="caption"
+                              color="text.secondary"
+                            >
+                              {new Date(intento.fecha).toLocaleString("es-ES")}
+                            </Typography>
+                          </Box>
+                        ))}
+                      </Stack>
+                    )}
+                  </Box>
+                </Box>
+              </>
+            )}
+          </Box>
+        )}
+      </Card>
 
       <Dialog
         open={videoDialogOpen}
