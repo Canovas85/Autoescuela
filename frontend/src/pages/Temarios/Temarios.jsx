@@ -374,6 +374,7 @@ export default function Temarios() {
         </DialogTitle>
         <DialogContent sx={{ pt: 1, display: "grid", gap: 2 }}>
           <TextField
+            sx={{ mt: 2 }}
             label="Título"
             fullWidth
             value={form.titulo}

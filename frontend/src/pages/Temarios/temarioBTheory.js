@@ -3,77 +3,147 @@ import { miniTestsPermisoB } from "./temarioBMiniTests";
 const temasPermisoB = {
   "temario-001": {
     objetivo:
-      "Identificar correctamente la señalización vertical, horizontal y de balizamiento para tomar decisiones seguras en cada vía.",
+      "Comprender y aplicar las reglas generales de circulación, prioridad de paso y uso correcto de los carriles y arcenes para garantizar una conducción fluida y segura.",
     conceptosClave: [
-      "Señales de peligro: advierten de riesgos próximos y obligan a aumentar la atención.",
-      "Señales de reglamentación: prohíben, obligan o limitan conductas de conducción.",
-      "Señales de indicación: informan, orientan y facilitan la circulación.",
-      "Marcas viales: completan las órdenes de las señales y delimitan carriles, prioridades y maniobras.",
+      "Reglas Generales.",
+      "Circulación: sentido y velocidad.",
+      "Adelantamientos: condiciones y seguridad.",
+      "Paradas y estacionamientos.",
+      "Prioridades.",
     ],
     teoria: [
-      "Una señal vertical prevalece frente a una marca vial cuando existe contradicción.",
-      "El orden de prioridad habitual es: agente, señalización circunstancial, semáforo, señal vertical, marca vial.",
-      "Las señales temporales por obras tienen prioridad sobre la señalización fija de la vía.",
+      "La circulación debe realizarse respetando las normas básicas de sentido de la marcha y utilizando preferentemente los carriles situados a la derecha.",
+      "Todo conductor está obligado a ceder el paso en las intersecciones según la señalización o la norma general de prioridad por la derecha.",
+      "El adelantamiento y los cambios de dirección exigen una correcta valoración de las distancias y velocidades de los vehículos implicados.",
     ],
     erroresFrecuentes: [
-      "Confundir señales de obligación con señales informativas.",
-      "No reducir velocidad al ver señales de peligro porque no son prohibitivas.",
-      "Ignorar la señalización amarilla temporal en tramos de obras.",
+      "No ceder el paso en intersecciones sin señalizar.",
+      "Circular permanentemente por el carril central o izquierdo en vías de varios carriles.",
+      "Realizar adelantamientos en tramos de visibilidad reducida.",
     ],
     repasoRapido:
-      "Si dudas, reduce velocidad, observa el entorno y aplica la señal de mayor jerarquía.",
+      "Una circulación ordenada y respetuosa con las normas es la base indispensable para evitar situaciones de riesgo en cualquier vía.",
   },
   "temario-002": {
     objetivo:
-      "Aplicar correctamente las normas de prioridad en cruces, intersecciones y glorietas para evitar conflictos.",
+      "Identificar, interpretar y obedecer correctamente los diferentes tipos de señales de tráfico para regular el comportamiento en la vía.",
     conceptosClave: [
-      "Regla general: prioridad para el vehículo que se aproxima por la derecha en ausencia de señalización.",
-      "Señales de Ceda el Paso y Stop modifican la prioridad general.",
-      "En glorietas tiene prioridad quien ya circula dentro de la rotonda.",
-      "Vehículos prioritarios en servicio urgente pueden alterar el paso ordinario.",
+      "Señales de advertencia.",
+      "Señales de reglamento.",
+      "Señales de indicación.",
+      "Marcas viales.",
     ],
     teoria: [
-      "Detenerse en Stop implica parada completa y comprobación efectiva de seguridad.",
-      "En intersecciones mal visibles hay que moderar la velocidad aunque se tenga prioridad.",
-      "La prioridad no exime de conducir con prudencia ni evita responsabilidad por conducción temeraria.",
+      "Las señales de circulación se estructuran jerárquicamente, prevaleciendo las órdenes de los agentes sobre cualquier otra señalización.",
+      "Las señales verticales de advertencia de peligro alertan sobre circunstancias especiales de la vía, mientras que las de reglamento imponen obligaciones o restricciones específicas.",
+      "Las marcas viales sobre el pavimento delimitan carriles, separan sentidos de circulación y refuerzan las prohibiciones o indicaciones de las señales verticales.",
     ],
     erroresFrecuentes: [
-      "Entrar en glorietas sin valorar la velocidad de los vehículos que ya circulan.",
-      "Interpretar Ceda el Paso como obligación de detenerse siempre.",
-      "No mirar puntos ciegos en cruces complejos con varios carriles.",
+      "Confundir el significado de señales de prohibición con las de restricción.",
+      "Ignorar la prioridad jerárquica de las señales circunstanciales.",
+      "No respetar las líneas continuas transversales o longitudinales.",
     ],
     repasoRapido:
-      "La prioridad se ejerce con seguridad: visibilidad, velocidad adecuada y anticipación.",
+      "Conocer el significado exacto de cada señal evita sanciones y previene accidentes imprevistos en la carretera.",
   },
   "temario-003": {
     objetivo:
-      "Ajustar la velocidad a la vía, al tráfico y a las condiciones meteorológicas, manteniendo distancias de seguridad.",
+      "Conocer el significado de las distintas fases lumínicas de los semáforos y obedecer de forma inmediata las órdenes e instrucciones dadas por los agentes de tráfico.",
     conceptosClave: [
-      "Velocidad máxima legal según tipo de vía y señalización específica.",
-      "Velocidad adecuada: incluso por debajo del límite si las condiciones lo requieren.",
-      "Distancia de seguridad suficiente para detener el vehículo sin colisión.",
-      "Tiempo de reacción y distancia de frenado como elementos críticos.",
+      "Semáforos.",
+      "Luces de los agentes.",
+      "Órdenes verbales.",
+      "Órdenes gestuales.",
     ],
     teoria: [
-      "En lluvia, niebla o baja adherencia debe aumentarse la distancia y reducirse la velocidad.",
-      "Circular demasiado despacio sin causa también puede generar riesgo para la fluidez.",
-      "La distancia de seguridad aumenta de forma no lineal con la velocidad.",
+      "Las señales de los agentes de la autoridad encargados de la vigilancia del tráfico prevalecen sobre cualquier otra señalización y sobre las normas de circulación.",
+      "Una luz roja en un semáforo obliga a detenerse antes de la línea de detención, mientras que una luz amarilla intermitente o fija exige extremar la precaución y ceder el paso.",
+      "Los gestos y brazos de los agentes extendidos o levantados transmiten instrucciones específicas de alto o paso que los conductores deben cumplir al instante.",
     ],
     erroresFrecuentes: [
-      "Mantener en mojado la misma distancia que en seco.",
-      "Pensar que no hay riesgo por circular dentro del límite cuando hay baja visibilidad.",
-      "No prever la frenada del vehículo precedente en tráfico denso.",
+      "Interpretar la luz amarilla fija como una señal para acelerar en lugar de detenerse cuando sea seguro.",
+      "Desobedecer la posición de perfil o frente de un agente regulador.",
+      "No detenerse ante la señal de alto de un agente regulador.",
     ],
     repasoRapido:
-      "Límite legal no equivale siempre a velocidad segura: adapta siempre a contexto real.",
+      "Ante la indicación de un agente o un semáforo en rojo, la obediencia debe ser inmediata y prioritaria frente a cualquier otra norma.",
   },
   "temario-004": {
+    objetivo:
+      "Identificar los elementos fundamentales del vehículo, sus sistemas de seguridad, mantenimiento básico y las normativas relativas a la carga y documentación.",
+    conceptosClave: [
+      "Partes del vehículo.",
+      "Luces y dispositivos de alumbrado.",
+      "Mantenimiento.",
+      "Carga y remolque.",
+      "Documentación del vehículo.",
+    ],
+    teoria: [
+      "El correcto funcionamiento de los sistemas de alumbrado, frenos y neumáticos es vital para la seguridad activa y pasiva del vehículo.",
+      "La carga transportada debe estar perfectamente dispuesta y sujeta para que no comprometa la estabilidad del automóvil ni cause peligros en la vía.",
+      "Todo vehículo en circulación debe portar la documentación obligatoria que acredite su aptitud técnica y legal para transitar.",
+    ],
+    erroresFrecuentes: [
+      "Circular con elementos de alumbrado fundidos o mal regulados.",
+      "Exceder la masa máxima autorizada (MMA) sin la debida distribución de la carga.",
+      "Olvidar portar los papeles en regla.",
+    ],
+    repasoRapido:
+      "Un mantenimiento preventivo y una correcta revisión del vehículo antes de arrancar evitan averías críticas en marcha.",
+  },
+  "temario-005": {
+    objetivo:
+      "Reconocer las características y vulnerabilidades de los distintos colectivos que comparten las vías públicas para adaptar el comportamiento al conducir de manera segura.",
+    conceptosClave: [
+      "Peatones.",
+      "Ciclistas.",
+      "Motocicletas.",
+      "Personas con movilidad reducida.",
+      "Otros vehículos.",
+    ],
+    teoria: [
+      "Los peatones y ciclistas son los usuarios más vulnerables de la vía y disponen de prioridad de paso en pasos específicos y circunstancias regladas.",
+      "Las motocicletas y ciclomotores presentan menor visibilidad y estabilidad, por lo que se deben extremar las distancias laterales de seguridad al adelantarlos.",
+      "Es obligatorio guardar especial respeto y consideración hacia las personas con movilidad reducida y los vehículos de emergencia o servicios públicos.",
+    ],
+    erroresFrecuentes: [
+      "No guardar la distancia lateral reglamentaria al adelantar a ciclistas en carretera.",
+      "No ceder el paso a peatones en pasos habilitados.",
+    ],
+    repasoRapido:
+      "La protección de los usuarios más vulnerables es una responsabilidad directa y prioritaria de todo conductor al volante.",
+  },
+  "temario-006": {
+    objetivo:
+      "Analizar los factores de riesgo asociados al conductor, la vía y el entorno, valorando el impacto de la velocidad, el alcohol y las distracciones en la siniestralidad.",
+    conceptosClave: [
+      "Factores de riesgo.",
+      "Velocidad.",
+      "Alcohol y drogas.",
+      "Cansancio.",
+      "SRI (Sistemas de Retención Infantil)",
+    ],
+    teoria: [
+      "El consumo de alcohol, sustancias psicoactivas o medicamentos altera de forma crítica los tiempos de reacción y la capacidad de percepción del conductor.",
+      "El exceso de velocidad reduce drásticamente el campo visual y multiplica exponencialmente la gravedad de las lesiones en caso de colisión.",
+      "El uso adecuado del cinturón de seguridad y de los sistemas de retención infantil (SRI) reduce drásticamente la mortalidad en accidentes de tráfico.",
+    ],
+    erroresFrecuentes: [
+      "Conducir bajo los efectos de la fatiga acumulada.",
+      "Subestimar el efecto de tasas bajas de alcohol.",
+      "No adaptar la velocidad a las condiciones meteorológicas adversas.",
+    ],
+    repasoRapido:
+      "La seguridad vial depende de minimizar los factores de riesgo humanos y mantener una actitud prudente en todo momento.",
+  },
+  "temario-007": {
     objetivo:
       "Ejecutar maniobras básicas con seguridad, señalización previa y control del entorno.",
     conceptosClave: [
       "Cambios de dirección y carril con señalización anticipada y comprobación de espejos.",
       "Estacionamiento en línea, batería y oblicuo respetando normas locales.",
-      "Adelantamientos permitidos solo cuando la visibilidad, señalización y espacio lo permiten.",
+      "Adelantamientos permitidos solo cuando la visibilidad sea adecuada.",
+      "Señalización y espacio lo permiten.",
       "Cambio de sentido únicamente en lugares autorizados y seguros.",
     ],
     teoria: [
@@ -89,93 +159,27 @@ const temasPermisoB = {
     repasoRapido:
       "Ninguna maniobra es prioritaria frente a la seguridad: si hay duda, espera.",
   },
-  "temario-005": {
-    objetivo:
-      "Comprender y utilizar correctamente los sistemas de seguridad activa y pasiva del vehículo.",
-    conceptosClave: [
-      "Seguridad activa: ABS, ESP y ayudas de frenado para evitar accidentes.",
-      "Seguridad pasiva: cinturón, airbags, reposacabezas y estructura del vehículo.",
-      "Posición de conducción correcta para mejorar control y reducir lesiones.",
-      "Mantenimiento preventivo de neumáticos, frenos e iluminación.",
-    ],
-    teoria: [
-      "El cinturón es obligatorio en la mayoría de situaciones y reduce de forma drástica lesiones graves.",
-      "El reposacabezas bien ajustado disminuye latigazo cervical en alcances.",
-      "Los sistemas electrónicos ayudan, pero no sustituyen la conducción responsable.",
-    ],
-    erroresFrecuentes: [
-      "Confiar excesivamente en ayudas electrónicas en curvas o frenadas extremas.",
-      "Conducir con postura incorrecta que reduce campo visual y tiempos de reacción.",
-      "No revisar presión y estado de neumáticos periódicamente.",
-    ],
-    repasoRapido:
-      "La mejor seguridad combina tecnología del vehículo y hábitos correctos del conductor.",
-  },
-  "temario-006": {
-    objetivo:
-      "Reconocer el impacto del alcohol, las drogas y la fatiga para prevenir conducción de riesgo.",
-    conceptosClave: [
-      "Alcohol y drogas disminuyen percepción, coordinación y tiempo de reacción.",
-      "Fatiga y somnolencia reducen atención sostenida y toma de decisiones.",
-      "Riesgo cero: no conducir tras consumir sustancias incompatibles con la conducción.",
-      "Planificación de descansos en trayectos largos.",
-    ],
-    teoria: [
-      "Incluso pequeñas dosis de alcohol pueden afectar capacidad de conducción.",
-      "La sensación subjetiva de control no refleja el deterioro real.",
-      "Paradas periódicas y sueño suficiente son medidas preventivas clave.",
-    ],
-    erroresFrecuentes: [
-      "Pensar que café o aire frío compensan somnolencia.",
-      "Minimizar consumo ocasional de alcohol antes de conducir.",
-      "Ignorar señales de fatiga en viajes prolongados.",
-    ],
-    repasoRapido:
-      "Si no estás en condiciones óptimas, no conduzcas: prevención antes que corrección.",
-  },
-  "temario-007": {
-    objetivo:
-      "Conocer la documentación obligatoria del conductor y del vehículo para circular legalmente.",
-    conceptosClave: [
-      "Permiso de conducir en vigor y adecuado al tipo de vehículo.",
-      "Permiso de circulación y tarjeta ITV vigente cuando corresponda.",
-      "Seguro obligatorio en vigor para circular.",
-      "Conservación y actualización de documentación ante cambios o renovaciones.",
-    ],
-    teoria: [
-      "No portar o no tener en vigor documentación obligatoria puede implicar sanciones.",
-      "La ITV acredita condiciones técnicas mínimas de seguridad.",
-      "La responsabilidad administrativa recae en conductor y titular según el caso.",
-    ],
-    erroresFrecuentes: [
-      "Olvidar fechas de renovación de permiso o ITV.",
-      "Confiar en que un tercero gestiona seguro sin comprobar su vigencia.",
-      "No verificar documentación antes de trayectos largos o uso ocasional del vehículo.",
-    ],
-    repasoRapido:
-      "Antes de salir: conductor habilitado, vehículo documentado y seguro activo.",
-  },
   "temario-008": {
     objetivo:
-      "Aplicar principios de conducción eficiente para reducir consumo, emisiones y desgaste mecánico.",
+      "Aplicar los protocolos de actuación inicial ante un accidente de tráfico siguiendo la conducta PAS (Proteger, Avisar, Socorrer) para salvar vidas y evitar daños mayores.",
     conceptosClave: [
-      "Anticipación del tráfico para evitar frenadas y aceleraciones bruscas.",
-      "Uso de marchas largas y régimen adecuado del motor.",
-      "Mantenimiento preventivo para mejorar eficiencia energética.",
-      "Planificación de ruta para reducir tiempos y consumo.",
+      "Actuación ante accidentes.",
+      "Posición lateral de seguridad.",
+      "Hemorragias y su control.",
+      "RCP básica.",
     ],
     teoria: [
-      "Conducción suave y constante disminuye gasto de combustible y fatiga.",
-      "Presión correcta de neumáticos impacta directamente en consumo y seguridad.",
-      "Evitar carga innecesaria y resistencia aerodinámica mejora rendimiento.",
+      "El protocolo PAS establece que lo primero es asegurar la zona del accidente, después alertar a los servicios de emergencia y finalmente socorrer a las víctimas.",
+      "A los heridos inconscientes que respiran se les debe colocar en posición lateral de seguridad (PLS) para evitar la obstrucción de las vías respiratorias.",
+      "Las técnicas de reanimación cardiopulmonar (RCP) básica y la compresión directa sobre hemorragias graves son determinantes en los primeros minutos críticos.",
     ],
     erroresFrecuentes: [
-      "Acelerar y frenar continuamente en tráfico fluido.",
-      "Circular con neumáticos a presión incorrecta.",
-      "Posponer mantenimiento básico del vehículo.",
+      "Mover indebidamente a los accidentados con posibles lesiones medulares.",
+      "No señalizar adecuadamente el lugar del siniestro.",
+      "Quitar el casco a un motociclista sin necesidad justificada.",
     ],
     repasoRapido:
-      "Eficiencia es anticipar: menos brusquedad, más constancia y mejor planificación.",
+      "En los primeros auxilios en carretera, proteger el lugar de los hechos y mantener las constantes vitales es prioritario antes de mover a los heridos.",
   },
 };
 

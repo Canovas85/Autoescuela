@@ -16,7 +16,7 @@ export default function TemarioHero({ mode = "admin" }) {
       sx={{
         position: "relative",
         overflow: "hidden",
-        borderRadius: 4,
+        borderRadius: 2,
         p: { xs: 2.5, md: 4 },
         background:
           "linear-gradient(120deg, rgba(7, 17, 30, 0.97) 0%, rgba(9, 28, 45, 0.96) 52%, rgba(12, 82, 90, 0.82) 100%)",

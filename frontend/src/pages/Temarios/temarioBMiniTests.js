@@ -1,5 +1,5 @@
 export const miniTestsPermisoB = {
-  "temario-001": [
+  "temario-002": [
     {
       pregunta:
         "Si una señal vertical contradice una marca vial, ¿cuál prevalece?",
@@ -42,7 +42,7 @@ export const miniTestsPermisoB = {
       correcta: "Complementar órdenes y delimitar",
     },
   ],
-  "temario-002": [
+  "temario-001": [
     {
       pregunta: "Sin señalización, en un cruce tiene prioridad...",
       opciones: [
@@ -146,7 +146,7 @@ export const miniTestsPermisoB = {
       correcta: "Adaptar velocidad al entorno",
     },
   ],
-  "temario-004": [
+  "temario-007": [
     {
       pregunta: "Secuencia correcta de maniobra: ",
       opciones: [
@@ -283,7 +283,7 @@ export const miniTestsPermisoB = {
       correcta: "Programar descansos",
     },
   ],
-  "temario-007": [
+  "temario-004": [
     {
       pregunta: "Para circular legalmente es necesario...",
       opciones: [

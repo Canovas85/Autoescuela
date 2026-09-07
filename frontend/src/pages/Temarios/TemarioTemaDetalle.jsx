@@ -285,7 +285,7 @@ export default function TemarioTemaDetalle() {
         <>
           <Card
             sx={{
-              borderRadius: 4,
+              borderRadius: 2,
               background:
                 "linear-gradient(120deg, rgba(15,23,42,0.97) 0%, rgba(30,64,175,0.9) 100%)",
               color: "#fff",
