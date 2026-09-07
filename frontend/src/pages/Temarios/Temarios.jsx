@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   Alert,
@@ -22,6 +23,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 import { temariosService } from "../../services/temariosService";
 import TemarioHero from "./TemarioHero";
@@ -51,6 +53,7 @@ const emptyForm = {
 };
 
 export default function Temarios() {
+  const navigate = useNavigate();
   const [rows, setRows] = useState([]);
   const [filtroLicencia, setFiltroLicencia] = useState("");
   const [open, setOpen] = useState(false);
@@ -120,6 +123,8 @@ export default function Temarios() {
       descripcion: row.descripcion || "",
       tipoLicenciaObjetivo: toLicenciasArray(row.tipoLicenciaObjetivo),
       orden: row.orden ?? 0,
+      documentacionRuta: row.documentacionRuta || "",
+      claseDirectoVideoUrl: row.claseDirectoVideoUrl || "",
     });
     setOpen(true);
   };
@@ -183,6 +188,8 @@ export default function Temarios() {
         ...form,
         tipoLicenciaObjetivo: toLicenciasArray(form.tipoLicenciaObjetivo),
         orden: Number(form.orden),
+        documentacionRuta: form.documentacionRuta || "",
+        claseDirectoVideoUrl: form.claseDirectoVideoUrl || "",
       };
 
       if (editingId) {
@@ -245,7 +252,7 @@ export default function Temarios() {
     {
       field: "acciones",
       headerName: "Acciones",
-      width: 140,
+      width: 200,
       sortable: false,
       renderCell: (params) => (
         <Box
@@ -257,6 +264,14 @@ export default function Temarios() {
             gap: 0.5,
           }}
         >
+          <IconButton
+            color="primary"
+            onClick={() => navigate(`/temarios/${params.row.id}`)}
+            title="Ver detalle"
+          >
+            <OpenInNewIcon />
+          </IconButton>
+
           <IconButton color="primary" onClick={() => handleEdit(params.row)}>
             <EditIcon />
           </IconButton>
@@ -406,6 +421,28 @@ export default function Temarios() {
             value={form.orden}
             onChange={(event) =>
               setForm((prev) => ({ ...prev, orden: event.target.value }))
+            }
+          />
+          <TextField
+            label="Documentación PDF (ruta o URL)"
+            fullWidth
+            value={form.documentacionRuta || ""}
+            onChange={(event) =>
+              setForm((prev) => ({
+                ...prev,
+                documentacionRuta: event.target.value,
+              }))
+            }
+          />
+          <TextField
+            label="URL de la clase en directo (YouTube)"
+            fullWidth
+            value={form.claseDirectoVideoUrl || ""}
+            onChange={(event) =>
+              setForm((prev) => ({
+                ...prev,
+                claseDirectoVideoUrl: event.target.value,
+              }))
             }
           />
         </DialogContent>

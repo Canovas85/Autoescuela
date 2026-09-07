@@ -69,7 +69,12 @@ export default function TemarioHero({ mode = "admin" }) {
             Todo lo que necesitas saber para aprobar tu examen teórico
           </Typography>
 
-          <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
+          <Stack
+            direction="row"
+            spacing={1}
+            useFlexGap
+            sx={{ flexWrap: "wrap" }}
+          >
             {features.map((feature) => (
               <Chip
                 key={feature}

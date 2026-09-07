@@ -500,11 +500,13 @@ export default function Sidebar({ navigate, location }) {
 
                       <ListItemText
                         primary={item.label}
-                        primaryTypographyProps={{
-                          fontSize: "0.95rem",
-                          fontWeight: 500,
+                        sx={{
+                          ml: 2,
+                          "& .MuiListItemText-primary": {
+                            fontSize: "0.95rem",
+                            fontWeight: 500,
+                          },
                         }}
-                        sx={{ ml: 2 }}
                       />
 
                       {openMenus[item.label] ? <ExpandLess /> : <ExpandMore />}
@@ -582,11 +584,13 @@ export default function Sidebar({ navigate, location }) {
 
                   <ListItemText
                     primary={item.label}
-                    primaryTypographyProps={{
-                      fontSize: "0.95rem",
-                      fontWeight: 500,
+                    sx={{
+                      ml: 2,
+                      "& .MuiListItemText-primary": {
+                        fontSize: "0.95rem",
+                        fontWeight: 500,
+                      },
                     }}
-                    sx={{ ml: 2 }}
                   />
                 </ListItemButton>
               ))
@@ -599,11 +603,13 @@ export default function Sidebar({ navigate, location }) {
 
                         <ListItemText
                           primary={item.label}
-                          primaryTypographyProps={{
-                            fontSize: "0.95rem",
-                            fontWeight: 500,
+                          sx={{
+                            ml: 2,
+                            "& .MuiListItemText-primary": {
+                              fontSize: "0.95rem",
+                              fontWeight: 500,
+                            },
                           }}
-                          sx={{ ml: 2 }}
                         />
 
                         {openMenus[item.label] ? (
@@ -650,11 +656,13 @@ export default function Sidebar({ navigate, location }) {
 
                       <ListItemText
                         primary={item.label}
-                        primaryTypographyProps={{
-                          fontSize: "0.95rem",
-                          fontWeight: 500,
+                        sx={{
+                          ml: 2,
+                          "& .MuiListItemText-primary": {
+                            fontSize: "0.95rem",
+                            fontWeight: 500,
+                          },
                         }}
-                        sx={{ ml: 2 }}
                       />
                     </ListItemButton>
                   )}

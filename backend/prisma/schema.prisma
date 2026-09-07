@@ -80,13 +80,15 @@ model Alumno {
 }
 
 model Temario {
-  id                   String            @id @default(uuid())
-  titulo               String
-  descripcion          String?
-  orden                Int               @default(0)
-  tipoLicenciaObjetivo String[]
-  progreso             TemarioProgreso[]
-  testsPractica        TestPractica[]
+  id                    String            @id @default(uuid())
+  titulo                String
+  descripcion           String?
+  orden                 Int               @default(0)
+  tipoLicenciaObjetivo  String[]
+  documentacionRuta     String?
+  claseDirectoVideoUrl  String?
+  progreso              TemarioProgreso[]
+  testsPractica         TestPractica[]
 
   @@index([tipoLicenciaObjetivo], type: Gin)
   @@map("temarios")

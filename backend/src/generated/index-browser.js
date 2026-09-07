@@ -166,7 +166,9 @@ exports.Prisma.TemarioScalarFieldEnum = {
   titulo: 'titulo',
   descripcion: 'descripcion',
   orden: 'orden',
-  tipoLicenciaObjetivo: 'tipoLicenciaObjetivo'
+  tipoLicenciaObjetivo: 'tipoLicenciaObjetivo',
+  documentacionRuta: 'documentacionRuta',
+  claseDirectoVideoUrl: 'claseDirectoVideoUrl'
 };
 
 exports.Prisma.TemarioProgresoScalarFieldEnum = {

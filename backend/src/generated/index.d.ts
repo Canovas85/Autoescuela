@@ -8253,6 +8253,8 @@ export namespace Prisma {
     titulo: string | null
     descripcion: string | null
     orden: number | null
+    documentacionRuta: string | null
+    claseDirectoVideoUrl: string | null
   }
 
   export type TemarioMaxAggregateOutputType = {
@@ -8260,6 +8262,8 @@ export namespace Prisma {
     titulo: string | null
     descripcion: string | null
     orden: number | null
+    documentacionRuta: string | null
+    claseDirectoVideoUrl: string | null
   }
 
   export type TemarioCountAggregateOutputType = {
@@ -8268,6 +8272,8 @@ export namespace Prisma {
     descripcion: number
     orden: number
     tipoLicenciaObjetivo: number
+    documentacionRuta: number
+    claseDirectoVideoUrl: number
     _all: number
   }
 
@@ -8285,6 +8291,8 @@ export namespace Prisma {
     titulo?: true
     descripcion?: true
     orden?: true
+    documentacionRuta?: true
+    claseDirectoVideoUrl?: true
   }
 
   export type TemarioMaxAggregateInputType = {
@@ -8292,6 +8300,8 @@ export namespace Prisma {
     titulo?: true
     descripcion?: true
     orden?: true
+    documentacionRuta?: true
+    claseDirectoVideoUrl?: true
   }
 
   export type TemarioCountAggregateInputType = {
@@ -8300,6 +8310,8 @@ export namespace Prisma {
     descripcion?: true
     orden?: true
     tipoLicenciaObjetivo?: true
+    documentacionRuta?: true
+    claseDirectoVideoUrl?: true
     _all?: true
   }
 
@@ -8395,6 +8407,8 @@ export namespace Prisma {
     descripcion: string | null
     orden: number
     tipoLicenciaObjetivo: string[]
+    documentacionRuta: string | null
+    claseDirectoVideoUrl: string | null
     _count: TemarioCountAggregateOutputType | null
     _avg: TemarioAvgAggregateOutputType | null
     _sum: TemarioSumAggregateOutputType | null
@@ -8422,6 +8436,8 @@ export namespace Prisma {
     descripcion?: boolean
     orden?: boolean
     tipoLicenciaObjetivo?: boolean
+    documentacionRuta?: boolean
+    claseDirectoVideoUrl?: boolean
     progreso?: boolean | Temario$progresoArgs<ExtArgs>
     testsPractica?: boolean | Temario$testsPracticaArgs<ExtArgs>
     _count?: boolean | TemarioCountOutputTypeDefaultArgs<ExtArgs>
@@ -8433,6 +8449,8 @@ export namespace Prisma {
     descripcion?: boolean
     orden?: boolean
     tipoLicenciaObjetivo?: boolean
+    documentacionRuta?: boolean
+    claseDirectoVideoUrl?: boolean
   }, ExtArgs["result"]["temario"]>
 
   export type TemarioSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8441,6 +8459,8 @@ export namespace Prisma {
     descripcion?: boolean
     orden?: boolean
     tipoLicenciaObjetivo?: boolean
+    documentacionRuta?: boolean
+    claseDirectoVideoUrl?: boolean
   }, ExtArgs["result"]["temario"]>
 
   export type TemarioSelectScalar = {
@@ -8449,9 +8469,11 @@ export namespace Prisma {
     descripcion?: boolean
     orden?: boolean
     tipoLicenciaObjetivo?: boolean
+    documentacionRuta?: boolean
+    claseDirectoVideoUrl?: boolean
   }
 
-  export type TemarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titulo" | "descripcion" | "orden" | "tipoLicenciaObjetivo", ExtArgs["result"]["temario"]>
+  export type TemarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titulo" | "descripcion" | "orden" | "tipoLicenciaObjetivo" | "documentacionRuta" | "claseDirectoVideoUrl", ExtArgs["result"]["temario"]>
   export type TemarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     progreso?: boolean | Temario$progresoArgs<ExtArgs>
     testsPractica?: boolean | Temario$testsPracticaArgs<ExtArgs>
@@ -8472,6 +8494,8 @@ export namespace Prisma {
       descripcion: string | null
       orden: number
       tipoLicenciaObjetivo: string[]
+      documentacionRuta: string | null
+      claseDirectoVideoUrl: string | null
     }, ExtArgs["result"]["temario"]>
     composites: {}
   }
@@ -8902,6 +8926,8 @@ export namespace Prisma {
     readonly descripcion: FieldRef<"Temario", 'String'>
     readonly orden: FieldRef<"Temario", 'Int'>
     readonly tipoLicenciaObjetivo: FieldRef<"Temario", 'String[]'>
+    readonly documentacionRuta: FieldRef<"Temario", 'String'>
+    readonly claseDirectoVideoUrl: FieldRef<"Temario", 'String'>
   }
     
 
@@ -31083,7 +31109,9 @@ export namespace Prisma {
     titulo: 'titulo',
     descripcion: 'descripcion',
     orden: 'orden',
-    tipoLicenciaObjetivo: 'tipoLicenciaObjetivo'
+    tipoLicenciaObjetivo: 'tipoLicenciaObjetivo',
+    documentacionRuta: 'documentacionRuta',
+    claseDirectoVideoUrl: 'claseDirectoVideoUrl'
   };
 
   export type TemarioScalarFieldEnum = (typeof TemarioScalarFieldEnum)[keyof typeof TemarioScalarFieldEnum]
@@ -31814,6 +31842,8 @@ export namespace Prisma {
     descripcion?: StringNullableFilter<"Temario"> | string | null
     orden?: IntFilter<"Temario"> | number
     tipoLicenciaObjetivo?: StringNullableListFilter<"Temario">
+    documentacionRuta?: StringNullableFilter<"Temario"> | string | null
+    claseDirectoVideoUrl?: StringNullableFilter<"Temario"> | string | null
     progreso?: TemarioProgresoListRelationFilter
     testsPractica?: TestPracticaListRelationFilter
   }
@@ -31824,6 +31854,8 @@ export namespace Prisma {
     descripcion?: SortOrderInput | SortOrder
     orden?: SortOrder
     tipoLicenciaObjetivo?: SortOrder
+    documentacionRuta?: SortOrderInput | SortOrder
+    claseDirectoVideoUrl?: SortOrderInput | SortOrder
     progreso?: TemarioProgresoOrderByRelationAggregateInput
     testsPractica?: TestPracticaOrderByRelationAggregateInput
   }
@@ -31837,6 +31869,8 @@ export namespace Prisma {
     descripcion?: StringNullableFilter<"Temario"> | string | null
     orden?: IntFilter<"Temario"> | number
     tipoLicenciaObjetivo?: StringNullableListFilter<"Temario">
+    documentacionRuta?: StringNullableFilter<"Temario"> | string | null
+    claseDirectoVideoUrl?: StringNullableFilter<"Temario"> | string | null
     progreso?: TemarioProgresoListRelationFilter
     testsPractica?: TestPracticaListRelationFilter
   }, "id">
@@ -31847,6 +31881,8 @@ export namespace Prisma {
     descripcion?: SortOrderInput | SortOrder
     orden?: SortOrder
     tipoLicenciaObjetivo?: SortOrder
+    documentacionRuta?: SortOrderInput | SortOrder
+    claseDirectoVideoUrl?: SortOrderInput | SortOrder
     _count?: TemarioCountOrderByAggregateInput
     _avg?: TemarioAvgOrderByAggregateInput
     _max?: TemarioMaxOrderByAggregateInput
@@ -31863,6 +31899,8 @@ export namespace Prisma {
     descripcion?: StringNullableWithAggregatesFilter<"Temario"> | string | null
     orden?: IntWithAggregatesFilter<"Temario"> | number
     tipoLicenciaObjetivo?: StringNullableListFilter<"Temario">
+    documentacionRuta?: StringNullableWithAggregatesFilter<"Temario"> | string | null
+    claseDirectoVideoUrl?: StringNullableWithAggregatesFilter<"Temario"> | string | null
   }
 
   export type TemarioProgresoWhereInput = {
@@ -33618,6 +33656,8 @@ export namespace Prisma {
     descripcion?: string | null
     orden?: number
     tipoLicenciaObjetivo?: TemarioCreatetipoLicenciaObjetivoInput | string[]
+    documentacionRuta?: string | null
+    claseDirectoVideoUrl?: string | null
     progreso?: TemarioProgresoCreateNestedManyWithoutTemarioInput
     testsPractica?: TestPracticaCreateNestedManyWithoutTemarioInput
   }
@@ -33628,6 +33668,8 @@ export namespace Prisma {
     descripcion?: string | null
     orden?: number
     tipoLicenciaObjetivo?: TemarioCreatetipoLicenciaObjetivoInput | string[]
+    documentacionRuta?: string | null
+    claseDirectoVideoUrl?: string | null
     progreso?: TemarioProgresoUncheckedCreateNestedManyWithoutTemarioInput
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutTemarioInput
   }
@@ -33638,6 +33680,8 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     orden?: IntFieldUpdateOperationsInput | number
     tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
+    documentacionRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    claseDirectoVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     progreso?: TemarioProgresoUpdateManyWithoutTemarioNestedInput
     testsPractica?: TestPracticaUpdateManyWithoutTemarioNestedInput
   }
@@ -33648,6 +33692,8 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     orden?: IntFieldUpdateOperationsInput | number
     tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
+    documentacionRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    claseDirectoVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     progreso?: TemarioProgresoUncheckedUpdateManyWithoutTemarioNestedInput
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutTemarioNestedInput
   }
@@ -33658,6 +33704,8 @@ export namespace Prisma {
     descripcion?: string | null
     orden?: number
     tipoLicenciaObjetivo?: TemarioCreatetipoLicenciaObjetivoInput | string[]
+    documentacionRuta?: string | null
+    claseDirectoVideoUrl?: string | null
   }
 
   export type TemarioUpdateManyMutationInput = {
@@ -33666,6 +33714,8 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     orden?: IntFieldUpdateOperationsInput | number
     tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
+    documentacionRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    claseDirectoVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TemarioUncheckedUpdateManyInput = {
@@ -33674,6 +33724,8 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     orden?: IntFieldUpdateOperationsInput | number
     tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
+    documentacionRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    claseDirectoVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TemarioProgresoCreateInput = {
@@ -35639,6 +35691,8 @@ export namespace Prisma {
     descripcion?: SortOrder
     orden?: SortOrder
     tipoLicenciaObjetivo?: SortOrder
+    documentacionRuta?: SortOrder
+    claseDirectoVideoUrl?: SortOrder
   }
 
   export type TemarioAvgOrderByAggregateInput = {
@@ -35650,6 +35704,8 @@ export namespace Prisma {
     titulo?: SortOrder
     descripcion?: SortOrder
     orden?: SortOrder
+    documentacionRuta?: SortOrder
+    claseDirectoVideoUrl?: SortOrder
   }
 
   export type TemarioMinOrderByAggregateInput = {
@@ -35657,6 +35713,8 @@ export namespace Prisma {
     titulo?: SortOrder
     descripcion?: SortOrder
     orden?: SortOrder
+    documentacionRuta?: SortOrder
+    claseDirectoVideoUrl?: SortOrder
   }
 
   export type TemarioSumOrderByAggregateInput = {
@@ -39722,6 +39780,8 @@ export namespace Prisma {
     descripcion?: string | null
     orden?: number
     tipoLicenciaObjetivo?: TemarioCreatetipoLicenciaObjetivoInput | string[]
+    documentacionRuta?: string | null
+    claseDirectoVideoUrl?: string | null
     testsPractica?: TestPracticaCreateNestedManyWithoutTemarioInput
   }
 
@@ -39731,6 +39791,8 @@ export namespace Prisma {
     descripcion?: string | null
     orden?: number
     tipoLicenciaObjetivo?: TemarioCreatetipoLicenciaObjetivoInput | string[]
+    documentacionRuta?: string | null
+    claseDirectoVideoUrl?: string | null
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutTemarioInput
   }
 
@@ -39801,6 +39863,8 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     orden?: IntFieldUpdateOperationsInput | number
     tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
+    documentacionRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    claseDirectoVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     testsPractica?: TestPracticaUpdateManyWithoutTemarioNestedInput
   }
 
@@ -39810,6 +39874,8 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     orden?: IntFieldUpdateOperationsInput | number
     tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
+    documentacionRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    claseDirectoVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutTemarioNestedInput
   }
 
@@ -39914,6 +39980,8 @@ export namespace Prisma {
     descripcion?: string | null
     orden?: number
     tipoLicenciaObjetivo?: TemarioCreatetipoLicenciaObjetivoInput | string[]
+    documentacionRuta?: string | null
+    claseDirectoVideoUrl?: string | null
     progreso?: TemarioProgresoCreateNestedManyWithoutTemarioInput
   }
 
@@ -39923,6 +39991,8 @@ export namespace Prisma {
     descripcion?: string | null
     orden?: number
     tipoLicenciaObjetivo?: TemarioCreatetipoLicenciaObjetivoInput | string[]
+    documentacionRuta?: string | null
+    claseDirectoVideoUrl?: string | null
     progreso?: TemarioProgresoUncheckedCreateNestedManyWithoutTemarioInput
   }
 
@@ -39993,6 +40063,8 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     orden?: IntFieldUpdateOperationsInput | number
     tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
+    documentacionRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    claseDirectoVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     progreso?: TemarioProgresoUpdateManyWithoutTemarioNestedInput
   }
 
@@ -40002,6 +40074,8 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     orden?: IntFieldUpdateOperationsInput | number
     tipoLicenciaObjetivo?: TemarioUpdatetipoLicenciaObjetivoInput | string[]
+    documentacionRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    claseDirectoVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     progreso?: TemarioProgresoUncheckedUpdateManyWithoutTemarioNestedInput
   }
 

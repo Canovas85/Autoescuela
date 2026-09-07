@@ -71,9 +71,9 @@ export default function TemarioAlumno() {
           <CircularProgress />
         </Box>
       ) : (
-        <Grid container spacing={3} justifyContent="flex-start">
+        <Grid container spacing={3} sx={{ justifyContent: "flex-start" }}>
           {temarios.length === 0 && (
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <Card sx={{ borderRadius: 3, border: "1px solid #e2e8f0" }}>
                 <CardContent
                   sx={{
@@ -92,8 +92,8 @@ export default function TemarioAlumno() {
 
           {temarios.map((temario) => (
             <Grid
-              item
               key={temario.id}
+              size={{ xs: 12, sm: 6, md: 3 }}
               sx={{
                 width: 330,
               }}
@@ -179,8 +179,10 @@ export default function TemarioAlumno() {
                   >
                     <Stack
                       direction="row"
-                      alignItems="center"
-                      justifyContent="space-between"
+                      sx={{
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
                     >
                       <Box
                         sx={{ display: "flex", alignItems: "center", gap: 1.5 }}

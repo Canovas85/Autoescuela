@@ -83,6 +83,33 @@ describe("TemariosService", () => {
     ).rejects.toThrow("El orden debe ser un número entero igual o mayor que 0");
   });
 
+  it("debe aceptar documentacion y clase en directo en el payload del temario", async () => {
+    const repositoryMock = {
+      create: vi.fn().mockResolvedValue({ id: "temario-2", titulo: "Señales" }),
+    };
+
+    const service = new TemariosService(repositoryMock);
+
+    const result = await service.create({
+      titulo: "Señales",
+      descripcion: "Temario base",
+      tipoLicenciaObjetivo: "B",
+      orden: 2,
+      documentacionRuta: "/api/uploads/temarios/tema.pdf",
+      claseDirectoVideoUrl: "https://www.youtube.com/watch?v=abc123",
+    });
+
+    expect(repositoryMock.create).toHaveBeenCalledWith({
+      titulo: "Señales",
+      descripcion: "Temario base",
+      tipoLicenciaObjetivo: ["B"],
+      orden: 2,
+      documentacionRuta: "/api/uploads/temarios/tema.pdf",
+      claseDirectoVideoUrl: "https://www.youtube.com/watch?v=abc123",
+    });
+    expect(result).toEqual({ id: "temario-2", titulo: "Señales" });
+  });
+
   it("debe devolver todos los temarios", async () => {
     const temarios = [
       {

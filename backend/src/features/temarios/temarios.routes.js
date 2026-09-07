@@ -7,6 +7,7 @@ import { authorize } from "../../shared/middleware/role.middleware.js";
 import { TemariosRepository } from "./temarios.repository.js";
 import { TemariosService } from "./temarios.service.js";
 import { TemariosController } from "./temarios.controller.js";
+import { uploadTemarioDocumentacion } from "./temarios.upload.js";
 
 const router = Router();
 
@@ -55,6 +56,13 @@ router.put(
   authenticate,
   authorize("ADMIN"),
   controller.update.bind(controller),
+);
+router.post(
+  "/:id/documentacion",
+  authenticate,
+  authorize("ADMIN"),
+  uploadTemarioDocumentacion.single("documentacion"),
+  controller.uploadDocumentacion.bind(controller),
 );
 router.delete(
   "/:id",

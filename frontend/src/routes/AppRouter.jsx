@@ -84,6 +84,7 @@ export default function AppRouter() {
               />
 
               <Route path="/temarios" element={<Temarios />} />
+              <Route path="/temarios/:id" element={<TemarioTemaDetalle />} />
 
               <Route path="/temario" element={<TemarioAlumno />} />
               <Route path="/temario/:id" element={<TemarioTemaDetalle />} />

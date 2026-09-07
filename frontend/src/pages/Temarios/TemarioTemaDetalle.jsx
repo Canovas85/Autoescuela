@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 import {
   Alert,
@@ -11,6 +12,10 @@ import {
   Chip,
   CircularProgress,
   Divider,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   FormControl,
   FormControlLabel,
   Grid,
@@ -22,12 +27,15 @@ import {
   Radio,
   RadioGroup,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SchoolIcon from "@mui/icons-material/School";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 
 import { temariosService } from "../../services/temariosService";
 import { getTemarioBTheory } from "./temarioBTheory";
@@ -43,13 +51,35 @@ export default function TemarioTemaDetalle() {
   const [corregido, setCorregido] = useState(false);
   const [guardandoResultado, setGuardandoResultado] = useState(false);
   const [resultadoGuardado, setResultadoGuardado] = useState(null);
+  const [videoDialogOpen, setVideoDialogOpen] = useState(false);
+  const [videoUrlDraft, setVideoUrlDraft] = useState("");
+  const [adminFeedback, setAdminFeedback] = useState(null);
+
+  const token = localStorage.getItem("token");
+  const isAdmin = (() => {
+    if (!token) {
+      return false;
+    }
+
+    try {
+      const decoded = jwtDecode(token);
+      return decoded?.rol === "ADMIN";
+    } catch (error) {
+      console.error("Error leyendo JWT del temario:", error);
+      return false;
+    }
+  })();
 
   useEffect(() => {
     const loadTema = async () => {
       try {
         setLoading(true);
         setError("");
-        const data = await temariosService.getMineById(id);
+
+        const data = isAdmin
+          ? await temariosService.getById(id)
+          : await temariosService.getMineById(id);
+
         setTemario(data);
         setRespuestas({});
         setCorregido(false);
@@ -65,7 +95,7 @@ export default function TemarioTemaDetalle() {
     };
 
     loadTema();
-  }, [id]);
+  }, [id, isAdmin]);
 
   const theory = useMemo(() => getTemarioBTheory(temario), [temario]);
   const miniTest = theory?.miniTest || [];
@@ -141,17 +171,97 @@ export default function TemarioTemaDetalle() {
     setResultadoGuardado(null);
   };
 
+  const hasDocumentacion = Boolean(temario?.documentacionRuta);
+  const hasClaseDirecto = Boolean(temario?.claseDirectoVideoUrl);
+  const backPath = isAdmin ? "/temarios" : "/temario";
+
+  const toLicenciasArray = (valor) => {
+    if (Array.isArray(valor)) {
+      return valor;
+    }
+
+    if (typeof valor === "string" && valor.trim()) {
+      return [valor.trim()];
+    }
+
+    return [];
+  };
+
+  const handleUploadDocumentacion = async (event) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    try {
+      setAdminFeedback(null);
+      const updated = await temariosService.uploadDocumentacion(id, file);
+      setTemario(updated);
+      setAdminFeedback({
+        ok: true,
+        message: "Documentación subida correctamente",
+      });
+    } catch (uploadError) {
+      setAdminFeedback({
+        ok: false,
+        message:
+          uploadError.response?.data?.message ||
+          "No se pudo subir la documentación",
+      });
+    } finally {
+      event.target.value = "";
+    }
+  };
+
+  const handleGuardarVideoTema = async () => {
+    if (!temario) {
+      return;
+    }
+
+    try {
+      setAdminFeedback(null);
+
+      const updated = await temariosService.update(id, {
+        titulo: temario.titulo || "",
+        descripcion: temario.descripcion || "",
+        tipoLicenciaObjetivo: toLicenciasArray(temario.tipoLicenciaObjetivo),
+        orden: Number(temario.orden ?? 0),
+        documentacionRuta: temario.documentacionRuta || "",
+        claseDirectoVideoUrl: videoUrlDraft,
+      });
+
+      setTemario(updated);
+      setVideoDialogOpen(false);
+      setVideoUrlDraft("");
+      setAdminFeedback({
+        ok: true,
+        message: "Clase en directo guardada correctamente",
+      });
+    } catch (saveError) {
+      setAdminFeedback({
+        ok: false,
+        message:
+          saveError.response?.data?.message ||
+          "No se pudo guardar la clase en directo",
+      });
+    }
+  };
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
+      <Stack
+        direction="row"
+        sx={{ justifyContent: "space-between", alignItems: "center" }}
+      >
         <Breadcrumbs>
           <Link
             underline="hover"
             color="inherit"
             component="button"
-            onClick={() => navigate("/temario")}
+            onClick={() => navigate(backPath)}
           >
-            Temario
+            {isAdmin ? "Temarios" : "Temario"}
           </Link>
           <Typography color="text.primary">Detalle del tema</Typography>
         </Breadcrumbs>
@@ -159,9 +269,9 @@ export default function TemarioTemaDetalle() {
         <Button
           variant="outlined"
           startIcon={<ArrowBackIcon />}
-          onClick={() => navigate("/temario")}
+          onClick={() => navigate(backPath)}
         >
-          Volver al temario
+          {isAdmin ? "Volver a temarios" : "Volver al temario"}
         </Button>
       </Stack>
 
@@ -184,8 +294,10 @@ export default function TemarioTemaDetalle() {
             <CardContent>
               <Stack
                 direction={{ xs: "column", md: "row" }}
-                justifyContent="space-between"
-                alignItems={{ xs: "flex-start", md: "center" }}
+                sx={{
+                  justifyContent: "space-between",
+                  alignItems: { xs: "flex-start", md: "center" },
+                }}
                 spacing={2}
               >
                 <Box>
@@ -201,7 +313,66 @@ export default function TemarioTemaDetalle() {
                   </Typography>
                 </Box>
 
-                <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  useFlexGap
+                  sx={{ flexWrap: "wrap" }}
+                >
+                  {isAdmin && (
+                    <Button
+                      component="label"
+                      variant="contained"
+                      startIcon={<UploadFileIcon />}
+                      sx={{ backgroundColor: "#f8fafc", color: "#0f172a" }}
+                    >
+                      Subir documentación
+                      <input
+                        hidden
+                        accept="application/pdf"
+                        type="file"
+                        onChange={handleUploadDocumentacion}
+                      />
+                    </Button>
+                  )}
+
+                  {isAdmin && (
+                    <Button
+                      variant="contained"
+                      startIcon={<OndemandVideoIcon />}
+                      onClick={() => {
+                        setVideoUrlDraft(temario?.claseDirectoVideoUrl || "");
+                        setVideoDialogOpen(true);
+                      }}
+                      sx={{ backgroundColor: "#f59e0b", color: "#fff" }}
+                    >
+                      Clase en Directo
+                    </Button>
+                  )}
+
+                  {hasDocumentacion && (
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      href={temario.documentacionRuta}
+                      target="_blank"
+                      rel="noreferrer"
+                      sx={{ backgroundColor: "#f8fafc", color: "#0f172a" }}
+                    >
+                      Documentación
+                    </Button>
+                  )}
+                  {hasClaseDirecto && (
+                    <Button
+                      variant="contained"
+                      color="warning"
+                      href={temario.claseDirectoVideoUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Clase en Directo
+                    </Button>
+                  )}
                   <Chip
                     icon={<SchoolIcon fontSize="small" />}
                     label={"Permisos " + licenciasTemarioLabel}
@@ -216,12 +387,21 @@ export default function TemarioTemaDetalle() {
                   />
                 </Stack>
               </Stack>
+
+              {isAdmin && adminFeedback && (
+                <Alert
+                  severity={adminFeedback.ok ? "success" : "error"}
+                  sx={{ mt: 2 }}
+                >
+                  {adminFeedback.message}
+                </Alert>
+              )}
             </CardContent>
           </Card>
 
           {theory ? (
             <Grid container spacing={3}>
-              <Grid item xs={12} md={7}>
+              <Grid size={{ xs: 12, md: 7 }}>
                 <Card sx={{ borderRadius: 3, height: "100%" }}>
                   <CardContent>
                     <Typography variant="h6" fontWeight={800} sx={{ mb: 1 }}>
@@ -259,7 +439,7 @@ export default function TemarioTemaDetalle() {
                 </Card>
               </Grid>
 
-              <Grid item xs={12} md={5}>
+              <Grid size={{ xs: 12, md: 5 }}>
                 <Stack spacing={3}>
                   <Card sx={{ borderRadius: 3 }}>
                     <CardContent>
@@ -435,9 +615,11 @@ export default function TemarioTemaDetalle() {
                             >
                               <Stack
                                 direction="row"
-                                justifyContent="space-between"
-                                alignItems="center"
-                                sx={{ mb: 0.5 }}
+                                sx={{
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  mb: 0.5,
+                                }}
                               >
                                 <Typography variant="body2" fontWeight={700}>
                                   {intento.aciertos}/{intento.totalPreguntas} (
@@ -477,6 +659,29 @@ export default function TemarioTemaDetalle() {
           )}
         </>
       )}
+
+      <Dialog
+        open={videoDialogOpen}
+        onClose={() => setVideoDialogOpen(false)}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>Clase en directo del tema</DialogTitle>
+        <DialogContent sx={{ pt: 1, display: "grid", gap: 2 }}>
+          <TextField
+            label="URL de YouTube o video"
+            fullWidth
+            value={videoUrlDraft}
+            onChange={(event) => setVideoUrlDraft(event.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setVideoDialogOpen(false)}>Cancelar</Button>
+          <Button variant="contained" onClick={handleGuardarVideoTema}>
+            Guardar video
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

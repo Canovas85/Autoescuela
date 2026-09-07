@@ -43,4 +43,15 @@ export const temariosService = {
     );
     return response.data;
   },
+
+  async uploadDocumentacion(id, file) {
+    const formData = new FormData();
+    formData.append("documentacion", file);
+
+    const response = await api.post(`/temarios/${id}/documentacion`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    return response.data;
+  },
 };

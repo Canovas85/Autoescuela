@@ -36,8 +36,7 @@ export class TemariosService {
 
   mapTemarioAlumno(temarioConProgreso) {
     const progreso = temarioConProgreso.progreso?.[0] || null;
-
-    return {
+    const mapped = {
       id: temarioConProgreso.id,
       titulo: temarioConProgreso.titulo,
       descripcion: temarioConProgreso.descripcion,
@@ -47,6 +46,16 @@ export class TemariosService {
       dominio: progreso?.dominio ?? 0,
       ultimaRevision: progreso?.ultimaRevision ?? null,
     };
+
+    if (temarioConProgreso.documentacionRuta) {
+      mapped.documentacionRuta = temarioConProgreso.documentacionRuta;
+    }
+
+    if (temarioConProgreso.claseDirectoVideoUrl) {
+      mapped.claseDirectoVideoUrl = temarioConProgreso.claseDirectoVideoUrl;
+    }
+
+    return mapped;
   }
 
   mapMiniTestIntento(intento) {
@@ -81,12 +90,32 @@ export class TemariosService {
       throw new Error("El orden debe ser un número entero igual o mayor que 0");
     }
 
-    return {
+    const payload = {
       titulo,
       descripcion: normalizarTexto(data.descripcion) || null,
       tipoLicenciaObjetivo,
       orden,
     };
+
+    const documentacionRuta =
+      typeof data.documentacionRuta === "string"
+        ? data.documentacionRuta.trim() || null
+        : null;
+
+    const claseDirectoVideoUrl =
+      typeof data.claseDirectoVideoUrl === "string"
+        ? data.claseDirectoVideoUrl.trim() || null
+        : null;
+
+    if (documentacionRuta !== null) {
+      payload.documentacionRuta = documentacionRuta;
+    }
+
+    if (claseDirectoVideoUrl !== null) {
+      payload.claseDirectoVideoUrl = claseDirectoVideoUrl;
+    }
+
+    return payload;
   }
 
   validarMiniTestResultado(data) {
@@ -236,8 +265,24 @@ export class TemariosService {
     return temario;
   }
 
-  async update(id, data) {
-    return this.repository.update(id, this.validarPayload(data));
+  async update(id, data, documentacionFile = null) {
+    const payload = this.validarPayload(data);
+
+    if (documentacionFile) {
+      payload.documentacionRuta = `/api/uploads/temarios/${documentacionFile.filename}`;
+    }
+
+    return this.repository.update(id, payload);
+  }
+
+  async uploadDocumentacion(id, documentacionFile) {
+    if (!documentacionFile) {
+      throw new Error("Debe seleccionar un PDF para subir");
+    }
+
+    return this.repository.update(id, {
+      documentacionRuta: `/api/uploads/temarios/${documentacionFile.filename}`,
+    });
   }
 
   async delete(id) {
