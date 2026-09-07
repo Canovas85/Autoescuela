@@ -47,9 +47,12 @@ export class PreguntasDGTRepository {
   }
 
   async delete(id) {
-    return this.prisma.preguntaDGT.delete({
+    return this.prisma.preguntaDGT.update({
       where: {
         id,
+      },
+      data: {
+        activa: false,
       },
     });
   }
@@ -92,6 +95,23 @@ export class PreguntasDGTRepository {
     });
 
     return preguntas.sort(() => Math.random() - 0.5).slice(0, cantidad);
+  }
+
+  async getActiveQuestionsByIds(ids, licencia) {
+    return this.prisma.preguntaDGT.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
+        activa: true,
+        licencia: {
+          has: licencia,
+        },
+      },
+      include: {
+        respuestas: true,
+      },
+    });
   }
 
   async saveExamResult(data) {

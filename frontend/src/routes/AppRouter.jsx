@@ -25,6 +25,7 @@ import Bonos from "../pages/Bonos/Bonos";
 import SolicitudesExamen from "../pages/SolicitudesExamen/SolicitudesExamen";
 import Promociones from "../pages/Promociones/Promociones";
 import TarifasMatricula from "../pages/TarifasMatricula/TarifasMatricula";
+import TarifasConcepto from "../pages/TarifasConcepto/TarifasConcepto";
 import ClasesDirecto from "../pages/ClasesDirecto/ClasesDirecto";
 import ClaseDirectoDetalle from "../pages/ClasesDirecto/ClaseDirectoDetalle";
 import ClasesDirectoAdmin from "../pages/ClasesDirectoAdmin/ClasesDirectoAdmin";
@@ -34,6 +35,7 @@ import Facturas from "../pages/Facturas/Facturas";
 import MisFacturas from "../pages/Facturas/MisFacturas";
 import ProfesorAlumnos from "../pages/ProfesorAlumnos/ProfesorAlumnos";
 import ProfesorVehiculos from "../pages/ProfesorVehiculos/ProfesorVehiculos";
+import TestDGT from "../pages/TestDGT/TestDGT";
 
 function RequireAuth() {
   const token = localStorage.getItem("token");
@@ -85,6 +87,7 @@ export default function AppRouter() {
 
               <Route path="/temario" element={<TemarioAlumno />} />
               <Route path="/temario/:id" element={<TemarioTemaDetalle />} />
+              <Route path="/test-dgt" element={<TestDGT />} />
 
               <Route path="/clases-directo" element={<ClasesDirecto />} />
 
@@ -100,6 +103,7 @@ export default function AppRouter() {
               <Route path="/pago-matricula" element={<PagoMatricula />} />
 
               <Route path="/tarifas-matricula" element={<TarifasMatricula />} />
+              <Route path="/tarifas-concepto" element={<TarifasConcepto />} />
 
               <Route
                 path="/solicitudes-examen"

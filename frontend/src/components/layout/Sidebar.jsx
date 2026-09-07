@@ -79,6 +79,11 @@ const menus = {
           path: "/vehiculos",
           icon: <DirectionsCarFilledIcon fontSize="small" />,
         },
+        {
+          label: "Otros Usuarios",
+          path: "/otros-usuarios",
+          icon: <GroupIcon fontSize="small" />,
+        },
       ],
     },
 
@@ -87,13 +92,13 @@ const menus = {
       icon: <PaymentsIcon />,
       children: [
         {
-          label: "Matriculas",
-          path: "/matricula",
+          label: "Tarifas matricula",
+          path: "/tarifas-matricula",
           icon: <LocalOfferIcon fontSize="small" />,
         },
         {
-          label: "Tarifas matricula",
-          path: "/tarifas-matricula",
+          label: "Tarifas por permisos",
+          path: "/tarifas-concepto",
           icon: <LocalOfferIcon fontSize="small" />,
         },
         {
@@ -133,6 +138,11 @@ const menus = {
           path: "/test-dgt",
           icon: <QuizIcon fontSize="small" />,
         },
+        {
+          label: "Solicitud Examen Teórico",
+          path: "/solicitudes-teorico",
+          icon: <ArticleIcon fontSize="small" />,
+        },
       ],
     },
 
@@ -146,8 +156,8 @@ const menus = {
           icon: <ReceiptLongIcon fontSize="small" />,
         },
         {
-          label: "Solicitud Examen",
-          path: "/solicitudes-examen",
+          label: "Solicitud Examen Practico",
+          path: "/solicitudes-examen-practico",
           icon: <ArticleIcon fontSize="small" />,
         },
       ],
@@ -175,6 +185,16 @@ const menus = {
       icon: <AssessmentIcon />,
       children: [
         {
+          label: "Matriculas",
+          path: "/matricula",
+          icon: <LocalOfferIcon fontSize="small" />,
+        },
+        {
+          label: "Facturas",
+          path: "/facturas",
+          icon: <ReceiptLongIcon fontSize="small" />,
+        },
+        {
           label: "Pagos",
           path: "/pagos",
           icon: <PaymentIcon fontSize="small" />,
@@ -183,11 +203,6 @@ const menus = {
           label: "Informes",
           path: "/informes",
           icon: <AssessmentIcon fontSize="small" />,
-        },
-        {
-          label: "Facturas",
-          path: "/facturas",
-          icon: <ReceiptLongIcon fontSize="small" />,
         },
       ],
     },

@@ -114,8 +114,6 @@ async function main() {
       tipoLicenciaObjetivo: "B",
       fechaNacimiento: new Date("2002-05-18T00:00:00.000Z"),
       horasPracticasCompletadas: 6,
-      matriculaPagada: true,
-      fechaMatriculaPago: daysAgo(35),
       profesorAsignadoId: profesor.id,
       activo: true,
     },
@@ -124,8 +122,6 @@ async function main() {
       tipoLicenciaObjetivo: "B",
       fechaNacimiento: new Date("2002-05-18T00:00:00.000Z"),
       horasPracticasCompletadas: 6,
-      matriculaPagada: true,
-      fechaMatriculaPago: daysAgo(35),
       profesorAsignadoId: profesor.id,
       activo: true,
     },
@@ -137,7 +133,7 @@ async function main() {
       titulo: "Señales de circulación",
       descripcion:
         "Reconocimiento de señales verticales, horizontales y de balizamiento.",
-      tipoLicenciaObjetivo: "B",
+      tipoLicenciaObjetivo: ["B"],
       orden: 1,
       revisado: true,
       dominio: 90,
@@ -147,7 +143,7 @@ async function main() {
       id: "temario-002",
       titulo: "Prioridad y preferencia",
       descripcion: "Reglas de prioridad en intersecciones y glorietas.",
-      tipoLicenciaObjetivo: "B",
+      tipoLicenciaObjetivo: ["B"],
       orden: 2,
       revisado: false,
       dominio: 45,
@@ -158,7 +154,7 @@ async function main() {
       titulo: "Velocidad y distancia de seguridad",
       descripcion:
         "Límites, adaptación de la velocidad y distancia de reacción.",
-      tipoLicenciaObjetivo: "B",
+      tipoLicenciaObjetivo: ["B"],
       orden: 3,
       revisado: true,
       dominio: 82,
@@ -168,7 +164,7 @@ async function main() {
       id: "temario-004",
       titulo: "Maniobras básicas",
       descripcion: "Cambios de sentido, estacionamiento y adelantamientos.",
-      tipoLicenciaObjetivo: "B",
+      tipoLicenciaObjetivo: ["B"],
       orden: 4,
       revisado: false,
       dominio: 55,
@@ -178,7 +174,7 @@ async function main() {
       id: "temario-005",
       titulo: "Sistemas de seguridad",
       descripcion: "Cinturón, airbags, frenada y ayudas electrónicas.",
-      tipoLicenciaObjetivo: "B",
+      tipoLicenciaObjetivo: ["B"],
       orden: 5,
       revisado: true,
       dominio: 75,
@@ -188,7 +184,7 @@ async function main() {
       id: "temario-006",
       titulo: "Alcohol, drogas y fatiga",
       descripcion: "Efectos sobre la conducción y prevención de riesgos.",
-      tipoLicenciaObjetivo: "B",
+      tipoLicenciaObjetivo: ["B"],
       orden: 6,
       revisado: false,
       dominio: 30,
@@ -198,7 +194,7 @@ async function main() {
       id: "temario-007",
       titulo: "Documentación del vehículo",
       descripcion: "Permisos, seguro, ITV y documentación obligatoria.",
-      tipoLicenciaObjetivo: "B",
+      tipoLicenciaObjetivo: ["B"],
       orden: 7,
       revisado: false,
       dominio: 40,
@@ -208,7 +204,7 @@ async function main() {
       id: "temario-008",
       titulo: "Conducción eficiente",
       descripcion: "Consumo, anticipación y conducción responsable.",
-      tipoLicenciaObjetivo: "B",
+      tipoLicenciaObjetivo: ["B"],
       orden: 8,
       revisado: true,
       dominio: 88,
@@ -640,6 +636,67 @@ async function main() {
       observaciones: "En espera de realizar la práctica final.",
     },
   });
+
+  const preguntasDGTBase = Array.from({ length: 30 }, (_, index) => {
+    const numero = index + 1;
+    const preguntaId = `pregunta-dgt-b-${String(numero).padStart(3, "0")}`;
+    const correctaIdx = index % 4;
+
+    return {
+      id: preguntaId,
+      licencia: ["B"],
+      enunciado: `Pregunta DGT ${numero}: En una situación estándar de circulación, ¿cuál es la actuación más segura?`,
+      explicacion:
+        "Debes priorizar siempre una conducción preventiva, respetando señalización, distancia y normas de prioridad.",
+      activa: true,
+      respuestas: [
+        "Mantener velocidad y distancia de seguridad.",
+        "Acelerar para salir antes de la maniobra.",
+        "Circular muy cerca del vehículo delantero.",
+        "Ignorar la señal si no hay tráfico visible.",
+      ].map((texto, respuestaIndex) => ({
+        id: `${preguntaId}-respuesta-${respuestaIndex + 1}`,
+        texto,
+        correcta: respuestaIndex === correctaIdx,
+        orden: respuestaIndex + 1,
+      })),
+    };
+  });
+
+  for (const pregunta of preguntasDGTBase) {
+    await prisma.preguntaDGT.upsert({
+      where: { id: pregunta.id },
+      update: {
+        licencia: pregunta.licencia,
+        enunciado: pregunta.enunciado,
+        explicacion: pregunta.explicacion,
+        activa: pregunta.activa,
+      },
+      create: {
+        id: pregunta.id,
+        licencia: pregunta.licencia,
+        enunciado: pregunta.enunciado,
+        explicacion: pregunta.explicacion,
+        activa: pregunta.activa,
+      },
+    });
+
+    await prisma.respuestaPreguntaDGT.deleteMany({
+      where: {
+        preguntaId: pregunta.id,
+      },
+    });
+
+    await prisma.respuestaPreguntaDGT.createMany({
+      data: pregunta.respuestas.map((respuesta) => ({
+        id: respuesta.id,
+        preguntaId: pregunta.id,
+        texto: respuesta.texto,
+        correcta: respuesta.correcta,
+        orden: respuesta.orden,
+      })),
+    });
+  }
 
   console.log("Seed inicial completada correctamente", {
     admin: admin.email,

@@ -74,6 +74,7 @@ model Alumno {
   solicitudesExamen         SolicitudExamen[]
   temariosProgreso          TemarioProgreso[]
   testsPractica             TestPractica[]
+  examenesDGT               ExamenDGTAlumno[]
 
   @@map("alumnos")
 }
@@ -140,6 +141,53 @@ model TestPractica {
   @@index([temarioId])
   @@index([fecha])
   @@map("tests_practica")
+}
+
+model PreguntaDGT {
+  id          String                 @id @default(uuid())
+  licencia    String[]
+  enunciado   String
+  imagenRuta  String?
+  explicacion String?
+  activa      Boolean                @default(true)
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
+  respuestas  RespuestaPreguntaDGT[]
+
+  @@index([activa])
+  @@index([createdAt])
+  @@index([licencia], type: Gin)
+  @@map("preguntas_dgt")
+}
+
+model RespuestaPreguntaDGT {
+  id         String      @id @default(uuid())
+  preguntaId String
+  texto      String
+  correcta   Boolean     @default(false)
+  orden      Int?
+  pregunta   PreguntaDGT @relation(fields: [preguntaId], references: [id], onDelete: Cascade)
+
+  @@index([preguntaId])
+  @@map("respuestas_pregunta_dgt")
+}
+
+model ExamenDGTAlumno {
+  id               String   @id @default(uuid())
+  alumnoId         String
+  licencia         String
+  totalPreguntas   Int
+  aciertos         Int
+  fallos           Int
+  aprobado         Boolean
+  duracionSegundos Int?
+  fecha            DateTime @default(now())
+  alumno           Alumno   @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+
+  @@index([alumnoId])
+  @@index([licencia])
+  @@index([fecha])
+  @@map("examenes_dgt_alumno")
 }
 
 model Bono {
@@ -263,20 +311,40 @@ enum TipoPrecio {
 }
 
 model TarifaConcepto {
-  id          String     @id @default(uuid())
+  id          String                    @id @default(uuid())
   permiso     String
   concepto    String
-  precio      Decimal    @db.Decimal(10, 2)
+  precio      Decimal                   @db.Decimal(10, 2)
   tipo        TipoPrecio
   descripcion String?
-  activa      Boolean    @default(true)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  activa      Boolean                   @default(true)
+  createdAt   DateTime                  @default(now())
+  updatedAt   DateTime                  @updatedAt
+  historial   TarifaConceptoHistorial[]
+  matriculas  MatriculaConcepto[]
 
   @@unique([permiso, concepto])
   @@index([permiso])
   @@index([activa])
   @@map("tarifas_concepto")
+}
+
+model TarifaConceptoHistorial {
+  id               String         @id @default(uuid())
+  tarifaConceptoId String
+  permiso          String
+  concepto         String
+  precioAnterior   Decimal?       @db.Decimal(10, 2)
+  precioNuevo      Decimal        @db.Decimal(10, 2)
+  motivo           String?
+  usuarioId        String?
+  createdAt        DateTime       @default(now())
+  tarifaConcepto   TarifaConcepto @relation(fields: [tarifaConceptoId], references: [id], onDelete: Cascade)
+
+  @@index([tarifaConceptoId])
+  @@index([permiso])
+  @@index([createdAt])
+  @@map("tarifas_concepto_historial")
 }
 
 model TarifaMatricula {
@@ -291,23 +359,43 @@ model TarifaMatricula {
 }
 
 model Matricula {
-  id            String     @id @default(uuid())
+  id            String              @id @default(uuid())
   alumnoId      String
   licencia      String
-  precioBase    Decimal    @db.Decimal(10, 2)
-  precioFinal   Decimal    @db.Decimal(10, 2)
+  precioBase    Decimal             @db.Decimal(10, 2)
+  precioFinal   Decimal             @db.Decimal(10, 2)
   promocionId   String?
-  estado        String     @default("PENDIENTE")
-  fechaCreacion DateTime   @default(now())
+  estado        String              @default("PENDIENTE")
+  fechaCreacion DateTime            @default(now())
   fechaPago     DateTime?
   observaciones String?
   factura       Factura?
-  alumno        Alumno     @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
-  promocion     Promocion? @relation(fields: [promocionId], references: [id])
+  conceptos     MatriculaConcepto[]
+  alumno        Alumno              @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  promocion     Promocion?          @relation(fields: [promocionId], references: [id])
 
   @@index([alumnoId])
   @@index([estado])
   @@map("matriculas")
+}
+
+model MatriculaConcepto {
+  id               String         @id @default(uuid())
+  matriculaId      String
+  tarifaConceptoId String
+  cantidad         Int            @default(1)
+  precioUnitario   Decimal        @db.Decimal(10, 2)
+  subtotal         Decimal        @db.Decimal(10, 2)
+  activo           Boolean        @default(true)
+  observaciones    String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  matricula        Matricula      @relation(fields: [matriculaId], references: [id], onDelete: Cascade)
+  tarifaConcepto   TarifaConcepto @relation(fields: [tarifaConceptoId], references: [id], onDelete: Restrict)
+
+  @@index([matriculaId])
+  @@index([tarifaConceptoId])
+  @@map("matriculas_conceptos")
 }
 
 model Factura {

@@ -201,6 +201,37 @@ exports.Prisma.TestPracticaScalarFieldEnum = {
   totalPreguntas: 'totalPreguntas'
 };
 
+exports.Prisma.PreguntaDGTScalarFieldEnum = {
+  id: 'id',
+  licencia: 'licencia',
+  enunciado: 'enunciado',
+  imagenRuta: 'imagenRuta',
+  explicacion: 'explicacion',
+  activa: 'activa',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RespuestaPreguntaDGTScalarFieldEnum = {
+  id: 'id',
+  preguntaId: 'preguntaId',
+  texto: 'texto',
+  correcta: 'correcta',
+  orden: 'orden'
+};
+
+exports.Prisma.ExamenDGTAlumnoScalarFieldEnum = {
+  id: 'id',
+  alumnoId: 'alumnoId',
+  licencia: 'licencia',
+  totalPreguntas: 'totalPreguntas',
+  aciertos: 'aciertos',
+  fallos: 'fallos',
+  aprobado: 'aprobado',
+  duracionSegundos: 'duracionSegundos',
+  fecha: 'fecha'
+};
+
 exports.Prisma.BonoScalarFieldEnum = {
   id: 'id',
   nombre: 'nombre',
@@ -290,6 +321,18 @@ exports.Prisma.TarifaConceptoScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.TarifaConceptoHistorialScalarFieldEnum = {
+  id: 'id',
+  tarifaConceptoId: 'tarifaConceptoId',
+  permiso: 'permiso',
+  concepto: 'concepto',
+  precioAnterior: 'precioAnterior',
+  precioNuevo: 'precioNuevo',
+  motivo: 'motivo',
+  usuarioId: 'usuarioId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.TarifaMatriculaScalarFieldEnum = {
   id: 'id',
   licencia: 'licencia',
@@ -310,6 +353,19 @@ exports.Prisma.MatriculaScalarFieldEnum = {
   fechaCreacion: 'fechaCreacion',
   fechaPago: 'fechaPago',
   observaciones: 'observaciones'
+};
+
+exports.Prisma.MatriculaConceptoScalarFieldEnum = {
+  id: 'id',
+  matriculaId: 'matriculaId',
+  tarifaConceptoId: 'tarifaConceptoId',
+  cantidad: 'cantidad',
+  precioUnitario: 'precioUnitario',
+  subtotal: 'subtotal',
+  activo: 'activo',
+  observaciones: 'observaciones',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.FacturaScalarFieldEnum = {
@@ -362,6 +418,9 @@ exports.Prisma.ModelName = {
   TemarioProgreso: 'TemarioProgreso',
   ClaseDirecto: 'ClaseDirecto',
   TestPractica: 'TestPractica',
+  PreguntaDGT: 'PreguntaDGT',
+  RespuestaPreguntaDGT: 'RespuestaPreguntaDGT',
+  ExamenDGTAlumno: 'ExamenDGTAlumno',
   Bono: 'Bono',
   CompraBono: 'CompraBono',
   SolicitudExamen: 'SolicitudExamen',
@@ -370,8 +429,10 @@ exports.Prisma.ModelName = {
   Examen: 'Examen',
   Promocion: 'Promocion',
   TarifaConcepto: 'TarifaConcepto',
+  TarifaConceptoHistorial: 'TarifaConceptoHistorial',
   TarifaMatricula: 'TarifaMatricula',
   Matricula: 'Matricula',
+  MatriculaConcepto: 'MatriculaConcepto',
   Factura: 'Factura'
 };
 

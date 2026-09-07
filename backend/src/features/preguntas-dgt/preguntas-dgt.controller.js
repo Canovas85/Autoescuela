@@ -54,7 +54,7 @@ export class PreguntasDGTController {
       await this.service.delete(req.params.id);
 
       return res.status(200).json({
-        message: "Pregunta eliminada correctamente",
+        message: "Pregunta desactivada correctamente",
       });
     } catch (error) {
       return res.status(400).json({
@@ -64,15 +64,27 @@ export class PreguntasDGTController {
   }
 
   async activate(req, res) {
-    const pregunta = await this.service.activate(req.params.id);
+    try {
+      const pregunta = await this.service.activate(req.params.id);
 
-    return res.status(200).json(pregunta);
+      return res.status(200).json(pregunta);
+    } catch (error) {
+      return res.status(400).json({
+        message: error.message,
+      });
+    }
   }
 
   async deactivate(req, res) {
-    const pregunta = await this.service.deactivate(req.params.id);
+    try {
+      const pregunta = await this.service.deactivate(req.params.id);
 
-    return res.status(200).json(pregunta);
+      return res.status(200).json(pregunta);
+    } catch (error) {
+      return res.status(400).json({
+        message: error.message,
+      });
+    }
   }
 
   async generarExamen(req, res) {

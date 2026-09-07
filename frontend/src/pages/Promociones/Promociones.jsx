@@ -29,6 +29,7 @@ import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 
 import { promocionesService } from "../../services/promocionesService";
+import { tarifasMatriculaService } from "../../services/tarifasMatriculaService";
 
 const LICENCIAS = ["B", "A1", "A2", "A", "C", "D", "E"];
 
@@ -41,7 +42,7 @@ const emptyForm = {
   descripcion: "",
   precioOriginal: "",
   precioPromocional: "",
-  licenciasAplicables: [],
+  licenciasAplicables: ["B"],
   fechaInicio: "",
   fechaFin: "",
   activa: true,
@@ -53,6 +54,7 @@ const emptyForm = {
 
 export default function Promociones() {
   const [rows, setRows] = useState([]);
+  const [tarifasMatricula, setTarifasMatricula] = useState([]);
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(emptyForm);
@@ -92,9 +94,50 @@ export default function Promociones() {
     }
   };
 
+  const loadTarifasMatricula = async () => {
+    try {
+      const data = await tarifasMatriculaService.getAll();
+      setTarifasMatricula(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     loadPromociones();
+    loadTarifasMatricula();
   }, []);
+
+  const licenciaSeleccionada = form.licenciasAplicables?.[0] || "";
+
+  const tarifaLicenciaSeleccionada = useMemo(
+    () =>
+      tarifasMatricula.find(
+        (tarifa) => tarifa.licencia === licenciaSeleccionada,
+      ),
+    [tarifasMatricula, licenciaSeleccionada],
+  );
+
+  const precioOriginalDesdeTarifa = Boolean(tarifaLicenciaSeleccionada);
+
+  useEffect(() => {
+    if (!open || !tarifaLicenciaSeleccionada) {
+      return;
+    }
+
+    const precioTarifa = String(tarifaLicenciaSeleccionada.precio ?? "");
+
+    setForm((prev) => {
+      if (prev.precioOriginal === precioTarifa) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        precioOriginal: precioTarifa,
+      };
+    });
+  }, [open, tarifaLicenciaSeleccionada]);
 
   const filteredRows = useMemo(() => rows, [rows]);
 
@@ -125,6 +168,24 @@ export default function Promociones() {
   const handleOpenCreate = () => {
     resetForm();
     setOpen(true);
+  };
+
+  const handleLicenciasChange = (event) => {
+    const licenciaBase = event.target.value;
+
+    const tarifaSeleccionada = tarifasMatricula.find(
+      (tarifa) => tarifa.licencia === licenciaBase,
+    );
+
+    setForm((prev) => ({
+      ...prev,
+      licenciasAplicables: licenciaBase ? [licenciaBase] : [],
+      precioOriginal:
+        tarifaSeleccionada?.precio !== undefined &&
+        tarifaSeleccionada?.precio !== null
+          ? String(tarifaSeleccionada.precio)
+          : prev.precioOriginal,
+    }));
   };
 
   const handleFileChange = (event) => {
@@ -191,7 +252,10 @@ export default function Promociones() {
       descripcion: row.descripcion || "",
       precioOriginal: row.precioOriginal || "",
       precioPromocional: row.precioPromocional || "",
-      licenciasAplicables: row.licenciasAplicables || [],
+      licenciasAplicables:
+        row.licenciasAplicables && row.licenciasAplicables.length > 0
+          ? [row.licenciasAplicables[0]]
+          : ["B"],
       fechaInicio: row.fechaInicio ? row.fechaInicio.split("T")[0] : "",
 
       fechaFin: row.fechaFin ? row.fechaFin.split("T")[0] : "",
@@ -576,11 +640,29 @@ export default function Promociones() {
                   }))
                 }
               />
+              <FormControl fullWidth>
+                <InputLabel>Licencias</InputLabel>
+
+                <Select
+                  label="Licencias"
+                  value={licenciaSeleccionada}
+                  onChange={handleLicenciasChange}
+                >
+                  {LICENCIAS.map((licencia) => (
+                    <MenuItem key={licencia} value={licencia}>
+                      {licencia}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
               <TextField
                 label="Precio Original"
                 type="number"
                 fullWidth
                 value={form.precioOriginal}
+                InputProps={{
+                  readOnly: precioOriginalDesdeTarifa,
+                }}
                 onChange={(event) =>
                   setForm((prev) => ({
                     ...prev,
@@ -643,32 +725,6 @@ export default function Promociones() {
                   }}
                 />
               </Box>
-
-              <FormControl fullWidth>
-                <InputLabel>Licencias</InputLabel>
-
-                <Select
-                  multiple
-                  label="Licencias"
-                  value={form.licenciasAplicables}
-                  renderValue={(selected) => selected.join(", ")}
-                  onChange={(event) =>
-                    setForm((prev) => ({
-                      ...prev,
-                      licenciasAplicables:
-                        typeof event.target.value === "string"
-                          ? event.target.value.split(",")
-                          : event.target.value,
-                    }))
-                  }
-                >
-                  {LICENCIAS.map((licencia) => (
-                    <MenuItem key={licencia} value={licencia}>
-                      {licencia}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
 
               <FormControlLabel
                 control={
