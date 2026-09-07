@@ -262,6 +262,7 @@ export default function Temarios() {
             justifyContent: "center",
             width: "100%",
             gap: 0.5,
+            mt: 1,
           }}
         >
           <IconButton

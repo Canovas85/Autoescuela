@@ -325,6 +325,7 @@ export default function Bonos() {
         <DialogTitle>{editingId ? "Editar bono" : "Nuevo bono"}</DialogTitle>
         <DialogContent sx={{ pt: 1, display: "grid", gap: 2 }}>
           <TextField
+            sx={{ mt: 2 }}
             label="Nombre"
             fullWidth
             value={form.nombre}

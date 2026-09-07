@@ -242,29 +242,20 @@ export default function TarifasMatricula() {
       width: 180,
       sortable: false,
       renderCell: (params) => (
-        <Box sx={{ display: "flex", gap: 1 }}>
-          <IconButton onClick={() => handleEdit(params.row)} size="small">
-            <EditIcon fontSize="small" />
+        <Box sx={{ display: "flex", gap: 1, mt: 1 }}>
+          <IconButton color="primary" onClick={() => handleEdit(params.row)}>
+            <EditIcon />
           </IconButton>
 
           <IconButton
             onClick={() => handleToggleActivo(params.row)}
-            size="small"
             color={params.row.activa ? "warning" : "success"}
           >
-            {params.row.activa ? (
-              <ToggleOffIcon fontSize="small" />
-            ) : (
-              <ToggleOnIcon fontSize="small" />
-            )}
+            {params.row.activa ? <ToggleOffIcon /> : <ToggleOnIcon />}
           </IconButton>
 
-          <IconButton
-            onClick={() => handleDelete(params.row)}
-            size="small"
-            color="error"
-          >
-            <DeleteIcon fontSize="small" />
+          <IconButton onClick={() => handleDelete(params.row)} color="error">
+            <DeleteIcon />
           </IconButton>
         </Box>
       ),
@@ -323,7 +314,7 @@ export default function TarifasMatricula() {
             gap: 2,
           }}
         >
-          <FormControl fullWidth>
+          <FormControl fullWidth sx={{ mt: 2 }}>
             <InputLabel>Licencia</InputLabel>
 
             <Select
