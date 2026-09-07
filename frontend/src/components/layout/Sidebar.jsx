@@ -83,6 +83,7 @@ const menus = {
           label: "Otros Usuarios",
           path: "/otros-usuarios",
           icon: <GroupIcon fontSize="small" />,
+          disabled: true,
         },
       ],
     },
@@ -518,9 +519,28 @@ export default function Sidebar({ navigate, location }) {
                         {item.children?.map((child) => (
                           <ListItemButton
                             key={child.path}
-                            sx={{ pl: 5 }}
-                            selected={location.pathname === child.path}
-                            onClick={() => navigate(child.path)}
+                            sx={{
+                              pl: 5,
+                              color: child.disabled ? "#374151" : "inherit",
+                              cursor: child.disabled
+                                ? "not-allowed"
+                                : "pointer",
+                              "& .MuiListItemText-primary": {
+                                color: child.disabled ? "#374151" : "inherit",
+                              },
+                              "&:hover": {
+                                backgroundColor: child.disabled
+                                  ? "transparent"
+                                  : undefined,
+                              },
+                            }}
+                            selected={
+                              !child.disabled &&
+                              location.pathname === child.path
+                            }
+                            onClick={() => {
+                              if (!child.disabled) navigate(child.path);
+                            }}
                           >
                             <>
                               {child.icon}
