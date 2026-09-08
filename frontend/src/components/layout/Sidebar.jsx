@@ -197,11 +197,6 @@ const menus = {
           icon: <ReceiptLongIcon fontSize="small" />,
         },
         {
-          label: "Documentos alumnos",
-          path: "/documentos-alumno-admin",
-          icon: <DescriptionIcon fontSize="small" />,
-        },
-        {
           label: "Pagos",
           path: "/pagos",
           icon: <PaymentIcon fontSize="small" />,
@@ -210,6 +205,17 @@ const menus = {
           label: "Informes",
           path: "/informes",
           icon: <AssessmentIcon fontSize="small" />,
+        },
+      ],
+    },
+    {
+      label: "Documentación",
+      icon: <DescriptionIcon />,
+      children: [
+        {
+          label: "Documentos alumnos",
+          path: "/documentos-alumno-admin",
+          icon: <DescriptionIcon fontSize="small" />,
         },
       ],
     },
@@ -305,7 +311,7 @@ const menus = {
     },
 
     {
-      label: "Exámenes",
+      label: "Convocatorias",
       icon: <FactCheckIcon />,
       children: [
         {

@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 
+import TrafficIcon from "@mui/icons-material/Traffic";
 import PersonIcon from "@mui/icons-material/Person";
 import SchoolIcon from "@mui/icons-material/School";
 import AssignmentIcon from "@mui/icons-material/Assignment";
@@ -588,9 +589,10 @@ export default function StudentDashboard({ data }) {
               <Divider sx={{ my: 2 }} />
 
               <Box>
-                <Typography variant="subtitle1" fontWeight={800} sx={{ mb: 1 }}>
-                  Simulacros DGT
-                </Typography>
+                <SectionTitle
+                  icon={<TrafficIcon sx={{ color: "#2563eb" }} />}
+                  title="Simulacros DGT"
+                />
 
                 <Grid container spacing={1.25}>
                   <Grid item xs={12} sm={4}>

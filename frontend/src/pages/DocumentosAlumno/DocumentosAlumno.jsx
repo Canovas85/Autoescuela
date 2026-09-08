@@ -9,6 +9,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -303,14 +304,14 @@ export default function DocumentosAlumno() {
         sortable: false,
         filterable: false,
         disableColumnMenu: true,
-        flex: 1.6,
+        flex: 1.2,
         renderCell: (params) => (
           <Stack direction="row" spacing={1}>
             {(params.row.archivos || []).length > 0 && (
-              <Button
+              <IconButton
+                color="primary"
                 size="small"
-                variant="outlined"
-                startIcon={<VisibilityIcon />}
+                aria-label="Ver archivo"
                 onClick={() =>
                   window.open(
                     buildFileUrl(params.row.archivos[0]?.ruta),
@@ -318,28 +319,27 @@ export default function DocumentosAlumno() {
                   )
                 }
               >
-                Ver
-              </Button>
+                <VisibilityIcon />
+              </IconButton>
             )}
-            <Button
+            <IconButton
+              color="primary"
               size="small"
-              variant="outlined"
-              startIcon={<EditIcon />}
+              aria-label="Editar documento"
               disabled={params.row.estado !== "PENDIENTE_VALIDACION"}
               onClick={() => handleEditRow(params.row)}
             >
-              Editar
-            </Button>
-            <Button
-              size="small"
+              <EditIcon />
+            </IconButton>
+            <IconButton
               color="error"
-              variant="outlined"
-              startIcon={<DeleteIcon />}
+              size="small"
+              aria-label="Eliminar documento"
               disabled={params.row.estado !== "PENDIENTE_VALIDACION"}
               onClick={() => handleDelete(params.row)}
             >
-              Eliminar
-            </Button>
+              <DeleteIcon />
+            </IconButton>
           </Stack>
         ),
       },

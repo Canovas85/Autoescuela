@@ -2,10 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import {
   Alert,
   Box,
-  Button,
   Chip,
+  IconButton,
   Snackbar,
   Stack,
+  Button,
   Typography,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
@@ -155,29 +156,27 @@ export default function DocumentosAlumnoAdmin() {
         sortable: false,
         filterable: false,
         disableColumnMenu: true,
-        flex: 1.5,
+        flex: 1.2,
         renderCell: (params) => (
           <Stack direction="row" spacing={1}>
-            <Button
-              size="small"
-              variant="contained"
+            <IconButton
               color="success"
-              startIcon={<CheckCircleIcon />}
+              size="small"
+              aria-label="Validar documento"
               disabled={params.row.estado === "VALIDADO"}
               onClick={() => handleValidate(params.row.id)}
             >
-              Validar
-            </Button>
-            <Button
-              size="small"
-              variant="outlined"
+              <CheckCircleIcon />
+            </IconButton>
+            <IconButton
               color="error"
-              startIcon={<CancelIcon />}
+              size="small"
+              aria-label="Rechazar documento"
               disabled={params.row.estado === "RECHAZADO"}
               onClick={() => handleReject(params.row.id)}
             >
-              Rechazar
-            </Button>
+              <CancelIcon />
+            </IconButton>
           </Stack>
         ),
       },
