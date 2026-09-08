@@ -489,6 +489,9 @@ describe("DashboardRepository", () => {
           },
         ]),
       },
+      pago: {
+        findMany: vi.fn().mockResolvedValue([]),
+      },
     };
 
     const repository = new DashboardRepository(prismaMock);
@@ -502,6 +505,7 @@ describe("DashboardRepository", () => {
     expect(prismaMock.compraBono.findMany).toHaveBeenCalledOnce();
     expect(prismaMock.solicitudExamen.findMany).toHaveBeenCalledOnce();
     expect(prismaMock.examenDGTAlumno.findMany).toHaveBeenCalledOnce();
+    expect(prismaMock.pago.findMany).toHaveBeenCalledOnce();
 
     expect(result.profile.nombre).toBe("Alumno Demo");
     expect(result.temarios).toHaveLength(1);
@@ -510,6 +514,7 @@ describe("DashboardRepository", () => {
     expect(result.bonos).toHaveLength(1);
     expect(result.examenes).toHaveLength(1);
     expect(result.examenesDGT).toHaveLength(1);
+    expect(result.pagosDgt).toHaveLength(0);
   });
 
   it("debe consultar el perfil del profesor", async () => {

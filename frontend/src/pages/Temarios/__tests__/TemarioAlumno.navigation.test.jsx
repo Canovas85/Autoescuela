@@ -4,6 +4,7 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 
 import TemarioAlumno from "../TemarioAlumno";
 import { temariosService } from "../../../services/temariosService";
+import { matriculasService } from "../../../services/matriculasService";
 
 vi.mock("../../../services/temariosService", () => ({
   temariosService: {
@@ -11,8 +12,19 @@ vi.mock("../../../services/temariosService", () => ({
   },
 }));
 
+vi.mock("../../../services/matriculasService", () => ({
+  matriculasService: {
+    getMine: vi.fn(),
+  },
+}));
+
 describe("TemarioAlumno navigation", () => {
   it("navega a detalle al pulsar Entrar al tema", async () => {
+    matriculasService.getMine.mockResolvedValue({
+      id: "matricula-1",
+      estado: "PAGADA",
+    });
+
     temariosService.getMine.mockResolvedValue([
       {
         id: "temario-001",

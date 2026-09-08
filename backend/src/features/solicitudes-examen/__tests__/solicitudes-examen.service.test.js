@@ -30,6 +30,87 @@ describe("SolicitudesExamenService", () => {
     expect(result).toEqual(solicitudCreada);
   });
 
+  it("debe bloquear la solicitud si no existe pago de Tasa DGT 2.1", async () => {
+    const repositoryMock = {
+      create: vi.fn(),
+      findUltimoPagoTasaDGT: vi.fn().mockResolvedValue(null),
+      countSuspensosDesdeFecha: vi.fn(),
+    };
+
+    const service = new SolicitudesExamenService(repositoryMock);
+
+    await expect(
+      service.create({
+        alumnoId: "alumno-1",
+        tipo: "TEORICO",
+        licenciaObjetivo: "B",
+      }),
+    ).rejects.toThrow("no tiene abonada la Tasa DGT (Tasa 2.1)");
+
+    expect(repositoryMock.create).not.toHaveBeenCalled();
+  });
+
+  it("debe bloquear la solicitud cuando la tasa está agotada tras 2 suspensos", async () => {
+    const repositoryMock = {
+      create: vi.fn(),
+      findUltimoPagoTasaDGT: vi.fn().mockResolvedValue({
+        id: "mc-1",
+        createdAt: new Date("2026-08-01T10:00:00.000Z"),
+        matricula: {
+          fechaPago: new Date("2026-08-01T10:00:00.000Z"),
+          fechaCreacion: new Date("2026-08-01T09:00:00.000Z"),
+        },
+      }),
+      countSuspensosDesdeFecha: vi.fn().mockResolvedValue(2),
+      findSuspensosDesdeFecha: vi.fn().mockResolvedValue([
+        { id: "e-1", fecha: new Date("2026-08-10T10:00:00.000Z") },
+        { id: "e-2", fecha: new Date("2026-08-20T10:00:00.000Z") },
+      ]),
+      countClasesCompletadasDesdeFecha: vi.fn().mockResolvedValue(0),
+    };
+
+    const service = new SolicitudesExamenService(repositoryMock);
+
+    await expect(
+      service.create({
+        alumnoId: "alumno-1",
+        tipo: "PRACTICO",
+        licenciaObjetivo: "B",
+      }),
+    ).rejects.toThrow("Tasa DGT agotada tras 2 suspensos");
+  });
+
+  it("debe permitir solicitud cuando hay pago y no se agotan suspensos", async () => {
+    const repositoryMock = {
+      create: vi.fn().mockResolvedValue({
+        id: "solicitud-1",
+        alumnoId: "alumno-1",
+        tipo: "TEORICO",
+        estado: "PENDIENTE",
+      }),
+      findUltimoPagoTasaDGT: vi.fn().mockResolvedValue({
+        id: "mc-1",
+        createdAt: new Date("2026-08-01T10:00:00.000Z"),
+        matricula: {
+          fechaPago: new Date("2026-08-01T10:00:00.000Z"),
+          fechaCreacion: new Date("2026-08-01T09:00:00.000Z"),
+        },
+      }),
+      countSuspensosDesdeFecha: vi.fn().mockResolvedValue(1),
+    };
+
+    const service = new SolicitudesExamenService(repositoryMock);
+
+    const result = await service.create({
+      alumnoId: "alumno-1",
+      tipo: "TEORICO",
+      licenciaObjetivo: "B",
+    });
+
+    expect(repositoryMock.create).toHaveBeenCalledOnce();
+    expect(result.estado).toBe("PENDIENTE");
+  });
+
   it("debe lanzar un error cuando el alumno es obligatorio", async () => {
     const repositoryMock = {
       create: vi.fn(),

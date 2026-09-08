@@ -33,6 +33,8 @@ import Matriculas from "../pages/Matriculas/Matriculas";
 import PagoMatricula from "../pages/Matriculas/PagoMatricula";
 import Facturas from "../pages/Facturas/Facturas";
 import MisFacturas from "../pages/Facturas/MisFacturas";
+import Pagos from "../pages/Pagos/Pagos";
+import MisPagos from "../pages/Pagos/MisPagos";
 import ProfesorAlumnos from "../pages/ProfesorAlumnos/ProfesorAlumnos";
 import ProfesorVehiculos from "../pages/ProfesorVehiculos/ProfesorVehiculos";
 import TestDGT from "../pages/TestDGT/TestDGT";
@@ -124,7 +126,9 @@ export default function AppRouter() {
               <Route path="/examenes" element={<Examenes />} />
 
               <Route path="/facturas" element={<Facturas />} />
+              <Route path="/pagos" element={<Pagos />} />
               <Route path="/mis-facturas" element={<MisFacturas />} />
+              <Route path="/mis-pagos" element={<MisPagos />} />
               <Route path="/mis-documentos" element={<DocumentosAlumno />} />
               <Route
                 path="/documentos-alumno-admin"

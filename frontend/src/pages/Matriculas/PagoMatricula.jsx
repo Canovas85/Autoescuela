@@ -15,14 +15,18 @@ import {
 } from "@mui/material";
 
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { matriculasService } from "../../services/matriculasService";
+import { pagosService } from "../../services/pagosService";
 
 export default function PagoMatricula() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const pagoId = searchParams.get("pagoId");
 
   const [matricula, setMatricula] = useState(null);
+  const [pagoPendiente, setPagoPendiente] = useState(null);
 
   const [loading, setLoading] = useState(true);
 
@@ -52,6 +56,8 @@ export default function PagoMatricula() {
 
   const [openConfirmarPago, setOpenConfirmarPago] = useState(false);
 
+  const esPagoPendiente = Boolean(pagoId);
+
   const validarFormulario = () => {
     const nuevosErrores = {};
 
@@ -77,20 +83,31 @@ export default function PagoMatricula() {
   };
 
   useEffect(() => {
-    const loadMatricula = async () => {
+    const loadData = async () => {
       try {
-        const data = await matriculasService.getMine();
-
-        setMatricula(data);
+        if (esPagoPendiente) {
+          const pago = await pagosService.getMineById(pagoId);
+          setPagoPendiente(pago);
+        } else {
+          const data = await matriculasService.getMine();
+          setMatricula(data);
+        }
       } catch (error) {
         console.error(error);
+        setNotification({
+          open: true,
+          message:
+            error.response?.data?.message ||
+            "No se pudieron cargar los datos de pago",
+          severity: "error",
+        });
       } finally {
         setLoading(false);
       }
     };
 
-    loadMatricula();
-  }, []);
+    loadData();
+  }, [esPagoPendiente, pagoId]);
 
   const handlePagar = async () => {
     if (!validarFormulario()) {
@@ -98,7 +115,11 @@ export default function PagoMatricula() {
     }
 
     try {
-      await matriculasService.pagar(matricula.id);
+      if (esPagoPendiente) {
+        await pagosService.payMine(pagoPendiente.id);
+      } else {
+        await matriculasService.pagar(matricula.id);
+      }
 
       setNotification({
         open: true,
@@ -106,15 +127,25 @@ export default function PagoMatricula() {
         severity: "success",
       });
 
-      navigate("/dashboard", {
+      navigate(esPagoPendiente ? "/mis-pagos" : "/dashboard", {
         replace: true,
       });
 
-      window.location.reload();
+      if (!esPagoPendiente) {
+        window.location.reload();
+      }
     } catch (error) {
       console.error(error);
+      setNotification({
+        open: true,
+        message:
+          error.response?.data?.message || "No se pudo completar el pago",
+        severity: "error",
+      });
     }
   };
+
+  const importePagoPendiente = Number(pagoPendiente?.importe || 0);
 
   if (loading) {
     return (
@@ -146,12 +177,13 @@ export default function PagoMatricula() {
       >
         <CardContent>
           <Typography variant="h4" fontWeight={800} gutterBottom>
-            Pago de Matrícula
+            {esPagoPendiente ? "Pago pendiente" : "Pago de Matrícula"}
           </Typography>
 
           <Typography color="text.secondary" sx={{ mb: 3 }}>
-            Completa el pago de tu matrícula para acceder a todos los contenidos
-            de la plataforma.
+            {esPagoPendiente
+              ? "Completa el pago pendiente para continuar con tu proceso formativo."
+              : "Completa el pago de tu matrícula para acceder a todos los contenidos de la plataforma."}
           </Typography>
 
           <Divider sx={{ mb: 3 }} />
@@ -164,37 +196,80 @@ export default function PagoMatricula() {
               backgroundColor: "#f8fafc",
             }}
           >
-            <Typography fontWeight={700}>
-              Permiso: {matricula?.licencia}
-            </Typography>
+            {esPagoPendiente ? (
+              <>
+                <Typography fontWeight={700}>
+                  Concepto: {pagoPendiente?.concepto}
+                </Typography>
 
-            <Typography>Precio original: {matricula?.precioBase} €</Typography>
+                <Typography>
+                  Permiso: {pagoPendiente?.permiso || "-"}
+                </Typography>
 
-            {matricula?.promocion && (
-              <Typography color="success.main">
-                Promoción aplicada: {matricula.promocion.nombre}
-              </Typography>
+                <Typography
+                  sx={{
+                    mt: 1,
+                    fontWeight: 700,
+                    fontSize: "1.1rem",
+                  }}
+                >
+                  Importe: {importePagoPendiente.toFixed(2)} €
+                </Typography>
+
+                <Typography
+                  color={
+                    pagoPendiente?.estado === "PAGADO"
+                      ? "success.main"
+                      : "warning.main"
+                  }
+                >
+                  Estado: {pagoPendiente?.estado}
+                </Typography>
+
+                {typeof pagoPendiente?.convocatoriasIncluidas === "number" && (
+                  <Typography>
+                    Convocatorias: {pagoPendiente?.convocatoriasConsumidas || 0}
+                    /{pagoPendiente?.convocatoriasIncluidas}
+                  </Typography>
+                )}
+              </>
+            ) : (
+              <>
+                <Typography fontWeight={700}>
+                  Permiso: {matricula?.licencia}
+                </Typography>
+
+                <Typography>
+                  Precio original: {matricula?.precioBase} €
+                </Typography>
+
+                {matricula?.promocion && (
+                  <Typography color="success.main">
+                    Promoción aplicada: {matricula.promocion.nombre}
+                  </Typography>
+                )}
+
+                {matricula?.promocion && (
+                  <Typography color="success.main">
+                    Descuento: {descuento} %
+                  </Typography>
+                )}
+
+                <Typography
+                  sx={{
+                    mt: 1,
+                    fontWeight: 700,
+                    fontSize: "1.1rem",
+                  }}
+                >
+                  Importe final: {matricula?.precioFinal} €
+                </Typography>
+
+                <Typography color="warning.main">
+                  Estado: {matricula?.estado}
+                </Typography>
+              </>
             )}
-
-            {matricula?.promocion && (
-              <Typography color="success.main">
-                Descuento: {descuento} %
-              </Typography>
-            )}
-
-            <Typography
-              sx={{
-                mt: 1,
-                fontWeight: 700,
-                fontSize: "1.1rem",
-              }}
-            >
-              Importe final: {matricula?.precioFinal} €
-            </Typography>
-
-            <Typography color="warning.main">
-              Estado: {matricula?.estado}
-            </Typography>
           </Box>
 
           <TextField
@@ -255,13 +330,14 @@ export default function PagoMatricula() {
             fullWidth
             size="large"
             color="success"
+            disabled={esPagoPendiente && pagoPendiente?.estado !== "PENDIENTE"}
             onClick={() => {
               if (validarFormulario()) {
                 setOpenConfirmarPago(true);
               }
             }}
           >
-            Pagar Matrícula
+            {esPagoPendiente ? "Pagar ahora" : "Pagar Matrícula"}
           </Button>
 
           <Dialog
@@ -273,25 +349,49 @@ export default function PagoMatricula() {
             <DialogTitle>Confirmar pago</DialogTitle>
 
             <DialogContent>
-              <Typography>Vas a realizar el pago de tu matrícula.</Typography>
+              {esPagoPendiente ? (
+                <>
+                  <Typography>
+                    Vas a realizar el pago de este concepto.
+                  </Typography>
 
-              <Typography sx={{ mt: 2 }} fontWeight={700}>
-                Permiso: {matricula?.licencia}
-              </Typography>
+                  <Typography sx={{ mt: 2 }} fontWeight={700}>
+                    Concepto: {pagoPendiente?.concepto}
+                  </Typography>
 
-              <Typography>
-                Precio original: {matricula?.precioBase} €
-              </Typography>
+                  <Typography>
+                    Permiso: {pagoPendiente?.permiso || "-"}
+                  </Typography>
 
-              {matricula?.promocion && (
-                <Typography color="success.main">
-                  Promoción: {matricula.promocion.nombre}
-                </Typography>
+                  <Typography fontWeight={700} sx={{ mt: 1 }}>
+                    Total a pagar: {importePagoPendiente.toFixed(2)} €
+                  </Typography>
+                </>
+              ) : (
+                <>
+                  <Typography>
+                    Vas a realizar el pago de tu matrícula.
+                  </Typography>
+
+                  <Typography sx={{ mt: 2 }} fontWeight={700}>
+                    Permiso: {matricula?.licencia}
+                  </Typography>
+
+                  <Typography>
+                    Precio original: {matricula?.precioBase} €
+                  </Typography>
+
+                  {matricula?.promocion && (
+                    <Typography color="success.main">
+                      Promoción: {matricula.promocion.nombre}
+                    </Typography>
+                  )}
+
+                  <Typography fontWeight={700} sx={{ mt: 1 }}>
+                    Total a pagar: {matricula?.precioFinal} €
+                  </Typography>
+                </>
               )}
-
-              <Typography fontWeight={700} sx={{ mt: 1 }}>
-                Total a pagar: {matricula?.precioFinal} €
-              </Typography>
             </DialogContent>
 
             <DialogActions>

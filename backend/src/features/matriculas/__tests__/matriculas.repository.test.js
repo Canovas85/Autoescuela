@@ -60,7 +60,7 @@ describe("MatriculasRepository", () => {
           },
         },
         promocion: true,
-        factura: true,
+        facturas: true,
       },
       orderBy: {
         fechaCreacion: "desc",
@@ -98,7 +98,7 @@ describe("MatriculasRepository", () => {
           },
         },
         promocion: true,
-        factura: true,
+        facturas: true,
       },
     });
 
@@ -141,6 +141,7 @@ describe("MatriculasRepository", () => {
     const matriculaPagada = {
       id: "matricula-1",
       alumnoId: "alumno-1",
+      licencia: "B",
       estado: "PAGADA",
       fechaPago: new Date("2026-09-03T10:00:00Z"),
     };
@@ -148,6 +149,13 @@ describe("MatriculasRepository", () => {
     const prismaMock = {
       matricula: {
         update: vi.fn().mockResolvedValue(matriculaPagada),
+      },
+      pago: {
+        findFirst: vi.fn().mockResolvedValue(null),
+        create: vi.fn().mockResolvedValue({ id: "pago-1" }),
+      },
+      tarifaConcepto: {
+        findFirst: vi.fn().mockResolvedValue({ precio: 94.05 }),
       },
     };
 
@@ -164,6 +172,18 @@ describe("MatriculasRepository", () => {
         fechaPago: expect.any(Date),
       },
     });
+
+    expect(prismaMock.pago.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          alumnoId: "alumno-1",
+          matriculaId: "matricula-1",
+          tipo: "TASA_DGT_21",
+          permiso: "B",
+          estado: "PENDIENTE",
+        }),
+      }),
+    );
 
     expect(result).toEqual(matriculaPagada);
   });
@@ -220,7 +240,7 @@ describe("MatriculasRepository", () => {
       },
       include: {
         promocion: true,
-        factura: true,
+        facturas: true,
       },
       orderBy: {
         fechaCreacion: "desc",

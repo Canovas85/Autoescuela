@@ -3,6 +3,67 @@ export class ExamenesRepository {
     this.prisma = prisma;
   }
 
+  async findUltimoPagoTasaDGT(alumnoId, licenciaObjetivo, conceptoPattern) {
+    return this.prisma.pago.findFirst({
+      where: {
+        alumnoId,
+        tipo: "TASA_DGT_21",
+        permiso: licenciaObjetivo,
+        estado: "PAGADO",
+        concepto: {
+          contains: conceptoPattern,
+          mode: "insensitive",
+        },
+      },
+      orderBy: [{ fechaPago: "desc" }, { fechaCreacion: "desc" }],
+    });
+  }
+
+  async countSuspensosDesdeFecha(alumnoId, fechaDesde) {
+    return this.prisma.examen.count({
+      where: {
+        alumnoId,
+        estado: "SUSPENDIDO",
+        fecha: {
+          gte: fechaDesde,
+        },
+      },
+    });
+  }
+
+  async findSuspensosDesdeFecha(alumnoId, fechaDesde) {
+    return this.prisma.examen.findMany({
+      where: {
+        alumnoId,
+        estado: "SUSPENDIDO",
+        fecha: {
+          gte: fechaDesde,
+        },
+      },
+      orderBy: {
+        fecha: "asc",
+      },
+      select: {
+        id: true,
+        fecha: true,
+      },
+    });
+  }
+
+  async countClasesCompletadasDesdeFecha(alumnoId, fechaDesde) {
+    return this.prisma.clasePractica.count({
+      where: {
+        alumnoId,
+        fecha: {
+          gte: fechaDesde,
+        },
+        estado: {
+          in: ["COMPLETADA", "REALIZADA", "FINALIZADA"],
+        },
+      },
+    });
+  }
+
   async create(data) {
     return this.prisma.examen.create({
       data,

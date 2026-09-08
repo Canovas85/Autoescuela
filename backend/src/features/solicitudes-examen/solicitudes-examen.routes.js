@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import prisma from "../../config/prisma.js";
+import { tasaDgtConfig } from "../../config/tasa-dgt.config.js";
 import { authenticate } from "../../shared/middleware/auth.middleware.js";
 import { authorize } from "../../shared/middleware/role.middleware.js";
 
@@ -11,7 +12,7 @@ import { SolicitudesExamenController } from "./solicitudes-examen.controller.js"
 const router = Router();
 
 const repository = new SolicitudesExamenRepository(prisma);
-const service = new SolicitudesExamenService(repository);
+const service = new SolicitudesExamenService(repository, tasaDgtConfig);
 const controller = new SolicitudesExamenController(service);
 
 router.post(

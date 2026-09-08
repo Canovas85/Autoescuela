@@ -174,8 +174,13 @@ export default function Examenes() {
 
   const handleSave = async () => {
     try {
+      const alumnoSeleccionado = alumnos.find(
+        (alumno) => alumno.id === form.alumnoId,
+      );
+
       const payload = {
         ...form,
+        licenciaObjetivo: alumnoSeleccionado?.tipoLicenciaObjetivo || "B",
         observaciones: form.observaciones || null,
       };
 

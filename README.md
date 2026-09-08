@@ -25,6 +25,7 @@ El proyecto está concebido como una solución centralizada para gestionar alumn
 - [Frontend](#-frontend)
 - [Base de datos](#-base-de-datos)
 - [Reglas de negocio](#-reglas-de-negocio)
+- [Protocolo de renovación DGT](#-protocolo-de-renovación-dgt)
 - [Autenticación y autorización](#-autenticación-y-autorización)
 - [Testing](#-testing)
 - [Docker](#-docker)
@@ -278,6 +279,33 @@ Se contempla un sistema de dashboards para consultar información como:
 - Profesores.
 - Clases.
 - Exámenes.
+
+---
+
+## 📑 Protocolo de renovación DGT
+
+El sistema aplica validaciones de Tasa DGT 2.1 en:
+
+- alta de exámenes
+- alta de solicitudes de examen
+
+Configurable por variables de entorno en backend:
+
+- `TASA_DGT_CONCEPTO_PATTERN`
+- `TASA_DGT_MAX_SUSPENSOS`
+- `RENOVACION_DIAS_ESPERA_DEFAULT`
+- `RENOVACION_CLASES_OBLIGATORIAS_DEFAULT`
+- `RENOVACION_DIAS_ESPERA_<LICENCIA>`
+- `RENOVACION_CLASES_OBLIGATORIAS_<LICENCIA>`
+
+Referencia de ejemplo:
+
+- `backend/.env.example`
+
+Protocolos internos listos para circular:
+
+- `PROTOCOLO_RENOVACION_SECRETARIA.md`
+- `PROTOCOLO_RENOVACION_JEFATURA.md`
 - Vehículos.
 - Rendimiento académico.
 - Aprobados y suspensos.

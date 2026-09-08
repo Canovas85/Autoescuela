@@ -22,6 +22,7 @@ import solicitudesExamenRoutes from "./features/solicitudes-examen/solicitudes-e
 import clasesDirectoRoutes from "./features/clases-directo/clases-directo.routes.js";
 import matriculasRoutes from "./features/matriculas/matriculas.routes.js";
 import facturasRoutes from "./features/facturas/facturas.routes.js";
+import pagosRoutes from "./features/pagos/pagos.routes.js";
 import preguntasDGTRoutes from "./features/preguntas-dgt/preguntas-dgt.routes.js";
 import documentosAlumnoRoutes from "./features/documentos-alumno/documentos-alumno.routes.js";
 
@@ -67,6 +68,7 @@ app.use("/api/promociones", promocionesRoutes);
 app.use("/api/solicitudes-examen", solicitudesExamenRoutes);
 app.use("/api/clases-directo", clasesDirectoRoutes);
 app.use("/api/facturas", facturasRoutes);
+app.use("/api/pagos", pagosRoutes);
 app.use("/api/preguntas-dgt", preguntasDGTRoutes);
 app.use("/api/documentos-alumno", documentosAlumnoRoutes);
 

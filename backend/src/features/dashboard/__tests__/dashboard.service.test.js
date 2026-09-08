@@ -419,7 +419,29 @@ describe("DashboardService", () => {
             fecha: new Date("2026-07-28T10:00:00.000Z"),
           },
         ],
+        pagosDgt: [
+          {
+            id: "pago-pendiente",
+            estado: "PENDIENTE",
+            importe: 94.05,
+            concepto: "Tasa DGT (Tasa 2.1)",
+            permiso: "B",
+            fechaCreacion: new Date("2026-09-01T10:00:00.000Z"),
+          },
+          {
+            id: "pago-pagado",
+            estado: "PAGADO",
+            importe: 94.05,
+            concepto: "Tasa DGT (Tasa 2.1)",
+            permiso: "B",
+            fechaCreacion: new Date("2026-08-01T10:00:00.000Z"),
+            fechaPago: new Date("2026-08-02T10:00:00.000Z"),
+            numeroFacturaPago: "FAC-PAGO-123",
+            convocatoriasIncluidas: 2,
+          },
+        ],
       }),
+      countStudentExamSuspensosFromDate: vi.fn().mockResolvedValue(1),
     };
 
     const service = new DashboardService(repositoryMock);
@@ -455,6 +477,10 @@ describe("DashboardService", () => {
       tipo: "APROBADOS",
       cantidad: 2,
     });
+    expect(result.dgt.tasa21.convocatoriasIncluidas).toBe(2);
+    expect(result.dgt.tasa21.convocatoriasConsumidas).toBe(1);
+    expect(result.dgt.tasa21.convocatoriasDisponibles).toBe(1);
+    expect(result.dgt.tasa21.pagoPendiente?.id).toBe("pago-pendiente");
   });
 
   it("debe devolver el dashboard del profesor con alumnos y vehículos", async () => {

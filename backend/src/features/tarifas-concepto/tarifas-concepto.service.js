@@ -17,17 +17,43 @@ const parseBoolean = (valor, defaultValue = false) => {
   return ["true", "1", "on", "yes", "si", "sí"].includes(normalizado);
 };
 
+const normalizarPermisos = (valor) => {
+  const permisos = Array.isArray(valor)
+    ? valor
+    : valor === undefined || valor === null || valor === ""
+      ? []
+      : [valor];
+
+  return [
+    ...new Set(
+      permisos
+        .map((permiso) =>
+          String(permiso || "")
+            .trim()
+            .toUpperCase(),
+        )
+        .filter(Boolean),
+    ),
+  ];
+};
+
 export class TarifasConceptoService {
   constructor(repository) {
     this.repository = repository;
   }
 
   validarPayload(data) {
-    const permiso = String(data.permiso ?? "")
-      .trim()
-      .toUpperCase();
+    const permisos = normalizarPermisos(data.permiso);
 
-    if (!PERMISOS_VALIDOS.includes(permiso)) {
+    if (permisos.length === 0) {
+      throw new Error("Debes seleccionar al menos un permiso");
+    }
+
+    const permisosInvalidos = permisos.filter(
+      (permiso) => !PERMISOS_VALIDOS.includes(permiso),
+    );
+
+    if (permisosInvalidos.length > 0) {
       throw new Error("Permiso no válido");
     }
 
@@ -52,7 +78,7 @@ export class TarifasConceptoService {
     }
 
     return {
-      permiso,
+      permisos,
       concepto,
       precio,
       tipo,
@@ -64,16 +90,29 @@ export class TarifasConceptoService {
   async create(data) {
     const payload = this.validarPayload(data);
 
-    const existe = await this.repository.findByPermisoYConcepto(
-      payload.permiso,
-      payload.concepto,
-    );
+    for (const permiso of payload.permisos) {
+      const existe = await this.repository.findByPermisoYConcepto(
+        permiso,
+        payload.concepto,
+      );
 
-    if (existe) {
-      throw new Error("Ya existe un concepto para ese permiso");
+      if (existe) {
+        throw new Error(`Ya existe un concepto para el permiso ${permiso}`);
+      }
     }
 
-    return this.repository.create(payload);
+    const rows = payload.permisos.map((permiso) => ({
+      permiso,
+      concepto: payload.concepto,
+      precio: payload.precio,
+      tipo: payload.tipo,
+      descripcion: payload.descripcion,
+      activa: payload.activa,
+    }));
+
+    const creadas = await this.repository.createMany(rows);
+
+    return creadas.length === 1 ? creadas[0] : creadas;
   }
 
   async getAll(filters = {}) {
@@ -114,18 +153,32 @@ export class TarifasConceptoService {
     const payload = this.validarPayload({
       ...tarifaActual,
       ...data,
+      permiso: data.permiso ?? tarifaActual.permiso,
     });
 
+    if (payload.permisos.length !== 1) {
+      throw new Error("La edición solo permite un permiso");
+    }
+
+    const permiso = payload.permisos[0];
+
     const existe = await this.repository.findByPermisoYConcepto(
-      payload.permiso,
+      permiso,
       payload.concepto,
     );
 
     if (existe && existe.id !== id) {
-      throw new Error("Ya existe un concepto para ese permiso");
+      throw new Error(`Ya existe un concepto para el permiso ${permiso}`);
     }
 
-    return this.repository.update(id, payload);
+    return this.repository.update(id, {
+      permiso,
+      concepto: payload.concepto,
+      precio: payload.precio,
+      tipo: payload.tipo,
+      descripcion: payload.descripcion,
+      activa: payload.activa,
+    });
   }
 
   async delete(id) {

@@ -1,3 +1,5 @@
+import { tasaDgtConfig } from "../../config/tasa-dgt.config.js";
+
 export class MatriculasRepository {
   constructor(prisma) {
     this.prisma = prisma;
@@ -26,7 +28,7 @@ export class MatriculasRepository {
           },
         },
         promocion: true,
-        factura: true,
+        facturas: true,
       },
       orderBy: {
         fechaCreacion: "desc",
@@ -46,7 +48,7 @@ export class MatriculasRepository {
           },
         },
         promocion: true,
-        factura: true,
+        facturas: true,
       },
     });
   }
@@ -62,7 +64,7 @@ export class MatriculasRepository {
 
   async pagar(id) {
     if (typeof this.prisma.$transaction !== "function") {
-      return this.prisma.matricula.update({
+      const matricula = await this.prisma.matricula.update({
         where: {
           id,
         },
@@ -71,6 +73,48 @@ export class MatriculasRepository {
           fechaPago: new Date(),
         },
       });
+
+      const existente = await this.prisma.pago.findFirst({
+        where: {
+          matriculaId: id,
+          tipo: "TASA_DGT_21",
+          estado: {
+            in: ["PENDIENTE", "PAGADO"],
+          },
+        },
+      });
+
+      if (!existente) {
+        const tarifaTasa = await this.prisma.tarifaConcepto.findFirst({
+          where: {
+            permiso: matricula.licencia,
+            activa: true,
+            concepto: {
+              contains: tasaDgtConfig.conceptoPattern,
+              mode: "insensitive",
+            },
+          },
+          orderBy: {
+            updatedAt: "desc",
+          },
+        });
+
+        await this.prisma.pago.create({
+          data: {
+            alumnoId: matricula.alumnoId,
+            matriculaId: matricula.id,
+            tipo: "TASA_DGT_21",
+            concepto: tasaDgtConfig.conceptoPattern,
+            permiso: matricula.licencia,
+            importe: tarifaTasa?.precio ?? tasaDgtConfig.importeDefault,
+            estado: "PENDIENTE",
+            convocatoriasIncluidas: 2,
+            convocatoriasConsumidas: 0,
+          },
+        });
+      }
+
+      return matricula;
     }
 
     return this.prisma.$transaction(async (tx) => {
@@ -95,6 +139,46 @@ export class MatriculasRepository {
           fechaPago,
         },
       });
+
+      const existente = await tx.pago.findFirst({
+        where: {
+          matriculaId: id,
+          tipo: "TASA_DGT_21",
+          estado: {
+            in: ["PENDIENTE", "PAGADO"],
+          },
+        },
+      });
+
+      if (!existente) {
+        const tarifaTasa = await tx.tarifaConcepto.findFirst({
+          where: {
+            permiso: matricula.licencia,
+            activa: true,
+            concepto: {
+              contains: tasaDgtConfig.conceptoPattern,
+              mode: "insensitive",
+            },
+          },
+          orderBy: {
+            updatedAt: "desc",
+          },
+        });
+
+        await tx.pago.create({
+          data: {
+            alumnoId: matricula.alumnoId,
+            matriculaId: matricula.id,
+            tipo: "TASA_DGT_21",
+            concepto: tasaDgtConfig.conceptoPattern,
+            permiso: matricula.licencia,
+            importe: tarifaTasa?.precio ?? tasaDgtConfig.importeDefault,
+            estado: "PENDIENTE",
+            convocatoriasIncluidas: 2,
+            convocatoriasConsumidas: 0,
+          },
+        });
+      }
 
       return matricula;
     });
@@ -143,7 +227,7 @@ export class MatriculasRepository {
 
       include: {
         promocion: true,
-        factura: true,
+        facturas: true,
       },
 
       orderBy: {

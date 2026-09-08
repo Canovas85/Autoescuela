@@ -34,6 +34,16 @@ export type Profesor = $Result.DefaultSelection<Prisma.$ProfesorPayload>
  */
 export type Alumno = $Result.DefaultSelection<Prisma.$AlumnoPayload>
 /**
+ * Model DocumentoAlumno
+ * 
+ */
+export type DocumentoAlumno = $Result.DefaultSelection<Prisma.$DocumentoAlumnoPayload>
+/**
+ * Model DocumentoAlumnoArchivo
+ * 
+ */
+export type DocumentoAlumnoArchivo = $Result.DefaultSelection<Prisma.$DocumentoAlumnoArchivoPayload>
+/**
  * Model Temario
  * 
  */
@@ -123,6 +133,11 @@ export type TarifaMatricula = $Result.DefaultSelection<Prisma.$TarifaMatriculaPa
  * 
  */
 export type Matricula = $Result.DefaultSelection<Prisma.$MatriculaPayload>
+/**
+ * Model Pago
+ * 
+ */
+export type Pago = $Result.DefaultSelection<Prisma.$PagoPayload>
 /**
  * Model MatriculaConcepto
  * 
@@ -325,6 +340,26 @@ export class PrismaClient<
   get alumno(): Prisma.AlumnoDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.documentoAlumno`: Exposes CRUD operations for the **DocumentoAlumno** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DocumentoAlumnos
+    * const documentoAlumnos = await prisma.documentoAlumno.findMany()
+    * ```
+    */
+  get documentoAlumno(): Prisma.DocumentoAlumnoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.documentoAlumnoArchivo`: Exposes CRUD operations for the **DocumentoAlumnoArchivo** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DocumentoAlumnoArchivos
+    * const documentoAlumnoArchivos = await prisma.documentoAlumnoArchivo.findMany()
+    * ```
+    */
+  get documentoAlumnoArchivo(): Prisma.DocumentoAlumnoArchivoDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.temario`: Exposes CRUD operations for the **Temario** model.
     * Example usage:
     * ```ts
@@ -503,6 +538,16 @@ export class PrismaClient<
     * ```
     */
   get matricula(): Prisma.MatriculaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.pago`: Exposes CRUD operations for the **Pago** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Pagos
+    * const pagos = await prisma.pago.findMany()
+    * ```
+    */
+  get pago(): Prisma.PagoDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.matriculaConcepto`: Exposes CRUD operations for the **MatriculaConcepto** model.
@@ -968,6 +1013,8 @@ export namespace Prisma {
     ActivacionCuenta: 'ActivacionCuenta',
     Profesor: 'Profesor',
     Alumno: 'Alumno',
+    DocumentoAlumno: 'DocumentoAlumno',
+    DocumentoAlumnoArchivo: 'DocumentoAlumnoArchivo',
     Temario: 'Temario',
     TemarioProgreso: 'TemarioProgreso',
     ClaseDirecto: 'ClaseDirecto',
@@ -986,6 +1033,7 @@ export namespace Prisma {
     TarifaConceptoHistorial: 'TarifaConceptoHistorial',
     TarifaMatricula: 'TarifaMatricula',
     Matricula: 'Matricula',
+    Pago: 'Pago',
     MatriculaConcepto: 'MatriculaConcepto',
     Factura: 'Factura'
   };
@@ -1006,7 +1054,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "usuario" | "activacionCuenta" | "profesor" | "alumno" | "temario" | "temarioProgreso" | "claseDirecto" | "testPractica" | "preguntaDGT" | "respuestaPreguntaDGT" | "examenDGTAlumno" | "bono" | "compraBono" | "solicitudExamen" | "vehiculo" | "clasePractica" | "examen" | "promocion" | "tarifaConcepto" | "tarifaConceptoHistorial" | "tarifaMatricula" | "matricula" | "matriculaConcepto" | "factura"
+      modelProps: "usuario" | "activacionCuenta" | "profesor" | "alumno" | "documentoAlumno" | "documentoAlumnoArchivo" | "temario" | "temarioProgreso" | "claseDirecto" | "testPractica" | "preguntaDGT" | "respuestaPreguntaDGT" | "examenDGTAlumno" | "bono" | "compraBono" | "solicitudExamen" | "vehiculo" | "clasePractica" | "examen" | "promocion" | "tarifaConcepto" | "tarifaConceptoHistorial" | "tarifaMatricula" | "matricula" | "pago" | "matriculaConcepto" | "factura"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1303,6 +1351,154 @@ export namespace Prisma {
           count: {
             args: Prisma.AlumnoCountArgs<ExtArgs>
             result: $Utils.Optional<AlumnoCountAggregateOutputType> | number
+          }
+        }
+      }
+      DocumentoAlumno: {
+        payload: Prisma.$DocumentoAlumnoPayload<ExtArgs>
+        fields: Prisma.DocumentoAlumnoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DocumentoAlumnoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentoAlumnoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DocumentoAlumnoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentoAlumnoPayload>
+          }
+          findFirst: {
+            args: Prisma.DocumentoAlumnoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentoAlumnoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DocumentoAlumnoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentoAlumnoPayload>
+          }
+          findMany: {
+            args: Prisma.DocumentoAlumnoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentoAlumnoPayload>[]
+          }
+          create: {
+            args: Prisma.DocumentoAlumnoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentoAlumnoPayload>
+          }
+          createMany: {
+            args: Prisma.DocumentoAlumnoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DocumentoAlumnoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentoAlumnoPayload>[]
+          }
+          delete: {
+            args: Prisma.DocumentoAlumnoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentoAlumnoPayload>
+          }
+          update: {
+            args: Prisma.DocumentoAlumnoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentoAlumnoPayload>
+          }
+          deleteMany: {
+            args: Prisma.DocumentoAlumnoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DocumentoAlumnoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DocumentoAlumnoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentoAlumnoPayload>[]
+          }
+          upsert: {
+            args: Prisma.DocumentoAlumnoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentoAlumnoPayload>
+          }
+          aggregate: {
+            args: Prisma.DocumentoAlumnoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDocumentoAlumno>
+          }
+          groupBy: {
+            args: Prisma.DocumentoAlumnoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DocumentoAlumnoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DocumentoAlumnoCountArgs<ExtArgs>
+            result: $Utils.Optional<DocumentoAlumnoCountAggregateOutputType> | number
+          }
+        }
+      }
+      DocumentoAlumnoArchivo: {
+        payload: Prisma.$DocumentoAlumnoArchivoPayload<ExtArgs>
+        fields: Prisma.DocumentoAlumnoArchivoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DocumentoAlumnoArchivoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentoAlumnoArchivoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DocumentoAlumnoArchivoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentoAlumnoArchivoPayload>
+          }
+          findFirst: {
+            args: Prisma.DocumentoAlumnoArchivoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentoAlumnoArchivoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DocumentoAlumnoArchivoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentoAlumnoArchivoPayload>
+          }
+          findMany: {
+            args: Prisma.DocumentoAlumnoArchivoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentoAlumnoArchivoPayload>[]
+          }
+          create: {
+            args: Prisma.DocumentoAlumnoArchivoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentoAlumnoArchivoPayload>
+          }
+          createMany: {
+            args: Prisma.DocumentoAlumnoArchivoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DocumentoAlumnoArchivoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentoAlumnoArchivoPayload>[]
+          }
+          delete: {
+            args: Prisma.DocumentoAlumnoArchivoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentoAlumnoArchivoPayload>
+          }
+          update: {
+            args: Prisma.DocumentoAlumnoArchivoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentoAlumnoArchivoPayload>
+          }
+          deleteMany: {
+            args: Prisma.DocumentoAlumnoArchivoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DocumentoAlumnoArchivoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DocumentoAlumnoArchivoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentoAlumnoArchivoPayload>[]
+          }
+          upsert: {
+            args: Prisma.DocumentoAlumnoArchivoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentoAlumnoArchivoPayload>
+          }
+          aggregate: {
+            args: Prisma.DocumentoAlumnoArchivoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDocumentoAlumnoArchivo>
+          }
+          groupBy: {
+            args: Prisma.DocumentoAlumnoArchivoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DocumentoAlumnoArchivoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DocumentoAlumnoArchivoCountArgs<ExtArgs>
+            result: $Utils.Optional<DocumentoAlumnoArchivoCountAggregateOutputType> | number
           }
         }
       }
@@ -2638,6 +2834,80 @@ export namespace Prisma {
           }
         }
       }
+      Pago: {
+        payload: Prisma.$PagoPayload<ExtArgs>
+        fields: Prisma.PagoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PagoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PagoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagoPayload>
+          }
+          findFirst: {
+            args: Prisma.PagoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PagoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagoPayload>
+          }
+          findMany: {
+            args: Prisma.PagoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagoPayload>[]
+          }
+          create: {
+            args: Prisma.PagoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagoPayload>
+          }
+          createMany: {
+            args: Prisma.PagoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PagoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagoPayload>[]
+          }
+          delete: {
+            args: Prisma.PagoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagoPayload>
+          }
+          update: {
+            args: Prisma.PagoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagoPayload>
+          }
+          deleteMany: {
+            args: Prisma.PagoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PagoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PagoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagoPayload>[]
+          }
+          upsert: {
+            args: Prisma.PagoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagoPayload>
+          }
+          aggregate: {
+            args: Prisma.PagoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePago>
+          }
+          groupBy: {
+            args: Prisma.PagoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PagoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PagoCountArgs<ExtArgs>
+            result: $Utils.Optional<PagoCountAggregateOutputType> | number
+          }
+        }
+      }
       MatriculaConcepto: {
         payload: Prisma.$MatriculaConceptoPayload<ExtArgs>
         fields: Prisma.MatriculaConceptoFieldRefs
@@ -2886,6 +3156,8 @@ export namespace Prisma {
     activacionCuenta?: ActivacionCuentaOmit
     profesor?: ProfesorOmit
     alumno?: AlumnoOmit
+    documentoAlumno?: DocumentoAlumnoOmit
+    documentoAlumnoArchivo?: DocumentoAlumnoArchivoOmit
     temario?: TemarioOmit
     temarioProgreso?: TemarioProgresoOmit
     claseDirecto?: ClaseDirectoOmit
@@ -2904,6 +3176,7 @@ export namespace Prisma {
     tarifaConceptoHistorial?: TarifaConceptoHistorialOmit
     tarifaMatricula?: TarifaMatriculaOmit
     matricula?: MatriculaOmit
+    pago?: PagoOmit
     matriculaConcepto?: MatriculaConceptoOmit
     factura?: FacturaOmit
   }
@@ -3070,11 +3343,13 @@ export namespace Prisma {
     bonosComprados: number
     examenes: number
     facturas: number
+    pagos: number
     matriculas: number
     solicitudesExamen: number
     temariosProgreso: number
     testsPractica: number
     examenesDGT: number
+    documentosAlumno: number
   }
 
   export type AlumnoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3082,11 +3357,13 @@ export namespace Prisma {
     bonosComprados?: boolean | AlumnoCountOutputTypeCountBonosCompradosArgs
     examenes?: boolean | AlumnoCountOutputTypeCountExamenesArgs
     facturas?: boolean | AlumnoCountOutputTypeCountFacturasArgs
+    pagos?: boolean | AlumnoCountOutputTypeCountPagosArgs
     matriculas?: boolean | AlumnoCountOutputTypeCountMatriculasArgs
     solicitudesExamen?: boolean | AlumnoCountOutputTypeCountSolicitudesExamenArgs
     temariosProgreso?: boolean | AlumnoCountOutputTypeCountTemariosProgresoArgs
     testsPractica?: boolean | AlumnoCountOutputTypeCountTestsPracticaArgs
     examenesDGT?: boolean | AlumnoCountOutputTypeCountExamenesDGTArgs
+    documentosAlumno?: boolean | AlumnoCountOutputTypeCountDocumentosAlumnoArgs
   }
 
   // Custom InputTypes
@@ -3131,6 +3408,13 @@ export namespace Prisma {
   /**
    * AlumnoCountOutputType without action
    */
+  export type AlumnoCountOutputTypeCountPagosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PagoWhereInput
+  }
+
+  /**
+   * AlumnoCountOutputType without action
+   */
   export type AlumnoCountOutputTypeCountMatriculasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MatriculaWhereInput
   }
@@ -3161,6 +3445,44 @@ export namespace Prisma {
    */
   export type AlumnoCountOutputTypeCountExamenesDGTArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ExamenDGTAlumnoWhereInput
+  }
+
+  /**
+   * AlumnoCountOutputType without action
+   */
+  export type AlumnoCountOutputTypeCountDocumentosAlumnoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentoAlumnoWhereInput
+  }
+
+
+  /**
+   * Count Type DocumentoAlumnoCountOutputType
+   */
+
+  export type DocumentoAlumnoCountOutputType = {
+    archivos: number
+  }
+
+  export type DocumentoAlumnoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    archivos?: boolean | DocumentoAlumnoCountOutputTypeCountArchivosArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * DocumentoAlumnoCountOutputType without action
+   */
+  export type DocumentoAlumnoCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumnoCountOutputType
+     */
+    select?: DocumentoAlumnoCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * DocumentoAlumnoCountOutputType without action
+   */
+  export type DocumentoAlumnoCountOutputTypeCountArchivosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentoAlumnoArchivoWhereInput
   }
 
 
@@ -3373,10 +3695,14 @@ export namespace Prisma {
    */
 
   export type MatriculaCountOutputType = {
+    facturas: number
+    pagos: number
     conceptos: number
   }
 
   export type MatriculaCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    facturas?: boolean | MatriculaCountOutputTypeCountFacturasArgs
+    pagos?: boolean | MatriculaCountOutputTypeCountPagosArgs
     conceptos?: boolean | MatriculaCountOutputTypeCountConceptosArgs
   }
 
@@ -3389,6 +3715,20 @@ export namespace Prisma {
      * Select specific fields to fetch from the MatriculaCountOutputType
      */
     select?: MatriculaCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * MatriculaCountOutputType without action
+   */
+  export type MatriculaCountOutputTypeCountFacturasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FacturaWhereInput
+  }
+
+  /**
+   * MatriculaCountOutputType without action
+   */
+  export type MatriculaCountOutputTypeCountPagosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PagoWhereInput
   }
 
   /**
@@ -7054,11 +7394,13 @@ export namespace Prisma {
     bonosComprados?: boolean | Alumno$bonosCompradosArgs<ExtArgs>
     examenes?: boolean | Alumno$examenesArgs<ExtArgs>
     facturas?: boolean | Alumno$facturasArgs<ExtArgs>
+    pagos?: boolean | Alumno$pagosArgs<ExtArgs>
     matriculas?: boolean | Alumno$matriculasArgs<ExtArgs>
     solicitudesExamen?: boolean | Alumno$solicitudesExamenArgs<ExtArgs>
     temariosProgreso?: boolean | Alumno$temariosProgresoArgs<ExtArgs>
     testsPractica?: boolean | Alumno$testsPracticaArgs<ExtArgs>
     examenesDGT?: boolean | Alumno$examenesDGTArgs<ExtArgs>
+    documentosAlumno?: boolean | Alumno$documentosAlumnoArgs<ExtArgs>
     _count?: boolean | AlumnoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["alumno"]>
 
@@ -7101,11 +7443,13 @@ export namespace Prisma {
     bonosComprados?: boolean | Alumno$bonosCompradosArgs<ExtArgs>
     examenes?: boolean | Alumno$examenesArgs<ExtArgs>
     facturas?: boolean | Alumno$facturasArgs<ExtArgs>
+    pagos?: boolean | Alumno$pagosArgs<ExtArgs>
     matriculas?: boolean | Alumno$matriculasArgs<ExtArgs>
     solicitudesExamen?: boolean | Alumno$solicitudesExamenArgs<ExtArgs>
     temariosProgreso?: boolean | Alumno$temariosProgresoArgs<ExtArgs>
     testsPractica?: boolean | Alumno$testsPracticaArgs<ExtArgs>
     examenesDGT?: boolean | Alumno$examenesDGTArgs<ExtArgs>
+    documentosAlumno?: boolean | Alumno$documentosAlumnoArgs<ExtArgs>
     _count?: boolean | AlumnoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AlumnoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7126,11 +7470,13 @@ export namespace Prisma {
       bonosComprados: Prisma.$CompraBonoPayload<ExtArgs>[]
       examenes: Prisma.$ExamenPayload<ExtArgs>[]
       facturas: Prisma.$FacturaPayload<ExtArgs>[]
+      pagos: Prisma.$PagoPayload<ExtArgs>[]
       matriculas: Prisma.$MatriculaPayload<ExtArgs>[]
       solicitudesExamen: Prisma.$SolicitudExamenPayload<ExtArgs>[]
       temariosProgreso: Prisma.$TemarioProgresoPayload<ExtArgs>[]
       testsPractica: Prisma.$TestPracticaPayload<ExtArgs>[]
       examenesDGT: Prisma.$ExamenDGTAlumnoPayload<ExtArgs>[]
+      documentosAlumno: Prisma.$DocumentoAlumnoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7539,11 +7885,13 @@ export namespace Prisma {
     bonosComprados<T extends Alumno$bonosCompradosArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$bonosCompradosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompraBonoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     examenes<T extends Alumno$examenesArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$examenesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     facturas<T extends Alumno$facturasArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$facturasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FacturaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    pagos<T extends Alumno$pagosArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$pagosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PagoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     matriculas<T extends Alumno$matriculasArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$matriculasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     solicitudesExamen<T extends Alumno$solicitudesExamenArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$solicitudesExamenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SolicitudExamenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     temariosProgreso<T extends Alumno$temariosProgresoArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$temariosProgresoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemarioProgresoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     testsPractica<T extends Alumno$testsPracticaArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$testsPracticaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestPracticaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     examenesDGT<T extends Alumno$examenesDGTArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$examenesDGTArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamenDGTAlumnoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    documentosAlumno<T extends Alumno$documentosAlumnoArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$documentosAlumnoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentoAlumnoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8090,6 +8438,30 @@ export namespace Prisma {
   }
 
   /**
+   * Alumno.pagos
+   */
+  export type Alumno$pagosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pago
+     */
+    select?: PagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pago
+     */
+    omit?: PagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PagoInclude<ExtArgs> | null
+    where?: PagoWhereInput
+    orderBy?: PagoOrderByWithRelationInput | PagoOrderByWithRelationInput[]
+    cursor?: PagoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PagoScalarFieldEnum | PagoScalarFieldEnum[]
+  }
+
+  /**
    * Alumno.matriculas
    */
   export type Alumno$matriculasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8210,6 +8582,30 @@ export namespace Prisma {
   }
 
   /**
+   * Alumno.documentosAlumno
+   */
+  export type Alumno$documentosAlumnoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumno
+     */
+    select?: DocumentoAlumnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumno
+     */
+    omit?: DocumentoAlumnoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoInclude<ExtArgs> | null
+    where?: DocumentoAlumnoWhereInput
+    orderBy?: DocumentoAlumnoOrderByWithRelationInput | DocumentoAlumnoOrderByWithRelationInput[]
+    cursor?: DocumentoAlumnoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DocumentoAlumnoScalarFieldEnum | DocumentoAlumnoScalarFieldEnum[]
+  }
+
+  /**
    * Alumno without action
    */
   export type AlumnoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8225,6 +8621,2264 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AlumnoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DocumentoAlumno
+   */
+
+  export type AggregateDocumentoAlumno = {
+    _count: DocumentoAlumnoCountAggregateOutputType | null
+    _min: DocumentoAlumnoMinAggregateOutputType | null
+    _max: DocumentoAlumnoMaxAggregateOutputType | null
+  }
+
+  export type DocumentoAlumnoMinAggregateOutputType = {
+    id: string | null
+    alumnoId: string | null
+    tipo: string | null
+    estado: string | null
+    observaciones: string | null
+    activo: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DocumentoAlumnoMaxAggregateOutputType = {
+    id: string | null
+    alumnoId: string | null
+    tipo: string | null
+    estado: string | null
+    observaciones: string | null
+    activo: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DocumentoAlumnoCountAggregateOutputType = {
+    id: number
+    alumnoId: number
+    tipo: number
+    estado: number
+    observaciones: number
+    activo: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type DocumentoAlumnoMinAggregateInputType = {
+    id?: true
+    alumnoId?: true
+    tipo?: true
+    estado?: true
+    observaciones?: true
+    activo?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DocumentoAlumnoMaxAggregateInputType = {
+    id?: true
+    alumnoId?: true
+    tipo?: true
+    estado?: true
+    observaciones?: true
+    activo?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DocumentoAlumnoCountAggregateInputType = {
+    id?: true
+    alumnoId?: true
+    tipo?: true
+    estado?: true
+    observaciones?: true
+    activo?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type DocumentoAlumnoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DocumentoAlumno to aggregate.
+     */
+    where?: DocumentoAlumnoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentoAlumnos to fetch.
+     */
+    orderBy?: DocumentoAlumnoOrderByWithRelationInput | DocumentoAlumnoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DocumentoAlumnoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentoAlumnos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentoAlumnos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DocumentoAlumnos
+    **/
+    _count?: true | DocumentoAlumnoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DocumentoAlumnoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DocumentoAlumnoMaxAggregateInputType
+  }
+
+  export type GetDocumentoAlumnoAggregateType<T extends DocumentoAlumnoAggregateArgs> = {
+        [P in keyof T & keyof AggregateDocumentoAlumno]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDocumentoAlumno[P]>
+      : GetScalarType<T[P], AggregateDocumentoAlumno[P]>
+  }
+
+
+
+
+  export type DocumentoAlumnoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentoAlumnoWhereInput
+    orderBy?: DocumentoAlumnoOrderByWithAggregationInput | DocumentoAlumnoOrderByWithAggregationInput[]
+    by: DocumentoAlumnoScalarFieldEnum[] | DocumentoAlumnoScalarFieldEnum
+    having?: DocumentoAlumnoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DocumentoAlumnoCountAggregateInputType | true
+    _min?: DocumentoAlumnoMinAggregateInputType
+    _max?: DocumentoAlumnoMaxAggregateInputType
+  }
+
+  export type DocumentoAlumnoGroupByOutputType = {
+    id: string
+    alumnoId: string
+    tipo: string
+    estado: string
+    observaciones: string | null
+    activo: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: DocumentoAlumnoCountAggregateOutputType | null
+    _min: DocumentoAlumnoMinAggregateOutputType | null
+    _max: DocumentoAlumnoMaxAggregateOutputType | null
+  }
+
+  type GetDocumentoAlumnoGroupByPayload<T extends DocumentoAlumnoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DocumentoAlumnoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DocumentoAlumnoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DocumentoAlumnoGroupByOutputType[P]>
+            : GetScalarType<T[P], DocumentoAlumnoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DocumentoAlumnoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alumnoId?: boolean
+    tipo?: boolean
+    estado?: boolean
+    observaciones?: boolean
+    activo?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    archivos?: boolean | DocumentoAlumno$archivosArgs<ExtArgs>
+    _count?: boolean | DocumentoAlumnoCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["documentoAlumno"]>
+
+  export type DocumentoAlumnoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alumnoId?: boolean
+    tipo?: boolean
+    estado?: boolean
+    observaciones?: boolean
+    activo?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["documentoAlumno"]>
+
+  export type DocumentoAlumnoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alumnoId?: boolean
+    tipo?: boolean
+    estado?: boolean
+    observaciones?: boolean
+    activo?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["documentoAlumno"]>
+
+  export type DocumentoAlumnoSelectScalar = {
+    id?: boolean
+    alumnoId?: boolean
+    tipo?: boolean
+    estado?: boolean
+    observaciones?: boolean
+    activo?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type DocumentoAlumnoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "tipo" | "estado" | "observaciones" | "activo" | "createdAt" | "updatedAt", ExtArgs["result"]["documentoAlumno"]>
+  export type DocumentoAlumnoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    archivos?: boolean | DocumentoAlumno$archivosArgs<ExtArgs>
+    _count?: boolean | DocumentoAlumnoCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type DocumentoAlumnoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+  }
+  export type DocumentoAlumnoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+  }
+
+  export type $DocumentoAlumnoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DocumentoAlumno"
+    objects: {
+      alumno: Prisma.$AlumnoPayload<ExtArgs>
+      archivos: Prisma.$DocumentoAlumnoArchivoPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      alumnoId: string
+      tipo: string
+      estado: string
+      observaciones: string | null
+      activo: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["documentoAlumno"]>
+    composites: {}
+  }
+
+  type DocumentoAlumnoGetPayload<S extends boolean | null | undefined | DocumentoAlumnoDefaultArgs> = $Result.GetResult<Prisma.$DocumentoAlumnoPayload, S>
+
+  type DocumentoAlumnoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DocumentoAlumnoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DocumentoAlumnoCountAggregateInputType | true
+    }
+
+  export interface DocumentoAlumnoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DocumentoAlumno'], meta: { name: 'DocumentoAlumno' } }
+    /**
+     * Find zero or one DocumentoAlumno that matches the filter.
+     * @param {DocumentoAlumnoFindUniqueArgs} args - Arguments to find a DocumentoAlumno
+     * @example
+     * // Get one DocumentoAlumno
+     * const documentoAlumno = await prisma.documentoAlumno.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DocumentoAlumnoFindUniqueArgs>(args: SelectSubset<T, DocumentoAlumnoFindUniqueArgs<ExtArgs>>): Prisma__DocumentoAlumnoClient<$Result.GetResult<Prisma.$DocumentoAlumnoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DocumentoAlumno that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DocumentoAlumnoFindUniqueOrThrowArgs} args - Arguments to find a DocumentoAlumno
+     * @example
+     * // Get one DocumentoAlumno
+     * const documentoAlumno = await prisma.documentoAlumno.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DocumentoAlumnoFindUniqueOrThrowArgs>(args: SelectSubset<T, DocumentoAlumnoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DocumentoAlumnoClient<$Result.GetResult<Prisma.$DocumentoAlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DocumentoAlumno that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentoAlumnoFindFirstArgs} args - Arguments to find a DocumentoAlumno
+     * @example
+     * // Get one DocumentoAlumno
+     * const documentoAlumno = await prisma.documentoAlumno.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DocumentoAlumnoFindFirstArgs>(args?: SelectSubset<T, DocumentoAlumnoFindFirstArgs<ExtArgs>>): Prisma__DocumentoAlumnoClient<$Result.GetResult<Prisma.$DocumentoAlumnoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DocumentoAlumno that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentoAlumnoFindFirstOrThrowArgs} args - Arguments to find a DocumentoAlumno
+     * @example
+     * // Get one DocumentoAlumno
+     * const documentoAlumno = await prisma.documentoAlumno.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DocumentoAlumnoFindFirstOrThrowArgs>(args?: SelectSubset<T, DocumentoAlumnoFindFirstOrThrowArgs<ExtArgs>>): Prisma__DocumentoAlumnoClient<$Result.GetResult<Prisma.$DocumentoAlumnoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DocumentoAlumnos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentoAlumnoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DocumentoAlumnos
+     * const documentoAlumnos = await prisma.documentoAlumno.findMany()
+     * 
+     * // Get first 10 DocumentoAlumnos
+     * const documentoAlumnos = await prisma.documentoAlumno.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const documentoAlumnoWithIdOnly = await prisma.documentoAlumno.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DocumentoAlumnoFindManyArgs>(args?: SelectSubset<T, DocumentoAlumnoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentoAlumnoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DocumentoAlumno.
+     * @param {DocumentoAlumnoCreateArgs} args - Arguments to create a DocumentoAlumno.
+     * @example
+     * // Create one DocumentoAlumno
+     * const DocumentoAlumno = await prisma.documentoAlumno.create({
+     *   data: {
+     *     // ... data to create a DocumentoAlumno
+     *   }
+     * })
+     * 
+     */
+    create<T extends DocumentoAlumnoCreateArgs>(args: SelectSubset<T, DocumentoAlumnoCreateArgs<ExtArgs>>): Prisma__DocumentoAlumnoClient<$Result.GetResult<Prisma.$DocumentoAlumnoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DocumentoAlumnos.
+     * @param {DocumentoAlumnoCreateManyArgs} args - Arguments to create many DocumentoAlumnos.
+     * @example
+     * // Create many DocumentoAlumnos
+     * const documentoAlumno = await prisma.documentoAlumno.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DocumentoAlumnoCreateManyArgs>(args?: SelectSubset<T, DocumentoAlumnoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DocumentoAlumnos and returns the data saved in the database.
+     * @param {DocumentoAlumnoCreateManyAndReturnArgs} args - Arguments to create many DocumentoAlumnos.
+     * @example
+     * // Create many DocumentoAlumnos
+     * const documentoAlumno = await prisma.documentoAlumno.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DocumentoAlumnos and only return the `id`
+     * const documentoAlumnoWithIdOnly = await prisma.documentoAlumno.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DocumentoAlumnoCreateManyAndReturnArgs>(args?: SelectSubset<T, DocumentoAlumnoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentoAlumnoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DocumentoAlumno.
+     * @param {DocumentoAlumnoDeleteArgs} args - Arguments to delete one DocumentoAlumno.
+     * @example
+     * // Delete one DocumentoAlumno
+     * const DocumentoAlumno = await prisma.documentoAlumno.delete({
+     *   where: {
+     *     // ... filter to delete one DocumentoAlumno
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DocumentoAlumnoDeleteArgs>(args: SelectSubset<T, DocumentoAlumnoDeleteArgs<ExtArgs>>): Prisma__DocumentoAlumnoClient<$Result.GetResult<Prisma.$DocumentoAlumnoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DocumentoAlumno.
+     * @param {DocumentoAlumnoUpdateArgs} args - Arguments to update one DocumentoAlumno.
+     * @example
+     * // Update one DocumentoAlumno
+     * const documentoAlumno = await prisma.documentoAlumno.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DocumentoAlumnoUpdateArgs>(args: SelectSubset<T, DocumentoAlumnoUpdateArgs<ExtArgs>>): Prisma__DocumentoAlumnoClient<$Result.GetResult<Prisma.$DocumentoAlumnoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DocumentoAlumnos.
+     * @param {DocumentoAlumnoDeleteManyArgs} args - Arguments to filter DocumentoAlumnos to delete.
+     * @example
+     * // Delete a few DocumentoAlumnos
+     * const { count } = await prisma.documentoAlumno.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DocumentoAlumnoDeleteManyArgs>(args?: SelectSubset<T, DocumentoAlumnoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DocumentoAlumnos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentoAlumnoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DocumentoAlumnos
+     * const documentoAlumno = await prisma.documentoAlumno.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DocumentoAlumnoUpdateManyArgs>(args: SelectSubset<T, DocumentoAlumnoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DocumentoAlumnos and returns the data updated in the database.
+     * @param {DocumentoAlumnoUpdateManyAndReturnArgs} args - Arguments to update many DocumentoAlumnos.
+     * @example
+     * // Update many DocumentoAlumnos
+     * const documentoAlumno = await prisma.documentoAlumno.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DocumentoAlumnos and only return the `id`
+     * const documentoAlumnoWithIdOnly = await prisma.documentoAlumno.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DocumentoAlumnoUpdateManyAndReturnArgs>(args: SelectSubset<T, DocumentoAlumnoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentoAlumnoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DocumentoAlumno.
+     * @param {DocumentoAlumnoUpsertArgs} args - Arguments to update or create a DocumentoAlumno.
+     * @example
+     * // Update or create a DocumentoAlumno
+     * const documentoAlumno = await prisma.documentoAlumno.upsert({
+     *   create: {
+     *     // ... data to create a DocumentoAlumno
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DocumentoAlumno we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DocumentoAlumnoUpsertArgs>(args: SelectSubset<T, DocumentoAlumnoUpsertArgs<ExtArgs>>): Prisma__DocumentoAlumnoClient<$Result.GetResult<Prisma.$DocumentoAlumnoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DocumentoAlumnos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentoAlumnoCountArgs} args - Arguments to filter DocumentoAlumnos to count.
+     * @example
+     * // Count the number of DocumentoAlumnos
+     * const count = await prisma.documentoAlumno.count({
+     *   where: {
+     *     // ... the filter for the DocumentoAlumnos we want to count
+     *   }
+     * })
+    **/
+    count<T extends DocumentoAlumnoCountArgs>(
+      args?: Subset<T, DocumentoAlumnoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DocumentoAlumnoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DocumentoAlumno.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentoAlumnoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DocumentoAlumnoAggregateArgs>(args: Subset<T, DocumentoAlumnoAggregateArgs>): Prisma.PrismaPromise<GetDocumentoAlumnoAggregateType<T>>
+
+    /**
+     * Group by DocumentoAlumno.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentoAlumnoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DocumentoAlumnoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DocumentoAlumnoGroupByArgs['orderBy'] }
+        : { orderBy?: DocumentoAlumnoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DocumentoAlumnoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDocumentoAlumnoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DocumentoAlumno model
+   */
+  readonly fields: DocumentoAlumnoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DocumentoAlumno.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DocumentoAlumnoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    alumno<T extends AlumnoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AlumnoDefaultArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    archivos<T extends DocumentoAlumno$archivosArgs<ExtArgs> = {}>(args?: Subset<T, DocumentoAlumno$archivosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentoAlumnoArchivoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DocumentoAlumno model
+   */
+  interface DocumentoAlumnoFieldRefs {
+    readonly id: FieldRef<"DocumentoAlumno", 'String'>
+    readonly alumnoId: FieldRef<"DocumentoAlumno", 'String'>
+    readonly tipo: FieldRef<"DocumentoAlumno", 'String'>
+    readonly estado: FieldRef<"DocumentoAlumno", 'String'>
+    readonly observaciones: FieldRef<"DocumentoAlumno", 'String'>
+    readonly activo: FieldRef<"DocumentoAlumno", 'Boolean'>
+    readonly createdAt: FieldRef<"DocumentoAlumno", 'DateTime'>
+    readonly updatedAt: FieldRef<"DocumentoAlumno", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DocumentoAlumno findUnique
+   */
+  export type DocumentoAlumnoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumno
+     */
+    select?: DocumentoAlumnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumno
+     */
+    omit?: DocumentoAlumnoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentoAlumno to fetch.
+     */
+    where: DocumentoAlumnoWhereUniqueInput
+  }
+
+  /**
+   * DocumentoAlumno findUniqueOrThrow
+   */
+  export type DocumentoAlumnoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumno
+     */
+    select?: DocumentoAlumnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumno
+     */
+    omit?: DocumentoAlumnoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentoAlumno to fetch.
+     */
+    where: DocumentoAlumnoWhereUniqueInput
+  }
+
+  /**
+   * DocumentoAlumno findFirst
+   */
+  export type DocumentoAlumnoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumno
+     */
+    select?: DocumentoAlumnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumno
+     */
+    omit?: DocumentoAlumnoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentoAlumno to fetch.
+     */
+    where?: DocumentoAlumnoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentoAlumnos to fetch.
+     */
+    orderBy?: DocumentoAlumnoOrderByWithRelationInput | DocumentoAlumnoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DocumentoAlumnos.
+     */
+    cursor?: DocumentoAlumnoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentoAlumnos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentoAlumnos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DocumentoAlumnos.
+     */
+    distinct?: DocumentoAlumnoScalarFieldEnum | DocumentoAlumnoScalarFieldEnum[]
+  }
+
+  /**
+   * DocumentoAlumno findFirstOrThrow
+   */
+  export type DocumentoAlumnoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumno
+     */
+    select?: DocumentoAlumnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumno
+     */
+    omit?: DocumentoAlumnoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentoAlumno to fetch.
+     */
+    where?: DocumentoAlumnoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentoAlumnos to fetch.
+     */
+    orderBy?: DocumentoAlumnoOrderByWithRelationInput | DocumentoAlumnoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DocumentoAlumnos.
+     */
+    cursor?: DocumentoAlumnoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentoAlumnos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentoAlumnos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DocumentoAlumnos.
+     */
+    distinct?: DocumentoAlumnoScalarFieldEnum | DocumentoAlumnoScalarFieldEnum[]
+  }
+
+  /**
+   * DocumentoAlumno findMany
+   */
+  export type DocumentoAlumnoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumno
+     */
+    select?: DocumentoAlumnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumno
+     */
+    omit?: DocumentoAlumnoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentoAlumnos to fetch.
+     */
+    where?: DocumentoAlumnoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentoAlumnos to fetch.
+     */
+    orderBy?: DocumentoAlumnoOrderByWithRelationInput | DocumentoAlumnoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DocumentoAlumnos.
+     */
+    cursor?: DocumentoAlumnoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentoAlumnos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentoAlumnos.
+     */
+    skip?: number
+    distinct?: DocumentoAlumnoScalarFieldEnum | DocumentoAlumnoScalarFieldEnum[]
+  }
+
+  /**
+   * DocumentoAlumno create
+   */
+  export type DocumentoAlumnoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumno
+     */
+    select?: DocumentoAlumnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumno
+     */
+    omit?: DocumentoAlumnoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DocumentoAlumno.
+     */
+    data: XOR<DocumentoAlumnoCreateInput, DocumentoAlumnoUncheckedCreateInput>
+  }
+
+  /**
+   * DocumentoAlumno createMany
+   */
+  export type DocumentoAlumnoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DocumentoAlumnos.
+     */
+    data: DocumentoAlumnoCreateManyInput | DocumentoAlumnoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DocumentoAlumno createManyAndReturn
+   */
+  export type DocumentoAlumnoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumno
+     */
+    select?: DocumentoAlumnoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumno
+     */
+    omit?: DocumentoAlumnoOmit<ExtArgs> | null
+    /**
+     * The data used to create many DocumentoAlumnos.
+     */
+    data: DocumentoAlumnoCreateManyInput | DocumentoAlumnoCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DocumentoAlumno update
+   */
+  export type DocumentoAlumnoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumno
+     */
+    select?: DocumentoAlumnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumno
+     */
+    omit?: DocumentoAlumnoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DocumentoAlumno.
+     */
+    data: XOR<DocumentoAlumnoUpdateInput, DocumentoAlumnoUncheckedUpdateInput>
+    /**
+     * Choose, which DocumentoAlumno to update.
+     */
+    where: DocumentoAlumnoWhereUniqueInput
+  }
+
+  /**
+   * DocumentoAlumno updateMany
+   */
+  export type DocumentoAlumnoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DocumentoAlumnos.
+     */
+    data: XOR<DocumentoAlumnoUpdateManyMutationInput, DocumentoAlumnoUncheckedUpdateManyInput>
+    /**
+     * Filter which DocumentoAlumnos to update
+     */
+    where?: DocumentoAlumnoWhereInput
+    /**
+     * Limit how many DocumentoAlumnos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DocumentoAlumno updateManyAndReturn
+   */
+  export type DocumentoAlumnoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumno
+     */
+    select?: DocumentoAlumnoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumno
+     */
+    omit?: DocumentoAlumnoOmit<ExtArgs> | null
+    /**
+     * The data used to update DocumentoAlumnos.
+     */
+    data: XOR<DocumentoAlumnoUpdateManyMutationInput, DocumentoAlumnoUncheckedUpdateManyInput>
+    /**
+     * Filter which DocumentoAlumnos to update
+     */
+    where?: DocumentoAlumnoWhereInput
+    /**
+     * Limit how many DocumentoAlumnos to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DocumentoAlumno upsert
+   */
+  export type DocumentoAlumnoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumno
+     */
+    select?: DocumentoAlumnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumno
+     */
+    omit?: DocumentoAlumnoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DocumentoAlumno to update in case it exists.
+     */
+    where: DocumentoAlumnoWhereUniqueInput
+    /**
+     * In case the DocumentoAlumno found by the `where` argument doesn't exist, create a new DocumentoAlumno with this data.
+     */
+    create: XOR<DocumentoAlumnoCreateInput, DocumentoAlumnoUncheckedCreateInput>
+    /**
+     * In case the DocumentoAlumno was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DocumentoAlumnoUpdateInput, DocumentoAlumnoUncheckedUpdateInput>
+  }
+
+  /**
+   * DocumentoAlumno delete
+   */
+  export type DocumentoAlumnoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumno
+     */
+    select?: DocumentoAlumnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumno
+     */
+    omit?: DocumentoAlumnoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoInclude<ExtArgs> | null
+    /**
+     * Filter which DocumentoAlumno to delete.
+     */
+    where: DocumentoAlumnoWhereUniqueInput
+  }
+
+  /**
+   * DocumentoAlumno deleteMany
+   */
+  export type DocumentoAlumnoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DocumentoAlumnos to delete
+     */
+    where?: DocumentoAlumnoWhereInput
+    /**
+     * Limit how many DocumentoAlumnos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DocumentoAlumno.archivos
+   */
+  export type DocumentoAlumno$archivosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumnoArchivo
+     */
+    select?: DocumentoAlumnoArchivoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumnoArchivo
+     */
+    omit?: DocumentoAlumnoArchivoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoArchivoInclude<ExtArgs> | null
+    where?: DocumentoAlumnoArchivoWhereInput
+    orderBy?: DocumentoAlumnoArchivoOrderByWithRelationInput | DocumentoAlumnoArchivoOrderByWithRelationInput[]
+    cursor?: DocumentoAlumnoArchivoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DocumentoAlumnoArchivoScalarFieldEnum | DocumentoAlumnoArchivoScalarFieldEnum[]
+  }
+
+  /**
+   * DocumentoAlumno without action
+   */
+  export type DocumentoAlumnoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumno
+     */
+    select?: DocumentoAlumnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumno
+     */
+    omit?: DocumentoAlumnoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DocumentoAlumnoArchivo
+   */
+
+  export type AggregateDocumentoAlumnoArchivo = {
+    _count: DocumentoAlumnoArchivoCountAggregateOutputType | null
+    _avg: DocumentoAlumnoArchivoAvgAggregateOutputType | null
+    _sum: DocumentoAlumnoArchivoSumAggregateOutputType | null
+    _min: DocumentoAlumnoArchivoMinAggregateOutputType | null
+    _max: DocumentoAlumnoArchivoMaxAggregateOutputType | null
+  }
+
+  export type DocumentoAlumnoArchivoAvgAggregateOutputType = {
+    tamanioBytes: number | null
+  }
+
+  export type DocumentoAlumnoArchivoSumAggregateOutputType = {
+    tamanioBytes: number | null
+  }
+
+  export type DocumentoAlumnoArchivoMinAggregateOutputType = {
+    id: string | null
+    documentoId: string | null
+    nombreOriginal: string | null
+    nombreArchivo: string | null
+    mimeType: string | null
+    tamanioBytes: number | null
+    ruta: string | null
+    createdAt: Date | null
+  }
+
+  export type DocumentoAlumnoArchivoMaxAggregateOutputType = {
+    id: string | null
+    documentoId: string | null
+    nombreOriginal: string | null
+    nombreArchivo: string | null
+    mimeType: string | null
+    tamanioBytes: number | null
+    ruta: string | null
+    createdAt: Date | null
+  }
+
+  export type DocumentoAlumnoArchivoCountAggregateOutputType = {
+    id: number
+    documentoId: number
+    nombreOriginal: number
+    nombreArchivo: number
+    mimeType: number
+    tamanioBytes: number
+    ruta: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type DocumentoAlumnoArchivoAvgAggregateInputType = {
+    tamanioBytes?: true
+  }
+
+  export type DocumentoAlumnoArchivoSumAggregateInputType = {
+    tamanioBytes?: true
+  }
+
+  export type DocumentoAlumnoArchivoMinAggregateInputType = {
+    id?: true
+    documentoId?: true
+    nombreOriginal?: true
+    nombreArchivo?: true
+    mimeType?: true
+    tamanioBytes?: true
+    ruta?: true
+    createdAt?: true
+  }
+
+  export type DocumentoAlumnoArchivoMaxAggregateInputType = {
+    id?: true
+    documentoId?: true
+    nombreOriginal?: true
+    nombreArchivo?: true
+    mimeType?: true
+    tamanioBytes?: true
+    ruta?: true
+    createdAt?: true
+  }
+
+  export type DocumentoAlumnoArchivoCountAggregateInputType = {
+    id?: true
+    documentoId?: true
+    nombreOriginal?: true
+    nombreArchivo?: true
+    mimeType?: true
+    tamanioBytes?: true
+    ruta?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type DocumentoAlumnoArchivoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DocumentoAlumnoArchivo to aggregate.
+     */
+    where?: DocumentoAlumnoArchivoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentoAlumnoArchivos to fetch.
+     */
+    orderBy?: DocumentoAlumnoArchivoOrderByWithRelationInput | DocumentoAlumnoArchivoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DocumentoAlumnoArchivoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentoAlumnoArchivos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentoAlumnoArchivos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DocumentoAlumnoArchivos
+    **/
+    _count?: true | DocumentoAlumnoArchivoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DocumentoAlumnoArchivoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DocumentoAlumnoArchivoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DocumentoAlumnoArchivoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DocumentoAlumnoArchivoMaxAggregateInputType
+  }
+
+  export type GetDocumentoAlumnoArchivoAggregateType<T extends DocumentoAlumnoArchivoAggregateArgs> = {
+        [P in keyof T & keyof AggregateDocumentoAlumnoArchivo]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDocumentoAlumnoArchivo[P]>
+      : GetScalarType<T[P], AggregateDocumentoAlumnoArchivo[P]>
+  }
+
+
+
+
+  export type DocumentoAlumnoArchivoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentoAlumnoArchivoWhereInput
+    orderBy?: DocumentoAlumnoArchivoOrderByWithAggregationInput | DocumentoAlumnoArchivoOrderByWithAggregationInput[]
+    by: DocumentoAlumnoArchivoScalarFieldEnum[] | DocumentoAlumnoArchivoScalarFieldEnum
+    having?: DocumentoAlumnoArchivoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DocumentoAlumnoArchivoCountAggregateInputType | true
+    _avg?: DocumentoAlumnoArchivoAvgAggregateInputType
+    _sum?: DocumentoAlumnoArchivoSumAggregateInputType
+    _min?: DocumentoAlumnoArchivoMinAggregateInputType
+    _max?: DocumentoAlumnoArchivoMaxAggregateInputType
+  }
+
+  export type DocumentoAlumnoArchivoGroupByOutputType = {
+    id: string
+    documentoId: string
+    nombreOriginal: string
+    nombreArchivo: string
+    mimeType: string
+    tamanioBytes: number
+    ruta: string
+    createdAt: Date
+    _count: DocumentoAlumnoArchivoCountAggregateOutputType | null
+    _avg: DocumentoAlumnoArchivoAvgAggregateOutputType | null
+    _sum: DocumentoAlumnoArchivoSumAggregateOutputType | null
+    _min: DocumentoAlumnoArchivoMinAggregateOutputType | null
+    _max: DocumentoAlumnoArchivoMaxAggregateOutputType | null
+  }
+
+  type GetDocumentoAlumnoArchivoGroupByPayload<T extends DocumentoAlumnoArchivoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DocumentoAlumnoArchivoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DocumentoAlumnoArchivoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DocumentoAlumnoArchivoGroupByOutputType[P]>
+            : GetScalarType<T[P], DocumentoAlumnoArchivoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DocumentoAlumnoArchivoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    documentoId?: boolean
+    nombreOriginal?: boolean
+    nombreArchivo?: boolean
+    mimeType?: boolean
+    tamanioBytes?: boolean
+    ruta?: boolean
+    createdAt?: boolean
+    documento?: boolean | DocumentoAlumnoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["documentoAlumnoArchivo"]>
+
+  export type DocumentoAlumnoArchivoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    documentoId?: boolean
+    nombreOriginal?: boolean
+    nombreArchivo?: boolean
+    mimeType?: boolean
+    tamanioBytes?: boolean
+    ruta?: boolean
+    createdAt?: boolean
+    documento?: boolean | DocumentoAlumnoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["documentoAlumnoArchivo"]>
+
+  export type DocumentoAlumnoArchivoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    documentoId?: boolean
+    nombreOriginal?: boolean
+    nombreArchivo?: boolean
+    mimeType?: boolean
+    tamanioBytes?: boolean
+    ruta?: boolean
+    createdAt?: boolean
+    documento?: boolean | DocumentoAlumnoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["documentoAlumnoArchivo"]>
+
+  export type DocumentoAlumnoArchivoSelectScalar = {
+    id?: boolean
+    documentoId?: boolean
+    nombreOriginal?: boolean
+    nombreArchivo?: boolean
+    mimeType?: boolean
+    tamanioBytes?: boolean
+    ruta?: boolean
+    createdAt?: boolean
+  }
+
+  export type DocumentoAlumnoArchivoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "documentoId" | "nombreOriginal" | "nombreArchivo" | "mimeType" | "tamanioBytes" | "ruta" | "createdAt", ExtArgs["result"]["documentoAlumnoArchivo"]>
+  export type DocumentoAlumnoArchivoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    documento?: boolean | DocumentoAlumnoDefaultArgs<ExtArgs>
+  }
+  export type DocumentoAlumnoArchivoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    documento?: boolean | DocumentoAlumnoDefaultArgs<ExtArgs>
+  }
+  export type DocumentoAlumnoArchivoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    documento?: boolean | DocumentoAlumnoDefaultArgs<ExtArgs>
+  }
+
+  export type $DocumentoAlumnoArchivoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DocumentoAlumnoArchivo"
+    objects: {
+      documento: Prisma.$DocumentoAlumnoPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      documentoId: string
+      nombreOriginal: string
+      nombreArchivo: string
+      mimeType: string
+      tamanioBytes: number
+      ruta: string
+      createdAt: Date
+    }, ExtArgs["result"]["documentoAlumnoArchivo"]>
+    composites: {}
+  }
+
+  type DocumentoAlumnoArchivoGetPayload<S extends boolean | null | undefined | DocumentoAlumnoArchivoDefaultArgs> = $Result.GetResult<Prisma.$DocumentoAlumnoArchivoPayload, S>
+
+  type DocumentoAlumnoArchivoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DocumentoAlumnoArchivoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DocumentoAlumnoArchivoCountAggregateInputType | true
+    }
+
+  export interface DocumentoAlumnoArchivoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DocumentoAlumnoArchivo'], meta: { name: 'DocumentoAlumnoArchivo' } }
+    /**
+     * Find zero or one DocumentoAlumnoArchivo that matches the filter.
+     * @param {DocumentoAlumnoArchivoFindUniqueArgs} args - Arguments to find a DocumentoAlumnoArchivo
+     * @example
+     * // Get one DocumentoAlumnoArchivo
+     * const documentoAlumnoArchivo = await prisma.documentoAlumnoArchivo.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DocumentoAlumnoArchivoFindUniqueArgs>(args: SelectSubset<T, DocumentoAlumnoArchivoFindUniqueArgs<ExtArgs>>): Prisma__DocumentoAlumnoArchivoClient<$Result.GetResult<Prisma.$DocumentoAlumnoArchivoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DocumentoAlumnoArchivo that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DocumentoAlumnoArchivoFindUniqueOrThrowArgs} args - Arguments to find a DocumentoAlumnoArchivo
+     * @example
+     * // Get one DocumentoAlumnoArchivo
+     * const documentoAlumnoArchivo = await prisma.documentoAlumnoArchivo.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DocumentoAlumnoArchivoFindUniqueOrThrowArgs>(args: SelectSubset<T, DocumentoAlumnoArchivoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DocumentoAlumnoArchivoClient<$Result.GetResult<Prisma.$DocumentoAlumnoArchivoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DocumentoAlumnoArchivo that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentoAlumnoArchivoFindFirstArgs} args - Arguments to find a DocumentoAlumnoArchivo
+     * @example
+     * // Get one DocumentoAlumnoArchivo
+     * const documentoAlumnoArchivo = await prisma.documentoAlumnoArchivo.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DocumentoAlumnoArchivoFindFirstArgs>(args?: SelectSubset<T, DocumentoAlumnoArchivoFindFirstArgs<ExtArgs>>): Prisma__DocumentoAlumnoArchivoClient<$Result.GetResult<Prisma.$DocumentoAlumnoArchivoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DocumentoAlumnoArchivo that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentoAlumnoArchivoFindFirstOrThrowArgs} args - Arguments to find a DocumentoAlumnoArchivo
+     * @example
+     * // Get one DocumentoAlumnoArchivo
+     * const documentoAlumnoArchivo = await prisma.documentoAlumnoArchivo.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DocumentoAlumnoArchivoFindFirstOrThrowArgs>(args?: SelectSubset<T, DocumentoAlumnoArchivoFindFirstOrThrowArgs<ExtArgs>>): Prisma__DocumentoAlumnoArchivoClient<$Result.GetResult<Prisma.$DocumentoAlumnoArchivoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DocumentoAlumnoArchivos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentoAlumnoArchivoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DocumentoAlumnoArchivos
+     * const documentoAlumnoArchivos = await prisma.documentoAlumnoArchivo.findMany()
+     * 
+     * // Get first 10 DocumentoAlumnoArchivos
+     * const documentoAlumnoArchivos = await prisma.documentoAlumnoArchivo.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const documentoAlumnoArchivoWithIdOnly = await prisma.documentoAlumnoArchivo.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DocumentoAlumnoArchivoFindManyArgs>(args?: SelectSubset<T, DocumentoAlumnoArchivoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentoAlumnoArchivoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DocumentoAlumnoArchivo.
+     * @param {DocumentoAlumnoArchivoCreateArgs} args - Arguments to create a DocumentoAlumnoArchivo.
+     * @example
+     * // Create one DocumentoAlumnoArchivo
+     * const DocumentoAlumnoArchivo = await prisma.documentoAlumnoArchivo.create({
+     *   data: {
+     *     // ... data to create a DocumentoAlumnoArchivo
+     *   }
+     * })
+     * 
+     */
+    create<T extends DocumentoAlumnoArchivoCreateArgs>(args: SelectSubset<T, DocumentoAlumnoArchivoCreateArgs<ExtArgs>>): Prisma__DocumentoAlumnoArchivoClient<$Result.GetResult<Prisma.$DocumentoAlumnoArchivoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DocumentoAlumnoArchivos.
+     * @param {DocumentoAlumnoArchivoCreateManyArgs} args - Arguments to create many DocumentoAlumnoArchivos.
+     * @example
+     * // Create many DocumentoAlumnoArchivos
+     * const documentoAlumnoArchivo = await prisma.documentoAlumnoArchivo.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DocumentoAlumnoArchivoCreateManyArgs>(args?: SelectSubset<T, DocumentoAlumnoArchivoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DocumentoAlumnoArchivos and returns the data saved in the database.
+     * @param {DocumentoAlumnoArchivoCreateManyAndReturnArgs} args - Arguments to create many DocumentoAlumnoArchivos.
+     * @example
+     * // Create many DocumentoAlumnoArchivos
+     * const documentoAlumnoArchivo = await prisma.documentoAlumnoArchivo.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DocumentoAlumnoArchivos and only return the `id`
+     * const documentoAlumnoArchivoWithIdOnly = await prisma.documentoAlumnoArchivo.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DocumentoAlumnoArchivoCreateManyAndReturnArgs>(args?: SelectSubset<T, DocumentoAlumnoArchivoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentoAlumnoArchivoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DocumentoAlumnoArchivo.
+     * @param {DocumentoAlumnoArchivoDeleteArgs} args - Arguments to delete one DocumentoAlumnoArchivo.
+     * @example
+     * // Delete one DocumentoAlumnoArchivo
+     * const DocumentoAlumnoArchivo = await prisma.documentoAlumnoArchivo.delete({
+     *   where: {
+     *     // ... filter to delete one DocumentoAlumnoArchivo
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DocumentoAlumnoArchivoDeleteArgs>(args: SelectSubset<T, DocumentoAlumnoArchivoDeleteArgs<ExtArgs>>): Prisma__DocumentoAlumnoArchivoClient<$Result.GetResult<Prisma.$DocumentoAlumnoArchivoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DocumentoAlumnoArchivo.
+     * @param {DocumentoAlumnoArchivoUpdateArgs} args - Arguments to update one DocumentoAlumnoArchivo.
+     * @example
+     * // Update one DocumentoAlumnoArchivo
+     * const documentoAlumnoArchivo = await prisma.documentoAlumnoArchivo.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DocumentoAlumnoArchivoUpdateArgs>(args: SelectSubset<T, DocumentoAlumnoArchivoUpdateArgs<ExtArgs>>): Prisma__DocumentoAlumnoArchivoClient<$Result.GetResult<Prisma.$DocumentoAlumnoArchivoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DocumentoAlumnoArchivos.
+     * @param {DocumentoAlumnoArchivoDeleteManyArgs} args - Arguments to filter DocumentoAlumnoArchivos to delete.
+     * @example
+     * // Delete a few DocumentoAlumnoArchivos
+     * const { count } = await prisma.documentoAlumnoArchivo.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DocumentoAlumnoArchivoDeleteManyArgs>(args?: SelectSubset<T, DocumentoAlumnoArchivoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DocumentoAlumnoArchivos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentoAlumnoArchivoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DocumentoAlumnoArchivos
+     * const documentoAlumnoArchivo = await prisma.documentoAlumnoArchivo.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DocumentoAlumnoArchivoUpdateManyArgs>(args: SelectSubset<T, DocumentoAlumnoArchivoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DocumentoAlumnoArchivos and returns the data updated in the database.
+     * @param {DocumentoAlumnoArchivoUpdateManyAndReturnArgs} args - Arguments to update many DocumentoAlumnoArchivos.
+     * @example
+     * // Update many DocumentoAlumnoArchivos
+     * const documentoAlumnoArchivo = await prisma.documentoAlumnoArchivo.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DocumentoAlumnoArchivos and only return the `id`
+     * const documentoAlumnoArchivoWithIdOnly = await prisma.documentoAlumnoArchivo.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DocumentoAlumnoArchivoUpdateManyAndReturnArgs>(args: SelectSubset<T, DocumentoAlumnoArchivoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentoAlumnoArchivoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DocumentoAlumnoArchivo.
+     * @param {DocumentoAlumnoArchivoUpsertArgs} args - Arguments to update or create a DocumentoAlumnoArchivo.
+     * @example
+     * // Update or create a DocumentoAlumnoArchivo
+     * const documentoAlumnoArchivo = await prisma.documentoAlumnoArchivo.upsert({
+     *   create: {
+     *     // ... data to create a DocumentoAlumnoArchivo
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DocumentoAlumnoArchivo we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DocumentoAlumnoArchivoUpsertArgs>(args: SelectSubset<T, DocumentoAlumnoArchivoUpsertArgs<ExtArgs>>): Prisma__DocumentoAlumnoArchivoClient<$Result.GetResult<Prisma.$DocumentoAlumnoArchivoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DocumentoAlumnoArchivos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentoAlumnoArchivoCountArgs} args - Arguments to filter DocumentoAlumnoArchivos to count.
+     * @example
+     * // Count the number of DocumentoAlumnoArchivos
+     * const count = await prisma.documentoAlumnoArchivo.count({
+     *   where: {
+     *     // ... the filter for the DocumentoAlumnoArchivos we want to count
+     *   }
+     * })
+    **/
+    count<T extends DocumentoAlumnoArchivoCountArgs>(
+      args?: Subset<T, DocumentoAlumnoArchivoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DocumentoAlumnoArchivoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DocumentoAlumnoArchivo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentoAlumnoArchivoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DocumentoAlumnoArchivoAggregateArgs>(args: Subset<T, DocumentoAlumnoArchivoAggregateArgs>): Prisma.PrismaPromise<GetDocumentoAlumnoArchivoAggregateType<T>>
+
+    /**
+     * Group by DocumentoAlumnoArchivo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentoAlumnoArchivoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DocumentoAlumnoArchivoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DocumentoAlumnoArchivoGroupByArgs['orderBy'] }
+        : { orderBy?: DocumentoAlumnoArchivoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DocumentoAlumnoArchivoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDocumentoAlumnoArchivoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DocumentoAlumnoArchivo model
+   */
+  readonly fields: DocumentoAlumnoArchivoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DocumentoAlumnoArchivo.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DocumentoAlumnoArchivoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    documento<T extends DocumentoAlumnoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DocumentoAlumnoDefaultArgs<ExtArgs>>): Prisma__DocumentoAlumnoClient<$Result.GetResult<Prisma.$DocumentoAlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DocumentoAlumnoArchivo model
+   */
+  interface DocumentoAlumnoArchivoFieldRefs {
+    readonly id: FieldRef<"DocumentoAlumnoArchivo", 'String'>
+    readonly documentoId: FieldRef<"DocumentoAlumnoArchivo", 'String'>
+    readonly nombreOriginal: FieldRef<"DocumentoAlumnoArchivo", 'String'>
+    readonly nombreArchivo: FieldRef<"DocumentoAlumnoArchivo", 'String'>
+    readonly mimeType: FieldRef<"DocumentoAlumnoArchivo", 'String'>
+    readonly tamanioBytes: FieldRef<"DocumentoAlumnoArchivo", 'Int'>
+    readonly ruta: FieldRef<"DocumentoAlumnoArchivo", 'String'>
+    readonly createdAt: FieldRef<"DocumentoAlumnoArchivo", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DocumentoAlumnoArchivo findUnique
+   */
+  export type DocumentoAlumnoArchivoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumnoArchivo
+     */
+    select?: DocumentoAlumnoArchivoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumnoArchivo
+     */
+    omit?: DocumentoAlumnoArchivoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoArchivoInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentoAlumnoArchivo to fetch.
+     */
+    where: DocumentoAlumnoArchivoWhereUniqueInput
+  }
+
+  /**
+   * DocumentoAlumnoArchivo findUniqueOrThrow
+   */
+  export type DocumentoAlumnoArchivoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumnoArchivo
+     */
+    select?: DocumentoAlumnoArchivoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumnoArchivo
+     */
+    omit?: DocumentoAlumnoArchivoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoArchivoInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentoAlumnoArchivo to fetch.
+     */
+    where: DocumentoAlumnoArchivoWhereUniqueInput
+  }
+
+  /**
+   * DocumentoAlumnoArchivo findFirst
+   */
+  export type DocumentoAlumnoArchivoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumnoArchivo
+     */
+    select?: DocumentoAlumnoArchivoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumnoArchivo
+     */
+    omit?: DocumentoAlumnoArchivoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoArchivoInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentoAlumnoArchivo to fetch.
+     */
+    where?: DocumentoAlumnoArchivoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentoAlumnoArchivos to fetch.
+     */
+    orderBy?: DocumentoAlumnoArchivoOrderByWithRelationInput | DocumentoAlumnoArchivoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DocumentoAlumnoArchivos.
+     */
+    cursor?: DocumentoAlumnoArchivoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentoAlumnoArchivos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentoAlumnoArchivos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DocumentoAlumnoArchivos.
+     */
+    distinct?: DocumentoAlumnoArchivoScalarFieldEnum | DocumentoAlumnoArchivoScalarFieldEnum[]
+  }
+
+  /**
+   * DocumentoAlumnoArchivo findFirstOrThrow
+   */
+  export type DocumentoAlumnoArchivoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumnoArchivo
+     */
+    select?: DocumentoAlumnoArchivoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumnoArchivo
+     */
+    omit?: DocumentoAlumnoArchivoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoArchivoInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentoAlumnoArchivo to fetch.
+     */
+    where?: DocumentoAlumnoArchivoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentoAlumnoArchivos to fetch.
+     */
+    orderBy?: DocumentoAlumnoArchivoOrderByWithRelationInput | DocumentoAlumnoArchivoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DocumentoAlumnoArchivos.
+     */
+    cursor?: DocumentoAlumnoArchivoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentoAlumnoArchivos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentoAlumnoArchivos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DocumentoAlumnoArchivos.
+     */
+    distinct?: DocumentoAlumnoArchivoScalarFieldEnum | DocumentoAlumnoArchivoScalarFieldEnum[]
+  }
+
+  /**
+   * DocumentoAlumnoArchivo findMany
+   */
+  export type DocumentoAlumnoArchivoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumnoArchivo
+     */
+    select?: DocumentoAlumnoArchivoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumnoArchivo
+     */
+    omit?: DocumentoAlumnoArchivoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoArchivoInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentoAlumnoArchivos to fetch.
+     */
+    where?: DocumentoAlumnoArchivoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentoAlumnoArchivos to fetch.
+     */
+    orderBy?: DocumentoAlumnoArchivoOrderByWithRelationInput | DocumentoAlumnoArchivoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DocumentoAlumnoArchivos.
+     */
+    cursor?: DocumentoAlumnoArchivoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentoAlumnoArchivos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentoAlumnoArchivos.
+     */
+    skip?: number
+    distinct?: DocumentoAlumnoArchivoScalarFieldEnum | DocumentoAlumnoArchivoScalarFieldEnum[]
+  }
+
+  /**
+   * DocumentoAlumnoArchivo create
+   */
+  export type DocumentoAlumnoArchivoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumnoArchivo
+     */
+    select?: DocumentoAlumnoArchivoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumnoArchivo
+     */
+    omit?: DocumentoAlumnoArchivoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoArchivoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DocumentoAlumnoArchivo.
+     */
+    data: XOR<DocumentoAlumnoArchivoCreateInput, DocumentoAlumnoArchivoUncheckedCreateInput>
+  }
+
+  /**
+   * DocumentoAlumnoArchivo createMany
+   */
+  export type DocumentoAlumnoArchivoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DocumentoAlumnoArchivos.
+     */
+    data: DocumentoAlumnoArchivoCreateManyInput | DocumentoAlumnoArchivoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DocumentoAlumnoArchivo createManyAndReturn
+   */
+  export type DocumentoAlumnoArchivoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumnoArchivo
+     */
+    select?: DocumentoAlumnoArchivoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumnoArchivo
+     */
+    omit?: DocumentoAlumnoArchivoOmit<ExtArgs> | null
+    /**
+     * The data used to create many DocumentoAlumnoArchivos.
+     */
+    data: DocumentoAlumnoArchivoCreateManyInput | DocumentoAlumnoArchivoCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoArchivoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DocumentoAlumnoArchivo update
+   */
+  export type DocumentoAlumnoArchivoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumnoArchivo
+     */
+    select?: DocumentoAlumnoArchivoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumnoArchivo
+     */
+    omit?: DocumentoAlumnoArchivoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoArchivoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DocumentoAlumnoArchivo.
+     */
+    data: XOR<DocumentoAlumnoArchivoUpdateInput, DocumentoAlumnoArchivoUncheckedUpdateInput>
+    /**
+     * Choose, which DocumentoAlumnoArchivo to update.
+     */
+    where: DocumentoAlumnoArchivoWhereUniqueInput
+  }
+
+  /**
+   * DocumentoAlumnoArchivo updateMany
+   */
+  export type DocumentoAlumnoArchivoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DocumentoAlumnoArchivos.
+     */
+    data: XOR<DocumentoAlumnoArchivoUpdateManyMutationInput, DocumentoAlumnoArchivoUncheckedUpdateManyInput>
+    /**
+     * Filter which DocumentoAlumnoArchivos to update
+     */
+    where?: DocumentoAlumnoArchivoWhereInput
+    /**
+     * Limit how many DocumentoAlumnoArchivos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DocumentoAlumnoArchivo updateManyAndReturn
+   */
+  export type DocumentoAlumnoArchivoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumnoArchivo
+     */
+    select?: DocumentoAlumnoArchivoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumnoArchivo
+     */
+    omit?: DocumentoAlumnoArchivoOmit<ExtArgs> | null
+    /**
+     * The data used to update DocumentoAlumnoArchivos.
+     */
+    data: XOR<DocumentoAlumnoArchivoUpdateManyMutationInput, DocumentoAlumnoArchivoUncheckedUpdateManyInput>
+    /**
+     * Filter which DocumentoAlumnoArchivos to update
+     */
+    where?: DocumentoAlumnoArchivoWhereInput
+    /**
+     * Limit how many DocumentoAlumnoArchivos to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoArchivoIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DocumentoAlumnoArchivo upsert
+   */
+  export type DocumentoAlumnoArchivoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumnoArchivo
+     */
+    select?: DocumentoAlumnoArchivoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumnoArchivo
+     */
+    omit?: DocumentoAlumnoArchivoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoArchivoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DocumentoAlumnoArchivo to update in case it exists.
+     */
+    where: DocumentoAlumnoArchivoWhereUniqueInput
+    /**
+     * In case the DocumentoAlumnoArchivo found by the `where` argument doesn't exist, create a new DocumentoAlumnoArchivo with this data.
+     */
+    create: XOR<DocumentoAlumnoArchivoCreateInput, DocumentoAlumnoArchivoUncheckedCreateInput>
+    /**
+     * In case the DocumentoAlumnoArchivo was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DocumentoAlumnoArchivoUpdateInput, DocumentoAlumnoArchivoUncheckedUpdateInput>
+  }
+
+  /**
+   * DocumentoAlumnoArchivo delete
+   */
+  export type DocumentoAlumnoArchivoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumnoArchivo
+     */
+    select?: DocumentoAlumnoArchivoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumnoArchivo
+     */
+    omit?: DocumentoAlumnoArchivoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoArchivoInclude<ExtArgs> | null
+    /**
+     * Filter which DocumentoAlumnoArchivo to delete.
+     */
+    where: DocumentoAlumnoArchivoWhereUniqueInput
+  }
+
+  /**
+   * DocumentoAlumnoArchivo deleteMany
+   */
+  export type DocumentoAlumnoArchivoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DocumentoAlumnoArchivos to delete
+     */
+    where?: DocumentoAlumnoArchivoWhereInput
+    /**
+     * Limit how many DocumentoAlumnoArchivos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DocumentoAlumnoArchivo without action
+   */
+  export type DocumentoAlumnoArchivoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoAlumnoArchivo
+     */
+    select?: DocumentoAlumnoArchivoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoAlumnoArchivo
+     */
+    omit?: DocumentoAlumnoArchivoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoAlumnoArchivoInclude<ExtArgs> | null
   }
 
 
@@ -27680,7 +30334,8 @@ export namespace Prisma {
     fechaCreacion?: boolean
     fechaPago?: boolean
     observaciones?: boolean
-    factura?: boolean | Matricula$facturaArgs<ExtArgs>
+    facturas?: boolean | Matricula$facturasArgs<ExtArgs>
+    pagos?: boolean | Matricula$pagosArgs<ExtArgs>
     conceptos?: boolean | Matricula$conceptosArgs<ExtArgs>
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     promocion?: boolean | Matricula$promocionArgs<ExtArgs>
@@ -27732,7 +30387,8 @@ export namespace Prisma {
 
   export type MatriculaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "licencia" | "precioBase" | "precioFinal" | "promocionId" | "estado" | "fechaCreacion" | "fechaPago" | "observaciones", ExtArgs["result"]["matricula"]>
   export type MatriculaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    factura?: boolean | Matricula$facturaArgs<ExtArgs>
+    facturas?: boolean | Matricula$facturasArgs<ExtArgs>
+    pagos?: boolean | Matricula$pagosArgs<ExtArgs>
     conceptos?: boolean | Matricula$conceptosArgs<ExtArgs>
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     promocion?: boolean | Matricula$promocionArgs<ExtArgs>
@@ -27750,7 +30406,8 @@ export namespace Prisma {
   export type $MatriculaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Matricula"
     objects: {
-      factura: Prisma.$FacturaPayload<ExtArgs> | null
+      facturas: Prisma.$FacturaPayload<ExtArgs>[]
+      pagos: Prisma.$PagoPayload<ExtArgs>[]
       conceptos: Prisma.$MatriculaConceptoPayload<ExtArgs>[]
       alumno: Prisma.$AlumnoPayload<ExtArgs>
       promocion: Prisma.$PromocionPayload<ExtArgs> | null
@@ -28160,7 +30817,8 @@ export namespace Prisma {
    */
   export interface Prisma__MatriculaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    factura<T extends Matricula$facturaArgs<ExtArgs> = {}>(args?: Subset<T, Matricula$facturaArgs<ExtArgs>>): Prisma__FacturaClient<$Result.GetResult<Prisma.$FacturaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    facturas<T extends Matricula$facturasArgs<ExtArgs> = {}>(args?: Subset<T, Matricula$facturasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FacturaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    pagos<T extends Matricula$pagosArgs<ExtArgs> = {}>(args?: Subset<T, Matricula$pagosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PagoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     conceptos<T extends Matricula$conceptosArgs<ExtArgs> = {}>(args?: Subset<T, Matricula$conceptosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatriculaConceptoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     alumno<T extends AlumnoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AlumnoDefaultArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     promocion<T extends Matricula$promocionArgs<ExtArgs> = {}>(args?: Subset<T, Matricula$promocionArgs<ExtArgs>>): Prisma__PromocionClient<$Result.GetResult<Prisma.$PromocionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -28599,9 +31257,9 @@ export namespace Prisma {
   }
 
   /**
-   * Matricula.factura
+   * Matricula.facturas
    */
-  export type Matricula$facturaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Matricula$facturasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Factura
      */
@@ -28615,6 +31273,35 @@ export namespace Prisma {
      */
     include?: FacturaInclude<ExtArgs> | null
     where?: FacturaWhereInput
+    orderBy?: FacturaOrderByWithRelationInput | FacturaOrderByWithRelationInput[]
+    cursor?: FacturaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FacturaScalarFieldEnum | FacturaScalarFieldEnum[]
+  }
+
+  /**
+   * Matricula.pagos
+   */
+  export type Matricula$pagosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pago
+     */
+    select?: PagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pago
+     */
+    omit?: PagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PagoInclude<ExtArgs> | null
+    where?: PagoWhereInput
+    orderBy?: PagoOrderByWithRelationInput | PagoOrderByWithRelationInput[]
+    cursor?: PagoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PagoScalarFieldEnum | PagoScalarFieldEnum[]
   }
 
   /**
@@ -28676,6 +31363,1250 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: MatriculaInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Pago
+   */
+
+  export type AggregatePago = {
+    _count: PagoCountAggregateOutputType | null
+    _avg: PagoAvgAggregateOutputType | null
+    _sum: PagoSumAggregateOutputType | null
+    _min: PagoMinAggregateOutputType | null
+    _max: PagoMaxAggregateOutputType | null
+  }
+
+  export type PagoAvgAggregateOutputType = {
+    importe: Decimal | null
+    convocatoriasIncluidas: number | null
+    convocatoriasConsumidas: number | null
+  }
+
+  export type PagoSumAggregateOutputType = {
+    importe: Decimal | null
+    convocatoriasIncluidas: number | null
+    convocatoriasConsumidas: number | null
+  }
+
+  export type PagoMinAggregateOutputType = {
+    id: string | null
+    alumnoId: string | null
+    matriculaId: string | null
+    tipo: string | null
+    concepto: string | null
+    permiso: string | null
+    importe: Decimal | null
+    estado: string | null
+    convocatoriasIncluidas: number | null
+    convocatoriasConsumidas: number | null
+    fechaCreacion: Date | null
+    fechaPago: Date | null
+    numeroFacturaPago: string | null
+    observaciones: string | null
+  }
+
+  export type PagoMaxAggregateOutputType = {
+    id: string | null
+    alumnoId: string | null
+    matriculaId: string | null
+    tipo: string | null
+    concepto: string | null
+    permiso: string | null
+    importe: Decimal | null
+    estado: string | null
+    convocatoriasIncluidas: number | null
+    convocatoriasConsumidas: number | null
+    fechaCreacion: Date | null
+    fechaPago: Date | null
+    numeroFacturaPago: string | null
+    observaciones: string | null
+  }
+
+  export type PagoCountAggregateOutputType = {
+    id: number
+    alumnoId: number
+    matriculaId: number
+    tipo: number
+    concepto: number
+    permiso: number
+    importe: number
+    estado: number
+    convocatoriasIncluidas: number
+    convocatoriasConsumidas: number
+    fechaCreacion: number
+    fechaPago: number
+    numeroFacturaPago: number
+    observaciones: number
+    _all: number
+  }
+
+
+  export type PagoAvgAggregateInputType = {
+    importe?: true
+    convocatoriasIncluidas?: true
+    convocatoriasConsumidas?: true
+  }
+
+  export type PagoSumAggregateInputType = {
+    importe?: true
+    convocatoriasIncluidas?: true
+    convocatoriasConsumidas?: true
+  }
+
+  export type PagoMinAggregateInputType = {
+    id?: true
+    alumnoId?: true
+    matriculaId?: true
+    tipo?: true
+    concepto?: true
+    permiso?: true
+    importe?: true
+    estado?: true
+    convocatoriasIncluidas?: true
+    convocatoriasConsumidas?: true
+    fechaCreacion?: true
+    fechaPago?: true
+    numeroFacturaPago?: true
+    observaciones?: true
+  }
+
+  export type PagoMaxAggregateInputType = {
+    id?: true
+    alumnoId?: true
+    matriculaId?: true
+    tipo?: true
+    concepto?: true
+    permiso?: true
+    importe?: true
+    estado?: true
+    convocatoriasIncluidas?: true
+    convocatoriasConsumidas?: true
+    fechaCreacion?: true
+    fechaPago?: true
+    numeroFacturaPago?: true
+    observaciones?: true
+  }
+
+  export type PagoCountAggregateInputType = {
+    id?: true
+    alumnoId?: true
+    matriculaId?: true
+    tipo?: true
+    concepto?: true
+    permiso?: true
+    importe?: true
+    estado?: true
+    convocatoriasIncluidas?: true
+    convocatoriasConsumidas?: true
+    fechaCreacion?: true
+    fechaPago?: true
+    numeroFacturaPago?: true
+    observaciones?: true
+    _all?: true
+  }
+
+  export type PagoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Pago to aggregate.
+     */
+    where?: PagoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Pagos to fetch.
+     */
+    orderBy?: PagoOrderByWithRelationInput | PagoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PagoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Pagos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Pagos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Pagos
+    **/
+    _count?: true | PagoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PagoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PagoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PagoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PagoMaxAggregateInputType
+  }
+
+  export type GetPagoAggregateType<T extends PagoAggregateArgs> = {
+        [P in keyof T & keyof AggregatePago]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePago[P]>
+      : GetScalarType<T[P], AggregatePago[P]>
+  }
+
+
+
+
+  export type PagoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PagoWhereInput
+    orderBy?: PagoOrderByWithAggregationInput | PagoOrderByWithAggregationInput[]
+    by: PagoScalarFieldEnum[] | PagoScalarFieldEnum
+    having?: PagoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PagoCountAggregateInputType | true
+    _avg?: PagoAvgAggregateInputType
+    _sum?: PagoSumAggregateInputType
+    _min?: PagoMinAggregateInputType
+    _max?: PagoMaxAggregateInputType
+  }
+
+  export type PagoGroupByOutputType = {
+    id: string
+    alumnoId: string
+    matriculaId: string | null
+    tipo: string
+    concepto: string
+    permiso: string
+    importe: Decimal
+    estado: string
+    convocatoriasIncluidas: number
+    convocatoriasConsumidas: number
+    fechaCreacion: Date
+    fechaPago: Date | null
+    numeroFacturaPago: string | null
+    observaciones: string | null
+    _count: PagoCountAggregateOutputType | null
+    _avg: PagoAvgAggregateOutputType | null
+    _sum: PagoSumAggregateOutputType | null
+    _min: PagoMinAggregateOutputType | null
+    _max: PagoMaxAggregateOutputType | null
+  }
+
+  type GetPagoGroupByPayload<T extends PagoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PagoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PagoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PagoGroupByOutputType[P]>
+            : GetScalarType<T[P], PagoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PagoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alumnoId?: boolean
+    matriculaId?: boolean
+    tipo?: boolean
+    concepto?: boolean
+    permiso?: boolean
+    importe?: boolean
+    estado?: boolean
+    convocatoriasIncluidas?: boolean
+    convocatoriasConsumidas?: boolean
+    fechaCreacion?: boolean
+    fechaPago?: boolean
+    numeroFacturaPago?: boolean
+    observaciones?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    matricula?: boolean | Pago$matriculaArgs<ExtArgs>
+  }, ExtArgs["result"]["pago"]>
+
+  export type PagoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alumnoId?: boolean
+    matriculaId?: boolean
+    tipo?: boolean
+    concepto?: boolean
+    permiso?: boolean
+    importe?: boolean
+    estado?: boolean
+    convocatoriasIncluidas?: boolean
+    convocatoriasConsumidas?: boolean
+    fechaCreacion?: boolean
+    fechaPago?: boolean
+    numeroFacturaPago?: boolean
+    observaciones?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    matricula?: boolean | Pago$matriculaArgs<ExtArgs>
+  }, ExtArgs["result"]["pago"]>
+
+  export type PagoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alumnoId?: boolean
+    matriculaId?: boolean
+    tipo?: boolean
+    concepto?: boolean
+    permiso?: boolean
+    importe?: boolean
+    estado?: boolean
+    convocatoriasIncluidas?: boolean
+    convocatoriasConsumidas?: boolean
+    fechaCreacion?: boolean
+    fechaPago?: boolean
+    numeroFacturaPago?: boolean
+    observaciones?: boolean
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    matricula?: boolean | Pago$matriculaArgs<ExtArgs>
+  }, ExtArgs["result"]["pago"]>
+
+  export type PagoSelectScalar = {
+    id?: boolean
+    alumnoId?: boolean
+    matriculaId?: boolean
+    tipo?: boolean
+    concepto?: boolean
+    permiso?: boolean
+    importe?: boolean
+    estado?: boolean
+    convocatoriasIncluidas?: boolean
+    convocatoriasConsumidas?: boolean
+    fechaCreacion?: boolean
+    fechaPago?: boolean
+    numeroFacturaPago?: boolean
+    observaciones?: boolean
+  }
+
+  export type PagoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "matriculaId" | "tipo" | "concepto" | "permiso" | "importe" | "estado" | "convocatoriasIncluidas" | "convocatoriasConsumidas" | "fechaCreacion" | "fechaPago" | "numeroFacturaPago" | "observaciones", ExtArgs["result"]["pago"]>
+  export type PagoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    matricula?: boolean | Pago$matriculaArgs<ExtArgs>
+  }
+  export type PagoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    matricula?: boolean | Pago$matriculaArgs<ExtArgs>
+  }
+  export type PagoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    matricula?: boolean | Pago$matriculaArgs<ExtArgs>
+  }
+
+  export type $PagoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Pago"
+    objects: {
+      alumno: Prisma.$AlumnoPayload<ExtArgs>
+      matricula: Prisma.$MatriculaPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      alumnoId: string
+      matriculaId: string | null
+      tipo: string
+      concepto: string
+      permiso: string
+      importe: Prisma.Decimal
+      estado: string
+      convocatoriasIncluidas: number
+      convocatoriasConsumidas: number
+      fechaCreacion: Date
+      fechaPago: Date | null
+      numeroFacturaPago: string | null
+      observaciones: string | null
+    }, ExtArgs["result"]["pago"]>
+    composites: {}
+  }
+
+  type PagoGetPayload<S extends boolean | null | undefined | PagoDefaultArgs> = $Result.GetResult<Prisma.$PagoPayload, S>
+
+  type PagoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PagoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PagoCountAggregateInputType | true
+    }
+
+  export interface PagoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Pago'], meta: { name: 'Pago' } }
+    /**
+     * Find zero or one Pago that matches the filter.
+     * @param {PagoFindUniqueArgs} args - Arguments to find a Pago
+     * @example
+     * // Get one Pago
+     * const pago = await prisma.pago.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PagoFindUniqueArgs>(args: SelectSubset<T, PagoFindUniqueArgs<ExtArgs>>): Prisma__PagoClient<$Result.GetResult<Prisma.$PagoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Pago that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PagoFindUniqueOrThrowArgs} args - Arguments to find a Pago
+     * @example
+     * // Get one Pago
+     * const pago = await prisma.pago.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PagoFindUniqueOrThrowArgs>(args: SelectSubset<T, PagoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PagoClient<$Result.GetResult<Prisma.$PagoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Pago that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PagoFindFirstArgs} args - Arguments to find a Pago
+     * @example
+     * // Get one Pago
+     * const pago = await prisma.pago.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PagoFindFirstArgs>(args?: SelectSubset<T, PagoFindFirstArgs<ExtArgs>>): Prisma__PagoClient<$Result.GetResult<Prisma.$PagoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Pago that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PagoFindFirstOrThrowArgs} args - Arguments to find a Pago
+     * @example
+     * // Get one Pago
+     * const pago = await prisma.pago.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PagoFindFirstOrThrowArgs>(args?: SelectSubset<T, PagoFindFirstOrThrowArgs<ExtArgs>>): Prisma__PagoClient<$Result.GetResult<Prisma.$PagoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Pagos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PagoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Pagos
+     * const pagos = await prisma.pago.findMany()
+     * 
+     * // Get first 10 Pagos
+     * const pagos = await prisma.pago.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const pagoWithIdOnly = await prisma.pago.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PagoFindManyArgs>(args?: SelectSubset<T, PagoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PagoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Pago.
+     * @param {PagoCreateArgs} args - Arguments to create a Pago.
+     * @example
+     * // Create one Pago
+     * const Pago = await prisma.pago.create({
+     *   data: {
+     *     // ... data to create a Pago
+     *   }
+     * })
+     * 
+     */
+    create<T extends PagoCreateArgs>(args: SelectSubset<T, PagoCreateArgs<ExtArgs>>): Prisma__PagoClient<$Result.GetResult<Prisma.$PagoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Pagos.
+     * @param {PagoCreateManyArgs} args - Arguments to create many Pagos.
+     * @example
+     * // Create many Pagos
+     * const pago = await prisma.pago.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PagoCreateManyArgs>(args?: SelectSubset<T, PagoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Pagos and returns the data saved in the database.
+     * @param {PagoCreateManyAndReturnArgs} args - Arguments to create many Pagos.
+     * @example
+     * // Create many Pagos
+     * const pago = await prisma.pago.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Pagos and only return the `id`
+     * const pagoWithIdOnly = await prisma.pago.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PagoCreateManyAndReturnArgs>(args?: SelectSubset<T, PagoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PagoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Pago.
+     * @param {PagoDeleteArgs} args - Arguments to delete one Pago.
+     * @example
+     * // Delete one Pago
+     * const Pago = await prisma.pago.delete({
+     *   where: {
+     *     // ... filter to delete one Pago
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PagoDeleteArgs>(args: SelectSubset<T, PagoDeleteArgs<ExtArgs>>): Prisma__PagoClient<$Result.GetResult<Prisma.$PagoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Pago.
+     * @param {PagoUpdateArgs} args - Arguments to update one Pago.
+     * @example
+     * // Update one Pago
+     * const pago = await prisma.pago.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PagoUpdateArgs>(args: SelectSubset<T, PagoUpdateArgs<ExtArgs>>): Prisma__PagoClient<$Result.GetResult<Prisma.$PagoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Pagos.
+     * @param {PagoDeleteManyArgs} args - Arguments to filter Pagos to delete.
+     * @example
+     * // Delete a few Pagos
+     * const { count } = await prisma.pago.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PagoDeleteManyArgs>(args?: SelectSubset<T, PagoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Pagos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PagoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Pagos
+     * const pago = await prisma.pago.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PagoUpdateManyArgs>(args: SelectSubset<T, PagoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Pagos and returns the data updated in the database.
+     * @param {PagoUpdateManyAndReturnArgs} args - Arguments to update many Pagos.
+     * @example
+     * // Update many Pagos
+     * const pago = await prisma.pago.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Pagos and only return the `id`
+     * const pagoWithIdOnly = await prisma.pago.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PagoUpdateManyAndReturnArgs>(args: SelectSubset<T, PagoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PagoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Pago.
+     * @param {PagoUpsertArgs} args - Arguments to update or create a Pago.
+     * @example
+     * // Update or create a Pago
+     * const pago = await prisma.pago.upsert({
+     *   create: {
+     *     // ... data to create a Pago
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Pago we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PagoUpsertArgs>(args: SelectSubset<T, PagoUpsertArgs<ExtArgs>>): Prisma__PagoClient<$Result.GetResult<Prisma.$PagoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Pagos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PagoCountArgs} args - Arguments to filter Pagos to count.
+     * @example
+     * // Count the number of Pagos
+     * const count = await prisma.pago.count({
+     *   where: {
+     *     // ... the filter for the Pagos we want to count
+     *   }
+     * })
+    **/
+    count<T extends PagoCountArgs>(
+      args?: Subset<T, PagoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PagoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Pago.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PagoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PagoAggregateArgs>(args: Subset<T, PagoAggregateArgs>): Prisma.PrismaPromise<GetPagoAggregateType<T>>
+
+    /**
+     * Group by Pago.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PagoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PagoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PagoGroupByArgs['orderBy'] }
+        : { orderBy?: PagoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PagoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPagoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Pago model
+   */
+  readonly fields: PagoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Pago.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PagoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    alumno<T extends AlumnoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AlumnoDefaultArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    matricula<T extends Pago$matriculaArgs<ExtArgs> = {}>(args?: Subset<T, Pago$matriculaArgs<ExtArgs>>): Prisma__MatriculaClient<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Pago model
+   */
+  interface PagoFieldRefs {
+    readonly id: FieldRef<"Pago", 'String'>
+    readonly alumnoId: FieldRef<"Pago", 'String'>
+    readonly matriculaId: FieldRef<"Pago", 'String'>
+    readonly tipo: FieldRef<"Pago", 'String'>
+    readonly concepto: FieldRef<"Pago", 'String'>
+    readonly permiso: FieldRef<"Pago", 'String'>
+    readonly importe: FieldRef<"Pago", 'Decimal'>
+    readonly estado: FieldRef<"Pago", 'String'>
+    readonly convocatoriasIncluidas: FieldRef<"Pago", 'Int'>
+    readonly convocatoriasConsumidas: FieldRef<"Pago", 'Int'>
+    readonly fechaCreacion: FieldRef<"Pago", 'DateTime'>
+    readonly fechaPago: FieldRef<"Pago", 'DateTime'>
+    readonly numeroFacturaPago: FieldRef<"Pago", 'String'>
+    readonly observaciones: FieldRef<"Pago", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Pago findUnique
+   */
+  export type PagoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pago
+     */
+    select?: PagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pago
+     */
+    omit?: PagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PagoInclude<ExtArgs> | null
+    /**
+     * Filter, which Pago to fetch.
+     */
+    where: PagoWhereUniqueInput
+  }
+
+  /**
+   * Pago findUniqueOrThrow
+   */
+  export type PagoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pago
+     */
+    select?: PagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pago
+     */
+    omit?: PagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PagoInclude<ExtArgs> | null
+    /**
+     * Filter, which Pago to fetch.
+     */
+    where: PagoWhereUniqueInput
+  }
+
+  /**
+   * Pago findFirst
+   */
+  export type PagoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pago
+     */
+    select?: PagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pago
+     */
+    omit?: PagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PagoInclude<ExtArgs> | null
+    /**
+     * Filter, which Pago to fetch.
+     */
+    where?: PagoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Pagos to fetch.
+     */
+    orderBy?: PagoOrderByWithRelationInput | PagoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Pagos.
+     */
+    cursor?: PagoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Pagos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Pagos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Pagos.
+     */
+    distinct?: PagoScalarFieldEnum | PagoScalarFieldEnum[]
+  }
+
+  /**
+   * Pago findFirstOrThrow
+   */
+  export type PagoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pago
+     */
+    select?: PagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pago
+     */
+    omit?: PagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PagoInclude<ExtArgs> | null
+    /**
+     * Filter, which Pago to fetch.
+     */
+    where?: PagoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Pagos to fetch.
+     */
+    orderBy?: PagoOrderByWithRelationInput | PagoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Pagos.
+     */
+    cursor?: PagoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Pagos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Pagos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Pagos.
+     */
+    distinct?: PagoScalarFieldEnum | PagoScalarFieldEnum[]
+  }
+
+  /**
+   * Pago findMany
+   */
+  export type PagoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pago
+     */
+    select?: PagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pago
+     */
+    omit?: PagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PagoInclude<ExtArgs> | null
+    /**
+     * Filter, which Pagos to fetch.
+     */
+    where?: PagoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Pagos to fetch.
+     */
+    orderBy?: PagoOrderByWithRelationInput | PagoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Pagos.
+     */
+    cursor?: PagoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Pagos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Pagos.
+     */
+    skip?: number
+    distinct?: PagoScalarFieldEnum | PagoScalarFieldEnum[]
+  }
+
+  /**
+   * Pago create
+   */
+  export type PagoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pago
+     */
+    select?: PagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pago
+     */
+    omit?: PagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PagoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Pago.
+     */
+    data: XOR<PagoCreateInput, PagoUncheckedCreateInput>
+  }
+
+  /**
+   * Pago createMany
+   */
+  export type PagoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Pagos.
+     */
+    data: PagoCreateManyInput | PagoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Pago createManyAndReturn
+   */
+  export type PagoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pago
+     */
+    select?: PagoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pago
+     */
+    omit?: PagoOmit<ExtArgs> | null
+    /**
+     * The data used to create many Pagos.
+     */
+    data: PagoCreateManyInput | PagoCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PagoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Pago update
+   */
+  export type PagoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pago
+     */
+    select?: PagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pago
+     */
+    omit?: PagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PagoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Pago.
+     */
+    data: XOR<PagoUpdateInput, PagoUncheckedUpdateInput>
+    /**
+     * Choose, which Pago to update.
+     */
+    where: PagoWhereUniqueInput
+  }
+
+  /**
+   * Pago updateMany
+   */
+  export type PagoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Pagos.
+     */
+    data: XOR<PagoUpdateManyMutationInput, PagoUncheckedUpdateManyInput>
+    /**
+     * Filter which Pagos to update
+     */
+    where?: PagoWhereInput
+    /**
+     * Limit how many Pagos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Pago updateManyAndReturn
+   */
+  export type PagoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pago
+     */
+    select?: PagoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pago
+     */
+    omit?: PagoOmit<ExtArgs> | null
+    /**
+     * The data used to update Pagos.
+     */
+    data: XOR<PagoUpdateManyMutationInput, PagoUncheckedUpdateManyInput>
+    /**
+     * Filter which Pagos to update
+     */
+    where?: PagoWhereInput
+    /**
+     * Limit how many Pagos to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PagoIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Pago upsert
+   */
+  export type PagoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pago
+     */
+    select?: PagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pago
+     */
+    omit?: PagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PagoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Pago to update in case it exists.
+     */
+    where: PagoWhereUniqueInput
+    /**
+     * In case the Pago found by the `where` argument doesn't exist, create a new Pago with this data.
+     */
+    create: XOR<PagoCreateInput, PagoUncheckedCreateInput>
+    /**
+     * In case the Pago was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PagoUpdateInput, PagoUncheckedUpdateInput>
+  }
+
+  /**
+   * Pago delete
+   */
+  export type PagoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pago
+     */
+    select?: PagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pago
+     */
+    omit?: PagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PagoInclude<ExtArgs> | null
+    /**
+     * Filter which Pago to delete.
+     */
+    where: PagoWhereUniqueInput
+  }
+
+  /**
+   * Pago deleteMany
+   */
+  export type PagoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Pagos to delete
+     */
+    where?: PagoWhereInput
+    /**
+     * Limit how many Pagos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Pago.matricula
+   */
+  export type Pago$matriculaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matricula
+     */
+    select?: MatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Matricula
+     */
+    omit?: MatriculaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatriculaInclude<ExtArgs> | null
+    where?: MatriculaWhereInput
+  }
+
+  /**
+   * Pago without action
+   */
+  export type PagoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pago
+     */
+    select?: PagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pago
+     */
+    omit?: PagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PagoInclude<ExtArgs> | null
   }
 
 
@@ -31104,6 +35035,34 @@ export namespace Prisma {
   export type AlumnoScalarFieldEnum = (typeof AlumnoScalarFieldEnum)[keyof typeof AlumnoScalarFieldEnum]
 
 
+  export const DocumentoAlumnoScalarFieldEnum: {
+    id: 'id',
+    alumnoId: 'alumnoId',
+    tipo: 'tipo',
+    estado: 'estado',
+    observaciones: 'observaciones',
+    activo: 'activo',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type DocumentoAlumnoScalarFieldEnum = (typeof DocumentoAlumnoScalarFieldEnum)[keyof typeof DocumentoAlumnoScalarFieldEnum]
+
+
+  export const DocumentoAlumnoArchivoScalarFieldEnum: {
+    id: 'id',
+    documentoId: 'documentoId',
+    nombreOriginal: 'nombreOriginal',
+    nombreArchivo: 'nombreArchivo',
+    mimeType: 'mimeType',
+    tamanioBytes: 'tamanioBytes',
+    ruta: 'ruta',
+    createdAt: 'createdAt'
+  };
+
+  export type DocumentoAlumnoArchivoScalarFieldEnum = (typeof DocumentoAlumnoArchivoScalarFieldEnum)[keyof typeof DocumentoAlumnoArchivoScalarFieldEnum]
+
+
   export const TemarioScalarFieldEnum: {
     id: 'id',
     titulo: 'titulo',
@@ -31352,6 +35311,26 @@ export namespace Prisma {
   };
 
   export type MatriculaScalarFieldEnum = (typeof MatriculaScalarFieldEnum)[keyof typeof MatriculaScalarFieldEnum]
+
+
+  export const PagoScalarFieldEnum: {
+    id: 'id',
+    alumnoId: 'alumnoId',
+    matriculaId: 'matriculaId',
+    tipo: 'tipo',
+    concepto: 'concepto',
+    permiso: 'permiso',
+    importe: 'importe',
+    estado: 'estado',
+    convocatoriasIncluidas: 'convocatoriasIncluidas',
+    convocatoriasConsumidas: 'convocatoriasConsumidas',
+    fechaCreacion: 'fechaCreacion',
+    fechaPago: 'fechaPago',
+    numeroFacturaPago: 'numeroFacturaPago',
+    observaciones: 'observaciones'
+  };
+
+  export type PagoScalarFieldEnum = (typeof PagoScalarFieldEnum)[keyof typeof PagoScalarFieldEnum]
 
 
   export const MatriculaConceptoScalarFieldEnum: {
@@ -31757,11 +35736,13 @@ export namespace Prisma {
     bonosComprados?: CompraBonoListRelationFilter
     examenes?: ExamenListRelationFilter
     facturas?: FacturaListRelationFilter
+    pagos?: PagoListRelationFilter
     matriculas?: MatriculaListRelationFilter
     solicitudesExamen?: SolicitudExamenListRelationFilter
     temariosProgreso?: TemarioProgresoListRelationFilter
     testsPractica?: TestPracticaListRelationFilter
     examenesDGT?: ExamenDGTAlumnoListRelationFilter
+    documentosAlumno?: DocumentoAlumnoListRelationFilter
   }
 
   export type AlumnoOrderByWithRelationInput = {
@@ -31777,11 +35758,13 @@ export namespace Prisma {
     bonosComprados?: CompraBonoOrderByRelationAggregateInput
     examenes?: ExamenOrderByRelationAggregateInput
     facturas?: FacturaOrderByRelationAggregateInput
+    pagos?: PagoOrderByRelationAggregateInput
     matriculas?: MatriculaOrderByRelationAggregateInput
     solicitudesExamen?: SolicitudExamenOrderByRelationAggregateInput
     temariosProgreso?: TemarioProgresoOrderByRelationAggregateInput
     testsPractica?: TestPracticaOrderByRelationAggregateInput
     examenesDGT?: ExamenDGTAlumnoOrderByRelationAggregateInput
+    documentosAlumno?: DocumentoAlumnoOrderByRelationAggregateInput
   }
 
   export type AlumnoWhereUniqueInput = Prisma.AtLeast<{
@@ -31800,11 +35783,13 @@ export namespace Prisma {
     bonosComprados?: CompraBonoListRelationFilter
     examenes?: ExamenListRelationFilter
     facturas?: FacturaListRelationFilter
+    pagos?: PagoListRelationFilter
     matriculas?: MatriculaListRelationFilter
     solicitudesExamen?: SolicitudExamenListRelationFilter
     temariosProgreso?: TemarioProgresoListRelationFilter
     testsPractica?: TestPracticaListRelationFilter
     examenesDGT?: ExamenDGTAlumnoListRelationFilter
+    documentosAlumno?: DocumentoAlumnoListRelationFilter
   }, "id">
 
   export type AlumnoOrderByWithAggregationInput = {
@@ -31831,6 +35816,151 @@ export namespace Prisma {
     profesorAsignadoId?: StringNullableWithAggregatesFilter<"Alumno"> | string | null
     activo?: BoolWithAggregatesFilter<"Alumno"> | boolean
     fechaNacimiento?: DateTimeNullableWithAggregatesFilter<"Alumno"> | Date | string | null
+  }
+
+  export type DocumentoAlumnoWhereInput = {
+    AND?: DocumentoAlumnoWhereInput | DocumentoAlumnoWhereInput[]
+    OR?: DocumentoAlumnoWhereInput[]
+    NOT?: DocumentoAlumnoWhereInput | DocumentoAlumnoWhereInput[]
+    id?: StringFilter<"DocumentoAlumno"> | string
+    alumnoId?: StringFilter<"DocumentoAlumno"> | string
+    tipo?: StringFilter<"DocumentoAlumno"> | string
+    estado?: StringFilter<"DocumentoAlumno"> | string
+    observaciones?: StringNullableFilter<"DocumentoAlumno"> | string | null
+    activo?: BoolFilter<"DocumentoAlumno"> | boolean
+    createdAt?: DateTimeFilter<"DocumentoAlumno"> | Date | string
+    updatedAt?: DateTimeFilter<"DocumentoAlumno"> | Date | string
+    alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+    archivos?: DocumentoAlumnoArchivoListRelationFilter
+  }
+
+  export type DocumentoAlumnoOrderByWithRelationInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    tipo?: SortOrder
+    estado?: SortOrder
+    observaciones?: SortOrderInput | SortOrder
+    activo?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    alumno?: AlumnoOrderByWithRelationInput
+    archivos?: DocumentoAlumnoArchivoOrderByRelationAggregateInput
+  }
+
+  export type DocumentoAlumnoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: DocumentoAlumnoWhereInput | DocumentoAlumnoWhereInput[]
+    OR?: DocumentoAlumnoWhereInput[]
+    NOT?: DocumentoAlumnoWhereInput | DocumentoAlumnoWhereInput[]
+    alumnoId?: StringFilter<"DocumentoAlumno"> | string
+    tipo?: StringFilter<"DocumentoAlumno"> | string
+    estado?: StringFilter<"DocumentoAlumno"> | string
+    observaciones?: StringNullableFilter<"DocumentoAlumno"> | string | null
+    activo?: BoolFilter<"DocumentoAlumno"> | boolean
+    createdAt?: DateTimeFilter<"DocumentoAlumno"> | Date | string
+    updatedAt?: DateTimeFilter<"DocumentoAlumno"> | Date | string
+    alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+    archivos?: DocumentoAlumnoArchivoListRelationFilter
+  }, "id">
+
+  export type DocumentoAlumnoOrderByWithAggregationInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    tipo?: SortOrder
+    estado?: SortOrder
+    observaciones?: SortOrderInput | SortOrder
+    activo?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: DocumentoAlumnoCountOrderByAggregateInput
+    _max?: DocumentoAlumnoMaxOrderByAggregateInput
+    _min?: DocumentoAlumnoMinOrderByAggregateInput
+  }
+
+  export type DocumentoAlumnoScalarWhereWithAggregatesInput = {
+    AND?: DocumentoAlumnoScalarWhereWithAggregatesInput | DocumentoAlumnoScalarWhereWithAggregatesInput[]
+    OR?: DocumentoAlumnoScalarWhereWithAggregatesInput[]
+    NOT?: DocumentoAlumnoScalarWhereWithAggregatesInput | DocumentoAlumnoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DocumentoAlumno"> | string
+    alumnoId?: StringWithAggregatesFilter<"DocumentoAlumno"> | string
+    tipo?: StringWithAggregatesFilter<"DocumentoAlumno"> | string
+    estado?: StringWithAggregatesFilter<"DocumentoAlumno"> | string
+    observaciones?: StringNullableWithAggregatesFilter<"DocumentoAlumno"> | string | null
+    activo?: BoolWithAggregatesFilter<"DocumentoAlumno"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"DocumentoAlumno"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"DocumentoAlumno"> | Date | string
+  }
+
+  export type DocumentoAlumnoArchivoWhereInput = {
+    AND?: DocumentoAlumnoArchivoWhereInput | DocumentoAlumnoArchivoWhereInput[]
+    OR?: DocumentoAlumnoArchivoWhereInput[]
+    NOT?: DocumentoAlumnoArchivoWhereInput | DocumentoAlumnoArchivoWhereInput[]
+    id?: StringFilter<"DocumentoAlumnoArchivo"> | string
+    documentoId?: StringFilter<"DocumentoAlumnoArchivo"> | string
+    nombreOriginal?: StringFilter<"DocumentoAlumnoArchivo"> | string
+    nombreArchivo?: StringFilter<"DocumentoAlumnoArchivo"> | string
+    mimeType?: StringFilter<"DocumentoAlumnoArchivo"> | string
+    tamanioBytes?: IntFilter<"DocumentoAlumnoArchivo"> | number
+    ruta?: StringFilter<"DocumentoAlumnoArchivo"> | string
+    createdAt?: DateTimeFilter<"DocumentoAlumnoArchivo"> | Date | string
+    documento?: XOR<DocumentoAlumnoScalarRelationFilter, DocumentoAlumnoWhereInput>
+  }
+
+  export type DocumentoAlumnoArchivoOrderByWithRelationInput = {
+    id?: SortOrder
+    documentoId?: SortOrder
+    nombreOriginal?: SortOrder
+    nombreArchivo?: SortOrder
+    mimeType?: SortOrder
+    tamanioBytes?: SortOrder
+    ruta?: SortOrder
+    createdAt?: SortOrder
+    documento?: DocumentoAlumnoOrderByWithRelationInput
+  }
+
+  export type DocumentoAlumnoArchivoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: DocumentoAlumnoArchivoWhereInput | DocumentoAlumnoArchivoWhereInput[]
+    OR?: DocumentoAlumnoArchivoWhereInput[]
+    NOT?: DocumentoAlumnoArchivoWhereInput | DocumentoAlumnoArchivoWhereInput[]
+    documentoId?: StringFilter<"DocumentoAlumnoArchivo"> | string
+    nombreOriginal?: StringFilter<"DocumentoAlumnoArchivo"> | string
+    nombreArchivo?: StringFilter<"DocumentoAlumnoArchivo"> | string
+    mimeType?: StringFilter<"DocumentoAlumnoArchivo"> | string
+    tamanioBytes?: IntFilter<"DocumentoAlumnoArchivo"> | number
+    ruta?: StringFilter<"DocumentoAlumnoArchivo"> | string
+    createdAt?: DateTimeFilter<"DocumentoAlumnoArchivo"> | Date | string
+    documento?: XOR<DocumentoAlumnoScalarRelationFilter, DocumentoAlumnoWhereInput>
+  }, "id">
+
+  export type DocumentoAlumnoArchivoOrderByWithAggregationInput = {
+    id?: SortOrder
+    documentoId?: SortOrder
+    nombreOriginal?: SortOrder
+    nombreArchivo?: SortOrder
+    mimeType?: SortOrder
+    tamanioBytes?: SortOrder
+    ruta?: SortOrder
+    createdAt?: SortOrder
+    _count?: DocumentoAlumnoArchivoCountOrderByAggregateInput
+    _avg?: DocumentoAlumnoArchivoAvgOrderByAggregateInput
+    _max?: DocumentoAlumnoArchivoMaxOrderByAggregateInput
+    _min?: DocumentoAlumnoArchivoMinOrderByAggregateInput
+    _sum?: DocumentoAlumnoArchivoSumOrderByAggregateInput
+  }
+
+  export type DocumentoAlumnoArchivoScalarWhereWithAggregatesInput = {
+    AND?: DocumentoAlumnoArchivoScalarWhereWithAggregatesInput | DocumentoAlumnoArchivoScalarWhereWithAggregatesInput[]
+    OR?: DocumentoAlumnoArchivoScalarWhereWithAggregatesInput[]
+    NOT?: DocumentoAlumnoArchivoScalarWhereWithAggregatesInput | DocumentoAlumnoArchivoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DocumentoAlumnoArchivo"> | string
+    documentoId?: StringWithAggregatesFilter<"DocumentoAlumnoArchivo"> | string
+    nombreOriginal?: StringWithAggregatesFilter<"DocumentoAlumnoArchivo"> | string
+    nombreArchivo?: StringWithAggregatesFilter<"DocumentoAlumnoArchivo"> | string
+    mimeType?: StringWithAggregatesFilter<"DocumentoAlumnoArchivo"> | string
+    tamanioBytes?: IntWithAggregatesFilter<"DocumentoAlumnoArchivo"> | number
+    ruta?: StringWithAggregatesFilter<"DocumentoAlumnoArchivo"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"DocumentoAlumnoArchivo"> | Date | string
   }
 
   export type TemarioWhereInput = {
@@ -33062,7 +37192,8 @@ export namespace Prisma {
     fechaCreacion?: DateTimeFilter<"Matricula"> | Date | string
     fechaPago?: DateTimeNullableFilter<"Matricula"> | Date | string | null
     observaciones?: StringNullableFilter<"Matricula"> | string | null
-    factura?: XOR<FacturaNullableScalarRelationFilter, FacturaWhereInput> | null
+    facturas?: FacturaListRelationFilter
+    pagos?: PagoListRelationFilter
     conceptos?: MatriculaConceptoListRelationFilter
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
     promocion?: XOR<PromocionNullableScalarRelationFilter, PromocionWhereInput> | null
@@ -33079,7 +37210,8 @@ export namespace Prisma {
     fechaCreacion?: SortOrder
     fechaPago?: SortOrderInput | SortOrder
     observaciones?: SortOrderInput | SortOrder
-    factura?: FacturaOrderByWithRelationInput
+    facturas?: FacturaOrderByRelationAggregateInput
+    pagos?: PagoOrderByRelationAggregateInput
     conceptos?: MatriculaConceptoOrderByRelationAggregateInput
     alumno?: AlumnoOrderByWithRelationInput
     promocion?: PromocionOrderByWithRelationInput
@@ -33099,7 +37231,8 @@ export namespace Prisma {
     fechaCreacion?: DateTimeFilter<"Matricula"> | Date | string
     fechaPago?: DateTimeNullableFilter<"Matricula"> | Date | string | null
     observaciones?: StringNullableFilter<"Matricula"> | string | null
-    factura?: XOR<FacturaNullableScalarRelationFilter, FacturaWhereInput> | null
+    facturas?: FacturaListRelationFilter
+    pagos?: PagoListRelationFilter
     conceptos?: MatriculaConceptoListRelationFilter
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
     promocion?: XOR<PromocionNullableScalarRelationFilter, PromocionWhereInput> | null
@@ -33137,6 +37270,111 @@ export namespace Prisma {
     fechaCreacion?: DateTimeWithAggregatesFilter<"Matricula"> | Date | string
     fechaPago?: DateTimeNullableWithAggregatesFilter<"Matricula"> | Date | string | null
     observaciones?: StringNullableWithAggregatesFilter<"Matricula"> | string | null
+  }
+
+  export type PagoWhereInput = {
+    AND?: PagoWhereInput | PagoWhereInput[]
+    OR?: PagoWhereInput[]
+    NOT?: PagoWhereInput | PagoWhereInput[]
+    id?: StringFilter<"Pago"> | string
+    alumnoId?: StringFilter<"Pago"> | string
+    matriculaId?: StringNullableFilter<"Pago"> | string | null
+    tipo?: StringFilter<"Pago"> | string
+    concepto?: StringFilter<"Pago"> | string
+    permiso?: StringFilter<"Pago"> | string
+    importe?: DecimalFilter<"Pago"> | Decimal | DecimalJsLike | number | string
+    estado?: StringFilter<"Pago"> | string
+    convocatoriasIncluidas?: IntFilter<"Pago"> | number
+    convocatoriasConsumidas?: IntFilter<"Pago"> | number
+    fechaCreacion?: DateTimeFilter<"Pago"> | Date | string
+    fechaPago?: DateTimeNullableFilter<"Pago"> | Date | string | null
+    numeroFacturaPago?: StringNullableFilter<"Pago"> | string | null
+    observaciones?: StringNullableFilter<"Pago"> | string | null
+    alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+    matricula?: XOR<MatriculaNullableScalarRelationFilter, MatriculaWhereInput> | null
+  }
+
+  export type PagoOrderByWithRelationInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    matriculaId?: SortOrderInput | SortOrder
+    tipo?: SortOrder
+    concepto?: SortOrder
+    permiso?: SortOrder
+    importe?: SortOrder
+    estado?: SortOrder
+    convocatoriasIncluidas?: SortOrder
+    convocatoriasConsumidas?: SortOrder
+    fechaCreacion?: SortOrder
+    fechaPago?: SortOrderInput | SortOrder
+    numeroFacturaPago?: SortOrderInput | SortOrder
+    observaciones?: SortOrderInput | SortOrder
+    alumno?: AlumnoOrderByWithRelationInput
+    matricula?: MatriculaOrderByWithRelationInput
+  }
+
+  export type PagoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PagoWhereInput | PagoWhereInput[]
+    OR?: PagoWhereInput[]
+    NOT?: PagoWhereInput | PagoWhereInput[]
+    alumnoId?: StringFilter<"Pago"> | string
+    matriculaId?: StringNullableFilter<"Pago"> | string | null
+    tipo?: StringFilter<"Pago"> | string
+    concepto?: StringFilter<"Pago"> | string
+    permiso?: StringFilter<"Pago"> | string
+    importe?: DecimalFilter<"Pago"> | Decimal | DecimalJsLike | number | string
+    estado?: StringFilter<"Pago"> | string
+    convocatoriasIncluidas?: IntFilter<"Pago"> | number
+    convocatoriasConsumidas?: IntFilter<"Pago"> | number
+    fechaCreacion?: DateTimeFilter<"Pago"> | Date | string
+    fechaPago?: DateTimeNullableFilter<"Pago"> | Date | string | null
+    numeroFacturaPago?: StringNullableFilter<"Pago"> | string | null
+    observaciones?: StringNullableFilter<"Pago"> | string | null
+    alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+    matricula?: XOR<MatriculaNullableScalarRelationFilter, MatriculaWhereInput> | null
+  }, "id">
+
+  export type PagoOrderByWithAggregationInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    matriculaId?: SortOrderInput | SortOrder
+    tipo?: SortOrder
+    concepto?: SortOrder
+    permiso?: SortOrder
+    importe?: SortOrder
+    estado?: SortOrder
+    convocatoriasIncluidas?: SortOrder
+    convocatoriasConsumidas?: SortOrder
+    fechaCreacion?: SortOrder
+    fechaPago?: SortOrderInput | SortOrder
+    numeroFacturaPago?: SortOrderInput | SortOrder
+    observaciones?: SortOrderInput | SortOrder
+    _count?: PagoCountOrderByAggregateInput
+    _avg?: PagoAvgOrderByAggregateInput
+    _max?: PagoMaxOrderByAggregateInput
+    _min?: PagoMinOrderByAggregateInput
+    _sum?: PagoSumOrderByAggregateInput
+  }
+
+  export type PagoScalarWhereWithAggregatesInput = {
+    AND?: PagoScalarWhereWithAggregatesInput | PagoScalarWhereWithAggregatesInput[]
+    OR?: PagoScalarWhereWithAggregatesInput[]
+    NOT?: PagoScalarWhereWithAggregatesInput | PagoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Pago"> | string
+    alumnoId?: StringWithAggregatesFilter<"Pago"> | string
+    matriculaId?: StringNullableWithAggregatesFilter<"Pago"> | string | null
+    tipo?: StringWithAggregatesFilter<"Pago"> | string
+    concepto?: StringWithAggregatesFilter<"Pago"> | string
+    permiso?: StringWithAggregatesFilter<"Pago"> | string
+    importe?: DecimalWithAggregatesFilter<"Pago"> | Decimal | DecimalJsLike | number | string
+    estado?: StringWithAggregatesFilter<"Pago"> | string
+    convocatoriasIncluidas?: IntWithAggregatesFilter<"Pago"> | number
+    convocatoriasConsumidas?: IntWithAggregatesFilter<"Pago"> | number
+    fechaCreacion?: DateTimeWithAggregatesFilter<"Pago"> | Date | string
+    fechaPago?: DateTimeNullableWithAggregatesFilter<"Pago"> | Date | string | null
+    numeroFacturaPago?: StringNullableWithAggregatesFilter<"Pago"> | string | null
+    observaciones?: StringNullableWithAggregatesFilter<"Pago"> | string | null
   }
 
   export type MatriculaConceptoWhereInput = {
@@ -33262,11 +37500,11 @@ export namespace Prisma {
   export type FacturaWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     numero?: string
-    matriculaId?: string
     AND?: FacturaWhereInput | FacturaWhereInput[]
     OR?: FacturaWhereInput[]
     NOT?: FacturaWhereInput | FacturaWhereInput[]
     alumnoId?: StringFilter<"Factura"> | string
+    matriculaId?: StringFilter<"Factura"> | string
     concepto?: StringFilter<"Factura"> | string
     baseImponible?: DecimalFilter<"Factura"> | Decimal | DecimalJsLike | number | string
     descuento?: DecimalFilter<"Factura"> | Decimal | DecimalJsLike | number | string
@@ -33276,7 +37514,7 @@ export namespace Prisma {
     fechaPago?: DateTimeNullableFilter<"Factura"> | Date | string | null
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
     matricula?: XOR<MatriculaScalarRelationFilter, MatriculaWhereInput>
-  }, "id" | "numero" | "matriculaId">
+  }, "id" | "numero">
 
   export type FacturaOrderByWithAggregationInput = {
     id?: SortOrder
@@ -33564,11 +37802,13 @@ export namespace Prisma {
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateInput = {
@@ -33582,11 +37822,13 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoUncheckedCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUpdateInput = {
@@ -33600,11 +37842,13 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateInput = {
@@ -33618,11 +37862,13 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUncheckedUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoCreateManyInput = {
@@ -33648,6 +37894,162 @@ export namespace Prisma {
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type DocumentoAlumnoCreateInput = {
+    id?: string
+    tipo: string
+    estado?: string
+    observaciones?: string | null
+    activo?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    alumno: AlumnoCreateNestedOneWithoutDocumentosAlumnoInput
+    archivos?: DocumentoAlumnoArchivoCreateNestedManyWithoutDocumentoInput
+  }
+
+  export type DocumentoAlumnoUncheckedCreateInput = {
+    id?: string
+    alumnoId: string
+    tipo: string
+    estado?: string
+    observaciones?: string | null
+    activo?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivos?: DocumentoAlumnoArchivoUncheckedCreateNestedManyWithoutDocumentoInput
+  }
+
+  export type DocumentoAlumnoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    alumno?: AlumnoUpdateOneRequiredWithoutDocumentosAlumnoNestedInput
+    archivos?: DocumentoAlumnoArchivoUpdateManyWithoutDocumentoNestedInput
+  }
+
+  export type DocumentoAlumnoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivos?: DocumentoAlumnoArchivoUncheckedUpdateManyWithoutDocumentoNestedInput
+  }
+
+  export type DocumentoAlumnoCreateManyInput = {
+    id?: string
+    alumnoId: string
+    tipo: string
+    estado?: string
+    observaciones?: string | null
+    activo?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DocumentoAlumnoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentoAlumnoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentoAlumnoArchivoCreateInput = {
+    id?: string
+    nombreOriginal: string
+    nombreArchivo: string
+    mimeType: string
+    tamanioBytes: number
+    ruta: string
+    createdAt?: Date | string
+    documento: DocumentoAlumnoCreateNestedOneWithoutArchivosInput
+  }
+
+  export type DocumentoAlumnoArchivoUncheckedCreateInput = {
+    id?: string
+    documentoId: string
+    nombreOriginal: string
+    nombreArchivo: string
+    mimeType: string
+    tamanioBytes: number
+    ruta: string
+    createdAt?: Date | string
+  }
+
+  export type DocumentoAlumnoArchivoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombreOriginal?: StringFieldUpdateOperationsInput | string
+    nombreArchivo?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    tamanioBytes?: IntFieldUpdateOperationsInput | number
+    ruta?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    documento?: DocumentoAlumnoUpdateOneRequiredWithoutArchivosNestedInput
+  }
+
+  export type DocumentoAlumnoArchivoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentoId?: StringFieldUpdateOperationsInput | string
+    nombreOriginal?: StringFieldUpdateOperationsInput | string
+    nombreArchivo?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    tamanioBytes?: IntFieldUpdateOperationsInput | number
+    ruta?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentoAlumnoArchivoCreateManyInput = {
+    id?: string
+    documentoId: string
+    nombreOriginal: string
+    nombreArchivo: string
+    mimeType: string
+    tamanioBytes: number
+    ruta: string
+    createdAt?: Date | string
+  }
+
+  export type DocumentoAlumnoArchivoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombreOriginal?: StringFieldUpdateOperationsInput | string
+    nombreArchivo?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    tamanioBytes?: IntFieldUpdateOperationsInput | number
+    ruta?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentoAlumnoArchivoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentoId?: StringFieldUpdateOperationsInput | string
+    nombreOriginal?: StringFieldUpdateOperationsInput | string
+    nombreArchivo?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    tamanioBytes?: IntFieldUpdateOperationsInput | number
+    ruta?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TemarioCreateInput = {
@@ -34957,7 +39359,8 @@ export namespace Prisma {
     fechaCreacion?: Date | string
     fechaPago?: Date | string | null
     observaciones?: string | null
-    factura?: FacturaCreateNestedOneWithoutMatriculaInput
+    facturas?: FacturaCreateNestedManyWithoutMatriculaInput
+    pagos?: PagoCreateNestedManyWithoutMatriculaInput
     conceptos?: MatriculaConceptoCreateNestedManyWithoutMatriculaInput
     alumno: AlumnoCreateNestedOneWithoutMatriculasInput
     promocion?: PromocionCreateNestedOneWithoutMatriculasInput
@@ -34974,7 +39377,8 @@ export namespace Prisma {
     fechaCreacion?: Date | string
     fechaPago?: Date | string | null
     observaciones?: string | null
-    factura?: FacturaUncheckedCreateNestedOneWithoutMatriculaInput
+    facturas?: FacturaUncheckedCreateNestedManyWithoutMatriculaInput
+    pagos?: PagoUncheckedCreateNestedManyWithoutMatriculaInput
     conceptos?: MatriculaConceptoUncheckedCreateNestedManyWithoutMatriculaInput
   }
 
@@ -34987,7 +39391,8 @@ export namespace Prisma {
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
-    factura?: FacturaUpdateOneWithoutMatriculaNestedInput
+    facturas?: FacturaUpdateManyWithoutMatriculaNestedInput
+    pagos?: PagoUpdateManyWithoutMatriculaNestedInput
     conceptos?: MatriculaConceptoUpdateManyWithoutMatriculaNestedInput
     alumno?: AlumnoUpdateOneRequiredWithoutMatriculasNestedInput
     promocion?: PromocionUpdateOneWithoutMatriculasNestedInput
@@ -35004,7 +39409,8 @@ export namespace Prisma {
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
-    factura?: FacturaUncheckedUpdateOneWithoutMatriculaNestedInput
+    facturas?: FacturaUncheckedUpdateManyWithoutMatriculaNestedInput
+    pagos?: PagoUncheckedUpdateManyWithoutMatriculaNestedInput
     conceptos?: MatriculaConceptoUncheckedUpdateManyWithoutMatriculaNestedInput
   }
 
@@ -35042,6 +39448,123 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PagoCreateInput = {
+    id?: string
+    tipo: string
+    concepto: string
+    permiso: string
+    importe: Decimal | DecimalJsLike | number | string
+    estado?: string
+    convocatoriasIncluidas?: number
+    convocatoriasConsumidas?: number
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    numeroFacturaPago?: string | null
+    observaciones?: string | null
+    alumno: AlumnoCreateNestedOneWithoutPagosInput
+    matricula?: MatriculaCreateNestedOneWithoutPagosInput
+  }
+
+  export type PagoUncheckedCreateInput = {
+    id?: string
+    alumnoId: string
+    matriculaId?: string | null
+    tipo: string
+    concepto: string
+    permiso: string
+    importe: Decimal | DecimalJsLike | number | string
+    estado?: string
+    convocatoriasIncluidas?: number
+    convocatoriasConsumidas?: number
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    numeroFacturaPago?: string | null
+    observaciones?: string | null
+  }
+
+  export type PagoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    permiso?: StringFieldUpdateOperationsInput | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    convocatoriasIncluidas?: IntFieldUpdateOperationsInput | number
+    convocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    alumno?: AlumnoUpdateOneRequiredWithoutPagosNestedInput
+    matricula?: MatriculaUpdateOneWithoutPagosNestedInput
+  }
+
+  export type PagoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    permiso?: StringFieldUpdateOperationsInput | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    convocatoriasIncluidas?: IntFieldUpdateOperationsInput | number
+    convocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PagoCreateManyInput = {
+    id?: string
+    alumnoId: string
+    matriculaId?: string | null
+    tipo: string
+    concepto: string
+    permiso: string
+    importe: Decimal | DecimalJsLike | number | string
+    estado?: string
+    convocatoriasIncluidas?: number
+    convocatoriasConsumidas?: number
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    numeroFacturaPago?: string | null
+    observaciones?: string | null
+  }
+
+  export type PagoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    permiso?: StringFieldUpdateOperationsInput | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    convocatoriasIncluidas?: IntFieldUpdateOperationsInput | number
+    convocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PagoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    permiso?: StringFieldUpdateOperationsInput | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    convocatoriasIncluidas?: IntFieldUpdateOperationsInput | number
+    convocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -35145,7 +39668,7 @@ export namespace Prisma {
     fechaEmision?: Date | string
     fechaPago?: Date | string | null
     alumno: AlumnoCreateNestedOneWithoutFacturasInput
-    matricula: MatriculaCreateNestedOneWithoutFacturaInput
+    matricula: MatriculaCreateNestedOneWithoutFacturasInput
   }
 
   export type FacturaUncheckedCreateInput = {
@@ -35173,7 +39696,7 @@ export namespace Prisma {
     fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alumno?: AlumnoUpdateOneRequiredWithoutFacturasNestedInput
-    matricula?: MatriculaUpdateOneRequiredWithoutFacturaNestedInput
+    matricula?: MatriculaUpdateOneRequiredWithoutFacturasNestedInput
   }
 
   export type FacturaUncheckedUpdateInput = {
@@ -35588,6 +40111,12 @@ export namespace Prisma {
     none?: FacturaWhereInput
   }
 
+  export type PagoListRelationFilter = {
+    every?: PagoWhereInput
+    some?: PagoWhereInput
+    none?: PagoWhereInput
+  }
+
   export type MatriculaListRelationFilter = {
     every?: MatriculaWhereInput
     some?: MatriculaWhereInput
@@ -35618,6 +40147,12 @@ export namespace Prisma {
     none?: ExamenDGTAlumnoWhereInput
   }
 
+  export type DocumentoAlumnoListRelationFilter = {
+    every?: DocumentoAlumnoWhereInput
+    some?: DocumentoAlumnoWhereInput
+    none?: DocumentoAlumnoWhereInput
+  }
+
   export type CompraBonoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -35627,6 +40162,10 @@ export namespace Prisma {
   }
 
   export type FacturaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PagoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -35647,6 +40186,10 @@ export namespace Prisma {
   }
 
   export type ExamenDGTAlumnoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DocumentoAlumnoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -35685,6 +40228,100 @@ export namespace Prisma {
     horasPracticasCompletadas?: SortOrder
   }
 
+  export type AlumnoScalarRelationFilter = {
+    is?: AlumnoWhereInput
+    isNot?: AlumnoWhereInput
+  }
+
+  export type DocumentoAlumnoArchivoListRelationFilter = {
+    every?: DocumentoAlumnoArchivoWhereInput
+    some?: DocumentoAlumnoArchivoWhereInput
+    none?: DocumentoAlumnoArchivoWhereInput
+  }
+
+  export type DocumentoAlumnoArchivoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DocumentoAlumnoCountOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    tipo?: SortOrder
+    estado?: SortOrder
+    observaciones?: SortOrder
+    activo?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DocumentoAlumnoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    tipo?: SortOrder
+    estado?: SortOrder
+    observaciones?: SortOrder
+    activo?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DocumentoAlumnoMinOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    tipo?: SortOrder
+    estado?: SortOrder
+    observaciones?: SortOrder
+    activo?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DocumentoAlumnoScalarRelationFilter = {
+    is?: DocumentoAlumnoWhereInput
+    isNot?: DocumentoAlumnoWhereInput
+  }
+
+  export type DocumentoAlumnoArchivoCountOrderByAggregateInput = {
+    id?: SortOrder
+    documentoId?: SortOrder
+    nombreOriginal?: SortOrder
+    nombreArchivo?: SortOrder
+    mimeType?: SortOrder
+    tamanioBytes?: SortOrder
+    ruta?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DocumentoAlumnoArchivoAvgOrderByAggregateInput = {
+    tamanioBytes?: SortOrder
+  }
+
+  export type DocumentoAlumnoArchivoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    documentoId?: SortOrder
+    nombreOriginal?: SortOrder
+    nombreArchivo?: SortOrder
+    mimeType?: SortOrder
+    tamanioBytes?: SortOrder
+    ruta?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DocumentoAlumnoArchivoMinOrderByAggregateInput = {
+    id?: SortOrder
+    documentoId?: SortOrder
+    nombreOriginal?: SortOrder
+    nombreArchivo?: SortOrder
+    mimeType?: SortOrder
+    tamanioBytes?: SortOrder
+    ruta?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DocumentoAlumnoArchivoSumOrderByAggregateInput = {
+    tamanioBytes?: SortOrder
+  }
+
   export type TemarioCountOrderByAggregateInput = {
     id?: SortOrder
     titulo?: SortOrder
@@ -35719,11 +40356,6 @@ export namespace Prisma {
 
   export type TemarioSumOrderByAggregateInput = {
     orden?: SortOrder
-  }
-
-  export type AlumnoScalarRelationFilter = {
-    is?: AlumnoWhereInput
-    isNot?: AlumnoWhereInput
   }
 
   export type TemarioScalarRelationFilter = {
@@ -36525,11 +41157,6 @@ export namespace Prisma {
     precio?: SortOrder
   }
 
-  export type FacturaNullableScalarRelationFilter = {
-    is?: FacturaWhereInput | null
-    isNot?: FacturaWhereInput | null
-  }
-
   export type PromocionNullableScalarRelationFilter = {
     is?: PromocionWhereInput | null
     isNot?: PromocionWhereInput | null
@@ -36582,6 +41209,74 @@ export namespace Prisma {
   export type MatriculaSumOrderByAggregateInput = {
     precioBase?: SortOrder
     precioFinal?: SortOrder
+  }
+
+  export type MatriculaNullableScalarRelationFilter = {
+    is?: MatriculaWhereInput | null
+    isNot?: MatriculaWhereInput | null
+  }
+
+  export type PagoCountOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    matriculaId?: SortOrder
+    tipo?: SortOrder
+    concepto?: SortOrder
+    permiso?: SortOrder
+    importe?: SortOrder
+    estado?: SortOrder
+    convocatoriasIncluidas?: SortOrder
+    convocatoriasConsumidas?: SortOrder
+    fechaCreacion?: SortOrder
+    fechaPago?: SortOrder
+    numeroFacturaPago?: SortOrder
+    observaciones?: SortOrder
+  }
+
+  export type PagoAvgOrderByAggregateInput = {
+    importe?: SortOrder
+    convocatoriasIncluidas?: SortOrder
+    convocatoriasConsumidas?: SortOrder
+  }
+
+  export type PagoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    matriculaId?: SortOrder
+    tipo?: SortOrder
+    concepto?: SortOrder
+    permiso?: SortOrder
+    importe?: SortOrder
+    estado?: SortOrder
+    convocatoriasIncluidas?: SortOrder
+    convocatoriasConsumidas?: SortOrder
+    fechaCreacion?: SortOrder
+    fechaPago?: SortOrder
+    numeroFacturaPago?: SortOrder
+    observaciones?: SortOrder
+  }
+
+  export type PagoMinOrderByAggregateInput = {
+    id?: SortOrder
+    alumnoId?: SortOrder
+    matriculaId?: SortOrder
+    tipo?: SortOrder
+    concepto?: SortOrder
+    permiso?: SortOrder
+    importe?: SortOrder
+    estado?: SortOrder
+    convocatoriasIncluidas?: SortOrder
+    convocatoriasConsumidas?: SortOrder
+    fechaCreacion?: SortOrder
+    fechaPago?: SortOrder
+    numeroFacturaPago?: SortOrder
+    observaciones?: SortOrder
+  }
+
+  export type PagoSumOrderByAggregateInput = {
+    importe?: SortOrder
+    convocatoriasIncluidas?: SortOrder
+    convocatoriasConsumidas?: SortOrder
   }
 
   export type MatriculaScalarRelationFilter = {
@@ -37035,6 +41730,13 @@ export namespace Prisma {
     connect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
   }
 
+  export type PagoCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<PagoCreateWithoutAlumnoInput, PagoUncheckedCreateWithoutAlumnoInput> | PagoCreateWithoutAlumnoInput[] | PagoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: PagoCreateOrConnectWithoutAlumnoInput | PagoCreateOrConnectWithoutAlumnoInput[]
+    createMany?: PagoCreateManyAlumnoInputEnvelope
+    connect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+  }
+
   export type MatriculaCreateNestedManyWithoutAlumnoInput = {
     create?: XOR<MatriculaCreateWithoutAlumnoInput, MatriculaUncheckedCreateWithoutAlumnoInput> | MatriculaCreateWithoutAlumnoInput[] | MatriculaUncheckedCreateWithoutAlumnoInput[]
     connectOrCreate?: MatriculaCreateOrConnectWithoutAlumnoInput | MatriculaCreateOrConnectWithoutAlumnoInput[]
@@ -37070,6 +41772,13 @@ export namespace Prisma {
     connect?: ExamenDGTAlumnoWhereUniqueInput | ExamenDGTAlumnoWhereUniqueInput[]
   }
 
+  export type DocumentoAlumnoCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<DocumentoAlumnoCreateWithoutAlumnoInput, DocumentoAlumnoUncheckedCreateWithoutAlumnoInput> | DocumentoAlumnoCreateWithoutAlumnoInput[] | DocumentoAlumnoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: DocumentoAlumnoCreateOrConnectWithoutAlumnoInput | DocumentoAlumnoCreateOrConnectWithoutAlumnoInput[]
+    createMany?: DocumentoAlumnoCreateManyAlumnoInputEnvelope
+    connect?: DocumentoAlumnoWhereUniqueInput | DocumentoAlumnoWhereUniqueInput[]
+  }
+
   export type ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput = {
     create?: XOR<ClasePracticaCreateWithoutAlumnoInput, ClasePracticaUncheckedCreateWithoutAlumnoInput> | ClasePracticaCreateWithoutAlumnoInput[] | ClasePracticaUncheckedCreateWithoutAlumnoInput[]
     connectOrCreate?: ClasePracticaCreateOrConnectWithoutAlumnoInput | ClasePracticaCreateOrConnectWithoutAlumnoInput[]
@@ -37096,6 +41805,13 @@ export namespace Prisma {
     connectOrCreate?: FacturaCreateOrConnectWithoutAlumnoInput | FacturaCreateOrConnectWithoutAlumnoInput[]
     createMany?: FacturaCreateManyAlumnoInputEnvelope
     connect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+  }
+
+  export type PagoUncheckedCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<PagoCreateWithoutAlumnoInput, PagoUncheckedCreateWithoutAlumnoInput> | PagoCreateWithoutAlumnoInput[] | PagoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: PagoCreateOrConnectWithoutAlumnoInput | PagoCreateOrConnectWithoutAlumnoInput[]
+    createMany?: PagoCreateManyAlumnoInputEnvelope
+    connect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
   }
 
   export type MatriculaUncheckedCreateNestedManyWithoutAlumnoInput = {
@@ -37131,6 +41847,13 @@ export namespace Prisma {
     connectOrCreate?: ExamenDGTAlumnoCreateOrConnectWithoutAlumnoInput | ExamenDGTAlumnoCreateOrConnectWithoutAlumnoInput[]
     createMany?: ExamenDGTAlumnoCreateManyAlumnoInputEnvelope
     connect?: ExamenDGTAlumnoWhereUniqueInput | ExamenDGTAlumnoWhereUniqueInput[]
+  }
+
+  export type DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<DocumentoAlumnoCreateWithoutAlumnoInput, DocumentoAlumnoUncheckedCreateWithoutAlumnoInput> | DocumentoAlumnoCreateWithoutAlumnoInput[] | DocumentoAlumnoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: DocumentoAlumnoCreateOrConnectWithoutAlumnoInput | DocumentoAlumnoCreateOrConnectWithoutAlumnoInput[]
+    createMany?: DocumentoAlumnoCreateManyAlumnoInputEnvelope
+    connect?: DocumentoAlumnoWhereUniqueInput | DocumentoAlumnoWhereUniqueInput[]
   }
 
   export type UsuarioUpdateOneRequiredWithoutAlumnoNestedInput = {
@@ -37207,6 +41930,20 @@ export namespace Prisma {
     deleteMany?: FacturaScalarWhereInput | FacturaScalarWhereInput[]
   }
 
+  export type PagoUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<PagoCreateWithoutAlumnoInput, PagoUncheckedCreateWithoutAlumnoInput> | PagoCreateWithoutAlumnoInput[] | PagoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: PagoCreateOrConnectWithoutAlumnoInput | PagoCreateOrConnectWithoutAlumnoInput[]
+    upsert?: PagoUpsertWithWhereUniqueWithoutAlumnoInput | PagoUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: PagoCreateManyAlumnoInputEnvelope
+    set?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    disconnect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    delete?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    connect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    update?: PagoUpdateWithWhereUniqueWithoutAlumnoInput | PagoUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: PagoUpdateManyWithWhereWithoutAlumnoInput | PagoUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: PagoScalarWhereInput | PagoScalarWhereInput[]
+  }
+
   export type MatriculaUpdateManyWithoutAlumnoNestedInput = {
     create?: XOR<MatriculaCreateWithoutAlumnoInput, MatriculaUncheckedCreateWithoutAlumnoInput> | MatriculaCreateWithoutAlumnoInput[] | MatriculaUncheckedCreateWithoutAlumnoInput[]
     connectOrCreate?: MatriculaCreateOrConnectWithoutAlumnoInput | MatriculaCreateOrConnectWithoutAlumnoInput[]
@@ -37277,6 +42014,20 @@ export namespace Prisma {
     deleteMany?: ExamenDGTAlumnoScalarWhereInput | ExamenDGTAlumnoScalarWhereInput[]
   }
 
+  export type DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<DocumentoAlumnoCreateWithoutAlumnoInput, DocumentoAlumnoUncheckedCreateWithoutAlumnoInput> | DocumentoAlumnoCreateWithoutAlumnoInput[] | DocumentoAlumnoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: DocumentoAlumnoCreateOrConnectWithoutAlumnoInput | DocumentoAlumnoCreateOrConnectWithoutAlumnoInput[]
+    upsert?: DocumentoAlumnoUpsertWithWhereUniqueWithoutAlumnoInput | DocumentoAlumnoUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: DocumentoAlumnoCreateManyAlumnoInputEnvelope
+    set?: DocumentoAlumnoWhereUniqueInput | DocumentoAlumnoWhereUniqueInput[]
+    disconnect?: DocumentoAlumnoWhereUniqueInput | DocumentoAlumnoWhereUniqueInput[]
+    delete?: DocumentoAlumnoWhereUniqueInput | DocumentoAlumnoWhereUniqueInput[]
+    connect?: DocumentoAlumnoWhereUniqueInput | DocumentoAlumnoWhereUniqueInput[]
+    update?: DocumentoAlumnoUpdateWithWhereUniqueWithoutAlumnoInput | DocumentoAlumnoUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: DocumentoAlumnoUpdateManyWithWhereWithoutAlumnoInput | DocumentoAlumnoUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: DocumentoAlumnoScalarWhereInput | DocumentoAlumnoScalarWhereInput[]
+  }
+
   export type ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput = {
     create?: XOR<ClasePracticaCreateWithoutAlumnoInput, ClasePracticaUncheckedCreateWithoutAlumnoInput> | ClasePracticaCreateWithoutAlumnoInput[] | ClasePracticaUncheckedCreateWithoutAlumnoInput[]
     connectOrCreate?: ClasePracticaCreateOrConnectWithoutAlumnoInput | ClasePracticaCreateOrConnectWithoutAlumnoInput[]
@@ -37331,6 +42082,20 @@ export namespace Prisma {
     update?: FacturaUpdateWithWhereUniqueWithoutAlumnoInput | FacturaUpdateWithWhereUniqueWithoutAlumnoInput[]
     updateMany?: FacturaUpdateManyWithWhereWithoutAlumnoInput | FacturaUpdateManyWithWhereWithoutAlumnoInput[]
     deleteMany?: FacturaScalarWhereInput | FacturaScalarWhereInput[]
+  }
+
+  export type PagoUncheckedUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<PagoCreateWithoutAlumnoInput, PagoUncheckedCreateWithoutAlumnoInput> | PagoCreateWithoutAlumnoInput[] | PagoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: PagoCreateOrConnectWithoutAlumnoInput | PagoCreateOrConnectWithoutAlumnoInput[]
+    upsert?: PagoUpsertWithWhereUniqueWithoutAlumnoInput | PagoUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: PagoCreateManyAlumnoInputEnvelope
+    set?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    disconnect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    delete?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    connect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    update?: PagoUpdateWithWhereUniqueWithoutAlumnoInput | PagoUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: PagoUpdateManyWithWhereWithoutAlumnoInput | PagoUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: PagoScalarWhereInput | PagoScalarWhereInput[]
   }
 
   export type MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput = {
@@ -37401,6 +42166,90 @@ export namespace Prisma {
     update?: ExamenDGTAlumnoUpdateWithWhereUniqueWithoutAlumnoInput | ExamenDGTAlumnoUpdateWithWhereUniqueWithoutAlumnoInput[]
     updateMany?: ExamenDGTAlumnoUpdateManyWithWhereWithoutAlumnoInput | ExamenDGTAlumnoUpdateManyWithWhereWithoutAlumnoInput[]
     deleteMany?: ExamenDGTAlumnoScalarWhereInput | ExamenDGTAlumnoScalarWhereInput[]
+  }
+
+  export type DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<DocumentoAlumnoCreateWithoutAlumnoInput, DocumentoAlumnoUncheckedCreateWithoutAlumnoInput> | DocumentoAlumnoCreateWithoutAlumnoInput[] | DocumentoAlumnoUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: DocumentoAlumnoCreateOrConnectWithoutAlumnoInput | DocumentoAlumnoCreateOrConnectWithoutAlumnoInput[]
+    upsert?: DocumentoAlumnoUpsertWithWhereUniqueWithoutAlumnoInput | DocumentoAlumnoUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: DocumentoAlumnoCreateManyAlumnoInputEnvelope
+    set?: DocumentoAlumnoWhereUniqueInput | DocumentoAlumnoWhereUniqueInput[]
+    disconnect?: DocumentoAlumnoWhereUniqueInput | DocumentoAlumnoWhereUniqueInput[]
+    delete?: DocumentoAlumnoWhereUniqueInput | DocumentoAlumnoWhereUniqueInput[]
+    connect?: DocumentoAlumnoWhereUniqueInput | DocumentoAlumnoWhereUniqueInput[]
+    update?: DocumentoAlumnoUpdateWithWhereUniqueWithoutAlumnoInput | DocumentoAlumnoUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: DocumentoAlumnoUpdateManyWithWhereWithoutAlumnoInput | DocumentoAlumnoUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: DocumentoAlumnoScalarWhereInput | DocumentoAlumnoScalarWhereInput[]
+  }
+
+  export type AlumnoCreateNestedOneWithoutDocumentosAlumnoInput = {
+    create?: XOR<AlumnoCreateWithoutDocumentosAlumnoInput, AlumnoUncheckedCreateWithoutDocumentosAlumnoInput>
+    connectOrCreate?: AlumnoCreateOrConnectWithoutDocumentosAlumnoInput
+    connect?: AlumnoWhereUniqueInput
+  }
+
+  export type DocumentoAlumnoArchivoCreateNestedManyWithoutDocumentoInput = {
+    create?: XOR<DocumentoAlumnoArchivoCreateWithoutDocumentoInput, DocumentoAlumnoArchivoUncheckedCreateWithoutDocumentoInput> | DocumentoAlumnoArchivoCreateWithoutDocumentoInput[] | DocumentoAlumnoArchivoUncheckedCreateWithoutDocumentoInput[]
+    connectOrCreate?: DocumentoAlumnoArchivoCreateOrConnectWithoutDocumentoInput | DocumentoAlumnoArchivoCreateOrConnectWithoutDocumentoInput[]
+    createMany?: DocumentoAlumnoArchivoCreateManyDocumentoInputEnvelope
+    connect?: DocumentoAlumnoArchivoWhereUniqueInput | DocumentoAlumnoArchivoWhereUniqueInput[]
+  }
+
+  export type DocumentoAlumnoArchivoUncheckedCreateNestedManyWithoutDocumentoInput = {
+    create?: XOR<DocumentoAlumnoArchivoCreateWithoutDocumentoInput, DocumentoAlumnoArchivoUncheckedCreateWithoutDocumentoInput> | DocumentoAlumnoArchivoCreateWithoutDocumentoInput[] | DocumentoAlumnoArchivoUncheckedCreateWithoutDocumentoInput[]
+    connectOrCreate?: DocumentoAlumnoArchivoCreateOrConnectWithoutDocumentoInput | DocumentoAlumnoArchivoCreateOrConnectWithoutDocumentoInput[]
+    createMany?: DocumentoAlumnoArchivoCreateManyDocumentoInputEnvelope
+    connect?: DocumentoAlumnoArchivoWhereUniqueInput | DocumentoAlumnoArchivoWhereUniqueInput[]
+  }
+
+  export type AlumnoUpdateOneRequiredWithoutDocumentosAlumnoNestedInput = {
+    create?: XOR<AlumnoCreateWithoutDocumentosAlumnoInput, AlumnoUncheckedCreateWithoutDocumentosAlumnoInput>
+    connectOrCreate?: AlumnoCreateOrConnectWithoutDocumentosAlumnoInput
+    upsert?: AlumnoUpsertWithoutDocumentosAlumnoInput
+    connect?: AlumnoWhereUniqueInput
+    update?: XOR<XOR<AlumnoUpdateToOneWithWhereWithoutDocumentosAlumnoInput, AlumnoUpdateWithoutDocumentosAlumnoInput>, AlumnoUncheckedUpdateWithoutDocumentosAlumnoInput>
+  }
+
+  export type DocumentoAlumnoArchivoUpdateManyWithoutDocumentoNestedInput = {
+    create?: XOR<DocumentoAlumnoArchivoCreateWithoutDocumentoInput, DocumentoAlumnoArchivoUncheckedCreateWithoutDocumentoInput> | DocumentoAlumnoArchivoCreateWithoutDocumentoInput[] | DocumentoAlumnoArchivoUncheckedCreateWithoutDocumentoInput[]
+    connectOrCreate?: DocumentoAlumnoArchivoCreateOrConnectWithoutDocumentoInput | DocumentoAlumnoArchivoCreateOrConnectWithoutDocumentoInput[]
+    upsert?: DocumentoAlumnoArchivoUpsertWithWhereUniqueWithoutDocumentoInput | DocumentoAlumnoArchivoUpsertWithWhereUniqueWithoutDocumentoInput[]
+    createMany?: DocumentoAlumnoArchivoCreateManyDocumentoInputEnvelope
+    set?: DocumentoAlumnoArchivoWhereUniqueInput | DocumentoAlumnoArchivoWhereUniqueInput[]
+    disconnect?: DocumentoAlumnoArchivoWhereUniqueInput | DocumentoAlumnoArchivoWhereUniqueInput[]
+    delete?: DocumentoAlumnoArchivoWhereUniqueInput | DocumentoAlumnoArchivoWhereUniqueInput[]
+    connect?: DocumentoAlumnoArchivoWhereUniqueInput | DocumentoAlumnoArchivoWhereUniqueInput[]
+    update?: DocumentoAlumnoArchivoUpdateWithWhereUniqueWithoutDocumentoInput | DocumentoAlumnoArchivoUpdateWithWhereUniqueWithoutDocumentoInput[]
+    updateMany?: DocumentoAlumnoArchivoUpdateManyWithWhereWithoutDocumentoInput | DocumentoAlumnoArchivoUpdateManyWithWhereWithoutDocumentoInput[]
+    deleteMany?: DocumentoAlumnoArchivoScalarWhereInput | DocumentoAlumnoArchivoScalarWhereInput[]
+  }
+
+  export type DocumentoAlumnoArchivoUncheckedUpdateManyWithoutDocumentoNestedInput = {
+    create?: XOR<DocumentoAlumnoArchivoCreateWithoutDocumentoInput, DocumentoAlumnoArchivoUncheckedCreateWithoutDocumentoInput> | DocumentoAlumnoArchivoCreateWithoutDocumentoInput[] | DocumentoAlumnoArchivoUncheckedCreateWithoutDocumentoInput[]
+    connectOrCreate?: DocumentoAlumnoArchivoCreateOrConnectWithoutDocumentoInput | DocumentoAlumnoArchivoCreateOrConnectWithoutDocumentoInput[]
+    upsert?: DocumentoAlumnoArchivoUpsertWithWhereUniqueWithoutDocumentoInput | DocumentoAlumnoArchivoUpsertWithWhereUniqueWithoutDocumentoInput[]
+    createMany?: DocumentoAlumnoArchivoCreateManyDocumentoInputEnvelope
+    set?: DocumentoAlumnoArchivoWhereUniqueInput | DocumentoAlumnoArchivoWhereUniqueInput[]
+    disconnect?: DocumentoAlumnoArchivoWhereUniqueInput | DocumentoAlumnoArchivoWhereUniqueInput[]
+    delete?: DocumentoAlumnoArchivoWhereUniqueInput | DocumentoAlumnoArchivoWhereUniqueInput[]
+    connect?: DocumentoAlumnoArchivoWhereUniqueInput | DocumentoAlumnoArchivoWhereUniqueInput[]
+    update?: DocumentoAlumnoArchivoUpdateWithWhereUniqueWithoutDocumentoInput | DocumentoAlumnoArchivoUpdateWithWhereUniqueWithoutDocumentoInput[]
+    updateMany?: DocumentoAlumnoArchivoUpdateManyWithWhereWithoutDocumentoInput | DocumentoAlumnoArchivoUpdateManyWithWhereWithoutDocumentoInput[]
+    deleteMany?: DocumentoAlumnoArchivoScalarWhereInput | DocumentoAlumnoArchivoScalarWhereInput[]
+  }
+
+  export type DocumentoAlumnoCreateNestedOneWithoutArchivosInput = {
+    create?: XOR<DocumentoAlumnoCreateWithoutArchivosInput, DocumentoAlumnoUncheckedCreateWithoutArchivosInput>
+    connectOrCreate?: DocumentoAlumnoCreateOrConnectWithoutArchivosInput
+    connect?: DocumentoAlumnoWhereUniqueInput
+  }
+
+  export type DocumentoAlumnoUpdateOneRequiredWithoutArchivosNestedInput = {
+    create?: XOR<DocumentoAlumnoCreateWithoutArchivosInput, DocumentoAlumnoUncheckedCreateWithoutArchivosInput>
+    connectOrCreate?: DocumentoAlumnoCreateOrConnectWithoutArchivosInput
+    upsert?: DocumentoAlumnoUpsertWithoutArchivosInput
+    connect?: DocumentoAlumnoWhereUniqueInput
+    update?: XOR<XOR<DocumentoAlumnoUpdateToOneWithWhereWithoutArchivosInput, DocumentoAlumnoUpdateWithoutArchivosInput>, DocumentoAlumnoUncheckedUpdateWithoutArchivosInput>
   }
 
   export type TemarioCreatetipoLicenciaObjetivoInput = {
@@ -38008,10 +42857,18 @@ export namespace Prisma {
     update?: XOR<XOR<TarifaConceptoUpdateToOneWithWhereWithoutHistorialInput, TarifaConceptoUpdateWithoutHistorialInput>, TarifaConceptoUncheckedUpdateWithoutHistorialInput>
   }
 
-  export type FacturaCreateNestedOneWithoutMatriculaInput = {
-    create?: XOR<FacturaCreateWithoutMatriculaInput, FacturaUncheckedCreateWithoutMatriculaInput>
-    connectOrCreate?: FacturaCreateOrConnectWithoutMatriculaInput
-    connect?: FacturaWhereUniqueInput
+  export type FacturaCreateNestedManyWithoutMatriculaInput = {
+    create?: XOR<FacturaCreateWithoutMatriculaInput, FacturaUncheckedCreateWithoutMatriculaInput> | FacturaCreateWithoutMatriculaInput[] | FacturaUncheckedCreateWithoutMatriculaInput[]
+    connectOrCreate?: FacturaCreateOrConnectWithoutMatriculaInput | FacturaCreateOrConnectWithoutMatriculaInput[]
+    createMany?: FacturaCreateManyMatriculaInputEnvelope
+    connect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+  }
+
+  export type PagoCreateNestedManyWithoutMatriculaInput = {
+    create?: XOR<PagoCreateWithoutMatriculaInput, PagoUncheckedCreateWithoutMatriculaInput> | PagoCreateWithoutMatriculaInput[] | PagoUncheckedCreateWithoutMatriculaInput[]
+    connectOrCreate?: PagoCreateOrConnectWithoutMatriculaInput | PagoCreateOrConnectWithoutMatriculaInput[]
+    createMany?: PagoCreateManyMatriculaInputEnvelope
+    connect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
   }
 
   export type MatriculaConceptoCreateNestedManyWithoutMatriculaInput = {
@@ -38033,10 +42890,18 @@ export namespace Prisma {
     connect?: PromocionWhereUniqueInput
   }
 
-  export type FacturaUncheckedCreateNestedOneWithoutMatriculaInput = {
-    create?: XOR<FacturaCreateWithoutMatriculaInput, FacturaUncheckedCreateWithoutMatriculaInput>
-    connectOrCreate?: FacturaCreateOrConnectWithoutMatriculaInput
-    connect?: FacturaWhereUniqueInput
+  export type FacturaUncheckedCreateNestedManyWithoutMatriculaInput = {
+    create?: XOR<FacturaCreateWithoutMatriculaInput, FacturaUncheckedCreateWithoutMatriculaInput> | FacturaCreateWithoutMatriculaInput[] | FacturaUncheckedCreateWithoutMatriculaInput[]
+    connectOrCreate?: FacturaCreateOrConnectWithoutMatriculaInput | FacturaCreateOrConnectWithoutMatriculaInput[]
+    createMany?: FacturaCreateManyMatriculaInputEnvelope
+    connect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+  }
+
+  export type PagoUncheckedCreateNestedManyWithoutMatriculaInput = {
+    create?: XOR<PagoCreateWithoutMatriculaInput, PagoUncheckedCreateWithoutMatriculaInput> | PagoCreateWithoutMatriculaInput[] | PagoUncheckedCreateWithoutMatriculaInput[]
+    connectOrCreate?: PagoCreateOrConnectWithoutMatriculaInput | PagoCreateOrConnectWithoutMatriculaInput[]
+    createMany?: PagoCreateManyMatriculaInputEnvelope
+    connect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
   }
 
   export type MatriculaConceptoUncheckedCreateNestedManyWithoutMatriculaInput = {
@@ -38046,14 +42911,32 @@ export namespace Prisma {
     connect?: MatriculaConceptoWhereUniqueInput | MatriculaConceptoWhereUniqueInput[]
   }
 
-  export type FacturaUpdateOneWithoutMatriculaNestedInput = {
-    create?: XOR<FacturaCreateWithoutMatriculaInput, FacturaUncheckedCreateWithoutMatriculaInput>
-    connectOrCreate?: FacturaCreateOrConnectWithoutMatriculaInput
-    upsert?: FacturaUpsertWithoutMatriculaInput
-    disconnect?: FacturaWhereInput | boolean
-    delete?: FacturaWhereInput | boolean
-    connect?: FacturaWhereUniqueInput
-    update?: XOR<XOR<FacturaUpdateToOneWithWhereWithoutMatriculaInput, FacturaUpdateWithoutMatriculaInput>, FacturaUncheckedUpdateWithoutMatriculaInput>
+  export type FacturaUpdateManyWithoutMatriculaNestedInput = {
+    create?: XOR<FacturaCreateWithoutMatriculaInput, FacturaUncheckedCreateWithoutMatriculaInput> | FacturaCreateWithoutMatriculaInput[] | FacturaUncheckedCreateWithoutMatriculaInput[]
+    connectOrCreate?: FacturaCreateOrConnectWithoutMatriculaInput | FacturaCreateOrConnectWithoutMatriculaInput[]
+    upsert?: FacturaUpsertWithWhereUniqueWithoutMatriculaInput | FacturaUpsertWithWhereUniqueWithoutMatriculaInput[]
+    createMany?: FacturaCreateManyMatriculaInputEnvelope
+    set?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    disconnect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    delete?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    connect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    update?: FacturaUpdateWithWhereUniqueWithoutMatriculaInput | FacturaUpdateWithWhereUniqueWithoutMatriculaInput[]
+    updateMany?: FacturaUpdateManyWithWhereWithoutMatriculaInput | FacturaUpdateManyWithWhereWithoutMatriculaInput[]
+    deleteMany?: FacturaScalarWhereInput | FacturaScalarWhereInput[]
+  }
+
+  export type PagoUpdateManyWithoutMatriculaNestedInput = {
+    create?: XOR<PagoCreateWithoutMatriculaInput, PagoUncheckedCreateWithoutMatriculaInput> | PagoCreateWithoutMatriculaInput[] | PagoUncheckedCreateWithoutMatriculaInput[]
+    connectOrCreate?: PagoCreateOrConnectWithoutMatriculaInput | PagoCreateOrConnectWithoutMatriculaInput[]
+    upsert?: PagoUpsertWithWhereUniqueWithoutMatriculaInput | PagoUpsertWithWhereUniqueWithoutMatriculaInput[]
+    createMany?: PagoCreateManyMatriculaInputEnvelope
+    set?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    disconnect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    delete?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    connect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    update?: PagoUpdateWithWhereUniqueWithoutMatriculaInput | PagoUpdateWithWhereUniqueWithoutMatriculaInput[]
+    updateMany?: PagoUpdateManyWithWhereWithoutMatriculaInput | PagoUpdateManyWithWhereWithoutMatriculaInput[]
+    deleteMany?: PagoScalarWhereInput | PagoScalarWhereInput[]
   }
 
   export type MatriculaConceptoUpdateManyWithoutMatriculaNestedInput = {
@@ -38088,14 +42971,32 @@ export namespace Prisma {
     update?: XOR<XOR<PromocionUpdateToOneWithWhereWithoutMatriculasInput, PromocionUpdateWithoutMatriculasInput>, PromocionUncheckedUpdateWithoutMatriculasInput>
   }
 
-  export type FacturaUncheckedUpdateOneWithoutMatriculaNestedInput = {
-    create?: XOR<FacturaCreateWithoutMatriculaInput, FacturaUncheckedCreateWithoutMatriculaInput>
-    connectOrCreate?: FacturaCreateOrConnectWithoutMatriculaInput
-    upsert?: FacturaUpsertWithoutMatriculaInput
-    disconnect?: FacturaWhereInput | boolean
-    delete?: FacturaWhereInput | boolean
-    connect?: FacturaWhereUniqueInput
-    update?: XOR<XOR<FacturaUpdateToOneWithWhereWithoutMatriculaInput, FacturaUpdateWithoutMatriculaInput>, FacturaUncheckedUpdateWithoutMatriculaInput>
+  export type FacturaUncheckedUpdateManyWithoutMatriculaNestedInput = {
+    create?: XOR<FacturaCreateWithoutMatriculaInput, FacturaUncheckedCreateWithoutMatriculaInput> | FacturaCreateWithoutMatriculaInput[] | FacturaUncheckedCreateWithoutMatriculaInput[]
+    connectOrCreate?: FacturaCreateOrConnectWithoutMatriculaInput | FacturaCreateOrConnectWithoutMatriculaInput[]
+    upsert?: FacturaUpsertWithWhereUniqueWithoutMatriculaInput | FacturaUpsertWithWhereUniqueWithoutMatriculaInput[]
+    createMany?: FacturaCreateManyMatriculaInputEnvelope
+    set?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    disconnect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    delete?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    connect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    update?: FacturaUpdateWithWhereUniqueWithoutMatriculaInput | FacturaUpdateWithWhereUniqueWithoutMatriculaInput[]
+    updateMany?: FacturaUpdateManyWithWhereWithoutMatriculaInput | FacturaUpdateManyWithWhereWithoutMatriculaInput[]
+    deleteMany?: FacturaScalarWhereInput | FacturaScalarWhereInput[]
+  }
+
+  export type PagoUncheckedUpdateManyWithoutMatriculaNestedInput = {
+    create?: XOR<PagoCreateWithoutMatriculaInput, PagoUncheckedCreateWithoutMatriculaInput> | PagoCreateWithoutMatriculaInput[] | PagoUncheckedCreateWithoutMatriculaInput[]
+    connectOrCreate?: PagoCreateOrConnectWithoutMatriculaInput | PagoCreateOrConnectWithoutMatriculaInput[]
+    upsert?: PagoUpsertWithWhereUniqueWithoutMatriculaInput | PagoUpsertWithWhereUniqueWithoutMatriculaInput[]
+    createMany?: PagoCreateManyMatriculaInputEnvelope
+    set?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    disconnect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    delete?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    connect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    update?: PagoUpdateWithWhereUniqueWithoutMatriculaInput | PagoUpdateWithWhereUniqueWithoutMatriculaInput[]
+    updateMany?: PagoUpdateManyWithWhereWithoutMatriculaInput | PagoUpdateManyWithWhereWithoutMatriculaInput[]
+    deleteMany?: PagoScalarWhereInput | PagoScalarWhereInput[]
   }
 
   export type MatriculaConceptoUncheckedUpdateManyWithoutMatriculaNestedInput = {
@@ -38110,6 +43011,36 @@ export namespace Prisma {
     update?: MatriculaConceptoUpdateWithWhereUniqueWithoutMatriculaInput | MatriculaConceptoUpdateWithWhereUniqueWithoutMatriculaInput[]
     updateMany?: MatriculaConceptoUpdateManyWithWhereWithoutMatriculaInput | MatriculaConceptoUpdateManyWithWhereWithoutMatriculaInput[]
     deleteMany?: MatriculaConceptoScalarWhereInput | MatriculaConceptoScalarWhereInput[]
+  }
+
+  export type AlumnoCreateNestedOneWithoutPagosInput = {
+    create?: XOR<AlumnoCreateWithoutPagosInput, AlumnoUncheckedCreateWithoutPagosInput>
+    connectOrCreate?: AlumnoCreateOrConnectWithoutPagosInput
+    connect?: AlumnoWhereUniqueInput
+  }
+
+  export type MatriculaCreateNestedOneWithoutPagosInput = {
+    create?: XOR<MatriculaCreateWithoutPagosInput, MatriculaUncheckedCreateWithoutPagosInput>
+    connectOrCreate?: MatriculaCreateOrConnectWithoutPagosInput
+    connect?: MatriculaWhereUniqueInput
+  }
+
+  export type AlumnoUpdateOneRequiredWithoutPagosNestedInput = {
+    create?: XOR<AlumnoCreateWithoutPagosInput, AlumnoUncheckedCreateWithoutPagosInput>
+    connectOrCreate?: AlumnoCreateOrConnectWithoutPagosInput
+    upsert?: AlumnoUpsertWithoutPagosInput
+    connect?: AlumnoWhereUniqueInput
+    update?: XOR<XOR<AlumnoUpdateToOneWithWhereWithoutPagosInput, AlumnoUpdateWithoutPagosInput>, AlumnoUncheckedUpdateWithoutPagosInput>
+  }
+
+  export type MatriculaUpdateOneWithoutPagosNestedInput = {
+    create?: XOR<MatriculaCreateWithoutPagosInput, MatriculaUncheckedCreateWithoutPagosInput>
+    connectOrCreate?: MatriculaCreateOrConnectWithoutPagosInput
+    upsert?: MatriculaUpsertWithoutPagosInput
+    disconnect?: MatriculaWhereInput | boolean
+    delete?: MatriculaWhereInput | boolean
+    connect?: MatriculaWhereUniqueInput
+    update?: XOR<XOR<MatriculaUpdateToOneWithWhereWithoutPagosInput, MatriculaUpdateWithoutPagosInput>, MatriculaUncheckedUpdateWithoutPagosInput>
   }
 
   export type MatriculaCreateNestedOneWithoutConceptosInput = {
@@ -38146,9 +43077,9 @@ export namespace Prisma {
     connect?: AlumnoWhereUniqueInput
   }
 
-  export type MatriculaCreateNestedOneWithoutFacturaInput = {
-    create?: XOR<MatriculaCreateWithoutFacturaInput, MatriculaUncheckedCreateWithoutFacturaInput>
-    connectOrCreate?: MatriculaCreateOrConnectWithoutFacturaInput
+  export type MatriculaCreateNestedOneWithoutFacturasInput = {
+    create?: XOR<MatriculaCreateWithoutFacturasInput, MatriculaUncheckedCreateWithoutFacturasInput>
+    connectOrCreate?: MatriculaCreateOrConnectWithoutFacturasInput
     connect?: MatriculaWhereUniqueInput
   }
 
@@ -38160,12 +43091,12 @@ export namespace Prisma {
     update?: XOR<XOR<AlumnoUpdateToOneWithWhereWithoutFacturasInput, AlumnoUpdateWithoutFacturasInput>, AlumnoUncheckedUpdateWithoutFacturasInput>
   }
 
-  export type MatriculaUpdateOneRequiredWithoutFacturaNestedInput = {
-    create?: XOR<MatriculaCreateWithoutFacturaInput, MatriculaUncheckedCreateWithoutFacturaInput>
-    connectOrCreate?: MatriculaCreateOrConnectWithoutFacturaInput
-    upsert?: MatriculaUpsertWithoutFacturaInput
+  export type MatriculaUpdateOneRequiredWithoutFacturasNestedInput = {
+    create?: XOR<MatriculaCreateWithoutFacturasInput, MatriculaUncheckedCreateWithoutFacturasInput>
+    connectOrCreate?: MatriculaCreateOrConnectWithoutFacturasInput
+    upsert?: MatriculaUpsertWithoutFacturasInput
     connect?: MatriculaWhereUniqueInput
-    update?: XOR<XOR<MatriculaUpdateToOneWithWhereWithoutFacturaInput, MatriculaUpdateWithoutFacturaInput>, MatriculaUncheckedUpdateWithoutFacturaInput>
+    update?: XOR<XOR<MatriculaUpdateToOneWithWhereWithoutFacturasInput, MatriculaUpdateWithoutFacturasInput>, MatriculaUncheckedUpdateWithoutFacturasInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -38497,11 +43428,13 @@ export namespace Prisma {
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutUsuarioInput = {
@@ -38514,11 +43447,13 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoUncheckedCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutUsuarioInput = {
@@ -38602,11 +43537,13 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutUsuarioInput = {
@@ -38619,11 +43556,13 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUncheckedUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type ProfesorUpsertWithoutUsuarioInput = {
@@ -38739,11 +43678,13 @@ export namespace Prisma {
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutProfesorAsignadoInput = {
@@ -38756,11 +43697,13 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoUncheckedCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutProfesorAsignadoInput = {
@@ -39146,7 +44089,7 @@ export namespace Prisma {
     estado?: string
     fechaEmision?: Date | string
     fechaPago?: Date | string | null
-    matricula: MatriculaCreateNestedOneWithoutFacturaInput
+    matricula: MatriculaCreateNestedOneWithoutFacturasInput
   }
 
   export type FacturaUncheckedCreateWithoutAlumnoInput = {
@@ -39172,6 +44115,48 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PagoCreateWithoutAlumnoInput = {
+    id?: string
+    tipo: string
+    concepto: string
+    permiso: string
+    importe: Decimal | DecimalJsLike | number | string
+    estado?: string
+    convocatoriasIncluidas?: number
+    convocatoriasConsumidas?: number
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    numeroFacturaPago?: string | null
+    observaciones?: string | null
+    matricula?: MatriculaCreateNestedOneWithoutPagosInput
+  }
+
+  export type PagoUncheckedCreateWithoutAlumnoInput = {
+    id?: string
+    matriculaId?: string | null
+    tipo: string
+    concepto: string
+    permiso: string
+    importe: Decimal | DecimalJsLike | number | string
+    estado?: string
+    convocatoriasIncluidas?: number
+    convocatoriasConsumidas?: number
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    numeroFacturaPago?: string | null
+    observaciones?: string | null
+  }
+
+  export type PagoCreateOrConnectWithoutAlumnoInput = {
+    where: PagoWhereUniqueInput
+    create: XOR<PagoCreateWithoutAlumnoInput, PagoUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type PagoCreateManyAlumnoInputEnvelope = {
+    data: PagoCreateManyAlumnoInput | PagoCreateManyAlumnoInput[]
+    skipDuplicates?: boolean
+  }
+
   export type MatriculaCreateWithoutAlumnoInput = {
     id?: string
     licencia: string
@@ -39181,7 +44166,8 @@ export namespace Prisma {
     fechaCreacion?: Date | string
     fechaPago?: Date | string | null
     observaciones?: string | null
-    factura?: FacturaCreateNestedOneWithoutMatriculaInput
+    facturas?: FacturaCreateNestedManyWithoutMatriculaInput
+    pagos?: PagoCreateNestedManyWithoutMatriculaInput
     conceptos?: MatriculaConceptoCreateNestedManyWithoutMatriculaInput
     promocion?: PromocionCreateNestedOneWithoutMatriculasInput
   }
@@ -39196,7 +44182,8 @@ export namespace Prisma {
     fechaCreacion?: Date | string
     fechaPago?: Date | string | null
     observaciones?: string | null
-    factura?: FacturaUncheckedCreateNestedOneWithoutMatriculaInput
+    facturas?: FacturaUncheckedCreateNestedManyWithoutMatriculaInput
+    pagos?: PagoUncheckedCreateNestedManyWithoutMatriculaInput
     conceptos?: MatriculaConceptoUncheckedCreateNestedManyWithoutMatriculaInput
   }
 
@@ -39321,6 +44308,38 @@ export namespace Prisma {
 
   export type ExamenDGTAlumnoCreateManyAlumnoInputEnvelope = {
     data: ExamenDGTAlumnoCreateManyAlumnoInput | ExamenDGTAlumnoCreateManyAlumnoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DocumentoAlumnoCreateWithoutAlumnoInput = {
+    id?: string
+    tipo: string
+    estado?: string
+    observaciones?: string | null
+    activo?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivos?: DocumentoAlumnoArchivoCreateNestedManyWithoutDocumentoInput
+  }
+
+  export type DocumentoAlumnoUncheckedCreateWithoutAlumnoInput = {
+    id?: string
+    tipo: string
+    estado?: string
+    observaciones?: string | null
+    activo?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivos?: DocumentoAlumnoArchivoUncheckedCreateNestedManyWithoutDocumentoInput
+  }
+
+  export type DocumentoAlumnoCreateOrConnectWithoutAlumnoInput = {
+    where: DocumentoAlumnoWhereUniqueInput
+    create: XOR<DocumentoAlumnoCreateWithoutAlumnoInput, DocumentoAlumnoUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type DocumentoAlumnoCreateManyAlumnoInputEnvelope = {
+    data: DocumentoAlumnoCreateManyAlumnoInput | DocumentoAlumnoCreateManyAlumnoInput[]
     skipDuplicates?: boolean
   }
 
@@ -39500,6 +44519,42 @@ export namespace Prisma {
     fechaPago?: DateTimeNullableFilter<"Factura"> | Date | string | null
   }
 
+  export type PagoUpsertWithWhereUniqueWithoutAlumnoInput = {
+    where: PagoWhereUniqueInput
+    update: XOR<PagoUpdateWithoutAlumnoInput, PagoUncheckedUpdateWithoutAlumnoInput>
+    create: XOR<PagoCreateWithoutAlumnoInput, PagoUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type PagoUpdateWithWhereUniqueWithoutAlumnoInput = {
+    where: PagoWhereUniqueInput
+    data: XOR<PagoUpdateWithoutAlumnoInput, PagoUncheckedUpdateWithoutAlumnoInput>
+  }
+
+  export type PagoUpdateManyWithWhereWithoutAlumnoInput = {
+    where: PagoScalarWhereInput
+    data: XOR<PagoUpdateManyMutationInput, PagoUncheckedUpdateManyWithoutAlumnoInput>
+  }
+
+  export type PagoScalarWhereInput = {
+    AND?: PagoScalarWhereInput | PagoScalarWhereInput[]
+    OR?: PagoScalarWhereInput[]
+    NOT?: PagoScalarWhereInput | PagoScalarWhereInput[]
+    id?: StringFilter<"Pago"> | string
+    alumnoId?: StringFilter<"Pago"> | string
+    matriculaId?: StringNullableFilter<"Pago"> | string | null
+    tipo?: StringFilter<"Pago"> | string
+    concepto?: StringFilter<"Pago"> | string
+    permiso?: StringFilter<"Pago"> | string
+    importe?: DecimalFilter<"Pago"> | Decimal | DecimalJsLike | number | string
+    estado?: StringFilter<"Pago"> | string
+    convocatoriasIncluidas?: IntFilter<"Pago"> | number
+    convocatoriasConsumidas?: IntFilter<"Pago"> | number
+    fechaCreacion?: DateTimeFilter<"Pago"> | Date | string
+    fechaPago?: DateTimeNullableFilter<"Pago"> | Date | string | null
+    numeroFacturaPago?: StringNullableFilter<"Pago"> | string | null
+    observaciones?: StringNullableFilter<"Pago"> | string | null
+  }
+
   export type MatriculaUpsertWithWhereUniqueWithoutAlumnoInput = {
     where: MatriculaWhereUniqueInput
     update: XOR<MatriculaUpdateWithoutAlumnoInput, MatriculaUncheckedUpdateWithoutAlumnoInput>
@@ -39649,6 +44704,248 @@ export namespace Prisma {
     fecha?: DateTimeFilter<"ExamenDGTAlumno"> | Date | string
   }
 
+  export type DocumentoAlumnoUpsertWithWhereUniqueWithoutAlumnoInput = {
+    where: DocumentoAlumnoWhereUniqueInput
+    update: XOR<DocumentoAlumnoUpdateWithoutAlumnoInput, DocumentoAlumnoUncheckedUpdateWithoutAlumnoInput>
+    create: XOR<DocumentoAlumnoCreateWithoutAlumnoInput, DocumentoAlumnoUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type DocumentoAlumnoUpdateWithWhereUniqueWithoutAlumnoInput = {
+    where: DocumentoAlumnoWhereUniqueInput
+    data: XOR<DocumentoAlumnoUpdateWithoutAlumnoInput, DocumentoAlumnoUncheckedUpdateWithoutAlumnoInput>
+  }
+
+  export type DocumentoAlumnoUpdateManyWithWhereWithoutAlumnoInput = {
+    where: DocumentoAlumnoScalarWhereInput
+    data: XOR<DocumentoAlumnoUpdateManyMutationInput, DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoInput>
+  }
+
+  export type DocumentoAlumnoScalarWhereInput = {
+    AND?: DocumentoAlumnoScalarWhereInput | DocumentoAlumnoScalarWhereInput[]
+    OR?: DocumentoAlumnoScalarWhereInput[]
+    NOT?: DocumentoAlumnoScalarWhereInput | DocumentoAlumnoScalarWhereInput[]
+    id?: StringFilter<"DocumentoAlumno"> | string
+    alumnoId?: StringFilter<"DocumentoAlumno"> | string
+    tipo?: StringFilter<"DocumentoAlumno"> | string
+    estado?: StringFilter<"DocumentoAlumno"> | string
+    observaciones?: StringNullableFilter<"DocumentoAlumno"> | string | null
+    activo?: BoolFilter<"DocumentoAlumno"> | boolean
+    createdAt?: DateTimeFilter<"DocumentoAlumno"> | Date | string
+    updatedAt?: DateTimeFilter<"DocumentoAlumno"> | Date | string
+  }
+
+  export type AlumnoCreateWithoutDocumentosAlumnoInput = {
+    tipoLicenciaObjetivo: string
+    horasPracticasCompletadas?: number
+    activo?: boolean
+    fechaNacimiento?: Date | string | null
+    usuario: UsuarioCreateNestedOneWithoutAlumnoInput
+    profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
+    clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
+    facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
+    examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
+  }
+
+  export type AlumnoUncheckedCreateWithoutDocumentosAlumnoInput = {
+    id: string
+    tipoLicenciaObjetivo: string
+    horasPracticasCompletadas?: number
+    profesorAsignadoId?: string | null
+    activo?: boolean
+    fechaNacimiento?: Date | string | null
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoUncheckedCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+  }
+
+  export type AlumnoCreateOrConnectWithoutDocumentosAlumnoInput = {
+    where: AlumnoWhereUniqueInput
+    create: XOR<AlumnoCreateWithoutDocumentosAlumnoInput, AlumnoUncheckedCreateWithoutDocumentosAlumnoInput>
+  }
+
+  export type DocumentoAlumnoArchivoCreateWithoutDocumentoInput = {
+    id?: string
+    nombreOriginal: string
+    nombreArchivo: string
+    mimeType: string
+    tamanioBytes: number
+    ruta: string
+    createdAt?: Date | string
+  }
+
+  export type DocumentoAlumnoArchivoUncheckedCreateWithoutDocumentoInput = {
+    id?: string
+    nombreOriginal: string
+    nombreArchivo: string
+    mimeType: string
+    tamanioBytes: number
+    ruta: string
+    createdAt?: Date | string
+  }
+
+  export type DocumentoAlumnoArchivoCreateOrConnectWithoutDocumentoInput = {
+    where: DocumentoAlumnoArchivoWhereUniqueInput
+    create: XOR<DocumentoAlumnoArchivoCreateWithoutDocumentoInput, DocumentoAlumnoArchivoUncheckedCreateWithoutDocumentoInput>
+  }
+
+  export type DocumentoAlumnoArchivoCreateManyDocumentoInputEnvelope = {
+    data: DocumentoAlumnoArchivoCreateManyDocumentoInput | DocumentoAlumnoArchivoCreateManyDocumentoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AlumnoUpsertWithoutDocumentosAlumnoInput = {
+    update: XOR<AlumnoUpdateWithoutDocumentosAlumnoInput, AlumnoUncheckedUpdateWithoutDocumentosAlumnoInput>
+    create: XOR<AlumnoCreateWithoutDocumentosAlumnoInput, AlumnoUncheckedCreateWithoutDocumentosAlumnoInput>
+    where?: AlumnoWhereInput
+  }
+
+  export type AlumnoUpdateToOneWithWhereWithoutDocumentosAlumnoInput = {
+    where?: AlumnoWhereInput
+    data: XOR<AlumnoUpdateWithoutDocumentosAlumnoInput, AlumnoUncheckedUpdateWithoutDocumentosAlumnoInput>
+  }
+
+  export type AlumnoUpdateWithoutDocumentosAlumnoInput = {
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
+    profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
+    clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
+    facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
+    examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type AlumnoUncheckedUpdateWithoutDocumentosAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUncheckedUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type DocumentoAlumnoArchivoUpsertWithWhereUniqueWithoutDocumentoInput = {
+    where: DocumentoAlumnoArchivoWhereUniqueInput
+    update: XOR<DocumentoAlumnoArchivoUpdateWithoutDocumentoInput, DocumentoAlumnoArchivoUncheckedUpdateWithoutDocumentoInput>
+    create: XOR<DocumentoAlumnoArchivoCreateWithoutDocumentoInput, DocumentoAlumnoArchivoUncheckedCreateWithoutDocumentoInput>
+  }
+
+  export type DocumentoAlumnoArchivoUpdateWithWhereUniqueWithoutDocumentoInput = {
+    where: DocumentoAlumnoArchivoWhereUniqueInput
+    data: XOR<DocumentoAlumnoArchivoUpdateWithoutDocumentoInput, DocumentoAlumnoArchivoUncheckedUpdateWithoutDocumentoInput>
+  }
+
+  export type DocumentoAlumnoArchivoUpdateManyWithWhereWithoutDocumentoInput = {
+    where: DocumentoAlumnoArchivoScalarWhereInput
+    data: XOR<DocumentoAlumnoArchivoUpdateManyMutationInput, DocumentoAlumnoArchivoUncheckedUpdateManyWithoutDocumentoInput>
+  }
+
+  export type DocumentoAlumnoArchivoScalarWhereInput = {
+    AND?: DocumentoAlumnoArchivoScalarWhereInput | DocumentoAlumnoArchivoScalarWhereInput[]
+    OR?: DocumentoAlumnoArchivoScalarWhereInput[]
+    NOT?: DocumentoAlumnoArchivoScalarWhereInput | DocumentoAlumnoArchivoScalarWhereInput[]
+    id?: StringFilter<"DocumentoAlumnoArchivo"> | string
+    documentoId?: StringFilter<"DocumentoAlumnoArchivo"> | string
+    nombreOriginal?: StringFilter<"DocumentoAlumnoArchivo"> | string
+    nombreArchivo?: StringFilter<"DocumentoAlumnoArchivo"> | string
+    mimeType?: StringFilter<"DocumentoAlumnoArchivo"> | string
+    tamanioBytes?: IntFilter<"DocumentoAlumnoArchivo"> | number
+    ruta?: StringFilter<"DocumentoAlumnoArchivo"> | string
+    createdAt?: DateTimeFilter<"DocumentoAlumnoArchivo"> | Date | string
+  }
+
+  export type DocumentoAlumnoCreateWithoutArchivosInput = {
+    id?: string
+    tipo: string
+    estado?: string
+    observaciones?: string | null
+    activo?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    alumno: AlumnoCreateNestedOneWithoutDocumentosAlumnoInput
+  }
+
+  export type DocumentoAlumnoUncheckedCreateWithoutArchivosInput = {
+    id?: string
+    alumnoId: string
+    tipo: string
+    estado?: string
+    observaciones?: string | null
+    activo?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DocumentoAlumnoCreateOrConnectWithoutArchivosInput = {
+    where: DocumentoAlumnoWhereUniqueInput
+    create: XOR<DocumentoAlumnoCreateWithoutArchivosInput, DocumentoAlumnoUncheckedCreateWithoutArchivosInput>
+  }
+
+  export type DocumentoAlumnoUpsertWithoutArchivosInput = {
+    update: XOR<DocumentoAlumnoUpdateWithoutArchivosInput, DocumentoAlumnoUncheckedUpdateWithoutArchivosInput>
+    create: XOR<DocumentoAlumnoCreateWithoutArchivosInput, DocumentoAlumnoUncheckedCreateWithoutArchivosInput>
+    where?: DocumentoAlumnoWhereInput
+  }
+
+  export type DocumentoAlumnoUpdateToOneWithWhereWithoutArchivosInput = {
+    where?: DocumentoAlumnoWhereInput
+    data: XOR<DocumentoAlumnoUpdateWithoutArchivosInput, DocumentoAlumnoUncheckedUpdateWithoutArchivosInput>
+  }
+
+  export type DocumentoAlumnoUpdateWithoutArchivosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    alumno?: AlumnoUpdateOneRequiredWithoutDocumentosAlumnoNestedInput
+  }
+
+  export type DocumentoAlumnoUncheckedUpdateWithoutArchivosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type TemarioProgresoCreateWithoutTemarioInput = {
     id?: string
     revisado?: boolean
@@ -39746,10 +45043,12 @@ export namespace Prisma {
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutTemariosProgresoInput = {
@@ -39763,10 +45062,12 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoUncheckedCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutTemariosProgresoInput = {
@@ -39823,10 +45124,12 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutTemariosProgresoInput = {
@@ -39840,10 +45143,12 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUncheckedUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type TemarioUpsertWithoutProgresoInput = {
@@ -39946,10 +45251,12 @@ export namespace Prisma {
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutTestsPracticaInput = {
@@ -39963,10 +45270,12 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoUncheckedCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutTestsPracticaInput = {
@@ -40023,10 +45332,12 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutTestsPracticaInput = {
@@ -40040,10 +45351,12 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUncheckedUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type TemarioUpsertWithoutTestsPracticaInput = {
@@ -40201,10 +45514,12 @@ export namespace Prisma {
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutExamenesDGTInput = {
@@ -40218,10 +45533,12 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoUncheckedCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutExamenesDGTInput = {
@@ -40251,10 +45568,12 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutExamenesDGTInput = {
@@ -40268,10 +45587,12 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUncheckedUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type CompraBonoCreateWithoutBonoInput = {
@@ -40330,11 +45651,13 @@ export namespace Prisma {
     clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutBonosCompradosInput = {
@@ -40347,11 +45670,13 @@ export namespace Prisma {
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoUncheckedCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutBonosCompradosInput = {
@@ -40403,11 +45728,13 @@ export namespace Prisma {
     clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutBonosCompradosInput = {
@@ -40420,11 +45747,13 @@ export namespace Prisma {
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUncheckedUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type BonoUpsertWithoutComprasInput = {
@@ -40467,10 +45796,12 @@ export namespace Prisma {
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutSolicitudesExamenInput = {
@@ -40484,10 +45815,12 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoUncheckedCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutSolicitudesExamenInput = {
@@ -40517,10 +45850,12 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutSolicitudesExamenInput = {
@@ -40534,10 +45869,12 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUncheckedUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type ClasePracticaCreateWithoutVehiculoInput = {
@@ -40594,11 +45931,13 @@ export namespace Prisma {
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutClasesInput = {
@@ -40611,11 +45950,13 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoUncheckedCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutClasesInput = {
@@ -40694,11 +46035,13 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutClasesInput = {
@@ -40711,11 +46054,13 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUncheckedUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type ProfesorUpsertWithoutClasesInput = {
@@ -40790,11 +46135,13 @@ export namespace Prisma {
     clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutExamenesInput = {
@@ -40807,11 +46154,13 @@ export namespace Prisma {
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoUncheckedCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutExamenesInput = {
@@ -40840,11 +46189,13 @@ export namespace Prisma {
     clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutExamenesInput = {
@@ -40857,11 +46208,13 @@ export namespace Prisma {
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUncheckedUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type MatriculaCreateWithoutPromocionInput = {
@@ -40873,7 +46226,8 @@ export namespace Prisma {
     fechaCreacion?: Date | string
     fechaPago?: Date | string | null
     observaciones?: string | null
-    factura?: FacturaCreateNestedOneWithoutMatriculaInput
+    facturas?: FacturaCreateNestedManyWithoutMatriculaInput
+    pagos?: PagoCreateNestedManyWithoutMatriculaInput
     conceptos?: MatriculaConceptoCreateNestedManyWithoutMatriculaInput
     alumno: AlumnoCreateNestedOneWithoutMatriculasInput
   }
@@ -40888,7 +46242,8 @@ export namespace Prisma {
     fechaCreacion?: Date | string
     fechaPago?: Date | string | null
     observaciones?: string | null
-    factura?: FacturaUncheckedCreateNestedOneWithoutMatriculaInput
+    facturas?: FacturaUncheckedCreateNestedManyWithoutMatriculaInput
+    pagos?: PagoUncheckedCreateNestedManyWithoutMatriculaInput
     conceptos?: MatriculaConceptoUncheckedCreateNestedManyWithoutMatriculaInput
   }
 
@@ -41146,6 +46501,53 @@ export namespace Prisma {
     create: XOR<FacturaCreateWithoutMatriculaInput, FacturaUncheckedCreateWithoutMatriculaInput>
   }
 
+  export type FacturaCreateManyMatriculaInputEnvelope = {
+    data: FacturaCreateManyMatriculaInput | FacturaCreateManyMatriculaInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PagoCreateWithoutMatriculaInput = {
+    id?: string
+    tipo: string
+    concepto: string
+    permiso: string
+    importe: Decimal | DecimalJsLike | number | string
+    estado?: string
+    convocatoriasIncluidas?: number
+    convocatoriasConsumidas?: number
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    numeroFacturaPago?: string | null
+    observaciones?: string | null
+    alumno: AlumnoCreateNestedOneWithoutPagosInput
+  }
+
+  export type PagoUncheckedCreateWithoutMatriculaInput = {
+    id?: string
+    alumnoId: string
+    tipo: string
+    concepto: string
+    permiso: string
+    importe: Decimal | DecimalJsLike | number | string
+    estado?: string
+    convocatoriasIncluidas?: number
+    convocatoriasConsumidas?: number
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    numeroFacturaPago?: string | null
+    observaciones?: string | null
+  }
+
+  export type PagoCreateOrConnectWithoutMatriculaInput = {
+    where: PagoWhereUniqueInput
+    create: XOR<PagoCreateWithoutMatriculaInput, PagoUncheckedCreateWithoutMatriculaInput>
+  }
+
+  export type PagoCreateManyMatriculaInputEnvelope = {
+    data: PagoCreateManyMatriculaInput | PagoCreateManyMatriculaInput[]
+    skipDuplicates?: boolean
+  }
+
   export type MatriculaConceptoCreateWithoutMatriculaInput = {
     id?: string
     cantidad?: number
@@ -41191,10 +46593,12 @@ export namespace Prisma {
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutMatriculasInput = {
@@ -41208,10 +46612,12 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoUncheckedCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutMatriculasInput = {
@@ -41262,41 +46668,36 @@ export namespace Prisma {
     create: XOR<PromocionCreateWithoutMatriculasInput, PromocionUncheckedCreateWithoutMatriculasInput>
   }
 
-  export type FacturaUpsertWithoutMatriculaInput = {
+  export type FacturaUpsertWithWhereUniqueWithoutMatriculaInput = {
+    where: FacturaWhereUniqueInput
     update: XOR<FacturaUpdateWithoutMatriculaInput, FacturaUncheckedUpdateWithoutMatriculaInput>
     create: XOR<FacturaCreateWithoutMatriculaInput, FacturaUncheckedCreateWithoutMatriculaInput>
-    where?: FacturaWhereInput
   }
 
-  export type FacturaUpdateToOneWithWhereWithoutMatriculaInput = {
-    where?: FacturaWhereInput
+  export type FacturaUpdateWithWhereUniqueWithoutMatriculaInput = {
+    where: FacturaWhereUniqueInput
     data: XOR<FacturaUpdateWithoutMatriculaInput, FacturaUncheckedUpdateWithoutMatriculaInput>
   }
 
-  export type FacturaUpdateWithoutMatriculaInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    numero?: StringFieldUpdateOperationsInput | string
-    concepto?: StringFieldUpdateOperationsInput | string
-    baseImponible?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    descuento?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    estado?: StringFieldUpdateOperationsInput | string
-    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    alumno?: AlumnoUpdateOneRequiredWithoutFacturasNestedInput
+  export type FacturaUpdateManyWithWhereWithoutMatriculaInput = {
+    where: FacturaScalarWhereInput
+    data: XOR<FacturaUpdateManyMutationInput, FacturaUncheckedUpdateManyWithoutMatriculaInput>
   }
 
-  export type FacturaUncheckedUpdateWithoutMatriculaInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    numero?: StringFieldUpdateOperationsInput | string
-    alumnoId?: StringFieldUpdateOperationsInput | string
-    concepto?: StringFieldUpdateOperationsInput | string
-    baseImponible?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    descuento?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    estado?: StringFieldUpdateOperationsInput | string
-    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  export type PagoUpsertWithWhereUniqueWithoutMatriculaInput = {
+    where: PagoWhereUniqueInput
+    update: XOR<PagoUpdateWithoutMatriculaInput, PagoUncheckedUpdateWithoutMatriculaInput>
+    create: XOR<PagoCreateWithoutMatriculaInput, PagoUncheckedCreateWithoutMatriculaInput>
+  }
+
+  export type PagoUpdateWithWhereUniqueWithoutMatriculaInput = {
+    where: PagoWhereUniqueInput
+    data: XOR<PagoUpdateWithoutMatriculaInput, PagoUncheckedUpdateWithoutMatriculaInput>
+  }
+
+  export type PagoUpdateManyWithWhereWithoutMatriculaInput = {
+    where: PagoScalarWhereInput
+    data: XOR<PagoUpdateManyMutationInput, PagoUncheckedUpdateManyWithoutMatriculaInput>
   }
 
   export type MatriculaConceptoUpsertWithWhereUniqueWithoutMatriculaInput = {
@@ -41337,10 +46738,12 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutMatriculasInput = {
@@ -41354,10 +46757,12 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUncheckedUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type PromocionUpsertWithoutMatriculasInput = {
@@ -41409,6 +46814,174 @@ export namespace Prisma {
     requiereFidelidad?: BoolFieldUpdateOperationsInput | boolean
   }
 
+  export type AlumnoCreateWithoutPagosInput = {
+    tipoLicenciaObjetivo: string
+    horasPracticasCompletadas?: number
+    activo?: boolean
+    fechaNacimiento?: Date | string | null
+    usuario: UsuarioCreateNestedOneWithoutAlumnoInput
+    profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
+    clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
+    facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
+    examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
+  }
+
+  export type AlumnoUncheckedCreateWithoutPagosInput = {
+    id: string
+    tipoLicenciaObjetivo: string
+    horasPracticasCompletadas?: number
+    profesorAsignadoId?: string | null
+    activo?: boolean
+    fechaNacimiento?: Date | string | null
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+  }
+
+  export type AlumnoCreateOrConnectWithoutPagosInput = {
+    where: AlumnoWhereUniqueInput
+    create: XOR<AlumnoCreateWithoutPagosInput, AlumnoUncheckedCreateWithoutPagosInput>
+  }
+
+  export type MatriculaCreateWithoutPagosInput = {
+    id?: string
+    licencia: string
+    precioBase: Decimal | DecimalJsLike | number | string
+    precioFinal: Decimal | DecimalJsLike | number | string
+    estado?: string
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    observaciones?: string | null
+    facturas?: FacturaCreateNestedManyWithoutMatriculaInput
+    conceptos?: MatriculaConceptoCreateNestedManyWithoutMatriculaInput
+    alumno: AlumnoCreateNestedOneWithoutMatriculasInput
+    promocion?: PromocionCreateNestedOneWithoutMatriculasInput
+  }
+
+  export type MatriculaUncheckedCreateWithoutPagosInput = {
+    id?: string
+    alumnoId: string
+    licencia: string
+    precioBase: Decimal | DecimalJsLike | number | string
+    precioFinal: Decimal | DecimalJsLike | number | string
+    promocionId?: string | null
+    estado?: string
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    observaciones?: string | null
+    facturas?: FacturaUncheckedCreateNestedManyWithoutMatriculaInput
+    conceptos?: MatriculaConceptoUncheckedCreateNestedManyWithoutMatriculaInput
+  }
+
+  export type MatriculaCreateOrConnectWithoutPagosInput = {
+    where: MatriculaWhereUniqueInput
+    create: XOR<MatriculaCreateWithoutPagosInput, MatriculaUncheckedCreateWithoutPagosInput>
+  }
+
+  export type AlumnoUpsertWithoutPagosInput = {
+    update: XOR<AlumnoUpdateWithoutPagosInput, AlumnoUncheckedUpdateWithoutPagosInput>
+    create: XOR<AlumnoCreateWithoutPagosInput, AlumnoUncheckedCreateWithoutPagosInput>
+    where?: AlumnoWhereInput
+  }
+
+  export type AlumnoUpdateToOneWithWhereWithoutPagosInput = {
+    where?: AlumnoWhereInput
+    data: XOR<AlumnoUpdateWithoutPagosInput, AlumnoUncheckedUpdateWithoutPagosInput>
+  }
+
+  export type AlumnoUpdateWithoutPagosInput = {
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
+    profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
+    clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
+    facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
+    examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type AlumnoUncheckedUpdateWithoutPagosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type MatriculaUpsertWithoutPagosInput = {
+    update: XOR<MatriculaUpdateWithoutPagosInput, MatriculaUncheckedUpdateWithoutPagosInput>
+    create: XOR<MatriculaCreateWithoutPagosInput, MatriculaUncheckedCreateWithoutPagosInput>
+    where?: MatriculaWhereInput
+  }
+
+  export type MatriculaUpdateToOneWithWhereWithoutPagosInput = {
+    where?: MatriculaWhereInput
+    data: XOR<MatriculaUpdateWithoutPagosInput, MatriculaUncheckedUpdateWithoutPagosInput>
+  }
+
+  export type MatriculaUpdateWithoutPagosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    precioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioFinal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    facturas?: FacturaUpdateManyWithoutMatriculaNestedInput
+    conceptos?: MatriculaConceptoUpdateManyWithoutMatriculaNestedInput
+    alumno?: AlumnoUpdateOneRequiredWithoutMatriculasNestedInput
+    promocion?: PromocionUpdateOneWithoutMatriculasNestedInput
+  }
+
+  export type MatriculaUncheckedUpdateWithoutPagosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    precioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioFinal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    promocionId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    facturas?: FacturaUncheckedUpdateManyWithoutMatriculaNestedInput
+    conceptos?: MatriculaConceptoUncheckedUpdateManyWithoutMatriculaNestedInput
+  }
+
   export type MatriculaCreateWithoutConceptosInput = {
     id?: string
     licencia: string
@@ -41418,7 +46991,8 @@ export namespace Prisma {
     fechaCreacion?: Date | string
     fechaPago?: Date | string | null
     observaciones?: string | null
-    factura?: FacturaCreateNestedOneWithoutMatriculaInput
+    facturas?: FacturaCreateNestedManyWithoutMatriculaInput
+    pagos?: PagoCreateNestedManyWithoutMatriculaInput
     alumno: AlumnoCreateNestedOneWithoutMatriculasInput
     promocion?: PromocionCreateNestedOneWithoutMatriculasInput
   }
@@ -41434,7 +47008,8 @@ export namespace Prisma {
     fechaCreacion?: Date | string
     fechaPago?: Date | string | null
     observaciones?: string | null
-    factura?: FacturaUncheckedCreateNestedOneWithoutMatriculaInput
+    facturas?: FacturaUncheckedCreateNestedManyWithoutMatriculaInput
+    pagos?: PagoUncheckedCreateNestedManyWithoutMatriculaInput
   }
 
   export type MatriculaCreateOrConnectWithoutConceptosInput = {
@@ -41493,7 +47068,8 @@ export namespace Prisma {
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
-    factura?: FacturaUpdateOneWithoutMatriculaNestedInput
+    facturas?: FacturaUpdateManyWithoutMatriculaNestedInput
+    pagos?: PagoUpdateManyWithoutMatriculaNestedInput
     alumno?: AlumnoUpdateOneRequiredWithoutMatriculasNestedInput
     promocion?: PromocionUpdateOneWithoutMatriculasNestedInput
   }
@@ -41509,7 +47085,8 @@ export namespace Prisma {
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
-    factura?: FacturaUncheckedUpdateOneWithoutMatriculaNestedInput
+    facturas?: FacturaUncheckedUpdateManyWithoutMatriculaNestedInput
+    pagos?: PagoUncheckedUpdateManyWithoutMatriculaNestedInput
   }
 
   export type TarifaConceptoUpsertWithoutMatriculasInput = {
@@ -41559,11 +47136,13 @@ export namespace Prisma {
     clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutFacturasInput = {
@@ -41576,11 +47155,13 @@ export namespace Prisma {
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoUncheckedCreateNestedManyWithoutAlumnoInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
     solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
     temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutFacturasInput = {
@@ -41588,7 +47169,7 @@ export namespace Prisma {
     create: XOR<AlumnoCreateWithoutFacturasInput, AlumnoUncheckedCreateWithoutFacturasInput>
   }
 
-  export type MatriculaCreateWithoutFacturaInput = {
+  export type MatriculaCreateWithoutFacturasInput = {
     id?: string
     licencia: string
     precioBase: Decimal | DecimalJsLike | number | string
@@ -41597,12 +47178,13 @@ export namespace Prisma {
     fechaCreacion?: Date | string
     fechaPago?: Date | string | null
     observaciones?: string | null
+    pagos?: PagoCreateNestedManyWithoutMatriculaInput
     conceptos?: MatriculaConceptoCreateNestedManyWithoutMatriculaInput
     alumno: AlumnoCreateNestedOneWithoutMatriculasInput
     promocion?: PromocionCreateNestedOneWithoutMatriculasInput
   }
 
-  export type MatriculaUncheckedCreateWithoutFacturaInput = {
+  export type MatriculaUncheckedCreateWithoutFacturasInput = {
     id?: string
     alumnoId: string
     licencia: string
@@ -41613,12 +47195,13 @@ export namespace Prisma {
     fechaCreacion?: Date | string
     fechaPago?: Date | string | null
     observaciones?: string | null
+    pagos?: PagoUncheckedCreateNestedManyWithoutMatriculaInput
     conceptos?: MatriculaConceptoUncheckedCreateNestedManyWithoutMatriculaInput
   }
 
-  export type MatriculaCreateOrConnectWithoutFacturaInput = {
+  export type MatriculaCreateOrConnectWithoutFacturasInput = {
     where: MatriculaWhereUniqueInput
-    create: XOR<MatriculaCreateWithoutFacturaInput, MatriculaUncheckedCreateWithoutFacturaInput>
+    create: XOR<MatriculaCreateWithoutFacturasInput, MatriculaUncheckedCreateWithoutFacturasInput>
   }
 
   export type AlumnoUpsertWithoutFacturasInput = {
@@ -41642,11 +47225,13 @@ export namespace Prisma {
     clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutFacturasInput = {
@@ -41659,25 +47244,27 @@ export namespace Prisma {
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUncheckedUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
-  export type MatriculaUpsertWithoutFacturaInput = {
-    update: XOR<MatriculaUpdateWithoutFacturaInput, MatriculaUncheckedUpdateWithoutFacturaInput>
-    create: XOR<MatriculaCreateWithoutFacturaInput, MatriculaUncheckedCreateWithoutFacturaInput>
+  export type MatriculaUpsertWithoutFacturasInput = {
+    update: XOR<MatriculaUpdateWithoutFacturasInput, MatriculaUncheckedUpdateWithoutFacturasInput>
+    create: XOR<MatriculaCreateWithoutFacturasInput, MatriculaUncheckedCreateWithoutFacturasInput>
     where?: MatriculaWhereInput
   }
 
-  export type MatriculaUpdateToOneWithWhereWithoutFacturaInput = {
+  export type MatriculaUpdateToOneWithWhereWithoutFacturasInput = {
     where?: MatriculaWhereInput
-    data: XOR<MatriculaUpdateWithoutFacturaInput, MatriculaUncheckedUpdateWithoutFacturaInput>
+    data: XOR<MatriculaUpdateWithoutFacturasInput, MatriculaUncheckedUpdateWithoutFacturasInput>
   }
 
-  export type MatriculaUpdateWithoutFacturaInput = {
+  export type MatriculaUpdateWithoutFacturasInput = {
     id?: StringFieldUpdateOperationsInput | string
     licencia?: StringFieldUpdateOperationsInput | string
     precioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -41686,12 +47273,13 @@ export namespace Prisma {
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    pagos?: PagoUpdateManyWithoutMatriculaNestedInput
     conceptos?: MatriculaConceptoUpdateManyWithoutMatriculaNestedInput
     alumno?: AlumnoUpdateOneRequiredWithoutMatriculasNestedInput
     promocion?: PromocionUpdateOneWithoutMatriculasNestedInput
   }
 
-  export type MatriculaUncheckedUpdateWithoutFacturaInput = {
+  export type MatriculaUncheckedUpdateWithoutFacturasInput = {
     id?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
     licencia?: StringFieldUpdateOperationsInput | string
@@ -41702,6 +47290,7 @@ export namespace Prisma {
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    pagos?: PagoUncheckedUpdateManyWithoutMatriculaNestedInput
     conceptos?: MatriculaConceptoUncheckedUpdateManyWithoutMatriculaNestedInput
   }
 
@@ -41784,11 +47373,13 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutProfesorAsignadoInput = {
@@ -41801,11 +47392,13 @@ export namespace Prisma {
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUncheckedUpdateManyWithoutAlumnoNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
     solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateManyWithoutProfesorAsignadoInput = {
@@ -41918,6 +47511,22 @@ export namespace Prisma {
     fechaPago?: Date | string | null
   }
 
+  export type PagoCreateManyAlumnoInput = {
+    id?: string
+    matriculaId?: string | null
+    tipo: string
+    concepto: string
+    permiso: string
+    importe: Decimal | DecimalJsLike | number | string
+    estado?: string
+    convocatoriasIncluidas?: number
+    convocatoriasConsumidas?: number
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    numeroFacturaPago?: string | null
+    observaciones?: string | null
+  }
+
   export type MatriculaCreateManyAlumnoInput = {
     id?: string
     licencia: string
@@ -41965,6 +47574,16 @@ export namespace Prisma {
     aprobado: boolean
     duracionSegundos?: number | null
     fecha?: Date | string
+  }
+
+  export type DocumentoAlumnoCreateManyAlumnoInput = {
+    id?: string
+    tipo: string
+    estado?: string
+    observaciones?: string | null
+    activo?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ClasePracticaUpdateWithoutAlumnoInput = {
@@ -42055,7 +47674,7 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
     fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    matricula?: MatriculaUpdateOneRequiredWithoutFacturaNestedInput
+    matricula?: MatriculaUpdateOneRequiredWithoutFacturasNestedInput
   }
 
   export type FacturaUncheckedUpdateWithoutAlumnoInput = {
@@ -42084,6 +47703,54 @@ export namespace Prisma {
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type PagoUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    permiso?: StringFieldUpdateOperationsInput | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    convocatoriasIncluidas?: IntFieldUpdateOperationsInput | number
+    convocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    matricula?: MatriculaUpdateOneWithoutPagosNestedInput
+  }
+
+  export type PagoUncheckedUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    permiso?: StringFieldUpdateOperationsInput | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    convocatoriasIncluidas?: IntFieldUpdateOperationsInput | number
+    convocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PagoUncheckedUpdateManyWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    permiso?: StringFieldUpdateOperationsInput | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    convocatoriasIncluidas?: IntFieldUpdateOperationsInput | number
+    convocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type MatriculaUpdateWithoutAlumnoInput = {
     id?: StringFieldUpdateOperationsInput | string
     licencia?: StringFieldUpdateOperationsInput | string
@@ -42093,7 +47760,8 @@ export namespace Prisma {
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
-    factura?: FacturaUpdateOneWithoutMatriculaNestedInput
+    facturas?: FacturaUpdateManyWithoutMatriculaNestedInput
+    pagos?: PagoUpdateManyWithoutMatriculaNestedInput
     conceptos?: MatriculaConceptoUpdateManyWithoutMatriculaNestedInput
     promocion?: PromocionUpdateOneWithoutMatriculasNestedInput
   }
@@ -42108,7 +47776,8 @@ export namespace Prisma {
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
-    factura?: FacturaUncheckedUpdateOneWithoutMatriculaNestedInput
+    facturas?: FacturaUncheckedUpdateManyWithoutMatriculaNestedInput
+    pagos?: PagoUncheckedUpdateManyWithoutMatriculaNestedInput
     conceptos?: MatriculaConceptoUncheckedUpdateManyWithoutMatriculaNestedInput
   }
 
@@ -42233,6 +47902,78 @@ export namespace Prisma {
     aprobado?: BoolFieldUpdateOperationsInput | boolean
     duracionSegundos?: NullableIntFieldUpdateOperationsInput | number | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentoAlumnoUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivos?: DocumentoAlumnoArchivoUpdateManyWithoutDocumentoNestedInput
+  }
+
+  export type DocumentoAlumnoUncheckedUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivos?: DocumentoAlumnoArchivoUncheckedUpdateManyWithoutDocumentoNestedInput
+  }
+
+  export type DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentoAlumnoArchivoCreateManyDocumentoInput = {
+    id?: string
+    nombreOriginal: string
+    nombreArchivo: string
+    mimeType: string
+    tamanioBytes: number
+    ruta: string
+    createdAt?: Date | string
+  }
+
+  export type DocumentoAlumnoArchivoUpdateWithoutDocumentoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombreOriginal?: StringFieldUpdateOperationsInput | string
+    nombreArchivo?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    tamanioBytes?: IntFieldUpdateOperationsInput | number
+    ruta?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentoAlumnoArchivoUncheckedUpdateWithoutDocumentoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombreOriginal?: StringFieldUpdateOperationsInput | string
+    nombreArchivo?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    tamanioBytes?: IntFieldUpdateOperationsInput | number
+    ruta?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentoAlumnoArchivoUncheckedUpdateManyWithoutDocumentoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombreOriginal?: StringFieldUpdateOperationsInput | string
+    nombreArchivo?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    tamanioBytes?: IntFieldUpdateOperationsInput | number
+    ruta?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TemarioProgresoCreateManyTemarioInput = {
@@ -42428,7 +48169,8 @@ export namespace Prisma {
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
-    factura?: FacturaUpdateOneWithoutMatriculaNestedInput
+    facturas?: FacturaUpdateManyWithoutMatriculaNestedInput
+    pagos?: PagoUpdateManyWithoutMatriculaNestedInput
     conceptos?: MatriculaConceptoUpdateManyWithoutMatriculaNestedInput
     alumno?: AlumnoUpdateOneRequiredWithoutMatriculasNestedInput
   }
@@ -42443,7 +48185,8 @@ export namespace Prisma {
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
-    factura?: FacturaUncheckedUpdateOneWithoutMatriculaNestedInput
+    facturas?: FacturaUncheckedUpdateManyWithoutMatriculaNestedInput
+    pagos?: PagoUncheckedUpdateManyWithoutMatriculaNestedInput
     conceptos?: MatriculaConceptoUncheckedUpdateManyWithoutMatriculaNestedInput
   }
 
@@ -42551,6 +48294,35 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type FacturaCreateManyMatriculaInput = {
+    id?: string
+    numero: string
+    alumnoId: string
+    concepto: string
+    baseImponible: Decimal | DecimalJsLike | number | string
+    descuento: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    estado?: string
+    fechaEmision?: Date | string
+    fechaPago?: Date | string | null
+  }
+
+  export type PagoCreateManyMatriculaInput = {
+    id?: string
+    alumnoId: string
+    tipo: string
+    concepto: string
+    permiso: string
+    importe: Decimal | DecimalJsLike | number | string
+    estado?: string
+    convocatoriasIncluidas?: number
+    convocatoriasConsumidas?: number
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    numeroFacturaPago?: string | null
+    observaciones?: string | null
+  }
+
   export type MatriculaConceptoCreateManyMatriculaInput = {
     id?: string
     tarifaConceptoId: string
@@ -42561,6 +48333,93 @@ export namespace Prisma {
     observaciones?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type FacturaUpdateWithoutMatriculaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    baseImponible?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    descuento?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    alumno?: AlumnoUpdateOneRequiredWithoutFacturasNestedInput
+  }
+
+  export type FacturaUncheckedUpdateWithoutMatriculaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    baseImponible?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    descuento?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type FacturaUncheckedUpdateManyWithoutMatriculaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    baseImponible?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    descuento?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PagoUpdateWithoutMatriculaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    permiso?: StringFieldUpdateOperationsInput | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    convocatoriasIncluidas?: IntFieldUpdateOperationsInput | number
+    convocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    alumno?: AlumnoUpdateOneRequiredWithoutPagosNestedInput
+  }
+
+  export type PagoUncheckedUpdateWithoutMatriculaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    permiso?: StringFieldUpdateOperationsInput | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    convocatoriasIncluidas?: IntFieldUpdateOperationsInput | number
+    convocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PagoUncheckedUpdateManyWithoutMatriculaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    permiso?: StringFieldUpdateOperationsInput | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    convocatoriasIncluidas?: IntFieldUpdateOperationsInput | number
+    convocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MatriculaConceptoUpdateWithoutMatriculaInput = {

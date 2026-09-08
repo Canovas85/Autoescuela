@@ -330,6 +330,7 @@ export class DashboardService {
 
     const examenes = dashboard.examenes || [];
     const examenesDGT = dashboard.examenesDGT || [];
+    const pagosDgt = dashboard.pagosDgt || [];
     const dgtRealizados = examenesDGT.length;
     const dgtAprobados = examenesDGT.filter((examen) => examen.aprobado).length;
     const dgtSuspendidos = dgtRealizados - dgtAprobados;
@@ -337,6 +338,40 @@ export class DashboardService {
       dgtRealizados === 0 ? 0 : (dgtAprobados / dgtRealizados) * 100;
     const ultimoExamenDGT = examenesDGT[0] ?? null;
     const rachaDGT = this.calcularRachaExamenesDGT(examenesDGT);
+
+    const pagoDgtPendiente =
+      pagosDgt.find((pago) => pago.estado === "PENDIENTE") ?? null;
+
+    const ultimoPagoDgtPagado =
+      pagosDgt.find((pago) => pago.estado === "PAGADO") ?? null;
+
+    let convocatoriasIncluidas =
+      ultimoPagoDgtPagado?.convocatoriasIncluidas ?? 0;
+    let convocatoriasConsumidas = 0;
+    let convocatoriasDisponibles = 0;
+
+    if (ultimoPagoDgtPagado) {
+      const fechaBaseConvocatorias =
+        ultimoPagoDgtPagado.fechaPago ||
+        ultimoPagoDgtPagado.fechaCreacion ||
+        new Date();
+
+      const suspensosDesdeUltimoPago =
+        await this.repository.countStudentExamSuspensosFromDate(
+          dashboard.profile.id,
+          fechaBaseConvocatorias,
+        );
+
+      convocatoriasConsumidas = Math.min(
+        suspensosDesdeUltimoPago,
+        convocatoriasIncluidas,
+      );
+
+      convocatoriasDisponibles = Math.max(
+        convocatoriasIncluidas - convocatoriasConsumidas,
+        0,
+      );
+    }
 
     const matriculaActual = dashboard.profile.alumno.matriculas?.[0] ?? null;
 
@@ -394,6 +429,34 @@ export class DashboardService {
             }
           : null,
         rachaActual: rachaDGT,
+        tasa21: {
+          pagoPendiente: pagoDgtPendiente
+            ? {
+                id: pagoDgtPendiente.id,
+                estado: pagoDgtPendiente.estado,
+                importe: pagoDgtPendiente.importe,
+                concepto: pagoDgtPendiente.concepto,
+                permiso: pagoDgtPendiente.permiso,
+                fechaCreacion: pagoDgtPendiente.fechaCreacion,
+              }
+            : null,
+          ultimoPago: ultimoPagoDgtPagado
+            ? {
+                id: ultimoPagoDgtPagado.id,
+                estado: ultimoPagoDgtPagado.estado,
+                importe: ultimoPagoDgtPagado.importe,
+                concepto: ultimoPagoDgtPagado.concepto,
+                permiso: ultimoPagoDgtPagado.permiso,
+                fechaPago: ultimoPagoDgtPagado.fechaPago,
+                numeroFacturaPago: ultimoPagoDgtPagado.numeroFacturaPago,
+              }
+            : null,
+          convocatoriasIncluidas,
+          convocatoriasConsumidas,
+          convocatoriasDisponibles,
+          requiereNuevoPago:
+            convocatoriasIncluidas > 0 && convocatoriasDisponibles === 0,
+        },
       },
       temarios,
       practica: {
@@ -413,6 +476,7 @@ export class DashboardService {
         matricula: matriculaPagada ? "PAGADA" : "PENDIENTE",
         preparadoParaTeorico,
         porcentajeAprobado,
+        pagoTasaPendiente: Boolean(pagoDgtPendiente),
       },
     };
   }

@@ -161,6 +161,28 @@ exports.Prisma.AlumnoScalarFieldEnum = {
   fechaNacimiento: 'fechaNacimiento'
 };
 
+exports.Prisma.DocumentoAlumnoScalarFieldEnum = {
+  id: 'id',
+  alumnoId: 'alumnoId',
+  tipo: 'tipo',
+  estado: 'estado',
+  observaciones: 'observaciones',
+  activo: 'activo',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.DocumentoAlumnoArchivoScalarFieldEnum = {
+  id: 'id',
+  documentoId: 'documentoId',
+  nombreOriginal: 'nombreOriginal',
+  nombreArchivo: 'nombreArchivo',
+  mimeType: 'mimeType',
+  tamanioBytes: 'tamanioBytes',
+  ruta: 'ruta',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.TemarioScalarFieldEnum = {
   id: 'id',
   titulo: 'titulo',
@@ -357,6 +379,23 @@ exports.Prisma.MatriculaScalarFieldEnum = {
   observaciones: 'observaciones'
 };
 
+exports.Prisma.PagoScalarFieldEnum = {
+  id: 'id',
+  alumnoId: 'alumnoId',
+  matriculaId: 'matriculaId',
+  tipo: 'tipo',
+  concepto: 'concepto',
+  permiso: 'permiso',
+  importe: 'importe',
+  estado: 'estado',
+  convocatoriasIncluidas: 'convocatoriasIncluidas',
+  convocatoriasConsumidas: 'convocatoriasConsumidas',
+  fechaCreacion: 'fechaCreacion',
+  fechaPago: 'fechaPago',
+  numeroFacturaPago: 'numeroFacturaPago',
+  observaciones: 'observaciones'
+};
+
 exports.Prisma.MatriculaConceptoScalarFieldEnum = {
   id: 'id',
   matriculaId: 'matriculaId',
@@ -416,6 +455,8 @@ exports.Prisma.ModelName = {
   ActivacionCuenta: 'ActivacionCuenta',
   Profesor: 'Profesor',
   Alumno: 'Alumno',
+  DocumentoAlumno: 'DocumentoAlumno',
+  DocumentoAlumnoArchivo: 'DocumentoAlumnoArchivo',
   Temario: 'Temario',
   TemarioProgreso: 'TemarioProgreso',
   ClaseDirecto: 'ClaseDirecto',
@@ -434,6 +475,7 @@ exports.Prisma.ModelName = {
   TarifaConceptoHistorial: 'TarifaConceptoHistorial',
   TarifaMatricula: 'TarifaMatricula',
   Matricula: 'Matricula',
+  Pago: 'Pago',
   MatriculaConcepto: 'MatriculaConcepto',
   Factura: 'Factura'
 };

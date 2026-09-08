@@ -7,12 +7,134 @@ const ESTADOS_VALIDOS = [
   "CANCELADO",
 ];
 
+const DEFAULT_TASA_DGT_CONFIG = {
+  conceptoPattern: "Tasa DGT (Tasa 2.1)",
+  maxSuspensosIncluidos: 2,
+  reglasRenovacion: {
+    default: {
+      diasEspera: 0,
+      clasesPracticasObligatorias: 0,
+    },
+  },
+};
+
 const normalizarTexto = (valor) =>
   typeof valor === "string" ? valor.trim() : "";
 
+const normalizarLicenciaObjetivo = (valor) =>
+  String(valor || "")
+    .trim()
+    .toUpperCase() || "B";
+
+const calcularDiasDesde = (fecha) => {
+  const msPorDia = 1000 * 60 * 60 * 24;
+  return Math.floor((Date.now() - new Date(fecha).getTime()) / msPorDia);
+};
+
 export class ExamenesService {
-  constructor(repository) {
+  constructor(repository, tasaDgtConfig = {}) {
     this.repository = repository;
+    this.tasaDgtConfig = {
+      ...DEFAULT_TASA_DGT_CONFIG,
+      ...tasaDgtConfig,
+      reglasRenovacion: {
+        ...DEFAULT_TASA_DGT_CONFIG.reglasRenovacion,
+        ...(tasaDgtConfig.reglasRenovacion || {}),
+      },
+    };
+  }
+
+  getReglasRenovacion(licenciaObjetivo) {
+    return (
+      this.tasaDgtConfig.reglasRenovacion[licenciaObjetivo] ||
+      this.tasaDgtConfig.reglasRenovacion.default || {
+        diasEspera: 0,
+        clasesPracticasObligatorias: 0,
+      }
+    );
+  }
+
+  async validarDerechoExamenPorTasaDGT(alumnoId, licenciaObjetivo) {
+    if (
+      typeof this.repository.findUltimoPagoTasaDGT !== "function" ||
+      typeof this.repository.countSuspensosDesdeFecha !== "function"
+    ) {
+      return;
+    }
+
+    const pagoTasa = await this.repository.findUltimoPagoTasaDGT(
+      alumnoId,
+      licenciaObjetivo,
+      this.tasaDgtConfig.conceptoPattern,
+    );
+
+    if (!pagoTasa) {
+      throw new Error(
+        "El alumno no tiene abonada la Tasa DGT (Tasa 2.1) para este permiso. Debes registrar el pago antes de programar examen.",
+      );
+    }
+
+    const fechaInicioCobertura =
+      pagoTasa.fechaPago ||
+      pagoTasa.fechaCreacion ||
+      pagoTasa.createdAt ||
+      new Date();
+
+    const suspensosConsumidos = await this.repository.countSuspensosDesdeFecha(
+      alumnoId,
+      fechaInicioCobertura,
+    );
+
+    if (suspensosConsumidos < this.tasaDgtConfig.maxSuspensosIncluidos) {
+      return;
+    }
+
+    const suspensos =
+      typeof this.repository.findSuspensosDesdeFecha === "function"
+        ? await this.repository.findSuspensosDesdeFecha(
+            alumnoId,
+            fechaInicioCobertura,
+          )
+        : [];
+
+    const fechaAgotamiento =
+      suspensos[this.tasaDgtConfig.maxSuspensosIncluidos - 1]?.fecha ||
+      fechaInicioCobertura;
+
+    const reglas = this.getReglasRenovacion(licenciaObjetivo);
+    const diasEspera = Number(reglas.diasEspera || 0);
+    const clasesObligatorias = Number(reglas.clasesPracticasObligatorias || 0);
+
+    if (diasEspera > 0) {
+      const diasTranscurridos = calcularDiasDesde(fechaAgotamiento);
+
+      if (diasTranscurridos < diasEspera) {
+        throw new Error(
+          `Tasa DGT agotada. Debes renovar expediente y esperar ${diasEspera} días desde el agotamiento de convocatorias antes de volver a examen.`,
+        );
+      }
+    }
+
+    if (
+      clasesObligatorias > 0 &&
+      typeof this.repository.countClasesCompletadasDesdeFecha === "function"
+    ) {
+      const clasesRealizadas =
+        await this.repository.countClasesCompletadasDesdeFecha(
+          alumnoId,
+          fechaAgotamiento,
+        );
+
+      if (clasesRealizadas < clasesObligatorias) {
+        throw new Error(
+          `Tasa DGT agotada. Debes renovar expediente y completar ${clasesObligatorias} clases prácticas antes de volver a examen.`,
+        );
+      }
+    }
+
+    throw new Error(
+      "Tasa DGT agotada tras 2 suspensos. Debes registrar una nueva Tasa DGT (Tasa 2.1) y tramitar renovación de expediente.",
+    );
   }
 
   validarPayload(data, { requireFull = false } = {}) {
@@ -72,6 +194,12 @@ export class ExamenesService {
   async create(data) {
     const payload = this.validarPayload(data, { requireFull: true });
 
+    const licenciaObjetivo = normalizarLicenciaObjetivo(data.licenciaObjetivo);
+    await this.validarDerechoExamenPorTasaDGT(
+      payload.alumnoId,
+      licenciaObjetivo,
+    );
+
     return this.repository.create({
       ...payload,
       estado: "PROGRAMADO",
@@ -93,7 +221,19 @@ export class ExamenesService {
   }
 
   async update(id, data) {
-    return this.repository.update(id, this.validarPayload(data));
+    const payload = this.validarPayload(data);
+
+    if (payload.estado === "PROGRAMADO" && payload.alumnoId) {
+      const licenciaObjetivo = normalizarLicenciaObjetivo(
+        data.licenciaObjetivo,
+      );
+      await this.validarDerechoExamenPorTasaDGT(
+        payload.alumnoId,
+        licenciaObjetivo,
+      );
+    }
+
+    return this.repository.update(id, payload);
   }
 
   async delete(id) {

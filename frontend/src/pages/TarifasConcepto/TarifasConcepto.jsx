@@ -4,6 +4,7 @@ import {
   Alert,
   Box,
   Button,
+  Checkbox,
   Chip,
   Dialog,
   DialogActions,
@@ -13,6 +14,7 @@ import {
   FormControl,
   IconButton,
   InputLabel,
+  ListItemText,
   MenuItem,
   Select,
   Snackbar,
@@ -32,7 +34,7 @@ const PERMISOS = ["A", "A1", "A2", "B", "C", "D", "E"];
 const TIPOS = ["FIJO", "VARIABLE", "POR_CLASE", "POR_EXAMEN"];
 
 const emptyForm = {
-  permiso: "B",
+  permisos: ["B"],
   concepto: "",
   precio: "",
   tipo: "FIJO",
@@ -94,7 +96,7 @@ export default function TarifasConcepto() {
   const handleEdit = (row) => {
     setEditingId(row.id);
     setForm({
-      permiso: row.permiso || "B",
+      permisos: [row.permiso || "B"],
       concepto: row.concepto || "",
       precio: row.precio ?? "",
       tipo: row.tipo || "FIJO",
@@ -183,10 +185,15 @@ export default function TarifasConcepto() {
 
   const handleSave = async () => {
     try {
+      const permisos = Array.isArray(form.permisos) ? form.permisos : [];
+
       const payload = {
         ...form,
+        permiso: editingId ? permisos[0] : permisos,
         precio: Number(form.precio),
       };
+
+      delete payload.permisos;
 
       if (editingId) {
         await tarifasConceptoService.update(editingId, payload);
@@ -201,7 +208,9 @@ export default function TarifasConcepto() {
         open: true,
         message: editingId
           ? "Precio actualizado correctamente"
-          : "Precio creado correctamente",
+          : permisos.length > 1
+            ? "Precios creados correctamente"
+            : "Precio creado correctamente",
         severity: "success",
       });
     } catch (error) {
@@ -295,7 +304,7 @@ export default function TarifasConcepto() {
             Tarifas por permisos
           </Typography>
           <Typography color="text.secondary">
-            Gestión de precios por concepto para cada permiso.
+            Gestión de precios por concepto para uno o varios permisos.
           </Typography>
         </Box>
 
@@ -349,15 +358,32 @@ export default function TarifasConcepto() {
           <FormControl fullWidth sx={{ mt: 2 }}>
             <InputLabel>Permiso</InputLabel>
             <Select
+              multiple={!editingId}
               label="Permiso"
-              value={form.permiso}
+              value={form.permisos}
+              renderValue={(selected) =>
+                Array.isArray(selected) ? selected.join(", ") : ""
+              }
               onChange={(event) =>
-                setForm((prev) => ({ ...prev, permiso: event.target.value }))
+                setForm((prev) => ({
+                  ...prev,
+                  permisos:
+                    typeof event.target.value === "string"
+                      ? event.target.value.split(",")
+                      : event.target.value,
+                }))
               }
             >
               {PERMISOS.map((permiso) => (
                 <MenuItem key={permiso} value={permiso}>
-                  {permiso}
+                  {!editingId ? (
+                    <>
+                      <Checkbox checked={form.permisos.includes(permiso)} />
+                      <ListItemText primary={permiso} />
+                    </>
+                  ) : (
+                    permiso
+                  )}
                 </MenuItem>
               ))}
             </Select>

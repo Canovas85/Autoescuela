@@ -16,7 +16,7 @@ describe("TarifasConceptoService", () => {
 
     const repositoryMock = {
       findByPermisoYConcepto: vi.fn().mockResolvedValue(null),
-      create: vi.fn().mockResolvedValue(tarifaCreada),
+      createMany: vi.fn().mockResolvedValue([tarifaCreada]),
     };
 
     const service = new TarifasConceptoService(repositoryMock);
@@ -33,21 +33,62 @@ describe("TarifasConceptoService", () => {
       "A",
       "Tasa DGT (Tasa 2.1)",
     );
-    expect(repositoryMock.create).toHaveBeenCalledWith({
-      permiso: "A",
+    expect(repositoryMock.createMany).toHaveBeenCalledWith([
+      {
+        permiso: "A",
+        concepto: "Tasa DGT (Tasa 2.1)",
+        precio: 94.05,
+        tipo: "FIJO",
+        descripcion: "Obligatoria para derecho a examen",
+        activa: true,
+      },
+    ]);
+    expect(result).toEqual(tarifaCreada);
+  });
+
+  it("debe crear varias tarifas cuando se envían múltiples permisos", async () => {
+    const repositoryMock = {
+      findByPermisoYConcepto: vi.fn().mockResolvedValue(null),
+      createMany: vi.fn().mockResolvedValue([
+        {
+          id: "tarifa-1",
+          permiso: "A",
+          concepto: "Tasa DGT (Tasa 2.1)",
+          precio: 94.05,
+          tipo: "FIJO",
+          descripcion: null,
+          activa: true,
+        },
+        {
+          id: "tarifa-2",
+          permiso: "B",
+          concepto: "Tasa DGT (Tasa 2.1)",
+          precio: 94.05,
+          tipo: "FIJO",
+          descripcion: null,
+          activa: true,
+        },
+      ]),
+    };
+
+    const service = new TarifasConceptoService(repositoryMock);
+
+    const result = await service.create({
+      permiso: ["a", "B"],
       concepto: "Tasa DGT (Tasa 2.1)",
       precio: 94.05,
       tipo: "FIJO",
-      descripcion: "Obligatoria para derecho a examen",
-      activa: true,
     });
-    expect(result).toEqual(tarifaCreada);
+
+    expect(repositoryMock.findByPermisoYConcepto).toHaveBeenCalledTimes(2);
+    expect(repositoryMock.createMany).toHaveBeenCalledTimes(1);
+    expect(result).toHaveLength(2);
   });
 
   it("debe lanzar un error cuando ya existe la combinación permiso + concepto", async () => {
     const repositoryMock = {
       findByPermisoYConcepto: vi.fn().mockResolvedValue({ id: "tarifa-1" }),
-      create: vi.fn(),
+      createMany: vi.fn(),
     };
 
     const service = new TarifasConceptoService(repositoryMock);
@@ -59,15 +100,15 @@ describe("TarifasConceptoService", () => {
         precio: 94.05,
         tipo: "FIJO",
       }),
-    ).rejects.toThrow("Ya existe un concepto para ese permiso");
+    ).rejects.toThrow("Ya existe un concepto para el permiso A");
 
-    expect(repositoryMock.create).not.toHaveBeenCalled();
+    expect(repositoryMock.createMany).not.toHaveBeenCalled();
   });
 
   it("debe lanzar un error cuando el precio no es válido", async () => {
     const repositoryMock = {
       findByPermisoYConcepto: vi.fn().mockResolvedValue(null),
-      create: vi.fn(),
+      createMany: vi.fn(),
     };
 
     const service = new TarifasConceptoService(repositoryMock);

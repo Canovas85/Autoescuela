@@ -202,17 +202,48 @@ export class DashboardRepository {
     });
   }
 
+  async getStudentPagosDgt(userId) {
+    return this.prisma.pago.findMany({
+      where: {
+        alumnoId: userId,
+        tipo: "TASA_DGT_21",
+      },
+      orderBy: [{ fechaCreacion: "desc" }],
+    });
+  }
+
+  async countStudentExamSuspensosFromDate(userId, fechaDesde) {
+    return this.prisma.examen.count({
+      where: {
+        alumnoId: userId,
+        estado: "SUSPENDIDO",
+        fecha: {
+          gte: fechaDesde,
+        },
+      },
+    });
+  }
+
   async getStudentDashboard(userId) {
-    const [profile, temarios, tests, clases, bonos, examenes, examenesDGT] =
-      await Promise.all([
-        this.getStudentProfile(userId),
-        this.getStudentTemarios(userId),
-        this.getStudentTests(userId),
-        this.getStudentClasses(userId),
-        this.getStudentBonos(userId),
-        this.getStudentExamRequests(userId),
-        this.getStudentDGTExams(userId),
-      ]);
+    const [
+      profile,
+      temarios,
+      tests,
+      clases,
+      bonos,
+      examenes,
+      examenesDGT,
+      pagosDgt,
+    ] = await Promise.all([
+      this.getStudentProfile(userId),
+      this.getStudentTemarios(userId),
+      this.getStudentTests(userId),
+      this.getStudentClasses(userId),
+      this.getStudentBonos(userId),
+      this.getStudentExamRequests(userId),
+      this.getStudentDGTExams(userId),
+      this.getStudentPagosDgt(userId),
+    ]);
 
     return {
       profile,
@@ -222,6 +253,7 @@ export class DashboardRepository {
       bonos,
       examenes,
       examenesDGT,
+      pagosDgt,
     };
   }
 

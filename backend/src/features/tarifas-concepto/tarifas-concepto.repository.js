@@ -3,6 +3,16 @@ export class TarifasConceptoRepository {
     this.prisma = prisma;
   }
 
+  async createMany(rows) {
+    return this.prisma.$transaction(
+      rows.map((data) =>
+        this.prisma.tarifaConcepto.create({
+          data,
+        }),
+      ),
+    );
+  }
+
   async create(data) {
     return this.prisma.tarifaConcepto.create({
       data,

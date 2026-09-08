@@ -214,6 +214,14 @@ export default function StudentDashboard({ data }) {
     porcentajeAprobado: 0,
     ultimoResultado: null,
     rachaActual: { tipo: "SIN_DATOS", cantidad: 0 },
+    tasa21: {
+      pagoPendiente: null,
+      ultimoPago: null,
+      convocatoriasIncluidas: 0,
+      convocatoriasConsumidas: 0,
+      convocatoriasDisponibles: 0,
+      requiereNuevoPago: false,
+    },
   };
 
   const dgtUltimoResultado = dgtMetrics.ultimoResultado;
@@ -225,6 +233,7 @@ export default function StudentDashboard({ data }) {
         : "Sin racha todavía";
 
   const matriculaPendiente = resumen?.matricula === "PENDIENTE";
+  const pagoTasaPendiente = Boolean(dgtMetrics.tasa21?.pagoPendiente);
 
   const totalBonoDisponible = bonos.reduce(
     (acumulado, bono) => acumulado + bono.clasesDisponibles,
@@ -270,6 +279,38 @@ export default function StudentDashboard({ data }) {
               onClick={() => navigate("/pago-matricula")}
             >
               Pagar matrícula
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+
+      {!matriculaPendiente && pagoTasaPendiente && (
+        <Card
+          sx={{
+            borderRadius: 4,
+            border: "2px solid #2563eb",
+            backgroundColor: "#eff6ff",
+            borderLeft: "6px solid #2563eb",
+            boxShadow: "none",
+          }}
+        >
+          <CardContent>
+            <Typography variant="h5" fontWeight={800} color="primary.main">
+              Tasa DGT pendiente de pago
+            </Typography>
+
+            <Typography sx={{ mt: 1, mb: 2 }}>
+              Para activar tus convocatorias de examen debes abonar la tasa DGT
+              pendiente ({dgtMetrics.tasa21.pagoPendiente?.importe} EUR).
+            </Typography>
+
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<CreditCardIcon />}
+              onClick={() => navigate("/mis-pagos")}
+            >
+              Pagar tasa DGT
             </Button>
           </CardContent>
         </Card>
@@ -450,6 +491,15 @@ export default function StudentDashboard({ data }) {
                 value={dgtMetrics.testsTotales}
                 subtitle={`${dgtMetrics.testsAprobados} aprobados y ${dgtMetrics.testsSuspendidos} suspendidos`}
                 color="#0891b2"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <DashboardStatCard
+                icon={<VerifiedIcon />}
+                title="Convocatorias DGT"
+                value={dgtMetrics.tasa21?.convocatoriasDisponibles ?? 0}
+                subtitle={`${dgtMetrics.tasa21?.convocatoriasConsumidas ?? 0} consumidas de ${dgtMetrics.tasa21?.convocatoriasIncluidas ?? 0}`}
+                color="#0284c7"
               />
             </Grid>
             <Grid item xs={12} sm={6}>

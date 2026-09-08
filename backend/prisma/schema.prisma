@@ -70,6 +70,7 @@ model Alumno {
   bonosComprados            CompraBono[]
   examenes                  Examen[]
   facturas                  Factura[]
+  pagos                     Pago[]
   matriculas                Matricula[]
   solicitudesExamen         SolicitudExamen[]
   temariosProgreso          TemarioProgreso[]
@@ -404,7 +405,8 @@ model Matricula {
   fechaCreacion DateTime   @default(now())
   fechaPago     DateTime?
   observaciones String?
-  factura       Factura?
+  facturas      Factura[]
+  pagos         Pago[]
   conceptos     MatriculaConcepto[]
   alumno        Alumno     @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
   promocion     Promocion? @relation(fields: [promocionId], references: [id])
@@ -412,6 +414,33 @@ model Matricula {
   @@index([alumnoId])
   @@index([estado])
   @@map("matriculas")
+}
+
+model Pago {
+  id                    String    @id @default(uuid())
+  alumnoId              String
+  matriculaId           String?
+  tipo                  String
+  concepto              String
+  permiso               String
+  importe               Decimal   @db.Decimal(10, 2)
+  estado                String    @default("PENDIENTE")
+  convocatoriasIncluidas Int      @default(2)
+  convocatoriasConsumidas Int     @default(0)
+  fechaCreacion         DateTime  @default(now())
+  fechaPago             DateTime?
+  numeroFacturaPago     String?
+  observaciones         String?
+  alumno                Alumno    @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  matricula             Matricula? @relation(fields: [matriculaId], references: [id], onDelete: SetNull)
+
+  @@index([alumnoId])
+  @@index([matriculaId])
+  @@index([estado])
+  @@index([tipo])
+  @@index([permiso])
+  @@index([fechaCreacion])
+  @@map("pagos")
 }
 
 model MatriculaConcepto {
@@ -437,7 +466,7 @@ model Factura {
   id            String    @id @default(uuid())
   numero        String    @unique
   alumnoId      String
-  matriculaId   String    @unique
+  matriculaId   String
   concepto      String
   baseImponible Decimal   @db.Decimal(10, 2)
   descuento     Decimal   @db.Decimal(10, 2)
