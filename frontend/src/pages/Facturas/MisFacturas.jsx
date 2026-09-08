@@ -1,6 +1,15 @@
 import { useEffect, useState } from "react";
-import { Alert, Box, Chip, Snackbar, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Chip,
+  Snackbar,
+  Typography,
+  IconButton,
+  Tooltip,
+} from "@mui/material"; // 1. Importamos IconButton y Tooltip
 import { DataGrid } from "@mui/x-data-grid";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf"; // 2. Importamos el icono de PDF (o PrintIcon si prefieres)
 
 import { facturasService } from "../../services/facturasService";
 
@@ -29,6 +38,30 @@ export default function MisFacturas() {
   useEffect(() => {
     loadFacturas();
   }, []);
+
+  // 3. Función para manejar la acción de imprimir/ver PDF
+  const handlePrint = async (row) => {
+    try {
+      // Opción A: Si tu backend ya te devuelve una URL directa al archivo PDF listo:
+      // window.open(row.urlPdf, "_blank");
+
+      // Opción B: Si tienes un servicio intermedio que descarga el blob del archivo:
+      // const blob = await facturasService.getBlobPdf(row.id);
+      // const url = window.URL.createObjectURL(blob);
+      // window.open(url, "_blank");
+
+      // Ejemplo temporal para verificar que lee bien la fila:
+      console.log("Imprimiendo factura:", row.numero);
+      alert(`Abriendo PDF de la factura: ${row.numero}`);
+    } catch (error) {
+      console.error(error);
+      setNotification({
+        open: true,
+        message: "No se pudo generar el PDF de la factura",
+        severity: "error",
+      });
+    }
+  };
 
   const columns = [
     {
@@ -73,6 +106,24 @@ export default function MisFacturas() {
         row.fechaEmision
           ? new Date(row.fechaEmision).toLocaleDateString("es-ES")
           : "-",
+    },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      flex: 0.6,
+      sortable: false, // Desactivamos ordenación para esta columna
+      filterable: false, // Desactivamos filtros para esta columna
+      disableColumnMenu: true, // Ocultamos el menú de cabecera de la columna
+      renderCell: (params) => (
+        <Tooltip title="Ver PDF / Imprimir">
+          <IconButton
+            color="primary"
+            onClick={() => handlePrint(params.row)} // Pasamos toda la información de la fila
+          >
+            <PictureAsPdfIcon />
+          </IconButton>
+        </Tooltip>
+      ),
     },
   ];
 

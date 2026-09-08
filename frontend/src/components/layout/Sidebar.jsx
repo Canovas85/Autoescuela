@@ -124,16 +124,16 @@ const menus = {
           path: "/temarios",
           icon: <MenuBookIcon fontSize="small" />,
         },
-        {
-          label: "Clases En Directo",
-          path: "/admin-clases-directo",
-          icon: <SchoolIcon fontSize="small" />,
-        },
-        {
-          label: "Test por tema",
-          path: "/test-por-tema",
-          icon: <QuizIcon fontSize="small" />,
-        },
+        // {
+        //   label: "Clases En Directo",
+        //   path: "/admin-clases-directo",
+        //   icon: <SchoolIcon fontSize="small" />,
+        // },
+        // {
+        //   label: "Test por tema",
+        //   path: "/test-por-tema",
+        //   icon: <QuizIcon fontSize="small" />,
+        // },
         {
           label: "Test DGT",
           path: "/test-dgt",
@@ -258,21 +258,21 @@ const menus = {
       label: "Clases teóricas",
       icon: <SchoolIcon />,
       children: [
-        {
-          label: "Clases En Directo",
-          path: "/clases-directo",
-          icon: <OndemandVideoIcon fontSize="small" />,
-        },
+        // {
+        //   label: "Clases En Directo",
+        //   path: "/clases-directo",
+        //   icon: <OndemandVideoIcon fontSize="small" />,
+        // },
         {
           label: "Material de apoyo",
           path: "/temario",
           icon: <MenuBookOutlinedIcon fontSize="small" />,
         },
-        {
-          label: "Test Teóricos",
-          path: "/test-teoricos",
-          icon: <TaskAltIcon fontSize="small" />,
-        },
+        // {
+        //   label: "Test Teóricos",
+        //   path: "/test-teoricos",
+        //   icon: <TaskAltIcon fontSize="small" />,
+        // },
         {
           label: "Test DGT",
           path: "/test-dgt",
@@ -324,11 +324,11 @@ const menus = {
           path: "/bonos",
           icon: <LocalOfferIcon fontSize="small" />,
         },
-        {
-          label: "Promociones",
-          path: "/promociones",
-          icon: <LocalOfferIcon fontSize="small" />,
-        },
+        // {
+        //   label: "Promociones",
+        //   path: "/promociones",
+        //   icon: <LocalOfferIcon fontSize="small" />,
+        // },
         {
           label: "Mis Pagos",
           path: "/mis-pagos",
@@ -412,21 +412,21 @@ export default function Sidebar({ navigate, location }) {
         label: "Clases teóricas",
         icon: <SchoolIcon />,
         children: [
-          {
-            label: "Clases En Directo",
-            path: "/clases-directo",
-            icon: <OndemandVideoIcon fontSize="small" />,
-          },
+          // {
+          //   label: "Clases En Directo",
+          //   path: "/clases-directo",
+          //   icon: <OndemandVideoIcon fontSize="small" />,
+          // },
           {
             label: "Material de apoyo",
             path: "/temario",
             icon: <MenuBookOutlinedIcon fontSize="small" />,
           },
-          {
-            label: "Test Teóricos",
-            path: "/test-teoricos",
-            icon: <TaskAltIcon fontSize="small" />,
-          },
+          // {
+          //   label: "Test Teóricos",
+          //   path: "/test-teoricos",
+          //   icon: <TaskAltIcon fontSize="small" />,
+          // },
           {
             label: "Test DGT",
             path: "/test-dgt",

@@ -151,7 +151,7 @@ export default function TestDGTAlumno({ defaultLicencia = "B" }) {
     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
       <Card
         sx={{
-          borderRadius: 4,
+          borderRadius: 2,
           background:
             "linear-gradient(120deg, rgba(15,23,42,0.97) 0%, rgba(30,64,175,0.9) 100%)",
           color: "#fff",
@@ -181,20 +181,31 @@ export default function TestDGTAlumno({ defaultLicencia = "B" }) {
               useFlexGap
               flexWrap="wrap"
             >
-              <Chip
-                icon={<TimerIcon fontSize="small" />}
-                label={`Tiempo ${formatDuration(duracionSegundos)}`}
+              {/* 1. TIEMPO: Cambiado a Button (deshabilitado el click) para igualar el tamaño perfectamente */}
+              <Button
+                component="div" // Evita que actúe como un botón interactivo real
+                startIcon={<TimerIcon fontSize="small" />}
                 sx={{
+                  width: 180,
+                  height: 40,
+                  textTransform: "none", // Evita mayúsculas automáticas
                   backgroundColor: "rgba(255,255,255,0.15)",
                   color: "#fff",
+                  borderRadius: 1, // Bordes sutiles para emparejar con Select y Button
+                  cursor: "default",
+                  "&:hover": { backgroundColor: "rgba(255,255,255,0.15)" },
                 }}
-              />
+              >
+                Tiempo {formatDuration(duracionSegundos)}
+              </Button>
 
-              <FormControl size="small" sx={{ minWidth: 120 }}>
+              {/* 2. LICENCIA SELECT */}
+              <FormControl size="small" sx={{ width: 180, height: 40 }}>
                 <Select
                   value={licencia}
                   onChange={(event) => setLicencia(event.target.value)}
                   sx={{
+                    height: "100%", // Obliga al Select a tomar los 40px del FormControl
                     color: "#fff",
                     ".MuiOutlinedInput-notchedOutline": {
                       borderColor: "rgba(255,255,255,0.4)",
@@ -215,12 +226,18 @@ export default function TestDGTAlumno({ defaultLicencia = "B" }) {
                 </Select>
               </FormControl>
 
+              {/* 3. BOTÓN GENERAR EXAMEN */}
               <Button
                 variant="contained"
                 color="warning"
                 startIcon={<QuizIcon />}
                 onClick={handleGenerar}
                 disabled={loading || submitting}
+                sx={{
+                  width: 180,
+                  height: 40,
+                  textTransform: "none", // Opcional: mantiene el texto en minúsculas/mayúsculas naturales
+                }}
               >
                 {loading ? "Generando..." : "Generar examen"}
               </Button>
