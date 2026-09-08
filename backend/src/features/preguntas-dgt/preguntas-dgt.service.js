@@ -1,4 +1,4 @@
-import fs from "fs";
+﻿import fs from "fs";
 import path from "path";
 
 import { PREGUNTAS_DGT_UPLOAD_DIR } from "./preguntas-dgt.upload.js";
@@ -7,6 +7,24 @@ const LICENCIAS_VALIDAS = ["B", "A1", "A2", "A", "C", "D", "E"];
 
 const normalizarTexto = (valor) =>
   typeof valor === "string" ? valor.trim() : "";
+
+const parsearJsonSiString = (valor) => {
+  if (typeof valor !== "string") {
+    return valor;
+  }
+
+  const texto = valor.trim();
+
+  if (!texto.startsWith("[") && !texto.startsWith("{")) {
+    return valor;
+  }
+
+  try {
+    return JSON.parse(texto);
+  } catch {
+    return valor;
+  }
+};
 
 const normalizarBoolean = (valor, valorPorDefecto = false) => {
   if (valor === undefined || valor === null || valor === "") {
@@ -40,6 +58,17 @@ const normalizarBoolean = (valor, valorPorDefecto = false) => {
   return Boolean(valor);
 };
 
+const mezclarAleatorio = (items = []) => {
+  const copia = [...items];
+
+  for (let i = copia.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copia[i], copia[j]] = [copia[j], copia[i]];
+  }
+
+  return copia;
+};
+
 export class PreguntasDGTService {
   constructor(repository) {
     this.repository = repository;
@@ -60,9 +89,11 @@ export class PreguntasDGTService {
   }
 
   normalizarLicencias(licenciaInput) {
-    const licencia = Array.isArray(licenciaInput)
-      ? licenciaInput
-      : [licenciaInput];
+    const licenciaParseada = parsearJsonSiString(licenciaInput);
+
+    const licencia = Array.isArray(licenciaParseada)
+      ? licenciaParseada
+      : [licenciaParseada];
 
     const licenciasNormalizadas = licencia
       .map((item) => normalizarTexto(item).toUpperCase())
@@ -86,15 +117,17 @@ export class PreguntasDGTService {
   }
 
   normalizarRespuestas(respuestasInput) {
-    if (!Array.isArray(respuestasInput)) {
+    const respuestasParseadas = parsearJsonSiString(respuestasInput);
+
+    if (!Array.isArray(respuestasParseadas)) {
       throw new Error("Debe existir un listado de respuestas");
     }
 
-    if (respuestasInput.length !== 4) {
-      throw new Error("Debe existir exactamente 4 respuestas");
+    if (respuestasParseadas.length < 3 || respuestasParseadas.length > 4) {
+      throw new Error("Debe existir entre 3 y 4 respuestas");
     }
 
-    const respuestasNormalizadas = respuestasInput.map((respuesta, index) => {
+    const respuestasNormalizadas = respuestasParseadas.map((respuesta, index) => {
       if (!respuesta || typeof respuesta !== "object") {
         throw new Error(`La respuesta ${index + 1} no es válida`);
       }
@@ -136,20 +169,14 @@ export class PreguntasDGTService {
     }
 
     const licencia = this.normalizarLicencias(data.licencia);
-
     const respuestas = this.normalizarRespuestas(data.respuestas);
 
     return {
       licencia,
-
       enunciado,
-
       imagenRuta: data.imagenRuta || null,
-
       explicacion: normalizarTexto(data.explicacion) || null,
-
       activa: normalizarBoolean(data.activa, true),
-
       respuestas,
     };
   }
@@ -166,7 +193,6 @@ export class PreguntasDGTService {
       imagenRuta: payload.imagenRuta,
       explicacion: payload.explicacion,
       activa: payload.activa,
-
       respuestas: {
         create: payload.respuestas,
       },
@@ -195,33 +221,34 @@ export class PreguntasDGTService {
     }
 
     const payload = this.validarPayload(data);
+    const eliminarImagen = normalizarBoolean(data.eliminarImagen, false);
 
     if (imagenFile) {
       payload.imagenRuta = `/api/uploads/preguntas-dgt/${imagenFile.filename}`;
     }
-    if (!imagenFile && preguntaActual?.imagenRuta) {
+
+    if (!imagenFile && eliminarImagen) {
+      payload.imagenRuta = null;
+    }
+
+    if (!imagenFile && !eliminarImagen && preguntaActual?.imagenRuta) {
       payload.imagenRuta = preguntaActual.imagenRuta;
     }
 
     const preguntaActualizada = await this.repository.update(id, {
       licencia: payload.licencia,
-
       enunciado: payload.enunciado,
-
       imagenRuta: payload.imagenRuta,
-
       explicacion: payload.explicacion,
-
       activa: payload.activa,
-
       respuestas: {
         deleteMany: {},
         create: payload.respuestas,
       },
     });
-    if (imagenFile && preguntaActual?.imagenRuta) {
-      const oldFilename = path.basename(preguntaActual.imagenRuta);
 
+    if ((imagenFile || eliminarImagen) && preguntaActual?.imagenRuta) {
+      const oldFilename = path.basename(preguntaActual.imagenRuta);
       const oldPath = path.join(PREGUNTAS_DGT_UPLOAD_DIR, oldFilename);
 
       try {
@@ -230,6 +257,7 @@ export class PreguntasDGTService {
         // no bloquea actualización
       }
     }
+
     return preguntaActualizada;
   }
 
@@ -281,7 +309,18 @@ export class PreguntasDGTService {
       );
     }
 
-    return preguntas;
+    return preguntas.map((pregunta) => ({
+      id: pregunta.id,
+      enunciado: pregunta.enunciado,
+      imagenRuta: pregunta.imagenRuta || null,
+      respuestas: mezclarAleatorio(
+        (pregunta.respuestas || []).map((respuesta) => ({
+          id: respuesta.id,
+          texto: respuesta.texto,
+          orden: respuesta.orden,
+        })),
+      ),
+    }));
   }
 
   async corregirExamen({
@@ -355,9 +394,7 @@ export class PreguntasDGTService {
     const correctasByPregunta = new Map();
 
     preguntasValidas.forEach((pregunta) => {
-      const correcta = pregunta.respuestas.find(
-        (respuesta) => respuesta.correcta,
-      );
+      const correcta = pregunta.respuestas.find((respuesta) => respuesta.correcta);
 
       if (correcta) {
         correctasByPregunta.set(pregunta.id, correcta.id);
@@ -375,13 +412,10 @@ export class PreguntasDGTService {
     });
 
     const totalPreguntas = preguntasValidas.length;
-
     const fallos = totalPreguntas - aciertos;
-
     const aprobado = fallos <= 3;
 
     const duracionNormalizada = Number(duracionSegundos);
-
     const duracionSegundosValida =
       Number.isFinite(duracionNormalizada) && duracionNormalizada >= 0
         ? Math.trunc(duracionNormalizada)
@@ -390,25 +424,17 @@ export class PreguntasDGTService {
     const examen = await this.repository.saveExamResult({
       alumnoId,
       licencia: licenciaNormalizada,
-
       totalPreguntas,
-
       aciertos,
-
       fallos,
-
       aprobado,
-
       duracionSegundos: duracionSegundosValida,
     });
 
     return {
       examenId: examen.id,
-
       aciertos,
-
       fallos,
-
       aprobado,
     };
   }

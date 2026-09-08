@@ -100,7 +100,7 @@ export default function TemarioAlumno() {
             >
               <Card
                 sx={{
-                  width: 480,
+                  width: 390,
                   height: 320,
                   display: "flex",
                   flexDirection: "column",

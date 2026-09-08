@@ -28,19 +28,23 @@ import EditIcon from "@mui/icons-material/Edit";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import UndoIcon from "@mui/icons-material/Undo";
 
 import { preguntasDGTService } from "../../services/preguntasDGTService";
 
 const LICENCIAS = ["B", "A1", "A2", "A", "C", "D", "E"];
+const TAMANO_MAXIMO_IMAGEN = 5 * 1024 * 1024;
+const TIPOS_IMAGEN_PERMITIDOS = ["image/png", "image/jpeg", "image/webp"];
 
 const createEmptyForm = () => ({
-  licencia: "B",
+  licencia: ["B"],
   enunciado: "",
   explicacion: "",
   activa: true,
+  imagenRuta: "",
   respuestas: [
     { texto: "", correcta: true },
-    { texto: "", correcta: false },
     { texto: "", correcta: false },
     { texto: "", correcta: false },
   ],
@@ -61,6 +65,9 @@ export default function TestDGTAdmin() {
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(createEmptyForm());
+  const [imagenFile, setImagenFile] = useState(null);
+  const [previewImage, setPreviewImage] = useState("");
+  const [eliminarImagenActual, setEliminarImagenActual] = useState(false);
 
   const [notification, setNotification] = useState({
     open: false,
@@ -111,6 +118,9 @@ export default function TestDGTAdmin() {
 
   const resetForm = () => {
     setForm(createEmptyForm());
+    setImagenFile(null);
+    setPreviewImage("");
+    setEliminarImagenActual(false);
     setEditingId(null);
   };
 
@@ -122,22 +132,42 @@ export default function TestDGTAdmin() {
   const handleEdit = (row) => {
     const respuestas = (row.respuestas || []).slice(0, 4);
 
-    while (respuestas.length < 4) {
+    while (respuestas.length < 3) {
       respuestas.push({ texto: "", correcta: false });
     }
 
+    const indiceCorrecta = respuestas.findIndex(
+      (respuesta) => respuesta.correcta,
+    );
+
     setForm({
-      licencia: row.licencia?.[0] || "B",
+      licencia:
+        Array.isArray(row.licencia) && row.licencia.length > 0
+          ? row.licencia
+          : ["B"],
       enunciado: row.enunciado || "",
       explicacion: row.explicacion || "",
       activa: Boolean(row.activa),
+      imagenRuta: row.imagenRuta || "",
       respuestas: respuestas.map((item, index) => ({
         texto: item.texto || "",
-        correcta: index === respuestas.findIndex((r) => r.correcta),
+        correcta: index === (indiceCorrecta >= 0 ? indiceCorrecta : 0),
       })),
     });
+    setImagenFile(null);
+    setPreviewImage(row.imagenRuta || "");
+    setEliminarImagenActual(false);
     setEditingId(row.id);
     setOpen(true);
+  };
+
+  const handleLicenciasChange = (value) => {
+    const licencias = typeof value === "string" ? value.split(",") : value;
+
+    setForm((prev) => ({
+      ...prev,
+      licencia: licencias,
+    }));
   };
 
   const handleSetRespuestaText = (index, value) => {
@@ -157,6 +187,83 @@ export default function TestDGTAdmin() {
         correcta: i === index,
       })),
     }));
+  };
+
+  const handleAddRespuesta = () => {
+    setForm((prev) => {
+      if (prev.respuestas.length >= 4) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        respuestas: [...prev.respuestas, { texto: "", correcta: false }],
+      };
+    });
+  };
+
+  const handleRemoveRespuesta = (index) => {
+    setForm((prev) => {
+      if (prev.respuestas.length <= 3) {
+        return prev;
+      }
+
+      const nuevasRespuestas = prev.respuestas.filter((_, i) => i !== index);
+
+      if (!nuevasRespuestas.some((respuesta) => respuesta.correcta)) {
+        nuevasRespuestas[0] = {
+          ...nuevasRespuestas[0],
+          correcta: true,
+        };
+      }
+
+      return {
+        ...prev,
+        respuestas: nuevasRespuestas,
+      };
+    });
+  };
+
+  const handleImagenChange = (event) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    if (!TIPOS_IMAGEN_PERMITIDOS.includes(file.type)) {
+      setNotification({
+        open: true,
+        message: "Formato de imagen no permitido. Usa png, jpg o webp.",
+        severity: "error",
+      });
+      return;
+    }
+
+    if (file.size > TAMANO_MAXIMO_IMAGEN) {
+      setNotification({
+        open: true,
+        message: "La imagen supera 5 MB.",
+        severity: "error",
+      });
+      return;
+    }
+
+    setImagenFile(file);
+    setPreviewImage(URL.createObjectURL(file));
+    setEliminarImagenActual(false);
+  };
+
+  const handleToggleEliminarImagen = () => {
+    if (eliminarImagenActual) {
+      setEliminarImagenActual(false);
+      setPreviewImage(form.imagenRuta || "");
+      return;
+    }
+
+    setImagenFile(null);
+    setPreviewImage("");
+    setEliminarImagenActual(true);
   };
 
   const openConfirm = (action, row) => {
@@ -198,14 +305,22 @@ export default function TestDGTAdmin() {
   };
 
   const validateForm = () => {
+    if (!Array.isArray(form.licencia) || form.licencia.length === 0) {
+      return "Debes seleccionar al menos una licencia";
+    }
+
     if (!form.enunciado.trim()) {
       return "El enunciado es obligatorio";
+    }
+
+    if (form.respuestas.length < 3 || form.respuestas.length > 4) {
+      return "Debes informar entre 3 y 4 respuestas";
     }
 
     const respuestasVacias = form.respuestas.some((item) => !item.texto.trim());
 
     if (respuestasVacias) {
-      return "Debes completar las 4 respuestas";
+      return "Debes completar todas las respuestas";
     }
 
     const correctas = form.respuestas.filter((item) => item.correcta).length;
@@ -230,7 +345,7 @@ export default function TestDGTAdmin() {
     }
 
     const payload = {
-      licencia: [form.licencia],
+      licencia: form.licencia,
       enunciado: form.enunciado.trim(),
       explicacion: form.explicacion.trim(),
       activa: form.activa,
@@ -243,9 +358,14 @@ export default function TestDGTAdmin() {
 
     try {
       if (editingId) {
-        await preguntasDGTService.update(editingId, payload);
+        await preguntasDGTService.update(
+          editingId,
+          payload,
+          imagenFile,
+          eliminarImagenActual,
+        );
       } else {
-        await preguntasDGTService.create(payload);
+        await preguntasDGTService.create(payload, imagenFile);
       }
 
       await loadPreguntas();
@@ -461,21 +581,67 @@ export default function TestDGTAdmin() {
         <DialogContent sx={{ display: "grid", gap: 2, pt: 1 }}>
           <FormControl fullWidth size="small">
             <Select
+              multiple
               value={form.licencia}
-              onChange={(event) =>
-                setForm((prev) => ({
-                  ...prev,
-                  licencia: event.target.value,
-                }))
-              }
+              onChange={(event) => handleLicenciasChange(event.target.value)}
+              renderValue={(selected) => selected.join(", ")}
             >
               {LICENCIAS.map((licencia) => (
                 <MenuItem key={licencia} value={licencia}>
-                  {licencia}
+                  Permiso {licencia}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
+
+          <Stack spacing={1}>
+            {previewImage && !eliminarImagenActual ? (
+              <Box
+                component="img"
+                src={previewImage}
+                alt="Vista previa de la imagen"
+                sx={{
+                  width: "100%",
+                  maxWidth: 360,
+                  borderRadius: 2,
+                  border: "1px solid #e2e8f0",
+                }}
+              />
+            ) : (
+              <Typography variant="body2" color="text.secondary">
+                No hay imagen seleccionada.
+              </Typography>
+            )}
+
+            <Stack direction="row" spacing={1}>
+              <Button
+                variant="outlined"
+                component="label"
+                startIcon={<CloudUploadIcon />}
+              >
+                {previewImage ? "Cambiar imagen" : "Añadir imagen"}
+                <input
+                  hidden
+                  accept="image/png,image/jpeg,image/webp"
+                  type="file"
+                  onChange={handleImagenChange}
+                />
+              </Button>
+
+              {(previewImage || form.imagenRuta) && editingId ? (
+                <Button
+                  variant="contained"
+                  color={eliminarImagenActual ? "warning" : "error"}
+                  startIcon={
+                    eliminarImagenActual ? <UndoIcon /> : <DeleteIcon />
+                  }
+                  onClick={handleToggleEliminarImagen}
+                >
+                  {eliminarImagenActual ? "Deshacer" : "Eliminar imagen"}
+                </Button>
+              ) : null}
+            </Stack>
+          </Stack>
 
           <TextField
             label="Enunciado"
@@ -507,7 +673,7 @@ export default function TestDGTAdmin() {
 
           <FormControl>
             <Typography variant="subtitle2" sx={{ mb: 1 }}>
-              Selecciona la respuesta correcta
+              Selecciona la respuesta correcta (3 o 4 respuestas)
             </Typography>
 
             <RadioGroup
@@ -532,9 +698,30 @@ export default function TestDGTAdmin() {
                     }
                     placeholder={`Texto de la respuesta ${index + 1}`}
                   />
+
+                  {form.respuestas.length > 3 ? (
+                    <Box sx={{ mt: 1 }}>
+                      <Button
+                        size="small"
+                        color="error"
+                        onClick={() => handleRemoveRespuesta(index)}
+                      >
+                        Eliminar respuesta
+                      </Button>
+                    </Box>
+                  ) : null}
                 </Box>
               ))}
             </RadioGroup>
+
+            <Button
+              sx={{ mt: 1 }}
+              size="small"
+              onClick={handleAddRespuesta}
+              disabled={form.respuestas.length >= 4}
+            >
+              Añadir cuarta respuesta
+            </Button>
           </FormControl>
         </DialogContent>
 

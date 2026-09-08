@@ -86,8 +86,17 @@ describe("PreguntasDGTRepository", () => {
           has: "B",
         },
       },
-      include: {
-        respuestas: true,
+      select: {
+        id: true,
+        enunciado: true,
+        imagenRuta: true,
+        respuestas: {
+          select: {
+            id: true,
+            texto: true,
+            orden: true,
+          },
+        },
       },
     });
 

@@ -66,13 +66,11 @@ export default function TestDGTAlumno({ defaultLicencia = "B" }) {
       enunciado: item.enunciado,
       explicacion: item.explicacion,
       imagenRuta: item.imagenRuta,
-      respuestas: (item.respuestas || [])
-        .map((respuesta) => ({
-          id: respuesta.id,
-          texto: respuesta.texto,
-          orden: respuesta.orden,
-        }))
-        .sort((a, b) => (a.orden || 0) - (b.orden || 0)),
+      respuestas: (item.respuestas || []).map((respuesta) => ({
+        id: respuesta.id,
+        texto: respuesta.texto,
+        orden: respuesta.orden,
+      })),
     }));
   };
 
@@ -288,6 +286,7 @@ export default function TestDGTAlumno({ defaultLicencia = "B" }) {
 
                 <FormControl>
                   <RadioGroup
+                    sx={{ ml: 2, mt: 10 }}
                     value={respuestas[pregunta.id] || ""}
                     onChange={(event) =>
                       handleSeleccion(pregunta.id, event.target.value)
