@@ -47,6 +47,7 @@ import DriveEtaIcon from "@mui/icons-material/DriveEta";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import ReceiptIcon from "@mui/icons-material/Receipt";
+import DescriptionIcon from "@mui/icons-material/Description";
 
 import { matriculasService } from "../../services/matriculasService";
 
@@ -196,6 +197,11 @@ const menus = {
           icon: <ReceiptLongIcon fontSize="small" />,
         },
         {
+          label: "Documentos alumnos",
+          path: "/documentos-alumno-admin",
+          icon: <DescriptionIcon fontSize="small" />,
+        },
+        {
           label: "Pagos",
           path: "/pagos",
           icon: <PaymentIcon fontSize="small" />,
@@ -338,6 +344,11 @@ const menus = {
           label: "Mis Facturas",
           path: "/mis-facturas",
           icon: <ReceiptIcon fontSize="small" />,
+        },
+        {
+          label: "Mis documentos",
+          path: "/mis-documentos",
+          icon: <DescriptionIcon fontSize="small" />,
         },
       ],
     },

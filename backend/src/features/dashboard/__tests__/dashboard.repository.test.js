@@ -478,6 +478,17 @@ describe("DashboardRepository", () => {
           },
         ]),
       },
+      examenDGTAlumno: {
+        findMany: vi.fn().mockResolvedValue([
+          {
+            id: "dgt-1",
+            aprobado: true,
+            aciertos: 28,
+            fallos: 2,
+            fecha: new Date("2026-08-15T10:00:00.000Z"),
+          },
+        ]),
+      },
     };
 
     const repository = new DashboardRepository(prismaMock);
@@ -490,6 +501,7 @@ describe("DashboardRepository", () => {
     expect(prismaMock.clasePractica.findMany).toHaveBeenCalledOnce();
     expect(prismaMock.compraBono.findMany).toHaveBeenCalledOnce();
     expect(prismaMock.solicitudExamen.findMany).toHaveBeenCalledOnce();
+    expect(prismaMock.examenDGTAlumno.findMany).toHaveBeenCalledOnce();
 
     expect(result.profile.nombre).toBe("Alumno Demo");
     expect(result.temarios).toHaveLength(1);
@@ -497,6 +509,7 @@ describe("DashboardRepository", () => {
     expect(result.clases).toHaveLength(1);
     expect(result.bonos).toHaveLength(1);
     expect(result.examenes).toHaveLength(1);
+    expect(result.examenesDGT).toHaveLength(1);
   });
 
   it("debe consultar el perfil del profesor", async () => {

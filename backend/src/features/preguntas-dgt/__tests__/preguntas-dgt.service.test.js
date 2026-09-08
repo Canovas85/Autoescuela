@@ -260,7 +260,7 @@ describe("PreguntasDGTService", () => {
       aciertos: 1,
       fallos: 1,
       aprobado: true,
-      duracionSegundos: 1234,
+      duracionSegundos: null,
     });
 
     expect(result).toEqual({
@@ -268,6 +268,20 @@ describe("PreguntasDGTService", () => {
       aciertos: 1,
       fallos: 1,
       aprobado: true,
+      correccion: [
+        {
+          preguntaId: "preg-1",
+          respuestaAlumnoId: "r1",
+          respuestaCorrectaId: "r1",
+          esCorrecta: true,
+        },
+        {
+          preguntaId: "preg-2",
+          respuestaAlumnoId: "r3",
+          respuestaCorrectaId: "r4",
+          esCorrecta: false,
+        },
+      ],
     });
   });
 

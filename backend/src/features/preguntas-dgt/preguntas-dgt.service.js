@@ -127,28 +127,30 @@ export class PreguntasDGTService {
       throw new Error("Debe existir entre 3 y 4 respuestas");
     }
 
-    const respuestasNormalizadas = respuestasParseadas.map((respuesta, index) => {
-      if (!respuesta || typeof respuesta !== "object") {
-        throw new Error(`La respuesta ${index + 1} no es válida`);
-      }
+    const respuestasNormalizadas = respuestasParseadas.map(
+      (respuesta, index) => {
+        if (!respuesta || typeof respuesta !== "object") {
+          throw new Error(`La respuesta ${index + 1} no es válida`);
+        }
 
-      const texto = normalizarTexto(respuesta.texto);
+        const texto = normalizarTexto(respuesta.texto);
 
-      if (!texto) {
-        throw new Error(`La respuesta ${index + 1} debe tener texto`);
-      }
+        if (!texto) {
+          throw new Error(`La respuesta ${index + 1} debe tener texto`);
+        }
 
-      const correcta = normalizarBoolean(respuesta.correcta, false);
+        const correcta = normalizarBoolean(respuesta.correcta, false);
 
-      return {
-        texto,
-        correcta,
-        orden:
-          Number.isInteger(respuesta.orden) && respuesta.orden > 0
-            ? respuesta.orden
-            : index + 1,
-      };
-    });
+        return {
+          texto,
+          correcta,
+          orden:
+            Number.isInteger(respuesta.orden) && respuesta.orden > 0
+              ? respuesta.orden
+              : index + 1,
+        };
+      },
+    );
 
     const correctas = respuestasNormalizadas.filter(
       (respuesta) => respuesta.correcta === true,
@@ -323,13 +325,7 @@ export class PreguntasDGTService {
     }));
   }
 
-  async corregirExamen({
-    alumnoId,
-    licencia,
-    respuestasAlumno,
-    preguntas,
-    duracionSegundos,
-  }) {
+  async corregirExamen({ alumnoId, licencia, respuestasAlumno, preguntas }) {
     if (!alumnoId) {
       throw new Error("Alumno no válido");
     }
@@ -394,7 +390,9 @@ export class PreguntasDGTService {
     const correctasByPregunta = new Map();
 
     preguntasValidas.forEach((pregunta) => {
-      const correcta = pregunta.respuestas.find((respuesta) => respuesta.correcta);
+      const correcta = pregunta.respuestas.find(
+        (respuesta) => respuesta.correcta,
+      );
 
       if (correcta) {
         correctasByPregunta.set(pregunta.id, correcta.id);
@@ -402,24 +400,29 @@ export class PreguntasDGTService {
     });
 
     let aciertos = 0;
+    const correccion = [];
 
     respuestasNormalizadas.forEach((respuesta) => {
       const correctaId = correctasByPregunta.get(respuesta.preguntaId);
+      const esCorrecta = Boolean(
+        correctaId && respuesta.respuestaId === correctaId,
+      );
 
-      if (correctaId && respuesta.respuestaId === correctaId) {
+      if (esCorrecta) {
         aciertos++;
       }
+
+      correccion.push({
+        preguntaId: respuesta.preguntaId,
+        respuestaAlumnoId: respuesta.respuestaId,
+        respuestaCorrectaId: correctaId || null,
+        esCorrecta,
+      });
     });
 
     const totalPreguntas = preguntasValidas.length;
     const fallos = totalPreguntas - aciertos;
     const aprobado = fallos <= 3;
-
-    const duracionNormalizada = Number(duracionSegundos);
-    const duracionSegundosValida =
-      Number.isFinite(duracionNormalizada) && duracionNormalizada >= 0
-        ? Math.trunc(duracionNormalizada)
-        : null;
 
     const examen = await this.repository.saveExamResult({
       alumnoId,
@@ -428,7 +431,7 @@ export class PreguntasDGTService {
       aciertos,
       fallos,
       aprobado,
-      duracionSegundos: duracionSegundosValida,
+      duracionSegundos: null,
     });
 
     return {
@@ -436,6 +439,7 @@ export class PreguntasDGTService {
       aciertos,
       fallos,
       aprobado,
+      correccion,
     };
   }
 }

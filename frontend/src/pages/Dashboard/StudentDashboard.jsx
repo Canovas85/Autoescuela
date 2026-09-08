@@ -196,6 +196,7 @@ export default function StudentDashboard({ data }) {
   const {
     perfil,
     teoria,
+    dgt,
     temarios,
     practica,
     bonos,
@@ -204,6 +205,23 @@ export default function StudentDashboard({ data }) {
     evolucion,
     resumen,
   } = data;
+
+  const dgtMetrics = dgt || {
+    testsTotales: 0,
+    testsAprobados: 0,
+    testsSuspendidos: 0,
+    porcentajeAprobado: 0,
+    ultimoResultado: null,
+    rachaActual: { tipo: "SIN_DATOS", cantidad: 0 },
+  };
+
+  const dgtUltimoResultado = dgtMetrics.ultimoResultado;
+  const dgtRachaTexto =
+    dgtMetrics.rachaActual?.tipo === "APROBADOS"
+      ? `${dgtMetrics.rachaActual.cantidad} aprobados seguidos`
+      : dgtMetrics.rachaActual?.tipo === "SUSPENSOS"
+        ? `${dgtMetrics.rachaActual.cantidad} suspensos seguidos`
+        : "Sin racha todavía";
 
   const matriculaPendiente = resumen?.matricula === "PENDIENTE";
 
@@ -324,7 +342,22 @@ export default function StudentDashboard({ data }) {
               boxShadow: "0 14px 32px rgba(15, 23, 42, 0.04)",
             }}
           >
-            <CardContent sx={{ py: 2, "&:last-child": { pb: 2 } }}>
+            <CardContent
+              sx={{
+                py: 2,
+                "&:last-child": { pb: 2 },
+                // TRUCO: Buscamos el contenedor del título e icono dentro de SectionTitle
+                "& .MuiBox-root": {
+                  // O el contenedor principal de tu SectionTitle
+                  "& div:first-of-type": {
+                    // Selecciona el bloque del icono y texto
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                  },
+                },
+              }}
+            >
               <SectionTitle
                 icon={<PersonIcon sx={{ color: "#1d4ed8" }} />}
                 title="Datos personales"
@@ -411,6 +444,15 @@ export default function StudentDashboard({ data }) {
             </Grid>
             <Grid item xs={12} sm={6}>
               <DashboardStatCard
+                icon={<WorkspacePremiumIcon />}
+                title="Test DGT"
+                value={dgtMetrics.testsTotales}
+                subtitle={`${dgtMetrics.testsAprobados} aprobados y ${dgtMetrics.testsSuspendidos} suspendidos`}
+                color="#0891b2"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <DashboardStatCard
                 icon={<DirectionsCarIcon />}
                 title="Clases compradas"
                 value={practica.clasesCompradas}
@@ -443,7 +485,22 @@ export default function StudentDashboard({ data }) {
               boxShadow: "0 14px 32px rgba(15, 23, 42, 0.04)",
             }}
           >
-            <CardContent sx={{ py: 2, "&:last-child": { pb: 2 } }}>
+            <CardContent
+              sx={{
+                py: 2,
+                "&:last-child": { pb: 2 },
+                // TRUCO: Buscamos el contenedor del título e icono dentro de SectionTitle
+                "& .MuiBox-root": {
+                  // O el contenedor principal de tu SectionTitle
+                  "& div:first-of-type": {
+                    // Selecciona el bloque del icono y texto
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                  },
+                },
+              }}
+            >
               <SectionTitle
                 icon={<SchoolIcon sx={{ color: "#2563eb" }} />}
                 title="Teoría y examen"
@@ -532,6 +589,93 @@ export default function StudentDashboard({ data }) {
 
               <Box>
                 <Typography variant="subtitle1" fontWeight={800} sx={{ mb: 1 }}>
+                  Simulacros DGT
+                </Typography>
+
+                <Grid container spacing={1.25}>
+                  <Grid item xs={12} sm={4}>
+                    <Box
+                      sx={{
+                        p: 1.25,
+                        borderRadius: 2.5,
+                        backgroundColor: "#ecfeff",
+                      }}
+                    >
+                      <Typography variant="body2" color="text.secondary">
+                        Total realizados
+                      </Typography>
+                      <Typography variant="h5" fontWeight={800}>
+                        {dgtMetrics.testsTotales}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <Box
+                      sx={{
+                        p: 1.25,
+                        borderRadius: 2.5,
+                        backgroundColor: "#f0fdf4",
+                      }}
+                    >
+                      <Typography variant="body2" color="text.secondary">
+                        Aprobados / suspendidos
+                      </Typography>
+                      <Typography variant="h5" fontWeight={800}>
+                        {dgtMetrics.testsAprobados} /{" "}
+                        {dgtMetrics.testsSuspendidos}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <Box
+                      sx={{
+                        p: 1.25,
+                        borderRadius: 2.5,
+                        backgroundColor: "#f0f9ff",
+                      }}
+                    >
+                      <Typography variant="body2" color="text.secondary">
+                        Porcentaje aprobado
+                      </Typography>
+                      <Typography variant="h5" fontWeight={800}>
+                        {formatPercentage(dgtMetrics.porcentajeAprobado)}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                </Grid>
+
+                <Stack
+                  direction={{ xs: "column", sm: "row" }}
+                  spacing={1}
+                  sx={{ mt: 1.5 }}
+                >
+                  <Chip
+                    label={
+                      dgtUltimoResultado
+                        ? "Último resultado"
+                        : "Sin intentos DGT"
+                    }
+                    color={dgtUltimoResultado?.aprobado ? "success" : "default"}
+                    variant={dgtUltimoResultado ? "filled" : "outlined"}
+                  />
+                  {dgtUltimoResultado ? (
+                    <Chip
+                      label={`${dgtUltimoResultado.aprobado ? "APROBADO" : "SUSPENDIDO"} · ${dgtUltimoResultado.aciertos} aciertos y ${dgtUltimoResultado.fallos} fallos`}
+                      color={dgtUltimoResultado.aprobado ? "success" : "error"}
+                      variant="outlined"
+                    />
+                  ) : null}
+                  <Chip
+                    label={`Racha actual: ${dgtRachaTexto}`}
+                    variant="outlined"
+                  />
+                </Stack>
+              </Box>
+
+              <Divider sx={{ my: 2 }} />
+
+              <Box>
+                <Typography variant="subtitle1" fontWeight={800} sx={{ mb: 1 }}>
                   Recomendación de temarios
                 </Typography>
                 {teoria.recomendacionTemarios.length > 0 ? (
@@ -562,7 +706,22 @@ export default function StudentDashboard({ data }) {
               boxShadow: "0 14px 32px rgba(15, 23, 42, 0.04)",
             }}
           >
-            <CardContent sx={{ py: 2, "&:last-child": { pb: 2 } }}>
+            <CardContent
+              sx={{
+                py: 2,
+                "&:last-child": { pb: 2 },
+                // TRUCO: Buscamos el contenedor del título e icono dentro de SectionTitle
+                "& .MuiBox-root": {
+                  // O el contenedor principal de tu SectionTitle
+                  "& div:first-of-type": {
+                    // Selecciona el bloque del icono y texto
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                  },
+                },
+              }}
+            >
               <SectionTitle
                 icon={<BookIcon sx={{ color: "#7c3aed" }} />}
                 title="Temarios revisados"
@@ -863,7 +1022,22 @@ export default function StudentDashboard({ data }) {
                 boxShadow: "0 14px 32px rgba(15, 23, 42, 0.04)",
               }}
             >
-              <CardContent sx={{ py: 2, "&:last-child": { pb: 2 } }}>
+              <CardContent
+                sx={{
+                  py: 2,
+                  "&:last-child": { pb: 2 },
+                  // TRUCO: Buscamos el contenedor del título e icono dentro de SectionTitle
+                  "& .MuiBox-root": {
+                    // O el contenedor principal de tu SectionTitle
+                    "& div:first-of-type": {
+                      // Selecciona el bloque del icono y texto
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                    },
+                  },
+                }}
+              >
                 <SectionTitle
                   icon={<WorkspacePremiumIcon sx={{ color: "#d97706" }} />}
                   title="Bonos disponibles"
@@ -933,7 +1107,22 @@ export default function StudentDashboard({ data }) {
                 boxShadow: "0 14px 32px rgba(15, 23, 42, 0.04)",
               }}
             >
-              <CardContent sx={{ py: 2, "&:last-child": { pb: 2 } }}>
+              <CardContent
+                sx={{
+                  py: 2,
+                  "&:last-child": { pb: 2 },
+                  // TRUCO: Buscamos el contenedor del título e icono dentro de SectionTitle
+                  "& .MuiBox-root": {
+                    // O el contenedor principal de tu SectionTitle
+                    "& div:first-of-type": {
+                      // Selecciona el bloque del icono y texto
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                    },
+                  },
+                }}
+              >
                 <SectionTitle
                   icon={<EventNoteIcon sx={{ color: "#7c3aed" }} />}
                   title="Solicitudes de examen"

@@ -58,14 +58,14 @@ model Profesor {
 }
 
 model Alumno {
-  id                        String            @id
+  id                        String               @id
   tipoLicenciaObjetivo      String
-  horasPracticasCompletadas Int               @default(0)
+  horasPracticasCompletadas Int                  @default(0)
   profesorAsignadoId        String?
-  activo                    Boolean           @default(true)
+  activo                    Boolean              @default(true)
   fechaNacimiento           DateTime?
-  usuario                   Usuario           @relation(fields: [id], references: [id], onDelete: Cascade)
-  profesorAsignado          Profesor?         @relation(fields: [profesorAsignadoId], references: [id])
+  usuario                   Usuario              @relation(fields: [id], references: [id], onDelete: Cascade)
+  profesorAsignado          Profesor?            @relation(fields: [profesorAsignadoId], references: [id])
   clases                    ClasePractica[]
   bonosComprados            CompraBono[]
   examenes                  Examen[]
@@ -75,8 +75,41 @@ model Alumno {
   temariosProgreso          TemarioProgreso[]
   testsPractica             TestPractica[]
   examenesDGT               ExamenDGTAlumno[]
+  documentosAlumno          DocumentoAlumno[]
 
   @@map("alumnos")
+}
+
+model DocumentoAlumno {
+  id            String                  @id @default(uuid())
+  alumnoId      String
+  tipo          String
+  estado        String                  @default("PENDIENTE_VALIDACION")
+  observaciones String?
+  activo        Boolean                 @default(true)
+  createdAt     DateTime                @default(now())
+  updatedAt     DateTime                @updatedAt
+  alumno        Alumno                  @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  archivos      DocumentoAlumnoArchivo[]
+
+  @@index([alumnoId])
+  @@index([estado])
+  @@map("documentos_alumno")
+}
+
+model DocumentoAlumnoArchivo {
+  id              String          @id @default(uuid())
+  documentoId     String
+  nombreOriginal  String
+  nombreArchivo   String
+  mimeType        String
+  tamanioBytes    Int
+  ruta            String
+  createdAt       DateTime        @default(now())
+  documento       DocumentoAlumno @relation(fields: [documentoId], references: [id], onDelete: Cascade)
+
+  @@index([documentoId])
+  @@map("documentos_alumno_archivos")
 }
 
 model Temario {

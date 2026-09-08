@@ -396,6 +396,29 @@ describe("DashboardService", () => {
             observaciones: null,
           },
         ],
+        examenesDGT: [
+          {
+            id: "dgt-1",
+            aprobado: true,
+            aciertos: 28,
+            fallos: 2,
+            fecha: new Date("2026-08-07T10:00:00.000Z"),
+          },
+          {
+            id: "dgt-2",
+            aprobado: true,
+            aciertos: 27,
+            fallos: 3,
+            fecha: new Date("2026-08-01T10:00:00.000Z"),
+          },
+          {
+            id: "dgt-3",
+            aprobado: false,
+            aciertos: 24,
+            fallos: 6,
+            fecha: new Date("2026-07-28T10:00:00.000Z"),
+          },
+        ],
       }),
     };
 
@@ -417,6 +440,21 @@ describe("DashboardService", () => {
     expect(result.bonos[0].estado).toBe("APLICABLE");
     expect(result.examenes.teoricos).toHaveLength(1);
     expect(result.examenes.practicos).toHaveLength(1);
+    expect(result.dgt.testsTotales).toBe(3);
+    expect(result.dgt.testsAprobados).toBe(2);
+    expect(result.dgt.testsSuspendidos).toBe(1);
+    expect(result.dgt.porcentajeAprobado).toBeCloseTo(66.666, 2);
+    expect(result.dgt.ultimoResultado).toEqual({
+      id: "dgt-1",
+      aprobado: true,
+      aciertos: 28,
+      fallos: 2,
+      fecha: new Date("2026-08-07T10:00:00.000Z"),
+    });
+    expect(result.dgt.rachaActual).toEqual({
+      tipo: "APROBADOS",
+      cantidad: 2,
+    });
   });
 
   it("debe devolver el dashboard del profesor con alumnos y vehículos", async () => {

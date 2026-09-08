@@ -112,8 +112,6 @@ export class PreguntasDGTController {
         preguntas: req.body.preguntas,
 
         respuestasAlumno: req.body.respuestasAlumno,
-
-        duracionSegundos: req.body.duracionSegundos,
       });
 
       return res.status(200).json(resultado);

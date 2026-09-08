@@ -60,6 +60,50 @@ export default function TestDGTAlumno({ defaultLicencia = "B" }) {
     return Math.max(0, Math.floor((Date.now() - startedAt) / 1000));
   }, [startedAt, totalRespondidas, submitting, loading]);
 
+  const correccionByPregunta = useMemo(() => {
+    if (!resultado?.correccion || !Array.isArray(resultado.correccion)) {
+      return new Map();
+    }
+
+    return new Map(resultado.correccion.map((item) => [item.preguntaId, item]));
+  }, [resultado]);
+
+  const getColorRespuesta = (preguntaId, respuestaId) => {
+    if (!resultado) {
+      return null;
+    }
+
+    const detalle = correccionByPregunta.get(preguntaId);
+
+    if (!detalle) {
+      return null;
+    }
+
+    if (detalle.esCorrecta && detalle.respuestaCorrectaId === respuestaId) {
+      return "success";
+    }
+
+    if (!detalle.esCorrecta && detalle.respuestaAlumnoId === respuestaId) {
+      return "error";
+    }
+
+    if (!detalle.esCorrecta && detalle.respuestaCorrectaId === respuestaId) {
+      return "success";
+    }
+
+    return null;
+  };
+
+  const isPreguntaFallada = (preguntaId) => {
+    if (!resultado) {
+      return false;
+    }
+
+    const detalle = correccionByPregunta.get(preguntaId);
+
+    return Boolean(detalle && !detalle.esCorrecta);
+  };
+
   const sanitizarPreguntas = (items = []) => {
     return items.map((item) => ({
       id: item.id,
@@ -120,7 +164,6 @@ export default function TestDGTAlumno({ defaultLicencia = "B" }) {
           preguntaId: pregunta.id,
           respuestaId: respuestas[pregunta.id],
         })),
-        duracionSegundos,
       };
 
       const data = await preguntasDGTService.corregirExamen(payload);
@@ -258,55 +301,110 @@ export default function TestDGTAlumno({ defaultLicencia = "B" }) {
             Examen generado: {preguntas.length} preguntas
           </Typography>
 
-          {preguntas.map((pregunta, index) => (
-            <Card key={pregunta.id} sx={{ borderRadius: 3 }}>
-              <CardContent>
-                <Typography
-                  variant="subtitle1"
-                  fontWeight={700}
-                  sx={{ mb: 1.25 }}
-                >
-                  {index + 1}. {pregunta.enunciado}
-                </Typography>
+          {preguntas.map((pregunta, index) => {
+            const preguntaFallada = isPreguntaFallada(pregunta.id);
 
-                {pregunta.imagenRuta ? (
+            return (
+              <Card
+                key={pregunta.id}
+                sx={
+                  preguntaFallada
+                    ? {
+                        borderRadius: 3,
+                        backgroundColor: "#fff7ed",
+                        border: "1px solid #fed7aa",
+                      }
+                    : { borderRadius: 3 }
+                }
+              >
+                <CardContent>
                   <Box
-                    component="img"
-                    src={pregunta.imagenRuta}
-                    alt={`Imagen pregunta ${index + 1}`}
                     sx={{
-                      width: "100%",
-                      maxWidth: 420,
-                      borderRadius: 2,
-                      mb: 1.5,
-                      border: "1px solid #e2e8f0",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "flex-start",
+                      gap: 2,
+                      mb: 1.25,
                     }}
-                  />
-                ) : null}
-
-                <FormControl>
-                  <RadioGroup
-                    sx={{ ml: 2, mt: 10 }}
-                    value={respuestas[pregunta.id] || ""}
-                    onChange={(event) =>
-                      handleSeleccion(pregunta.id, event.target.value)
-                    }
                   >
-                    {pregunta.respuestas.map((respuesta) => (
-                      <FormControlLabel
-                        key={respuesta.id}
-                        value={respuesta.id}
-                        control={<Radio />}
-                        label={respuesta.texto}
-                      />
-                    ))}
-                  </RadioGroup>
-                </FormControl>
+                    <Typography variant="subtitle1" fontWeight={700}>
+                      {index + 1}. {pregunta.enunciado}
+                    </Typography>
+                    {preguntaFallada ? (
+                      <Typography
+                        variant="body2"
+                        fontWeight={700}
+                        sx={{ color: "error.main", whiteSpace: "nowrap" }}
+                      >
+                        Pregunta fallada
+                      </Typography>
+                    ) : null}
+                  </Box>
 
-                {index < preguntas.length - 1 && <Divider sx={{ mt: 1.5 }} />}
-              </CardContent>
-            </Card>
-          ))}
+                  {pregunta.imagenRuta ? (
+                    <Box
+                      component="img"
+                      src={pregunta.imagenRuta}
+                      alt={`Imagen pregunta ${index + 1}`}
+                      sx={{
+                        width: "100%",
+                        maxWidth: 420,
+                        borderRadius: 2,
+                        mb: 1.5,
+                        border: "1px solid #e2e8f0",
+                      }}
+                    />
+                  ) : null}
+
+                  <FormControl>
+                    <RadioGroup
+                      sx={{ ml: 2, mt: 10 }}
+                      value={respuestas[pregunta.id] || ""}
+                      onChange={(event) =>
+                        handleSeleccion(pregunta.id, event.target.value)
+                      }
+                      disabled={Boolean(resultado)}
+                    >
+                      {pregunta.respuestas.map((respuesta) => {
+                        const color = getColorRespuesta(
+                          pregunta.id,
+                          respuesta.id,
+                        );
+
+                        return (
+                          <FormControlLabel
+                            key={respuesta.id}
+                            value={respuesta.id}
+                            control={<Radio color={color || "primary"} />}
+                            label={respuesta.texto}
+                            sx={
+                              color === "success"
+                                ? {
+                                    color: "success.main",
+                                    "& .MuiFormControlLabel-label": {
+                                      fontWeight: 700,
+                                    },
+                                  }
+                                : color === "error"
+                                  ? {
+                                      color: "error.main",
+                                      "& .MuiFormControlLabel-label": {
+                                        fontWeight: 700,
+                                      },
+                                    }
+                                  : undefined
+                            }
+                          />
+                        );
+                      })}
+                    </RadioGroup>
+                  </FormControl>
+
+                  {index < preguntas.length - 1 && <Divider sx={{ mt: 1.5 }} />}
+                </CardContent>
+              </Card>
+            );
+          })}
 
           <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5}>
             <Button

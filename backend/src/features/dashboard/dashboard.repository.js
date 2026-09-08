@@ -191,8 +191,19 @@ export class DashboardRepository {
     });
   }
 
+  async getStudentDGTExams(userId) {
+    return this.prisma.examenDGTAlumno.findMany({
+      where: {
+        alumnoId: userId,
+      },
+      orderBy: {
+        fecha: "desc",
+      },
+    });
+  }
+
   async getStudentDashboard(userId) {
-    const [profile, temarios, tests, clases, bonos, examenes] =
+    const [profile, temarios, tests, clases, bonos, examenes, examenesDGT] =
       await Promise.all([
         this.getStudentProfile(userId),
         this.getStudentTemarios(userId),
@@ -200,6 +211,7 @@ export class DashboardRepository {
         this.getStudentClasses(userId),
         this.getStudentBonos(userId),
         this.getStudentExamRequests(userId),
+        this.getStudentDGTExams(userId),
       ]);
 
     return {
@@ -209,6 +221,7 @@ export class DashboardRepository {
       clases,
       bonos,
       examenes,
+      examenesDGT,
     };
   }
 

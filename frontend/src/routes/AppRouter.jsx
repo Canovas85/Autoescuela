@@ -36,6 +36,8 @@ import MisFacturas from "../pages/Facturas/MisFacturas";
 import ProfesorAlumnos from "../pages/ProfesorAlumnos/ProfesorAlumnos";
 import ProfesorVehiculos from "../pages/ProfesorVehiculos/ProfesorVehiculos";
 import TestDGT from "../pages/TestDGT/TestDGT";
+import DocumentosAlumno from "../pages/DocumentosAlumno/DocumentosAlumno";
+import DocumentosAlumnoAdmin from "../pages/DocumentosAlumno/DocumentosAlumnoAdmin";
 
 function RequireAuth() {
   const token = localStorage.getItem("token");
@@ -123,6 +125,11 @@ export default function AppRouter() {
 
               <Route path="/facturas" element={<Facturas />} />
               <Route path="/mis-facturas" element={<MisFacturas />} />
+              <Route path="/mis-documentos" element={<DocumentosAlumno />} />
+              <Route
+                path="/documentos-alumno-admin"
+                element={<DocumentosAlumnoAdmin />}
+              />
             </Route>
           </Route>
         </Route>

@@ -3,6 +3,31 @@ export class DashboardService {
     this.repository = repository;
   }
 
+  calcularRachaExamenesDGT(examenesDGT = []) {
+    if (!Array.isArray(examenesDGT) || examenesDGT.length === 0) {
+      return {
+        tipo: "SIN_DATOS",
+        cantidad: 0,
+      };
+    }
+
+    const primerResultado = Boolean(examenesDGT[0].aprobado);
+    let cantidad = 0;
+
+    for (const examen of examenesDGT) {
+      if (Boolean(examen.aprobado) !== primerResultado) {
+        break;
+      }
+
+      cantidad += 1;
+    }
+
+    return {
+      tipo: primerResultado ? "APROBADOS" : "SUSPENSOS",
+      cantidad,
+    };
+  }
+
   async getMetrics() {
     return this.repository.getMetrics();
   }
@@ -304,6 +329,14 @@ export class DashboardService {
     const evolucion = this.agruparEvolucion(actividadMensual, "fecha");
 
     const examenes = dashboard.examenes || [];
+    const examenesDGT = dashboard.examenesDGT || [];
+    const dgtRealizados = examenesDGT.length;
+    const dgtAprobados = examenesDGT.filter((examen) => examen.aprobado).length;
+    const dgtSuspendidos = dgtRealizados - dgtAprobados;
+    const dgtPorcentajeAprobado =
+      dgtRealizados === 0 ? 0 : (dgtAprobados / dgtRealizados) * 100;
+    const ultimoExamenDGT = examenesDGT[0] ?? null;
+    const rachaDGT = this.calcularRachaExamenesDGT(examenesDGT);
 
     const matriculaActual = dashboard.profile.alumno.matriculas?.[0] ?? null;
 
@@ -345,6 +378,22 @@ export class DashboardService {
         porcentajeAprobado,
         preparadoParaTeorico,
         recomendacionTemarios,
+      },
+      dgt: {
+        testsTotales: dgtRealizados,
+        testsAprobados: dgtAprobados,
+        testsSuspendidos: dgtSuspendidos,
+        porcentajeAprobado: dgtPorcentajeAprobado,
+        ultimoResultado: ultimoExamenDGT
+          ? {
+              id: ultimoExamenDGT.id,
+              aprobado: ultimoExamenDGT.aprobado,
+              aciertos: ultimoExamenDGT.aciertos,
+              fallos: ultimoExamenDGT.fallos,
+              fecha: ultimoExamenDGT.fecha,
+            }
+          : null,
+        rachaActual: rachaDGT,
       },
       temarios,
       practica: {

@@ -23,6 +23,7 @@ import clasesDirectoRoutes from "./features/clases-directo/clases-directo.routes
 import matriculasRoutes from "./features/matriculas/matriculas.routes.js";
 import facturasRoutes from "./features/facturas/facturas.routes.js";
 import preguntasDGTRoutes from "./features/preguntas-dgt/preguntas-dgt.routes.js";
+import documentosAlumnoRoutes from "./features/documentos-alumno/documentos-alumno.routes.js";
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -67,6 +68,7 @@ app.use("/api/solicitudes-examen", solicitudesExamenRoutes);
 app.use("/api/clases-directo", clasesDirectoRoutes);
 app.use("/api/facturas", facturasRoutes);
 app.use("/api/preguntas-dgt", preguntasDGTRoutes);
+app.use("/api/documentos-alumno", documentosAlumnoRoutes);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
