@@ -100,13 +100,17 @@ export default function Facturas() {
         Facturas
       </Typography>
 
-      <Box sx={{ height: 620 }}>
+      <Box sx={{ height: 700 }}>
         <DataGrid
           rows={rows}
           columns={columns}
           getRowId={(row) => row.id}
           disableRowSelectionOnClick
           pageSizeOptions={[10, 25, 50]}
+          initialState={{
+            pagination: { paginationModel: { pageSize: 10, page: 0 } },
+            sorting: { sortModel: [{ field: "numero", sort: "asc" }] },
+          }}
         />
       </Box>
 

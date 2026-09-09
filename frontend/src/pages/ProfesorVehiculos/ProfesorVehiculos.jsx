@@ -161,14 +161,18 @@ export default function ProfesorVehiculos() {
         </Button>
       </Stack>
 
-      <Paper sx={{ p: 2, height: 560 }}>
+      <Paper sx={{ p: 2, height: 700 }}>
         <DataGrid
           loading={loading}
           rows={filteredRows}
           columns={columns}
           getRowId={(row) => row.id}
           disableRowSelectionOnClick
-          pageSizeOptions={[5, 10, 25]}
+          pageSizeOptions={[10, 25, 50]}
+          initialState={{
+            pagination: { paginationModel: { pageSize: 10, page: 0 } },
+            sorting: { sortModel: [{ field: "matricula", sort: "asc" }] },
+          }}
           onRowClick={(params) => openVehicleDetail(params.row)}
           localeText={{ noRowsLabel: "No hay vehículos compatibles" }}
         />

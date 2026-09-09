@@ -141,8 +141,8 @@ const menus = {
           icon: <QuizIcon fontSize="small" />,
         },
         {
-          label: "Solicitud Examen Teórico",
-          path: "/solicitudes-teorico",
+          label: "Convocatorias Teórico",
+          path: "/convocatorias-teorico",
           icon: <ArticleIcon fontSize="small" />,
         },
       ],

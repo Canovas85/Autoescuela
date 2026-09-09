@@ -375,13 +375,17 @@ export default function DocumentosAlumno() {
       {rows.length === 0 ? (
         <Alert severity="info">Todavía no has subido ningún documento.</Alert>
       ) : (
-        <Box sx={{ height: 620 }}>
+        <Box sx={{ height: 700 }}>
           <DataGrid
             rows={rows}
             columns={columns}
             getRowId={(row) => row.id}
             disableRowSelectionOnClick
             pageSizeOptions={[10, 25, 50]}
+            initialState={{
+              pagination: { paginationModel: { pageSize: 10, page: 0 } },
+              sorting: { sortModel: [{ field: "tipo", sort: "asc" }] },
+            }}
           />
         </Box>
       )}

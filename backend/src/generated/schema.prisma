@@ -44,17 +44,32 @@ model ActivacionCuenta {
 }
 
 model Profesor {
-  id                String          @id
+  id                String                  @id
   licenciaConducir  String
   telefono          String
-  activo            Boolean         @default(true)
-  permisosLicencias String[]        @default([])
+  activo            Boolean                 @default(true)
+  permisosLicencias String[]                @default([])
   alumnosAsignados  Alumno[]
   clasesDirecto     ClaseDirecto[]
   clases            ClasePractica[]
-  usuario           Usuario         @relation(fields: [id], references: [id], onDelete: Cascade)
+  horarioBloques    ProfesorHorarioBloque[]
+  usuario           Usuario                 @relation(fields: [id], references: [id], onDelete: Cascade)
 
   @@map("profesores")
+}
+
+model ProfesorHorarioBloque {
+  id         String   @id @default(uuid())
+  profesorId String
+  diaSemana  Int
+  horaInicio String
+  horaFin    String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  profesor   Profesor @relation(fields: [profesorId], references: [id], onDelete: Cascade)
+
+  @@index([profesorId, diaSemana])
+  @@map("profesor_horarios_bloque")
 }
 
 model Alumno {
@@ -263,6 +278,7 @@ model SolicitudExamen {
   estado          String    @default("PENDIENTE")
   fechaSolicitud  DateTime  @default(now())
   fechaProgramada DateTime?
+  erroresExamen   Int?
   observaciones   String?
   alumno          Alumno    @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
 
@@ -270,6 +286,20 @@ model SolicitudExamen {
   @@index([tipo])
   @@index([estado])
   @@map("solicitudes_examen")
+}
+
+model ConvocatoriaTeorico {
+  id        String   @id @default(uuid())
+  fecha     DateTime
+  licencia  String
+  activo    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([fecha])
+  @@index([licencia])
+  @@index([activo])
+  @@map("convocatorias_teorico")
 }
 
 model Vehiculo {

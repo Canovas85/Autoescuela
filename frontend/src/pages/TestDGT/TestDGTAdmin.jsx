@@ -550,7 +550,7 @@ export default function TestDGTAdmin() {
         </Stack>
       </Box>
 
-      <Box sx={{ height: 640 }}>
+      <Box sx={{ height: 700 }}>
         <DataGrid
           rows={filteredRows}
           columns={columns}
@@ -563,6 +563,9 @@ export default function TestDGTAdmin() {
                 pageSize: 10,
                 page: 0,
               },
+            },
+            sorting: {
+              sortModel: [{ field: "enunciado", sort: "asc" }],
             },
           }}
         />

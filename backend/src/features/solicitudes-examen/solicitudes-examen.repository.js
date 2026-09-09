@@ -3,6 +3,31 @@ export class SolicitudesExamenRepository {
     this.prisma = prisma;
   }
 
+  async findMatriculaPagada(alumnoId) {
+    return this.prisma.matricula.findFirst({
+      where: {
+        alumnoId,
+        estado: "PAGADA",
+      },
+      orderBy: {
+        fechaPago: "desc",
+      },
+    });
+  }
+
+  async hasPsicotecnicoValidado(alumnoId) {
+    const total = await this.prisma.documentoAlumno.count({
+      where: {
+        alumnoId,
+        tipo: "CERTIFICADO_PSICOTECNICO",
+        estado: "VALIDADO",
+        activo: true,
+      },
+    });
+
+    return total > 0;
+  }
+
   async findUltimoPagoTasaDGT(alumnoId, licenciaObjetivo, conceptoPattern) {
     return this.prisma.pago.findFirst({
       where: {
@@ -59,6 +84,119 @@ export class SolicitudesExamenRepository {
         },
         estado: {
           in: ["COMPLETADA", "REALIZADA", "FINALIZADA"],
+        },
+      },
+    });
+  }
+
+  async countNoAptosTeoricoDesdeFecha(alumnoId, fechaDesde) {
+    return this.prisma.solicitudExamen.count({
+      where: {
+        alumnoId,
+        tipo: "TEORICO",
+        estado: {
+          in: ["NO_APTO", "SUSPENDIDO"],
+        },
+        fechaProgramada: {
+          gte: fechaDesde,
+        },
+      },
+    });
+  }
+
+  async findSolicitudTeoricoActiva(alumnoId) {
+    return this.prisma.solicitudExamen.findFirst({
+      where: {
+        alumnoId,
+        tipo: "TEORICO",
+        estado: {
+          in: ["PENDIENTE", "PROGRAMADO", "SOLICITADO"],
+        },
+      },
+      orderBy: {
+        fechaSolicitud: "desc",
+      },
+    });
+  }
+
+  async findConvocatoriasTeoricoDisponibles(licencia, desdeFecha) {
+    return this.prisma.convocatoriaTeorico.findMany({
+      where: {
+        licencia,
+        activo: true,
+        fecha: {
+          gte: desdeFecha,
+        },
+      },
+      orderBy: {
+        fecha: "asc",
+      },
+    });
+  }
+
+  async findConvocatoriaTeoricoByFecha(licencia, fecha) {
+    const inicio = new Date(fecha);
+    inicio.setHours(0, 0, 0, 0);
+
+    const fin = new Date(fecha);
+    fin.setHours(23, 59, 59, 999);
+
+    return this.prisma.convocatoriaTeorico.findFirst({
+      where: {
+        licencia,
+        activo: true,
+        fecha: {
+          gte: inicio,
+          lte: fin,
+        },
+      },
+    });
+  }
+
+  async findMine(alumnoId) {
+    return this.prisma.solicitudExamen.findMany({
+      where: {
+        alumnoId,
+      },
+      orderBy: [{ fechaSolicitud: "desc" }],
+    });
+  }
+
+  async findSolicitudesTeoricoPendientesResultado(fechaLimite) {
+    return this.prisma.solicitudExamen.findMany({
+      where: {
+        tipo: "TEORICO",
+        estado: {
+          in: ["SOLICITADO", "PROGRAMADO", "PENDIENTE"],
+        },
+        fechaProgramada: {
+          lte: fechaLimite,
+        },
+      },
+      orderBy: {
+        fechaProgramada: "asc",
+      },
+    });
+  }
+
+  async updateResultadoSolicitudTeorico(id, estado, erroresExamen) {
+    return this.prisma.solicitudExamen.update({
+      where: { id },
+      data: {
+        estado,
+        erroresExamen,
+      },
+    });
+  }
+
+  async incrementarConvocatoriasConsumidas(pagoId) {
+    return this.prisma.pago.update({
+      where: {
+        id: pagoId,
+      },
+      data: {
+        convocatoriasConsumidas: {
+          increment: 1,
         },
       },
     });

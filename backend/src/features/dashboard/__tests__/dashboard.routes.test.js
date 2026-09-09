@@ -183,4 +183,44 @@ describe("Dashboard Routes", () => {
 
     expect([200, 401, 403, 500]).toContain(response.status);
   });
+
+  it("debe exponer GET /api/dashboard/professor/agenda", async () => {
+    const app = express();
+
+    app.use(express.json());
+
+    app.use("/api/dashboard", dashboardRoutes);
+
+    const response = await request(app).get("/api/dashboard/professor/agenda");
+
+    expect([200, 401, 403, 500]).toContain(response.status);
+  });
+
+  it("debe exponer PUT /api/dashboard/professor/work-schedule", async () => {
+    const app = express();
+
+    app.use(express.json());
+
+    app.use("/api/dashboard", dashboardRoutes);
+
+    const response = await request(app)
+      .put("/api/dashboard/professor/work-schedule")
+      .send({ bloques: [] });
+
+    expect([200, 401, 403, 500]).toContain(response.status);
+  });
+
+  it("debe exponer PATCH /api/dashboard/professor/classes/:classId/status", async () => {
+    const app = express();
+
+    app.use(express.json());
+
+    app.use("/api/dashboard", dashboardRoutes);
+
+    const response = await request(app)
+      .patch("/api/dashboard/professor/classes/clase-1/status")
+      .send({ estado: "CONFIRMADA" });
+
+    expect([200, 401, 403, 500]).toContain(response.status);
+  });
 });

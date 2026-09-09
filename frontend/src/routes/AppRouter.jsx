@@ -37,9 +37,12 @@ import Pagos from "../pages/Pagos/Pagos";
 import MisPagos from "../pages/Pagos/MisPagos";
 import ProfesorAlumnos from "../pages/ProfesorAlumnos/ProfesorAlumnos";
 import ProfesorVehiculos from "../pages/ProfesorVehiculos/ProfesorVehiculos";
+import ProfesorAgenda from "../pages/ProfesorAgenda/ProfesorAgenda";
 import TestDGT from "../pages/TestDGT/TestDGT";
 import DocumentosAlumno from "../pages/DocumentosAlumno/DocumentosAlumno";
 import DocumentosAlumnoAdmin from "../pages/DocumentosAlumno/DocumentosAlumnoAdmin";
+import ExamenTeoricoAlumno from "../pages/ExamenTeoricoAlumno/ExamenTeoricoAlumno";
+import ConvocatoriasTeoricoAdmin from "../pages/ConvocatoriasTeoricoAdmin/ConvocatoriasTeoricoAdmin";
 
 function RequireAuth() {
   const token = localStorage.getItem("token");
@@ -78,6 +81,7 @@ export default function AppRouter() {
 
               <Route path="/alumnos" element={<Alumnos />} />
               <Route path="/profesor-alumnos" element={<ProfesorAlumnos />} />
+              <Route path="/agenda" element={<ProfesorAgenda />} />
 
               <Route path="/profesores" element={<Profesores />} />
 
@@ -93,6 +97,7 @@ export default function AppRouter() {
               <Route path="/temario" element={<TemarioAlumno />} />
               <Route path="/temario/:id" element={<TemarioTemaDetalle />} />
               <Route path="/test-dgt" element={<TestDGT />} />
+              <Route path="/examen-teorico" element={<ExamenTeoricoAlumno />} />
 
               <Route path="/clases-directo" element={<ClasesDirecto />} />
 
@@ -113,6 +118,10 @@ export default function AppRouter() {
               <Route
                 path="/solicitudes-examen"
                 element={<SolicitudesExamen />}
+              />
+              <Route
+                path="/convocatorias-teorico"
+                element={<ConvocatoriasTeoricoAdmin />}
               />
 
               <Route path="/promociones" element={<Promociones />} />

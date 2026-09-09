@@ -555,13 +555,17 @@ export default function Vehiculos() {
         </Menu>
       </Box>
 
-      <Paper sx={{ height: 600, p: 2 }}>
+      <Paper sx={{ height: 700, p: 2 }}>
         <DataGrid
           rows={filteredRows}
           columns={columns}
           getRowId={(row) => row.id}
           disableRowSelectionOnClick
-          pageSizeOptions={[5, 10, 25]}
+          pageSizeOptions={[10, 25, 50]}
+          initialState={{
+            pagination: { paginationModel: { pageSize: 10, page: 0 } },
+            sorting: { sortModel: [{ field: "matricula", sort: "asc" }] },
+          }}
           onRowClick={(params) => handleOpenDetail(params.row)}
         />
       </Paper>

@@ -152,6 +152,16 @@ exports.Prisma.ProfesorScalarFieldEnum = {
   permisosLicencias: 'permisosLicencias'
 };
 
+exports.Prisma.ProfesorHorarioBloqueScalarFieldEnum = {
+  id: 'id',
+  profesorId: 'profesorId',
+  diaSemana: 'diaSemana',
+  horaInicio: 'horaInicio',
+  horaFin: 'horaFin',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.AlumnoScalarFieldEnum = {
   id: 'id',
   tipoLicenciaObjetivo: 'tipoLicenciaObjetivo',
@@ -283,7 +293,17 @@ exports.Prisma.SolicitudExamenScalarFieldEnum = {
   estado: 'estado',
   fechaSolicitud: 'fechaSolicitud',
   fechaProgramada: 'fechaProgramada',
+  erroresExamen: 'erroresExamen',
   observaciones: 'observaciones'
+};
+
+exports.Prisma.ConvocatoriaTeoricoScalarFieldEnum = {
+  id: 'id',
+  fecha: 'fecha',
+  licencia: 'licencia',
+  activo: 'activo',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.VehiculoScalarFieldEnum = {
@@ -454,6 +474,7 @@ exports.Prisma.ModelName = {
   Usuario: 'Usuario',
   ActivacionCuenta: 'ActivacionCuenta',
   Profesor: 'Profesor',
+  ProfesorHorarioBloque: 'ProfesorHorarioBloque',
   Alumno: 'Alumno',
   DocumentoAlumno: 'DocumentoAlumno',
   DocumentoAlumnoArchivo: 'DocumentoAlumnoArchivo',
@@ -467,6 +488,7 @@ exports.Prisma.ModelName = {
   Bono: 'Bono',
   CompraBono: 'CompraBono',
   SolicitudExamen: 'SolicitudExamen',
+  ConvocatoriaTeorico: 'ConvocatoriaTeorico',
   Vehiculo: 'Vehiculo',
   ClasePractica: 'ClasePractica',
   Examen: 'Examen',

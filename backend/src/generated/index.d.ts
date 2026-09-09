@@ -29,6 +29,11 @@ export type ActivacionCuenta = $Result.DefaultSelection<Prisma.$ActivacionCuenta
  */
 export type Profesor = $Result.DefaultSelection<Prisma.$ProfesorPayload>
 /**
+ * Model ProfesorHorarioBloque
+ * 
+ */
+export type ProfesorHorarioBloque = $Result.DefaultSelection<Prisma.$ProfesorHorarioBloquePayload>
+/**
  * Model Alumno
  * 
  */
@@ -93,6 +98,11 @@ export type CompraBono = $Result.DefaultSelection<Prisma.$CompraBonoPayload>
  * 
  */
 export type SolicitudExamen = $Result.DefaultSelection<Prisma.$SolicitudExamenPayload>
+/**
+ * Model ConvocatoriaTeorico
+ * 
+ */
+export type ConvocatoriaTeorico = $Result.DefaultSelection<Prisma.$ConvocatoriaTeoricoPayload>
 /**
  * Model Vehiculo
  * 
@@ -330,6 +340,16 @@ export class PrismaClient<
   get profesor(): Prisma.ProfesorDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.profesorHorarioBloque`: Exposes CRUD operations for the **ProfesorHorarioBloque** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProfesorHorarioBloques
+    * const profesorHorarioBloques = await prisma.profesorHorarioBloque.findMany()
+    * ```
+    */
+  get profesorHorarioBloque(): Prisma.ProfesorHorarioBloqueDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.alumno`: Exposes CRUD operations for the **Alumno** model.
     * Example usage:
     * ```ts
@@ -458,6 +478,16 @@ export class PrismaClient<
     * ```
     */
   get solicitudExamen(): Prisma.SolicitudExamenDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.convocatoriaTeorico`: Exposes CRUD operations for the **ConvocatoriaTeorico** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ConvocatoriaTeoricos
+    * const convocatoriaTeoricos = await prisma.convocatoriaTeorico.findMany()
+    * ```
+    */
+  get convocatoriaTeorico(): Prisma.ConvocatoriaTeoricoDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.vehiculo`: Exposes CRUD operations for the **Vehiculo** model.
@@ -1012,6 +1042,7 @@ export namespace Prisma {
     Usuario: 'Usuario',
     ActivacionCuenta: 'ActivacionCuenta',
     Profesor: 'Profesor',
+    ProfesorHorarioBloque: 'ProfesorHorarioBloque',
     Alumno: 'Alumno',
     DocumentoAlumno: 'DocumentoAlumno',
     DocumentoAlumnoArchivo: 'DocumentoAlumnoArchivo',
@@ -1025,6 +1056,7 @@ export namespace Prisma {
     Bono: 'Bono',
     CompraBono: 'CompraBono',
     SolicitudExamen: 'SolicitudExamen',
+    ConvocatoriaTeorico: 'ConvocatoriaTeorico',
     Vehiculo: 'Vehiculo',
     ClasePractica: 'ClasePractica',
     Examen: 'Examen',
@@ -1054,7 +1086,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "usuario" | "activacionCuenta" | "profesor" | "alumno" | "documentoAlumno" | "documentoAlumnoArchivo" | "temario" | "temarioProgreso" | "claseDirecto" | "testPractica" | "preguntaDGT" | "respuestaPreguntaDGT" | "examenDGTAlumno" | "bono" | "compraBono" | "solicitudExamen" | "vehiculo" | "clasePractica" | "examen" | "promocion" | "tarifaConcepto" | "tarifaConceptoHistorial" | "tarifaMatricula" | "matricula" | "pago" | "matriculaConcepto" | "factura"
+      modelProps: "usuario" | "activacionCuenta" | "profesor" | "profesorHorarioBloque" | "alumno" | "documentoAlumno" | "documentoAlumnoArchivo" | "temario" | "temarioProgreso" | "claseDirecto" | "testPractica" | "preguntaDGT" | "respuestaPreguntaDGT" | "examenDGTAlumno" | "bono" | "compraBono" | "solicitudExamen" | "convocatoriaTeorico" | "vehiculo" | "clasePractica" | "examen" | "promocion" | "tarifaConcepto" | "tarifaConceptoHistorial" | "tarifaMatricula" | "matricula" | "pago" | "matriculaConcepto" | "factura"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1277,6 +1309,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ProfesorCountArgs<ExtArgs>
             result: $Utils.Optional<ProfesorCountAggregateOutputType> | number
+          }
+        }
+      }
+      ProfesorHorarioBloque: {
+        payload: Prisma.$ProfesorHorarioBloquePayload<ExtArgs>
+        fields: Prisma.ProfesorHorarioBloqueFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProfesorHorarioBloqueFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProfesorHorarioBloquePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProfesorHorarioBloqueFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProfesorHorarioBloquePayload>
+          }
+          findFirst: {
+            args: Prisma.ProfesorHorarioBloqueFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProfesorHorarioBloquePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProfesorHorarioBloqueFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProfesorHorarioBloquePayload>
+          }
+          findMany: {
+            args: Prisma.ProfesorHorarioBloqueFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProfesorHorarioBloquePayload>[]
+          }
+          create: {
+            args: Prisma.ProfesorHorarioBloqueCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProfesorHorarioBloquePayload>
+          }
+          createMany: {
+            args: Prisma.ProfesorHorarioBloqueCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProfesorHorarioBloqueCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProfesorHorarioBloquePayload>[]
+          }
+          delete: {
+            args: Prisma.ProfesorHorarioBloqueDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProfesorHorarioBloquePayload>
+          }
+          update: {
+            args: Prisma.ProfesorHorarioBloqueUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProfesorHorarioBloquePayload>
+          }
+          deleteMany: {
+            args: Prisma.ProfesorHorarioBloqueDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProfesorHorarioBloqueUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ProfesorHorarioBloqueUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProfesorHorarioBloquePayload>[]
+          }
+          upsert: {
+            args: Prisma.ProfesorHorarioBloqueUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProfesorHorarioBloquePayload>
+          }
+          aggregate: {
+            args: Prisma.ProfesorHorarioBloqueAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProfesorHorarioBloque>
+          }
+          groupBy: {
+            args: Prisma.ProfesorHorarioBloqueGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProfesorHorarioBloqueGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProfesorHorarioBloqueCountArgs<ExtArgs>
+            result: $Utils.Optional<ProfesorHorarioBloqueCountAggregateOutputType> | number
           }
         }
       }
@@ -2242,6 +2348,80 @@ export namespace Prisma {
           }
         }
       }
+      ConvocatoriaTeorico: {
+        payload: Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>
+        fields: Prisma.ConvocatoriaTeoricoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ConvocatoriaTeoricoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaTeoricoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ConvocatoriaTeoricoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaTeoricoPayload>
+          }
+          findFirst: {
+            args: Prisma.ConvocatoriaTeoricoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaTeoricoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ConvocatoriaTeoricoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaTeoricoPayload>
+          }
+          findMany: {
+            args: Prisma.ConvocatoriaTeoricoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaTeoricoPayload>[]
+          }
+          create: {
+            args: Prisma.ConvocatoriaTeoricoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaTeoricoPayload>
+          }
+          createMany: {
+            args: Prisma.ConvocatoriaTeoricoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ConvocatoriaTeoricoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaTeoricoPayload>[]
+          }
+          delete: {
+            args: Prisma.ConvocatoriaTeoricoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaTeoricoPayload>
+          }
+          update: {
+            args: Prisma.ConvocatoriaTeoricoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaTeoricoPayload>
+          }
+          deleteMany: {
+            args: Prisma.ConvocatoriaTeoricoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ConvocatoriaTeoricoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ConvocatoriaTeoricoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaTeoricoPayload>[]
+          }
+          upsert: {
+            args: Prisma.ConvocatoriaTeoricoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaTeoricoPayload>
+          }
+          aggregate: {
+            args: Prisma.ConvocatoriaTeoricoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateConvocatoriaTeorico>
+          }
+          groupBy: {
+            args: Prisma.ConvocatoriaTeoricoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ConvocatoriaTeoricoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ConvocatoriaTeoricoCountArgs<ExtArgs>
+            result: $Utils.Optional<ConvocatoriaTeoricoCountAggregateOutputType> | number
+          }
+        }
+      }
       Vehiculo: {
         payload: Prisma.$VehiculoPayload<ExtArgs>
         fields: Prisma.VehiculoFieldRefs
@@ -3155,6 +3335,7 @@ export namespace Prisma {
     usuario?: UsuarioOmit
     activacionCuenta?: ActivacionCuentaOmit
     profesor?: ProfesorOmit
+    profesorHorarioBloque?: ProfesorHorarioBloqueOmit
     alumno?: AlumnoOmit
     documentoAlumno?: DocumentoAlumnoOmit
     documentoAlumnoArchivo?: DocumentoAlumnoArchivoOmit
@@ -3168,6 +3349,7 @@ export namespace Prisma {
     bono?: BonoOmit
     compraBono?: CompraBonoOmit
     solicitudExamen?: SolicitudExamenOmit
+    convocatoriaTeorico?: ConvocatoriaTeoricoOmit
     vehiculo?: VehiculoOmit
     clasePractica?: ClasePracticaOmit
     examen?: ExamenOmit
@@ -3293,12 +3475,14 @@ export namespace Prisma {
     alumnosAsignados: number
     clasesDirecto: number
     clases: number
+    horarioBloques: number
   }
 
   export type ProfesorCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumnosAsignados?: boolean | ProfesorCountOutputTypeCountAlumnosAsignadosArgs
     clasesDirecto?: boolean | ProfesorCountOutputTypeCountClasesDirectoArgs
     clases?: boolean | ProfesorCountOutputTypeCountClasesArgs
+    horarioBloques?: boolean | ProfesorCountOutputTypeCountHorarioBloquesArgs
   }
 
   // Custom InputTypes
@@ -3331,6 +3515,13 @@ export namespace Prisma {
    */
   export type ProfesorCountOutputTypeCountClasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ClasePracticaWhereInput
+  }
+
+  /**
+   * ProfesorCountOutputType without action
+   */
+  export type ProfesorCountOutputTypeCountHorarioBloquesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProfesorHorarioBloqueWhereInput
   }
 
 
@@ -6205,6 +6396,7 @@ export namespace Prisma {
     alumnosAsignados?: boolean | Profesor$alumnosAsignadosArgs<ExtArgs>
     clasesDirecto?: boolean | Profesor$clasesDirectoArgs<ExtArgs>
     clases?: boolean | Profesor$clasesArgs<ExtArgs>
+    horarioBloques?: boolean | Profesor$horarioBloquesArgs<ExtArgs>
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     _count?: boolean | ProfesorCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["profesor"]>
@@ -6240,6 +6432,7 @@ export namespace Prisma {
     alumnosAsignados?: boolean | Profesor$alumnosAsignadosArgs<ExtArgs>
     clasesDirecto?: boolean | Profesor$clasesDirectoArgs<ExtArgs>
     clases?: boolean | Profesor$clasesArgs<ExtArgs>
+    horarioBloques?: boolean | Profesor$horarioBloquesArgs<ExtArgs>
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     _count?: boolean | ProfesorCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -6256,6 +6449,7 @@ export namespace Prisma {
       alumnosAsignados: Prisma.$AlumnoPayload<ExtArgs>[]
       clasesDirecto: Prisma.$ClaseDirectoPayload<ExtArgs>[]
       clases: Prisma.$ClasePracticaPayload<ExtArgs>[]
+      horarioBloques: Prisma.$ProfesorHorarioBloquePayload<ExtArgs>[]
       usuario: Prisma.$UsuarioPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -6661,6 +6855,7 @@ export namespace Prisma {
     alumnosAsignados<T extends Profesor$alumnosAsignadosArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$alumnosAsignadosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     clasesDirecto<T extends Profesor$clasesDirectoArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$clasesDirectoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClaseDirectoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     clases<T extends Profesor$clasesArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$clasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClasePracticaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    horarioBloques<T extends Profesor$horarioBloquesArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$horarioBloquesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProfesorHorarioBloquePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     usuario<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -7164,6 +7359,30 @@ export namespace Prisma {
   }
 
   /**
+   * Profesor.horarioBloques
+   */
+  export type Profesor$horarioBloquesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProfesorHorarioBloque
+     */
+    select?: ProfesorHorarioBloqueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProfesorHorarioBloque
+     */
+    omit?: ProfesorHorarioBloqueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProfesorHorarioBloqueInclude<ExtArgs> | null
+    where?: ProfesorHorarioBloqueWhereInput
+    orderBy?: ProfesorHorarioBloqueOrderByWithRelationInput | ProfesorHorarioBloqueOrderByWithRelationInput[]
+    cursor?: ProfesorHorarioBloqueWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProfesorHorarioBloqueScalarFieldEnum | ProfesorHorarioBloqueScalarFieldEnum[]
+  }
+
+  /**
    * Profesor without action
    */
   export type ProfesorDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7179,6 +7398,1124 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ProfesorInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ProfesorHorarioBloque
+   */
+
+  export type AggregateProfesorHorarioBloque = {
+    _count: ProfesorHorarioBloqueCountAggregateOutputType | null
+    _avg: ProfesorHorarioBloqueAvgAggregateOutputType | null
+    _sum: ProfesorHorarioBloqueSumAggregateOutputType | null
+    _min: ProfesorHorarioBloqueMinAggregateOutputType | null
+    _max: ProfesorHorarioBloqueMaxAggregateOutputType | null
+  }
+
+  export type ProfesorHorarioBloqueAvgAggregateOutputType = {
+    diaSemana: number | null
+  }
+
+  export type ProfesorHorarioBloqueSumAggregateOutputType = {
+    diaSemana: number | null
+  }
+
+  export type ProfesorHorarioBloqueMinAggregateOutputType = {
+    id: string | null
+    profesorId: string | null
+    diaSemana: number | null
+    horaInicio: string | null
+    horaFin: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ProfesorHorarioBloqueMaxAggregateOutputType = {
+    id: string | null
+    profesorId: string | null
+    diaSemana: number | null
+    horaInicio: string | null
+    horaFin: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ProfesorHorarioBloqueCountAggregateOutputType = {
+    id: number
+    profesorId: number
+    diaSemana: number
+    horaInicio: number
+    horaFin: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ProfesorHorarioBloqueAvgAggregateInputType = {
+    diaSemana?: true
+  }
+
+  export type ProfesorHorarioBloqueSumAggregateInputType = {
+    diaSemana?: true
+  }
+
+  export type ProfesorHorarioBloqueMinAggregateInputType = {
+    id?: true
+    profesorId?: true
+    diaSemana?: true
+    horaInicio?: true
+    horaFin?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ProfesorHorarioBloqueMaxAggregateInputType = {
+    id?: true
+    profesorId?: true
+    diaSemana?: true
+    horaInicio?: true
+    horaFin?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ProfesorHorarioBloqueCountAggregateInputType = {
+    id?: true
+    profesorId?: true
+    diaSemana?: true
+    horaInicio?: true
+    horaFin?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ProfesorHorarioBloqueAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProfesorHorarioBloque to aggregate.
+     */
+    where?: ProfesorHorarioBloqueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProfesorHorarioBloques to fetch.
+     */
+    orderBy?: ProfesorHorarioBloqueOrderByWithRelationInput | ProfesorHorarioBloqueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProfesorHorarioBloqueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProfesorHorarioBloques from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProfesorHorarioBloques.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProfesorHorarioBloques
+    **/
+    _count?: true | ProfesorHorarioBloqueCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ProfesorHorarioBloqueAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ProfesorHorarioBloqueSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProfesorHorarioBloqueMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProfesorHorarioBloqueMaxAggregateInputType
+  }
+
+  export type GetProfesorHorarioBloqueAggregateType<T extends ProfesorHorarioBloqueAggregateArgs> = {
+        [P in keyof T & keyof AggregateProfesorHorarioBloque]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProfesorHorarioBloque[P]>
+      : GetScalarType<T[P], AggregateProfesorHorarioBloque[P]>
+  }
+
+
+
+
+  export type ProfesorHorarioBloqueGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProfesorHorarioBloqueWhereInput
+    orderBy?: ProfesorHorarioBloqueOrderByWithAggregationInput | ProfesorHorarioBloqueOrderByWithAggregationInput[]
+    by: ProfesorHorarioBloqueScalarFieldEnum[] | ProfesorHorarioBloqueScalarFieldEnum
+    having?: ProfesorHorarioBloqueScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProfesorHorarioBloqueCountAggregateInputType | true
+    _avg?: ProfesorHorarioBloqueAvgAggregateInputType
+    _sum?: ProfesorHorarioBloqueSumAggregateInputType
+    _min?: ProfesorHorarioBloqueMinAggregateInputType
+    _max?: ProfesorHorarioBloqueMaxAggregateInputType
+  }
+
+  export type ProfesorHorarioBloqueGroupByOutputType = {
+    id: string
+    profesorId: string
+    diaSemana: number
+    horaInicio: string
+    horaFin: string
+    createdAt: Date
+    updatedAt: Date
+    _count: ProfesorHorarioBloqueCountAggregateOutputType | null
+    _avg: ProfesorHorarioBloqueAvgAggregateOutputType | null
+    _sum: ProfesorHorarioBloqueSumAggregateOutputType | null
+    _min: ProfesorHorarioBloqueMinAggregateOutputType | null
+    _max: ProfesorHorarioBloqueMaxAggregateOutputType | null
+  }
+
+  type GetProfesorHorarioBloqueGroupByPayload<T extends ProfesorHorarioBloqueGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProfesorHorarioBloqueGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProfesorHorarioBloqueGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProfesorHorarioBloqueGroupByOutputType[P]>
+            : GetScalarType<T[P], ProfesorHorarioBloqueGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProfesorHorarioBloqueSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    profesorId?: boolean
+    diaSemana?: boolean
+    horaInicio?: boolean
+    horaFin?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["profesorHorarioBloque"]>
+
+  export type ProfesorHorarioBloqueSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    profesorId?: boolean
+    diaSemana?: boolean
+    horaInicio?: boolean
+    horaFin?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["profesorHorarioBloque"]>
+
+  export type ProfesorHorarioBloqueSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    profesorId?: boolean
+    diaSemana?: boolean
+    horaInicio?: boolean
+    horaFin?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["profesorHorarioBloque"]>
+
+  export type ProfesorHorarioBloqueSelectScalar = {
+    id?: boolean
+    profesorId?: boolean
+    diaSemana?: boolean
+    horaInicio?: boolean
+    horaFin?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ProfesorHorarioBloqueOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "profesorId" | "diaSemana" | "horaInicio" | "horaFin" | "createdAt" | "updatedAt", ExtArgs["result"]["profesorHorarioBloque"]>
+  export type ProfesorHorarioBloqueInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+  }
+  export type ProfesorHorarioBloqueIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+  }
+  export type ProfesorHorarioBloqueIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+  }
+
+  export type $ProfesorHorarioBloquePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProfesorHorarioBloque"
+    objects: {
+      profesor: Prisma.$ProfesorPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      profesorId: string
+      diaSemana: number
+      horaInicio: string
+      horaFin: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["profesorHorarioBloque"]>
+    composites: {}
+  }
+
+  type ProfesorHorarioBloqueGetPayload<S extends boolean | null | undefined | ProfesorHorarioBloqueDefaultArgs> = $Result.GetResult<Prisma.$ProfesorHorarioBloquePayload, S>
+
+  type ProfesorHorarioBloqueCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ProfesorHorarioBloqueFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ProfesorHorarioBloqueCountAggregateInputType | true
+    }
+
+  export interface ProfesorHorarioBloqueDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProfesorHorarioBloque'], meta: { name: 'ProfesorHorarioBloque' } }
+    /**
+     * Find zero or one ProfesorHorarioBloque that matches the filter.
+     * @param {ProfesorHorarioBloqueFindUniqueArgs} args - Arguments to find a ProfesorHorarioBloque
+     * @example
+     * // Get one ProfesorHorarioBloque
+     * const profesorHorarioBloque = await prisma.profesorHorarioBloque.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProfesorHorarioBloqueFindUniqueArgs>(args: SelectSubset<T, ProfesorHorarioBloqueFindUniqueArgs<ExtArgs>>): Prisma__ProfesorHorarioBloqueClient<$Result.GetResult<Prisma.$ProfesorHorarioBloquePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ProfesorHorarioBloque that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ProfesorHorarioBloqueFindUniqueOrThrowArgs} args - Arguments to find a ProfesorHorarioBloque
+     * @example
+     * // Get one ProfesorHorarioBloque
+     * const profesorHorarioBloque = await prisma.profesorHorarioBloque.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProfesorHorarioBloqueFindUniqueOrThrowArgs>(args: SelectSubset<T, ProfesorHorarioBloqueFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProfesorHorarioBloqueClient<$Result.GetResult<Prisma.$ProfesorHorarioBloquePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProfesorHorarioBloque that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProfesorHorarioBloqueFindFirstArgs} args - Arguments to find a ProfesorHorarioBloque
+     * @example
+     * // Get one ProfesorHorarioBloque
+     * const profesorHorarioBloque = await prisma.profesorHorarioBloque.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProfesorHorarioBloqueFindFirstArgs>(args?: SelectSubset<T, ProfesorHorarioBloqueFindFirstArgs<ExtArgs>>): Prisma__ProfesorHorarioBloqueClient<$Result.GetResult<Prisma.$ProfesorHorarioBloquePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProfesorHorarioBloque that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProfesorHorarioBloqueFindFirstOrThrowArgs} args - Arguments to find a ProfesorHorarioBloque
+     * @example
+     * // Get one ProfesorHorarioBloque
+     * const profesorHorarioBloque = await prisma.profesorHorarioBloque.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProfesorHorarioBloqueFindFirstOrThrowArgs>(args?: SelectSubset<T, ProfesorHorarioBloqueFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProfesorHorarioBloqueClient<$Result.GetResult<Prisma.$ProfesorHorarioBloquePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ProfesorHorarioBloques that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProfesorHorarioBloqueFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProfesorHorarioBloques
+     * const profesorHorarioBloques = await prisma.profesorHorarioBloque.findMany()
+     * 
+     * // Get first 10 ProfesorHorarioBloques
+     * const profesorHorarioBloques = await prisma.profesorHorarioBloque.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const profesorHorarioBloqueWithIdOnly = await prisma.profesorHorarioBloque.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProfesorHorarioBloqueFindManyArgs>(args?: SelectSubset<T, ProfesorHorarioBloqueFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProfesorHorarioBloquePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ProfesorHorarioBloque.
+     * @param {ProfesorHorarioBloqueCreateArgs} args - Arguments to create a ProfesorHorarioBloque.
+     * @example
+     * // Create one ProfesorHorarioBloque
+     * const ProfesorHorarioBloque = await prisma.profesorHorarioBloque.create({
+     *   data: {
+     *     // ... data to create a ProfesorHorarioBloque
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProfesorHorarioBloqueCreateArgs>(args: SelectSubset<T, ProfesorHorarioBloqueCreateArgs<ExtArgs>>): Prisma__ProfesorHorarioBloqueClient<$Result.GetResult<Prisma.$ProfesorHorarioBloquePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ProfesorHorarioBloques.
+     * @param {ProfesorHorarioBloqueCreateManyArgs} args - Arguments to create many ProfesorHorarioBloques.
+     * @example
+     * // Create many ProfesorHorarioBloques
+     * const profesorHorarioBloque = await prisma.profesorHorarioBloque.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProfesorHorarioBloqueCreateManyArgs>(args?: SelectSubset<T, ProfesorHorarioBloqueCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ProfesorHorarioBloques and returns the data saved in the database.
+     * @param {ProfesorHorarioBloqueCreateManyAndReturnArgs} args - Arguments to create many ProfesorHorarioBloques.
+     * @example
+     * // Create many ProfesorHorarioBloques
+     * const profesorHorarioBloque = await prisma.profesorHorarioBloque.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ProfesorHorarioBloques and only return the `id`
+     * const profesorHorarioBloqueWithIdOnly = await prisma.profesorHorarioBloque.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProfesorHorarioBloqueCreateManyAndReturnArgs>(args?: SelectSubset<T, ProfesorHorarioBloqueCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProfesorHorarioBloquePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ProfesorHorarioBloque.
+     * @param {ProfesorHorarioBloqueDeleteArgs} args - Arguments to delete one ProfesorHorarioBloque.
+     * @example
+     * // Delete one ProfesorHorarioBloque
+     * const ProfesorHorarioBloque = await prisma.profesorHorarioBloque.delete({
+     *   where: {
+     *     // ... filter to delete one ProfesorHorarioBloque
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProfesorHorarioBloqueDeleteArgs>(args: SelectSubset<T, ProfesorHorarioBloqueDeleteArgs<ExtArgs>>): Prisma__ProfesorHorarioBloqueClient<$Result.GetResult<Prisma.$ProfesorHorarioBloquePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ProfesorHorarioBloque.
+     * @param {ProfesorHorarioBloqueUpdateArgs} args - Arguments to update one ProfesorHorarioBloque.
+     * @example
+     * // Update one ProfesorHorarioBloque
+     * const profesorHorarioBloque = await prisma.profesorHorarioBloque.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProfesorHorarioBloqueUpdateArgs>(args: SelectSubset<T, ProfesorHorarioBloqueUpdateArgs<ExtArgs>>): Prisma__ProfesorHorarioBloqueClient<$Result.GetResult<Prisma.$ProfesorHorarioBloquePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ProfesorHorarioBloques.
+     * @param {ProfesorHorarioBloqueDeleteManyArgs} args - Arguments to filter ProfesorHorarioBloques to delete.
+     * @example
+     * // Delete a few ProfesorHorarioBloques
+     * const { count } = await prisma.profesorHorarioBloque.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProfesorHorarioBloqueDeleteManyArgs>(args?: SelectSubset<T, ProfesorHorarioBloqueDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProfesorHorarioBloques.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProfesorHorarioBloqueUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProfesorHorarioBloques
+     * const profesorHorarioBloque = await prisma.profesorHorarioBloque.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProfesorHorarioBloqueUpdateManyArgs>(args: SelectSubset<T, ProfesorHorarioBloqueUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProfesorHorarioBloques and returns the data updated in the database.
+     * @param {ProfesorHorarioBloqueUpdateManyAndReturnArgs} args - Arguments to update many ProfesorHorarioBloques.
+     * @example
+     * // Update many ProfesorHorarioBloques
+     * const profesorHorarioBloque = await prisma.profesorHorarioBloque.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ProfesorHorarioBloques and only return the `id`
+     * const profesorHorarioBloqueWithIdOnly = await prisma.profesorHorarioBloque.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ProfesorHorarioBloqueUpdateManyAndReturnArgs>(args: SelectSubset<T, ProfesorHorarioBloqueUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProfesorHorarioBloquePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ProfesorHorarioBloque.
+     * @param {ProfesorHorarioBloqueUpsertArgs} args - Arguments to update or create a ProfesorHorarioBloque.
+     * @example
+     * // Update or create a ProfesorHorarioBloque
+     * const profesorHorarioBloque = await prisma.profesorHorarioBloque.upsert({
+     *   create: {
+     *     // ... data to create a ProfesorHorarioBloque
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProfesorHorarioBloque we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProfesorHorarioBloqueUpsertArgs>(args: SelectSubset<T, ProfesorHorarioBloqueUpsertArgs<ExtArgs>>): Prisma__ProfesorHorarioBloqueClient<$Result.GetResult<Prisma.$ProfesorHorarioBloquePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ProfesorHorarioBloques.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProfesorHorarioBloqueCountArgs} args - Arguments to filter ProfesorHorarioBloques to count.
+     * @example
+     * // Count the number of ProfesorHorarioBloques
+     * const count = await prisma.profesorHorarioBloque.count({
+     *   where: {
+     *     // ... the filter for the ProfesorHorarioBloques we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProfesorHorarioBloqueCountArgs>(
+      args?: Subset<T, ProfesorHorarioBloqueCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProfesorHorarioBloqueCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProfesorHorarioBloque.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProfesorHorarioBloqueAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProfesorHorarioBloqueAggregateArgs>(args: Subset<T, ProfesorHorarioBloqueAggregateArgs>): Prisma.PrismaPromise<GetProfesorHorarioBloqueAggregateType<T>>
+
+    /**
+     * Group by ProfesorHorarioBloque.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProfesorHorarioBloqueGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProfesorHorarioBloqueGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProfesorHorarioBloqueGroupByArgs['orderBy'] }
+        : { orderBy?: ProfesorHorarioBloqueGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProfesorHorarioBloqueGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProfesorHorarioBloqueGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProfesorHorarioBloque model
+   */
+  readonly fields: ProfesorHorarioBloqueFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProfesorHorarioBloque.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProfesorHorarioBloqueClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    profesor<T extends ProfesorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfesorDefaultArgs<ExtArgs>>): Prisma__ProfesorClient<$Result.GetResult<Prisma.$ProfesorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProfesorHorarioBloque model
+   */
+  interface ProfesorHorarioBloqueFieldRefs {
+    readonly id: FieldRef<"ProfesorHorarioBloque", 'String'>
+    readonly profesorId: FieldRef<"ProfesorHorarioBloque", 'String'>
+    readonly diaSemana: FieldRef<"ProfesorHorarioBloque", 'Int'>
+    readonly horaInicio: FieldRef<"ProfesorHorarioBloque", 'String'>
+    readonly horaFin: FieldRef<"ProfesorHorarioBloque", 'String'>
+    readonly createdAt: FieldRef<"ProfesorHorarioBloque", 'DateTime'>
+    readonly updatedAt: FieldRef<"ProfesorHorarioBloque", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProfesorHorarioBloque findUnique
+   */
+  export type ProfesorHorarioBloqueFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProfesorHorarioBloque
+     */
+    select?: ProfesorHorarioBloqueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProfesorHorarioBloque
+     */
+    omit?: ProfesorHorarioBloqueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProfesorHorarioBloqueInclude<ExtArgs> | null
+    /**
+     * Filter, which ProfesorHorarioBloque to fetch.
+     */
+    where: ProfesorHorarioBloqueWhereUniqueInput
+  }
+
+  /**
+   * ProfesorHorarioBloque findUniqueOrThrow
+   */
+  export type ProfesorHorarioBloqueFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProfesorHorarioBloque
+     */
+    select?: ProfesorHorarioBloqueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProfesorHorarioBloque
+     */
+    omit?: ProfesorHorarioBloqueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProfesorHorarioBloqueInclude<ExtArgs> | null
+    /**
+     * Filter, which ProfesorHorarioBloque to fetch.
+     */
+    where: ProfesorHorarioBloqueWhereUniqueInput
+  }
+
+  /**
+   * ProfesorHorarioBloque findFirst
+   */
+  export type ProfesorHorarioBloqueFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProfesorHorarioBloque
+     */
+    select?: ProfesorHorarioBloqueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProfesorHorarioBloque
+     */
+    omit?: ProfesorHorarioBloqueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProfesorHorarioBloqueInclude<ExtArgs> | null
+    /**
+     * Filter, which ProfesorHorarioBloque to fetch.
+     */
+    where?: ProfesorHorarioBloqueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProfesorHorarioBloques to fetch.
+     */
+    orderBy?: ProfesorHorarioBloqueOrderByWithRelationInput | ProfesorHorarioBloqueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProfesorHorarioBloques.
+     */
+    cursor?: ProfesorHorarioBloqueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProfesorHorarioBloques from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProfesorHorarioBloques.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProfesorHorarioBloques.
+     */
+    distinct?: ProfesorHorarioBloqueScalarFieldEnum | ProfesorHorarioBloqueScalarFieldEnum[]
+  }
+
+  /**
+   * ProfesorHorarioBloque findFirstOrThrow
+   */
+  export type ProfesorHorarioBloqueFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProfesorHorarioBloque
+     */
+    select?: ProfesorHorarioBloqueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProfesorHorarioBloque
+     */
+    omit?: ProfesorHorarioBloqueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProfesorHorarioBloqueInclude<ExtArgs> | null
+    /**
+     * Filter, which ProfesorHorarioBloque to fetch.
+     */
+    where?: ProfesorHorarioBloqueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProfesorHorarioBloques to fetch.
+     */
+    orderBy?: ProfesorHorarioBloqueOrderByWithRelationInput | ProfesorHorarioBloqueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProfesorHorarioBloques.
+     */
+    cursor?: ProfesorHorarioBloqueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProfesorHorarioBloques from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProfesorHorarioBloques.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProfesorHorarioBloques.
+     */
+    distinct?: ProfesorHorarioBloqueScalarFieldEnum | ProfesorHorarioBloqueScalarFieldEnum[]
+  }
+
+  /**
+   * ProfesorHorarioBloque findMany
+   */
+  export type ProfesorHorarioBloqueFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProfesorHorarioBloque
+     */
+    select?: ProfesorHorarioBloqueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProfesorHorarioBloque
+     */
+    omit?: ProfesorHorarioBloqueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProfesorHorarioBloqueInclude<ExtArgs> | null
+    /**
+     * Filter, which ProfesorHorarioBloques to fetch.
+     */
+    where?: ProfesorHorarioBloqueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProfesorHorarioBloques to fetch.
+     */
+    orderBy?: ProfesorHorarioBloqueOrderByWithRelationInput | ProfesorHorarioBloqueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProfesorHorarioBloques.
+     */
+    cursor?: ProfesorHorarioBloqueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProfesorHorarioBloques from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProfesorHorarioBloques.
+     */
+    skip?: number
+    distinct?: ProfesorHorarioBloqueScalarFieldEnum | ProfesorHorarioBloqueScalarFieldEnum[]
+  }
+
+  /**
+   * ProfesorHorarioBloque create
+   */
+  export type ProfesorHorarioBloqueCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProfesorHorarioBloque
+     */
+    select?: ProfesorHorarioBloqueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProfesorHorarioBloque
+     */
+    omit?: ProfesorHorarioBloqueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProfesorHorarioBloqueInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ProfesorHorarioBloque.
+     */
+    data: XOR<ProfesorHorarioBloqueCreateInput, ProfesorHorarioBloqueUncheckedCreateInput>
+  }
+
+  /**
+   * ProfesorHorarioBloque createMany
+   */
+  export type ProfesorHorarioBloqueCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProfesorHorarioBloques.
+     */
+    data: ProfesorHorarioBloqueCreateManyInput | ProfesorHorarioBloqueCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ProfesorHorarioBloque createManyAndReturn
+   */
+  export type ProfesorHorarioBloqueCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProfesorHorarioBloque
+     */
+    select?: ProfesorHorarioBloqueSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProfesorHorarioBloque
+     */
+    omit?: ProfesorHorarioBloqueOmit<ExtArgs> | null
+    /**
+     * The data used to create many ProfesorHorarioBloques.
+     */
+    data: ProfesorHorarioBloqueCreateManyInput | ProfesorHorarioBloqueCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProfesorHorarioBloqueIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProfesorHorarioBloque update
+   */
+  export type ProfesorHorarioBloqueUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProfesorHorarioBloque
+     */
+    select?: ProfesorHorarioBloqueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProfesorHorarioBloque
+     */
+    omit?: ProfesorHorarioBloqueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProfesorHorarioBloqueInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ProfesorHorarioBloque.
+     */
+    data: XOR<ProfesorHorarioBloqueUpdateInput, ProfesorHorarioBloqueUncheckedUpdateInput>
+    /**
+     * Choose, which ProfesorHorarioBloque to update.
+     */
+    where: ProfesorHorarioBloqueWhereUniqueInput
+  }
+
+  /**
+   * ProfesorHorarioBloque updateMany
+   */
+  export type ProfesorHorarioBloqueUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProfesorHorarioBloques.
+     */
+    data: XOR<ProfesorHorarioBloqueUpdateManyMutationInput, ProfesorHorarioBloqueUncheckedUpdateManyInput>
+    /**
+     * Filter which ProfesorHorarioBloques to update
+     */
+    where?: ProfesorHorarioBloqueWhereInput
+    /**
+     * Limit how many ProfesorHorarioBloques to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProfesorHorarioBloque updateManyAndReturn
+   */
+  export type ProfesorHorarioBloqueUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProfesorHorarioBloque
+     */
+    select?: ProfesorHorarioBloqueSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProfesorHorarioBloque
+     */
+    omit?: ProfesorHorarioBloqueOmit<ExtArgs> | null
+    /**
+     * The data used to update ProfesorHorarioBloques.
+     */
+    data: XOR<ProfesorHorarioBloqueUpdateManyMutationInput, ProfesorHorarioBloqueUncheckedUpdateManyInput>
+    /**
+     * Filter which ProfesorHorarioBloques to update
+     */
+    where?: ProfesorHorarioBloqueWhereInput
+    /**
+     * Limit how many ProfesorHorarioBloques to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProfesorHorarioBloqueIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProfesorHorarioBloque upsert
+   */
+  export type ProfesorHorarioBloqueUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProfesorHorarioBloque
+     */
+    select?: ProfesorHorarioBloqueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProfesorHorarioBloque
+     */
+    omit?: ProfesorHorarioBloqueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProfesorHorarioBloqueInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ProfesorHorarioBloque to update in case it exists.
+     */
+    where: ProfesorHorarioBloqueWhereUniqueInput
+    /**
+     * In case the ProfesorHorarioBloque found by the `where` argument doesn't exist, create a new ProfesorHorarioBloque with this data.
+     */
+    create: XOR<ProfesorHorarioBloqueCreateInput, ProfesorHorarioBloqueUncheckedCreateInput>
+    /**
+     * In case the ProfesorHorarioBloque was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProfesorHorarioBloqueUpdateInput, ProfesorHorarioBloqueUncheckedUpdateInput>
+  }
+
+  /**
+   * ProfesorHorarioBloque delete
+   */
+  export type ProfesorHorarioBloqueDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProfesorHorarioBloque
+     */
+    select?: ProfesorHorarioBloqueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProfesorHorarioBloque
+     */
+    omit?: ProfesorHorarioBloqueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProfesorHorarioBloqueInclude<ExtArgs> | null
+    /**
+     * Filter which ProfesorHorarioBloque to delete.
+     */
+    where: ProfesorHorarioBloqueWhereUniqueInput
+  }
+
+  /**
+   * ProfesorHorarioBloque deleteMany
+   */
+  export type ProfesorHorarioBloqueDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProfesorHorarioBloques to delete
+     */
+    where?: ProfesorHorarioBloqueWhereInput
+    /**
+     * Limit how many ProfesorHorarioBloques to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProfesorHorarioBloque without action
+   */
+  export type ProfesorHorarioBloqueDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProfesorHorarioBloque
+     */
+    select?: ProfesorHorarioBloqueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProfesorHorarioBloque
+     */
+    omit?: ProfesorHorarioBloqueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProfesorHorarioBloqueInclude<ExtArgs> | null
   }
 
 
@@ -21097,8 +22434,18 @@ export namespace Prisma {
 
   export type AggregateSolicitudExamen = {
     _count: SolicitudExamenCountAggregateOutputType | null
+    _avg: SolicitudExamenAvgAggregateOutputType | null
+    _sum: SolicitudExamenSumAggregateOutputType | null
     _min: SolicitudExamenMinAggregateOutputType | null
     _max: SolicitudExamenMaxAggregateOutputType | null
+  }
+
+  export type SolicitudExamenAvgAggregateOutputType = {
+    erroresExamen: number | null
+  }
+
+  export type SolicitudExamenSumAggregateOutputType = {
+    erroresExamen: number | null
   }
 
   export type SolicitudExamenMinAggregateOutputType = {
@@ -21108,6 +22455,7 @@ export namespace Prisma {
     estado: string | null
     fechaSolicitud: Date | null
     fechaProgramada: Date | null
+    erroresExamen: number | null
     observaciones: string | null
   }
 
@@ -21118,6 +22466,7 @@ export namespace Prisma {
     estado: string | null
     fechaSolicitud: Date | null
     fechaProgramada: Date | null
+    erroresExamen: number | null
     observaciones: string | null
   }
 
@@ -21128,10 +22477,19 @@ export namespace Prisma {
     estado: number
     fechaSolicitud: number
     fechaProgramada: number
+    erroresExamen: number
     observaciones: number
     _all: number
   }
 
+
+  export type SolicitudExamenAvgAggregateInputType = {
+    erroresExamen?: true
+  }
+
+  export type SolicitudExamenSumAggregateInputType = {
+    erroresExamen?: true
+  }
 
   export type SolicitudExamenMinAggregateInputType = {
     id?: true
@@ -21140,6 +22498,7 @@ export namespace Prisma {
     estado?: true
     fechaSolicitud?: true
     fechaProgramada?: true
+    erroresExamen?: true
     observaciones?: true
   }
 
@@ -21150,6 +22509,7 @@ export namespace Prisma {
     estado?: true
     fechaSolicitud?: true
     fechaProgramada?: true
+    erroresExamen?: true
     observaciones?: true
   }
 
@@ -21160,6 +22520,7 @@ export namespace Prisma {
     estado?: true
     fechaSolicitud?: true
     fechaProgramada?: true
+    erroresExamen?: true
     observaciones?: true
     _all?: true
   }
@@ -21202,6 +22563,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: SolicitudExamenAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SolicitudExamenSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: SolicitudExamenMinAggregateInputType
@@ -21232,6 +22605,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: SolicitudExamenCountAggregateInputType | true
+    _avg?: SolicitudExamenAvgAggregateInputType
+    _sum?: SolicitudExamenSumAggregateInputType
     _min?: SolicitudExamenMinAggregateInputType
     _max?: SolicitudExamenMaxAggregateInputType
   }
@@ -21243,8 +22618,11 @@ export namespace Prisma {
     estado: string
     fechaSolicitud: Date
     fechaProgramada: Date | null
+    erroresExamen: number | null
     observaciones: string | null
     _count: SolicitudExamenCountAggregateOutputType | null
+    _avg: SolicitudExamenAvgAggregateOutputType | null
+    _sum: SolicitudExamenSumAggregateOutputType | null
     _min: SolicitudExamenMinAggregateOutputType | null
     _max: SolicitudExamenMaxAggregateOutputType | null
   }
@@ -21270,6 +22648,7 @@ export namespace Prisma {
     estado?: boolean
     fechaSolicitud?: boolean
     fechaProgramada?: boolean
+    erroresExamen?: boolean
     observaciones?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["solicitudExamen"]>
@@ -21281,6 +22660,7 @@ export namespace Prisma {
     estado?: boolean
     fechaSolicitud?: boolean
     fechaProgramada?: boolean
+    erroresExamen?: boolean
     observaciones?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["solicitudExamen"]>
@@ -21292,6 +22672,7 @@ export namespace Prisma {
     estado?: boolean
     fechaSolicitud?: boolean
     fechaProgramada?: boolean
+    erroresExamen?: boolean
     observaciones?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["solicitudExamen"]>
@@ -21303,10 +22684,11 @@ export namespace Prisma {
     estado?: boolean
     fechaSolicitud?: boolean
     fechaProgramada?: boolean
+    erroresExamen?: boolean
     observaciones?: boolean
   }
 
-  export type SolicitudExamenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "tipo" | "estado" | "fechaSolicitud" | "fechaProgramada" | "observaciones", ExtArgs["result"]["solicitudExamen"]>
+  export type SolicitudExamenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "tipo" | "estado" | "fechaSolicitud" | "fechaProgramada" | "erroresExamen" | "observaciones", ExtArgs["result"]["solicitudExamen"]>
   export type SolicitudExamenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
   }
@@ -21329,6 +22711,7 @@ export namespace Prisma {
       estado: string
       fechaSolicitud: Date
       fechaProgramada: Date | null
+      erroresExamen: number | null
       observaciones: string | null
     }, ExtArgs["result"]["solicitudExamen"]>
     composites: {}
@@ -21760,6 +23143,7 @@ export namespace Prisma {
     readonly estado: FieldRef<"SolicitudExamen", 'String'>
     readonly fechaSolicitud: FieldRef<"SolicitudExamen", 'DateTime'>
     readonly fechaProgramada: FieldRef<"SolicitudExamen", 'DateTime'>
+    readonly erroresExamen: FieldRef<"SolicitudExamen", 'Int'>
     readonly observaciones: FieldRef<"SolicitudExamen", 'String'>
   }
     
@@ -22172,6 +23556,1014 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: SolicitudExamenInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ConvocatoriaTeorico
+   */
+
+  export type AggregateConvocatoriaTeorico = {
+    _count: ConvocatoriaTeoricoCountAggregateOutputType | null
+    _min: ConvocatoriaTeoricoMinAggregateOutputType | null
+    _max: ConvocatoriaTeoricoMaxAggregateOutputType | null
+  }
+
+  export type ConvocatoriaTeoricoMinAggregateOutputType = {
+    id: string | null
+    fecha: Date | null
+    licencia: string | null
+    activo: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ConvocatoriaTeoricoMaxAggregateOutputType = {
+    id: string | null
+    fecha: Date | null
+    licencia: string | null
+    activo: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ConvocatoriaTeoricoCountAggregateOutputType = {
+    id: number
+    fecha: number
+    licencia: number
+    activo: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ConvocatoriaTeoricoMinAggregateInputType = {
+    id?: true
+    fecha?: true
+    licencia?: true
+    activo?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ConvocatoriaTeoricoMaxAggregateInputType = {
+    id?: true
+    fecha?: true
+    licencia?: true
+    activo?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ConvocatoriaTeoricoCountAggregateInputType = {
+    id?: true
+    fecha?: true
+    licencia?: true
+    activo?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ConvocatoriaTeoricoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ConvocatoriaTeorico to aggregate.
+     */
+    where?: ConvocatoriaTeoricoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConvocatoriaTeoricos to fetch.
+     */
+    orderBy?: ConvocatoriaTeoricoOrderByWithRelationInput | ConvocatoriaTeoricoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ConvocatoriaTeoricoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConvocatoriaTeoricos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConvocatoriaTeoricos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ConvocatoriaTeoricos
+    **/
+    _count?: true | ConvocatoriaTeoricoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ConvocatoriaTeoricoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ConvocatoriaTeoricoMaxAggregateInputType
+  }
+
+  export type GetConvocatoriaTeoricoAggregateType<T extends ConvocatoriaTeoricoAggregateArgs> = {
+        [P in keyof T & keyof AggregateConvocatoriaTeorico]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateConvocatoriaTeorico[P]>
+      : GetScalarType<T[P], AggregateConvocatoriaTeorico[P]>
+  }
+
+
+
+
+  export type ConvocatoriaTeoricoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConvocatoriaTeoricoWhereInput
+    orderBy?: ConvocatoriaTeoricoOrderByWithAggregationInput | ConvocatoriaTeoricoOrderByWithAggregationInput[]
+    by: ConvocatoriaTeoricoScalarFieldEnum[] | ConvocatoriaTeoricoScalarFieldEnum
+    having?: ConvocatoriaTeoricoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ConvocatoriaTeoricoCountAggregateInputType | true
+    _min?: ConvocatoriaTeoricoMinAggregateInputType
+    _max?: ConvocatoriaTeoricoMaxAggregateInputType
+  }
+
+  export type ConvocatoriaTeoricoGroupByOutputType = {
+    id: string
+    fecha: Date
+    licencia: string
+    activo: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: ConvocatoriaTeoricoCountAggregateOutputType | null
+    _min: ConvocatoriaTeoricoMinAggregateOutputType | null
+    _max: ConvocatoriaTeoricoMaxAggregateOutputType | null
+  }
+
+  type GetConvocatoriaTeoricoGroupByPayload<T extends ConvocatoriaTeoricoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ConvocatoriaTeoricoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ConvocatoriaTeoricoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ConvocatoriaTeoricoGroupByOutputType[P]>
+            : GetScalarType<T[P], ConvocatoriaTeoricoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ConvocatoriaTeoricoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fecha?: boolean
+    licencia?: boolean
+    activo?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["convocatoriaTeorico"]>
+
+  export type ConvocatoriaTeoricoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fecha?: boolean
+    licencia?: boolean
+    activo?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["convocatoriaTeorico"]>
+
+  export type ConvocatoriaTeoricoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fecha?: boolean
+    licencia?: boolean
+    activo?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["convocatoriaTeorico"]>
+
+  export type ConvocatoriaTeoricoSelectScalar = {
+    id?: boolean
+    fecha?: boolean
+    licencia?: boolean
+    activo?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ConvocatoriaTeoricoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fecha" | "licencia" | "activo" | "createdAt" | "updatedAt", ExtArgs["result"]["convocatoriaTeorico"]>
+
+  export type $ConvocatoriaTeoricoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ConvocatoriaTeorico"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      fecha: Date
+      licencia: string
+      activo: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["convocatoriaTeorico"]>
+    composites: {}
+  }
+
+  type ConvocatoriaTeoricoGetPayload<S extends boolean | null | undefined | ConvocatoriaTeoricoDefaultArgs> = $Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload, S>
+
+  type ConvocatoriaTeoricoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ConvocatoriaTeoricoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ConvocatoriaTeoricoCountAggregateInputType | true
+    }
+
+  export interface ConvocatoriaTeoricoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ConvocatoriaTeorico'], meta: { name: 'ConvocatoriaTeorico' } }
+    /**
+     * Find zero or one ConvocatoriaTeorico that matches the filter.
+     * @param {ConvocatoriaTeoricoFindUniqueArgs} args - Arguments to find a ConvocatoriaTeorico
+     * @example
+     * // Get one ConvocatoriaTeorico
+     * const convocatoriaTeorico = await prisma.convocatoriaTeorico.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ConvocatoriaTeoricoFindUniqueArgs>(args: SelectSubset<T, ConvocatoriaTeoricoFindUniqueArgs<ExtArgs>>): Prisma__ConvocatoriaTeoricoClient<$Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ConvocatoriaTeorico that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ConvocatoriaTeoricoFindUniqueOrThrowArgs} args - Arguments to find a ConvocatoriaTeorico
+     * @example
+     * // Get one ConvocatoriaTeorico
+     * const convocatoriaTeorico = await prisma.convocatoriaTeorico.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ConvocatoriaTeoricoFindUniqueOrThrowArgs>(args: SelectSubset<T, ConvocatoriaTeoricoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ConvocatoriaTeoricoClient<$Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ConvocatoriaTeorico that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConvocatoriaTeoricoFindFirstArgs} args - Arguments to find a ConvocatoriaTeorico
+     * @example
+     * // Get one ConvocatoriaTeorico
+     * const convocatoriaTeorico = await prisma.convocatoriaTeorico.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ConvocatoriaTeoricoFindFirstArgs>(args?: SelectSubset<T, ConvocatoriaTeoricoFindFirstArgs<ExtArgs>>): Prisma__ConvocatoriaTeoricoClient<$Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ConvocatoriaTeorico that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConvocatoriaTeoricoFindFirstOrThrowArgs} args - Arguments to find a ConvocatoriaTeorico
+     * @example
+     * // Get one ConvocatoriaTeorico
+     * const convocatoriaTeorico = await prisma.convocatoriaTeorico.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ConvocatoriaTeoricoFindFirstOrThrowArgs>(args?: SelectSubset<T, ConvocatoriaTeoricoFindFirstOrThrowArgs<ExtArgs>>): Prisma__ConvocatoriaTeoricoClient<$Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ConvocatoriaTeoricos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConvocatoriaTeoricoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ConvocatoriaTeoricos
+     * const convocatoriaTeoricos = await prisma.convocatoriaTeorico.findMany()
+     * 
+     * // Get first 10 ConvocatoriaTeoricos
+     * const convocatoriaTeoricos = await prisma.convocatoriaTeorico.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const convocatoriaTeoricoWithIdOnly = await prisma.convocatoriaTeorico.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ConvocatoriaTeoricoFindManyArgs>(args?: SelectSubset<T, ConvocatoriaTeoricoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ConvocatoriaTeorico.
+     * @param {ConvocatoriaTeoricoCreateArgs} args - Arguments to create a ConvocatoriaTeorico.
+     * @example
+     * // Create one ConvocatoriaTeorico
+     * const ConvocatoriaTeorico = await prisma.convocatoriaTeorico.create({
+     *   data: {
+     *     // ... data to create a ConvocatoriaTeorico
+     *   }
+     * })
+     * 
+     */
+    create<T extends ConvocatoriaTeoricoCreateArgs>(args: SelectSubset<T, ConvocatoriaTeoricoCreateArgs<ExtArgs>>): Prisma__ConvocatoriaTeoricoClient<$Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ConvocatoriaTeoricos.
+     * @param {ConvocatoriaTeoricoCreateManyArgs} args - Arguments to create many ConvocatoriaTeoricos.
+     * @example
+     * // Create many ConvocatoriaTeoricos
+     * const convocatoriaTeorico = await prisma.convocatoriaTeorico.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ConvocatoriaTeoricoCreateManyArgs>(args?: SelectSubset<T, ConvocatoriaTeoricoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ConvocatoriaTeoricos and returns the data saved in the database.
+     * @param {ConvocatoriaTeoricoCreateManyAndReturnArgs} args - Arguments to create many ConvocatoriaTeoricos.
+     * @example
+     * // Create many ConvocatoriaTeoricos
+     * const convocatoriaTeorico = await prisma.convocatoriaTeorico.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ConvocatoriaTeoricos and only return the `id`
+     * const convocatoriaTeoricoWithIdOnly = await prisma.convocatoriaTeorico.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ConvocatoriaTeoricoCreateManyAndReturnArgs>(args?: SelectSubset<T, ConvocatoriaTeoricoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ConvocatoriaTeorico.
+     * @param {ConvocatoriaTeoricoDeleteArgs} args - Arguments to delete one ConvocatoriaTeorico.
+     * @example
+     * // Delete one ConvocatoriaTeorico
+     * const ConvocatoriaTeorico = await prisma.convocatoriaTeorico.delete({
+     *   where: {
+     *     // ... filter to delete one ConvocatoriaTeorico
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ConvocatoriaTeoricoDeleteArgs>(args: SelectSubset<T, ConvocatoriaTeoricoDeleteArgs<ExtArgs>>): Prisma__ConvocatoriaTeoricoClient<$Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ConvocatoriaTeorico.
+     * @param {ConvocatoriaTeoricoUpdateArgs} args - Arguments to update one ConvocatoriaTeorico.
+     * @example
+     * // Update one ConvocatoriaTeorico
+     * const convocatoriaTeorico = await prisma.convocatoriaTeorico.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ConvocatoriaTeoricoUpdateArgs>(args: SelectSubset<T, ConvocatoriaTeoricoUpdateArgs<ExtArgs>>): Prisma__ConvocatoriaTeoricoClient<$Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ConvocatoriaTeoricos.
+     * @param {ConvocatoriaTeoricoDeleteManyArgs} args - Arguments to filter ConvocatoriaTeoricos to delete.
+     * @example
+     * // Delete a few ConvocatoriaTeoricos
+     * const { count } = await prisma.convocatoriaTeorico.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ConvocatoriaTeoricoDeleteManyArgs>(args?: SelectSubset<T, ConvocatoriaTeoricoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ConvocatoriaTeoricos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConvocatoriaTeoricoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ConvocatoriaTeoricos
+     * const convocatoriaTeorico = await prisma.convocatoriaTeorico.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ConvocatoriaTeoricoUpdateManyArgs>(args: SelectSubset<T, ConvocatoriaTeoricoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ConvocatoriaTeoricos and returns the data updated in the database.
+     * @param {ConvocatoriaTeoricoUpdateManyAndReturnArgs} args - Arguments to update many ConvocatoriaTeoricos.
+     * @example
+     * // Update many ConvocatoriaTeoricos
+     * const convocatoriaTeorico = await prisma.convocatoriaTeorico.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ConvocatoriaTeoricos and only return the `id`
+     * const convocatoriaTeoricoWithIdOnly = await prisma.convocatoriaTeorico.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ConvocatoriaTeoricoUpdateManyAndReturnArgs>(args: SelectSubset<T, ConvocatoriaTeoricoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ConvocatoriaTeorico.
+     * @param {ConvocatoriaTeoricoUpsertArgs} args - Arguments to update or create a ConvocatoriaTeorico.
+     * @example
+     * // Update or create a ConvocatoriaTeorico
+     * const convocatoriaTeorico = await prisma.convocatoriaTeorico.upsert({
+     *   create: {
+     *     // ... data to create a ConvocatoriaTeorico
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ConvocatoriaTeorico we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ConvocatoriaTeoricoUpsertArgs>(args: SelectSubset<T, ConvocatoriaTeoricoUpsertArgs<ExtArgs>>): Prisma__ConvocatoriaTeoricoClient<$Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ConvocatoriaTeoricos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConvocatoriaTeoricoCountArgs} args - Arguments to filter ConvocatoriaTeoricos to count.
+     * @example
+     * // Count the number of ConvocatoriaTeoricos
+     * const count = await prisma.convocatoriaTeorico.count({
+     *   where: {
+     *     // ... the filter for the ConvocatoriaTeoricos we want to count
+     *   }
+     * })
+    **/
+    count<T extends ConvocatoriaTeoricoCountArgs>(
+      args?: Subset<T, ConvocatoriaTeoricoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ConvocatoriaTeoricoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ConvocatoriaTeorico.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConvocatoriaTeoricoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ConvocatoriaTeoricoAggregateArgs>(args: Subset<T, ConvocatoriaTeoricoAggregateArgs>): Prisma.PrismaPromise<GetConvocatoriaTeoricoAggregateType<T>>
+
+    /**
+     * Group by ConvocatoriaTeorico.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConvocatoriaTeoricoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ConvocatoriaTeoricoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ConvocatoriaTeoricoGroupByArgs['orderBy'] }
+        : { orderBy?: ConvocatoriaTeoricoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ConvocatoriaTeoricoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetConvocatoriaTeoricoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ConvocatoriaTeorico model
+   */
+  readonly fields: ConvocatoriaTeoricoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ConvocatoriaTeorico.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ConvocatoriaTeoricoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ConvocatoriaTeorico model
+   */
+  interface ConvocatoriaTeoricoFieldRefs {
+    readonly id: FieldRef<"ConvocatoriaTeorico", 'String'>
+    readonly fecha: FieldRef<"ConvocatoriaTeorico", 'DateTime'>
+    readonly licencia: FieldRef<"ConvocatoriaTeorico", 'String'>
+    readonly activo: FieldRef<"ConvocatoriaTeorico", 'Boolean'>
+    readonly createdAt: FieldRef<"ConvocatoriaTeorico", 'DateTime'>
+    readonly updatedAt: FieldRef<"ConvocatoriaTeorico", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ConvocatoriaTeorico findUnique
+   */
+  export type ConvocatoriaTeoricoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConvocatoriaTeorico
+     */
+    select?: ConvocatoriaTeoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConvocatoriaTeorico
+     */
+    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    /**
+     * Filter, which ConvocatoriaTeorico to fetch.
+     */
+    where: ConvocatoriaTeoricoWhereUniqueInput
+  }
+
+  /**
+   * ConvocatoriaTeorico findUniqueOrThrow
+   */
+  export type ConvocatoriaTeoricoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConvocatoriaTeorico
+     */
+    select?: ConvocatoriaTeoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConvocatoriaTeorico
+     */
+    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    /**
+     * Filter, which ConvocatoriaTeorico to fetch.
+     */
+    where: ConvocatoriaTeoricoWhereUniqueInput
+  }
+
+  /**
+   * ConvocatoriaTeorico findFirst
+   */
+  export type ConvocatoriaTeoricoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConvocatoriaTeorico
+     */
+    select?: ConvocatoriaTeoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConvocatoriaTeorico
+     */
+    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    /**
+     * Filter, which ConvocatoriaTeorico to fetch.
+     */
+    where?: ConvocatoriaTeoricoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConvocatoriaTeoricos to fetch.
+     */
+    orderBy?: ConvocatoriaTeoricoOrderByWithRelationInput | ConvocatoriaTeoricoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ConvocatoriaTeoricos.
+     */
+    cursor?: ConvocatoriaTeoricoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConvocatoriaTeoricos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConvocatoriaTeoricos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ConvocatoriaTeoricos.
+     */
+    distinct?: ConvocatoriaTeoricoScalarFieldEnum | ConvocatoriaTeoricoScalarFieldEnum[]
+  }
+
+  /**
+   * ConvocatoriaTeorico findFirstOrThrow
+   */
+  export type ConvocatoriaTeoricoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConvocatoriaTeorico
+     */
+    select?: ConvocatoriaTeoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConvocatoriaTeorico
+     */
+    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    /**
+     * Filter, which ConvocatoriaTeorico to fetch.
+     */
+    where?: ConvocatoriaTeoricoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConvocatoriaTeoricos to fetch.
+     */
+    orderBy?: ConvocatoriaTeoricoOrderByWithRelationInput | ConvocatoriaTeoricoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ConvocatoriaTeoricos.
+     */
+    cursor?: ConvocatoriaTeoricoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConvocatoriaTeoricos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConvocatoriaTeoricos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ConvocatoriaTeoricos.
+     */
+    distinct?: ConvocatoriaTeoricoScalarFieldEnum | ConvocatoriaTeoricoScalarFieldEnum[]
+  }
+
+  /**
+   * ConvocatoriaTeorico findMany
+   */
+  export type ConvocatoriaTeoricoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConvocatoriaTeorico
+     */
+    select?: ConvocatoriaTeoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConvocatoriaTeorico
+     */
+    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    /**
+     * Filter, which ConvocatoriaTeoricos to fetch.
+     */
+    where?: ConvocatoriaTeoricoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConvocatoriaTeoricos to fetch.
+     */
+    orderBy?: ConvocatoriaTeoricoOrderByWithRelationInput | ConvocatoriaTeoricoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ConvocatoriaTeoricos.
+     */
+    cursor?: ConvocatoriaTeoricoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConvocatoriaTeoricos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConvocatoriaTeoricos.
+     */
+    skip?: number
+    distinct?: ConvocatoriaTeoricoScalarFieldEnum | ConvocatoriaTeoricoScalarFieldEnum[]
+  }
+
+  /**
+   * ConvocatoriaTeorico create
+   */
+  export type ConvocatoriaTeoricoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConvocatoriaTeorico
+     */
+    select?: ConvocatoriaTeoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConvocatoriaTeorico
+     */
+    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    /**
+     * The data needed to create a ConvocatoriaTeorico.
+     */
+    data: XOR<ConvocatoriaTeoricoCreateInput, ConvocatoriaTeoricoUncheckedCreateInput>
+  }
+
+  /**
+   * ConvocatoriaTeorico createMany
+   */
+  export type ConvocatoriaTeoricoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ConvocatoriaTeoricos.
+     */
+    data: ConvocatoriaTeoricoCreateManyInput | ConvocatoriaTeoricoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ConvocatoriaTeorico createManyAndReturn
+   */
+  export type ConvocatoriaTeoricoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConvocatoriaTeorico
+     */
+    select?: ConvocatoriaTeoricoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConvocatoriaTeorico
+     */
+    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    /**
+     * The data used to create many ConvocatoriaTeoricos.
+     */
+    data: ConvocatoriaTeoricoCreateManyInput | ConvocatoriaTeoricoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ConvocatoriaTeorico update
+   */
+  export type ConvocatoriaTeoricoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConvocatoriaTeorico
+     */
+    select?: ConvocatoriaTeoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConvocatoriaTeorico
+     */
+    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    /**
+     * The data needed to update a ConvocatoriaTeorico.
+     */
+    data: XOR<ConvocatoriaTeoricoUpdateInput, ConvocatoriaTeoricoUncheckedUpdateInput>
+    /**
+     * Choose, which ConvocatoriaTeorico to update.
+     */
+    where: ConvocatoriaTeoricoWhereUniqueInput
+  }
+
+  /**
+   * ConvocatoriaTeorico updateMany
+   */
+  export type ConvocatoriaTeoricoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ConvocatoriaTeoricos.
+     */
+    data: XOR<ConvocatoriaTeoricoUpdateManyMutationInput, ConvocatoriaTeoricoUncheckedUpdateManyInput>
+    /**
+     * Filter which ConvocatoriaTeoricos to update
+     */
+    where?: ConvocatoriaTeoricoWhereInput
+    /**
+     * Limit how many ConvocatoriaTeoricos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ConvocatoriaTeorico updateManyAndReturn
+   */
+  export type ConvocatoriaTeoricoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConvocatoriaTeorico
+     */
+    select?: ConvocatoriaTeoricoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConvocatoriaTeorico
+     */
+    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    /**
+     * The data used to update ConvocatoriaTeoricos.
+     */
+    data: XOR<ConvocatoriaTeoricoUpdateManyMutationInput, ConvocatoriaTeoricoUncheckedUpdateManyInput>
+    /**
+     * Filter which ConvocatoriaTeoricos to update
+     */
+    where?: ConvocatoriaTeoricoWhereInput
+    /**
+     * Limit how many ConvocatoriaTeoricos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ConvocatoriaTeorico upsert
+   */
+  export type ConvocatoriaTeoricoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConvocatoriaTeorico
+     */
+    select?: ConvocatoriaTeoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConvocatoriaTeorico
+     */
+    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    /**
+     * The filter to search for the ConvocatoriaTeorico to update in case it exists.
+     */
+    where: ConvocatoriaTeoricoWhereUniqueInput
+    /**
+     * In case the ConvocatoriaTeorico found by the `where` argument doesn't exist, create a new ConvocatoriaTeorico with this data.
+     */
+    create: XOR<ConvocatoriaTeoricoCreateInput, ConvocatoriaTeoricoUncheckedCreateInput>
+    /**
+     * In case the ConvocatoriaTeorico was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ConvocatoriaTeoricoUpdateInput, ConvocatoriaTeoricoUncheckedUpdateInput>
+  }
+
+  /**
+   * ConvocatoriaTeorico delete
+   */
+  export type ConvocatoriaTeoricoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConvocatoriaTeorico
+     */
+    select?: ConvocatoriaTeoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConvocatoriaTeorico
+     */
+    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    /**
+     * Filter which ConvocatoriaTeorico to delete.
+     */
+    where: ConvocatoriaTeoricoWhereUniqueInput
+  }
+
+  /**
+   * ConvocatoriaTeorico deleteMany
+   */
+  export type ConvocatoriaTeoricoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ConvocatoriaTeoricos to delete
+     */
+    where?: ConvocatoriaTeoricoWhereInput
+    /**
+     * Limit how many ConvocatoriaTeoricos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ConvocatoriaTeorico without action
+   */
+  export type ConvocatoriaTeoricoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConvocatoriaTeorico
+     */
+    select?: ConvocatoriaTeoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConvocatoriaTeorico
+     */
+    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
   }
 
 
@@ -35023,6 +37415,19 @@ export namespace Prisma {
   export type ProfesorScalarFieldEnum = (typeof ProfesorScalarFieldEnum)[keyof typeof ProfesorScalarFieldEnum]
 
 
+  export const ProfesorHorarioBloqueScalarFieldEnum: {
+    id: 'id',
+    profesorId: 'profesorId',
+    diaSemana: 'diaSemana',
+    horaInicio: 'horaInicio',
+    horaFin: 'horaFin',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ProfesorHorarioBloqueScalarFieldEnum = (typeof ProfesorHorarioBloqueScalarFieldEnum)[keyof typeof ProfesorHorarioBloqueScalarFieldEnum]
+
+
   export const AlumnoScalarFieldEnum: {
     id: 'id',
     tipoLicenciaObjetivo: 'tipoLicenciaObjetivo',
@@ -35190,10 +37595,23 @@ export namespace Prisma {
     estado: 'estado',
     fechaSolicitud: 'fechaSolicitud',
     fechaProgramada: 'fechaProgramada',
+    erroresExamen: 'erroresExamen',
     observaciones: 'observaciones'
   };
 
   export type SolicitudExamenScalarFieldEnum = (typeof SolicitudExamenScalarFieldEnum)[keyof typeof SolicitudExamenScalarFieldEnum]
+
+
+  export const ConvocatoriaTeoricoScalarFieldEnum: {
+    id: 'id',
+    fecha: 'fecha',
+    licencia: 'licencia',
+    activo: 'activo',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ConvocatoriaTeoricoScalarFieldEnum = (typeof ConvocatoriaTeoricoScalarFieldEnum)[keyof typeof ConvocatoriaTeoricoScalarFieldEnum]
 
 
   export const VehiculoScalarFieldEnum: {
@@ -35668,6 +38086,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoListRelationFilter
     clasesDirecto?: ClaseDirectoListRelationFilter
     clases?: ClasePracticaListRelationFilter
+    horarioBloques?: ProfesorHorarioBloqueListRelationFilter
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
   }
 
@@ -35680,6 +38099,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoOrderByRelationAggregateInput
     clasesDirecto?: ClaseDirectoOrderByRelationAggregateInput
     clases?: ClasePracticaOrderByRelationAggregateInput
+    horarioBloques?: ProfesorHorarioBloqueOrderByRelationAggregateInput
     usuario?: UsuarioOrderByWithRelationInput
   }
 
@@ -35695,6 +38115,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoListRelationFilter
     clasesDirecto?: ClaseDirectoListRelationFilter
     clases?: ClasePracticaListRelationFilter
+    horarioBloques?: ProfesorHorarioBloqueListRelationFilter
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
   }, "id">
 
@@ -35718,6 +38139,73 @@ export namespace Prisma {
     telefono?: StringWithAggregatesFilter<"Profesor"> | string
     activo?: BoolWithAggregatesFilter<"Profesor"> | boolean
     permisosLicencias?: StringNullableListFilter<"Profesor">
+  }
+
+  export type ProfesorHorarioBloqueWhereInput = {
+    AND?: ProfesorHorarioBloqueWhereInput | ProfesorHorarioBloqueWhereInput[]
+    OR?: ProfesorHorarioBloqueWhereInput[]
+    NOT?: ProfesorHorarioBloqueWhereInput | ProfesorHorarioBloqueWhereInput[]
+    id?: StringFilter<"ProfesorHorarioBloque"> | string
+    profesorId?: StringFilter<"ProfesorHorarioBloque"> | string
+    diaSemana?: IntFilter<"ProfesorHorarioBloque"> | number
+    horaInicio?: StringFilter<"ProfesorHorarioBloque"> | string
+    horaFin?: StringFilter<"ProfesorHorarioBloque"> | string
+    createdAt?: DateTimeFilter<"ProfesorHorarioBloque"> | Date | string
+    updatedAt?: DateTimeFilter<"ProfesorHorarioBloque"> | Date | string
+    profesor?: XOR<ProfesorScalarRelationFilter, ProfesorWhereInput>
+  }
+
+  export type ProfesorHorarioBloqueOrderByWithRelationInput = {
+    id?: SortOrder
+    profesorId?: SortOrder
+    diaSemana?: SortOrder
+    horaInicio?: SortOrder
+    horaFin?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    profesor?: ProfesorOrderByWithRelationInput
+  }
+
+  export type ProfesorHorarioBloqueWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ProfesorHorarioBloqueWhereInput | ProfesorHorarioBloqueWhereInput[]
+    OR?: ProfesorHorarioBloqueWhereInput[]
+    NOT?: ProfesorHorarioBloqueWhereInput | ProfesorHorarioBloqueWhereInput[]
+    profesorId?: StringFilter<"ProfesorHorarioBloque"> | string
+    diaSemana?: IntFilter<"ProfesorHorarioBloque"> | number
+    horaInicio?: StringFilter<"ProfesorHorarioBloque"> | string
+    horaFin?: StringFilter<"ProfesorHorarioBloque"> | string
+    createdAt?: DateTimeFilter<"ProfesorHorarioBloque"> | Date | string
+    updatedAt?: DateTimeFilter<"ProfesorHorarioBloque"> | Date | string
+    profesor?: XOR<ProfesorScalarRelationFilter, ProfesorWhereInput>
+  }, "id">
+
+  export type ProfesorHorarioBloqueOrderByWithAggregationInput = {
+    id?: SortOrder
+    profesorId?: SortOrder
+    diaSemana?: SortOrder
+    horaInicio?: SortOrder
+    horaFin?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ProfesorHorarioBloqueCountOrderByAggregateInput
+    _avg?: ProfesorHorarioBloqueAvgOrderByAggregateInput
+    _max?: ProfesorHorarioBloqueMaxOrderByAggregateInput
+    _min?: ProfesorHorarioBloqueMinOrderByAggregateInput
+    _sum?: ProfesorHorarioBloqueSumOrderByAggregateInput
+  }
+
+  export type ProfesorHorarioBloqueScalarWhereWithAggregatesInput = {
+    AND?: ProfesorHorarioBloqueScalarWhereWithAggregatesInput | ProfesorHorarioBloqueScalarWhereWithAggregatesInput[]
+    OR?: ProfesorHorarioBloqueScalarWhereWithAggregatesInput[]
+    NOT?: ProfesorHorarioBloqueScalarWhereWithAggregatesInput | ProfesorHorarioBloqueScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ProfesorHorarioBloque"> | string
+    profesorId?: StringWithAggregatesFilter<"ProfesorHorarioBloque"> | string
+    diaSemana?: IntWithAggregatesFilter<"ProfesorHorarioBloque"> | number
+    horaInicio?: StringWithAggregatesFilter<"ProfesorHorarioBloque"> | string
+    horaFin?: StringWithAggregatesFilter<"ProfesorHorarioBloque"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ProfesorHorarioBloque"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ProfesorHorarioBloque"> | Date | string
   }
 
   export type AlumnoWhereInput = {
@@ -36601,6 +39089,7 @@ export namespace Prisma {
     estado?: StringFilter<"SolicitudExamen"> | string
     fechaSolicitud?: DateTimeFilter<"SolicitudExamen"> | Date | string
     fechaProgramada?: DateTimeNullableFilter<"SolicitudExamen"> | Date | string | null
+    erroresExamen?: IntNullableFilter<"SolicitudExamen"> | number | null
     observaciones?: StringNullableFilter<"SolicitudExamen"> | string | null
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
   }
@@ -36612,6 +39101,7 @@ export namespace Prisma {
     estado?: SortOrder
     fechaSolicitud?: SortOrder
     fechaProgramada?: SortOrderInput | SortOrder
+    erroresExamen?: SortOrderInput | SortOrder
     observaciones?: SortOrderInput | SortOrder
     alumno?: AlumnoOrderByWithRelationInput
   }
@@ -36626,6 +39116,7 @@ export namespace Prisma {
     estado?: StringFilter<"SolicitudExamen"> | string
     fechaSolicitud?: DateTimeFilter<"SolicitudExamen"> | Date | string
     fechaProgramada?: DateTimeNullableFilter<"SolicitudExamen"> | Date | string | null
+    erroresExamen?: IntNullableFilter<"SolicitudExamen"> | number | null
     observaciones?: StringNullableFilter<"SolicitudExamen"> | string | null
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
   }, "id">
@@ -36637,10 +39128,13 @@ export namespace Prisma {
     estado?: SortOrder
     fechaSolicitud?: SortOrder
     fechaProgramada?: SortOrderInput | SortOrder
+    erroresExamen?: SortOrderInput | SortOrder
     observaciones?: SortOrderInput | SortOrder
     _count?: SolicitudExamenCountOrderByAggregateInput
+    _avg?: SolicitudExamenAvgOrderByAggregateInput
     _max?: SolicitudExamenMaxOrderByAggregateInput
     _min?: SolicitudExamenMinOrderByAggregateInput
+    _sum?: SolicitudExamenSumOrderByAggregateInput
   }
 
   export type SolicitudExamenScalarWhereWithAggregatesInput = {
@@ -36653,7 +39147,65 @@ export namespace Prisma {
     estado?: StringWithAggregatesFilter<"SolicitudExamen"> | string
     fechaSolicitud?: DateTimeWithAggregatesFilter<"SolicitudExamen"> | Date | string
     fechaProgramada?: DateTimeNullableWithAggregatesFilter<"SolicitudExamen"> | Date | string | null
+    erroresExamen?: IntNullableWithAggregatesFilter<"SolicitudExamen"> | number | null
     observaciones?: StringNullableWithAggregatesFilter<"SolicitudExamen"> | string | null
+  }
+
+  export type ConvocatoriaTeoricoWhereInput = {
+    AND?: ConvocatoriaTeoricoWhereInput | ConvocatoriaTeoricoWhereInput[]
+    OR?: ConvocatoriaTeoricoWhereInput[]
+    NOT?: ConvocatoriaTeoricoWhereInput | ConvocatoriaTeoricoWhereInput[]
+    id?: StringFilter<"ConvocatoriaTeorico"> | string
+    fecha?: DateTimeFilter<"ConvocatoriaTeorico"> | Date | string
+    licencia?: StringFilter<"ConvocatoriaTeorico"> | string
+    activo?: BoolFilter<"ConvocatoriaTeorico"> | boolean
+    createdAt?: DateTimeFilter<"ConvocatoriaTeorico"> | Date | string
+    updatedAt?: DateTimeFilter<"ConvocatoriaTeorico"> | Date | string
+  }
+
+  export type ConvocatoriaTeoricoOrderByWithRelationInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    licencia?: SortOrder
+    activo?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ConvocatoriaTeoricoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ConvocatoriaTeoricoWhereInput | ConvocatoriaTeoricoWhereInput[]
+    OR?: ConvocatoriaTeoricoWhereInput[]
+    NOT?: ConvocatoriaTeoricoWhereInput | ConvocatoriaTeoricoWhereInput[]
+    fecha?: DateTimeFilter<"ConvocatoriaTeorico"> | Date | string
+    licencia?: StringFilter<"ConvocatoriaTeorico"> | string
+    activo?: BoolFilter<"ConvocatoriaTeorico"> | boolean
+    createdAt?: DateTimeFilter<"ConvocatoriaTeorico"> | Date | string
+    updatedAt?: DateTimeFilter<"ConvocatoriaTeorico"> | Date | string
+  }, "id">
+
+  export type ConvocatoriaTeoricoOrderByWithAggregationInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    licencia?: SortOrder
+    activo?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ConvocatoriaTeoricoCountOrderByAggregateInput
+    _max?: ConvocatoriaTeoricoMaxOrderByAggregateInput
+    _min?: ConvocatoriaTeoricoMinOrderByAggregateInput
+  }
+
+  export type ConvocatoriaTeoricoScalarWhereWithAggregatesInput = {
+    AND?: ConvocatoriaTeoricoScalarWhereWithAggregatesInput | ConvocatoriaTeoricoScalarWhereWithAggregatesInput[]
+    OR?: ConvocatoriaTeoricoScalarWhereWithAggregatesInput[]
+    NOT?: ConvocatoriaTeoricoScalarWhereWithAggregatesInput | ConvocatoriaTeoricoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ConvocatoriaTeorico"> | string
+    fecha?: DateTimeWithAggregatesFilter<"ConvocatoriaTeorico"> | Date | string
+    licencia?: StringWithAggregatesFilter<"ConvocatoriaTeorico"> | string
+    activo?: BoolWithAggregatesFilter<"ConvocatoriaTeorico"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"ConvocatoriaTeorico"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ConvocatoriaTeorico"> | Date | string
   }
 
   export type VehiculoWhereInput = {
@@ -37732,6 +40284,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
 
@@ -37744,6 +40297,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
 
   export type ProfesorUpdateInput = {
@@ -37754,6 +40308,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
 
@@ -37766,6 +40321,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
   export type ProfesorCreateManyInput = {
@@ -37789,6 +40345,75 @@ export namespace Prisma {
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
+  }
+
+  export type ProfesorHorarioBloqueCreateInput = {
+    id?: string
+    diaSemana: number
+    horaInicio: string
+    horaFin: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    profesor: ProfesorCreateNestedOneWithoutHorarioBloquesInput
+  }
+
+  export type ProfesorHorarioBloqueUncheckedCreateInput = {
+    id?: string
+    profesorId: string
+    diaSemana: number
+    horaInicio: string
+    horaFin: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProfesorHorarioBloqueUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    diaSemana?: IntFieldUpdateOperationsInput | number
+    horaInicio?: StringFieldUpdateOperationsInput | string
+    horaFin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    profesor?: ProfesorUpdateOneRequiredWithoutHorarioBloquesNestedInput
+  }
+
+  export type ProfesorHorarioBloqueUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    profesorId?: StringFieldUpdateOperationsInput | string
+    diaSemana?: IntFieldUpdateOperationsInput | number
+    horaInicio?: StringFieldUpdateOperationsInput | string
+    horaFin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProfesorHorarioBloqueCreateManyInput = {
+    id?: string
+    profesorId: string
+    diaSemana: number
+    horaInicio: string
+    horaFin: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProfesorHorarioBloqueUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    diaSemana?: IntFieldUpdateOperationsInput | number
+    horaInicio?: StringFieldUpdateOperationsInput | string
+    horaFin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProfesorHorarioBloqueUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    profesorId?: StringFieldUpdateOperationsInput | string
+    diaSemana?: IntFieldUpdateOperationsInput | number
+    horaInicio?: StringFieldUpdateOperationsInput | string
+    horaFin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AlumnoCreateInput = {
@@ -38716,6 +41341,7 @@ export namespace Prisma {
     estado?: string
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
+    erroresExamen?: number | null
     observaciones?: string | null
     alumno: AlumnoCreateNestedOneWithoutSolicitudesExamenInput
   }
@@ -38727,6 +41353,7 @@ export namespace Prisma {
     estado?: string
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
+    erroresExamen?: number | null
     observaciones?: string | null
   }
 
@@ -38736,6 +41363,7 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     alumno?: AlumnoUpdateOneRequiredWithoutSolicitudesExamenNestedInput
   }
@@ -38747,6 +41375,7 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -38757,6 +41386,7 @@ export namespace Prisma {
     estado?: string
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
+    erroresExamen?: number | null
     observaciones?: string | null
   }
 
@@ -38766,6 +41396,7 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -38776,7 +41407,71 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ConvocatoriaTeoricoCreateInput = {
+    id?: string
+    fecha: Date | string
+    licencia: string
+    activo?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConvocatoriaTeoricoUncheckedCreateInput = {
+    id?: string
+    fecha: Date | string
+    licencia: string
+    activo?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConvocatoriaTeoricoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConvocatoriaTeoricoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConvocatoriaTeoricoCreateManyInput = {
+    id?: string
+    fecha: Date | string
+    licencia: string
+    activo?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConvocatoriaTeoricoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConvocatoriaTeoricoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    licencia?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VehiculoCreateInput = {
@@ -40059,6 +42754,12 @@ export namespace Prisma {
     none?: ClasePracticaWhereInput
   }
 
+  export type ProfesorHorarioBloqueListRelationFilter = {
+    every?: ProfesorHorarioBloqueWhereInput
+    some?: ProfesorHorarioBloqueWhereInput
+    none?: ProfesorHorarioBloqueWhereInput
+  }
+
   export type AlumnoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -40068,6 +42769,10 @@ export namespace Prisma {
   }
 
   export type ClasePracticaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ProfesorHorarioBloqueOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -40091,6 +42796,49 @@ export namespace Prisma {
     licenciaConducir?: SortOrder
     telefono?: SortOrder
     activo?: SortOrder
+  }
+
+  export type ProfesorScalarRelationFilter = {
+    is?: ProfesorWhereInput
+    isNot?: ProfesorWhereInput
+  }
+
+  export type ProfesorHorarioBloqueCountOrderByAggregateInput = {
+    id?: SortOrder
+    profesorId?: SortOrder
+    diaSemana?: SortOrder
+    horaInicio?: SortOrder
+    horaFin?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProfesorHorarioBloqueAvgOrderByAggregateInput = {
+    diaSemana?: SortOrder
+  }
+
+  export type ProfesorHorarioBloqueMaxOrderByAggregateInput = {
+    id?: SortOrder
+    profesorId?: SortOrder
+    diaSemana?: SortOrder
+    horaInicio?: SortOrder
+    horaFin?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProfesorHorarioBloqueMinOrderByAggregateInput = {
+    id?: SortOrder
+    profesorId?: SortOrder
+    diaSemana?: SortOrder
+    horaInicio?: SortOrder
+    horaFin?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProfesorHorarioBloqueSumOrderByAggregateInput = {
+    diaSemana?: SortOrder
   }
 
   export type CompraBonoListRelationFilter = {
@@ -40737,7 +43485,12 @@ export namespace Prisma {
     estado?: SortOrder
     fechaSolicitud?: SortOrder
     fechaProgramada?: SortOrder
+    erroresExamen?: SortOrder
     observaciones?: SortOrder
+  }
+
+  export type SolicitudExamenAvgOrderByAggregateInput = {
+    erroresExamen?: SortOrder
   }
 
   export type SolicitudExamenMaxOrderByAggregateInput = {
@@ -40747,6 +43500,7 @@ export namespace Prisma {
     estado?: SortOrder
     fechaSolicitud?: SortOrder
     fechaProgramada?: SortOrder
+    erroresExamen?: SortOrder
     observaciones?: SortOrder
   }
 
@@ -40757,7 +43511,39 @@ export namespace Prisma {
     estado?: SortOrder
     fechaSolicitud?: SortOrder
     fechaProgramada?: SortOrder
+    erroresExamen?: SortOrder
     observaciones?: SortOrder
+  }
+
+  export type SolicitudExamenSumOrderByAggregateInput = {
+    erroresExamen?: SortOrder
+  }
+
+  export type ConvocatoriaTeoricoCountOrderByAggregateInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    licencia?: SortOrder
+    activo?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ConvocatoriaTeoricoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    licencia?: SortOrder
+    activo?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ConvocatoriaTeoricoMinOrderByAggregateInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    licencia?: SortOrder
+    activo?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type VehiculoCountOrderByAggregateInput = {
@@ -40788,11 +43574,6 @@ export namespace Prisma {
     tipoPermiso?: SortOrder
     activo?: SortOrder
     imagenRuta?: SortOrder
-  }
-
-  export type ProfesorScalarRelationFilter = {
-    is?: ProfesorWhereInput
-    isNot?: ProfesorWhereInput
   }
 
   export type VehiculoScalarRelationFilter = {
@@ -41566,6 +44347,13 @@ export namespace Prisma {
     connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
   }
 
+  export type ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput = {
+    create?: XOR<ProfesorHorarioBloqueCreateWithoutProfesorInput, ProfesorHorarioBloqueUncheckedCreateWithoutProfesorInput> | ProfesorHorarioBloqueCreateWithoutProfesorInput[] | ProfesorHorarioBloqueUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: ProfesorHorarioBloqueCreateOrConnectWithoutProfesorInput | ProfesorHorarioBloqueCreateOrConnectWithoutProfesorInput[]
+    createMany?: ProfesorHorarioBloqueCreateManyProfesorInputEnvelope
+    connect?: ProfesorHorarioBloqueWhereUniqueInput | ProfesorHorarioBloqueWhereUniqueInput[]
+  }
+
   export type UsuarioCreateNestedOneWithoutProfesorInput = {
     create?: XOR<UsuarioCreateWithoutProfesorInput, UsuarioUncheckedCreateWithoutProfesorInput>
     connectOrCreate?: UsuarioCreateOrConnectWithoutProfesorInput
@@ -41591,6 +44379,13 @@ export namespace Prisma {
     connectOrCreate?: ClasePracticaCreateOrConnectWithoutProfesorInput | ClasePracticaCreateOrConnectWithoutProfesorInput[]
     createMany?: ClasePracticaCreateManyProfesorInputEnvelope
     connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+  }
+
+  export type ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput = {
+    create?: XOR<ProfesorHorarioBloqueCreateWithoutProfesorInput, ProfesorHorarioBloqueUncheckedCreateWithoutProfesorInput> | ProfesorHorarioBloqueCreateWithoutProfesorInput[] | ProfesorHorarioBloqueUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: ProfesorHorarioBloqueCreateOrConnectWithoutProfesorInput | ProfesorHorarioBloqueCreateOrConnectWithoutProfesorInput[]
+    createMany?: ProfesorHorarioBloqueCreateManyProfesorInputEnvelope
+    connect?: ProfesorHorarioBloqueWhereUniqueInput | ProfesorHorarioBloqueWhereUniqueInput[]
   }
 
   export type ProfesorUpdatepermisosLicenciasInput = {
@@ -41638,6 +44433,20 @@ export namespace Prisma {
     update?: ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput | ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput[]
     updateMany?: ClasePracticaUpdateManyWithWhereWithoutProfesorInput | ClasePracticaUpdateManyWithWhereWithoutProfesorInput[]
     deleteMany?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
+  }
+
+  export type ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput = {
+    create?: XOR<ProfesorHorarioBloqueCreateWithoutProfesorInput, ProfesorHorarioBloqueUncheckedCreateWithoutProfesorInput> | ProfesorHorarioBloqueCreateWithoutProfesorInput[] | ProfesorHorarioBloqueUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: ProfesorHorarioBloqueCreateOrConnectWithoutProfesorInput | ProfesorHorarioBloqueCreateOrConnectWithoutProfesorInput[]
+    upsert?: ProfesorHorarioBloqueUpsertWithWhereUniqueWithoutProfesorInput | ProfesorHorarioBloqueUpsertWithWhereUniqueWithoutProfesorInput[]
+    createMany?: ProfesorHorarioBloqueCreateManyProfesorInputEnvelope
+    set?: ProfesorHorarioBloqueWhereUniqueInput | ProfesorHorarioBloqueWhereUniqueInput[]
+    disconnect?: ProfesorHorarioBloqueWhereUniqueInput | ProfesorHorarioBloqueWhereUniqueInput[]
+    delete?: ProfesorHorarioBloqueWhereUniqueInput | ProfesorHorarioBloqueWhereUniqueInput[]
+    connect?: ProfesorHorarioBloqueWhereUniqueInput | ProfesorHorarioBloqueWhereUniqueInput[]
+    update?: ProfesorHorarioBloqueUpdateWithWhereUniqueWithoutProfesorInput | ProfesorHorarioBloqueUpdateWithWhereUniqueWithoutProfesorInput[]
+    updateMany?: ProfesorHorarioBloqueUpdateManyWithWhereWithoutProfesorInput | ProfesorHorarioBloqueUpdateManyWithWhereWithoutProfesorInput[]
+    deleteMany?: ProfesorHorarioBloqueScalarWhereInput | ProfesorHorarioBloqueScalarWhereInput[]
   }
 
   export type UsuarioUpdateOneRequiredWithoutProfesorNestedInput = {
@@ -41688,6 +44497,34 @@ export namespace Prisma {
     update?: ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput | ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput[]
     updateMany?: ClasePracticaUpdateManyWithWhereWithoutProfesorInput | ClasePracticaUpdateManyWithWhereWithoutProfesorInput[]
     deleteMany?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
+  }
+
+  export type ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput = {
+    create?: XOR<ProfesorHorarioBloqueCreateWithoutProfesorInput, ProfesorHorarioBloqueUncheckedCreateWithoutProfesorInput> | ProfesorHorarioBloqueCreateWithoutProfesorInput[] | ProfesorHorarioBloqueUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: ProfesorHorarioBloqueCreateOrConnectWithoutProfesorInput | ProfesorHorarioBloqueCreateOrConnectWithoutProfesorInput[]
+    upsert?: ProfesorHorarioBloqueUpsertWithWhereUniqueWithoutProfesorInput | ProfesorHorarioBloqueUpsertWithWhereUniqueWithoutProfesorInput[]
+    createMany?: ProfesorHorarioBloqueCreateManyProfesorInputEnvelope
+    set?: ProfesorHorarioBloqueWhereUniqueInput | ProfesorHorarioBloqueWhereUniqueInput[]
+    disconnect?: ProfesorHorarioBloqueWhereUniqueInput | ProfesorHorarioBloqueWhereUniqueInput[]
+    delete?: ProfesorHorarioBloqueWhereUniqueInput | ProfesorHorarioBloqueWhereUniqueInput[]
+    connect?: ProfesorHorarioBloqueWhereUniqueInput | ProfesorHorarioBloqueWhereUniqueInput[]
+    update?: ProfesorHorarioBloqueUpdateWithWhereUniqueWithoutProfesorInput | ProfesorHorarioBloqueUpdateWithWhereUniqueWithoutProfesorInput[]
+    updateMany?: ProfesorHorarioBloqueUpdateManyWithWhereWithoutProfesorInput | ProfesorHorarioBloqueUpdateManyWithWhereWithoutProfesorInput[]
+    deleteMany?: ProfesorHorarioBloqueScalarWhereInput | ProfesorHorarioBloqueScalarWhereInput[]
+  }
+
+  export type ProfesorCreateNestedOneWithoutHorarioBloquesInput = {
+    create?: XOR<ProfesorCreateWithoutHorarioBloquesInput, ProfesorUncheckedCreateWithoutHorarioBloquesInput>
+    connectOrCreate?: ProfesorCreateOrConnectWithoutHorarioBloquesInput
+    connect?: ProfesorWhereUniqueInput
+  }
+
+  export type ProfesorUpdateOneRequiredWithoutHorarioBloquesNestedInput = {
+    create?: XOR<ProfesorCreateWithoutHorarioBloquesInput, ProfesorUncheckedCreateWithoutHorarioBloquesInput>
+    connectOrCreate?: ProfesorCreateOrConnectWithoutHorarioBloquesInput
+    upsert?: ProfesorUpsertWithoutHorarioBloquesInput
+    connect?: ProfesorWhereUniqueInput
+    update?: XOR<XOR<ProfesorUpdateToOneWithWhereWithoutHorarioBloquesInput, ProfesorUpdateWithoutHorarioBloquesInput>, ProfesorUncheckedUpdateWithoutHorarioBloquesInput>
   }
 
   export type UsuarioCreateNestedOneWithoutAlumnoInput = {
@@ -43469,6 +46306,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
   }
 
   export type ProfesorUncheckedCreateWithoutUsuarioInput = {
@@ -43479,6 +46317,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
 
   export type ProfesorCreateOrConnectWithoutUsuarioInput = {
@@ -43584,6 +46423,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
   }
 
   export type ProfesorUncheckedUpdateWithoutUsuarioInput = {
@@ -43594,6 +46434,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
   export type UsuarioCreateWithoutActivacionesCuentaInput = {
@@ -43778,6 +46619,34 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ProfesorHorarioBloqueCreateWithoutProfesorInput = {
+    id?: string
+    diaSemana: number
+    horaInicio: string
+    horaFin: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProfesorHorarioBloqueUncheckedCreateWithoutProfesorInput = {
+    id?: string
+    diaSemana: number
+    horaInicio: string
+    horaFin: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProfesorHorarioBloqueCreateOrConnectWithoutProfesorInput = {
+    where: ProfesorHorarioBloqueWhereUniqueInput
+    create: XOR<ProfesorHorarioBloqueCreateWithoutProfesorInput, ProfesorHorarioBloqueUncheckedCreateWithoutProfesorInput>
+  }
+
+  export type ProfesorHorarioBloqueCreateManyProfesorInputEnvelope = {
+    data: ProfesorHorarioBloqueCreateManyProfesorInput | ProfesorHorarioBloqueCreateManyProfesorInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UsuarioCreateWithoutProfesorInput = {
     id?: string
     nombre: string
@@ -43900,6 +46769,35 @@ export namespace Prisma {
     estado?: StringFilter<"ClasePractica"> | string
   }
 
+  export type ProfesorHorarioBloqueUpsertWithWhereUniqueWithoutProfesorInput = {
+    where: ProfesorHorarioBloqueWhereUniqueInput
+    update: XOR<ProfesorHorarioBloqueUpdateWithoutProfesorInput, ProfesorHorarioBloqueUncheckedUpdateWithoutProfesorInput>
+    create: XOR<ProfesorHorarioBloqueCreateWithoutProfesorInput, ProfesorHorarioBloqueUncheckedCreateWithoutProfesorInput>
+  }
+
+  export type ProfesorHorarioBloqueUpdateWithWhereUniqueWithoutProfesorInput = {
+    where: ProfesorHorarioBloqueWhereUniqueInput
+    data: XOR<ProfesorHorarioBloqueUpdateWithoutProfesorInput, ProfesorHorarioBloqueUncheckedUpdateWithoutProfesorInput>
+  }
+
+  export type ProfesorHorarioBloqueUpdateManyWithWhereWithoutProfesorInput = {
+    where: ProfesorHorarioBloqueScalarWhereInput
+    data: XOR<ProfesorHorarioBloqueUpdateManyMutationInput, ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorInput>
+  }
+
+  export type ProfesorHorarioBloqueScalarWhereInput = {
+    AND?: ProfesorHorarioBloqueScalarWhereInput | ProfesorHorarioBloqueScalarWhereInput[]
+    OR?: ProfesorHorarioBloqueScalarWhereInput[]
+    NOT?: ProfesorHorarioBloqueScalarWhereInput | ProfesorHorarioBloqueScalarWhereInput[]
+    id?: StringFilter<"ProfesorHorarioBloque"> | string
+    profesorId?: StringFilter<"ProfesorHorarioBloque"> | string
+    diaSemana?: IntFilter<"ProfesorHorarioBloque"> | number
+    horaInicio?: StringFilter<"ProfesorHorarioBloque"> | string
+    horaFin?: StringFilter<"ProfesorHorarioBloque"> | string
+    createdAt?: DateTimeFilter<"ProfesorHorarioBloque"> | Date | string
+    updatedAt?: DateTimeFilter<"ProfesorHorarioBloque"> | Date | string
+  }
+
   export type UsuarioUpsertWithoutProfesorInput = {
     update: XOR<UsuarioUpdateWithoutProfesorInput, UsuarioUncheckedUpdateWithoutProfesorInput>
     create: XOR<UsuarioCreateWithoutProfesorInput, UsuarioUncheckedCreateWithoutProfesorInput>
@@ -43937,6 +46835,66 @@ export namespace Prisma {
     requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     activacionesCuenta?: ActivacionCuentaUncheckedUpdateManyWithoutUsuarioNestedInput
     alumno?: AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput
+  }
+
+  export type ProfesorCreateWithoutHorarioBloquesInput = {
+    licenciaConducir: string
+    telefono: string
+    activo?: boolean
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
+    clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
+    clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    usuario: UsuarioCreateNestedOneWithoutProfesorInput
+  }
+
+  export type ProfesorUncheckedCreateWithoutHorarioBloquesInput = {
+    id: string
+    licenciaConducir: string
+    telefono: string
+    activo?: boolean
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
+    clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+  }
+
+  export type ProfesorCreateOrConnectWithoutHorarioBloquesInput = {
+    where: ProfesorWhereUniqueInput
+    create: XOR<ProfesorCreateWithoutHorarioBloquesInput, ProfesorUncheckedCreateWithoutHorarioBloquesInput>
+  }
+
+  export type ProfesorUpsertWithoutHorarioBloquesInput = {
+    update: XOR<ProfesorUpdateWithoutHorarioBloquesInput, ProfesorUncheckedUpdateWithoutHorarioBloquesInput>
+    create: XOR<ProfesorCreateWithoutHorarioBloquesInput, ProfesorUncheckedCreateWithoutHorarioBloquesInput>
+    where?: ProfesorWhereInput
+  }
+
+  export type ProfesorUpdateToOneWithWhereWithoutHorarioBloquesInput = {
+    where?: ProfesorWhereInput
+    data: XOR<ProfesorUpdateWithoutHorarioBloquesInput, ProfesorUncheckedUpdateWithoutHorarioBloquesInput>
+  }
+
+  export type ProfesorUpdateWithoutHorarioBloquesInput = {
+    licenciaConducir?: StringFieldUpdateOperationsInput | string
+    telefono?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
+    clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
+    clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
+  }
+
+  export type ProfesorUncheckedUpdateWithoutHorarioBloquesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    licenciaConducir?: StringFieldUpdateOperationsInput | string
+    telefono?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
+    clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
+    clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
   export type UsuarioCreateWithoutAlumnoInput = {
@@ -43979,6 +46937,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
 
@@ -43990,6 +46949,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
 
   export type ProfesorCreateOrConnectWithoutAlumnosAsignadosInput = {
@@ -44203,6 +47163,7 @@ export namespace Prisma {
     estado?: string
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
+    erroresExamen?: number | null
     observaciones?: string | null
   }
 
@@ -44212,6 +47173,7 @@ export namespace Prisma {
     estado?: string
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
+    erroresExamen?: number | null
     observaciones?: string | null
   }
 
@@ -44400,6 +47362,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
 
@@ -44411,6 +47374,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
   export type ClasePracticaUpsertWithWhereUniqueWithoutAlumnoInput = {
@@ -44613,6 +47577,7 @@ export namespace Prisma {
     estado?: StringFilter<"SolicitudExamen"> | string
     fechaSolicitud?: DateTimeFilter<"SolicitudExamen"> | Date | string
     fechaProgramada?: DateTimeNullableFilter<"SolicitudExamen"> | Date | string | null
+    erroresExamen?: IntNullableFilter<"SolicitudExamen"> | number | null
     observaciones?: StringNullableFilter<"SolicitudExamen"> | string | null
   }
 
@@ -45191,6 +48156,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
 
@@ -45202,6 +48168,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
 
   export type ProfesorCreateOrConnectWithoutClasesDirectoInput = {
@@ -45227,6 +48194,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
 
@@ -45238,6 +48206,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
   export type AlumnoCreateWithoutTestsPracticaInput = {
@@ -45971,6 +48940,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
+    horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
 
@@ -45982,6 +48952,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
+    horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
 
   export type ProfesorCreateOrConnectWithoutClasesInput = {
@@ -46081,6 +49052,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
+    horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
 
@@ -46092,6 +49064,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
+    horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
   export type VehiculoUpsertWithoutClasesInput = {
@@ -47363,6 +50336,15 @@ export namespace Prisma {
     estado: string
   }
 
+  export type ProfesorHorarioBloqueCreateManyProfesorInput = {
+    id?: string
+    diaSemana: number
+    horaInicio: string
+    horaFin: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type AlumnoUpdateWithoutProfesorAsignadoInput = {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
@@ -47472,6 +50454,33 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
   }
 
+  export type ProfesorHorarioBloqueUpdateWithoutProfesorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    diaSemana?: IntFieldUpdateOperationsInput | number
+    horaInicio?: StringFieldUpdateOperationsInput | string
+    horaFin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProfesorHorarioBloqueUncheckedUpdateWithoutProfesorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    diaSemana?: IntFieldUpdateOperationsInput | number
+    horaInicio?: StringFieldUpdateOperationsInput | string
+    horaFin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    diaSemana?: IntFieldUpdateOperationsInput | number
+    horaInicio?: StringFieldUpdateOperationsInput | string
+    horaFin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ClasePracticaCreateManyAlumnoInput = {
     id?: string
     profesorId: string
@@ -47545,6 +50554,7 @@ export namespace Prisma {
     estado?: string
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
+    erroresExamen?: number | null
     observaciones?: string | null
   }
 
@@ -47799,6 +50809,7 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -47808,6 +50819,7 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -47817,6 +50829,7 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 

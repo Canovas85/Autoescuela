@@ -273,6 +273,114 @@ export class DashboardRepository {
     });
   }
 
+  async getProfessorWorkSchedule(userId) {
+    return this.prisma.profesorHorarioBloque.findMany({
+      where: {
+        profesorId: userId,
+      },
+      orderBy: [{ diaSemana: "asc" }, { horaInicio: "asc" }],
+    });
+  }
+
+  async replaceProfessorWorkSchedule(userId, bloques) {
+    return this.prisma.$transaction(async (tx) => {
+      await tx.profesorHorarioBloque.deleteMany({
+        where: {
+          profesorId: userId,
+        },
+      });
+
+      if (Array.isArray(bloques) && bloques.length > 0) {
+        await tx.profesorHorarioBloque.createMany({
+          data: bloques.map((bloque) => ({
+            profesorId: userId,
+            diaSemana: bloque.diaSemana,
+            horaInicio: bloque.horaInicio,
+            horaFin: bloque.horaFin,
+          })),
+        });
+      }
+    });
+
+    return this.getProfessorWorkSchedule(userId);
+  }
+
+  async getProfessorScheduledClassesBetween(userId, startDate, endDate) {
+    return this.prisma.clasePractica.findMany({
+      where: {
+        profesorId: userId,
+        estado: {
+          in: ["PROGRAMADA", "CONFIRMADA"],
+        },
+        fecha: {
+          gte: startDate,
+          lte: endDate,
+        },
+      },
+      include: {
+        alumno: {
+          include: {
+            usuario: {
+              select: {
+                nombre: true,
+              },
+            },
+          },
+        },
+        vehiculo: {
+          select: {
+            matricula: true,
+            marca: true,
+            modelo: true,
+            tipoPermiso: true,
+          },
+        },
+      },
+      orderBy: {
+        fecha: "asc",
+      },
+    });
+  }
+
+  async findProfessorClassById(userId, classId) {
+    return this.prisma.clasePractica.findFirst({
+      where: {
+        id: classId,
+        profesorId: userId,
+      },
+    });
+  }
+
+  async updateProfessorClassStatus(classId, estado) {
+    return this.prisma.clasePractica.update({
+      where: {
+        id: classId,
+      },
+      data: {
+        estado,
+      },
+      include: {
+        alumno: {
+          include: {
+            usuario: {
+              select: {
+                nombre: true,
+              },
+            },
+          },
+        },
+        vehiculo: {
+          select: {
+            matricula: true,
+            marca: true,
+            modelo: true,
+            tipoPermiso: true,
+          },
+        },
+      },
+    });
+  }
+
   async getProfessorAssignedStudents(userId) {
     return this.prisma.alumno.findMany({
       where: {

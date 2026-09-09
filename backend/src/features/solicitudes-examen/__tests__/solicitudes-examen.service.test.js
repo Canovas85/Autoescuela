@@ -232,6 +232,7 @@ describe("SolicitudesExamenService", () => {
       estado: "PROGRAMADO",
       fechaSolicitud: expect.any(Date),
       fechaProgramada: expect.any(Date),
+      erroresExamen: null,
       observaciones: null,
     });
     expect(result).toEqual(solicitudActualizada);
@@ -248,5 +249,100 @@ describe("SolicitudesExamenService", () => {
 
     expect(repositoryMock.delete).toHaveBeenCalledWith("solicitud-1");
     expect(result).toEqual({ id: "solicitud-1" });
+  });
+
+  it("debe devolver elegibilidad positiva para solicitud teórica de alumno", async () => {
+    const repositoryMock = {
+      findMatriculaPagada: vi.fn().mockResolvedValue({
+        id: "matricula-1",
+        licencia: "B",
+      }),
+      hasPsicotecnicoValidado: vi.fn().mockResolvedValue(true),
+      findSolicitudTeoricoActiva: vi.fn().mockResolvedValue(null),
+      findUltimoPagoTasaDGT: vi.fn().mockResolvedValue({
+        id: "pago-1",
+        fechaPago: new Date("2026-09-01T10:00:00.000Z"),
+        convocatoriasIncluidas: 2,
+      }),
+      countNoAptosTeoricoDesdeFecha: vi.fn().mockResolvedValue(1),
+    };
+
+    const service = new SolicitudesExamenService(repositoryMock);
+
+    const result =
+      await service.getTheoreticalEligibilityForStudent("alumno-1");
+
+    expect(result.canRequest).toBe(true);
+    expect(result.tasa.convocatoriasDisponibles).toBe(1);
+    expect(result.bloqueos).toEqual([]);
+  });
+
+  it("debe bloquear solicitud teórica cuando no hay psicotécnico validado", async () => {
+    const repositoryMock = {
+      findMatriculaPagada: vi.fn().mockResolvedValue({
+        id: "matricula-1",
+        licencia: "B",
+      }),
+      hasPsicotecnicoValidado: vi.fn().mockResolvedValue(false),
+      findSolicitudTeoricoActiva: vi.fn().mockResolvedValue(null),
+      findUltimoPagoTasaDGT: vi.fn().mockResolvedValue({
+        id: "pago-1",
+        fechaPago: new Date("2026-09-01T10:00:00.000Z"),
+        convocatoriasIncluidas: 2,
+      }),
+      countNoAptosTeoricoDesdeFecha: vi.fn().mockResolvedValue(0),
+    };
+
+    const service = new SolicitudesExamenService(repositoryMock);
+
+    const result =
+      await service.getTheoreticalEligibilityForStudent("alumno-1");
+
+    expect(result.canRequest).toBe(false);
+    expect(result.bloqueos[0]).toContain("CERTIFICADO_PSICOTECNICO");
+  });
+
+  it("debe procesar resultados teóricos y marcar apto/no apto con errores", async () => {
+    const repositoryMock = {
+      findSolicitudesTeoricoPendientesResultado: vi.fn().mockResolvedValue([
+        {
+          id: "sol-1",
+          alumnoId: "alumno-1",
+        },
+      ]),
+      updateResultadoSolicitudTeorico: vi.fn().mockResolvedValue({
+        id: "sol-1",
+        estado: "NO_APTO",
+      }),
+      findMatriculaPagada: vi.fn().mockResolvedValue({
+        id: "matricula-1",
+        licencia: "B",
+      }),
+      findUltimoPagoTasaDGT: vi.fn().mockResolvedValue({
+        id: "pago-1",
+        convocatoriasIncluidas: 2,
+        convocatoriasConsumidas: 0,
+      }),
+      incrementarConvocatoriasConsumidas: vi
+        .fn()
+        .mockResolvedValue({ id: "pago-1" }),
+    };
+
+    const service = new SolicitudesExamenService(repositoryMock);
+
+    const result = await service.processScheduledTheoreticalResults({
+      randomFn: () => 0.8,
+    });
+
+    expect(repositoryMock.updateResultadoSolicitudTeorico).toHaveBeenCalledWith(
+      "sol-1",
+      "NO_APTO",
+      8,
+    );
+    expect(
+      repositoryMock.incrementarConvocatoriasConsumidas,
+    ).toHaveBeenCalledWith("pago-1");
+    expect(result.procesadas).toBe(1);
+    expect(result.noAptos).toBe(1);
   });
 });

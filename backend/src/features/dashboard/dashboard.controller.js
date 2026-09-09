@@ -60,4 +60,32 @@ export class DashboardController {
 
     return res.status(200).json(data);
   }
+
+  async getProfessorAgenda(req, res) {
+    const data = await this.service.getProfessorAgenda(
+      req.user?.id,
+      req.query.weekOffset,
+    );
+
+    return res.status(200).json(data);
+  }
+
+  async updateProfessorWorkSchedule(req, res) {
+    const data = await this.service.updateProfessorWorkSchedule(
+      req.user?.id,
+      req.body?.bloques,
+    );
+
+    return res.status(200).json(data);
+  }
+
+  async updateProfessorClassStatus(req, res) {
+    const data = await this.service.updateProfessorClassStatus(
+      req.user?.id,
+      req.params.classId,
+      req.body?.estado,
+    );
+
+    return res.status(200).json(data);
+  }
 }

@@ -564,4 +564,77 @@ describe("DashboardRepository", () => {
       orderBy: [{ tipoPermiso: "asc" }, { matricula: "asc" }],
     });
   });
+
+  it("debe consultar el horario laboral del profesor", async () => {
+    const prismaMock = {
+      profesorHorarioBloque: {
+        findMany: vi.fn().mockResolvedValue([]),
+      },
+    };
+
+    const repository = new DashboardRepository(prismaMock);
+
+    await repository.getProfessorWorkSchedule("profesor-1");
+
+    expect(prismaMock.profesorHorarioBloque.findMany).toHaveBeenCalledWith({
+      where: {
+        profesorId: "profesor-1",
+      },
+      orderBy: [{ diaSemana: "asc" }, { horaInicio: "asc" }],
+    });
+  });
+
+  it("debe consultar clases del profesor en rango semanal", async () => {
+    const prismaMock = {
+      clasePractica: {
+        findMany: vi.fn().mockResolvedValue([]),
+      },
+    };
+
+    const repository = new DashboardRepository(prismaMock);
+
+    const startDate = new Date("2026-09-07T00:00:00.000Z");
+    const endDate = new Date("2026-09-13T23:59:59.999Z");
+
+    await repository.getProfessorScheduledClassesBetween(
+      "profesor-1",
+      startDate,
+      endDate,
+    );
+
+    expect(prismaMock.clasePractica.findMany).toHaveBeenCalledWith({
+      where: {
+        profesorId: "profesor-1",
+        estado: {
+          in: ["PROGRAMADA", "CONFIRMADA"],
+        },
+        fecha: {
+          gte: startDate,
+          lte: endDate,
+        },
+      },
+      include: {
+        alumno: {
+          include: {
+            usuario: {
+              select: {
+                nombre: true,
+              },
+            },
+          },
+        },
+        vehiculo: {
+          select: {
+            matricula: true,
+            marca: true,
+            modelo: true,
+            tipoPermiso: true,
+          },
+        },
+      },
+      orderBy: {
+        fecha: "asc",
+      },
+    });
+  });
 });

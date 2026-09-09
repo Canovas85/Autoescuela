@@ -17,6 +17,40 @@ export class SolicitudesExamenController {
     return res.status(200).json(solicitudes);
   }
 
+  async getMine(req, res) {
+    const solicitudes = await this.service.getMine(req.user.id);
+    return res.status(200).json(solicitudes);
+  }
+
+  async getTheoreticalEligibility(req, res) {
+    const eligibility = await this.service.getTheoreticalEligibilityForStudent(
+      req.user.id,
+    );
+
+    return res.status(200).json(eligibility);
+  }
+
+  async getTheoreticalCalendar(req, res) {
+    const calendar = await this.service.getTheoreticalCalendarForStudent(
+      req.user.id,
+    );
+
+    return res.status(200).json(calendar);
+  }
+
+  async createTheoreticalRequest(req, res) {
+    try {
+      const solicitud = await this.service.createTheoreticalRequestForStudent(
+        req.user.id,
+        req.body,
+      );
+
+      return res.status(201).json(solicitud);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  }
+
   async getById(req, res) {
     try {
       const solicitud = await this.service.getById(req.params.id);

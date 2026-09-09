@@ -634,4 +634,129 @@ describe("DashboardService", () => {
     expect(result.reservas).toHaveLength(1);
     expect(result.reservas[0].esMiClase).toBe(true);
   });
+
+  it("debe devolver la agenda semanal del profesor con horario y clases", async () => {
+    const repositoryMock = {
+      getProfessorProfile: vi.fn().mockResolvedValue({ id: "profesor-1" }),
+      getProfessorWorkSchedule: vi.fn().mockResolvedValue([
+        {
+          id: "bloque-1",
+          diaSemana: 1,
+          horaInicio: "08:00",
+          horaFin: "12:00",
+        },
+      ]),
+      getProfessorScheduledClassesBetween: vi.fn().mockResolvedValue([
+        {
+          id: "clase-1",
+          fecha: new Date("2026-09-08T08:00:00.000Z"),
+          duracion: 45,
+          estado: "PROGRAMADA",
+          alumnoId: "alumno-1",
+          alumno: { usuario: { nombre: "Alumno Uno" } },
+          vehiculo: {
+            matricula: "1234ABC",
+            marca: "Seat",
+            modelo: "Ibiza",
+            tipoPermiso: "B",
+          },
+        },
+      ]),
+    };
+
+    const service = new DashboardService(repositoryMock);
+
+    const result = await service.getProfessorAgenda("profesor-1", "0");
+
+    expect(repositoryMock.getProfessorProfile).toHaveBeenCalledWith(
+      "profesor-1",
+    );
+    expect(repositoryMock.getProfessorWorkSchedule).toHaveBeenCalledWith(
+      "profesor-1",
+    );
+    expect(
+      repositoryMock.getProfessorScheduledClassesBetween,
+    ).toHaveBeenCalledOnce();
+    expect(result.horario).toHaveLength(7);
+    expect(result.clases).toHaveLength(1);
+    expect(result.clases[0].estado).toBe("PROGRAMADA");
+  });
+
+  it("debe rechazar horario con más de 8 horas en un día", async () => {
+    const repositoryMock = {
+      getProfessorProfile: vi.fn().mockResolvedValue({ id: "profesor-1" }),
+      replaceProfessorWorkSchedule: vi.fn(),
+    };
+
+    const service = new DashboardService(repositoryMock);
+
+    await expect(
+      service.updateProfessorWorkSchedule("profesor-1", [
+        {
+          diaSemana: 1,
+          horaInicio: "08:00",
+          horaFin: "13:00",
+        },
+        {
+          diaSemana: 1,
+          horaInicio: "14:00",
+          horaFin: "18:30",
+        },
+      ]),
+    ).rejects.toThrow("supera las 8 horas");
+  });
+
+  it("debe confirmar una clase PROGRAMADA del profesor", async () => {
+    const repositoryMock = {
+      getProfessorProfile: vi.fn().mockResolvedValue({ id: "profesor-1" }),
+      findProfessorClassById: vi.fn().mockResolvedValue({
+        id: "clase-1",
+        estado: "PROGRAMADA",
+      }),
+      updateProfessorClassStatus: vi.fn().mockResolvedValue({
+        id: "clase-1",
+        fecha: new Date("2026-09-08T08:00:00.000Z"),
+        duracion: 45,
+        estado: "CONFIRMADA",
+        alumnoId: "alumno-1",
+        alumno: { usuario: { nombre: "Alumno Uno" } },
+        vehiculo: {
+          matricula: "1234ABC",
+          marca: "Seat",
+          modelo: "Ibiza",
+          tipoPermiso: "B",
+        },
+      }),
+    };
+
+    const service = new DashboardService(repositoryMock);
+
+    const result = await service.updateProfessorClassStatus(
+      "profesor-1",
+      "clase-1",
+      "CONFIRMADA",
+    );
+
+    expect(repositoryMock.updateProfessorClassStatus).toHaveBeenCalledWith(
+      "clase-1",
+      "CONFIRMADA",
+    );
+    expect(result.estado).toBe("CONFIRMADA");
+  });
+
+  it("debe rechazar actualización de clase si no está PROGRAMADA", async () => {
+    const repositoryMock = {
+      getProfessorProfile: vi.fn().mockResolvedValue({ id: "profesor-1" }),
+      findProfessorClassById: vi.fn().mockResolvedValue({
+        id: "clase-1",
+        estado: "CONFIRMADA",
+      }),
+    };
+
+    const service = new DashboardService(repositoryMock);
+
+    await expect(
+      service.updateProfessorClassStatus("profesor-1", "clase-1", "CANCELADA"),
+    ).rejects.toThrow("Solo se pueden confirmar o cancelar");
+  });
 });

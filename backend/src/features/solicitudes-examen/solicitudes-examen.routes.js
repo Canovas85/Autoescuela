@@ -28,6 +28,30 @@ router.get(
   controller.getAll.bind(controller),
 );
 router.get(
+  "/mine",
+  authenticate,
+  authorize("ALUMNO"),
+  controller.getMine.bind(controller),
+);
+router.get(
+  "/mine/teorico/eligibilidad",
+  authenticate,
+  authorize("ALUMNO"),
+  controller.getTheoreticalEligibility.bind(controller),
+);
+router.get(
+  "/mine/teorico/calendario",
+  authenticate,
+  authorize("ALUMNO"),
+  controller.getTheoreticalCalendar.bind(controller),
+);
+router.post(
+  "/mine/teorico/solicitar",
+  authenticate,
+  authorize("ALUMNO"),
+  controller.createTheoreticalRequest.bind(controller),
+);
+router.get(
   "/:id",
   authenticate,
   authorize("ADMIN"),

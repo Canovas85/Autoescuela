@@ -573,7 +573,7 @@ export default function Profesores() {
 
       <Paper
         sx={{
-          height: 600,
+          height: 700,
           p: 2,
         }}
       >
@@ -582,7 +582,11 @@ export default function Profesores() {
           columns={columns}
           getRowId={(row) => row.id}
           disableRowSelectionOnClick
-          pageSizeOptions={[5, 10, 25]}
+          pageSizeOptions={[10, 25, 50]}
+          initialState={{
+            pagination: { paginationModel: { pageSize: 10, page: 0 } },
+            sorting: { sortModel: [{ field: "nombre", sort: "asc" }] },
+          }}
           onRowClick={(params) => handleOpenDetail(params.row)}
         />
       </Paper>

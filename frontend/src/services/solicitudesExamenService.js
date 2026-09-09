@@ -25,4 +25,31 @@ export const solicitudesExamenService = {
     const response = await api.delete(`/solicitudes-examen/${id}`);
     return response.data;
   },
+
+  async getMine() {
+    const response = await api.get("/solicitudes-examen/mine");
+    return response.data;
+  },
+
+  async getTheoreticalEligibility() {
+    const response = await api.get(
+      "/solicitudes-examen/mine/teorico/eligibilidad",
+    );
+    return response.data;
+  },
+
+  async getTheoreticalCalendar() {
+    const response = await api.get(
+      "/solicitudes-examen/mine/teorico/calendario",
+    );
+    return response.data;
+  },
+
+  async requestTheoreticalExam(data) {
+    const response = await api.post(
+      "/solicitudes-examen/mine/teorico/solicitar",
+      data,
+    );
+    return response.data;
+  },
 };

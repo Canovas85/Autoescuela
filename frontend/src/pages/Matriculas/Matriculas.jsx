@@ -412,7 +412,7 @@ export default function Matriculas() {
         </Box>
       </Box>
 
-      <Box sx={{ height: 620 }}>
+      <Box sx={{ height: 760 }}>
         <Box
           sx={{
             display: "flex",
@@ -447,6 +447,11 @@ export default function Matriculas() {
           columns={columns}
           getRowId={(row) => row.id}
           disableRowSelectionOnClick
+          pageSizeOptions={[10, 25, 50]}
+          initialState={{
+            pagination: { paginationModel: { pageSize: 10, page: 0 } },
+            sorting: { sortModel: [{ field: "alumno", sort: "asc" }] },
+          }}
         />
       </Box>
 

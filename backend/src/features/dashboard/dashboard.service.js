@@ -764,4 +764,276 @@ export class DashboardService {
       reservas,
     };
   }
+
+  parseWeekOffset(weekOffset) {
+    const parsed = Number.parseInt(weekOffset ?? "0", 10);
+
+    if (Number.isNaN(parsed)) {
+      return 0;
+    }
+
+    return parsed;
+  }
+
+  getWeekBounds(weekOffset = 0) {
+    const now = new Date();
+    const weekStart = new Date(now);
+
+    weekStart.setHours(0, 0, 0, 0);
+
+    const dayIndex = weekStart.getDay();
+    const distanceFromMonday = (dayIndex + 6) % 7;
+
+    weekStart.setDate(
+      weekStart.getDate() - distanceFromMonday + Number(weekOffset || 0) * 7,
+    );
+
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekEnd.getDate() + 6);
+    weekEnd.setHours(23, 59, 59, 999);
+
+    return {
+      weekStart,
+      weekEnd,
+    };
+  }
+
+  timeToMinutes(time) {
+    if (typeof time !== "string") {
+      return Number.NaN;
+    }
+
+    const match = time.match(/^([01]\d|2[0-3]):([0-5]\d)$/);
+
+    if (!match) {
+      return Number.NaN;
+    }
+
+    const hours = Number(match[1]);
+    const minutes = Number(match[2]);
+
+    return hours * 60 + minutes;
+  }
+
+  normalizeProfessorScheduleRows(rows) {
+    const grouped = Array.from({ length: 7 }, (_, index) => ({
+      diaSemana: index + 1,
+      bloques: [],
+    }));
+
+    for (const row of rows || []) {
+      const day = grouped[row.diaSemana - 1];
+
+      if (!day) {
+        continue;
+      }
+
+      const inicioMinutos = this.timeToMinutes(row.horaInicio);
+      const finMinutos = this.timeToMinutes(row.horaFin);
+
+      day.bloques.push({
+        id: row.id,
+        horaInicio: row.horaInicio,
+        horaFin: row.horaFin,
+        duracionMinutos:
+          Number.isNaN(inicioMinutos) || Number.isNaN(finMinutos)
+            ? 0
+            : finMinutos - inicioMinutos,
+      });
+    }
+
+    return grouped.map((day) => ({
+      ...day,
+      bloques: day.bloques.sort((a, b) =>
+        a.horaInicio.localeCompare(b.horaInicio),
+      ),
+    }));
+  }
+
+  validateWorkScheduleBlocks(blocks) {
+    if (!Array.isArray(blocks)) {
+      throw new Error("El horario debe enviarse como una lista de bloques");
+    }
+
+    const normalized = blocks.map((block, index) => {
+      const diaSemana = Number(block?.diaSemana);
+      const horaInicio = String(block?.horaInicio || "").trim();
+      const horaFin = String(block?.horaFin || "").trim();
+
+      if (!Number.isInteger(diaSemana) || diaSemana < 1 || diaSemana > 7) {
+        throw new Error(
+          `El bloque ${index + 1} tiene un día inválido. Usa valores entre 1 y 7`,
+        );
+      }
+
+      const inicioMinutos = this.timeToMinutes(horaInicio);
+      const finMinutos = this.timeToMinutes(horaFin);
+
+      if (Number.isNaN(inicioMinutos) || Number.isNaN(finMinutos)) {
+        throw new Error(
+          `El bloque ${index + 1} debe usar el formato de hora HH:mm`,
+        );
+      }
+
+      if (inicioMinutos >= finMinutos) {
+        throw new Error(
+          `El bloque ${index + 1} debe tener una hora de fin posterior a la de inicio`,
+        );
+      }
+
+      return {
+        diaSemana,
+        horaInicio,
+        horaFin,
+        inicioMinutos,
+        finMinutos,
+      };
+    });
+
+    const byDay = new Map();
+
+    for (const block of normalized) {
+      const list = byDay.get(block.diaSemana) || [];
+      list.push(block);
+      byDay.set(block.diaSemana, list);
+    }
+
+    for (const [diaSemana, dayBlocks] of byDay.entries()) {
+      const sorted = [...dayBlocks].sort(
+        (a, b) => a.inicioMinutos - b.inicioMinutos,
+      );
+
+      let totalMinutes = 0;
+
+      for (let index = 0; index < sorted.length; index += 1) {
+        const block = sorted[index];
+
+        totalMinutes += block.finMinutos - block.inicioMinutos;
+
+        const next = sorted[index + 1];
+        if (next && block.finMinutos > next.inicioMinutos) {
+          throw new Error(
+            `Los bloques del día ${diaSemana} se solapan. Revísalos antes de guardar`,
+          );
+        }
+      }
+
+      if (totalMinutes > 480) {
+        throw new Error(
+          `El día ${diaSemana} supera las 8 horas máximas de trabajo`,
+        );
+      }
+    }
+
+    return normalized.map((block) => ({
+      diaSemana: block.diaSemana,
+      horaInicio: block.horaInicio,
+      horaFin: block.horaFin,
+    }));
+  }
+
+  mapProfessorAgendaClass(clase) {
+    return {
+      id: clase.id,
+      fecha: clase.fecha,
+      duracion: clase.duracion,
+      estado: clase.estado,
+      alumno: {
+        id: clase.alumnoId,
+        nombre: clase.alumno?.usuario?.nombre ?? "Alumno",
+      },
+      vehiculo: clase.vehiculo
+        ? {
+            matricula: clase.vehiculo.matricula,
+            marca: clase.vehiculo.marca,
+            modelo: clase.vehiculo.modelo,
+            tipoPermiso: clase.vehiculo.tipoPermiso,
+          }
+        : null,
+    };
+  }
+
+  async getProfessorAgenda(userId, weekOffsetInput) {
+    const profile = await this.repository.getProfessorProfile(userId);
+
+    if (!profile) {
+      throw new Error("Profesor no encontrado");
+    }
+
+    const weekOffset = this.parseWeekOffset(weekOffsetInput);
+    const { weekStart, weekEnd } = this.getWeekBounds(weekOffset);
+
+    const [scheduleRows, clases] = await Promise.all([
+      this.repository.getProfessorWorkSchedule(userId),
+      this.repository.getProfessorScheduledClassesBetween(
+        userId,
+        weekStart,
+        weekEnd,
+      ),
+    ]);
+
+    return {
+      semana: {
+        offset: weekOffset,
+        inicio: weekStart,
+        fin: weekEnd,
+      },
+      horario: this.normalizeProfessorScheduleRows(scheduleRows),
+      clases: (clases || []).map((clase) =>
+        this.mapProfessorAgendaClass(clase),
+      ),
+    };
+  }
+
+  async updateProfessorWorkSchedule(userId, bloques) {
+    const profile = await this.repository.getProfessorProfile(userId);
+
+    if (!profile) {
+      throw new Error("Profesor no encontrado");
+    }
+
+    const normalizedBlocks = this.validateWorkScheduleBlocks(bloques);
+
+    const saved = await this.repository.replaceProfessorWorkSchedule(
+      userId,
+      normalizedBlocks,
+    );
+
+    return {
+      horario: this.normalizeProfessorScheduleRows(saved),
+    };
+  }
+
+  async updateProfessorClassStatus(userId, classId, estado) {
+    const profile = await this.repository.getProfessorProfile(userId);
+
+    if (!profile) {
+      throw new Error("Profesor no encontrado");
+    }
+
+    if (!["CONFIRMADA", "CANCELADA"].includes(estado)) {
+      throw new Error(
+        "Estado inválido. Solo se permite CONFIRMADA o CANCELADA",
+      );
+    }
+
+    const clase = await this.repository.findProfessorClassById(userId, classId);
+
+    if (!clase) {
+      throw new Error("Clase no encontrada o no asignada a este profesor");
+    }
+
+    if (clase.estado !== "PROGRAMADA") {
+      throw new Error(
+        "Solo se pueden confirmar o cancelar clases en estado PROGRAMADA",
+      );
+    }
+
+    const updated = await this.repository.updateProfessorClassStatus(
+      classId,
+      estado,
+    );
+
+    return this.mapProfessorAgendaClass(updated);
+  }
 }

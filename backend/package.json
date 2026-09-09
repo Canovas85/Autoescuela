@@ -8,6 +8,7 @@
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
     "backfill:pagos-tasa-dgt": "node scripts/backfill-pagos-tasa-dgt.js",
+    "process:theoretical-exams": "node scripts/process-theoretical-exams.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",

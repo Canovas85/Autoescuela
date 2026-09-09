@@ -128,7 +128,7 @@ export default function MisPagos() {
         Mis Pagos
       </Typography>
 
-      <Box sx={{ height: 620 }}>
+      <Box sx={{ height: 700 }}>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -136,6 +136,10 @@ export default function MisPagos() {
           disableRowSelectionOnClick
           pageSizeOptions={[10, 25, 50]}
           loading={loading}
+          initialState={{
+            pagination: { paginationModel: { pageSize: 10, page: 0 } },
+            sorting: { sortModel: [{ field: "fechaPago", sort: "asc" }] },
+          }}
         />
       </Box>
 

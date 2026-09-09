@@ -270,4 +270,98 @@ describe("DashboardController", () => {
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith(payload);
   });
+
+  it("debe devolver la agenda semanal del profesor", async () => {
+    const payload = {
+      semana: {
+        offset: 0,
+      },
+      horario: [],
+      clases: [],
+    };
+
+    const serviceMock = {
+      getProfessorAgenda: vi.fn().mockResolvedValue(payload),
+    };
+
+    const controller = new DashboardController(serviceMock);
+
+    const req = {
+      user: { id: "profesor-1" },
+      query: { weekOffset: "1" },
+    };
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    };
+
+    await controller.getProfessorAgenda(req, res);
+
+    expect(serviceMock.getProfessorAgenda).toHaveBeenCalledWith(
+      "profesor-1",
+      "1",
+    );
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(payload);
+  });
+
+  it("debe actualizar el horario laboral del profesor", async () => {
+    const payload = { horario: [] };
+
+    const serviceMock = {
+      updateProfessorWorkSchedule: vi.fn().mockResolvedValue(payload),
+    };
+
+    const controller = new DashboardController(serviceMock);
+
+    const req = {
+      user: { id: "profesor-1" },
+      body: {
+        bloques: [{ diaSemana: 1, horaInicio: "08:00", horaFin: "12:00" }],
+      },
+    };
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    };
+
+    await controller.updateProfessorWorkSchedule(req, res);
+
+    expect(serviceMock.updateProfessorWorkSchedule).toHaveBeenCalledWith(
+      "profesor-1",
+      req.body.bloques,
+    );
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(payload);
+  });
+
+  it("debe actualizar el estado de una clase del profesor", async () => {
+    const payload = { id: "clase-1", estado: "CONFIRMADA" };
+
+    const serviceMock = {
+      updateProfessorClassStatus: vi.fn().mockResolvedValue(payload),
+    };
+
+    const controller = new DashboardController(serviceMock);
+
+    const req = {
+      user: { id: "profesor-1" },
+      params: { classId: "clase-1" },
+      body: { estado: "CONFIRMADA" },
+    };
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    };
+
+    await controller.updateProfessorClassStatus(req, res);
+
+    expect(serviceMock.updateProfessorClassStatus).toHaveBeenCalledWith(
+      "profesor-1",
+      "clase-1",
+      "CONFIRMADA",
+    );
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(payload);
+  });
 });

@@ -22,4 +22,26 @@ export const profesorPortalService = {
     );
     return response.data;
   },
+
+  async getAgenda(weekOffset = 0) {
+    const response = await api.get("/dashboard/professor/agenda", {
+      params: { weekOffset },
+    });
+    return response.data;
+  },
+
+  async updateWorkSchedule(bloques) {
+    const response = await api.put("/dashboard/professor/work-schedule", {
+      bloques,
+    });
+    return response.data;
+  },
+
+  async updateClassStatus(classId, estado) {
+    const response = await api.patch(
+      `/dashboard/professor/classes/${classId}/status`,
+      { estado },
+    );
+    return response.data;
+  },
 };

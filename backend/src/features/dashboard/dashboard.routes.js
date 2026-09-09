@@ -150,4 +150,25 @@ router.get(
   controller.getProfessorVehicleSchedule.bind(controller),
 );
 
+router.get(
+  "/professor/agenda",
+  authenticate,
+  authorize("PROFESOR"),
+  controller.getProfessorAgenda.bind(controller),
+);
+
+router.put(
+  "/professor/work-schedule",
+  authenticate,
+  authorize("PROFESOR"),
+  controller.updateProfessorWorkSchedule.bind(controller),
+);
+
+router.patch(
+  "/professor/classes/:classId/status",
+  authenticate,
+  authorize("PROFESOR"),
+  controller.updateProfessorClassStatus.bind(controller),
+);
+
 export default router;
