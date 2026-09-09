@@ -57,7 +57,7 @@ export default function TemarioAlumno() {
       <TemarioHero mode="student" />
 
       <Box>
-        <Typography variant="h4" fontWeight={900} sx={{ mb: 1 }}>
+        <Typography variant="h4" fontWeight={900} sx={{ mb: 1, mt: -2 }}>
           Temario de tu permiso
         </Typography>
         <Typography variant="body1" color="text.secondary">

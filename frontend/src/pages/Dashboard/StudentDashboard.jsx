@@ -168,13 +168,36 @@ function statusChip(status, fallbackLabel) {
 function SectionTitle({ icon, title, subtitle }) {
   return (
     <Box sx={{ mb: 1.5 }}>
-      <Box display="flex" alignItems="center" gap={1}>
-        <Box sx={{ display: "flex", alignItems: "center" }}>{icon}</Box>
-        <Typography variant="h6" fontWeight={800} sx={{ lineHeight: 1.2 }}>
+      {/* 1. Forzamos flex-row y evitamos que los elementos se vayan a otra línea */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "row",
+          gap: 1,
+        }}
+      >
+        {/* 2. Aseguramos que el contenedor del icono no crezca ni se deforme */}
+        {icon && (
+          <Box sx={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
+            {icon}
+          </Box>
+        )}
+
+        {/* 3. Evitamos que el título salte de línea prematuramente */}
+        <Typography
+          variant="h6"
+          fontWeight={800}
+          sx={{
+            lineHeight: 1.2,
+            whiteSpace: "nowrap", // 💡 Opcional: evita que el texto se parta en dos líneas si es largo
+          }}
+        >
           {title}
         </Typography>
       </Box>
-      {subtitle ? (
+
+      {subtitle && (
         <Typography
           variant="body2"
           color="text.secondary"
@@ -182,7 +205,7 @@ function SectionTitle({ icon, title, subtitle }) {
         >
           {subtitle}
         </Typography>
-      ) : null}
+      )}
     </Box>
   );
 }
@@ -250,7 +273,7 @@ export default function StudentDashboard({ data }) {
       {matriculaPendiente && (
         <Card
           sx={{
-            borderRadius: 4,
+            borderRadius: 2,
             border: "2px solid #f59e0b",
             backgroundColor: "#fef3c7",
             borderLeft: "6px solid #f59e0b",
@@ -287,7 +310,7 @@ export default function StudentDashboard({ data }) {
       {!matriculaPendiente && pagoTasaPendiente && (
         <Card
           sx={{
-            borderRadius: 4,
+            borderRadius: 2,
             border: "2px solid #2563eb",
             backgroundColor: "#eff6ff",
             borderLeft: "6px solid #2563eb",
@@ -319,7 +342,7 @@ export default function StudentDashboard({ data }) {
       <Box
         sx={{
           p: 3,
-          borderRadius: 4,
+          borderRadius: 2,
           background:
             "linear-gradient(135deg, rgba(15,23,42,1) 0%, rgba(30,64,175,1) 100%)",
           color: "#fff",
@@ -378,7 +401,7 @@ export default function StudentDashboard({ data }) {
         <Grid item xs={12} md={8}>
           <Card
             sx={{
-              borderRadius: 3,
+              borderRadius: 2,
               height: "100%",
               border: "1px solid rgba(148, 163, 184, 0.18)",
               boxShadow: "0 14px 32px rgba(15, 23, 42, 0.04)",
@@ -422,7 +445,7 @@ export default function StudentDashboard({ data }) {
                     <Box
                       sx={{
                         p: 1.5,
-                        borderRadius: 2.5,
+                        borderRadius: 1,
                         backgroundColor: "#f8fafc",
                         border: "1px solid rgba(148, 163, 184, 0.18)",
                       }}
@@ -528,7 +551,7 @@ export default function StudentDashboard({ data }) {
         <Grid item xs={12} lg={7}>
           <Card
             sx={{
-              borderRadius: 3,
+              borderRadius: 2,
               height: "100%",
               display: "flex",
               flexDirection: "column",
@@ -563,7 +586,7 @@ export default function StudentDashboard({ data }) {
                   <Box
                     sx={{
                       p: 1.25,
-                      borderRadius: 2.5,
+                      borderRadius: 1,
                       backgroundColor: "#eff6ff",
                     }}
                   >
@@ -579,7 +602,7 @@ export default function StudentDashboard({ data }) {
                   <Box
                     sx={{
                       p: 1.25,
-                      borderRadius: 2.5,
+                      borderRadius: 1,
                       backgroundColor: "#ecfdf5",
                     }}
                   >
@@ -595,7 +618,7 @@ export default function StudentDashboard({ data }) {
                   <Box
                     sx={{
                       p: 1.25,
-                      borderRadius: 2.5,
+                      borderRadius: 1,
                       backgroundColor: "#fff7ed",
                     }}
                   >
@@ -649,7 +672,7 @@ export default function StudentDashboard({ data }) {
                     <Box
                       sx={{
                         p: 1.25,
-                        borderRadius: 2.5,
+                        borderRadius: 1,
                         backgroundColor: "#ecfeff",
                       }}
                     >
@@ -665,7 +688,7 @@ export default function StudentDashboard({ data }) {
                     <Box
                       sx={{
                         p: 1.25,
-                        borderRadius: 2.5,
+                        borderRadius: 1,
                         backgroundColor: "#f0fdf4",
                       }}
                     >
@@ -682,7 +705,7 @@ export default function StudentDashboard({ data }) {
                     <Box
                       sx={{
                         p: 1.25,
-                        borderRadius: 2.5,
+                        borderRadius: 1,
                         backgroundColor: "#f0f9ff",
                       }}
                     >
@@ -750,7 +773,7 @@ export default function StudentDashboard({ data }) {
         <Grid item xs={12} lg={5}>
           <Card
             sx={{
-              borderRadius: 3,
+              borderRadius: 2,
               height: "100%",
               display: "flex",
               flexDirection: "column",
@@ -762,16 +785,6 @@ export default function StudentDashboard({ data }) {
               sx={{
                 py: 2,
                 "&:last-child": { pb: 2 },
-                // TRUCO: Buscamos el contenedor del título e icono dentro de SectionTitle
-                "& .MuiBox-root": {
-                  // O el contenedor principal de tu SectionTitle
-                  "& div:first-of-type": {
-                    // Selecciona el bloque del icono y texto
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 1,
-                  },
-                },
               }}
             >
               <SectionTitle
@@ -780,90 +793,93 @@ export default function StudentDashboard({ data }) {
                 subtitle="Relación de temarios asociados al permiso objetivo y su nivel de avance."
               />
 
-              <Grid container spacing={1.25} sx={{ alignItems: "stretch" }}>
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(2, 1fr)",
+                  gap: 12,
+                  alignItems: "stretch",
+                }}
+              >
                 {temarios.length > 0 ? (
                   temarios.map((temario) => (
-                    <Grid
-                      item
-                      xs={12}
-                      sm={6}
+                    <Box
                       key={`${temario.id}-${temario.titulo}`}
                       sx={{
                         display: "flex",
-                        alignItems: "stretch",
+                        flexDirection: "column",
+                        border: "1px solid rgba(148, 163, 184, 0.18)",
+                        borderRadius: 1,
+                        backgroundColor: "#fff",
+                        padding: 1.5,
+                        boxShadow: "0 10px 20px rgba(15, 23, 42, 0.03)",
                       }}
                     >
+                      {/* 🔵 Línea 1: Título + Estado */}
                       <Box
                         sx={{
-                          p: 1.5,
-                          borderRadius: 2.5,
-                          border: "1px solid rgba(148, 163, 184, 0.18)",
-                          backgroundColor: "#fff",
-                          width: "100%",
-                          height: "100%",
                           display: "flex",
-                          flexDirection: "column",
-                          minHeight: 170,
-                          boxShadow: "0 10px 20px rgba(15, 23, 42, 0.03)",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          mb: 1,
                         }}
                       >
-                        <Box
-                          display="flex"
-                          justifyContent="space-between"
-                          gap={1}
-                        >
-                          <Box>
-                            <Typography fontWeight={800}>
-                              {temario.titulo}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                              {temario.descripcion ||
-                                "Sin descripción adicional"}
-                            </Typography>
-                          </Box>
-                          {temario.revisado ? (
-                            <Chip
-                              label="Revisado"
-                              color="success"
-                              size="small"
-                            />
-                          ) : (
-                            <Chip
-                              label="Pendiente"
-                              color="warning"
-                              size="small"
-                            />
-                          )}
-                        </Box>
-                        <Box sx={{ mt: 1.5, flexGrow: 1 }}>
-                          <Box
-                            display="flex"
-                            justifyContent="space-between"
-                            sx={{ mb: 0.5 }}
-                          >
-                            <Typography variant="body2" color="text.secondary">
-                              Dominio del tema
-                            </Typography>
-                            <Typography variant="body2" fontWeight={700}>
-                              {temario.dominio}%
-                            </Typography>
-                          </Box>
-                          <LinearProgress
-                            variant="determinate"
-                            value={Math.min(temario.dominio, 100)}
-                            sx={{ height: 8, borderRadius: 999 }}
+                        <Typography fontWeight={800}>
+                          {temario.titulo}
+                        </Typography>
+
+                        {temario.revisado ? (
+                          <Chip label="Revisado" color="success" size="small" />
+                        ) : (
+                          <Chip
+                            label="Pendiente"
+                            color="warning"
+                            size="small"
                           />
-                          <Typography
-                            variant="caption"
-                            color="text.secondary"
-                            sx={{ mt: 1, display: "block" }}
-                          >
-                            Última revisión:{" "}
-                            {formatDate(temario.ultimaRevision)}
+                        )}
+                      </Box>
+
+                      {/* 🔵 Línea 2: Descripción */}
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{ mb: 1 }}
+                      >
+                        {temario.descripcion || "Sin descripción adicional"}
+                      </Typography>
+
+                      {/* 🔵 Línea 3: Dominio + Barra + Última revisión */}
+                      <Box sx={{ width: "100%" }}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            mb: 0.5,
+                          }}
+                        >
+                          <Typography variant="body2" color="text.secondary">
+                            Dominio del tema
+                          </Typography>
+                          <Typography variant="body2" fontWeight={700}>
+                            {temario.dominio}%
                           </Typography>
                         </Box>
+
+                        <LinearProgress
+                          variant="determinate"
+                          value={Math.min(temario.dominio, 100)}
+                          sx={{ height: 8, borderRadius: 999 }}
+                        />
+
+                        <Typography
+                          variant="caption"
+                          color="text.secondary"
+                          sx={{ mt: 1, display: "block" }}
+                        >
+                          Última revisión: {formatDate(temario.ultimaRevision)}
+                        </Typography>
                       </Box>
-                    </Grid>
+                    </Box>
                   ))
                 ) : (
                   <Grid item xs={12}>
@@ -872,7 +888,7 @@ export default function StudentDashboard({ data }) {
                     </Typography>
                   </Grid>
                 )}
-              </Grid>
+              </Box>
             </CardContent>
           </Card>
         </Grid>
@@ -882,7 +898,7 @@ export default function StudentDashboard({ data }) {
         <Grid item xs={12} lg={7}>
           <Card
             sx={{
-              borderRadius: 3,
+              borderRadius: 2,
               height: "100%",
               border: "1px solid rgba(148, 163, 184, 0.18)",
               boxShadow: "0 14px 32px rgba(15, 23, 42, 0.04)",
@@ -900,7 +916,7 @@ export default function StudentDashboard({ data }) {
                   <Box
                     sx={{
                       p: 1.5,
-                      borderRadius: 2.5,
+                      borderRadius: 1,
                       backgroundColor: "#f8fafc",
                     }}
                   >
@@ -916,7 +932,7 @@ export default function StudentDashboard({ data }) {
                   <Box
                     sx={{
                       p: 1.5,
-                      borderRadius: 2.5,
+                      borderRadius: 1,
                       backgroundColor: "#f8fafc",
                     }}
                   >
@@ -932,7 +948,7 @@ export default function StudentDashboard({ data }) {
                   <Box
                     sx={{
                       p: 1.5,
-                      borderRadius: 2.5,
+                      borderRadius: 1,
                       backgroundColor: "#f8fafc",
                     }}
                   >
@@ -948,7 +964,7 @@ export default function StudentDashboard({ data }) {
                   <Box
                     sx={{
                       p: 1.5,
-                      borderRadius: 2.5,
+                      borderRadius: 1,
                       backgroundColor: "#f8fafc",
                     }}
                   >
@@ -965,11 +981,7 @@ export default function StudentDashboard({ data }) {
               <Divider sx={{ my: 2.5 }} />
 
               <Box>
-                <Typography
-                  variant="subtitle1"
-                  fontWeight={800}
-                  sx={{ mb: 1.5 }}
-                >
+                <Typography variant="title" fontWeight={800} sx={{ mb: 1.5 }}>
                   Evolución breve
                 </Typography>
                 <Grid container spacing={1} alignItems="end">
@@ -1068,7 +1080,7 @@ export default function StudentDashboard({ data }) {
           <Stack spacing={3}>
             <Card
               sx={{
-                borderRadius: 3,
+                borderRadius: 2,
                 height: "100%",
                 border: "1px solid rgba(148, 163, 184, 0.18)",
                 boxShadow: "0 14px 32px rgba(15, 23, 42, 0.04)",
@@ -1103,7 +1115,7 @@ export default function StudentDashboard({ data }) {
                         key={bono.id}
                         sx={{
                           p: 1.5,
-                          borderRadius: 2.5,
+                          borderRadius: 1,
                           border: "1px solid rgba(148, 163, 184, 0.18)",
                           backgroundColor: "#fff",
                           boxShadow: "0 10px 20px rgba(15, 23, 42, 0.02)",
@@ -1153,7 +1165,7 @@ export default function StudentDashboard({ data }) {
 
             <Card
               sx={{
-                borderRadius: 3,
+                borderRadius: 2,
                 width: "100%",
                 border: "1px solid rgba(148, 163, 184, 0.18)",
                 boxShadow: "0 14px 32px rgba(15, 23, 42, 0.04)",
@@ -1186,7 +1198,7 @@ export default function StudentDashboard({ data }) {
                     <Box
                       sx={{
                         p: 1.75,
-                        borderRadius: 2.5,
+                        borderRadius: 1,
                         border: "1px solid rgba(148, 163, 184, 0.18)",
                         backgroundColor: "#fff",
                       }}
@@ -1242,7 +1254,7 @@ export default function StudentDashboard({ data }) {
                     <Box
                       sx={{
                         p: 1.75,
-                        borderRadius: 2.5,
+                        borderRadius: 1,
                         border: "1px solid rgba(148, 163, 184, 0.18)",
                         backgroundColor: "#fff",
                       }}

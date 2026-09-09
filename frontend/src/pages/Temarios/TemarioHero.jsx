@@ -47,7 +47,7 @@ export default function TemarioHero({ mode = "admin" }) {
           <Typography
             variant="h3"
             sx={{
-              fontWeight: 900,
+              fontWeight: 700,
               color: "#f8fafc",
               letterSpacing: "-0.05em",
               lineHeight: 1,
@@ -121,9 +121,9 @@ export default function TemarioHero({ mode = "admin" }) {
             sx={{
               position: "relative",
               width: "100%",
-              maxWidth: 520,
+              maxWidth: 420,
               objectFit: "cover",
-              borderRadius: 4,
+              borderRadius: 2,
               boxShadow: "0 26px 45px rgba(15, 23, 42, 0.45)",
             }}
           />
@@ -134,7 +134,7 @@ export default function TemarioHero({ mode = "admin" }) {
         <Typography
           variant="subtitle1"
           sx={{
-            mt: 3,
+            mt: -2,
             color: "#bbf7d0",
             fontWeight: 700,
           }}
