@@ -69,6 +69,32 @@ describe("SolicitudesExamenController", () => {
     expect(res.json).toHaveBeenCalledWith(solicitudes);
   });
 
+  it("debe devolver la evaluacion admin por tipo", async () => {
+    const rows = [{ id: "SOL-1", tipo: "TEORICO" }];
+
+    const serviceMock = {
+      getAdminEvaluationByTipo: vi.fn().mockResolvedValue(rows),
+    };
+
+    const controller = new SolicitudesExamenController(serviceMock);
+
+    const req = {
+      query: { tipo: "TEORICO" },
+    };
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    };
+
+    await controller.getAdminEvaluation(req, res);
+
+    expect(serviceMock.getAdminEvaluationByTipo).toHaveBeenCalledWith(
+      "TEORICO",
+    );
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(rows);
+  });
+
   it("debe devolver una solicitud por id", async () => {
     const solicitud = {
       id: "solicitud-1",

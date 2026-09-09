@@ -63,6 +63,11 @@ describe("SolicitudesExamenRepository", () => {
       include: {
         alumno: {
           include: {
+            profesorAsignado: {
+              include: {
+                usuario: true,
+              },
+            },
             usuario: true,
           },
         },

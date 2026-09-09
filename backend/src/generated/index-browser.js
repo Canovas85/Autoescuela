@@ -294,6 +294,7 @@ exports.Prisma.SolicitudExamenScalarFieldEnum = {
   fechaSolicitud: 'fechaSolicitud',
   fechaProgramada: 'fechaProgramada',
   erroresExamen: 'erroresExamen',
+  aciertosExamen: 'aciertosExamen',
   observaciones: 'observaciones'
 };
 

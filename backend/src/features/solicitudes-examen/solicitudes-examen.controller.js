@@ -17,6 +17,15 @@ export class SolicitudesExamenController {
     return res.status(200).json(solicitudes);
   }
 
+  async getAdminEvaluation(req, res) {
+    try {
+      const rows = await this.service.getAdminEvaluationByTipo(req.query.tipo);
+      return res.status(200).json(rows);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  }
+
   async getMine(req, res) {
     const solicitudes = await this.service.getMine(req.user.id);
     return res.status(200).json(solicitudes);

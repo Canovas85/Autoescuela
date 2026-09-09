@@ -22442,10 +22442,12 @@ export namespace Prisma {
 
   export type SolicitudExamenAvgAggregateOutputType = {
     erroresExamen: number | null
+    aciertosExamen: number | null
   }
 
   export type SolicitudExamenSumAggregateOutputType = {
     erroresExamen: number | null
+    aciertosExamen: number | null
   }
 
   export type SolicitudExamenMinAggregateOutputType = {
@@ -22456,6 +22458,7 @@ export namespace Prisma {
     fechaSolicitud: Date | null
     fechaProgramada: Date | null
     erroresExamen: number | null
+    aciertosExamen: number | null
     observaciones: string | null
   }
 
@@ -22467,6 +22470,7 @@ export namespace Prisma {
     fechaSolicitud: Date | null
     fechaProgramada: Date | null
     erroresExamen: number | null
+    aciertosExamen: number | null
     observaciones: string | null
   }
 
@@ -22478,6 +22482,7 @@ export namespace Prisma {
     fechaSolicitud: number
     fechaProgramada: number
     erroresExamen: number
+    aciertosExamen: number
     observaciones: number
     _all: number
   }
@@ -22485,10 +22490,12 @@ export namespace Prisma {
 
   export type SolicitudExamenAvgAggregateInputType = {
     erroresExamen?: true
+    aciertosExamen?: true
   }
 
   export type SolicitudExamenSumAggregateInputType = {
     erroresExamen?: true
+    aciertosExamen?: true
   }
 
   export type SolicitudExamenMinAggregateInputType = {
@@ -22499,6 +22506,7 @@ export namespace Prisma {
     fechaSolicitud?: true
     fechaProgramada?: true
     erroresExamen?: true
+    aciertosExamen?: true
     observaciones?: true
   }
 
@@ -22510,6 +22518,7 @@ export namespace Prisma {
     fechaSolicitud?: true
     fechaProgramada?: true
     erroresExamen?: true
+    aciertosExamen?: true
     observaciones?: true
   }
 
@@ -22521,6 +22530,7 @@ export namespace Prisma {
     fechaSolicitud?: true
     fechaProgramada?: true
     erroresExamen?: true
+    aciertosExamen?: true
     observaciones?: true
     _all?: true
   }
@@ -22619,6 +22629,7 @@ export namespace Prisma {
     fechaSolicitud: Date
     fechaProgramada: Date | null
     erroresExamen: number | null
+    aciertosExamen: number | null
     observaciones: string | null
     _count: SolicitudExamenCountAggregateOutputType | null
     _avg: SolicitudExamenAvgAggregateOutputType | null
@@ -22649,6 +22660,7 @@ export namespace Prisma {
     fechaSolicitud?: boolean
     fechaProgramada?: boolean
     erroresExamen?: boolean
+    aciertosExamen?: boolean
     observaciones?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["solicitudExamen"]>
@@ -22661,6 +22673,7 @@ export namespace Prisma {
     fechaSolicitud?: boolean
     fechaProgramada?: boolean
     erroresExamen?: boolean
+    aciertosExamen?: boolean
     observaciones?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["solicitudExamen"]>
@@ -22673,6 +22686,7 @@ export namespace Prisma {
     fechaSolicitud?: boolean
     fechaProgramada?: boolean
     erroresExamen?: boolean
+    aciertosExamen?: boolean
     observaciones?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["solicitudExamen"]>
@@ -22685,10 +22699,11 @@ export namespace Prisma {
     fechaSolicitud?: boolean
     fechaProgramada?: boolean
     erroresExamen?: boolean
+    aciertosExamen?: boolean
     observaciones?: boolean
   }
 
-  export type SolicitudExamenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "tipo" | "estado" | "fechaSolicitud" | "fechaProgramada" | "erroresExamen" | "observaciones", ExtArgs["result"]["solicitudExamen"]>
+  export type SolicitudExamenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "tipo" | "estado" | "fechaSolicitud" | "fechaProgramada" | "erroresExamen" | "aciertosExamen" | "observaciones", ExtArgs["result"]["solicitudExamen"]>
   export type SolicitudExamenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
   }
@@ -22712,6 +22727,7 @@ export namespace Prisma {
       fechaSolicitud: Date
       fechaProgramada: Date | null
       erroresExamen: number | null
+      aciertosExamen: number | null
       observaciones: string | null
     }, ExtArgs["result"]["solicitudExamen"]>
     composites: {}
@@ -23144,6 +23160,7 @@ export namespace Prisma {
     readonly fechaSolicitud: FieldRef<"SolicitudExamen", 'DateTime'>
     readonly fechaProgramada: FieldRef<"SolicitudExamen", 'DateTime'>
     readonly erroresExamen: FieldRef<"SolicitudExamen", 'Int'>
+    readonly aciertosExamen: FieldRef<"SolicitudExamen", 'Int'>
     readonly observaciones: FieldRef<"SolicitudExamen", 'String'>
   }
     
@@ -37596,6 +37613,7 @@ export namespace Prisma {
     fechaSolicitud: 'fechaSolicitud',
     fechaProgramada: 'fechaProgramada',
     erroresExamen: 'erroresExamen',
+    aciertosExamen: 'aciertosExamen',
     observaciones: 'observaciones'
   };
 
@@ -39090,6 +39108,7 @@ export namespace Prisma {
     fechaSolicitud?: DateTimeFilter<"SolicitudExamen"> | Date | string
     fechaProgramada?: DateTimeNullableFilter<"SolicitudExamen"> | Date | string | null
     erroresExamen?: IntNullableFilter<"SolicitudExamen"> | number | null
+    aciertosExamen?: IntNullableFilter<"SolicitudExamen"> | number | null
     observaciones?: StringNullableFilter<"SolicitudExamen"> | string | null
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
   }
@@ -39102,6 +39121,7 @@ export namespace Prisma {
     fechaSolicitud?: SortOrder
     fechaProgramada?: SortOrderInput | SortOrder
     erroresExamen?: SortOrderInput | SortOrder
+    aciertosExamen?: SortOrderInput | SortOrder
     observaciones?: SortOrderInput | SortOrder
     alumno?: AlumnoOrderByWithRelationInput
   }
@@ -39117,6 +39137,7 @@ export namespace Prisma {
     fechaSolicitud?: DateTimeFilter<"SolicitudExamen"> | Date | string
     fechaProgramada?: DateTimeNullableFilter<"SolicitudExamen"> | Date | string | null
     erroresExamen?: IntNullableFilter<"SolicitudExamen"> | number | null
+    aciertosExamen?: IntNullableFilter<"SolicitudExamen"> | number | null
     observaciones?: StringNullableFilter<"SolicitudExamen"> | string | null
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
   }, "id">
@@ -39129,6 +39150,7 @@ export namespace Prisma {
     fechaSolicitud?: SortOrder
     fechaProgramada?: SortOrderInput | SortOrder
     erroresExamen?: SortOrderInput | SortOrder
+    aciertosExamen?: SortOrderInput | SortOrder
     observaciones?: SortOrderInput | SortOrder
     _count?: SolicitudExamenCountOrderByAggregateInput
     _avg?: SolicitudExamenAvgOrderByAggregateInput
@@ -39148,6 +39170,7 @@ export namespace Prisma {
     fechaSolicitud?: DateTimeWithAggregatesFilter<"SolicitudExamen"> | Date | string
     fechaProgramada?: DateTimeNullableWithAggregatesFilter<"SolicitudExamen"> | Date | string | null
     erroresExamen?: IntNullableWithAggregatesFilter<"SolicitudExamen"> | number | null
+    aciertosExamen?: IntNullableWithAggregatesFilter<"SolicitudExamen"> | number | null
     observaciones?: StringNullableWithAggregatesFilter<"SolicitudExamen"> | string | null
   }
 
@@ -41342,6 +41365,7 @@ export namespace Prisma {
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
     erroresExamen?: number | null
+    aciertosExamen?: number | null
     observaciones?: string | null
     alumno: AlumnoCreateNestedOneWithoutSolicitudesExamenInput
   }
@@ -41354,6 +41378,7 @@ export namespace Prisma {
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
     erroresExamen?: number | null
+    aciertosExamen?: number | null
     observaciones?: string | null
   }
 
@@ -41364,6 +41389,7 @@ export namespace Prisma {
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    aciertosExamen?: NullableIntFieldUpdateOperationsInput | number | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     alumno?: AlumnoUpdateOneRequiredWithoutSolicitudesExamenNestedInput
   }
@@ -41376,6 +41402,7 @@ export namespace Prisma {
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    aciertosExamen?: NullableIntFieldUpdateOperationsInput | number | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -41387,6 +41414,7 @@ export namespace Prisma {
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
     erroresExamen?: number | null
+    aciertosExamen?: number | null
     observaciones?: string | null
   }
 
@@ -41397,6 +41425,7 @@ export namespace Prisma {
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    aciertosExamen?: NullableIntFieldUpdateOperationsInput | number | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -41408,6 +41437,7 @@ export namespace Prisma {
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    aciertosExamen?: NullableIntFieldUpdateOperationsInput | number | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -43486,11 +43516,13 @@ export namespace Prisma {
     fechaSolicitud?: SortOrder
     fechaProgramada?: SortOrder
     erroresExamen?: SortOrder
+    aciertosExamen?: SortOrder
     observaciones?: SortOrder
   }
 
   export type SolicitudExamenAvgOrderByAggregateInput = {
     erroresExamen?: SortOrder
+    aciertosExamen?: SortOrder
   }
 
   export type SolicitudExamenMaxOrderByAggregateInput = {
@@ -43501,6 +43533,7 @@ export namespace Prisma {
     fechaSolicitud?: SortOrder
     fechaProgramada?: SortOrder
     erroresExamen?: SortOrder
+    aciertosExamen?: SortOrder
     observaciones?: SortOrder
   }
 
@@ -43512,11 +43545,13 @@ export namespace Prisma {
     fechaSolicitud?: SortOrder
     fechaProgramada?: SortOrder
     erroresExamen?: SortOrder
+    aciertosExamen?: SortOrder
     observaciones?: SortOrder
   }
 
   export type SolicitudExamenSumOrderByAggregateInput = {
     erroresExamen?: SortOrder
+    aciertosExamen?: SortOrder
   }
 
   export type ConvocatoriaTeoricoCountOrderByAggregateInput = {
@@ -47164,6 +47199,7 @@ export namespace Prisma {
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
     erroresExamen?: number | null
+    aciertosExamen?: number | null
     observaciones?: string | null
   }
 
@@ -47174,6 +47210,7 @@ export namespace Prisma {
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
     erroresExamen?: number | null
+    aciertosExamen?: number | null
     observaciones?: string | null
   }
 
@@ -47578,6 +47615,7 @@ export namespace Prisma {
     fechaSolicitud?: DateTimeFilter<"SolicitudExamen"> | Date | string
     fechaProgramada?: DateTimeNullableFilter<"SolicitudExamen"> | Date | string | null
     erroresExamen?: IntNullableFilter<"SolicitudExamen"> | number | null
+    aciertosExamen?: IntNullableFilter<"SolicitudExamen"> | number | null
     observaciones?: StringNullableFilter<"SolicitudExamen"> | string | null
   }
 
@@ -50555,6 +50593,7 @@ export namespace Prisma {
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
     erroresExamen?: number | null
+    aciertosExamen?: number | null
     observaciones?: string | null
   }
 
@@ -50810,6 +50849,7 @@ export namespace Prisma {
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    aciertosExamen?: NullableIntFieldUpdateOperationsInput | number | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -50820,6 +50860,7 @@ export namespace Prisma {
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    aciertosExamen?: NullableIntFieldUpdateOperationsInput | number | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -50830,6 +50871,7 @@ export namespace Prisma {
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    aciertosExamen?: NullableIntFieldUpdateOperationsInput | number | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 

@@ -52,7 +52,7 @@ export const startTheoreticalExamResultsScheduler = () => {
       try {
         const result = await service.processScheduledTheoreticalResults();
         console.log(
-          `[scheduler] Resultados teórico procesados: ${result.procesadas} (aptos: ${result.aptos}, no aptos: ${result.noAptos})`,
+          `[scheduler] Resultados teórico procesados: ${result.procesadas} (aptos: ${result.aptos}, no aptos: ${result.noAptos}, aciertos: ${result.aciertosTotales}, errores: ${result.erroresTotales})`,
         );
       } catch (error) {
         console.error(

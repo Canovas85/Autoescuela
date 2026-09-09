@@ -21,6 +21,10 @@ const DEFAULT_TASA_DGT_CONFIG = {
   },
 };
 
+const TIPOS_EVALUACION_VALIDOS = ["TEORICO", "PRACTICO"];
+const ESTADOS_FINALES_EVALUACION = ["APROBADO", "SUSPENSO"];
+const TOTAL_PREGUNTAS_EXAMEN_TEORICO = 30;
+
 const normalizarTexto = (valor) =>
   typeof valor === "string" ? valor.trim() : "";
 
@@ -44,6 +48,41 @@ const finDelDia = (fecha = new Date()) => {
   const value = new Date(fecha);
   value.setHours(23, 59, 59, 999);
   return value;
+};
+
+const toNumberOrNull = (value) => {
+  if (value === null || value === undefined) {
+    return null;
+  }
+
+  const parsed = Number(value);
+  return Number.isNaN(parsed) ? null : parsed;
+};
+
+const normalizarEstadoEvaluacion = (estado) => {
+  const value = String(estado || "")
+    .trim()
+    .toUpperCase();
+
+  if (["APROBADO", "APTO"].includes(value)) {
+    return "APROBADO";
+  }
+
+  if (["SUSPENSO", "SUSPENDIDO", "NO_APTO"].includes(value)) {
+    return "SUSPENSO";
+  }
+
+  return "PROGRAMADO";
+};
+
+const calcularAciertosTeorico = (erroresExamen) => {
+  const errores = toNumberOrNull(erroresExamen);
+
+  if (errores === null) {
+    return null;
+  }
+
+  return Math.max(TOTAL_PREGUNTAS_EXAMEN_TEORICO - errores, 0);
 };
 
 export class SolicitudesExamenService {
@@ -190,6 +229,14 @@ export class SolicitudesExamenService {
       }
     }
 
+    if (data.aciertosExamen !== undefined && data.aciertosExamen !== null) {
+      const aciertos = Number(data.aciertosExamen);
+
+      if (!Number.isInteger(aciertos) || aciertos < 0) {
+        throw new Error("El número de aciertos del examen no es válido");
+      }
+    }
+
     return {
       alumnoId,
       tipo,
@@ -200,6 +247,10 @@ export class SolicitudesExamenService {
         data.erroresExamen === undefined || data.erroresExamen === null
           ? null
           : Number(data.erroresExamen),
+      aciertosExamen:
+        data.aciertosExamen === undefined || data.aciertosExamen === null
+          ? null
+          : Number(data.aciertosExamen),
       observaciones: normalizarTexto(data.observaciones) || null,
     };
   }
@@ -363,8 +414,153 @@ export class SolicitudesExamenService {
       fechaSolicitud: new Date(),
       fechaProgramada,
       erroresExamen: null,
+      aciertosExamen: null,
       observaciones: normalizarTexto(data.observaciones) || null,
     });
+  }
+
+  async getAdminEvaluationByTipo(tipo) {
+    const tipoNormalizado = normalizarTexto(tipo).toUpperCase();
+
+    if (!TIPOS_EVALUACION_VALIDOS.includes(tipoNormalizado)) {
+      throw new Error("El tipo debe ser TEORICO o PRACTICO");
+    }
+
+    const [solicitudes, examenes] = await Promise.all([
+      this.repository.findEvaluacionSolicitudesByTipo(tipoNormalizado),
+      this.repository.findEvaluacionExamenesByTipo(tipoNormalizado),
+    ]);
+
+    const merged = [
+      ...solicitudes.map((solicitud) => {
+        const estadoEvaluacion = normalizarEstadoEvaluacion(solicitud.estado);
+        const licencia = solicitud.alumno?.tipoLicenciaObjetivo || "-";
+
+        return {
+          id: `SOL-${solicitud.id}`,
+          source: "SOLICITUD",
+          sourceId: solicitud.id,
+          tipo: tipoNormalizado,
+          fechaSolicitud: solicitud.fechaSolicitud || null,
+          fechaConvocatoria: solicitud.fechaProgramada || null,
+          alumnoId: solicitud.alumnoId,
+          alumnoNombre: solicitud.alumno?.usuario?.nombre || "Sin alumno",
+          permisoLicencia: licencia,
+          estado: estadoEvaluacion,
+          resultado: estadoEvaluacion,
+          erroresExamen: toNumberOrNull(solicitud.erroresExamen),
+          aciertosExamen:
+            tipoNormalizado === "TEORICO"
+              ? (toNumberOrNull(solicitud.aciertosExamen) ??
+                calcularAciertosTeorico(solicitud.erroresExamen))
+              : null,
+          observaciones: solicitud.observaciones || null,
+          profesorAsignado:
+            solicitud.alumno?.profesorAsignado?.usuario?.nombre ||
+            "Sin asignar",
+        };
+      }),
+      ...examenes.map((examen) => {
+        const estadoEvaluacion = normalizarEstadoEvaluacion(examen.estado);
+        const licencia = examen.alumno?.tipoLicenciaObjetivo || "-";
+
+        return {
+          id: `EX-${examen.id}`,
+          source: "EXAMEN",
+          sourceId: examen.id,
+          tipo: tipoNormalizado,
+          fechaSolicitud: null,
+          fechaConvocatoria: examen.fecha || null,
+          alumnoId: examen.alumnoId,
+          alumnoNombre: examen.alumno?.usuario?.nombre || "Sin alumno",
+          permisoLicencia: licencia,
+          estado: estadoEvaluacion,
+          resultado: estadoEvaluacion,
+          erroresExamen: null,
+          aciertosExamen: null,
+          observaciones: null,
+          profesorAsignado:
+            examen.alumno?.profesorAsignado?.usuario?.nombre || "Sin asignar",
+        };
+      }),
+    ];
+
+    merged.sort((a, b) => {
+      const dateA =
+        new Date(a.fechaConvocatoria || a.fechaSolicitud || 0).getTime() || 0;
+      const dateB =
+        new Date(b.fechaConvocatoria || b.fechaSolicitud || 0).getTime() || 0;
+
+      return dateB - dateA;
+    });
+
+    const convocatoriaCache = new Map();
+
+    const getConvocatoriasRestantes = async (item) => {
+      const cacheKey = `${item.alumnoId}|${item.permisoLicencia}`;
+
+      if (convocatoriaCache.has(cacheKey)) {
+        return convocatoriaCache.get(cacheKey);
+      }
+
+      const pagoTasa = await this.repository.findUltimoPagoTasaDGT(
+        item.alumnoId,
+        item.permisoLicencia,
+        this.tasaDgtConfig.conceptoPattern,
+      );
+
+      if (!pagoTasa) {
+        convocatoriaCache.set(cacheKey, 0);
+        return 0;
+      }
+
+      const incluidas = Number(pagoTasa.convocatoriasIncluidas || 0);
+      const consumidas = Number(pagoTasa.convocatoriasConsumidas || 0);
+      const restantes = Math.max(incluidas - consumidas, 0);
+
+      convocatoriaCache.set(cacheKey, restantes);
+      return restantes;
+    };
+
+    const intentosPorAlumno = new Map();
+    const numeroIntentoById = new Map();
+
+    const mergedChronological = [...merged].sort((a, b) => {
+      const dateA =
+        new Date(a.fechaConvocatoria || a.fechaSolicitud || 0).getTime() || 0;
+      const dateB =
+        new Date(b.fechaConvocatoria || b.fechaSolicitud || 0).getTime() || 0;
+
+      return dateA - dateB;
+    });
+
+    for (const item of mergedChronological) {
+      const estadoFinal = ESTADOS_FINALES_EVALUACION.includes(item.estado);
+      const key = `${item.alumnoId}|${item.tipo}`;
+      const finalizadosPrevios = intentosPorAlumno.get(key) || 0;
+      const numeroIntento = estadoFinal
+        ? finalizadosPrevios + 1
+        : finalizadosPrevios + 1;
+
+      numeroIntentoById.set(item.id, numeroIntento);
+
+      if (estadoFinal) {
+        intentosPorAlumno.set(key, finalizadosPrevios + 1);
+      }
+    }
+
+    const rows = [];
+    for (const item of merged) {
+      const convocatoriasRestantes = await getConvocatoriasRestantes(item);
+
+      rows.push({
+        ...item,
+        numeroIntento: numeroIntentoById.get(item.id) || 1,
+        convocatoriasRestantes,
+      });
+    }
+
+    return rows;
   }
 
   async getMine(alumnoId) {
@@ -383,16 +579,23 @@ export class SolicitudesExamenService {
     let procesadas = 0;
     let aptos = 0;
     let noAptos = 0;
+    let aciertosTotales = 0;
+    let erroresTotales = 0;
 
     for (const solicitud of solicitudesPendientes) {
       const erroresExamen = Math.floor(randomFn() * 11);
+      const aciertosExamen = calcularAciertosTeorico(erroresExamen);
       const estado = erroresExamen <= 3 ? "APTO" : "NO_APTO";
 
       await this.repository.updateResultadoSolicitudTeorico(
         solicitud.id,
         estado,
         erroresExamen,
+        aciertosExamen,
       );
+
+      aciertosTotales += aciertosExamen || 0;
+      erroresTotales += erroresExamen;
 
       procesadas += 1;
 
@@ -436,6 +639,8 @@ export class SolicitudesExamenService {
       procesadas,
       aptos,
       noAptos,
+      aciertosTotales,
+      erroresTotales,
       fechaEjecucion: new Date(),
     };
   }

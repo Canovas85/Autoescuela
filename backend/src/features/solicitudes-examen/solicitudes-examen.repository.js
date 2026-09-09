@@ -179,12 +179,18 @@ export class SolicitudesExamenRepository {
     });
   }
 
-  async updateResultadoSolicitudTeorico(id, estado, erroresExamen) {
+  async updateResultadoSolicitudTeorico(
+    id,
+    estado,
+    erroresExamen,
+    aciertosExamen,
+  ) {
     return this.prisma.solicitudExamen.update({
       where: { id },
       data: {
         estado,
         erroresExamen,
+        aciertosExamen,
       },
     });
   }
@@ -213,11 +219,58 @@ export class SolicitudesExamenRepository {
       include: {
         alumno: {
           include: {
+            profesorAsignado: {
+              include: {
+                usuario: true,
+              },
+            },
             usuario: true,
           },
         },
       },
       orderBy: [{ fechaSolicitud: "desc" }],
+    });
+  }
+
+  async findEvaluacionSolicitudesByTipo(tipo) {
+    return this.prisma.solicitudExamen.findMany({
+      where: {
+        tipo,
+      },
+      include: {
+        alumno: {
+          include: {
+            profesorAsignado: {
+              include: {
+                usuario: true,
+              },
+            },
+            usuario: true,
+          },
+        },
+      },
+      orderBy: [{ fechaProgramada: "desc" }, { fechaSolicitud: "desc" }],
+    });
+  }
+
+  async findEvaluacionExamenesByTipo(tipo) {
+    return this.prisma.examen.findMany({
+      where: {
+        tipo,
+      },
+      include: {
+        alumno: {
+          include: {
+            profesorAsignado: {
+              include: {
+                usuario: true,
+              },
+            },
+            usuario: true,
+          },
+        },
+      },
+      orderBy: [{ fecha: "desc" }],
     });
   }
 

@@ -279,6 +279,7 @@ model SolicitudExamen {
   fechaSolicitud  DateTime  @default(now())
   fechaProgramada DateTime?
   erroresExamen   Int?
+  aciertosExamen  Int?
   observaciones   String?
   alumno          Alumno    @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
 

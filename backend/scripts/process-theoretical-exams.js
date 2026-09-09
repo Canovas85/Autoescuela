@@ -17,6 +17,8 @@ async function main() {
   console.log(`- Procesadas: ${result.procesadas}`);
   console.log(`- Aptos: ${result.aptos}`);
   console.log(`- No aptos: ${result.noAptos}`);
+  console.log(`- Aciertos totales: ${result.aciertosTotales}`);
+  console.log(`- Errores totales: ${result.erroresTotales}`);
 }
 
 main()

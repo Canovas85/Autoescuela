@@ -28,6 +28,12 @@ router.get(
   controller.getAll.bind(controller),
 );
 router.get(
+  "/evaluacion",
+  authenticate,
+  authorize("ADMIN"),
+  controller.getAdminEvaluation.bind(controller),
+);
+router.get(
   "/mine",
   authenticate,
   authorize("ALUMNO"),

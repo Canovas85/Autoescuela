@@ -233,6 +233,7 @@ describe("SolicitudesExamenService", () => {
       fechaSolicitud: expect.any(Date),
       fechaProgramada: expect.any(Date),
       erroresExamen: null,
+      aciertosExamen: null,
       observaciones: null,
     });
     expect(result).toEqual(solicitudActualizada);
@@ -338,11 +339,71 @@ describe("SolicitudesExamenService", () => {
       "sol-1",
       "NO_APTO",
       8,
+      22,
     );
     expect(
       repositoryMock.incrementarConvocatoriasConsumidas,
     ).toHaveBeenCalledWith("pago-1");
     expect(result.procesadas).toBe(1);
     expect(result.noAptos).toBe(1);
+  });
+
+  it("debe construir la evaluacion admin mezclando solicitudes y examenes", async () => {
+    const repositoryMock = {
+      findEvaluacionSolicitudesByTipo: vi.fn().mockResolvedValue([
+        {
+          id: "sol-1",
+          alumnoId: "alumno-1",
+          estado: "NO_APTO",
+          fechaSolicitud: new Date("2026-09-01T10:00:00.000Z"),
+          fechaProgramada: new Date("2026-09-05T10:00:00.000Z"),
+          erroresExamen: 4,
+          aciertosExamen: 26,
+          observaciones: "Fallos en señales",
+          alumno: {
+            tipoLicenciaObjetivo: "B",
+            usuario: { nombre: "Ana" },
+            profesorAsignado: {
+              usuario: { nombre: "Profesor Uno" },
+            },
+          },
+        },
+      ]),
+      findEvaluacionExamenesByTipo: vi.fn().mockResolvedValue([
+        {
+          id: "ex-1",
+          alumnoId: "alumno-1",
+          estado: "APROBADO",
+          fecha: new Date("2026-09-07T10:00:00.000Z"),
+          alumno: {
+            tipoLicenciaObjetivo: "B",
+            usuario: { nombre: "Ana" },
+            profesorAsignado: {
+              usuario: { nombre: "Profesor Uno" },
+            },
+          },
+        },
+      ]),
+      findUltimoPagoTasaDGT: vi.fn().mockResolvedValue({
+        convocatoriasIncluidas: 2,
+        convocatoriasConsumidas: 1,
+      }),
+    };
+
+    const service = new SolicitudesExamenService(repositoryMock);
+
+    const result = await service.getAdminEvaluationByTipo("teorico");
+
+    expect(repositoryMock.findEvaluacionSolicitudesByTipo).toHaveBeenCalledWith(
+      "TEORICO",
+    );
+    expect(repositoryMock.findEvaluacionExamenesByTipo).toHaveBeenCalledWith(
+      "TEORICO",
+    );
+    expect(result).toHaveLength(2);
+    expect(result[1].estado).toBe("SUSPENSO");
+    expect(result[1].aciertosExamen).toBe(26);
+    expect(result[1].convocatoriasRestantes).toBe(1);
+    expect(result[1].profesorAsignado).toBe("Profesor Uno");
   });
 });
