@@ -108,7 +108,6 @@ export default function MisPagos() {
       renderCell: (params) =>
         params.row.estado === "PENDIENTE" ? (
           <Button
-            sx={{ mt: 2 }}
             variant="contained"
             size="small"
             onClick={() => handlePagar(params.row)}

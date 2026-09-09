@@ -4,11 +4,14 @@ import {
   Box,
   Button,
   Chip,
-  Divider,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   FormControl,
-  Grid,
   IconButton,
   InputLabel,
+  Menu,
   MenuItem,
   Paper,
   Select,
@@ -23,6 +26,10 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import SaveIcon from "@mui/icons-material/Save";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
+import PersonIcon from "@mui/icons-material/Person";
 import { profesorPortalService } from "../../services/profesorPortalService";
 
 const DAYS = [
@@ -40,9 +47,37 @@ const DAY_NAME_BY_ID = DAYS.reduce((acc, day) => {
   return acc;
 }, {});
 
-const MIN_HOUR = 6;
-const MAX_HOUR = 22;
-const HOUR_HEIGHT = 62;
+const DEFAULT_START_MINUTES = 8 * 60;
+const DEFAULT_END_MINUTES = 16 * 60;
+const HOUR_HEIGHT = 72;
+
+const STUDENT_PALETTE = [
+  {
+    bg: "#e9f2ff",
+    border: "#9cc6ff",
+    title: "#1e3a8a",
+  },
+  {
+    bg: "#fff3e6",
+    border: "#ffd39f",
+    title: "#92400e",
+  },
+  {
+    bg: "#e8f9f1",
+    border: "#98e4be",
+    title: "#166534",
+  },
+  {
+    bg: "#f1ecff",
+    border: "#c5b2ff",
+    title: "#5b21b6",
+  },
+  {
+    bg: "#e8f7fb",
+    border: "#93dff0",
+    title: "#0f4f66",
+  },
+];
 
 const formatDate = (value) => {
   if (!value) {
@@ -59,6 +94,23 @@ const formatDate = (value) => {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
+  });
+};
+
+const formatDayMonth = (value) => {
+  if (!value) {
+    return "";
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  return date.toLocaleDateString("es-ES", {
+    day: "numeric",
+    month: "short",
   });
 };
 
@@ -115,6 +167,26 @@ const minutesToTime = (minutes) => {
   return `${hh}:${mm}`;
 };
 
+const getColorByStudent = (studentId, studentName) => {
+  const seed = String(studentId || studentName || "SIN_ALUMNO");
+  let hash = 0;
+
+  for (let i = 0; i < seed.length; i += 1) {
+    hash = (hash << 5) - hash + seed.charCodeAt(i);
+    hash |= 0;
+  }
+
+  const index = Math.abs(hash) % STUDENT_PALETTE.length;
+  return STUDENT_PALETTE[index];
+};
+
+const formatHoursSummary = (minutes) => {
+  const safeMinutes = Number.isFinite(minutes) ? Math.max(minutes, 0) : 0;
+  const hours = Math.floor(safeMinutes / 60);
+  const remainder = safeMinutes % 60;
+  return `${hours}h ${String(remainder).padStart(2, "0")}min`;
+};
+
 export default function ProfesorAgenda() {
   const [weekOffset, setWeekOffset] = useState(0);
   const [agenda, setAgenda] = useState(null);
@@ -122,6 +194,8 @@ export default function ProfesorAgenda() {
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
   const [savingClassId, setSavingClassId] = useState("");
+  const [openScheduleModal, setOpenScheduleModal] = useState(false);
+  const [viewMenuAnchor, setViewMenuAnchor] = useState(null);
 
   const [scheduleBlocks, setScheduleBlocks] = useState([]);
   const [newBlock, setNewBlock] = useState({
@@ -161,9 +235,32 @@ export default function ProfesorAgenda() {
     loadAgenda(weekOffset);
   }, [weekOffset]);
 
+  const weekDays = useMemo(() => {
+    const weekStart = agenda?.semana?.inicio;
+
+    if (!weekStart) {
+      return DAYS.map((day) => ({
+        ...day,
+        date: null,
+      }));
+    }
+
+    const startDate = new Date(weekStart);
+
+    return DAYS.map((day, index) => {
+      const date = new Date(startDate);
+      date.setDate(startDate.getDate() + index);
+
+      return {
+        ...day,
+        date,
+      };
+    });
+  }, [agenda?.semana?.inicio]);
+
   const classesByDay = useMemo(() => {
     const map = new Map();
-    DAYS.forEach((day) => map.set(day.id, []));
+    weekDays.forEach((day) => map.set(day.id, []));
 
     (agenda?.clases || []).forEach((clase) => {
       const dayId = dateToDayId(clase.fecha);
@@ -172,23 +269,101 @@ export default function ProfesorAgenda() {
       map.set(dayId, list);
     });
 
-    return map;
-  }, [agenda]);
-
-  const workBlocksByDay = useMemo(() => {
-    const map = new Map();
-    DAYS.forEach((day) => map.set(day.id, []));
-
-    scheduleBlocks.forEach((block) => {
-      const list = map.get(Number(block.diaSemana)) || [];
-      list.push(block);
-      map.set(Number(block.diaSemana), list);
-    });
+    for (const day of weekDays) {
+      const sorted = (map.get(day.id) || []).sort(
+        (a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime(),
+      );
+      map.set(day.id, sorted);
+    }
 
     return map;
-  }, [scheduleBlocks]);
+  }, [agenda, weekDays]);
 
-  const timelineHeight = (MAX_HOUR - MIN_HOUR) * HOUR_HEIGHT;
+  const minuteRange = useMemo(() => {
+    const allMinutes = [];
+
+    for (const block of scheduleBlocks) {
+      const start = timeToMinutes(block.horaInicio);
+      const end = timeToMinutes(block.horaFin);
+
+      if (!Number.isNaN(start)) {
+        allMinutes.push(start);
+      }
+
+      if (!Number.isNaN(end)) {
+        allMinutes.push(end);
+      }
+    }
+
+    for (const clase of agenda?.clases || []) {
+      const date = new Date(clase.fecha);
+
+      if (Number.isNaN(date.getTime())) {
+        continue;
+      }
+
+      const start = date.getHours() * 60 + date.getMinutes();
+      const duration = Number(clase.duracion) || 45;
+      allMinutes.push(start, start + duration);
+    }
+
+    if (allMinutes.length === 0) {
+      return {
+        startMinutes: DEFAULT_START_MINUTES,
+        endMinutes: DEFAULT_END_MINUTES,
+      };
+    }
+
+    const minValue = Math.max(0, Math.min(...allMinutes));
+    const maxValue = Math.min(24 * 60, Math.max(...allMinutes));
+    const startMinutes = Math.floor(minValue / 60) * 60;
+    const endRounded = Math.ceil(maxValue / 60) * 60;
+    const endMinutes = Math.max(endRounded, startMinutes + 60);
+
+    return {
+      startMinutes,
+      endMinutes,
+    };
+  }, [agenda?.clases, scheduleBlocks]);
+
+  const hourMarks = useMemo(() => {
+    const marks = [];
+
+    for (
+      let minutes = minuteRange.startMinutes;
+      minutes <= minuteRange.endMinutes;
+      minutes += 60
+    ) {
+      marks.push(minutes);
+    }
+
+    return marks;
+  }, [minuteRange]);
+
+  const timelineHeight =
+    ((minuteRange.endMinutes - minuteRange.startMinutes) / 60) * HOUR_HEIGHT;
+
+  const footerSummary = useMemo(() => {
+    const clases = agenda?.clases || [];
+    const totalReservas = clases.length;
+
+    const totalMinutes = clases.reduce(
+      (acc, clase) => acc + (Number(clase.duracion) || 45),
+      0,
+    );
+
+    const vehiculosUnicos = new Set(
+      clases
+        .map((clase) => clase.vehiculo?.matricula)
+        .filter((matricula) => Boolean(matricula)),
+    );
+
+    return {
+      totalReservas,
+      totalMinutes,
+      vehiculosUtilizados: vehiculosUnicos.size,
+    };
+  }, [agenda?.clases]);
 
   const addBlock = () => {
     const startMinutes = timeToMinutes(newBlock.horaInicio);
@@ -218,6 +393,10 @@ export default function ProfesorAgenda() {
 
   const removeBlock = (index) => {
     setScheduleBlocks((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const removeLastInsertedBlock = () => {
+    setScheduleBlocks((prev) => prev.slice(0, -1));
   };
 
   const saveSchedule = async () => {
@@ -266,121 +445,27 @@ export default function ProfesorAgenda() {
 
   return (
     <Box>
-      <Typography variant="h4" fontWeight={800} mb={1.2}>
-        Mi agenda
-      </Typography>
+      <Stack
+        direction={{ xs: "column", md: "row" }}
+        spacing={1.5}
+        justifyContent="space-between"
+        alignItems={{ xs: "stretch", md: "center" }}
+        sx={{ mb: 2 }}
+      >
+        <Typography variant="h4" fontWeight={800}>
+          Mi agenda
+        </Typography>
 
-      <Typography color="text.secondary" sx={{ mb: 2.5 }}>
-        Agenda semanal de clases practicas. Puedes ajustar tu horario por dias,
-        confirmar clases programadas o cancelarlas.
-      </Typography>
+        <Button variant="outlined" onClick={() => setOpenScheduleModal(true)}>
+          Configurar horario
+        </Button>
+      </Stack>
 
       {error && (
         <Alert severity="error" sx={{ mb: 2 }}>
           {error}
         </Alert>
       )}
-
-      <Paper sx={{ p: 2, mb: 2.5, borderRadius: 3 }}>
-        <Typography variant="h6" fontWeight={700}>
-          Mi horario de trabajo
-        </Typography>
-
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-          Define bloques por dia. Puedes usar horario continuo o partido. Maximo
-          8 horas por dia.
-        </Typography>
-
-        <Stack
-          direction={{ xs: "column", md: "row" }}
-          spacing={1.5}
-          sx={{ mt: 2, alignItems: { md: "center" } }}
-        >
-          <FormControl size="small" sx={{ minWidth: 170 }}>
-            <InputLabel>Dia</InputLabel>
-            <Select
-              value={newBlock.diaSemana}
-              label="Dia"
-              onChange={(event) =>
-                setNewBlock((prev) => ({
-                  ...prev,
-                  diaSemana: event.target.value,
-                }))
-              }
-            >
-              {DAYS.map((day) => (
-                <MenuItem key={day.id} value={day.id}>
-                  {day.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <TextField
-            size="small"
-            type="time"
-            label="Inicio"
-            value={newBlock.horaInicio}
-            onChange={(event) =>
-              setNewBlock((prev) => ({
-                ...prev,
-                horaInicio: event.target.value,
-              }))
-            }
-            InputLabelProps={{ shrink: true }}
-            sx={{ width: 140 }}
-          />
-
-          <TextField
-            size="small"
-            type="time"
-            label="Fin"
-            value={newBlock.horaFin}
-            onChange={(event) =>
-              setNewBlock((prev) => ({
-                ...prev,
-                horaFin: event.target.value,
-              }))
-            }
-            InputLabelProps={{ shrink: true }}
-            sx={{ width: 140 }}
-          />
-
-          <Button variant="outlined" startIcon={<AddIcon />} onClick={addBlock}>
-            Anadir bloque
-          </Button>
-
-          <Button
-            variant="contained"
-            startIcon={<SaveIcon />}
-            disabled={saving}
-            onClick={saveSchedule}
-          >
-            Guardar horario
-          </Button>
-        </Stack>
-
-        <Divider sx={{ my: 2 }} />
-
-        <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
-          {scheduleBlocks.length === 0 && (
-            <Typography variant="body2" color="text.secondary">
-              No hay bloques definidos. Anade bloques para mostrar tu jornada.
-            </Typography>
-          )}
-
-          {scheduleBlocks.map((block, index) => (
-            <Chip
-              key={`${block.diaSemana}-${block.horaInicio}-${block.horaFin}-${index}`}
-              label={`${DAY_NAME_BY_ID[block.diaSemana]} ${block.horaInicio}-${block.horaFin}`}
-              onDelete={() => removeBlock(index)}
-              deleteIcon={<DeleteIcon />}
-              color="primary"
-              variant="outlined"
-            />
-          ))}
-        </Stack>
-      </Paper>
 
       <Paper sx={{ p: 2, borderRadius: 3 }}>
         <Stack
@@ -391,15 +476,21 @@ export default function ProfesorAgenda() {
           sx={{ mb: 2 }}
         >
           <Stack direction="row" alignItems="center" spacing={1}>
-            <IconButton onClick={() => setWeekOffset((prev) => prev - 1)}>
+            <IconButton
+              sx={{ border: "1px solid #dbe5f2", borderRadius: 2 }}
+              onClick={() => setWeekOffset((prev) => prev - 1)}
+            >
               <NavigateBeforeIcon />
             </IconButton>
 
-            <Typography fontWeight={700}>
+            <Typography fontWeight={700} sx={{ minWidth: 200 }}>
               {formatWeekLabel(agenda?.semana)}
             </Typography>
 
-            <IconButton onClick={() => setWeekOffset((prev) => prev + 1)}>
+            <IconButton
+              sx={{ border: "1px solid #dbe5f2", borderRadius: 2 }}
+              onClick={() => setWeekOffset((prev) => prev + 1)}
+            >
               <NavigateNextIcon />
             </IconButton>
           </Stack>
@@ -408,6 +499,37 @@ export default function ProfesorAgenda() {
             <Button variant="outlined" onClick={() => setWeekOffset(0)}>
               Hoy
             </Button>
+
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: "#2f80ed",
+                textTransform: "none",
+                boxShadow: "none",
+                "&:hover": {
+                  backgroundColor: "#1d6fe0",
+                  boxShadow: "none",
+                },
+              }}
+            >
+              Semana
+            </Button>
+
+            <Button
+              variant="outlined"
+              onClick={(event) => setViewMenuAnchor(event.currentTarget)}
+            >
+              Mas vistas
+            </Button>
+
+            <Menu
+              anchorEl={viewMenuAnchor}
+              open={Boolean(viewMenuAnchor)}
+              onClose={() => setViewMenuAnchor(null)}
+            >
+              <MenuItem disabled>2 semanas (proximamente)</MenuItem>
+              <MenuItem disabled>4 semanas (proximamente)</MenuItem>
+            </Menu>
 
             <Button variant="outlined" onClick={() => loadAgenda(weekOffset)}>
               Recargar
@@ -419,250 +541,524 @@ export default function ProfesorAgenda() {
           <Typography color="text.secondary">Cargando agenda...</Typography>
         ) : (
           <Box sx={{ overflowX: "auto" }}>
-            <Grid container sx={{ minWidth: 1100 }}>
-              <Grid item xs={1.35}>
-                <Box sx={{ height: 52, borderBottom: "1px solid #e5e7eb" }} />
+            <Box sx={{ minWidth: 1180 }}>
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: "74px repeat(7, minmax(150px, 1fr))",
+                  borderTop: "1px solid #e3ebf6",
+                  borderLeft: "1px solid #e3ebf6",
+                  borderRight: "1px solid #e3ebf6",
+                  borderTopLeftRadius: 12,
+                  borderTopRightRadius: 12,
+                  overflow: "hidden",
+                }}
+              >
+                <Box
+                  sx={{ borderBottom: "1px solid #e3ebf6", bgcolor: "#f9fbff" }}
+                />
 
-                <Box sx={{ position: "relative", height: timelineHeight }}>
-                  {Array.from({ length: MAX_HOUR - MIN_HOUR + 1 }).map(
-                    (_, index) => {
-                      const hour = MIN_HOUR + index;
-                      const top = index * HOUR_HEIGHT;
+                {weekDays.map((day) => (
+                  <Box
+                    key={day.id}
+                    sx={{
+                      py: 1,
+                      px: 1.25,
+                      borderLeft: "1px solid #e3ebf6",
+                      borderBottom: "1px solid #e3ebf6",
+                      bgcolor: "#f9fbff",
+                    }}
+                  >
+                    <Typography variant="body2" fontWeight={600}>
+                      {day.label}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {formatDayMonth(day.date)}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
 
-                      return (
-                        <Box
-                          key={hour}
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: "74px repeat(7, minmax(150px, 1fr))",
+                  borderLeft: "1px solid #e3ebf6",
+                  borderRight: "1px solid #e3ebf6",
+                  borderBottom: "1px solid #e3ebf6",
+                  borderBottomLeftRadius: 12,
+                  borderBottomRightRadius: 12,
+                  overflow: "hidden",
+                }}
+              >
+                <Box
+                  sx={{
+                    position: "relative",
+                    height: timelineHeight,
+                    bgcolor: "#fbfdff",
+                  }}
+                >
+                  {hourMarks.map((minutes) => {
+                    const top =
+                      ((minutes - minuteRange.startMinutes) / 60) * HOUR_HEIGHT;
+
+                    return (
+                      <Box
+                        key={minutes}
+                        sx={{
+                          position: "absolute",
+                          top,
+                          marginTop: 4,
+                          left: 10,
+                          right: 0,
+                          borderTop: "0px solid #edf2fa",
+                          pr: 1,
+                        }}
+                      >
+                        <Typography
+                          variant="caption"
+                          color="text.secondary"
                           sx={{
                             position: "absolute",
-                            top,
-                            left: 0,
-                            right: 0,
-                            height: HOUR_HEIGHT,
-                            borderTop: "1px solid #eef2f7",
-                            pr: 1,
+                            top: -7,
+                            left: 6,
+                            fontWeight: 600,
                           }}
                         >
-                          <Typography
-                            variant="caption"
-                            color="text.secondary"
-                            sx={{
-                              position: "absolute",
-                              top: -7,
-                              left: 0,
-                              fontWeight: 600,
-                            }}
-                          >
-                            {`${String(hour).padStart(2, "0")}:00`}
-                          </Typography>
-                        </Box>
-                      );
-                    },
-                  )}
-                </Box>
-              </Grid>
-
-              <Grid item xs>
-                <Grid container>
-                  {DAYS.map((day) => (
-                    <Grid item xs key={day.id}>
-                      <Box
-                        sx={{
-                          p: 1,
-                          height: 52,
-                          borderBottom: "1px solid #e5e7eb",
-                          borderLeft: "1px solid #f1f5f9",
-                        }}
-                      >
-                        <Typography fontWeight={700} variant="body2">
-                          {day.label}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary">
-                          {day.short}
+                          {minutesToTime(minutes)}
                         </Typography>
                       </Box>
+                    );
+                  })}
+                </Box>
 
-                      <Box
-                        sx={{
-                          position: "relative",
-                          height: timelineHeight,
-                          borderLeft: "1px solid #f1f5f9",
-                          backgroundColor: "#fcfdff",
-                        }}
-                      >
-                        {Array.from({ length: MAX_HOUR - MIN_HOUR + 1 }).map(
-                          (_, index) => (
-                            <Box
-                              key={index}
-                              sx={{
-                                position: "absolute",
-                                top: index * HOUR_HEIGHT,
-                                left: 0,
-                                right: 0,
-                                borderTop: "1px solid #eef2f7",
-                              }}
-                            />
-                          ),
-                        )}
+                {weekDays.map((day) => {
+                  const dayClasses = classesByDay.get(day.id) || [];
+                  const isSundayWithoutClasses =
+                    day.id === 7 && dayClasses.length === 0;
 
-                        {(workBlocksByDay.get(day.id) || []).map(
-                          (block, idx) => {
-                            const start = timeToMinutes(block.horaInicio);
-                            const end = timeToMinutes(block.horaFin);
-                            const offset = start - MIN_HOUR * 60;
+                  return (
+                    <Box
+                      key={day.id}
+                      sx={{
+                        position: "relative",
+                        height: timelineHeight,
+                        borderLeft: "1px solid #e3ebf6",
+                        bgcolor: "#fff",
+                      }}
+                    >
+                      {hourMarks.map((minutes) => {
+                        const top =
+                          ((minutes - minuteRange.startMinutes) / 60) *
+                          HOUR_HEIGHT;
 
-                            if (
-                              Number.isNaN(start) ||
-                              Number.isNaN(end) ||
-                              offset < 0
-                            ) {
-                              return null;
-                            }
+                        return (
+                          <Box
+                            key={`${day.id}-${minutes}`}
+                            sx={{
+                              position: "absolute",
+                              top,
+                              left: 0,
+                              right: 0,
+                              borderTop: "1px solid #edf2fa",
+                            }}
+                          />
+                        );
+                      })}
 
-                            return (
-                              <Box
-                                key={`${day.id}-work-${idx}`}
-                                sx={{
-                                  position: "absolute",
-                                  top: (offset / 60) * HOUR_HEIGHT,
-                                  left: 4,
-                                  right: 4,
-                                  height: ((end - start) / 60) * HOUR_HEIGHT,
-                                  backgroundColor: "rgba(37,99,235,0.10)",
-                                  border: "1px dashed rgba(37,99,235,0.35)",
-                                  borderRadius: 1,
-                                }}
-                              />
-                            );
-                          },
-                        )}
+                      {isSundayWithoutClasses && (
+                        <Stack
+                          direction="row" // 💡 Cambia a horizontal
+                          spacing={1} // Espacio entre el icono y el texto
+                          alignItems="center"
+                          justifyContent="center"
+                          sx={{
+                            mt: 4,
+                            ml: 3,
+                            position: "absolute",
+                            inset: 0,
+                            color: "#8ea0b8",
+                          }}
+                        >
+                          <CalendarMonthIcon />
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              whiteSpace: "nowrap", // 💡 Fuerza a que no se rompa la línea jamás
+                            }}
+                          >
+                            Sin clases programadas
+                          </Typography>
+                        </Stack>
+                      )}
 
-                        {(classesByDay.get(day.id) || []).map((clase) => {
-                          const date = new Date(clase.fecha);
-                          const start =
-                            date.getHours() * 60 + date.getMinutes();
-                          const offset = start - MIN_HOUR * 60;
-                          const duration = Number(clase.duracion) || 45;
+                      {dayClasses.map((clase) => {
+                        const date = new Date(clase.fecha);
+                        const startMinute =
+                          date.getHours() * 60 + date.getMinutes();
+                        const duration = Number(clase.duracion) || 45;
+                        const endMinute = startMinute + duration;
+                        const offset = startMinute - minuteRange.startMinutes;
 
-                          if (
-                            offset < 0 ||
-                            offset > (MAX_HOUR - MIN_HOUR) * 60
-                          ) {
-                            return null;
-                          }
+                        if (endMinute <= minuteRange.startMinutes) {
+                          return null;
+                        }
 
-                          const isProgramada = clase.estado === "PROGRAMADA";
+                        if (startMinute >= minuteRange.endMinutes) {
+                          return null;
+                        }
 
-                          return (
-                            <Box
-                              key={clase.id}
-                              sx={{
-                                position: "absolute",
-                                top: (offset / 60) * HOUR_HEIGHT,
-                                left: 7,
-                                right: 7,
-                                minHeight: 54,
-                                height: Math.max(
-                                  (duration / 60) * HOUR_HEIGHT,
-                                  54,
-                                ),
-                                p: 1,
-                                borderRadius: 2,
-                                border: "1px solid",
-                                borderColor:
-                                  clase.estado === "CONFIRMADA"
-                                    ? "#16a34a"
-                                    : "#2563eb",
-                                backgroundColor:
-                                  clase.estado === "CONFIRMADA"
-                                    ? "#ecfdf3"
-                                    : "#eff6ff",
-                                overflow: "hidden",
-                              }}
+                        const top = (offset / 60) * HOUR_HEIGHT;
+                        const height = Math.max(
+                          (duration / 60) * HOUR_HEIGHT,
+                          88,
+                        );
+                        const color = getColorByStudent(
+                          clase.alumno?.id,
+                          clase.alumno?.nombre,
+                        );
+                        const isProgramada = clase.estado === "PROGRAMADA";
+
+                        return (
+                          <Box
+                            key={clase.id}
+                            sx={{
+                              position: "absolute",
+                              top,
+                              left: 7,
+                              right: 7,
+                              minHeight: 88,
+                              height,
+                              p: 1,
+                              borderRadius: 2,
+                              border: `1px solid ${color.border}`,
+                              backgroundColor: color.bg,
+                              overflow: "hidden",
+                              boxShadow: "0 4px 10px rgba(15,23,42,0.06)",
+                            }}
+                          >
+                            <Typography
+                              variant="caption"
+                              sx={{ fontWeight: 700, color: color.title }}
                             >
-                              <Typography variant="caption" fontWeight={700}>
-                                {`${formatHour(clase.fecha)} - ${minutesToTime(start + duration)}`}
-                              </Typography>
+                              {`${formatHour(clase.fecha)} - ${minutesToTime(startMinute + duration)}`}
+                            </Typography>
 
+                            <Stack
+                              direction="row"
+                              spacing={0.5}
+                              alignItems="center"
+                              sx={{ mt: 0.4 }}
+                            >
+                              <PersonIcon
+                                sx={{ fontSize: 14, color: color.title }}
+                              />
                               <Typography
                                 variant="body2"
-                                sx={{ lineHeight: 1.2, mt: 0.2 }}
-                                fontWeight={700}
+                                sx={{
+                                  lineHeight: 1.15,
+                                  fontWeight: 700,
+                                  color: color.title,
+                                }}
                               >
                                 {clase.alumno?.nombre || "Alumno"}
                               </Typography>
+                            </Stack>
 
-                              <Typography
-                                variant="caption"
-                                display="block"
-                                color="text.secondary"
-                              >
-                                {clase.vehiculo?.marca || "Vehiculo"}{" "}
-                                {clase.vehiculo?.modelo || ""}
-                              </Typography>
+                            <Typography
+                              variant="caption"
+                              display="block"
+                              color="text.secondary"
+                              sx={{ mt: 0.25 }}
+                            >
+                              {clase.vehiculo?.marca || "Vehiculo"}{" "}
+                              {clase.vehiculo?.modelo || ""}
+                            </Typography>
 
-                              <Typography
-                                variant="caption"
-                                display="block"
-                                color="text.secondary"
-                              >
-                                {clase.vehiculo?.matricula || "Sin matricula"}
-                              </Typography>
+                            <Chip
+                              size="small"
+                              label={
+                                clase.vehiculo?.matricula || "Sin matricula"
+                              }
+                              sx={{
+                                mt: 0.55,
+                                maxWidth: "100%",
+                                fontSize: 10,
+                                height: 20,
+                                bgcolor: "#fff",
+                                border: "1px solid #dbe5f2",
+                              }}
+                            />
 
-                              <Stack
-                                direction="row"
-                                spacing={0.7}
-                                sx={{ mt: 0.6 }}
-                              >
-                                <Chip
-                                  size="small"
-                                  label={clase.estado}
-                                  color={
-                                    clase.estado === "CONFIRMADA"
-                                      ? "success"
-                                      : "primary"
-                                  }
-                                />
+                            <Stack
+                              direction="row"
+                              spacing={0.6}
+                              sx={{ mt: 0.55, flexWrap: "wrap" }}
+                              useFlexGap
+                            >
+                              <Chip
+                                size="small"
+                                label={clase.estado}
+                                color={
+                                  clase.estado === "CONFIRMADA"
+                                    ? "success"
+                                    : "primary"
+                                }
+                                sx={{ height: 20, fontSize: 10 }}
+                              />
 
-                                {isProgramada && (
-                                  <>
-                                    <Chip
-                                      size="small"
-                                      color="success"
-                                      label="Confirmar"
-                                      icon={<CheckCircleIcon />}
-                                      onClick={() =>
-                                        handleClassStatus(
-                                          clase.id,
-                                          "CONFIRMADA",
-                                        )
-                                      }
-                                      disabled={savingClassId === clase.id}
-                                    />
-                                    <Chip
-                                      size="small"
-                                      color="error"
-                                      label="Cancelar"
-                                      icon={<CancelIcon />}
-                                      onClick={() =>
-                                        handleClassStatus(clase.id, "CANCELADA")
-                                      }
-                                      disabled={savingClassId === clase.id}
-                                    />
-                                  </>
-                                )}
-                              </Stack>
-                            </Box>
-                          );
-                        })}
-                      </Box>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Grid>
-            </Grid>
+                              {isProgramada && (
+                                <>
+                                  <Chip
+                                    size="small"
+                                    color="success"
+                                    label="Confirmar"
+                                    icon={<CheckCircleIcon />}
+                                    onClick={() =>
+                                      handleClassStatus(clase.id, "CONFIRMADA")
+                                    }
+                                    disabled={savingClassId === clase.id}
+                                    sx={{ height: 20, fontSize: 10 }}
+                                  />
+                                  <Chip
+                                    size="small"
+                                    color="error"
+                                    label="Cancelar"
+                                    icon={<CancelIcon />}
+                                    onClick={() =>
+                                      handleClassStatus(clase.id, "CANCELADA")
+                                    }
+                                    disabled={savingClassId === clase.id}
+                                    sx={{ height: 20, fontSize: 10 }}
+                                  />
+                                </>
+                              )}
+                            </Stack>
+                          </Box>
+                        );
+                      })}
+                    </Box>
+                  );
+                })}
+              </Box>
+            </Box>
+
+            <Paper
+              variant="outlined"
+              sx={{
+                mt: 2,
+                p: 0,
+                borderColor: "#dbe5f2",
+                borderRadius: 2,
+                overflow: "hidden",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: {
+                    xs: "1fr",
+                    md: "1fr 1fr 1fr",
+                  },
+                  bgcolor: "#fff",
+                }}
+              >
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  alignItems="center"
+                  sx={{ p: 1.6, borderRight: { md: "1px solid #edf2fa" } }}
+                >
+                  <CalendarMonthIcon sx={{ color: "#1d4ed8" }} />
+                  <Box>
+                    <Typography variant="caption" color="text.secondary">
+                      Total de clases esta semana
+                    </Typography>
+                    <Typography variant="h6" fontWeight={800}>
+                      {footerSummary.totalReservas}
+                    </Typography>
+                  </Box>
+                </Stack>
+
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  alignItems="center"
+                  sx={{ p: 1.6, borderRight: { md: "1px solid #edf2fa" } }}
+                >
+                  <AccessTimeIcon sx={{ color: "#0f172a" }} />
+                  <Box>
+                    <Typography variant="caption" color="text.secondary">
+                      Horas de clase
+                    </Typography>
+                    <Typography variant="h6" fontWeight={800}>
+                      {formatHoursSummary(footerSummary.totalMinutes)}
+                    </Typography>
+                  </Box>
+                </Stack>
+
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  alignItems="center"
+                  sx={{ p: 1.6 }}
+                >
+                  <DirectionsCarIcon sx={{ color: "#1e3a8a" }} />
+                  <Box>
+                    <Typography variant="caption" color="text.secondary">
+                      Vehiculos utilizados
+                    </Typography>
+                    <Typography variant="h6" fontWeight={800}>
+                      {footerSummary.vehiculosUtilizados}
+                    </Typography>
+                  </Box>
+                </Stack>
+              </Box>
+            </Paper>
           </Box>
         )}
       </Paper>
+
+      <Dialog
+        open={openScheduleModal}
+        onClose={() => setOpenScheduleModal(false)}
+        fullWidth
+        maxWidth={false} // 💡 Desactiva los tamaños preestablecidos de MUI (sm, md, lg, etc.)
+        sx={{
+          "& .MuiDialog-paper": {
+            width: "auto", // El ancho inicial se adapta al tamaño de los datos
+            maxWidth: "90%", // 💡 Límite porcentual máximo para que no toque los bordes de la pantalla
+            minWidth: "320px", // Evita que se vea demasiado estrecho si hay pocos datos
+            transition: "max-width 0.3s ease-in-out", // Opcional: suaviza el cambio si los datos se cargan dinámicamente
+          },
+        }}
+      >
+        <DialogTitle>Configurar horario de trabajo</DialogTitle>
+        <DialogContent>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+            Define bloques por dia. Puedes crear una jornada continua o partida.
+            Maximo 8 horas por dia.
+          </Typography>
+
+          <Stack
+            direction={{ xs: "column", md: "row" }}
+            spacing={1.5}
+            sx={{ alignItems: { md: "center" } }}
+          >
+            <FormControl size="small" sx={{ minWidth: 170 }}>
+              <InputLabel>Dia</InputLabel>
+              <Select
+                value={newBlock.diaSemana}
+                label="Dia"
+                onChange={(event) =>
+                  setNewBlock((prev) => ({
+                    ...prev,
+                    diaSemana: event.target.value,
+                  }))
+                }
+              >
+                {DAYS.map((day) => (
+                  <MenuItem key={day.id} value={day.id}>
+                    {day.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <TextField
+              size="small"
+              type="time"
+              label="Inicio"
+              value={newBlock.horaInicio}
+              onChange={(event) =>
+                setNewBlock((prev) => ({
+                  ...prev,
+                  horaInicio: event.target.value,
+                }))
+              }
+              InputLabelProps={{ shrink: true }}
+              sx={{ width: 140 }}
+            />
+
+            <TextField
+              size="small"
+              type="time"
+              label="Fin"
+              value={newBlock.horaFin}
+              onChange={(event) =>
+                setNewBlock((prev) => ({
+                  ...prev,
+                  horaFin: event.target.value,
+                }))
+              }
+              InputLabelProps={{ shrink: true }}
+              sx={{ width: 140 }}
+            />
+
+            <Button
+              variant="outlined"
+              startIcon={<AddIcon />}
+              onClick={addBlock}
+            >
+              Anadir bloque
+            </Button>
+          </Stack>
+
+          <Stack
+            direction="row"
+            spacing={1}
+            useFlexGap
+            flexWrap="wrap"
+            sx={{ mt: 2 }}
+          >
+            {scheduleBlocks.length === 0 && (
+              <Typography variant="body2" color="text.secondary">
+                No hay bloques definidos.
+              </Typography>
+            )}
+
+            {scheduleBlocks.map((block, index) => (
+              <Chip
+                key={`${block.diaSemana}-${block.horaInicio}-${block.horaFin}-${index}`}
+                label={`${DAY_NAME_BY_ID[block.diaSemana]} ${block.horaInicio}-${block.horaFin}`}
+                onDelete={() => removeBlock(index)}
+                deleteIcon={<DeleteIcon />}
+                color="primary"
+                variant="outlined"
+              />
+            ))}
+          </Stack>
+        </DialogContent>
+
+        <DialogActions>
+          <Button
+            variant="outlined"
+            color="inherit"
+            onClick={() => {
+              removeLastInsertedBlock();
+            }}
+            disabled={scheduleBlocks.length === 0}
+          >
+            Deshacer ultimo
+          </Button>
+
+          <Button onClick={() => setOpenScheduleModal(false)} color="inherit">
+            Cerrar
+          </Button>
+
+          <Button
+            variant="contained"
+            startIcon={<SaveIcon />}
+            disabled={saving}
+            onClick={async () => {
+              await saveSchedule();
+              setOpenScheduleModal(false);
+            }}
+          >
+            Guardar horario
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
