@@ -108,6 +108,7 @@ export default function MisPagos() {
       renderCell: (params) =>
         params.row.estado === "PENDIENTE" ? (
           <Button
+            sx={{ mt: 2 }}
             variant="contained"
             size="small"
             onClick={() => handlePagar(params.row)}
@@ -115,7 +116,7 @@ export default function MisPagos() {
             Pagar ahora
           </Button>
         ) : (
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
             Completado
           </Typography>
         ),

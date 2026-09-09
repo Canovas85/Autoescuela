@@ -139,8 +139,7 @@ export default function TemarioAlumno() {
                     variant="h6"
                     fontWeight={800}
                     sx={{
-                      mb: 1,
-                      minHeight: 64,
+                      mb: 0.5, // Reducido para acercar la descripción hacia arriba
                       display: "-webkit-box",
                       WebkitLineClamp: 2,
                       WebkitBoxOrient: "vertical",
@@ -154,10 +153,9 @@ export default function TemarioAlumno() {
                     variant="body2"
                     color="text.secondary"
                     sx={{
-                      mb: 2,
-                      minHeight: 48,
+                      mb: 4, // Aumentado para generar la línea en blanco con el siguiente bloque
                       display: "-webkit-box",
-                      WebkitLineClamp: 2,
+                      WebkitLineClamp: 3, // Aumentado a 3 para que el texto de la imagen no se corte
                       WebkitBoxOrient: "vertical",
                       overflow: "hidden",
                     }}
