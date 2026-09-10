@@ -60,6 +60,7 @@ export default function ConvocatoriasTeoricoAdmin() {
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(DEFAULT_FORM);
+  const [search, setSearch] = useState("");
   const [notification, setNotification] = useState({
     open: false,
     message: "",
@@ -166,6 +167,21 @@ export default function ConvocatoriasTeoricoAdmin() {
     }
   };
 
+  const filteredRows = useMemo(() => {
+    if (!search.trim()) {
+      return rows;
+    }
+
+    const text = search.toLowerCase();
+
+    return rows.filter((row) => {
+      return (
+        formatDate(row.fecha).toLowerCase().includes(text) ||
+        (row.licencia || "").toLowerCase().includes(text)
+      );
+    });
+  }, [rows, search]);
+
   const columns = useMemo(
     () => [
       {
@@ -204,7 +220,7 @@ export default function ConvocatoriasTeoricoAdmin() {
                 size="small"
                 color="primary"
               >
-                <EditIcon fontSize="small" />
+                <EditIcon />
               </IconButton>
             </Tooltip>
             <Tooltip title="Eliminar" arrow>
@@ -214,7 +230,7 @@ export default function ConvocatoriasTeoricoAdmin() {
                 color="error"
                 disabled={!params.row.activo}
               >
-                <DeleteIcon fontSize="small" />
+                <DeleteIcon />
               </IconButton>
             </Tooltip>
           </Stack>
@@ -225,41 +241,66 @@ export default function ConvocatoriasTeoricoAdmin() {
   );
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
-        Convocatorias DGT teóricas
-      </Typography>
-      <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-        Gestiona las fechas oficiales que verán los alumnos para solicitar
-        examen.
-      </Typography>
-
-      <Stack
-        direction={{ xs: "column", sm: "row" }}
-        spacing={1.5}
-        sx={{ mb: 2 }}
-      >
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={handleCreate}
-        >
-          Nueva convocatoria
-        </Button>
-      </Stack>
-
-      <DataGrid
-        autoHeight
-        rows={rows}
-        columns={columns}
-        getRowId={(row) => row.id}
-        disableRowSelectionOnClick
-        pageSizeOptions={[10, 25, 50]}
-        initialState={{
-          pagination: { paginationModel: { pageSize: 10, page: 0 } },
-          sorting: { sortModel: [{ field: "fecha", sort: "asc" }] },
+    <Box>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          mb: 2,
+          gap: 2,
+          flexWrap: "wrap",
         }}
-      />
+      >
+        <Box>
+          <Typography variant="h4" fontWeight={800}>
+            Convocatorias DGT teóricas
+          </Typography>
+
+          <Typography color="text.secondary">
+            Gestiona las fechas oficiales que verán los alumnos para solicitar
+            examen.
+          </Typography>
+        </Box>
+
+        <Stack direction="row" spacing={1.5}>
+          <TextField
+            size="small"
+            label="Buscar"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+          />
+
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={handleCreate}
+          >
+            Nueva convocatoria
+          </Button>
+        </Stack>
+      </Box>
+
+      <Box sx={{ height: 700 }}>
+        <DataGrid
+          rows={filteredRows}
+          columns={columns}
+          getRowId={(row) => row.id}
+          disableRowSelectionOnClick
+          pageSizeOptions={[10, 25, 50]}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 10,
+                page: 0,
+              },
+            },
+            sorting: {
+              sortModel: [{ field: "fecha", sort: "asc" }],
+            },
+          }}
+        />
+      </Box>
 
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
         <DialogTitle>

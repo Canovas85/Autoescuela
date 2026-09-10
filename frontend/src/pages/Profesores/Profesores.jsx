@@ -488,6 +488,17 @@ export default function Profesores() {
     }
   };
 
+  const readOnlyFieldSx = {
+    "& .MuiInputBase-input": {
+      cursor: "default",
+      caretColor: "transparent",
+      userSelect: "none",
+    },
+    "& .MuiOutlinedInput-root": {
+      backgroundColor: "action.hover",
+    },
+  };
+
   return (
     <Box>
       <Typography variant="h4" fontWeight="bold" mb={4}>
@@ -725,7 +736,7 @@ export default function Profesores() {
         open={openDetail}
         onClose={() => setOpenDetail(false)}
         fullWidth
-        maxWidth="md"
+        maxWidth="sm"
       >
         <DialogTitle>Detalle del Profesor</DialogTitle>
 
@@ -751,42 +762,66 @@ export default function Profesores() {
               <TextField
                 label="Nombre"
                 value={selectedProfesor?.usuario?.nombre || ""}
-                InputProps={{ readOnly: true }}
+                InputProps={{
+                  readOnly: true,
+                  tabIndex: -1,
+                }}
+                sx={readOnlyFieldSx}
                 fullWidth
               />
 
               <TextField
                 label="Email"
                 value={selectedProfesor?.usuario?.email || ""}
-                InputProps={{ readOnly: true }}
+                InputProps={{
+                  readOnly: true,
+                  tabIndex: -1,
+                }}
+                sx={readOnlyFieldSx}
                 fullWidth
               />
 
               <TextField
                 label="Teléfono"
                 value={selectedProfesor?.usuario?.telefono || ""}
-                InputProps={{ readOnly: true }}
+                InputProps={{
+                  readOnly: true,
+                  tabIndex: -1,
+                }}
+                sx={readOnlyFieldSx}
                 fullWidth
               />
 
               <TextField
                 label="DNI"
                 value={selectedProfesor?.usuario?.dni || ""}
-                InputProps={{ readOnly: true }}
+                InputProps={{
+                  readOnly: true,
+                  tabIndex: -1,
+                }}
+                sx={readOnlyFieldSx}
                 fullWidth
               />
 
               <TextField
                 label="Permisos"
                 value={selectedProfesor?.permisosLicencias?.join(", ") || ""}
-                InputProps={{ readOnly: true }}
+                InputProps={{
+                  readOnly: true,
+                  tabIndex: -1,
+                }}
+                sx={readOnlyFieldSx}
                 fullWidth
               />
 
               <TextField
                 label="Estado"
                 value={selectedProfesor?.activo ? "Activo" : "Inactivo"}
-                InputProps={{ readOnly: true }}
+                InputProps={{
+                  readOnly: true,
+                  tabIndex: -1,
+                }}
+                sx={readOnlyFieldSx}
                 fullWidth
               />
             </Box>

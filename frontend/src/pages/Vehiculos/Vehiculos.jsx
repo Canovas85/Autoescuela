@@ -515,6 +515,17 @@ export default function Vehiculos() {
     closeExportMenu();
   };
 
+  const readOnlyFieldSx = {
+    "& .MuiInputBase-input": {
+      cursor: "default",
+      caretColor: "transparent",
+      userSelect: "none",
+    },
+    "& .MuiOutlinedInput-root": {
+      backgroundColor: "action.hover",
+    },
+  };
+
   return (
     <Box>
       <Typography variant="h4" fontWeight="bold" mb={4}>
@@ -852,34 +863,51 @@ export default function Vehiculos() {
                       fontSize: "0.9rem",
                     },
                   }}
+                  sx={readOnlyFieldSx}
                   fullWidth
                 />
 
                 <TextField
                   label="Marca"
                   value={selectedVehiculo?.marca || ""}
-                  InputProps={{ readOnly: true }}
+                  InputProps={{
+                    readOnly: true,
+                    tabIndex: -1,
+                  }}
+                  sx={readOnlyFieldSx}
                   fullWidth
                 />
 
                 <TextField
                   label="Modelo"
                   value={selectedVehiculo?.modelo || ""}
-                  InputProps={{ readOnly: true }}
+                  InputProps={{
+                    readOnly: true,
+                    tabIndex: -1,
+                  }}
+                  sx={readOnlyFieldSx}
                   fullWidth
                 />
 
                 <TextField
                   label="Permiso"
                   value={selectedVehiculo?.tipoPermiso || ""}
-                  InputProps={{ readOnly: true }}
+                  InputProps={{
+                    readOnly: true,
+                    tabIndex: -1,
+                  }}
+                  sx={readOnlyFieldSx}
                   fullWidth
                 />
 
                 <TextField
                   label="Estado"
                   value={selectedVehiculo?.activo ? "Activo" : "Inactivo"}
-                  InputProps={{ readOnly: true }}
+                  InputProps={{
+                    readOnly: true,
+                    tabIndex: -1,
+                  }}
+                  sx={readOnlyFieldSx}
                   fullWidth
                 />
               </Box>

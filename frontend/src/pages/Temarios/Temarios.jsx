@@ -318,7 +318,7 @@ export default function Temarios() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            mb: 2,
+            mb: 1,
           }}
         >
           <Box
@@ -331,11 +331,11 @@ export default function Temarios() {
               justifyContent: "center",
             }}
           >
-            <Typography variant="subtitle1" fontWeight={600}>
+            <Typography variant="subtitle1" fontWeight={600} sx={{ mt: 3 }}>
               Licencia
             </Typography>
 
-            <FormControl size="small" sx={{ minWidth: 340 }}>
+            <FormControl size="small" sx={{ minWidth: 340, mt: 3 }}>
               <InputLabel id="filtro-licencia-label">Licencia</InputLabel>
               <Select
                 labelId="filtro-licencia-label"

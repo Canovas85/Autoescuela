@@ -268,7 +268,6 @@ export default function TemarioTemaDetalle() {
         </Breadcrumbs>
 
         <Button
-          variant="outlined"
           startIcon={<ArrowBackIcon />}
           onClick={() => navigate(backPath)}
         >
@@ -325,7 +324,7 @@ export default function TemarioTemaDetalle() {
                       component="label"
                       variant="contained"
                       startIcon={<UploadFileIcon />}
-                      sx={{ backgroundColor: "#f8fafc", color: "#0f172a" }}
+                      sx={{ backgroundColor: "#FFFFAA", color: "#000000" }}
                     >
                       Subir documentación
                       <input
@@ -345,7 +344,7 @@ export default function TemarioTemaDetalle() {
                         setVideoUrlDraft(temario?.claseDirectoVideoUrl || "");
                         setVideoDialogOpen(true);
                       }}
-                      sx={{ backgroundColor: "#f59e0b", color: "#fff" }}
+                      sx={{ backgroundColor: "#FFFFAA", color: "#000000" }}
                     >
                       Clase en Directo
                     </Button>
@@ -355,10 +354,11 @@ export default function TemarioTemaDetalle() {
                     <Button
                       variant="contained"
                       color="secondary"
+                      startIcon={<UploadFileIcon />}
                       href={temario.documentacionRuta}
                       target="_blank"
                       rel="noreferrer"
-                      sx={{ backgroundColor: "#f8fafc", color: "#0f172a" }}
+                      sx={{ backgroundColor: "#C00000", color: "#FFFFFF" }}
                     >
                       Documentación
                     </Button>
@@ -366,10 +366,12 @@ export default function TemarioTemaDetalle() {
                   {hasClaseDirecto && (
                     <Button
                       variant="contained"
+                      startIcon={<OndemandVideoIcon />}
                       color="warning"
                       href={temario.claseDirectoVideoUrl}
                       target="_blank"
                       rel="noreferrer"
+                      sx={{ backgroundColor: "#C00000", color: "#FFFFFF" }}
                     >
                       Clase en Directo
                     </Button>
@@ -381,10 +383,6 @@ export default function TemarioTemaDetalle() {
                       backgroundColor: "rgba(255,255,255,0.15)",
                       color: "#fff",
                     }}
-                  />
-                  <Chip
-                    label={temario?.revisado ? "Revisado" : "Pendiente"}
-                    color={temario?.revisado ? "success" : "warning"}
                   />
                 </Stack>
               </Stack>
