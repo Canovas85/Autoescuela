@@ -16,6 +16,11 @@ export class FacturasRepository {
             promocion: true,
           },
         },
+        compraBono: {
+          include: {
+            bono: true,
+          },
+        },
       },
       orderBy: {
         fechaEmision: "desc",
@@ -32,6 +37,11 @@ export class FacturasRepository {
         matricula: {
           include: {
             promocion: true,
+          },
+        },
+        compraBono: {
+          include: {
+            bono: true,
           },
         },
       },

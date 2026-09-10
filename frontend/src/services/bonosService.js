@@ -11,6 +11,16 @@ export const bonosService = {
     return response.data;
   },
 
+  async getAvailable() {
+    const response = await api.get("/bonos/disponibles");
+    return response.data;
+  },
+
+  async buy(id) {
+    const response = await api.post(`/bonos/${id}/comprar`);
+    return response.data;
+  },
+
   async create(data) {
     const response = await api.post("/bonos", data);
     return response.data;

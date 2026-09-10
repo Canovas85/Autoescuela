@@ -8,6 +8,7 @@ describe("BonosController", () => {
       id: "bono-1",
       nombre: "Pack 10",
       clasesIncluidas: 10,
+      precio: 150,
       validezDias: 90,
       activo: true,
     };
@@ -23,6 +24,7 @@ describe("BonosController", () => {
         nombre: "Pack 10",
         descripcion: "Bono base",
         clasesIncluidas: 10,
+        precio: 150,
         validezDias: 90,
       },
     };
@@ -75,6 +77,7 @@ describe("BonosController", () => {
       id: "bono-1",
       nombre: "Pack 10",
       clasesIncluidas: 10,
+      precio: 150,
       validezDias: 90,
       activo: true,
     };
@@ -141,6 +144,7 @@ describe("BonosController", () => {
         nombre: "Pack 10 renovado",
         descripcion: "Renovado",
         clasesIncluidas: 10,
+        precio: 200,
         validezDias: 90,
       },
     };
@@ -261,5 +265,52 @@ describe("BonosController", () => {
     expect(serviceMock.deactivate).toHaveBeenCalledWith("bono-1");
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith(bonoDesactivado);
+  });
+
+  it("debe devolver bonos activos para alumno", async () => {
+    const bonos = [{ id: "bono-1", activo: true }];
+    const serviceMock = {
+      getActivos: vi.fn().mockResolvedValue(bonos),
+    };
+
+    const controller = new BonosController(serviceMock);
+    const req = {};
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    };
+
+    await controller.getActivos(req, res);
+
+    expect(serviceMock.getActivos).toHaveBeenCalledOnce();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(bonos);
+  });
+
+  it("debe crear compra pendiente y devolver HTTP 201", async () => {
+    const serviceMock = {
+      createCompraPendiente: vi.fn().mockResolvedValue({
+        compra: { id: "compra-1" },
+        pago: { id: "pago-1" },
+      }),
+    };
+
+    const controller = new BonosController(serviceMock);
+    const req = {
+      user: { id: "alumno-1" },
+      params: { id: "bono-1" },
+    };
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    };
+
+    await controller.createCompraPendiente(req, res);
+
+    expect(serviceMock.createCompraPendiente).toHaveBeenCalledWith(
+      "alumno-1",
+      "bono-1",
+    );
+    expect(res.status).toHaveBeenCalledWith(201);
   });
 });

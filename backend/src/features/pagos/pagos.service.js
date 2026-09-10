@@ -40,6 +40,32 @@ export class PagosService {
       throw new Error("El pago ya está abonado");
     }
 
-    return this.repository.pay(pagoId);
+    const paid = await this.repository.pay(pagoId);
+
+    if (typeof this.repository.createNotification === "function") {
+      await this.repository.createNotification({
+        usuarioId: alumnoId,
+        tipo: "PAGO_REALIZADO",
+        titulo: "Pago realizado correctamente",
+        mensaje: `Se ha registrado el pago: ${paid.concepto}`,
+        metadata: {
+          pagoId: paid.id,
+          numeroFactura: paid.numeroFacturaPago,
+        },
+      });
+
+      await this.repository.createNotification({
+        usuarioId: alumnoId,
+        tipo: "FACTURA_GENERADA",
+        titulo: "Factura generada",
+        mensaje: `Factura ${paid.numeroFacturaPago} disponible en Mis Facturas`,
+        metadata: {
+          pagoId: paid.id,
+          numeroFactura: paid.numeroFacturaPago,
+        },
+      });
+    }
+
+    return paid;
   }
 }

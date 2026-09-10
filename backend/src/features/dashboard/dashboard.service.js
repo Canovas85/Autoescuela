@@ -220,12 +220,12 @@ export class DashboardService {
       bonoCompra.clasesCompradas - bonoCompra.clasesConsumidas;
     const caducado = new Date(bonoCompra.fechaValidezHasta) < fechaActual;
 
-    if (caducado) {
-      return "CADUCADO";
-    }
-
     if (!bonoCompra.pagado) {
       return "PENDIENTE_PAGO";
+    }
+
+    if (caducado) {
+      return "CADUCADO";
     }
 
     if (disponibles > 0) {

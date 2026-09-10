@@ -9,6 +9,7 @@ describe("BonosService", () => {
       nombre: "Pack 10",
       descripcion: "Bono base",
       clasesIncluidas: 10,
+      precio: 150,
       validezDias: 90,
       activo: true,
     };
@@ -23,6 +24,7 @@ describe("BonosService", () => {
       nombre: " Pack 10 ",
       descripcion: " Bono base ",
       clasesIncluidas: "10",
+      precio: "150",
       validezDias: "90",
     });
 
@@ -30,6 +32,7 @@ describe("BonosService", () => {
       nombre: "Pack 10",
       descripcion: "Bono base",
       clasesIncluidas: 10,
+      precio: 150,
       validezDias: 90,
       activo: true,
     });
@@ -62,6 +65,7 @@ describe("BonosService", () => {
       service.create({
         nombre: "Pack 10",
         clasesIncluidas: 0,
+        precio: 150,
         validezDias: 90,
       }),
     ).rejects.toThrow(
@@ -80,9 +84,28 @@ describe("BonosService", () => {
       service.create({
         nombre: "Pack 10",
         clasesIncluidas: 10,
+        precio: 150,
+        precio: 150,
         validezDias: 0,
       }),
     ).rejects.toThrow("La validez debe ser un número entero mayor que 0");
+  });
+
+  it("debe lanzar un error cuando el precio no es válido", async () => {
+    const repositoryMock = {
+      create: vi.fn(),
+    };
+
+    const service = new BonosService(repositoryMock);
+
+    await expect(
+      service.create({
+        nombre: "Pack 10",
+        clasesIncluidas: 10,
+        precio: 0,
+        validezDias: 90,
+      }),
+    ).rejects.toThrow("El precio debe ser un número mayor que 0");
   });
 
   it("debe devolver todos los bonos", async () => {
@@ -164,5 +187,46 @@ describe("BonosService", () => {
 
     expect(repositoryMock.delete).toHaveBeenCalledWith("bono-1");
     expect(result).toEqual({ id: "bono-1" });
+  });
+
+  it("debe listar bonos activos para alumno", async () => {
+    const bonos = [{ id: "bono-1", nombre: "Pack 10", activo: true }];
+
+    const repositoryMock = {
+      findActivos: vi.fn().mockResolvedValue(bonos),
+    };
+
+    const service = new BonosService(repositoryMock);
+    const result = await service.getActivos();
+
+    expect(repositoryMock.findActivos).toHaveBeenCalledOnce();
+    expect(result).toEqual(bonos);
+  });
+
+  it("debe crear una compra pendiente de bono", async () => {
+    const repositoryMock = {
+      findAlumnoById: vi.fn().mockResolvedValue({
+        id: "alumno-1",
+        tipoLicenciaObjetivo: "B",
+      }),
+      findActivoById: vi.fn().mockResolvedValue({
+        id: "bono-1",
+        nombre: "Pack 10",
+        clasesIncluidas: 10,
+        precio: 180,
+        validezDias: 90,
+        activo: true,
+      }),
+      createCompraPendiente: vi.fn().mockResolvedValue({
+        compra: { id: "compra-1" },
+        pago: { id: "pago-1" },
+      }),
+    };
+
+    const service = new BonosService(repositoryMock);
+    const result = await service.createCompraPendiente("alumno-1", "bono-1");
+
+    expect(repositoryMock.createCompraPendiente).toHaveBeenCalledOnce();
+    expect(result.pago.id).toBe("pago-1");
   });
 });

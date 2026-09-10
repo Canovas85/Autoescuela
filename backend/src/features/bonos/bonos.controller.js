@@ -17,6 +17,11 @@ export class BonosController {
     return res.status(200).json(bonos);
   }
 
+  async getActivos(req, res) {
+    const bonos = await this.service.getActivos();
+    return res.status(200).json(bonos);
+  }
+
   async getById(req, res) {
     try {
       const bono = await this.service.getById(req.params.id);
@@ -52,5 +57,18 @@ export class BonosController {
   async deactivate(req, res) {
     const bono = await this.service.deactivate(req.params.id);
     return res.status(200).json(bono);
+  }
+
+  async createCompraPendiente(req, res) {
+    try {
+      const result = await this.service.createCompraPendiente(
+        req.user.id,
+        req.params.id,
+      );
+
+      return res.status(201).json(result);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
   }
 }

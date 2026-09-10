@@ -91,8 +91,9 @@ const formatDate = (value) => {
   }
 
   return date.toLocaleDateString("es-ES", {
-    day: "2-digit",
-    month: "2-digit",
+    timeZone: "UTC",
+    day: "numeric",
+    month: "numeric",
     year: "numeric",
   });
 };
@@ -109,9 +110,30 @@ const formatDayMonth = (value) => {
   }
 
   return date.toLocaleDateString("es-ES", {
+    timeZone: "UTC",
     day: "numeric",
     month: "short",
   });
+};
+
+const addDaysToUtcDate = (value, days) => {
+  if (!value) {
+    return null;
+  }
+
+  const base = new Date(value);
+
+  return new Date(
+    Date.UTC(
+      base.getUTCFullYear(),
+      base.getUTCMonth(),
+      base.getUTCDate() + days,
+      12,
+      0,
+      0,
+      0,
+    ),
+  );
 };
 
 const formatHour = (value) => {
@@ -144,7 +166,12 @@ const dateToDayId = (value) => {
   }
 
   const day = date.getDay();
-  return day === 0 ? 7 : day;
+  if (Number.isNaN(date.getTime())) {
+    return 1;
+  }
+
+  const utcDay = date.getUTCDay();
+  return utcDay === 0 ? 7 : utcDay;
 };
 
 const timeToMinutes = (time) => {
@@ -245,11 +272,8 @@ export default function ProfesorAgenda() {
       }));
     }
 
-    const startDate = new Date(weekStart);
-
     return DAYS.map((day, index) => {
-      const date = new Date(startDate);
-      date.setDate(startDate.getDate() + index);
+      const date = addDaysToUtcDate(weekStart, index);
 
       return {
         ...day,
@@ -475,7 +499,15 @@ export default function ProfesorAgenda() {
           spacing={1.5}
           sx={{ mb: 2 }}
         >
-          <Stack direction="row" alignItems="center" spacing={1}>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "auto minmax(230px, 1fr) auto",
+              alignItems: "center",
+              gap: 1,
+              width: { xs: "100%", md: 320 },
+            }}
+          >
             <IconButton
               sx={{ border: "1px solid #dbe5f2", borderRadius: 2 }}
               onClick={() => setWeekOffset((prev) => prev - 1)}
@@ -483,7 +515,10 @@ export default function ProfesorAgenda() {
               <NavigateBeforeIcon />
             </IconButton>
 
-            <Typography fontWeight={700} sx={{ minWidth: 200 }}>
+            <Typography
+              fontWeight={700}
+              sx={{ textAlign: "center", whiteSpace: "nowrap" }}
+            >
               {formatWeekLabel(agenda?.semana)}
             </Typography>
 
@@ -493,7 +528,7 @@ export default function ProfesorAgenda() {
             >
               <NavigateNextIcon />
             </IconButton>
-          </Stack>
+          </Box>
 
           <Stack direction="row" spacing={1}>
             <Button variant="outlined" onClick={() => setWeekOffset(0)}>
@@ -709,15 +744,15 @@ export default function ProfesorAgenda() {
                         }
 
                         const top = (offset / 60) * HOUR_HEIGHT;
+                        const isProgramada = clase.estado === "PROGRAMADA";
                         const height = Math.max(
                           (duration / 60) * HOUR_HEIGHT,
-                          88,
+                          isProgramada ? 126 : 112,
                         );
                         const color = getColorByStudent(
                           clase.alumno?.id,
                           clase.alumno?.nombre,
                         );
-                        const isProgramada = clase.estado === "PROGRAMADA";
 
                         return (
                           <Box
@@ -727,13 +762,14 @@ export default function ProfesorAgenda() {
                               top,
                               left: 7,
                               right: 7,
-                              minHeight: 88,
+                              minHeight: 114,
                               height,
                               p: 1,
                               borderRadius: 2,
                               border: `1px solid ${color.border}`,
                               backgroundColor: color.bg,
-                              overflow: "hidden",
+                              overflow: "visible",
+                              zIndex: 2,
                               boxShadow: "0 4px 10px rgba(15,23,42,0.06)",
                             }}
                           >
@@ -759,6 +795,8 @@ export default function ProfesorAgenda() {
                                   lineHeight: 1.15,
                                   fontWeight: 700,
                                   color: color.title,
+                                  whiteSpace: "normal",
+                                  wordBreak: "break-word",
                                 }}
                               >
                                 {clase.alumno?.nombre || "Alumno"}
@@ -806,34 +844,38 @@ export default function ProfesorAgenda() {
                                 }
                                 sx={{ height: 20, fontSize: 10 }}
                               />
-
-                              {isProgramada && (
-                                <>
-                                  <Chip
-                                    size="small"
-                                    color="success"
-                                    label="Confirmar"
-                                    icon={<CheckCircleIcon />}
-                                    onClick={() =>
-                                      handleClassStatus(clase.id, "CONFIRMADA")
-                                    }
-                                    disabled={savingClassId === clase.id}
-                                    sx={{ height: 20, fontSize: 10 }}
-                                  />
-                                  <Chip
-                                    size="small"
-                                    color="error"
-                                    label="Cancelar"
-                                    icon={<CancelIcon />}
-                                    onClick={() =>
-                                      handleClassStatus(clase.id, "CANCELADA")
-                                    }
-                                    disabled={savingClassId === clase.id}
-                                    sx={{ height: 20, fontSize: 10 }}
-                                  />
-                                </>
-                              )}
                             </Stack>
+
+                            {isProgramada && (
+                              <Stack
+                                direction="row"
+                                spacing={0.6}
+                                sx={{ mt: 0.45 }}
+                              >
+                                <Chip
+                                  size="small"
+                                  color="success"
+                                  label="Confirmar"
+                                  icon={<CheckCircleIcon />}
+                                  onClick={() =>
+                                    handleClassStatus(clase.id, "CONFIRMADA")
+                                  }
+                                  disabled={savingClassId === clase.id}
+                                  sx={{ height: 20, fontSize: 10 }}
+                                />
+                                <Chip
+                                  size="small"
+                                  color="error"
+                                  label="Cancelar"
+                                  icon={<CancelIcon />}
+                                  onClick={() =>
+                                    handleClassStatus(clase.id, "CANCELADA")
+                                  }
+                                  disabled={savingClassId === clase.id}
+                                  sx={{ height: 20, fontSize: 10 }}
+                                />
+                              </Stack>
+                            )}
                           </Box>
                         );
                       })}

@@ -8,6 +8,7 @@ describe("BonosRepository", () => {
       id: "bono-1",
       nombre: "Pack 10",
       clasesIncluidas: 10,
+      precio: 150,
       validezDias: 90,
       activo: true,
     };
@@ -24,6 +25,7 @@ describe("BonosRepository", () => {
       nombre: "Pack 10",
       descripcion: "Bono base",
       clasesIncluidas: 10,
+      precio: 150,
       validezDias: 90,
       activo: true,
     });
@@ -33,6 +35,7 @@ describe("BonosRepository", () => {
         nombre: "Pack 10",
         descripcion: "Bono base",
         clasesIncluidas: 10,
+        precio: 150,
         validezDias: 90,
         activo: true,
       },
@@ -110,6 +113,7 @@ describe("BonosRepository", () => {
       nombre: "Pack 10 renovado",
       descripcion: "Renovado",
       clasesIncluidas: 10,
+      precio: 200,
       validezDias: 90,
       activo: true,
     });
@@ -122,6 +126,7 @@ describe("BonosRepository", () => {
         nombre: "Pack 10 renovado",
         descripcion: "Renovado",
         clasesIncluidas: 10,
+        precio: 200,
         validezDias: 90,
         activo: true,
       },
@@ -177,6 +182,78 @@ describe("BonosRepository", () => {
       },
     });
     expect(result).toEqual(bonoActivado);
+  });
+
+  it("debe listar bonos activos", async () => {
+    const bonos = [{ id: "bono-1", activo: true }];
+
+    const prismaMock = {
+      bono: {
+        findMany: vi.fn().mockResolvedValue(bonos),
+      },
+    };
+
+    const repository = new BonosRepository(prismaMock);
+    const result = await repository.findActivos();
+
+    expect(prismaMock.bono.findMany).toHaveBeenCalledWith({
+      where: {
+        activo: true,
+      },
+      orderBy: {
+        nombre: "asc",
+      },
+    });
+    expect(result).toEqual(bonos);
+  });
+
+  it("debe crear compra pendiente y pago de bono", async () => {
+    const compraCreada = { id: "compra-1", bono: { id: "bono-1" } };
+    const pagoCreado = { id: "pago-1" };
+
+    const txMock = {
+      compraBono: {
+        create: vi.fn().mockResolvedValue(compraCreada),
+      },
+      pago: {
+        create: vi.fn().mockResolvedValue(pagoCreado),
+      },
+    };
+
+    const prismaMock = {
+      $transaction: vi.fn(async (callback) => callback(txMock)),
+    };
+
+    const repository = new BonosRepository(prismaMock);
+    const result = await repository.createCompraPendiente({
+      alumno: {
+        id: "alumno-1",
+        tipoLicenciaObjetivo: "B",
+      },
+      bono: {
+        id: "bono-1",
+        nombre: "Pack 10",
+        clasesIncluidas: 10,
+        validezDias: 90,
+        precio: 180,
+      },
+    });
+
+    expect(txMock.compraBono.create).toHaveBeenCalledOnce();
+    expect(txMock.pago.create).toHaveBeenCalledWith({
+      data: expect.objectContaining({
+        alumnoId: "alumno-1",
+        compraBonoId: "compra-1",
+        tipo: "BONO_CLASES",
+        permiso: "B",
+        importe: 180,
+        estado: "PENDIENTE",
+      }),
+    });
+    expect(result).toEqual({
+      compra: compraCreada,
+      pago: pagoCreado,
+    });
   });
 
   it("debe desactivar un bono", async () => {

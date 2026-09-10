@@ -28,6 +28,11 @@ describe("FacturasRepository", () => {
             promocion: true,
           },
         },
+        compraBono: {
+          include: {
+            bono: true,
+          },
+        },
       },
       orderBy: {
         fechaEmision: "desc",
@@ -58,6 +63,11 @@ describe("FacturasRepository", () => {
         matricula: {
           include: {
             promocion: true,
+          },
+        },
+        compraBono: {
+          include: {
+            bono: true,
           },
         },
       },

@@ -20,6 +20,7 @@ model Usuario {
   dni                    String?            @unique
   requiereCambioPassword Boolean            @default(true)
   activacionesCuenta     ActivacionCuenta[]
+  notificaciones         Notificacion[]
   alumno                 Alumno?
   profesor               Profesor?
 
@@ -246,6 +247,7 @@ model Bono {
   nombre          String
   descripcion     String?
   clasesIncluidas Int
+  precio          Decimal      @default(0) @db.Decimal(10, 2)
   validezDias     Int          @default(90)
   activo          Boolean      @default(true)
   compras         CompraBono[]
@@ -254,16 +256,19 @@ model Bono {
 }
 
 model CompraBono {
-  id                String   @id @default(uuid())
+  id                String          @id @default(uuid())
   alumnoId          String
   bonoId            String
   clasesCompradas   Int
-  clasesConsumidas  Int      @default(0)
-  pagado            Boolean  @default(false)
-  fechaCompra       DateTime @default(now())
+  clasesConsumidas  Int             @default(0)
+  pagado            Boolean         @default(false)
+  fechaCompra       DateTime        @default(now())
   fechaValidezHasta DateTime
-  alumno            Alumno   @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
-  bono              Bono     @relation(fields: [bonoId], references: [id])
+  pagos             Pago[]
+  facturas          Factura[]
+  clases            ClasePractica[]
+  alumno            Alumno          @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  bono              Bono            @relation(fields: [bonoId], references: [id])
 
   @@index([alumnoId])
   @@index([bonoId])
@@ -317,20 +322,29 @@ model Vehiculo {
 }
 
 model ClasePractica {
-  id         String   @id @default(uuid())
-  alumnoId   String
-  profesorId String
-  vehiculoId String
-  fecha      DateTime
-  duracion   Int
-  estado     String
-  alumno     Alumno   @relation(fields: [alumnoId], references: [id])
-  profesor   Profesor @relation(fields: [profesorId], references: [id])
-  vehiculo   Vehiculo @relation(fields: [vehiculoId], references: [id])
+  id                       String      @id @default(uuid())
+  alumnoId                 String
+  profesorId               String
+  vehiculoId               String
+  compraBonoId             String?
+  fecha                    DateTime
+  duracion                 Int
+  estado                   String
+  metodoPago               String      @default("INDIVIDUAL")
+  pagoLimiteAt             DateTime?
+  canceladaPor             String?
+  canceladaConPenalizacion Boolean     @default(false)
+  alumno                   Alumno      @relation(fields: [alumnoId], references: [id])
+  profesor                 Profesor    @relation(fields: [profesorId], references: [id])
+  vehiculo                 Vehiculo    @relation(fields: [vehiculoId], references: [id])
+  compraBono               CompraBono? @relation(fields: [compraBonoId], references: [id], onDelete: SetNull)
+  pagos                    Pago[]
+  facturas                 Factura[]
 
   @@index([alumnoId])
   @@index([profesorId])
   @@index([vehiculoId])
+  @@index([compraBonoId])
   @@index([fecha])
   @@map("clases_practicas")
 }
@@ -448,25 +462,31 @@ model Matricula {
 }
 
 model Pago {
-  id                      String     @id @default(uuid())
+  id                      String         @id @default(uuid())
   alumnoId                String
   matriculaId             String?
+  compraBonoId            String?
+  clasePracticaId         String?
   tipo                    String
   concepto                String
   permiso                 String
-  importe                 Decimal    @db.Decimal(10, 2)
-  estado                  String     @default("PENDIENTE")
-  convocatoriasIncluidas  Int        @default(2)
-  convocatoriasConsumidas Int        @default(0)
-  fechaCreacion           DateTime   @default(now())
+  importe                 Decimal        @db.Decimal(10, 2)
+  estado                  String         @default("PENDIENTE")
+  convocatoriasIncluidas  Int            @default(2)
+  convocatoriasConsumidas Int            @default(0)
+  fechaCreacion           DateTime       @default(now())
   fechaPago               DateTime?
   numeroFacturaPago       String?
   observaciones           String?
-  alumno                  Alumno     @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
-  matricula               Matricula? @relation(fields: [matriculaId], references: [id], onDelete: SetNull)
+  alumno                  Alumno         @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  matricula               Matricula?     @relation(fields: [matriculaId], references: [id], onDelete: SetNull)
+  compraBono              CompraBono?    @relation(fields: [compraBonoId], references: [id], onDelete: SetNull)
+  clasePractica           ClasePractica? @relation(fields: [clasePracticaId], references: [id], onDelete: SetNull)
 
   @@index([alumnoId])
   @@index([matriculaId])
+  @@index([compraBonoId])
+  @@index([clasePracticaId])
   @@index([estado])
   @@index([tipo])
   @@index([permiso])
@@ -554,24 +574,50 @@ model MatriculaConcepto {
 }
 
 model Factura {
-  id            String    @id @default(uuid())
-  numero        String    @unique
-  alumnoId      String
-  matriculaId   String
-  concepto      String
-  baseImponible Decimal   @db.Decimal(10, 2)
-  descuento     Decimal   @db.Decimal(10, 2)
-  total         Decimal   @db.Decimal(10, 2)
-  estado        String    @default("EMITIDA")
-  fechaEmision  DateTime  @default(now())
-  fechaPago     DateTime?
-  alumno        Alumno    @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
-  matricula     Matricula @relation(fields: [matriculaId], references: [id], onDelete: Cascade)
+  id              String         @id @default(uuid())
+  numero          String         @unique
+  alumnoId        String
+  matriculaId     String?
+  compraBonoId    String?
+  clasePracticaId String?
+  concepto        String
+  baseImponible   Decimal        @db.Decimal(10, 2)
+  descuento       Decimal        @db.Decimal(10, 2)
+  total           Decimal        @db.Decimal(10, 2)
+  estado          String         @default("EMITIDA")
+  fechaEmision    DateTime       @default(now())
+  fechaPago       DateTime?
+  alumno          Alumno         @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  matricula       Matricula?     @relation(fields: [matriculaId], references: [id], onDelete: Cascade)
+  compraBono      CompraBono?    @relation(fields: [compraBonoId], references: [id], onDelete: SetNull)
+  clasePractica   ClasePractica? @relation(fields: [clasePracticaId], references: [id], onDelete: SetNull)
 
   @@index([alumnoId])
+  @@index([matriculaId])
+  @@index([compraBonoId])
+  @@index([clasePracticaId])
   @@index([estado])
   @@index([fechaEmision])
   @@map("facturas")
+}
+
+model Notificacion {
+  id        String    @id @default(uuid())
+  usuarioId String
+  tipo      String
+  titulo    String
+  mensaje   String
+  metadata  Json?
+  leida     Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  readAt    DateTime?
+  usuario   Usuario   @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId])
+  @@index([tipo])
+  @@index([leida])
+  @@index([createdAt])
+  @@map("notificaciones")
 }
 
 enum Rol {

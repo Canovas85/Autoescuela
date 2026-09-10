@@ -1,17 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
-
 import {
   Alert,
   Box,
   Button,
+  Card,
+  CardContent,
   Chip,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
-  IconButton,
   DialogTitle,
   FormControl,
+  Grid,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -25,8 +27,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
-
-import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Tooltip from "@mui/material/Tooltip";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 import { bonosService } from "../../services/bonosService";
 
@@ -34,12 +38,113 @@ const emptyForm = {
   nombre: "",
   descripcion: "",
   clasesIncluidas: 10,
+  precio: "",
   validezDias: 90,
   activo: true,
 };
 
+function formatPrice(value) {
+  return `${Number(value || 0).toFixed(2)} EUR`;
+}
+
+function StudentBonosView({ rows, loading, onBuy }) {
+  if (loading) {
+    return <Typography>Cargando bonos...</Typography>;
+  }
+
+  if (rows.length === 0) {
+    return (
+      <Typography color="text.secondary">
+        No hay bonos activos disponibles en este momento.
+      </Typography>
+    );
+  }
+
+  return (
+    <Grid container spacing={3}>
+      {rows.map((row) => (
+        <Grid item xs={12} md={6} lg={4} key={row.id}>
+          <Card
+            sx={{
+              height: "100%",
+              minHeight: 320,
+              borderRadius: 3,
+              border: "1px solid rgba(15, 23, 42, 0.14)",
+              boxShadow: "0 12px 28px rgba(15, 23, 42, 0.08)",
+            }}
+          >
+            <CardContent
+              sx={{
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+              }}
+            >
+              <Typography
+                variant="h4"
+                sx={{
+                  fontWeight: 900,
+                  color: "#0f4c81",
+                  lineHeight: 1.1,
+                }}
+              >
+                {row.nombre}
+              </Typography>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  gap: 2,
+                }}
+              >
+                <Typography sx={{ fontWeight: 700 }}>
+                  {row.clasesIncluidas} clases
+                </Typography>
+                <Typography sx={{ fontWeight: 700 }} color="text.secondary">
+                  Validez: {row.validezDias} dias
+                </Typography>
+              </Box>
+
+              <Typography color="text.secondary" sx={{ flexGrow: 1 }}>
+                {row.descripcion || "Bono de clases practicas"}
+              </Typography>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: 2,
+                }}
+              >
+                <Typography variant="h5" sx={{ fontWeight: 900 }}>
+                  {formatPrice(row.precio)}
+                </Typography>
+
+                <Button
+                  variant="contained"
+                  size="large"
+                  startIcon={<ShoppingCartIcon />}
+                  onClick={() => onBuy(row)}
+                >
+                  Comprar bono
+                </Button>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+      ))}
+    </Grid>
+  );
+}
+
 export default function Bonos() {
+  const navigate = useNavigate();
   const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [role, setRole] = useState(null);
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(emptyForm);
@@ -48,7 +153,6 @@ export default function Bonos() {
     message: "",
     severity: "success",
   });
-
   const [confirmDialog, setConfirmDialog] = useState({
     open: false,
     action: null,
@@ -58,23 +162,47 @@ export default function Bonos() {
     message: "",
   });
 
-  const loadBonos = async () => {
+  useEffect(() => {
+    const token = localStorage.getItem("token") || "";
+
     try {
-      const data = await bonosService.getAll();
+      const decoded = jwtDecode(token);
+      setRole(decoded?.rol ?? "ALUMNO");
+    } catch {
+      setRole("ALUMNO");
+    }
+  }, []);
+
+  const loadBonos = async () => {
+    if (!role) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const data =
+        role === "ADMIN"
+          ? await bonosService.getAll()
+          : await bonosService.getAvailable();
       setRows(data);
     } catch (error) {
       console.error(error);
       setNotification({
         open: true,
-        message: "No se pudieron cargar los bonos",
+        message:
+          role === "ADMIN"
+            ? "No se pudieron cargar los bonos"
+            : "No se pudieron cargar los bonos disponibles",
         severity: "error",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     loadBonos();
-  }, []);
+  }, [role]);
 
   const filteredRows = useMemo(() => rows, [rows]);
 
@@ -94,6 +222,7 @@ export default function Bonos() {
       nombre: row.nombre || "",
       descripcion: row.descripcion || "",
       clasesIncluidas: row.clasesIncluidas ?? 10,
+      precio: row.precio ?? "",
       validezDias: row.validezDias ?? 90,
       activo: Boolean(row.activo),
     });
@@ -106,8 +235,8 @@ export default function Bonos() {
       action: "delete",
       bonoId: row.id,
       nombreBono: row.nombre,
-      title: "Confirmar eliminación",
-      message: `Vas a eliminar definitivamente el bono "${row.nombre}" de Autoescuela Eguzkilore. Toda la información asociada será eliminada de forma permanente. Esta acción no podrá deshacerse. ¿Deseas continuar?`,
+      title: "Confirmar eliminacion",
+      message: `Vas a eliminar definitivamente el bono "${row.nombre}" de Autoescuela Eguzkilore. Toda la informacion asociada sera eliminada de forma permanente. Esta accion no podra deshacerse. Deseas continuar?`,
     });
   };
 
@@ -117,10 +246,10 @@ export default function Bonos() {
       action: row.activo ? "deactivate" : "activate",
       bonoId: row.id,
       nombreBono: row.nombre,
-      title: row.activo ? "Confirmar desactivación" : "Confirmar activación",
+      title: row.activo ? "Confirmar desactivacion" : "Confirmar activacion",
       message: row.activo
-        ? `Vas a desactivar el bono "${row.nombre}" en Autoescuela Eguzkilore. No podrá utilizarse hasta su reactivación. ¿Deseas continuar?`
-        : `Vas a reactivar el bono "${row.nombre}" en Autoescuela Eguzkilore. Volverá a estar disponible de inmediato. ¿Deseas continuar?`,
+        ? `Vas a desactivar el bono "${row.nombre}" en Autoescuela Eguzkilore. No podra utilizarse hasta su reactivacion. Deseas continuar?`
+        : `Vas a reactivar el bono "${row.nombre}" en Autoescuela Eguzkilore. Volvera a estar disponible de inmediato. Deseas continuar?`,
     });
   };
 
@@ -171,7 +300,7 @@ export default function Bonos() {
 
       setNotification({
         open: true,
-        message: error.response?.data?.message || "Error procesando la acción",
+        message: error.response?.data?.message || "Error procesando la accion",
         severity: "error",
       });
     } finally {
@@ -184,6 +313,7 @@ export default function Bonos() {
       const payload = {
         ...form,
         clasesIncluidas: Number(form.clasesIncluidas),
+        precio: Number(form.precio),
         validezDias: Number(form.validezDias),
       };
 
@@ -213,13 +343,42 @@ export default function Bonos() {
     }
   };
 
+  const handleBuy = async (row) => {
+    try {
+      const result = await bonosService.buy(row.id);
+      const pagoId = result?.pago?.id;
+
+      if (!pagoId) {
+        throw new Error("No se pudo generar el pago pendiente del bono");
+      }
+
+      navigate(`/pago-matricula?pagoId=${pagoId}`);
+    } catch (error) {
+      console.error(error);
+      setNotification({
+        open: true,
+        message:
+          error.response?.data?.message ||
+          error.message ||
+          "No se pudo iniciar la compra del bono",
+        severity: "error",
+      });
+    }
+  };
+
   const columns = [
     { field: "nombre", headerName: "Nombre", flex: 1.1 },
     { field: "clasesIncluidas", headerName: "Clases", flex: 0.6 },
-    { field: "validezDias", headerName: "Validez (días)", flex: 0.8 },
+    {
+      field: "precio",
+      headerName: "Precio",
+      flex: 0.7,
+      valueFormatter: (value) => formatPrice(value),
+    },
+    { field: "validezDias", headerName: "Validez (dias)", flex: 0.8 },
     {
       field: "descripcion",
-      headerName: "Descripción",
+      headerName: "Descripcion",
       flex: 1.4,
       renderCell: (params) => (
         <Box
@@ -231,7 +390,7 @@ export default function Bonos() {
           }}
         >
           <Typography variant="body2" noWrap>
-            {params.row.descripcion || "Sin descripción"}
+            {params.row.descripcion || "Sin descripcion"}
           </Typography>
         </Box>
       ),
@@ -288,6 +447,10 @@ export default function Bonos() {
     },
   ];
 
+  if (!role) {
+    return <Typography>Cargando bonos...</Typography>;
+  }
+
   return (
     <Box>
       <Box
@@ -298,33 +461,39 @@ export default function Bonos() {
           mb: 2,
         }}
       >
-        <Box>
-          <Typography variant="h4" fontWeight="bold">
-            Bonos
-          </Typography>
-        </Box>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={handleOpenCreate}
-        >
-          Nuevo bono
-        </Button>
+        <Typography variant="h4" fontWeight="bold">
+          {role === "ADMIN" ? "Bonos" : "Compra de Bonos"}
+        </Typography>
+
+        {role === "ADMIN" ? (
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={handleOpenCreate}
+          >
+            Nuevo bono
+          </Button>
+        ) : null}
       </Box>
 
-      <Box sx={{ height: 700 }}>
-        <DataGrid
-          rows={filteredRows}
-          columns={columns}
-          getRowId={(row) => row.id}
-          disableRowSelectionOnClick
-          pageSizeOptions={[10, 25, 50]}
-          initialState={{
-            pagination: { paginationModel: { pageSize: 10, page: 0 } },
-            sorting: { sortModel: [{ field: "nombre", sort: "asc" }] },
-          }}
-        />
-      </Box>
+      {role === "ADMIN" ? (
+        <Box sx={{ height: 700 }}>
+          <DataGrid
+            rows={filteredRows}
+            columns={columns}
+            getRowId={(row) => row.id}
+            disableRowSelectionOnClick
+            pageSizeOptions={[10, 25, 50]}
+            loading={loading}
+            initialState={{
+              pagination: { paginationModel: { pageSize: 10, page: 0 } },
+              sorting: { sortModel: [{ field: "nombre", sort: "asc" }] },
+            }}
+          />
+        </Box>
+      ) : (
+        <StudentBonosView rows={rows} loading={loading} onBuy={handleBuy} />
+      )}
 
       <Dialog
         open={open}
@@ -344,7 +513,7 @@ export default function Bonos() {
             }
           />
           <TextField
-            label="Descripción"
+            label="Descripcion"
             fullWidth
             multiline
             minRows={3}
@@ -366,7 +535,17 @@ export default function Bonos() {
             }
           />
           <TextField
-            label="Validez en días"
+            label="Precio"
+            type="number"
+            fullWidth
+            value={form.precio}
+            onChange={(event) =>
+              setForm((prev) => ({ ...prev, precio: event.target.value }))
+            }
+            inputProps={{ min: 0, step: "0.01" }}
+          />
+          <TextField
+            label="Validez en dias"
             type="number"
             fullWidth
             value={form.validezDias}

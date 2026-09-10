@@ -21,6 +21,18 @@ router.post(
   controller.create.bind(controller),
 );
 router.get(
+  "/disponibles",
+  authenticate,
+  authorize("ALUMNO"),
+  controller.getActivos.bind(controller),
+);
+router.post(
+  "/:id/comprar",
+  authenticate,
+  authorize("ALUMNO"),
+  controller.createCompraPendiente.bind(controller),
+);
+router.get(
   "/",
   authenticate,
   authorize("ADMIN"),

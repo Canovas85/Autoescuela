@@ -173,6 +173,11 @@ export type MatriculaConcepto = $Result.DefaultSelection<Prisma.$MatriculaConcep
  * 
  */
 export type Factura = $Result.DefaultSelection<Prisma.$FacturaPayload>
+/**
+ * Model Notificacion
+ * 
+ */
+export type Notificacion = $Result.DefaultSelection<Prisma.$NotificacionPayload>
 
 /**
  * Enums
@@ -643,6 +648,16 @@ export class PrismaClient<
     * ```
     */
   get factura(): Prisma.FacturaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.notificacion`: Exposes CRUD operations for the **Notificacion** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Notificacions
+    * const notificacions = await prisma.notificacion.findMany()
+    * ```
+    */
+  get notificacion(): Prisma.NotificacionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1115,7 +1130,8 @@ export namespace Prisma {
     TheoreticalExamProcessSolicitud: 'TheoreticalExamProcessSolicitud',
     TheoreticalExamProcessPago: 'TheoreticalExamProcessPago',
     MatriculaConcepto: 'MatriculaConcepto',
-    Factura: 'Factura'
+    Factura: 'Factura',
+    Notificacion: 'Notificacion'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1134,7 +1150,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "usuario" | "activacionCuenta" | "profesor" | "profesorHorarioBloque" | "alumno" | "documentoAlumno" | "documentoAlumnoArchivo" | "temario" | "temarioProgreso" | "claseDirecto" | "testPractica" | "preguntaDGT" | "respuestaPreguntaDGT" | "examenDGTAlumno" | "bono" | "compraBono" | "solicitudExamen" | "convocatoriaTeorico" | "vehiculo" | "clasePractica" | "examen" | "promocion" | "tarifaConcepto" | "tarifaConceptoHistorial" | "tarifaMatricula" | "matricula" | "pago" | "theoreticalExamProcessBatch" | "theoreticalExamProcessSolicitud" | "theoreticalExamProcessPago" | "matriculaConcepto" | "factura"
+      modelProps: "usuario" | "activacionCuenta" | "profesor" | "profesorHorarioBloque" | "alumno" | "documentoAlumno" | "documentoAlumnoArchivo" | "temario" | "temarioProgreso" | "claseDirecto" | "testPractica" | "preguntaDGT" | "respuestaPreguntaDGT" | "examenDGTAlumno" | "bono" | "compraBono" | "solicitudExamen" | "convocatoriaTeorico" | "vehiculo" | "clasePractica" | "examen" | "promocion" | "tarifaConcepto" | "tarifaConceptoHistorial" | "tarifaMatricula" | "matricula" | "pago" | "theoreticalExamProcessBatch" | "theoreticalExamProcessSolicitud" | "theoreticalExamProcessPago" | "matriculaConcepto" | "factura" | "notificacion"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3506,6 +3522,80 @@ export namespace Prisma {
           }
         }
       }
+      Notificacion: {
+        payload: Prisma.$NotificacionPayload<ExtArgs>
+        fields: Prisma.NotificacionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.NotificacionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificacionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.NotificacionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificacionPayload>
+          }
+          findFirst: {
+            args: Prisma.NotificacionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificacionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.NotificacionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificacionPayload>
+          }
+          findMany: {
+            args: Prisma.NotificacionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificacionPayload>[]
+          }
+          create: {
+            args: Prisma.NotificacionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificacionPayload>
+          }
+          createMany: {
+            args: Prisma.NotificacionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.NotificacionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificacionPayload>[]
+          }
+          delete: {
+            args: Prisma.NotificacionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificacionPayload>
+          }
+          update: {
+            args: Prisma.NotificacionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificacionPayload>
+          }
+          deleteMany: {
+            args: Prisma.NotificacionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.NotificacionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.NotificacionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificacionPayload>[]
+          }
+          upsert: {
+            args: Prisma.NotificacionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificacionPayload>
+          }
+          aggregate: {
+            args: Prisma.NotificacionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNotificacion>
+          }
+          groupBy: {
+            args: Prisma.NotificacionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NotificacionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.NotificacionCountArgs<ExtArgs>
+            result: $Utils.Optional<NotificacionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3634,6 +3724,7 @@ export namespace Prisma {
     theoreticalExamProcessPago?: TheoreticalExamProcessPagoOmit
     matriculaConcepto?: MatriculaConceptoOmit
     factura?: FacturaOmit
+    notificacion?: NotificacionOmit
   }
 
   /* Types for Logging */
@@ -3715,10 +3806,12 @@ export namespace Prisma {
 
   export type UsuarioCountOutputType = {
     activacionesCuenta: number
+    notificaciones: number
   }
 
   export type UsuarioCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     activacionesCuenta?: boolean | UsuarioCountOutputTypeCountActivacionesCuentaArgs
+    notificaciones?: boolean | UsuarioCountOutputTypeCountNotificacionesArgs
   }
 
   // Custom InputTypes
@@ -3737,6 +3830,13 @@ export namespace Prisma {
    */
   export type UsuarioCountOutputTypeCountActivacionesCuentaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ActivacionCuentaWhereInput
+  }
+
+  /**
+   * UsuarioCountOutputType without action
+   */
+  export type UsuarioCountOutputTypeCountNotificacionesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificacionWhereInput
   }
 
 
@@ -4053,6 +4153,55 @@ export namespace Prisma {
 
 
   /**
+   * Count Type CompraBonoCountOutputType
+   */
+
+  export type CompraBonoCountOutputType = {
+    pagos: number
+    facturas: number
+    clases: number
+  }
+
+  export type CompraBonoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    pagos?: boolean | CompraBonoCountOutputTypeCountPagosArgs
+    facturas?: boolean | CompraBonoCountOutputTypeCountFacturasArgs
+    clases?: boolean | CompraBonoCountOutputTypeCountClasesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CompraBonoCountOutputType without action
+   */
+  export type CompraBonoCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompraBonoCountOutputType
+     */
+    select?: CompraBonoCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CompraBonoCountOutputType without action
+   */
+  export type CompraBonoCountOutputTypeCountPagosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PagoWhereInput
+  }
+
+  /**
+   * CompraBonoCountOutputType without action
+   */
+  export type CompraBonoCountOutputTypeCountFacturasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FacturaWhereInput
+  }
+
+  /**
+   * CompraBonoCountOutputType without action
+   */
+  export type CompraBonoCountOutputTypeCountClasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClasePracticaWhereInput
+  }
+
+
+  /**
    * Count Type VehiculoCountOutputType
    */
 
@@ -4080,6 +4229,46 @@ export namespace Prisma {
    */
   export type VehiculoCountOutputTypeCountClasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ClasePracticaWhereInput
+  }
+
+
+  /**
+   * Count Type ClasePracticaCountOutputType
+   */
+
+  export type ClasePracticaCountOutputType = {
+    pagos: number
+    facturas: number
+  }
+
+  export type ClasePracticaCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    pagos?: boolean | ClasePracticaCountOutputTypeCountPagosArgs
+    facturas?: boolean | ClasePracticaCountOutputTypeCountFacturasArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ClasePracticaCountOutputType without action
+   */
+  export type ClasePracticaCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClasePracticaCountOutputType
+     */
+    select?: ClasePracticaCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ClasePracticaCountOutputType without action
+   */
+  export type ClasePracticaCountOutputTypeCountPagosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PagoWhereInput
+  }
+
+  /**
+   * ClasePracticaCountOutputType without action
+   */
+  export type ClasePracticaCountOutputTypeCountFacturasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FacturaWhereInput
   }
 
 
@@ -4444,6 +4633,7 @@ export namespace Prisma {
     dni?: boolean
     requiereCambioPassword?: boolean
     activacionesCuenta?: boolean | Usuario$activacionesCuentaArgs<ExtArgs>
+    notificaciones?: boolean | Usuario$notificacionesArgs<ExtArgs>
     alumno?: boolean | Usuario$alumnoArgs<ExtArgs>
     profesor?: boolean | Usuario$profesorArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
@@ -4488,6 +4678,7 @@ export namespace Prisma {
   export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "email" | "passwordHash" | "rol" | "fechaCreacion" | "telefono" | "dni" | "requiereCambioPassword", ExtArgs["result"]["usuario"]>
   export type UsuarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     activacionesCuenta?: boolean | Usuario$activacionesCuentaArgs<ExtArgs>
+    notificaciones?: boolean | Usuario$notificacionesArgs<ExtArgs>
     alumno?: boolean | Usuario$alumnoArgs<ExtArgs>
     profesor?: boolean | Usuario$profesorArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
@@ -4499,6 +4690,7 @@ export namespace Prisma {
     name: "Usuario"
     objects: {
       activacionesCuenta: Prisma.$ActivacionCuentaPayload<ExtArgs>[]
+      notificaciones: Prisma.$NotificacionPayload<ExtArgs>[]
       alumno: Prisma.$AlumnoPayload<ExtArgs> | null
       profesor: Prisma.$ProfesorPayload<ExtArgs> | null
     }
@@ -4907,6 +5099,7 @@ export namespace Prisma {
   export interface Prisma__UsuarioClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     activacionesCuenta<T extends Usuario$activacionesCuentaArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$activacionesCuentaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivacionCuentaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notificaciones<T extends Usuario$notificacionesArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$notificacionesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificacionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     alumno<T extends Usuario$alumnoArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$alumnoArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     profesor<T extends Usuario$profesorArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$profesorArgs<ExtArgs>>): Prisma__ProfesorClient<$Result.GetResult<Prisma.$ProfesorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
@@ -5356,6 +5549,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ActivacionCuentaScalarFieldEnum | ActivacionCuentaScalarFieldEnum[]
+  }
+
+  /**
+   * Usuario.notificaciones
+   */
+  export type Usuario$notificacionesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notificacion
+     */
+    select?: NotificacionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notificacion
+     */
+    omit?: NotificacionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificacionInclude<ExtArgs> | null
+    where?: NotificacionWhereInput
+    orderBy?: NotificacionOrderByWithRelationInput | NotificacionOrderByWithRelationInput[]
+    cursor?: NotificacionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificacionScalarFieldEnum | NotificacionScalarFieldEnum[]
   }
 
   /**
@@ -20491,11 +20708,13 @@ export namespace Prisma {
 
   export type BonoAvgAggregateOutputType = {
     clasesIncluidas: number | null
+    precio: Decimal | null
     validezDias: number | null
   }
 
   export type BonoSumAggregateOutputType = {
     clasesIncluidas: number | null
+    precio: Decimal | null
     validezDias: number | null
   }
 
@@ -20504,6 +20723,7 @@ export namespace Prisma {
     nombre: string | null
     descripcion: string | null
     clasesIncluidas: number | null
+    precio: Decimal | null
     validezDias: number | null
     activo: boolean | null
   }
@@ -20513,6 +20733,7 @@ export namespace Prisma {
     nombre: string | null
     descripcion: string | null
     clasesIncluidas: number | null
+    precio: Decimal | null
     validezDias: number | null
     activo: boolean | null
   }
@@ -20522,6 +20743,7 @@ export namespace Prisma {
     nombre: number
     descripcion: number
     clasesIncluidas: number
+    precio: number
     validezDias: number
     activo: number
     _all: number
@@ -20530,11 +20752,13 @@ export namespace Prisma {
 
   export type BonoAvgAggregateInputType = {
     clasesIncluidas?: true
+    precio?: true
     validezDias?: true
   }
 
   export type BonoSumAggregateInputType = {
     clasesIncluidas?: true
+    precio?: true
     validezDias?: true
   }
 
@@ -20543,6 +20767,7 @@ export namespace Prisma {
     nombre?: true
     descripcion?: true
     clasesIncluidas?: true
+    precio?: true
     validezDias?: true
     activo?: true
   }
@@ -20552,6 +20777,7 @@ export namespace Prisma {
     nombre?: true
     descripcion?: true
     clasesIncluidas?: true
+    precio?: true
     validezDias?: true
     activo?: true
   }
@@ -20561,6 +20787,7 @@ export namespace Prisma {
     nombre?: true
     descripcion?: true
     clasesIncluidas?: true
+    precio?: true
     validezDias?: true
     activo?: true
     _all?: true
@@ -20657,6 +20884,7 @@ export namespace Prisma {
     nombre: string
     descripcion: string | null
     clasesIncluidas: number
+    precio: Decimal
     validezDias: number
     activo: boolean
     _count: BonoCountAggregateOutputType | null
@@ -20685,6 +20913,7 @@ export namespace Prisma {
     nombre?: boolean
     descripcion?: boolean
     clasesIncluidas?: boolean
+    precio?: boolean
     validezDias?: boolean
     activo?: boolean
     compras?: boolean | Bono$comprasArgs<ExtArgs>
@@ -20696,6 +20925,7 @@ export namespace Prisma {
     nombre?: boolean
     descripcion?: boolean
     clasesIncluidas?: boolean
+    precio?: boolean
     validezDias?: boolean
     activo?: boolean
   }, ExtArgs["result"]["bono"]>
@@ -20705,6 +20935,7 @@ export namespace Prisma {
     nombre?: boolean
     descripcion?: boolean
     clasesIncluidas?: boolean
+    precio?: boolean
     validezDias?: boolean
     activo?: boolean
   }, ExtArgs["result"]["bono"]>
@@ -20714,11 +20945,12 @@ export namespace Prisma {
     nombre?: boolean
     descripcion?: boolean
     clasesIncluidas?: boolean
+    precio?: boolean
     validezDias?: boolean
     activo?: boolean
   }
 
-  export type BonoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "descripcion" | "clasesIncluidas" | "validezDias" | "activo", ExtArgs["result"]["bono"]>
+  export type BonoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "descripcion" | "clasesIncluidas" | "precio" | "validezDias" | "activo", ExtArgs["result"]["bono"]>
   export type BonoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     compras?: boolean | Bono$comprasArgs<ExtArgs>
     _count?: boolean | BonoCountOutputTypeDefaultArgs<ExtArgs>
@@ -20736,6 +20968,7 @@ export namespace Prisma {
       nombre: string
       descripcion: string | null
       clasesIncluidas: number
+      precio: Prisma.Decimal
       validezDias: number
       activo: boolean
     }, ExtArgs["result"]["bono"]>
@@ -21166,6 +21399,7 @@ export namespace Prisma {
     readonly nombre: FieldRef<"Bono", 'String'>
     readonly descripcion: FieldRef<"Bono", 'String'>
     readonly clasesIncluidas: FieldRef<"Bono", 'Int'>
+    readonly precio: FieldRef<"Bono", 'Decimal'>
     readonly validezDias: FieldRef<"Bono", 'Int'>
     readonly activo: FieldRef<"Bono", 'Boolean'>
   }
@@ -21824,8 +22058,12 @@ export namespace Prisma {
     pagado?: boolean
     fechaCompra?: boolean
     fechaValidezHasta?: boolean
+    pagos?: boolean | CompraBono$pagosArgs<ExtArgs>
+    facturas?: boolean | CompraBono$facturasArgs<ExtArgs>
+    clases?: boolean | CompraBono$clasesArgs<ExtArgs>
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     bono?: boolean | BonoDefaultArgs<ExtArgs>
+    _count?: boolean | CompraBonoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["compraBono"]>
 
   export type CompraBonoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -21867,8 +22105,12 @@ export namespace Prisma {
 
   export type CompraBonoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "bonoId" | "clasesCompradas" | "clasesConsumidas" | "pagado" | "fechaCompra" | "fechaValidezHasta", ExtArgs["result"]["compraBono"]>
   export type CompraBonoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    pagos?: boolean | CompraBono$pagosArgs<ExtArgs>
+    facturas?: boolean | CompraBono$facturasArgs<ExtArgs>
+    clases?: boolean | CompraBono$clasesArgs<ExtArgs>
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     bono?: boolean | BonoDefaultArgs<ExtArgs>
+    _count?: boolean | CompraBonoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompraBonoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
@@ -21882,6 +22124,9 @@ export namespace Prisma {
   export type $CompraBonoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "CompraBono"
     objects: {
+      pagos: Prisma.$PagoPayload<ExtArgs>[]
+      facturas: Prisma.$FacturaPayload<ExtArgs>[]
+      clases: Prisma.$ClasePracticaPayload<ExtArgs>[]
       alumno: Prisma.$AlumnoPayload<ExtArgs>
       bono: Prisma.$BonoPayload<ExtArgs>
     }
@@ -22288,6 +22533,9 @@ export namespace Prisma {
    */
   export interface Prisma__CompraBonoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    pagos<T extends CompraBono$pagosArgs<ExtArgs> = {}>(args?: Subset<T, CompraBono$pagosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PagoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    facturas<T extends CompraBono$facturasArgs<ExtArgs> = {}>(args?: Subset<T, CompraBono$facturasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FacturaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    clases<T extends CompraBono$clasesArgs<ExtArgs> = {}>(args?: Subset<T, CompraBono$clasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClasePracticaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     alumno<T extends AlumnoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AlumnoDefaultArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     bono<T extends BonoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BonoDefaultArgs<ExtArgs>>): Prisma__BonoClient<$Result.GetResult<Prisma.$BonoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
@@ -22720,6 +22968,78 @@ export namespace Prisma {
      * Limit how many CompraBonos to delete.
      */
     limit?: number
+  }
+
+  /**
+   * CompraBono.pagos
+   */
+  export type CompraBono$pagosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pago
+     */
+    select?: PagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pago
+     */
+    omit?: PagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PagoInclude<ExtArgs> | null
+    where?: PagoWhereInput
+    orderBy?: PagoOrderByWithRelationInput | PagoOrderByWithRelationInput[]
+    cursor?: PagoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PagoScalarFieldEnum | PagoScalarFieldEnum[]
+  }
+
+  /**
+   * CompraBono.facturas
+   */
+  export type CompraBono$facturasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Factura
+     */
+    select?: FacturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Factura
+     */
+    omit?: FacturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacturaInclude<ExtArgs> | null
+    where?: FacturaWhereInput
+    orderBy?: FacturaOrderByWithRelationInput | FacturaOrderByWithRelationInput[]
+    cursor?: FacturaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FacturaScalarFieldEnum | FacturaScalarFieldEnum[]
+  }
+
+  /**
+   * CompraBono.clases
+   */
+  export type CompraBono$clasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClasePractica
+     */
+    select?: ClasePracticaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClasePractica
+     */
+    omit?: ClasePracticaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClasePracticaInclude<ExtArgs> | null
+    where?: ClasePracticaWhereInput
+    orderBy?: ClasePracticaOrderByWithRelationInput | ClasePracticaOrderByWithRelationInput[]
+    cursor?: ClasePracticaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ClasePracticaScalarFieldEnum | ClasePracticaScalarFieldEnum[]
   }
 
   /**
@@ -26018,9 +26338,14 @@ export namespace Prisma {
     alumnoId: string | null
     profesorId: string | null
     vehiculoId: string | null
+    compraBonoId: string | null
     fecha: Date | null
     duracion: number | null
     estado: string | null
+    metodoPago: string | null
+    pagoLimiteAt: Date | null
+    canceladaPor: string | null
+    canceladaConPenalizacion: boolean | null
   }
 
   export type ClasePracticaMaxAggregateOutputType = {
@@ -26028,9 +26353,14 @@ export namespace Prisma {
     alumnoId: string | null
     profesorId: string | null
     vehiculoId: string | null
+    compraBonoId: string | null
     fecha: Date | null
     duracion: number | null
     estado: string | null
+    metodoPago: string | null
+    pagoLimiteAt: Date | null
+    canceladaPor: string | null
+    canceladaConPenalizacion: boolean | null
   }
 
   export type ClasePracticaCountAggregateOutputType = {
@@ -26038,9 +26368,14 @@ export namespace Prisma {
     alumnoId: number
     profesorId: number
     vehiculoId: number
+    compraBonoId: number
     fecha: number
     duracion: number
     estado: number
+    metodoPago: number
+    pagoLimiteAt: number
+    canceladaPor: number
+    canceladaConPenalizacion: number
     _all: number
   }
 
@@ -26058,9 +26393,14 @@ export namespace Prisma {
     alumnoId?: true
     profesorId?: true
     vehiculoId?: true
+    compraBonoId?: true
     fecha?: true
     duracion?: true
     estado?: true
+    metodoPago?: true
+    pagoLimiteAt?: true
+    canceladaPor?: true
+    canceladaConPenalizacion?: true
   }
 
   export type ClasePracticaMaxAggregateInputType = {
@@ -26068,9 +26408,14 @@ export namespace Prisma {
     alumnoId?: true
     profesorId?: true
     vehiculoId?: true
+    compraBonoId?: true
     fecha?: true
     duracion?: true
     estado?: true
+    metodoPago?: true
+    pagoLimiteAt?: true
+    canceladaPor?: true
+    canceladaConPenalizacion?: true
   }
 
   export type ClasePracticaCountAggregateInputType = {
@@ -26078,9 +26423,14 @@ export namespace Prisma {
     alumnoId?: true
     profesorId?: true
     vehiculoId?: true
+    compraBonoId?: true
     fecha?: true
     duracion?: true
     estado?: true
+    metodoPago?: true
+    pagoLimiteAt?: true
+    canceladaPor?: true
+    canceladaConPenalizacion?: true
     _all?: true
   }
 
@@ -26175,9 +26525,14 @@ export namespace Prisma {
     alumnoId: string
     profesorId: string
     vehiculoId: string
+    compraBonoId: string | null
     fecha: Date
     duracion: number
     estado: string
+    metodoPago: string
+    pagoLimiteAt: Date | null
+    canceladaPor: string | null
+    canceladaConPenalizacion: boolean
     _count: ClasePracticaCountAggregateOutputType | null
     _avg: ClasePracticaAvgAggregateOutputType | null
     _sum: ClasePracticaSumAggregateOutputType | null
@@ -26204,12 +26559,21 @@ export namespace Prisma {
     alumnoId?: boolean
     profesorId?: boolean
     vehiculoId?: boolean
+    compraBonoId?: boolean
     fecha?: boolean
     duracion?: boolean
     estado?: boolean
+    metodoPago?: boolean
+    pagoLimiteAt?: boolean
+    canceladaPor?: boolean
+    canceladaConPenalizacion?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
     vehiculo?: boolean | VehiculoDefaultArgs<ExtArgs>
+    compraBono?: boolean | ClasePractica$compraBonoArgs<ExtArgs>
+    pagos?: boolean | ClasePractica$pagosArgs<ExtArgs>
+    facturas?: boolean | ClasePractica$facturasArgs<ExtArgs>
+    _count?: boolean | ClasePracticaCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["clasePractica"]>
 
   export type ClasePracticaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -26217,12 +26581,18 @@ export namespace Prisma {
     alumnoId?: boolean
     profesorId?: boolean
     vehiculoId?: boolean
+    compraBonoId?: boolean
     fecha?: boolean
     duracion?: boolean
     estado?: boolean
+    metodoPago?: boolean
+    pagoLimiteAt?: boolean
+    canceladaPor?: boolean
+    canceladaConPenalizacion?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
     vehiculo?: boolean | VehiculoDefaultArgs<ExtArgs>
+    compraBono?: boolean | ClasePractica$compraBonoArgs<ExtArgs>
   }, ExtArgs["result"]["clasePractica"]>
 
   export type ClasePracticaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -26230,12 +26600,18 @@ export namespace Prisma {
     alumnoId?: boolean
     profesorId?: boolean
     vehiculoId?: boolean
+    compraBonoId?: boolean
     fecha?: boolean
     duracion?: boolean
     estado?: boolean
+    metodoPago?: boolean
+    pagoLimiteAt?: boolean
+    canceladaPor?: boolean
+    canceladaConPenalizacion?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
     vehiculo?: boolean | VehiculoDefaultArgs<ExtArgs>
+    compraBono?: boolean | ClasePractica$compraBonoArgs<ExtArgs>
   }, ExtArgs["result"]["clasePractica"]>
 
   export type ClasePracticaSelectScalar = {
@@ -26243,26 +26619,37 @@ export namespace Prisma {
     alumnoId?: boolean
     profesorId?: boolean
     vehiculoId?: boolean
+    compraBonoId?: boolean
     fecha?: boolean
     duracion?: boolean
     estado?: boolean
+    metodoPago?: boolean
+    pagoLimiteAt?: boolean
+    canceladaPor?: boolean
+    canceladaConPenalizacion?: boolean
   }
 
-  export type ClasePracticaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "profesorId" | "vehiculoId" | "fecha" | "duracion" | "estado", ExtArgs["result"]["clasePractica"]>
+  export type ClasePracticaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "profesorId" | "vehiculoId" | "compraBonoId" | "fecha" | "duracion" | "estado" | "metodoPago" | "pagoLimiteAt" | "canceladaPor" | "canceladaConPenalizacion", ExtArgs["result"]["clasePractica"]>
   export type ClasePracticaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
     vehiculo?: boolean | VehiculoDefaultArgs<ExtArgs>
+    compraBono?: boolean | ClasePractica$compraBonoArgs<ExtArgs>
+    pagos?: boolean | ClasePractica$pagosArgs<ExtArgs>
+    facturas?: boolean | ClasePractica$facturasArgs<ExtArgs>
+    _count?: boolean | ClasePracticaCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ClasePracticaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
     vehiculo?: boolean | VehiculoDefaultArgs<ExtArgs>
+    compraBono?: boolean | ClasePractica$compraBonoArgs<ExtArgs>
   }
   export type ClasePracticaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
     vehiculo?: boolean | VehiculoDefaultArgs<ExtArgs>
+    compraBono?: boolean | ClasePractica$compraBonoArgs<ExtArgs>
   }
 
   export type $ClasePracticaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -26271,15 +26658,23 @@ export namespace Prisma {
       alumno: Prisma.$AlumnoPayload<ExtArgs>
       profesor: Prisma.$ProfesorPayload<ExtArgs>
       vehiculo: Prisma.$VehiculoPayload<ExtArgs>
+      compraBono: Prisma.$CompraBonoPayload<ExtArgs> | null
+      pagos: Prisma.$PagoPayload<ExtArgs>[]
+      facturas: Prisma.$FacturaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       alumnoId: string
       profesorId: string
       vehiculoId: string
+      compraBonoId: string | null
       fecha: Date
       duracion: number
       estado: string
+      metodoPago: string
+      pagoLimiteAt: Date | null
+      canceladaPor: string | null
+      canceladaConPenalizacion: boolean
     }, ExtArgs["result"]["clasePractica"]>
     composites: {}
   }
@@ -26677,6 +27072,9 @@ export namespace Prisma {
     alumno<T extends AlumnoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AlumnoDefaultArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     profesor<T extends ProfesorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfesorDefaultArgs<ExtArgs>>): Prisma__ProfesorClient<$Result.GetResult<Prisma.$ProfesorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     vehiculo<T extends VehiculoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VehiculoDefaultArgs<ExtArgs>>): Prisma__VehiculoClient<$Result.GetResult<Prisma.$VehiculoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    compraBono<T extends ClasePractica$compraBonoArgs<ExtArgs> = {}>(args?: Subset<T, ClasePractica$compraBonoArgs<ExtArgs>>): Prisma__CompraBonoClient<$Result.GetResult<Prisma.$CompraBonoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    pagos<T extends ClasePractica$pagosArgs<ExtArgs> = {}>(args?: Subset<T, ClasePractica$pagosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PagoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    facturas<T extends ClasePractica$facturasArgs<ExtArgs> = {}>(args?: Subset<T, ClasePractica$facturasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FacturaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -26710,9 +27108,14 @@ export namespace Prisma {
     readonly alumnoId: FieldRef<"ClasePractica", 'String'>
     readonly profesorId: FieldRef<"ClasePractica", 'String'>
     readonly vehiculoId: FieldRef<"ClasePractica", 'String'>
+    readonly compraBonoId: FieldRef<"ClasePractica", 'String'>
     readonly fecha: FieldRef<"ClasePractica", 'DateTime'>
     readonly duracion: FieldRef<"ClasePractica", 'Int'>
     readonly estado: FieldRef<"ClasePractica", 'String'>
+    readonly metodoPago: FieldRef<"ClasePractica", 'String'>
+    readonly pagoLimiteAt: FieldRef<"ClasePractica", 'DateTime'>
+    readonly canceladaPor: FieldRef<"ClasePractica", 'String'>
+    readonly canceladaConPenalizacion: FieldRef<"ClasePractica", 'Boolean'>
   }
     
 
@@ -27106,6 +27509,73 @@ export namespace Prisma {
      * Limit how many ClasePracticas to delete.
      */
     limit?: number
+  }
+
+  /**
+   * ClasePractica.compraBono
+   */
+  export type ClasePractica$compraBonoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompraBono
+     */
+    select?: CompraBonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompraBono
+     */
+    omit?: CompraBonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompraBonoInclude<ExtArgs> | null
+    where?: CompraBonoWhereInput
+  }
+
+  /**
+   * ClasePractica.pagos
+   */
+  export type ClasePractica$pagosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pago
+     */
+    select?: PagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pago
+     */
+    omit?: PagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PagoInclude<ExtArgs> | null
+    where?: PagoWhereInput
+    orderBy?: PagoOrderByWithRelationInput | PagoOrderByWithRelationInput[]
+    cursor?: PagoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PagoScalarFieldEnum | PagoScalarFieldEnum[]
+  }
+
+  /**
+   * ClasePractica.facturas
+   */
+  export type ClasePractica$facturasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Factura
+     */
+    select?: FacturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Factura
+     */
+    omit?: FacturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacturaInclude<ExtArgs> | null
+    where?: FacturaWhereInput
+    orderBy?: FacturaOrderByWithRelationInput | FacturaOrderByWithRelationInput[]
+    cursor?: FacturaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FacturaScalarFieldEnum | FacturaScalarFieldEnum[]
   }
 
   /**
@@ -34116,6 +34586,8 @@ export namespace Prisma {
     id: string | null
     alumnoId: string | null
     matriculaId: string | null
+    compraBonoId: string | null
+    clasePracticaId: string | null
     tipo: string | null
     concepto: string | null
     permiso: string | null
@@ -34133,6 +34605,8 @@ export namespace Prisma {
     id: string | null
     alumnoId: string | null
     matriculaId: string | null
+    compraBonoId: string | null
+    clasePracticaId: string | null
     tipo: string | null
     concepto: string | null
     permiso: string | null
@@ -34150,6 +34624,8 @@ export namespace Prisma {
     id: number
     alumnoId: number
     matriculaId: number
+    compraBonoId: number
+    clasePracticaId: number
     tipo: number
     concepto: number
     permiso: number
@@ -34181,6 +34657,8 @@ export namespace Prisma {
     id?: true
     alumnoId?: true
     matriculaId?: true
+    compraBonoId?: true
+    clasePracticaId?: true
     tipo?: true
     concepto?: true
     permiso?: true
@@ -34198,6 +34676,8 @@ export namespace Prisma {
     id?: true
     alumnoId?: true
     matriculaId?: true
+    compraBonoId?: true
+    clasePracticaId?: true
     tipo?: true
     concepto?: true
     permiso?: true
@@ -34215,6 +34695,8 @@ export namespace Prisma {
     id?: true
     alumnoId?: true
     matriculaId?: true
+    compraBonoId?: true
+    clasePracticaId?: true
     tipo?: true
     concepto?: true
     permiso?: true
@@ -34319,6 +34801,8 @@ export namespace Prisma {
     id: string
     alumnoId: string
     matriculaId: string | null
+    compraBonoId: string | null
+    clasePracticaId: string | null
     tipo: string
     concepto: string
     permiso: string
@@ -34355,6 +34839,8 @@ export namespace Prisma {
     id?: boolean
     alumnoId?: boolean
     matriculaId?: boolean
+    compraBonoId?: boolean
+    clasePracticaId?: boolean
     tipo?: boolean
     concepto?: boolean
     permiso?: boolean
@@ -34368,12 +34854,16 @@ export namespace Prisma {
     observaciones?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     matricula?: boolean | Pago$matriculaArgs<ExtArgs>
+    compraBono?: boolean | Pago$compraBonoArgs<ExtArgs>
+    clasePractica?: boolean | Pago$clasePracticaArgs<ExtArgs>
   }, ExtArgs["result"]["pago"]>
 
   export type PagoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     alumnoId?: boolean
     matriculaId?: boolean
+    compraBonoId?: boolean
+    clasePracticaId?: boolean
     tipo?: boolean
     concepto?: boolean
     permiso?: boolean
@@ -34387,12 +34877,16 @@ export namespace Prisma {
     observaciones?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     matricula?: boolean | Pago$matriculaArgs<ExtArgs>
+    compraBono?: boolean | Pago$compraBonoArgs<ExtArgs>
+    clasePractica?: boolean | Pago$clasePracticaArgs<ExtArgs>
   }, ExtArgs["result"]["pago"]>
 
   export type PagoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     alumnoId?: boolean
     matriculaId?: boolean
+    compraBonoId?: boolean
+    clasePracticaId?: boolean
     tipo?: boolean
     concepto?: boolean
     permiso?: boolean
@@ -34406,12 +34900,16 @@ export namespace Prisma {
     observaciones?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     matricula?: boolean | Pago$matriculaArgs<ExtArgs>
+    compraBono?: boolean | Pago$compraBonoArgs<ExtArgs>
+    clasePractica?: boolean | Pago$clasePracticaArgs<ExtArgs>
   }, ExtArgs["result"]["pago"]>
 
   export type PagoSelectScalar = {
     id?: boolean
     alumnoId?: boolean
     matriculaId?: boolean
+    compraBonoId?: boolean
+    clasePracticaId?: boolean
     tipo?: boolean
     concepto?: boolean
     permiso?: boolean
@@ -34425,18 +34923,24 @@ export namespace Prisma {
     observaciones?: boolean
   }
 
-  export type PagoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "matriculaId" | "tipo" | "concepto" | "permiso" | "importe" | "estado" | "convocatoriasIncluidas" | "convocatoriasConsumidas" | "fechaCreacion" | "fechaPago" | "numeroFacturaPago" | "observaciones", ExtArgs["result"]["pago"]>
+  export type PagoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "matriculaId" | "compraBonoId" | "clasePracticaId" | "tipo" | "concepto" | "permiso" | "importe" | "estado" | "convocatoriasIncluidas" | "convocatoriasConsumidas" | "fechaCreacion" | "fechaPago" | "numeroFacturaPago" | "observaciones", ExtArgs["result"]["pago"]>
   export type PagoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     matricula?: boolean | Pago$matriculaArgs<ExtArgs>
+    compraBono?: boolean | Pago$compraBonoArgs<ExtArgs>
+    clasePractica?: boolean | Pago$clasePracticaArgs<ExtArgs>
   }
   export type PagoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     matricula?: boolean | Pago$matriculaArgs<ExtArgs>
+    compraBono?: boolean | Pago$compraBonoArgs<ExtArgs>
+    clasePractica?: boolean | Pago$clasePracticaArgs<ExtArgs>
   }
   export type PagoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     matricula?: boolean | Pago$matriculaArgs<ExtArgs>
+    compraBono?: boolean | Pago$compraBonoArgs<ExtArgs>
+    clasePractica?: boolean | Pago$clasePracticaArgs<ExtArgs>
   }
 
   export type $PagoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -34444,11 +34948,15 @@ export namespace Prisma {
     objects: {
       alumno: Prisma.$AlumnoPayload<ExtArgs>
       matricula: Prisma.$MatriculaPayload<ExtArgs> | null
+      compraBono: Prisma.$CompraBonoPayload<ExtArgs> | null
+      clasePractica: Prisma.$ClasePracticaPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       alumnoId: string
       matriculaId: string | null
+      compraBonoId: string | null
+      clasePracticaId: string | null
       tipo: string
       concepto: string
       permiso: string
@@ -34856,6 +35364,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     alumno<T extends AlumnoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AlumnoDefaultArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     matricula<T extends Pago$matriculaArgs<ExtArgs> = {}>(args?: Subset<T, Pago$matriculaArgs<ExtArgs>>): Prisma__MatriculaClient<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    compraBono<T extends Pago$compraBonoArgs<ExtArgs> = {}>(args?: Subset<T, Pago$compraBonoArgs<ExtArgs>>): Prisma__CompraBonoClient<$Result.GetResult<Prisma.$CompraBonoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    clasePractica<T extends Pago$clasePracticaArgs<ExtArgs> = {}>(args?: Subset<T, Pago$clasePracticaArgs<ExtArgs>>): Prisma__ClasePracticaClient<$Result.GetResult<Prisma.$ClasePracticaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -34888,6 +35398,8 @@ export namespace Prisma {
     readonly id: FieldRef<"Pago", 'String'>
     readonly alumnoId: FieldRef<"Pago", 'String'>
     readonly matriculaId: FieldRef<"Pago", 'String'>
+    readonly compraBonoId: FieldRef<"Pago", 'String'>
+    readonly clasePracticaId: FieldRef<"Pago", 'String'>
     readonly tipo: FieldRef<"Pago", 'String'>
     readonly concepto: FieldRef<"Pago", 'String'>
     readonly permiso: FieldRef<"Pago", 'String'>
@@ -35311,6 +35823,44 @@ export namespace Prisma {
      */
     include?: MatriculaInclude<ExtArgs> | null
     where?: MatriculaWhereInput
+  }
+
+  /**
+   * Pago.compraBono
+   */
+  export type Pago$compraBonoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompraBono
+     */
+    select?: CompraBonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompraBono
+     */
+    omit?: CompraBonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompraBonoInclude<ExtArgs> | null
+    where?: CompraBonoWhereInput
+  }
+
+  /**
+   * Pago.clasePractica
+   */
+  export type Pago$clasePracticaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClasePractica
+     */
+    select?: ClasePracticaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClasePractica
+     */
+    omit?: ClasePracticaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClasePracticaInclude<ExtArgs> | null
+    where?: ClasePracticaWhereInput
   }
 
   /**
@@ -40070,6 +40620,8 @@ export namespace Prisma {
     numero: string | null
     alumnoId: string | null
     matriculaId: string | null
+    compraBonoId: string | null
+    clasePracticaId: string | null
     concepto: string | null
     baseImponible: Decimal | null
     descuento: Decimal | null
@@ -40084,6 +40636,8 @@ export namespace Prisma {
     numero: string | null
     alumnoId: string | null
     matriculaId: string | null
+    compraBonoId: string | null
+    clasePracticaId: string | null
     concepto: string | null
     baseImponible: Decimal | null
     descuento: Decimal | null
@@ -40098,6 +40652,8 @@ export namespace Prisma {
     numero: number
     alumnoId: number
     matriculaId: number
+    compraBonoId: number
+    clasePracticaId: number
     concepto: number
     baseImponible: number
     descuento: number
@@ -40126,6 +40682,8 @@ export namespace Prisma {
     numero?: true
     alumnoId?: true
     matriculaId?: true
+    compraBonoId?: true
+    clasePracticaId?: true
     concepto?: true
     baseImponible?: true
     descuento?: true
@@ -40140,6 +40698,8 @@ export namespace Prisma {
     numero?: true
     alumnoId?: true
     matriculaId?: true
+    compraBonoId?: true
+    clasePracticaId?: true
     concepto?: true
     baseImponible?: true
     descuento?: true
@@ -40154,6 +40714,8 @@ export namespace Prisma {
     numero?: true
     alumnoId?: true
     matriculaId?: true
+    compraBonoId?: true
+    clasePracticaId?: true
     concepto?: true
     baseImponible?: true
     descuento?: true
@@ -40254,7 +40816,9 @@ export namespace Prisma {
     id: string
     numero: string
     alumnoId: string
-    matriculaId: string
+    matriculaId: string | null
+    compraBonoId: string | null
+    clasePracticaId: string | null
     concepto: string
     baseImponible: Decimal
     descuento: Decimal
@@ -40288,6 +40852,8 @@ export namespace Prisma {
     numero?: boolean
     alumnoId?: boolean
     matriculaId?: boolean
+    compraBonoId?: boolean
+    clasePracticaId?: boolean
     concepto?: boolean
     baseImponible?: boolean
     descuento?: boolean
@@ -40296,7 +40862,9 @@ export namespace Prisma {
     fechaEmision?: boolean
     fechaPago?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
-    matricula?: boolean | MatriculaDefaultArgs<ExtArgs>
+    matricula?: boolean | Factura$matriculaArgs<ExtArgs>
+    compraBono?: boolean | Factura$compraBonoArgs<ExtArgs>
+    clasePractica?: boolean | Factura$clasePracticaArgs<ExtArgs>
   }, ExtArgs["result"]["factura"]>
 
   export type FacturaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -40304,6 +40872,8 @@ export namespace Prisma {
     numero?: boolean
     alumnoId?: boolean
     matriculaId?: boolean
+    compraBonoId?: boolean
+    clasePracticaId?: boolean
     concepto?: boolean
     baseImponible?: boolean
     descuento?: boolean
@@ -40312,7 +40882,9 @@ export namespace Prisma {
     fechaEmision?: boolean
     fechaPago?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
-    matricula?: boolean | MatriculaDefaultArgs<ExtArgs>
+    matricula?: boolean | Factura$matriculaArgs<ExtArgs>
+    compraBono?: boolean | Factura$compraBonoArgs<ExtArgs>
+    clasePractica?: boolean | Factura$clasePracticaArgs<ExtArgs>
   }, ExtArgs["result"]["factura"]>
 
   export type FacturaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -40320,6 +40892,8 @@ export namespace Prisma {
     numero?: boolean
     alumnoId?: boolean
     matriculaId?: boolean
+    compraBonoId?: boolean
+    clasePracticaId?: boolean
     concepto?: boolean
     baseImponible?: boolean
     descuento?: boolean
@@ -40328,7 +40902,9 @@ export namespace Prisma {
     fechaEmision?: boolean
     fechaPago?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
-    matricula?: boolean | MatriculaDefaultArgs<ExtArgs>
+    matricula?: boolean | Factura$matriculaArgs<ExtArgs>
+    compraBono?: boolean | Factura$compraBonoArgs<ExtArgs>
+    clasePractica?: boolean | Factura$clasePracticaArgs<ExtArgs>
   }, ExtArgs["result"]["factura"]>
 
   export type FacturaSelectScalar = {
@@ -40336,6 +40912,8 @@ export namespace Prisma {
     numero?: boolean
     alumnoId?: boolean
     matriculaId?: boolean
+    compraBonoId?: boolean
+    clasePracticaId?: boolean
     concepto?: boolean
     baseImponible?: boolean
     descuento?: boolean
@@ -40345,31 +40923,41 @@ export namespace Prisma {
     fechaPago?: boolean
   }
 
-  export type FacturaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "numero" | "alumnoId" | "matriculaId" | "concepto" | "baseImponible" | "descuento" | "total" | "estado" | "fechaEmision" | "fechaPago", ExtArgs["result"]["factura"]>
+  export type FacturaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "numero" | "alumnoId" | "matriculaId" | "compraBonoId" | "clasePracticaId" | "concepto" | "baseImponible" | "descuento" | "total" | "estado" | "fechaEmision" | "fechaPago", ExtArgs["result"]["factura"]>
   export type FacturaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
-    matricula?: boolean | MatriculaDefaultArgs<ExtArgs>
+    matricula?: boolean | Factura$matriculaArgs<ExtArgs>
+    compraBono?: boolean | Factura$compraBonoArgs<ExtArgs>
+    clasePractica?: boolean | Factura$clasePracticaArgs<ExtArgs>
   }
   export type FacturaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
-    matricula?: boolean | MatriculaDefaultArgs<ExtArgs>
+    matricula?: boolean | Factura$matriculaArgs<ExtArgs>
+    compraBono?: boolean | Factura$compraBonoArgs<ExtArgs>
+    clasePractica?: boolean | Factura$clasePracticaArgs<ExtArgs>
   }
   export type FacturaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
-    matricula?: boolean | MatriculaDefaultArgs<ExtArgs>
+    matricula?: boolean | Factura$matriculaArgs<ExtArgs>
+    compraBono?: boolean | Factura$compraBonoArgs<ExtArgs>
+    clasePractica?: boolean | Factura$clasePracticaArgs<ExtArgs>
   }
 
   export type $FacturaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Factura"
     objects: {
       alumno: Prisma.$AlumnoPayload<ExtArgs>
-      matricula: Prisma.$MatriculaPayload<ExtArgs>
+      matricula: Prisma.$MatriculaPayload<ExtArgs> | null
+      compraBono: Prisma.$CompraBonoPayload<ExtArgs> | null
+      clasePractica: Prisma.$ClasePracticaPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       numero: string
       alumnoId: string
-      matriculaId: string
+      matriculaId: string | null
+      compraBonoId: string | null
+      clasePracticaId: string | null
       concepto: string
       baseImponible: Prisma.Decimal
       descuento: Prisma.Decimal
@@ -40772,7 +41360,9 @@ export namespace Prisma {
   export interface Prisma__FacturaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     alumno<T extends AlumnoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AlumnoDefaultArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    matricula<T extends MatriculaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MatriculaDefaultArgs<ExtArgs>>): Prisma__MatriculaClient<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    matricula<T extends Factura$matriculaArgs<ExtArgs> = {}>(args?: Subset<T, Factura$matriculaArgs<ExtArgs>>): Prisma__MatriculaClient<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    compraBono<T extends Factura$compraBonoArgs<ExtArgs> = {}>(args?: Subset<T, Factura$compraBonoArgs<ExtArgs>>): Prisma__CompraBonoClient<$Result.GetResult<Prisma.$CompraBonoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    clasePractica<T extends Factura$clasePracticaArgs<ExtArgs> = {}>(args?: Subset<T, Factura$clasePracticaArgs<ExtArgs>>): Prisma__ClasePracticaClient<$Result.GetResult<Prisma.$ClasePracticaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -40806,6 +41396,8 @@ export namespace Prisma {
     readonly numero: FieldRef<"Factura", 'String'>
     readonly alumnoId: FieldRef<"Factura", 'String'>
     readonly matriculaId: FieldRef<"Factura", 'String'>
+    readonly compraBonoId: FieldRef<"Factura", 'String'>
+    readonly clasePracticaId: FieldRef<"Factura", 'String'>
     readonly concepto: FieldRef<"Factura", 'String'>
     readonly baseImponible: FieldRef<"Factura", 'Decimal'>
     readonly descuento: FieldRef<"Factura", 'Decimal'>
@@ -41209,6 +41801,63 @@ export namespace Prisma {
   }
 
   /**
+   * Factura.matricula
+   */
+  export type Factura$matriculaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matricula
+     */
+    select?: MatriculaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Matricula
+     */
+    omit?: MatriculaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MatriculaInclude<ExtArgs> | null
+    where?: MatriculaWhereInput
+  }
+
+  /**
+   * Factura.compraBono
+   */
+  export type Factura$compraBonoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CompraBono
+     */
+    select?: CompraBonoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CompraBono
+     */
+    omit?: CompraBonoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompraBonoInclude<ExtArgs> | null
+    where?: CompraBonoWhereInput
+  }
+
+  /**
+   * Factura.clasePractica
+   */
+  export type Factura$clasePracticaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClasePractica
+     */
+    select?: ClasePracticaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClasePractica
+     */
+    omit?: ClasePracticaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClasePracticaInclude<ExtArgs> | null
+    where?: ClasePracticaWhereInput
+  }
+
+  /**
    * Factura without action
    */
   export type FacturaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -41224,6 +41873,1112 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: FacturaInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Notificacion
+   */
+
+  export type AggregateNotificacion = {
+    _count: NotificacionCountAggregateOutputType | null
+    _min: NotificacionMinAggregateOutputType | null
+    _max: NotificacionMaxAggregateOutputType | null
+  }
+
+  export type NotificacionMinAggregateOutputType = {
+    id: string | null
+    usuarioId: string | null
+    tipo: string | null
+    titulo: string | null
+    mensaje: string | null
+    leida: boolean | null
+    createdAt: Date | null
+    readAt: Date | null
+  }
+
+  export type NotificacionMaxAggregateOutputType = {
+    id: string | null
+    usuarioId: string | null
+    tipo: string | null
+    titulo: string | null
+    mensaje: string | null
+    leida: boolean | null
+    createdAt: Date | null
+    readAt: Date | null
+  }
+
+  export type NotificacionCountAggregateOutputType = {
+    id: number
+    usuarioId: number
+    tipo: number
+    titulo: number
+    mensaje: number
+    metadata: number
+    leida: number
+    createdAt: number
+    readAt: number
+    _all: number
+  }
+
+
+  export type NotificacionMinAggregateInputType = {
+    id?: true
+    usuarioId?: true
+    tipo?: true
+    titulo?: true
+    mensaje?: true
+    leida?: true
+    createdAt?: true
+    readAt?: true
+  }
+
+  export type NotificacionMaxAggregateInputType = {
+    id?: true
+    usuarioId?: true
+    tipo?: true
+    titulo?: true
+    mensaje?: true
+    leida?: true
+    createdAt?: true
+    readAt?: true
+  }
+
+  export type NotificacionCountAggregateInputType = {
+    id?: true
+    usuarioId?: true
+    tipo?: true
+    titulo?: true
+    mensaje?: true
+    metadata?: true
+    leida?: true
+    createdAt?: true
+    readAt?: true
+    _all?: true
+  }
+
+  export type NotificacionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Notificacion to aggregate.
+     */
+    where?: NotificacionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notificacions to fetch.
+     */
+    orderBy?: NotificacionOrderByWithRelationInput | NotificacionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: NotificacionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notificacions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notificacions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Notificacions
+    **/
+    _count?: true | NotificacionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NotificacionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NotificacionMaxAggregateInputType
+  }
+
+  export type GetNotificacionAggregateType<T extends NotificacionAggregateArgs> = {
+        [P in keyof T & keyof AggregateNotificacion]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNotificacion[P]>
+      : GetScalarType<T[P], AggregateNotificacion[P]>
+  }
+
+
+
+
+  export type NotificacionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificacionWhereInput
+    orderBy?: NotificacionOrderByWithAggregationInput | NotificacionOrderByWithAggregationInput[]
+    by: NotificacionScalarFieldEnum[] | NotificacionScalarFieldEnum
+    having?: NotificacionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NotificacionCountAggregateInputType | true
+    _min?: NotificacionMinAggregateInputType
+    _max?: NotificacionMaxAggregateInputType
+  }
+
+  export type NotificacionGroupByOutputType = {
+    id: string
+    usuarioId: string
+    tipo: string
+    titulo: string
+    mensaje: string
+    metadata: JsonValue | null
+    leida: boolean
+    createdAt: Date
+    readAt: Date | null
+    _count: NotificacionCountAggregateOutputType | null
+    _min: NotificacionMinAggregateOutputType | null
+    _max: NotificacionMaxAggregateOutputType | null
+  }
+
+  type GetNotificacionGroupByPayload<T extends NotificacionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NotificacionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NotificacionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NotificacionGroupByOutputType[P]>
+            : GetScalarType<T[P], NotificacionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type NotificacionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    usuarioId?: boolean
+    tipo?: boolean
+    titulo?: boolean
+    mensaje?: boolean
+    metadata?: boolean
+    leida?: boolean
+    createdAt?: boolean
+    readAt?: boolean
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["notificacion"]>
+
+  export type NotificacionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    usuarioId?: boolean
+    tipo?: boolean
+    titulo?: boolean
+    mensaje?: boolean
+    metadata?: boolean
+    leida?: boolean
+    createdAt?: boolean
+    readAt?: boolean
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["notificacion"]>
+
+  export type NotificacionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    usuarioId?: boolean
+    tipo?: boolean
+    titulo?: boolean
+    mensaje?: boolean
+    metadata?: boolean
+    leida?: boolean
+    createdAt?: boolean
+    readAt?: boolean
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["notificacion"]>
+
+  export type NotificacionSelectScalar = {
+    id?: boolean
+    usuarioId?: boolean
+    tipo?: boolean
+    titulo?: boolean
+    mensaje?: boolean
+    metadata?: boolean
+    leida?: boolean
+    createdAt?: boolean
+    readAt?: boolean
+  }
+
+  export type NotificacionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "usuarioId" | "tipo" | "titulo" | "mensaje" | "metadata" | "leida" | "createdAt" | "readAt", ExtArgs["result"]["notificacion"]>
+  export type NotificacionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+  export type NotificacionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+  export type NotificacionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+
+  export type $NotificacionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Notificacion"
+    objects: {
+      usuario: Prisma.$UsuarioPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      usuarioId: string
+      tipo: string
+      titulo: string
+      mensaje: string
+      metadata: Prisma.JsonValue | null
+      leida: boolean
+      createdAt: Date
+      readAt: Date | null
+    }, ExtArgs["result"]["notificacion"]>
+    composites: {}
+  }
+
+  type NotificacionGetPayload<S extends boolean | null | undefined | NotificacionDefaultArgs> = $Result.GetResult<Prisma.$NotificacionPayload, S>
+
+  type NotificacionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<NotificacionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NotificacionCountAggregateInputType | true
+    }
+
+  export interface NotificacionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Notificacion'], meta: { name: 'Notificacion' } }
+    /**
+     * Find zero or one Notificacion that matches the filter.
+     * @param {NotificacionFindUniqueArgs} args - Arguments to find a Notificacion
+     * @example
+     * // Get one Notificacion
+     * const notificacion = await prisma.notificacion.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends NotificacionFindUniqueArgs>(args: SelectSubset<T, NotificacionFindUniqueArgs<ExtArgs>>): Prisma__NotificacionClient<$Result.GetResult<Prisma.$NotificacionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Notificacion that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {NotificacionFindUniqueOrThrowArgs} args - Arguments to find a Notificacion
+     * @example
+     * // Get one Notificacion
+     * const notificacion = await prisma.notificacion.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends NotificacionFindUniqueOrThrowArgs>(args: SelectSubset<T, NotificacionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NotificacionClient<$Result.GetResult<Prisma.$NotificacionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Notificacion that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificacionFindFirstArgs} args - Arguments to find a Notificacion
+     * @example
+     * // Get one Notificacion
+     * const notificacion = await prisma.notificacion.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends NotificacionFindFirstArgs>(args?: SelectSubset<T, NotificacionFindFirstArgs<ExtArgs>>): Prisma__NotificacionClient<$Result.GetResult<Prisma.$NotificacionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Notificacion that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificacionFindFirstOrThrowArgs} args - Arguments to find a Notificacion
+     * @example
+     * // Get one Notificacion
+     * const notificacion = await prisma.notificacion.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends NotificacionFindFirstOrThrowArgs>(args?: SelectSubset<T, NotificacionFindFirstOrThrowArgs<ExtArgs>>): Prisma__NotificacionClient<$Result.GetResult<Prisma.$NotificacionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Notificacions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificacionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Notificacions
+     * const notificacions = await prisma.notificacion.findMany()
+     * 
+     * // Get first 10 Notificacions
+     * const notificacions = await prisma.notificacion.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const notificacionWithIdOnly = await prisma.notificacion.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends NotificacionFindManyArgs>(args?: SelectSubset<T, NotificacionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificacionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Notificacion.
+     * @param {NotificacionCreateArgs} args - Arguments to create a Notificacion.
+     * @example
+     * // Create one Notificacion
+     * const Notificacion = await prisma.notificacion.create({
+     *   data: {
+     *     // ... data to create a Notificacion
+     *   }
+     * })
+     * 
+     */
+    create<T extends NotificacionCreateArgs>(args: SelectSubset<T, NotificacionCreateArgs<ExtArgs>>): Prisma__NotificacionClient<$Result.GetResult<Prisma.$NotificacionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Notificacions.
+     * @param {NotificacionCreateManyArgs} args - Arguments to create many Notificacions.
+     * @example
+     * // Create many Notificacions
+     * const notificacion = await prisma.notificacion.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends NotificacionCreateManyArgs>(args?: SelectSubset<T, NotificacionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Notificacions and returns the data saved in the database.
+     * @param {NotificacionCreateManyAndReturnArgs} args - Arguments to create many Notificacions.
+     * @example
+     * // Create many Notificacions
+     * const notificacion = await prisma.notificacion.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Notificacions and only return the `id`
+     * const notificacionWithIdOnly = await prisma.notificacion.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends NotificacionCreateManyAndReturnArgs>(args?: SelectSubset<T, NotificacionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificacionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Notificacion.
+     * @param {NotificacionDeleteArgs} args - Arguments to delete one Notificacion.
+     * @example
+     * // Delete one Notificacion
+     * const Notificacion = await prisma.notificacion.delete({
+     *   where: {
+     *     // ... filter to delete one Notificacion
+     *   }
+     * })
+     * 
+     */
+    delete<T extends NotificacionDeleteArgs>(args: SelectSubset<T, NotificacionDeleteArgs<ExtArgs>>): Prisma__NotificacionClient<$Result.GetResult<Prisma.$NotificacionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Notificacion.
+     * @param {NotificacionUpdateArgs} args - Arguments to update one Notificacion.
+     * @example
+     * // Update one Notificacion
+     * const notificacion = await prisma.notificacion.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends NotificacionUpdateArgs>(args: SelectSubset<T, NotificacionUpdateArgs<ExtArgs>>): Prisma__NotificacionClient<$Result.GetResult<Prisma.$NotificacionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Notificacions.
+     * @param {NotificacionDeleteManyArgs} args - Arguments to filter Notificacions to delete.
+     * @example
+     * // Delete a few Notificacions
+     * const { count } = await prisma.notificacion.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends NotificacionDeleteManyArgs>(args?: SelectSubset<T, NotificacionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Notificacions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificacionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Notificacions
+     * const notificacion = await prisma.notificacion.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends NotificacionUpdateManyArgs>(args: SelectSubset<T, NotificacionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Notificacions and returns the data updated in the database.
+     * @param {NotificacionUpdateManyAndReturnArgs} args - Arguments to update many Notificacions.
+     * @example
+     * // Update many Notificacions
+     * const notificacion = await prisma.notificacion.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Notificacions and only return the `id`
+     * const notificacionWithIdOnly = await prisma.notificacion.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends NotificacionUpdateManyAndReturnArgs>(args: SelectSubset<T, NotificacionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificacionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Notificacion.
+     * @param {NotificacionUpsertArgs} args - Arguments to update or create a Notificacion.
+     * @example
+     * // Update or create a Notificacion
+     * const notificacion = await prisma.notificacion.upsert({
+     *   create: {
+     *     // ... data to create a Notificacion
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Notificacion we want to update
+     *   }
+     * })
+     */
+    upsert<T extends NotificacionUpsertArgs>(args: SelectSubset<T, NotificacionUpsertArgs<ExtArgs>>): Prisma__NotificacionClient<$Result.GetResult<Prisma.$NotificacionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Notificacions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificacionCountArgs} args - Arguments to filter Notificacions to count.
+     * @example
+     * // Count the number of Notificacions
+     * const count = await prisma.notificacion.count({
+     *   where: {
+     *     // ... the filter for the Notificacions we want to count
+     *   }
+     * })
+    **/
+    count<T extends NotificacionCountArgs>(
+      args?: Subset<T, NotificacionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NotificacionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Notificacion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificacionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NotificacionAggregateArgs>(args: Subset<T, NotificacionAggregateArgs>): Prisma.PrismaPromise<GetNotificacionAggregateType<T>>
+
+    /**
+     * Group by Notificacion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificacionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends NotificacionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: NotificacionGroupByArgs['orderBy'] }
+        : { orderBy?: NotificacionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, NotificacionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNotificacionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Notificacion model
+   */
+  readonly fields: NotificacionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Notificacion.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__NotificacionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    usuario<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Notificacion model
+   */
+  interface NotificacionFieldRefs {
+    readonly id: FieldRef<"Notificacion", 'String'>
+    readonly usuarioId: FieldRef<"Notificacion", 'String'>
+    readonly tipo: FieldRef<"Notificacion", 'String'>
+    readonly titulo: FieldRef<"Notificacion", 'String'>
+    readonly mensaje: FieldRef<"Notificacion", 'String'>
+    readonly metadata: FieldRef<"Notificacion", 'Json'>
+    readonly leida: FieldRef<"Notificacion", 'Boolean'>
+    readonly createdAt: FieldRef<"Notificacion", 'DateTime'>
+    readonly readAt: FieldRef<"Notificacion", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Notificacion findUnique
+   */
+  export type NotificacionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notificacion
+     */
+    select?: NotificacionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notificacion
+     */
+    omit?: NotificacionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificacionInclude<ExtArgs> | null
+    /**
+     * Filter, which Notificacion to fetch.
+     */
+    where: NotificacionWhereUniqueInput
+  }
+
+  /**
+   * Notificacion findUniqueOrThrow
+   */
+  export type NotificacionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notificacion
+     */
+    select?: NotificacionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notificacion
+     */
+    omit?: NotificacionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificacionInclude<ExtArgs> | null
+    /**
+     * Filter, which Notificacion to fetch.
+     */
+    where: NotificacionWhereUniqueInput
+  }
+
+  /**
+   * Notificacion findFirst
+   */
+  export type NotificacionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notificacion
+     */
+    select?: NotificacionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notificacion
+     */
+    omit?: NotificacionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificacionInclude<ExtArgs> | null
+    /**
+     * Filter, which Notificacion to fetch.
+     */
+    where?: NotificacionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notificacions to fetch.
+     */
+    orderBy?: NotificacionOrderByWithRelationInput | NotificacionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Notificacions.
+     */
+    cursor?: NotificacionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notificacions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notificacions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Notificacions.
+     */
+    distinct?: NotificacionScalarFieldEnum | NotificacionScalarFieldEnum[]
+  }
+
+  /**
+   * Notificacion findFirstOrThrow
+   */
+  export type NotificacionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notificacion
+     */
+    select?: NotificacionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notificacion
+     */
+    omit?: NotificacionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificacionInclude<ExtArgs> | null
+    /**
+     * Filter, which Notificacion to fetch.
+     */
+    where?: NotificacionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notificacions to fetch.
+     */
+    orderBy?: NotificacionOrderByWithRelationInput | NotificacionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Notificacions.
+     */
+    cursor?: NotificacionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notificacions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notificacions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Notificacions.
+     */
+    distinct?: NotificacionScalarFieldEnum | NotificacionScalarFieldEnum[]
+  }
+
+  /**
+   * Notificacion findMany
+   */
+  export type NotificacionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notificacion
+     */
+    select?: NotificacionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notificacion
+     */
+    omit?: NotificacionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificacionInclude<ExtArgs> | null
+    /**
+     * Filter, which Notificacions to fetch.
+     */
+    where?: NotificacionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notificacions to fetch.
+     */
+    orderBy?: NotificacionOrderByWithRelationInput | NotificacionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Notificacions.
+     */
+    cursor?: NotificacionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notificacions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notificacions.
+     */
+    skip?: number
+    distinct?: NotificacionScalarFieldEnum | NotificacionScalarFieldEnum[]
+  }
+
+  /**
+   * Notificacion create
+   */
+  export type NotificacionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notificacion
+     */
+    select?: NotificacionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notificacion
+     */
+    omit?: NotificacionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificacionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Notificacion.
+     */
+    data: XOR<NotificacionCreateInput, NotificacionUncheckedCreateInput>
+  }
+
+  /**
+   * Notificacion createMany
+   */
+  export type NotificacionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Notificacions.
+     */
+    data: NotificacionCreateManyInput | NotificacionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Notificacion createManyAndReturn
+   */
+  export type NotificacionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notificacion
+     */
+    select?: NotificacionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notificacion
+     */
+    omit?: NotificacionOmit<ExtArgs> | null
+    /**
+     * The data used to create many Notificacions.
+     */
+    data: NotificacionCreateManyInput | NotificacionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificacionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Notificacion update
+   */
+  export type NotificacionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notificacion
+     */
+    select?: NotificacionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notificacion
+     */
+    omit?: NotificacionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificacionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Notificacion.
+     */
+    data: XOR<NotificacionUpdateInput, NotificacionUncheckedUpdateInput>
+    /**
+     * Choose, which Notificacion to update.
+     */
+    where: NotificacionWhereUniqueInput
+  }
+
+  /**
+   * Notificacion updateMany
+   */
+  export type NotificacionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Notificacions.
+     */
+    data: XOR<NotificacionUpdateManyMutationInput, NotificacionUncheckedUpdateManyInput>
+    /**
+     * Filter which Notificacions to update
+     */
+    where?: NotificacionWhereInput
+    /**
+     * Limit how many Notificacions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Notificacion updateManyAndReturn
+   */
+  export type NotificacionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notificacion
+     */
+    select?: NotificacionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notificacion
+     */
+    omit?: NotificacionOmit<ExtArgs> | null
+    /**
+     * The data used to update Notificacions.
+     */
+    data: XOR<NotificacionUpdateManyMutationInput, NotificacionUncheckedUpdateManyInput>
+    /**
+     * Filter which Notificacions to update
+     */
+    where?: NotificacionWhereInput
+    /**
+     * Limit how many Notificacions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificacionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Notificacion upsert
+   */
+  export type NotificacionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notificacion
+     */
+    select?: NotificacionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notificacion
+     */
+    omit?: NotificacionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificacionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Notificacion to update in case it exists.
+     */
+    where: NotificacionWhereUniqueInput
+    /**
+     * In case the Notificacion found by the `where` argument doesn't exist, create a new Notificacion with this data.
+     */
+    create: XOR<NotificacionCreateInput, NotificacionUncheckedCreateInput>
+    /**
+     * In case the Notificacion was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<NotificacionUpdateInput, NotificacionUncheckedUpdateInput>
+  }
+
+  /**
+   * Notificacion delete
+   */
+  export type NotificacionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notificacion
+     */
+    select?: NotificacionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notificacion
+     */
+    omit?: NotificacionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificacionInclude<ExtArgs> | null
+    /**
+     * Filter which Notificacion to delete.
+     */
+    where: NotificacionWhereUniqueInput
+  }
+
+  /**
+   * Notificacion deleteMany
+   */
+  export type NotificacionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Notificacions to delete
+     */
+    where?: NotificacionWhereInput
+    /**
+     * Limit how many Notificacions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Notificacion without action
+   */
+  export type NotificacionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notificacion
+     */
+    select?: NotificacionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notificacion
+     */
+    omit?: NotificacionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificacionInclude<ExtArgs> | null
   }
 
 
@@ -41433,6 +43188,7 @@ export namespace Prisma {
     nombre: 'nombre',
     descripcion: 'descripcion',
     clasesIncluidas: 'clasesIncluidas',
+    precio: 'precio',
     validezDias: 'validezDias',
     activo: 'activo'
   };
@@ -41499,9 +43255,14 @@ export namespace Prisma {
     alumnoId: 'alumnoId',
     profesorId: 'profesorId',
     vehiculoId: 'vehiculoId',
+    compraBonoId: 'compraBonoId',
     fecha: 'fecha',
     duracion: 'duracion',
-    estado: 'estado'
+    estado: 'estado',
+    metodoPago: 'metodoPago',
+    pagoLimiteAt: 'pagoLimiteAt',
+    canceladaPor: 'canceladaPor',
+    canceladaConPenalizacion: 'canceladaConPenalizacion'
   };
 
   export type ClasePracticaScalarFieldEnum = (typeof ClasePracticaScalarFieldEnum)[keyof typeof ClasePracticaScalarFieldEnum]
@@ -41602,6 +43363,8 @@ export namespace Prisma {
     id: 'id',
     alumnoId: 'alumnoId',
     matriculaId: 'matriculaId',
+    compraBonoId: 'compraBonoId',
+    clasePracticaId: 'clasePracticaId',
     tipo: 'tipo',
     concepto: 'concepto',
     permiso: 'permiso',
@@ -41690,6 +43453,8 @@ export namespace Prisma {
     numero: 'numero',
     alumnoId: 'alumnoId',
     matriculaId: 'matriculaId',
+    compraBonoId: 'compraBonoId',
+    clasePracticaId: 'clasePracticaId',
     concepto: 'concepto',
     baseImponible: 'baseImponible',
     descuento: 'descuento',
@@ -41700,6 +43465,21 @@ export namespace Prisma {
   };
 
   export type FacturaScalarFieldEnum = (typeof FacturaScalarFieldEnum)[keyof typeof FacturaScalarFieldEnum]
+
+
+  export const NotificacionScalarFieldEnum: {
+    id: 'id',
+    usuarioId: 'usuarioId',
+    tipo: 'tipo',
+    titulo: 'titulo',
+    mensaje: 'mensaje',
+    metadata: 'metadata',
+    leida: 'leida',
+    createdAt: 'createdAt',
+    readAt: 'readAt'
+  };
+
+  export type NotificacionScalarFieldEnum = (typeof NotificacionScalarFieldEnum)[keyof typeof NotificacionScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -41715,6 +43495,14 @@ export namespace Prisma {
   };
 
   export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
   export const QueryMode: {
@@ -41897,6 +43685,7 @@ export namespace Prisma {
     dni?: StringNullableFilter<"Usuario"> | string | null
     requiereCambioPassword?: BoolFilter<"Usuario"> | boolean
     activacionesCuenta?: ActivacionCuentaListRelationFilter
+    notificaciones?: NotificacionListRelationFilter
     alumno?: XOR<AlumnoNullableScalarRelationFilter, AlumnoWhereInput> | null
     profesor?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
   }
@@ -41912,6 +43701,7 @@ export namespace Prisma {
     dni?: SortOrderInput | SortOrder
     requiereCambioPassword?: SortOrder
     activacionesCuenta?: ActivacionCuentaOrderByRelationAggregateInput
+    notificaciones?: NotificacionOrderByRelationAggregateInput
     alumno?: AlumnoOrderByWithRelationInput
     profesor?: ProfesorOrderByWithRelationInput
   }
@@ -41930,6 +43720,7 @@ export namespace Prisma {
     telefono?: StringNullableFilter<"Usuario"> | string | null
     requiereCambioPassword?: BoolFilter<"Usuario"> | boolean
     activacionesCuenta?: ActivacionCuentaListRelationFilter
+    notificaciones?: NotificacionListRelationFilter
     alumno?: XOR<AlumnoNullableScalarRelationFilter, AlumnoWhereInput> | null
     profesor?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
   }, "id" | "email" | "dni">
@@ -42912,6 +44703,7 @@ export namespace Prisma {
     nombre?: StringFilter<"Bono"> | string
     descripcion?: StringNullableFilter<"Bono"> | string | null
     clasesIncluidas?: IntFilter<"Bono"> | number
+    precio?: DecimalFilter<"Bono"> | Decimal | DecimalJsLike | number | string
     validezDias?: IntFilter<"Bono"> | number
     activo?: BoolFilter<"Bono"> | boolean
     compras?: CompraBonoListRelationFilter
@@ -42922,6 +44714,7 @@ export namespace Prisma {
     nombre?: SortOrder
     descripcion?: SortOrderInput | SortOrder
     clasesIncluidas?: SortOrder
+    precio?: SortOrder
     validezDias?: SortOrder
     activo?: SortOrder
     compras?: CompraBonoOrderByRelationAggregateInput
@@ -42935,6 +44728,7 @@ export namespace Prisma {
     nombre?: StringFilter<"Bono"> | string
     descripcion?: StringNullableFilter<"Bono"> | string | null
     clasesIncluidas?: IntFilter<"Bono"> | number
+    precio?: DecimalFilter<"Bono"> | Decimal | DecimalJsLike | number | string
     validezDias?: IntFilter<"Bono"> | number
     activo?: BoolFilter<"Bono"> | boolean
     compras?: CompraBonoListRelationFilter
@@ -42945,6 +44739,7 @@ export namespace Prisma {
     nombre?: SortOrder
     descripcion?: SortOrderInput | SortOrder
     clasesIncluidas?: SortOrder
+    precio?: SortOrder
     validezDias?: SortOrder
     activo?: SortOrder
     _count?: BonoCountOrderByAggregateInput
@@ -42962,6 +44757,7 @@ export namespace Prisma {
     nombre?: StringWithAggregatesFilter<"Bono"> | string
     descripcion?: StringNullableWithAggregatesFilter<"Bono"> | string | null
     clasesIncluidas?: IntWithAggregatesFilter<"Bono"> | number
+    precio?: DecimalWithAggregatesFilter<"Bono"> | Decimal | DecimalJsLike | number | string
     validezDias?: IntWithAggregatesFilter<"Bono"> | number
     activo?: BoolWithAggregatesFilter<"Bono"> | boolean
   }
@@ -42978,6 +44774,9 @@ export namespace Prisma {
     pagado?: BoolFilter<"CompraBono"> | boolean
     fechaCompra?: DateTimeFilter<"CompraBono"> | Date | string
     fechaValidezHasta?: DateTimeFilter<"CompraBono"> | Date | string
+    pagos?: PagoListRelationFilter
+    facturas?: FacturaListRelationFilter
+    clases?: ClasePracticaListRelationFilter
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
     bono?: XOR<BonoScalarRelationFilter, BonoWhereInput>
   }
@@ -42991,6 +44790,9 @@ export namespace Prisma {
     pagado?: SortOrder
     fechaCompra?: SortOrder
     fechaValidezHasta?: SortOrder
+    pagos?: PagoOrderByRelationAggregateInput
+    facturas?: FacturaOrderByRelationAggregateInput
+    clases?: ClasePracticaOrderByRelationAggregateInput
     alumno?: AlumnoOrderByWithRelationInput
     bono?: BonoOrderByWithRelationInput
   }
@@ -43007,6 +44809,9 @@ export namespace Prisma {
     pagado?: BoolFilter<"CompraBono"> | boolean
     fechaCompra?: DateTimeFilter<"CompraBono"> | Date | string
     fechaValidezHasta?: DateTimeFilter<"CompraBono"> | Date | string
+    pagos?: PagoListRelationFilter
+    facturas?: FacturaListRelationFilter
+    clases?: ClasePracticaListRelationFilter
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
     bono?: XOR<BonoScalarRelationFilter, BonoWhereInput>
   }, "id">
@@ -43248,12 +45053,20 @@ export namespace Prisma {
     alumnoId?: StringFilter<"ClasePractica"> | string
     profesorId?: StringFilter<"ClasePractica"> | string
     vehiculoId?: StringFilter<"ClasePractica"> | string
+    compraBonoId?: StringNullableFilter<"ClasePractica"> | string | null
     fecha?: DateTimeFilter<"ClasePractica"> | Date | string
     duracion?: IntFilter<"ClasePractica"> | number
     estado?: StringFilter<"ClasePractica"> | string
+    metodoPago?: StringFilter<"ClasePractica"> | string
+    pagoLimiteAt?: DateTimeNullableFilter<"ClasePractica"> | Date | string | null
+    canceladaPor?: StringNullableFilter<"ClasePractica"> | string | null
+    canceladaConPenalizacion?: BoolFilter<"ClasePractica"> | boolean
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
     profesor?: XOR<ProfesorScalarRelationFilter, ProfesorWhereInput>
     vehiculo?: XOR<VehiculoScalarRelationFilter, VehiculoWhereInput>
+    compraBono?: XOR<CompraBonoNullableScalarRelationFilter, CompraBonoWhereInput> | null
+    pagos?: PagoListRelationFilter
+    facturas?: FacturaListRelationFilter
   }
 
   export type ClasePracticaOrderByWithRelationInput = {
@@ -43261,12 +45074,20 @@ export namespace Prisma {
     alumnoId?: SortOrder
     profesorId?: SortOrder
     vehiculoId?: SortOrder
+    compraBonoId?: SortOrderInput | SortOrder
     fecha?: SortOrder
     duracion?: SortOrder
     estado?: SortOrder
+    metodoPago?: SortOrder
+    pagoLimiteAt?: SortOrderInput | SortOrder
+    canceladaPor?: SortOrderInput | SortOrder
+    canceladaConPenalizacion?: SortOrder
     alumno?: AlumnoOrderByWithRelationInput
     profesor?: ProfesorOrderByWithRelationInput
     vehiculo?: VehiculoOrderByWithRelationInput
+    compraBono?: CompraBonoOrderByWithRelationInput
+    pagos?: PagoOrderByRelationAggregateInput
+    facturas?: FacturaOrderByRelationAggregateInput
   }
 
   export type ClasePracticaWhereUniqueInput = Prisma.AtLeast<{
@@ -43277,12 +45098,20 @@ export namespace Prisma {
     alumnoId?: StringFilter<"ClasePractica"> | string
     profesorId?: StringFilter<"ClasePractica"> | string
     vehiculoId?: StringFilter<"ClasePractica"> | string
+    compraBonoId?: StringNullableFilter<"ClasePractica"> | string | null
     fecha?: DateTimeFilter<"ClasePractica"> | Date | string
     duracion?: IntFilter<"ClasePractica"> | number
     estado?: StringFilter<"ClasePractica"> | string
+    metodoPago?: StringFilter<"ClasePractica"> | string
+    pagoLimiteAt?: DateTimeNullableFilter<"ClasePractica"> | Date | string | null
+    canceladaPor?: StringNullableFilter<"ClasePractica"> | string | null
+    canceladaConPenalizacion?: BoolFilter<"ClasePractica"> | boolean
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
     profesor?: XOR<ProfesorScalarRelationFilter, ProfesorWhereInput>
     vehiculo?: XOR<VehiculoScalarRelationFilter, VehiculoWhereInput>
+    compraBono?: XOR<CompraBonoNullableScalarRelationFilter, CompraBonoWhereInput> | null
+    pagos?: PagoListRelationFilter
+    facturas?: FacturaListRelationFilter
   }, "id">
 
   export type ClasePracticaOrderByWithAggregationInput = {
@@ -43290,9 +45119,14 @@ export namespace Prisma {
     alumnoId?: SortOrder
     profesorId?: SortOrder
     vehiculoId?: SortOrder
+    compraBonoId?: SortOrderInput | SortOrder
     fecha?: SortOrder
     duracion?: SortOrder
     estado?: SortOrder
+    metodoPago?: SortOrder
+    pagoLimiteAt?: SortOrderInput | SortOrder
+    canceladaPor?: SortOrderInput | SortOrder
+    canceladaConPenalizacion?: SortOrder
     _count?: ClasePracticaCountOrderByAggregateInput
     _avg?: ClasePracticaAvgOrderByAggregateInput
     _max?: ClasePracticaMaxOrderByAggregateInput
@@ -43308,9 +45142,14 @@ export namespace Prisma {
     alumnoId?: StringWithAggregatesFilter<"ClasePractica"> | string
     profesorId?: StringWithAggregatesFilter<"ClasePractica"> | string
     vehiculoId?: StringWithAggregatesFilter<"ClasePractica"> | string
+    compraBonoId?: StringNullableWithAggregatesFilter<"ClasePractica"> | string | null
     fecha?: DateTimeWithAggregatesFilter<"ClasePractica"> | Date | string
     duracion?: IntWithAggregatesFilter<"ClasePractica"> | number
     estado?: StringWithAggregatesFilter<"ClasePractica"> | string
+    metodoPago?: StringWithAggregatesFilter<"ClasePractica"> | string
+    pagoLimiteAt?: DateTimeNullableWithAggregatesFilter<"ClasePractica"> | Date | string | null
+    canceladaPor?: StringNullableWithAggregatesFilter<"ClasePractica"> | string | null
+    canceladaConPenalizacion?: BoolWithAggregatesFilter<"ClasePractica"> | boolean
   }
 
   export type ExamenWhereInput = {
@@ -43798,6 +45637,8 @@ export namespace Prisma {
     id?: StringFilter<"Pago"> | string
     alumnoId?: StringFilter<"Pago"> | string
     matriculaId?: StringNullableFilter<"Pago"> | string | null
+    compraBonoId?: StringNullableFilter<"Pago"> | string | null
+    clasePracticaId?: StringNullableFilter<"Pago"> | string | null
     tipo?: StringFilter<"Pago"> | string
     concepto?: StringFilter<"Pago"> | string
     permiso?: StringFilter<"Pago"> | string
@@ -43811,12 +45652,16 @@ export namespace Prisma {
     observaciones?: StringNullableFilter<"Pago"> | string | null
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
     matricula?: XOR<MatriculaNullableScalarRelationFilter, MatriculaWhereInput> | null
+    compraBono?: XOR<CompraBonoNullableScalarRelationFilter, CompraBonoWhereInput> | null
+    clasePractica?: XOR<ClasePracticaNullableScalarRelationFilter, ClasePracticaWhereInput> | null
   }
 
   export type PagoOrderByWithRelationInput = {
     id?: SortOrder
     alumnoId?: SortOrder
     matriculaId?: SortOrderInput | SortOrder
+    compraBonoId?: SortOrderInput | SortOrder
+    clasePracticaId?: SortOrderInput | SortOrder
     tipo?: SortOrder
     concepto?: SortOrder
     permiso?: SortOrder
@@ -43830,6 +45675,8 @@ export namespace Prisma {
     observaciones?: SortOrderInput | SortOrder
     alumno?: AlumnoOrderByWithRelationInput
     matricula?: MatriculaOrderByWithRelationInput
+    compraBono?: CompraBonoOrderByWithRelationInput
+    clasePractica?: ClasePracticaOrderByWithRelationInput
   }
 
   export type PagoWhereUniqueInput = Prisma.AtLeast<{
@@ -43839,6 +45686,8 @@ export namespace Prisma {
     NOT?: PagoWhereInput | PagoWhereInput[]
     alumnoId?: StringFilter<"Pago"> | string
     matriculaId?: StringNullableFilter<"Pago"> | string | null
+    compraBonoId?: StringNullableFilter<"Pago"> | string | null
+    clasePracticaId?: StringNullableFilter<"Pago"> | string | null
     tipo?: StringFilter<"Pago"> | string
     concepto?: StringFilter<"Pago"> | string
     permiso?: StringFilter<"Pago"> | string
@@ -43852,12 +45701,16 @@ export namespace Prisma {
     observaciones?: StringNullableFilter<"Pago"> | string | null
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
     matricula?: XOR<MatriculaNullableScalarRelationFilter, MatriculaWhereInput> | null
+    compraBono?: XOR<CompraBonoNullableScalarRelationFilter, CompraBonoWhereInput> | null
+    clasePractica?: XOR<ClasePracticaNullableScalarRelationFilter, ClasePracticaWhereInput> | null
   }, "id">
 
   export type PagoOrderByWithAggregationInput = {
     id?: SortOrder
     alumnoId?: SortOrder
     matriculaId?: SortOrderInput | SortOrder
+    compraBonoId?: SortOrderInput | SortOrder
+    clasePracticaId?: SortOrderInput | SortOrder
     tipo?: SortOrder
     concepto?: SortOrder
     permiso?: SortOrder
@@ -43883,6 +45736,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Pago"> | string
     alumnoId?: StringWithAggregatesFilter<"Pago"> | string
     matriculaId?: StringNullableWithAggregatesFilter<"Pago"> | string | null
+    compraBonoId?: StringNullableWithAggregatesFilter<"Pago"> | string | null
+    clasePracticaId?: StringNullableWithAggregatesFilter<"Pago"> | string | null
     tipo?: StringWithAggregatesFilter<"Pago"> | string
     concepto?: StringWithAggregatesFilter<"Pago"> | string
     permiso?: StringWithAggregatesFilter<"Pago"> | string
@@ -44252,7 +46107,9 @@ export namespace Prisma {
     id?: StringFilter<"Factura"> | string
     numero?: StringFilter<"Factura"> | string
     alumnoId?: StringFilter<"Factura"> | string
-    matriculaId?: StringFilter<"Factura"> | string
+    matriculaId?: StringNullableFilter<"Factura"> | string | null
+    compraBonoId?: StringNullableFilter<"Factura"> | string | null
+    clasePracticaId?: StringNullableFilter<"Factura"> | string | null
     concepto?: StringFilter<"Factura"> | string
     baseImponible?: DecimalFilter<"Factura"> | Decimal | DecimalJsLike | number | string
     descuento?: DecimalFilter<"Factura"> | Decimal | DecimalJsLike | number | string
@@ -44261,14 +46118,18 @@ export namespace Prisma {
     fechaEmision?: DateTimeFilter<"Factura"> | Date | string
     fechaPago?: DateTimeNullableFilter<"Factura"> | Date | string | null
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
-    matricula?: XOR<MatriculaScalarRelationFilter, MatriculaWhereInput>
+    matricula?: XOR<MatriculaNullableScalarRelationFilter, MatriculaWhereInput> | null
+    compraBono?: XOR<CompraBonoNullableScalarRelationFilter, CompraBonoWhereInput> | null
+    clasePractica?: XOR<ClasePracticaNullableScalarRelationFilter, ClasePracticaWhereInput> | null
   }
 
   export type FacturaOrderByWithRelationInput = {
     id?: SortOrder
     numero?: SortOrder
     alumnoId?: SortOrder
-    matriculaId?: SortOrder
+    matriculaId?: SortOrderInput | SortOrder
+    compraBonoId?: SortOrderInput | SortOrder
+    clasePracticaId?: SortOrderInput | SortOrder
     concepto?: SortOrder
     baseImponible?: SortOrder
     descuento?: SortOrder
@@ -44278,6 +46139,8 @@ export namespace Prisma {
     fechaPago?: SortOrderInput | SortOrder
     alumno?: AlumnoOrderByWithRelationInput
     matricula?: MatriculaOrderByWithRelationInput
+    compraBono?: CompraBonoOrderByWithRelationInput
+    clasePractica?: ClasePracticaOrderByWithRelationInput
   }
 
   export type FacturaWhereUniqueInput = Prisma.AtLeast<{
@@ -44287,7 +46150,9 @@ export namespace Prisma {
     OR?: FacturaWhereInput[]
     NOT?: FacturaWhereInput | FacturaWhereInput[]
     alumnoId?: StringFilter<"Factura"> | string
-    matriculaId?: StringFilter<"Factura"> | string
+    matriculaId?: StringNullableFilter<"Factura"> | string | null
+    compraBonoId?: StringNullableFilter<"Factura"> | string | null
+    clasePracticaId?: StringNullableFilter<"Factura"> | string | null
     concepto?: StringFilter<"Factura"> | string
     baseImponible?: DecimalFilter<"Factura"> | Decimal | DecimalJsLike | number | string
     descuento?: DecimalFilter<"Factura"> | Decimal | DecimalJsLike | number | string
@@ -44296,14 +46161,18 @@ export namespace Prisma {
     fechaEmision?: DateTimeFilter<"Factura"> | Date | string
     fechaPago?: DateTimeNullableFilter<"Factura"> | Date | string | null
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
-    matricula?: XOR<MatriculaScalarRelationFilter, MatriculaWhereInput>
+    matricula?: XOR<MatriculaNullableScalarRelationFilter, MatriculaWhereInput> | null
+    compraBono?: XOR<CompraBonoNullableScalarRelationFilter, CompraBonoWhereInput> | null
+    clasePractica?: XOR<ClasePracticaNullableScalarRelationFilter, ClasePracticaWhereInput> | null
   }, "id" | "numero">
 
   export type FacturaOrderByWithAggregationInput = {
     id?: SortOrder
     numero?: SortOrder
     alumnoId?: SortOrder
-    matriculaId?: SortOrder
+    matriculaId?: SortOrderInput | SortOrder
+    compraBonoId?: SortOrderInput | SortOrder
+    clasePracticaId?: SortOrderInput | SortOrder
     concepto?: SortOrder
     baseImponible?: SortOrder
     descuento?: SortOrder
@@ -44325,7 +46194,9 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Factura"> | string
     numero?: StringWithAggregatesFilter<"Factura"> | string
     alumnoId?: StringWithAggregatesFilter<"Factura"> | string
-    matriculaId?: StringWithAggregatesFilter<"Factura"> | string
+    matriculaId?: StringNullableWithAggregatesFilter<"Factura"> | string | null
+    compraBonoId?: StringNullableWithAggregatesFilter<"Factura"> | string | null
+    clasePracticaId?: StringNullableWithAggregatesFilter<"Factura"> | string | null
     concepto?: StringWithAggregatesFilter<"Factura"> | string
     baseImponible?: DecimalWithAggregatesFilter<"Factura"> | Decimal | DecimalJsLike | number | string
     descuento?: DecimalWithAggregatesFilter<"Factura"> | Decimal | DecimalJsLike | number | string
@@ -44333,6 +46204,81 @@ export namespace Prisma {
     estado?: StringWithAggregatesFilter<"Factura"> | string
     fechaEmision?: DateTimeWithAggregatesFilter<"Factura"> | Date | string
     fechaPago?: DateTimeNullableWithAggregatesFilter<"Factura"> | Date | string | null
+  }
+
+  export type NotificacionWhereInput = {
+    AND?: NotificacionWhereInput | NotificacionWhereInput[]
+    OR?: NotificacionWhereInput[]
+    NOT?: NotificacionWhereInput | NotificacionWhereInput[]
+    id?: StringFilter<"Notificacion"> | string
+    usuarioId?: StringFilter<"Notificacion"> | string
+    tipo?: StringFilter<"Notificacion"> | string
+    titulo?: StringFilter<"Notificacion"> | string
+    mensaje?: StringFilter<"Notificacion"> | string
+    metadata?: JsonNullableFilter<"Notificacion">
+    leida?: BoolFilter<"Notificacion"> | boolean
+    createdAt?: DateTimeFilter<"Notificacion"> | Date | string
+    readAt?: DateTimeNullableFilter<"Notificacion"> | Date | string | null
+    usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+  }
+
+  export type NotificacionOrderByWithRelationInput = {
+    id?: SortOrder
+    usuarioId?: SortOrder
+    tipo?: SortOrder
+    titulo?: SortOrder
+    mensaje?: SortOrder
+    metadata?: SortOrderInput | SortOrder
+    leida?: SortOrder
+    createdAt?: SortOrder
+    readAt?: SortOrderInput | SortOrder
+    usuario?: UsuarioOrderByWithRelationInput
+  }
+
+  export type NotificacionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: NotificacionWhereInput | NotificacionWhereInput[]
+    OR?: NotificacionWhereInput[]
+    NOT?: NotificacionWhereInput | NotificacionWhereInput[]
+    usuarioId?: StringFilter<"Notificacion"> | string
+    tipo?: StringFilter<"Notificacion"> | string
+    titulo?: StringFilter<"Notificacion"> | string
+    mensaje?: StringFilter<"Notificacion"> | string
+    metadata?: JsonNullableFilter<"Notificacion">
+    leida?: BoolFilter<"Notificacion"> | boolean
+    createdAt?: DateTimeFilter<"Notificacion"> | Date | string
+    readAt?: DateTimeNullableFilter<"Notificacion"> | Date | string | null
+    usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+  }, "id">
+
+  export type NotificacionOrderByWithAggregationInput = {
+    id?: SortOrder
+    usuarioId?: SortOrder
+    tipo?: SortOrder
+    titulo?: SortOrder
+    mensaje?: SortOrder
+    metadata?: SortOrderInput | SortOrder
+    leida?: SortOrder
+    createdAt?: SortOrder
+    readAt?: SortOrderInput | SortOrder
+    _count?: NotificacionCountOrderByAggregateInput
+    _max?: NotificacionMaxOrderByAggregateInput
+    _min?: NotificacionMinOrderByAggregateInput
+  }
+
+  export type NotificacionScalarWhereWithAggregatesInput = {
+    AND?: NotificacionScalarWhereWithAggregatesInput | NotificacionScalarWhereWithAggregatesInput[]
+    OR?: NotificacionScalarWhereWithAggregatesInput[]
+    NOT?: NotificacionScalarWhereWithAggregatesInput | NotificacionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Notificacion"> | string
+    usuarioId?: StringWithAggregatesFilter<"Notificacion"> | string
+    tipo?: StringWithAggregatesFilter<"Notificacion"> | string
+    titulo?: StringWithAggregatesFilter<"Notificacion"> | string
+    mensaje?: StringWithAggregatesFilter<"Notificacion"> | string
+    metadata?: JsonNullableWithAggregatesFilter<"Notificacion">
+    leida?: BoolWithAggregatesFilter<"Notificacion"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Notificacion"> | Date | string
+    readAt?: DateTimeNullableWithAggregatesFilter<"Notificacion"> | Date | string | null
   }
 
   export type UsuarioCreateInput = {
@@ -44346,6 +46292,7 @@ export namespace Prisma {
     dni?: string | null
     requiereCambioPassword?: boolean
     activacionesCuenta?: ActivacionCuentaCreateNestedManyWithoutUsuarioInput
+    notificaciones?: NotificacionCreateNestedManyWithoutUsuarioInput
     alumno?: AlumnoCreateNestedOneWithoutUsuarioInput
     profesor?: ProfesorCreateNestedOneWithoutUsuarioInput
   }
@@ -44361,6 +46308,7 @@ export namespace Prisma {
     dni?: string | null
     requiereCambioPassword?: boolean
     activacionesCuenta?: ActivacionCuentaUncheckedCreateNestedManyWithoutUsuarioInput
+    notificaciones?: NotificacionUncheckedCreateNestedManyWithoutUsuarioInput
     alumno?: AlumnoUncheckedCreateNestedOneWithoutUsuarioInput
     profesor?: ProfesorUncheckedCreateNestedOneWithoutUsuarioInput
   }
@@ -44376,6 +46324,7 @@ export namespace Prisma {
     dni?: NullableStringFieldUpdateOperationsInput | string | null
     requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     activacionesCuenta?: ActivacionCuentaUpdateManyWithoutUsuarioNestedInput
+    notificaciones?: NotificacionUpdateManyWithoutUsuarioNestedInput
     alumno?: AlumnoUpdateOneWithoutUsuarioNestedInput
     profesor?: ProfesorUpdateOneWithoutUsuarioNestedInput
   }
@@ -44391,6 +46340,7 @@ export namespace Prisma {
     dni?: NullableStringFieldUpdateOperationsInput | string | null
     requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     activacionesCuenta?: ActivacionCuentaUncheckedUpdateManyWithoutUsuarioNestedInput
+    notificaciones?: NotificacionUncheckedUpdateManyWithoutUsuarioNestedInput
     alumno?: AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput
     profesor?: ProfesorUncheckedUpdateOneWithoutUsuarioNestedInput
   }
@@ -45429,6 +47379,7 @@ export namespace Prisma {
     nombre: string
     descripcion?: string | null
     clasesIncluidas: number
+    precio?: Decimal | DecimalJsLike | number | string
     validezDias?: number
     activo?: boolean
     compras?: CompraBonoCreateNestedManyWithoutBonoInput
@@ -45439,6 +47390,7 @@ export namespace Prisma {
     nombre: string
     descripcion?: string | null
     clasesIncluidas: number
+    precio?: Decimal | DecimalJsLike | number | string
     validezDias?: number
     activo?: boolean
     compras?: CompraBonoUncheckedCreateNestedManyWithoutBonoInput
@@ -45449,6 +47401,7 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     clasesIncluidas?: IntFieldUpdateOperationsInput | number
+    precio?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     validezDias?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
     compras?: CompraBonoUpdateManyWithoutBonoNestedInput
@@ -45459,6 +47412,7 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     clasesIncluidas?: IntFieldUpdateOperationsInput | number
+    precio?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     validezDias?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
     compras?: CompraBonoUncheckedUpdateManyWithoutBonoNestedInput
@@ -45469,6 +47423,7 @@ export namespace Prisma {
     nombre: string
     descripcion?: string | null
     clasesIncluidas: number
+    precio?: Decimal | DecimalJsLike | number | string
     validezDias?: number
     activo?: boolean
   }
@@ -45478,6 +47433,7 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     clasesIncluidas?: IntFieldUpdateOperationsInput | number
+    precio?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     validezDias?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
   }
@@ -45487,6 +47443,7 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     clasesIncluidas?: IntFieldUpdateOperationsInput | number
+    precio?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     validezDias?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
   }
@@ -45498,6 +47455,9 @@ export namespace Prisma {
     pagado?: boolean
     fechaCompra?: Date | string
     fechaValidezHasta: Date | string
+    pagos?: PagoCreateNestedManyWithoutCompraBonoInput
+    facturas?: FacturaCreateNestedManyWithoutCompraBonoInput
+    clases?: ClasePracticaCreateNestedManyWithoutCompraBonoInput
     alumno: AlumnoCreateNestedOneWithoutBonosCompradosInput
     bono: BonoCreateNestedOneWithoutComprasInput
   }
@@ -45511,6 +47471,9 @@ export namespace Prisma {
     pagado?: boolean
     fechaCompra?: Date | string
     fechaValidezHasta: Date | string
+    pagos?: PagoUncheckedCreateNestedManyWithoutCompraBonoInput
+    facturas?: FacturaUncheckedCreateNestedManyWithoutCompraBonoInput
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutCompraBonoInput
   }
 
   export type CompraBonoUpdateInput = {
@@ -45520,6 +47483,9 @@ export namespace Prisma {
     pagado?: BoolFieldUpdateOperationsInput | boolean
     fechaCompra?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
+    pagos?: PagoUpdateManyWithoutCompraBonoNestedInput
+    facturas?: FacturaUpdateManyWithoutCompraBonoNestedInput
+    clases?: ClasePracticaUpdateManyWithoutCompraBonoNestedInput
     alumno?: AlumnoUpdateOneRequiredWithoutBonosCompradosNestedInput
     bono?: BonoUpdateOneRequiredWithoutComprasNestedInput
   }
@@ -45533,6 +47499,9 @@ export namespace Prisma {
     pagado?: BoolFieldUpdateOperationsInput | boolean
     fechaCompra?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
+    pagos?: PagoUncheckedUpdateManyWithoutCompraBonoNestedInput
+    facturas?: FacturaUncheckedUpdateManyWithoutCompraBonoNestedInput
+    clases?: ClasePracticaUncheckedUpdateManyWithoutCompraBonoNestedInput
   }
 
   export type CompraBonoCreateManyInput = {
@@ -45791,9 +47760,16 @@ export namespace Prisma {
     fecha: Date | string
     duracion: number
     estado: string
+    metodoPago?: string
+    pagoLimiteAt?: Date | string | null
+    canceladaPor?: string | null
+    canceladaConPenalizacion?: boolean
     alumno: AlumnoCreateNestedOneWithoutClasesInput
     profesor: ProfesorCreateNestedOneWithoutClasesInput
     vehiculo: VehiculoCreateNestedOneWithoutClasesInput
+    compraBono?: CompraBonoCreateNestedOneWithoutClasesInput
+    pagos?: PagoCreateNestedManyWithoutClasePracticaInput
+    facturas?: FacturaCreateNestedManyWithoutClasePracticaInput
   }
 
   export type ClasePracticaUncheckedCreateInput = {
@@ -45801,9 +47777,16 @@ export namespace Prisma {
     alumnoId: string
     profesorId: string
     vehiculoId: string
+    compraBonoId?: string | null
     fecha: Date | string
     duracion: number
     estado: string
+    metodoPago?: string
+    pagoLimiteAt?: Date | string | null
+    canceladaPor?: string | null
+    canceladaConPenalizacion?: boolean
+    pagos?: PagoUncheckedCreateNestedManyWithoutClasePracticaInput
+    facturas?: FacturaUncheckedCreateNestedManyWithoutClasePracticaInput
   }
 
   export type ClasePracticaUpdateInput = {
@@ -45811,9 +47794,16 @@ export namespace Prisma {
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
+    canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
     alumno?: AlumnoUpdateOneRequiredWithoutClasesNestedInput
     profesor?: ProfesorUpdateOneRequiredWithoutClasesNestedInput
     vehiculo?: VehiculoUpdateOneRequiredWithoutClasesNestedInput
+    compraBono?: CompraBonoUpdateOneWithoutClasesNestedInput
+    pagos?: PagoUpdateManyWithoutClasePracticaNestedInput
+    facturas?: FacturaUpdateManyWithoutClasePracticaNestedInput
   }
 
   export type ClasePracticaUncheckedUpdateInput = {
@@ -45821,9 +47811,16 @@ export namespace Prisma {
     alumnoId?: StringFieldUpdateOperationsInput | string
     profesorId?: StringFieldUpdateOperationsInput | string
     vehiculoId?: StringFieldUpdateOperationsInput | string
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
+    canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
+    pagos?: PagoUncheckedUpdateManyWithoutClasePracticaNestedInput
+    facturas?: FacturaUncheckedUpdateManyWithoutClasePracticaNestedInput
   }
 
   export type ClasePracticaCreateManyInput = {
@@ -45831,9 +47828,14 @@ export namespace Prisma {
     alumnoId: string
     profesorId: string
     vehiculoId: string
+    compraBonoId?: string | null
     fecha: Date | string
     duracion: number
     estado: string
+    metodoPago?: string
+    pagoLimiteAt?: Date | string | null
+    canceladaPor?: string | null
+    canceladaConPenalizacion?: boolean
   }
 
   export type ClasePracticaUpdateManyMutationInput = {
@@ -45841,6 +47843,10 @@ export namespace Prisma {
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
+    canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ClasePracticaUncheckedUpdateManyInput = {
@@ -45848,9 +47854,14 @@ export namespace Prisma {
     alumnoId?: StringFieldUpdateOperationsInput | string
     profesorId?: StringFieldUpdateOperationsInput | string
     vehiculoId?: StringFieldUpdateOperationsInput | string
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
+    canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ExamenCreateInput = {
@@ -46399,12 +48410,16 @@ export namespace Prisma {
     observaciones?: string | null
     alumno: AlumnoCreateNestedOneWithoutPagosInput
     matricula?: MatriculaCreateNestedOneWithoutPagosInput
+    compraBono?: CompraBonoCreateNestedOneWithoutPagosInput
+    clasePractica?: ClasePracticaCreateNestedOneWithoutPagosInput
   }
 
   export type PagoUncheckedCreateInput = {
     id?: string
     alumnoId: string
     matriculaId?: string | null
+    compraBonoId?: string | null
+    clasePracticaId?: string | null
     tipo: string
     concepto: string
     permiso: string
@@ -46433,12 +48448,16 @@ export namespace Prisma {
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     alumno?: AlumnoUpdateOneRequiredWithoutPagosNestedInput
     matricula?: MatriculaUpdateOneWithoutPagosNestedInput
+    compraBono?: CompraBonoUpdateOneWithoutPagosNestedInput
+    clasePractica?: ClasePracticaUpdateOneWithoutPagosNestedInput
   }
 
   export type PagoUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
     matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
     tipo?: StringFieldUpdateOperationsInput | string
     concepto?: StringFieldUpdateOperationsInput | string
     permiso?: StringFieldUpdateOperationsInput | string
@@ -46456,6 +48475,8 @@ export namespace Prisma {
     id?: string
     alumnoId: string
     matriculaId?: string | null
+    compraBonoId?: string | null
+    clasePracticaId?: string | null
     tipo: string
     concepto: string
     permiso: string
@@ -46488,6 +48509,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
     matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
     tipo?: StringFieldUpdateOperationsInput | string
     concepto?: StringFieldUpdateOperationsInput | string
     permiso?: StringFieldUpdateOperationsInput | string
@@ -46901,14 +48924,18 @@ export namespace Prisma {
     fechaEmision?: Date | string
     fechaPago?: Date | string | null
     alumno: AlumnoCreateNestedOneWithoutFacturasInput
-    matricula: MatriculaCreateNestedOneWithoutFacturasInput
+    matricula?: MatriculaCreateNestedOneWithoutFacturasInput
+    compraBono?: CompraBonoCreateNestedOneWithoutFacturasInput
+    clasePractica?: ClasePracticaCreateNestedOneWithoutFacturasInput
   }
 
   export type FacturaUncheckedCreateInput = {
     id?: string
     numero: string
     alumnoId: string
-    matriculaId: string
+    matriculaId?: string | null
+    compraBonoId?: string | null
+    clasePracticaId?: string | null
     concepto: string
     baseImponible: Decimal | DecimalJsLike | number | string
     descuento: Decimal | DecimalJsLike | number | string
@@ -46929,14 +48956,18 @@ export namespace Prisma {
     fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alumno?: AlumnoUpdateOneRequiredWithoutFacturasNestedInput
-    matricula?: MatriculaUpdateOneRequiredWithoutFacturasNestedInput
+    matricula?: MatriculaUpdateOneWithoutFacturasNestedInput
+    compraBono?: CompraBonoUpdateOneWithoutFacturasNestedInput
+    clasePractica?: ClasePracticaUpdateOneWithoutFacturasNestedInput
   }
 
   export type FacturaUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
-    matriculaId?: StringFieldUpdateOperationsInput | string
+    matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
     concepto?: StringFieldUpdateOperationsInput | string
     baseImponible?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     descuento?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -46950,7 +48981,9 @@ export namespace Prisma {
     id?: string
     numero: string
     alumnoId: string
-    matriculaId: string
+    matriculaId?: string | null
+    compraBonoId?: string | null
+    clasePracticaId?: string | null
     concepto: string
     baseImponible: Decimal | DecimalJsLike | number | string
     descuento: Decimal | DecimalJsLike | number | string
@@ -46976,7 +49009,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
-    matriculaId?: StringFieldUpdateOperationsInput | string
+    matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
     concepto?: StringFieldUpdateOperationsInput | string
     baseImponible?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     descuento?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -46984,6 +49019,89 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
     fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type NotificacionCreateInput = {
+    id?: string
+    tipo: string
+    titulo: string
+    mensaje: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    leida?: boolean
+    createdAt?: Date | string
+    readAt?: Date | string | null
+    usuario: UsuarioCreateNestedOneWithoutNotificacionesInput
+  }
+
+  export type NotificacionUncheckedCreateInput = {
+    id?: string
+    usuarioId: string
+    tipo: string
+    titulo: string
+    mensaje: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    leida?: boolean
+    createdAt?: Date | string
+    readAt?: Date | string | null
+  }
+
+  export type NotificacionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    mensaje?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    leida?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    usuario?: UsuarioUpdateOneRequiredWithoutNotificacionesNestedInput
+  }
+
+  export type NotificacionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    usuarioId?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    mensaje?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    leida?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type NotificacionCreateManyInput = {
+    id?: string
+    usuarioId: string
+    tipo: string
+    titulo: string
+    mensaje: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    leida?: boolean
+    createdAt?: Date | string
+    readAt?: Date | string | null
+  }
+
+  export type NotificacionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    mensaje?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    leida?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type NotificacionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    usuarioId?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    mensaje?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    leida?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -47045,6 +49163,12 @@ export namespace Prisma {
     none?: ActivacionCuentaWhereInput
   }
 
+  export type NotificacionListRelationFilter = {
+    every?: NotificacionWhereInput
+    some?: NotificacionWhereInput
+    none?: NotificacionWhereInput
+  }
+
   export type AlumnoNullableScalarRelationFilter = {
     is?: AlumnoWhereInput | null
     isNot?: AlumnoWhereInput | null
@@ -47061,6 +49185,10 @@ export namespace Prisma {
   }
 
   export type ActivacionCuentaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type NotificacionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -47931,17 +50059,30 @@ export namespace Prisma {
     duracionSegundos?: SortOrder
   }
 
+  export type DecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
   export type BonoCountOrderByAggregateInput = {
     id?: SortOrder
     nombre?: SortOrder
     descripcion?: SortOrder
     clasesIncluidas?: SortOrder
+    precio?: SortOrder
     validezDias?: SortOrder
     activo?: SortOrder
   }
 
   export type BonoAvgOrderByAggregateInput = {
     clasesIncluidas?: SortOrder
+    precio?: SortOrder
     validezDias?: SortOrder
   }
 
@@ -47950,6 +50091,7 @@ export namespace Prisma {
     nombre?: SortOrder
     descripcion?: SortOrder
     clasesIncluidas?: SortOrder
+    precio?: SortOrder
     validezDias?: SortOrder
     activo?: SortOrder
   }
@@ -47959,13 +50101,31 @@ export namespace Prisma {
     nombre?: SortOrder
     descripcion?: SortOrder
     clasesIncluidas?: SortOrder
+    precio?: SortOrder
     validezDias?: SortOrder
     activo?: SortOrder
   }
 
   export type BonoSumOrderByAggregateInput = {
     clasesIncluidas?: SortOrder
+    precio?: SortOrder
     validezDias?: SortOrder
+  }
+
+  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
   }
 
   export type BonoScalarRelationFilter = {
@@ -48124,14 +50284,24 @@ export namespace Prisma {
     isNot?: VehiculoWhereInput
   }
 
+  export type CompraBonoNullableScalarRelationFilter = {
+    is?: CompraBonoWhereInput | null
+    isNot?: CompraBonoWhereInput | null
+  }
+
   export type ClasePracticaCountOrderByAggregateInput = {
     id?: SortOrder
     alumnoId?: SortOrder
     profesorId?: SortOrder
     vehiculoId?: SortOrder
+    compraBonoId?: SortOrder
     fecha?: SortOrder
     duracion?: SortOrder
     estado?: SortOrder
+    metodoPago?: SortOrder
+    pagoLimiteAt?: SortOrder
+    canceladaPor?: SortOrder
+    canceladaConPenalizacion?: SortOrder
   }
 
   export type ClasePracticaAvgOrderByAggregateInput = {
@@ -48143,9 +50313,14 @@ export namespace Prisma {
     alumnoId?: SortOrder
     profesorId?: SortOrder
     vehiculoId?: SortOrder
+    compraBonoId?: SortOrder
     fecha?: SortOrder
     duracion?: SortOrder
     estado?: SortOrder
+    metodoPago?: SortOrder
+    pagoLimiteAt?: SortOrder
+    canceladaPor?: SortOrder
+    canceladaConPenalizacion?: SortOrder
   }
 
   export type ClasePracticaMinOrderByAggregateInput = {
@@ -48153,9 +50328,14 @@ export namespace Prisma {
     alumnoId?: SortOrder
     profesorId?: SortOrder
     vehiculoId?: SortOrder
+    compraBonoId?: SortOrder
     fecha?: SortOrder
     duracion?: SortOrder
     estado?: SortOrder
+    metodoPago?: SortOrder
+    pagoLimiteAt?: SortOrder
+    canceladaPor?: SortOrder
+    canceladaConPenalizacion?: SortOrder
   }
 
   export type ClasePracticaSumOrderByAggregateInput = {
@@ -48184,17 +50364,6 @@ export namespace Prisma {
     tipo?: SortOrder
     fecha?: SortOrder
     estado?: SortOrder
-  }
-
-  export type DecimalFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
   export type PromocionCountOrderByAggregateInput = {
@@ -48264,22 +50433,6 @@ export namespace Prisma {
     precioPromocional?: SortOrder
     edadMinima?: SortOrder
     edadMaxima?: SortOrder
-  }
-
-  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedDecimalFilter<$PrismaModel>
-    _sum?: NestedDecimalFilter<$PrismaModel>
-    _min?: NestedDecimalFilter<$PrismaModel>
-    _max?: NestedDecimalFilter<$PrismaModel>
   }
 
   export type EnumTipoPrecioFilter<$PrismaModel = never> = {
@@ -48540,10 +50693,17 @@ export namespace Prisma {
     isNot?: MatriculaWhereInput | null
   }
 
+  export type ClasePracticaNullableScalarRelationFilter = {
+    is?: ClasePracticaWhereInput | null
+    isNot?: ClasePracticaWhereInput | null
+  }
+
   export type PagoCountOrderByAggregateInput = {
     id?: SortOrder
     alumnoId?: SortOrder
     matriculaId?: SortOrder
+    compraBonoId?: SortOrder
+    clasePracticaId?: SortOrder
     tipo?: SortOrder
     concepto?: SortOrder
     permiso?: SortOrder
@@ -48567,6 +50727,8 @@ export namespace Prisma {
     id?: SortOrder
     alumnoId?: SortOrder
     matriculaId?: SortOrder
+    compraBonoId?: SortOrder
+    clasePracticaId?: SortOrder
     tipo?: SortOrder
     concepto?: SortOrder
     permiso?: SortOrder
@@ -48584,6 +50746,8 @@ export namespace Prisma {
     id?: SortOrder
     alumnoId?: SortOrder
     matriculaId?: SortOrder
+    compraBonoId?: SortOrder
+    clasePracticaId?: SortOrder
     tipo?: SortOrder
     concepto?: SortOrder
     permiso?: SortOrder
@@ -48927,6 +51091,8 @@ export namespace Prisma {
     numero?: SortOrder
     alumnoId?: SortOrder
     matriculaId?: SortOrder
+    compraBonoId?: SortOrder
+    clasePracticaId?: SortOrder
     concepto?: SortOrder
     baseImponible?: SortOrder
     descuento?: SortOrder
@@ -48947,6 +51113,8 @@ export namespace Prisma {
     numero?: SortOrder
     alumnoId?: SortOrder
     matriculaId?: SortOrder
+    compraBonoId?: SortOrder
+    clasePracticaId?: SortOrder
     concepto?: SortOrder
     baseImponible?: SortOrder
     descuento?: SortOrder
@@ -48961,6 +51129,8 @@ export namespace Prisma {
     numero?: SortOrder
     alumnoId?: SortOrder
     matriculaId?: SortOrder
+    compraBonoId?: SortOrder
+    clasePracticaId?: SortOrder
     concepto?: SortOrder
     baseImponible?: SortOrder
     descuento?: SortOrder
@@ -48975,12 +51145,102 @@ export namespace Prisma {
     descuento?: SortOrder
     total?: SortOrder
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NotificacionCountOrderByAggregateInput = {
+    id?: SortOrder
+    usuarioId?: SortOrder
+    tipo?: SortOrder
+    titulo?: SortOrder
+    mensaje?: SortOrder
+    metadata?: SortOrder
+    leida?: SortOrder
+    createdAt?: SortOrder
+    readAt?: SortOrder
+  }
+
+  export type NotificacionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    usuarioId?: SortOrder
+    tipo?: SortOrder
+    titulo?: SortOrder
+    mensaje?: SortOrder
+    leida?: SortOrder
+    createdAt?: SortOrder
+    readAt?: SortOrder
+  }
+
+  export type NotificacionMinOrderByAggregateInput = {
+    id?: SortOrder
+    usuarioId?: SortOrder
+    tipo?: SortOrder
+    titulo?: SortOrder
+    mensaje?: SortOrder
+    leida?: SortOrder
+    createdAt?: SortOrder
+    readAt?: SortOrder
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
 
   export type ActivacionCuentaCreateNestedManyWithoutUsuarioInput = {
     create?: XOR<ActivacionCuentaCreateWithoutUsuarioInput, ActivacionCuentaUncheckedCreateWithoutUsuarioInput> | ActivacionCuentaCreateWithoutUsuarioInput[] | ActivacionCuentaUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: ActivacionCuentaCreateOrConnectWithoutUsuarioInput | ActivacionCuentaCreateOrConnectWithoutUsuarioInput[]
     createMany?: ActivacionCuentaCreateManyUsuarioInputEnvelope
     connect?: ActivacionCuentaWhereUniqueInput | ActivacionCuentaWhereUniqueInput[]
+  }
+
+  export type NotificacionCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<NotificacionCreateWithoutUsuarioInput, NotificacionUncheckedCreateWithoutUsuarioInput> | NotificacionCreateWithoutUsuarioInput[] | NotificacionUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: NotificacionCreateOrConnectWithoutUsuarioInput | NotificacionCreateOrConnectWithoutUsuarioInput[]
+    createMany?: NotificacionCreateManyUsuarioInputEnvelope
+    connect?: NotificacionWhereUniqueInput | NotificacionWhereUniqueInput[]
   }
 
   export type AlumnoCreateNestedOneWithoutUsuarioInput = {
@@ -49000,6 +51260,13 @@ export namespace Prisma {
     connectOrCreate?: ActivacionCuentaCreateOrConnectWithoutUsuarioInput | ActivacionCuentaCreateOrConnectWithoutUsuarioInput[]
     createMany?: ActivacionCuentaCreateManyUsuarioInputEnvelope
     connect?: ActivacionCuentaWhereUniqueInput | ActivacionCuentaWhereUniqueInput[]
+  }
+
+  export type NotificacionUncheckedCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<NotificacionCreateWithoutUsuarioInput, NotificacionUncheckedCreateWithoutUsuarioInput> | NotificacionCreateWithoutUsuarioInput[] | NotificacionUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: NotificacionCreateOrConnectWithoutUsuarioInput | NotificacionCreateOrConnectWithoutUsuarioInput[]
+    createMany?: NotificacionCreateManyUsuarioInputEnvelope
+    connect?: NotificacionWhereUniqueInput | NotificacionWhereUniqueInput[]
   }
 
   export type AlumnoUncheckedCreateNestedOneWithoutUsuarioInput = {
@@ -49048,6 +51315,20 @@ export namespace Prisma {
     deleteMany?: ActivacionCuentaScalarWhereInput | ActivacionCuentaScalarWhereInput[]
   }
 
+  export type NotificacionUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<NotificacionCreateWithoutUsuarioInput, NotificacionUncheckedCreateWithoutUsuarioInput> | NotificacionCreateWithoutUsuarioInput[] | NotificacionUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: NotificacionCreateOrConnectWithoutUsuarioInput | NotificacionCreateOrConnectWithoutUsuarioInput[]
+    upsert?: NotificacionUpsertWithWhereUniqueWithoutUsuarioInput | NotificacionUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: NotificacionCreateManyUsuarioInputEnvelope
+    set?: NotificacionWhereUniqueInput | NotificacionWhereUniqueInput[]
+    disconnect?: NotificacionWhereUniqueInput | NotificacionWhereUniqueInput[]
+    delete?: NotificacionWhereUniqueInput | NotificacionWhereUniqueInput[]
+    connect?: NotificacionWhereUniqueInput | NotificacionWhereUniqueInput[]
+    update?: NotificacionUpdateWithWhereUniqueWithoutUsuarioInput | NotificacionUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: NotificacionUpdateManyWithWhereWithoutUsuarioInput | NotificacionUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: NotificacionScalarWhereInput | NotificacionScalarWhereInput[]
+  }
+
   export type AlumnoUpdateOneWithoutUsuarioNestedInput = {
     create?: XOR<AlumnoCreateWithoutUsuarioInput, AlumnoUncheckedCreateWithoutUsuarioInput>
     connectOrCreate?: AlumnoCreateOrConnectWithoutUsuarioInput
@@ -49080,6 +51361,20 @@ export namespace Prisma {
     update?: ActivacionCuentaUpdateWithWhereUniqueWithoutUsuarioInput | ActivacionCuentaUpdateWithWhereUniqueWithoutUsuarioInput[]
     updateMany?: ActivacionCuentaUpdateManyWithWhereWithoutUsuarioInput | ActivacionCuentaUpdateManyWithWhereWithoutUsuarioInput[]
     deleteMany?: ActivacionCuentaScalarWhereInput | ActivacionCuentaScalarWhereInput[]
+  }
+
+  export type NotificacionUncheckedUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<NotificacionCreateWithoutUsuarioInput, NotificacionUncheckedCreateWithoutUsuarioInput> | NotificacionCreateWithoutUsuarioInput[] | NotificacionUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: NotificacionCreateOrConnectWithoutUsuarioInput | NotificacionCreateOrConnectWithoutUsuarioInput[]
+    upsert?: NotificacionUpsertWithWhereUniqueWithoutUsuarioInput | NotificacionUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: NotificacionCreateManyUsuarioInputEnvelope
+    set?: NotificacionWhereUniqueInput | NotificacionWhereUniqueInput[]
+    disconnect?: NotificacionWhereUniqueInput | NotificacionWhereUniqueInput[]
+    delete?: NotificacionWhereUniqueInput | NotificacionWhereUniqueInput[]
+    connect?: NotificacionWhereUniqueInput | NotificacionWhereUniqueInput[]
+    update?: NotificacionUpdateWithWhereUniqueWithoutUsuarioInput | NotificacionUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: NotificacionUpdateManyWithWhereWithoutUsuarioInput | NotificacionUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: NotificacionScalarWhereInput | NotificacionScalarWhereInput[]
   }
 
   export type AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput = {
@@ -50163,6 +52458,14 @@ export namespace Prisma {
     connect?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
   }
 
+  export type DecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
   export type CompraBonoUpdateManyWithoutBonoNestedInput = {
     create?: XOR<CompraBonoCreateWithoutBonoInput, CompraBonoUncheckedCreateWithoutBonoInput> | CompraBonoCreateWithoutBonoInput[] | CompraBonoUncheckedCreateWithoutBonoInput[]
     connectOrCreate?: CompraBonoCreateOrConnectWithoutBonoInput | CompraBonoCreateOrConnectWithoutBonoInput[]
@@ -50191,6 +52494,27 @@ export namespace Prisma {
     deleteMany?: CompraBonoScalarWhereInput | CompraBonoScalarWhereInput[]
   }
 
+  export type PagoCreateNestedManyWithoutCompraBonoInput = {
+    create?: XOR<PagoCreateWithoutCompraBonoInput, PagoUncheckedCreateWithoutCompraBonoInput> | PagoCreateWithoutCompraBonoInput[] | PagoUncheckedCreateWithoutCompraBonoInput[]
+    connectOrCreate?: PagoCreateOrConnectWithoutCompraBonoInput | PagoCreateOrConnectWithoutCompraBonoInput[]
+    createMany?: PagoCreateManyCompraBonoInputEnvelope
+    connect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+  }
+
+  export type FacturaCreateNestedManyWithoutCompraBonoInput = {
+    create?: XOR<FacturaCreateWithoutCompraBonoInput, FacturaUncheckedCreateWithoutCompraBonoInput> | FacturaCreateWithoutCompraBonoInput[] | FacturaUncheckedCreateWithoutCompraBonoInput[]
+    connectOrCreate?: FacturaCreateOrConnectWithoutCompraBonoInput | FacturaCreateOrConnectWithoutCompraBonoInput[]
+    createMany?: FacturaCreateManyCompraBonoInputEnvelope
+    connect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+  }
+
+  export type ClasePracticaCreateNestedManyWithoutCompraBonoInput = {
+    create?: XOR<ClasePracticaCreateWithoutCompraBonoInput, ClasePracticaUncheckedCreateWithoutCompraBonoInput> | ClasePracticaCreateWithoutCompraBonoInput[] | ClasePracticaUncheckedCreateWithoutCompraBonoInput[]
+    connectOrCreate?: ClasePracticaCreateOrConnectWithoutCompraBonoInput | ClasePracticaCreateOrConnectWithoutCompraBonoInput[]
+    createMany?: ClasePracticaCreateManyCompraBonoInputEnvelope
+    connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+  }
+
   export type AlumnoCreateNestedOneWithoutBonosCompradosInput = {
     create?: XOR<AlumnoCreateWithoutBonosCompradosInput, AlumnoUncheckedCreateWithoutBonosCompradosInput>
     connectOrCreate?: AlumnoCreateOrConnectWithoutBonosCompradosInput
@@ -50201,6 +52525,69 @@ export namespace Prisma {
     create?: XOR<BonoCreateWithoutComprasInput, BonoUncheckedCreateWithoutComprasInput>
     connectOrCreate?: BonoCreateOrConnectWithoutComprasInput
     connect?: BonoWhereUniqueInput
+  }
+
+  export type PagoUncheckedCreateNestedManyWithoutCompraBonoInput = {
+    create?: XOR<PagoCreateWithoutCompraBonoInput, PagoUncheckedCreateWithoutCompraBonoInput> | PagoCreateWithoutCompraBonoInput[] | PagoUncheckedCreateWithoutCompraBonoInput[]
+    connectOrCreate?: PagoCreateOrConnectWithoutCompraBonoInput | PagoCreateOrConnectWithoutCompraBonoInput[]
+    createMany?: PagoCreateManyCompraBonoInputEnvelope
+    connect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+  }
+
+  export type FacturaUncheckedCreateNestedManyWithoutCompraBonoInput = {
+    create?: XOR<FacturaCreateWithoutCompraBonoInput, FacturaUncheckedCreateWithoutCompraBonoInput> | FacturaCreateWithoutCompraBonoInput[] | FacturaUncheckedCreateWithoutCompraBonoInput[]
+    connectOrCreate?: FacturaCreateOrConnectWithoutCompraBonoInput | FacturaCreateOrConnectWithoutCompraBonoInput[]
+    createMany?: FacturaCreateManyCompraBonoInputEnvelope
+    connect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+  }
+
+  export type ClasePracticaUncheckedCreateNestedManyWithoutCompraBonoInput = {
+    create?: XOR<ClasePracticaCreateWithoutCompraBonoInput, ClasePracticaUncheckedCreateWithoutCompraBonoInput> | ClasePracticaCreateWithoutCompraBonoInput[] | ClasePracticaUncheckedCreateWithoutCompraBonoInput[]
+    connectOrCreate?: ClasePracticaCreateOrConnectWithoutCompraBonoInput | ClasePracticaCreateOrConnectWithoutCompraBonoInput[]
+    createMany?: ClasePracticaCreateManyCompraBonoInputEnvelope
+    connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+  }
+
+  export type PagoUpdateManyWithoutCompraBonoNestedInput = {
+    create?: XOR<PagoCreateWithoutCompraBonoInput, PagoUncheckedCreateWithoutCompraBonoInput> | PagoCreateWithoutCompraBonoInput[] | PagoUncheckedCreateWithoutCompraBonoInput[]
+    connectOrCreate?: PagoCreateOrConnectWithoutCompraBonoInput | PagoCreateOrConnectWithoutCompraBonoInput[]
+    upsert?: PagoUpsertWithWhereUniqueWithoutCompraBonoInput | PagoUpsertWithWhereUniqueWithoutCompraBonoInput[]
+    createMany?: PagoCreateManyCompraBonoInputEnvelope
+    set?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    disconnect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    delete?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    connect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    update?: PagoUpdateWithWhereUniqueWithoutCompraBonoInput | PagoUpdateWithWhereUniqueWithoutCompraBonoInput[]
+    updateMany?: PagoUpdateManyWithWhereWithoutCompraBonoInput | PagoUpdateManyWithWhereWithoutCompraBonoInput[]
+    deleteMany?: PagoScalarWhereInput | PagoScalarWhereInput[]
+  }
+
+  export type FacturaUpdateManyWithoutCompraBonoNestedInput = {
+    create?: XOR<FacturaCreateWithoutCompraBonoInput, FacturaUncheckedCreateWithoutCompraBonoInput> | FacturaCreateWithoutCompraBonoInput[] | FacturaUncheckedCreateWithoutCompraBonoInput[]
+    connectOrCreate?: FacturaCreateOrConnectWithoutCompraBonoInput | FacturaCreateOrConnectWithoutCompraBonoInput[]
+    upsert?: FacturaUpsertWithWhereUniqueWithoutCompraBonoInput | FacturaUpsertWithWhereUniqueWithoutCompraBonoInput[]
+    createMany?: FacturaCreateManyCompraBonoInputEnvelope
+    set?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    disconnect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    delete?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    connect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    update?: FacturaUpdateWithWhereUniqueWithoutCompraBonoInput | FacturaUpdateWithWhereUniqueWithoutCompraBonoInput[]
+    updateMany?: FacturaUpdateManyWithWhereWithoutCompraBonoInput | FacturaUpdateManyWithWhereWithoutCompraBonoInput[]
+    deleteMany?: FacturaScalarWhereInput | FacturaScalarWhereInput[]
+  }
+
+  export type ClasePracticaUpdateManyWithoutCompraBonoNestedInput = {
+    create?: XOR<ClasePracticaCreateWithoutCompraBonoInput, ClasePracticaUncheckedCreateWithoutCompraBonoInput> | ClasePracticaCreateWithoutCompraBonoInput[] | ClasePracticaUncheckedCreateWithoutCompraBonoInput[]
+    connectOrCreate?: ClasePracticaCreateOrConnectWithoutCompraBonoInput | ClasePracticaCreateOrConnectWithoutCompraBonoInput[]
+    upsert?: ClasePracticaUpsertWithWhereUniqueWithoutCompraBonoInput | ClasePracticaUpsertWithWhereUniqueWithoutCompraBonoInput[]
+    createMany?: ClasePracticaCreateManyCompraBonoInputEnvelope
+    set?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+    disconnect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+    delete?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+    connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+    update?: ClasePracticaUpdateWithWhereUniqueWithoutCompraBonoInput | ClasePracticaUpdateWithWhereUniqueWithoutCompraBonoInput[]
+    updateMany?: ClasePracticaUpdateManyWithWhereWithoutCompraBonoInput | ClasePracticaUpdateManyWithWhereWithoutCompraBonoInput[]
+    deleteMany?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
   }
 
   export type AlumnoUpdateOneRequiredWithoutBonosCompradosNestedInput = {
@@ -50217,6 +52604,48 @@ export namespace Prisma {
     upsert?: BonoUpsertWithoutComprasInput
     connect?: BonoWhereUniqueInput
     update?: XOR<XOR<BonoUpdateToOneWithWhereWithoutComprasInput, BonoUpdateWithoutComprasInput>, BonoUncheckedUpdateWithoutComprasInput>
+  }
+
+  export type PagoUncheckedUpdateManyWithoutCompraBonoNestedInput = {
+    create?: XOR<PagoCreateWithoutCompraBonoInput, PagoUncheckedCreateWithoutCompraBonoInput> | PagoCreateWithoutCompraBonoInput[] | PagoUncheckedCreateWithoutCompraBonoInput[]
+    connectOrCreate?: PagoCreateOrConnectWithoutCompraBonoInput | PagoCreateOrConnectWithoutCompraBonoInput[]
+    upsert?: PagoUpsertWithWhereUniqueWithoutCompraBonoInput | PagoUpsertWithWhereUniqueWithoutCompraBonoInput[]
+    createMany?: PagoCreateManyCompraBonoInputEnvelope
+    set?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    disconnect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    delete?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    connect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    update?: PagoUpdateWithWhereUniqueWithoutCompraBonoInput | PagoUpdateWithWhereUniqueWithoutCompraBonoInput[]
+    updateMany?: PagoUpdateManyWithWhereWithoutCompraBonoInput | PagoUpdateManyWithWhereWithoutCompraBonoInput[]
+    deleteMany?: PagoScalarWhereInput | PagoScalarWhereInput[]
+  }
+
+  export type FacturaUncheckedUpdateManyWithoutCompraBonoNestedInput = {
+    create?: XOR<FacturaCreateWithoutCompraBonoInput, FacturaUncheckedCreateWithoutCompraBonoInput> | FacturaCreateWithoutCompraBonoInput[] | FacturaUncheckedCreateWithoutCompraBonoInput[]
+    connectOrCreate?: FacturaCreateOrConnectWithoutCompraBonoInput | FacturaCreateOrConnectWithoutCompraBonoInput[]
+    upsert?: FacturaUpsertWithWhereUniqueWithoutCompraBonoInput | FacturaUpsertWithWhereUniqueWithoutCompraBonoInput[]
+    createMany?: FacturaCreateManyCompraBonoInputEnvelope
+    set?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    disconnect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    delete?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    connect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    update?: FacturaUpdateWithWhereUniqueWithoutCompraBonoInput | FacturaUpdateWithWhereUniqueWithoutCompraBonoInput[]
+    updateMany?: FacturaUpdateManyWithWhereWithoutCompraBonoInput | FacturaUpdateManyWithWhereWithoutCompraBonoInput[]
+    deleteMany?: FacturaScalarWhereInput | FacturaScalarWhereInput[]
+  }
+
+  export type ClasePracticaUncheckedUpdateManyWithoutCompraBonoNestedInput = {
+    create?: XOR<ClasePracticaCreateWithoutCompraBonoInput, ClasePracticaUncheckedCreateWithoutCompraBonoInput> | ClasePracticaCreateWithoutCompraBonoInput[] | ClasePracticaUncheckedCreateWithoutCompraBonoInput[]
+    connectOrCreate?: ClasePracticaCreateOrConnectWithoutCompraBonoInput | ClasePracticaCreateOrConnectWithoutCompraBonoInput[]
+    upsert?: ClasePracticaUpsertWithWhereUniqueWithoutCompraBonoInput | ClasePracticaUpsertWithWhereUniqueWithoutCompraBonoInput[]
+    createMany?: ClasePracticaCreateManyCompraBonoInputEnvelope
+    set?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+    disconnect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+    delete?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+    connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+    update?: ClasePracticaUpdateWithWhereUniqueWithoutCompraBonoInput | ClasePracticaUpdateWithWhereUniqueWithoutCompraBonoInput[]
+    updateMany?: ClasePracticaUpdateManyWithWhereWithoutCompraBonoInput | ClasePracticaUpdateManyWithWhereWithoutCompraBonoInput[]
+    deleteMany?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
   }
 
   export type AlumnoCreateNestedOneWithoutSolicitudesExamenInput = {
@@ -50293,6 +52722,40 @@ export namespace Prisma {
     connect?: VehiculoWhereUniqueInput
   }
 
+  export type CompraBonoCreateNestedOneWithoutClasesInput = {
+    create?: XOR<CompraBonoCreateWithoutClasesInput, CompraBonoUncheckedCreateWithoutClasesInput>
+    connectOrCreate?: CompraBonoCreateOrConnectWithoutClasesInput
+    connect?: CompraBonoWhereUniqueInput
+  }
+
+  export type PagoCreateNestedManyWithoutClasePracticaInput = {
+    create?: XOR<PagoCreateWithoutClasePracticaInput, PagoUncheckedCreateWithoutClasePracticaInput> | PagoCreateWithoutClasePracticaInput[] | PagoUncheckedCreateWithoutClasePracticaInput[]
+    connectOrCreate?: PagoCreateOrConnectWithoutClasePracticaInput | PagoCreateOrConnectWithoutClasePracticaInput[]
+    createMany?: PagoCreateManyClasePracticaInputEnvelope
+    connect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+  }
+
+  export type FacturaCreateNestedManyWithoutClasePracticaInput = {
+    create?: XOR<FacturaCreateWithoutClasePracticaInput, FacturaUncheckedCreateWithoutClasePracticaInput> | FacturaCreateWithoutClasePracticaInput[] | FacturaUncheckedCreateWithoutClasePracticaInput[]
+    connectOrCreate?: FacturaCreateOrConnectWithoutClasePracticaInput | FacturaCreateOrConnectWithoutClasePracticaInput[]
+    createMany?: FacturaCreateManyClasePracticaInputEnvelope
+    connect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+  }
+
+  export type PagoUncheckedCreateNestedManyWithoutClasePracticaInput = {
+    create?: XOR<PagoCreateWithoutClasePracticaInput, PagoUncheckedCreateWithoutClasePracticaInput> | PagoCreateWithoutClasePracticaInput[] | PagoUncheckedCreateWithoutClasePracticaInput[]
+    connectOrCreate?: PagoCreateOrConnectWithoutClasePracticaInput | PagoCreateOrConnectWithoutClasePracticaInput[]
+    createMany?: PagoCreateManyClasePracticaInputEnvelope
+    connect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+  }
+
+  export type FacturaUncheckedCreateNestedManyWithoutClasePracticaInput = {
+    create?: XOR<FacturaCreateWithoutClasePracticaInput, FacturaUncheckedCreateWithoutClasePracticaInput> | FacturaCreateWithoutClasePracticaInput[] | FacturaUncheckedCreateWithoutClasePracticaInput[]
+    connectOrCreate?: FacturaCreateOrConnectWithoutClasePracticaInput | FacturaCreateOrConnectWithoutClasePracticaInput[]
+    createMany?: FacturaCreateManyClasePracticaInputEnvelope
+    connect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+  }
+
   export type AlumnoUpdateOneRequiredWithoutClasesNestedInput = {
     create?: XOR<AlumnoCreateWithoutClasesInput, AlumnoUncheckedCreateWithoutClasesInput>
     connectOrCreate?: AlumnoCreateOrConnectWithoutClasesInput
@@ -50315,6 +52778,72 @@ export namespace Prisma {
     upsert?: VehiculoUpsertWithoutClasesInput
     connect?: VehiculoWhereUniqueInput
     update?: XOR<XOR<VehiculoUpdateToOneWithWhereWithoutClasesInput, VehiculoUpdateWithoutClasesInput>, VehiculoUncheckedUpdateWithoutClasesInput>
+  }
+
+  export type CompraBonoUpdateOneWithoutClasesNestedInput = {
+    create?: XOR<CompraBonoCreateWithoutClasesInput, CompraBonoUncheckedCreateWithoutClasesInput>
+    connectOrCreate?: CompraBonoCreateOrConnectWithoutClasesInput
+    upsert?: CompraBonoUpsertWithoutClasesInput
+    disconnect?: CompraBonoWhereInput | boolean
+    delete?: CompraBonoWhereInput | boolean
+    connect?: CompraBonoWhereUniqueInput
+    update?: XOR<XOR<CompraBonoUpdateToOneWithWhereWithoutClasesInput, CompraBonoUpdateWithoutClasesInput>, CompraBonoUncheckedUpdateWithoutClasesInput>
+  }
+
+  export type PagoUpdateManyWithoutClasePracticaNestedInput = {
+    create?: XOR<PagoCreateWithoutClasePracticaInput, PagoUncheckedCreateWithoutClasePracticaInput> | PagoCreateWithoutClasePracticaInput[] | PagoUncheckedCreateWithoutClasePracticaInput[]
+    connectOrCreate?: PagoCreateOrConnectWithoutClasePracticaInput | PagoCreateOrConnectWithoutClasePracticaInput[]
+    upsert?: PagoUpsertWithWhereUniqueWithoutClasePracticaInput | PagoUpsertWithWhereUniqueWithoutClasePracticaInput[]
+    createMany?: PagoCreateManyClasePracticaInputEnvelope
+    set?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    disconnect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    delete?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    connect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    update?: PagoUpdateWithWhereUniqueWithoutClasePracticaInput | PagoUpdateWithWhereUniqueWithoutClasePracticaInput[]
+    updateMany?: PagoUpdateManyWithWhereWithoutClasePracticaInput | PagoUpdateManyWithWhereWithoutClasePracticaInput[]
+    deleteMany?: PagoScalarWhereInput | PagoScalarWhereInput[]
+  }
+
+  export type FacturaUpdateManyWithoutClasePracticaNestedInput = {
+    create?: XOR<FacturaCreateWithoutClasePracticaInput, FacturaUncheckedCreateWithoutClasePracticaInput> | FacturaCreateWithoutClasePracticaInput[] | FacturaUncheckedCreateWithoutClasePracticaInput[]
+    connectOrCreate?: FacturaCreateOrConnectWithoutClasePracticaInput | FacturaCreateOrConnectWithoutClasePracticaInput[]
+    upsert?: FacturaUpsertWithWhereUniqueWithoutClasePracticaInput | FacturaUpsertWithWhereUniqueWithoutClasePracticaInput[]
+    createMany?: FacturaCreateManyClasePracticaInputEnvelope
+    set?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    disconnect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    delete?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    connect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    update?: FacturaUpdateWithWhereUniqueWithoutClasePracticaInput | FacturaUpdateWithWhereUniqueWithoutClasePracticaInput[]
+    updateMany?: FacturaUpdateManyWithWhereWithoutClasePracticaInput | FacturaUpdateManyWithWhereWithoutClasePracticaInput[]
+    deleteMany?: FacturaScalarWhereInput | FacturaScalarWhereInput[]
+  }
+
+  export type PagoUncheckedUpdateManyWithoutClasePracticaNestedInput = {
+    create?: XOR<PagoCreateWithoutClasePracticaInput, PagoUncheckedCreateWithoutClasePracticaInput> | PagoCreateWithoutClasePracticaInput[] | PagoUncheckedCreateWithoutClasePracticaInput[]
+    connectOrCreate?: PagoCreateOrConnectWithoutClasePracticaInput | PagoCreateOrConnectWithoutClasePracticaInput[]
+    upsert?: PagoUpsertWithWhereUniqueWithoutClasePracticaInput | PagoUpsertWithWhereUniqueWithoutClasePracticaInput[]
+    createMany?: PagoCreateManyClasePracticaInputEnvelope
+    set?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    disconnect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    delete?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    connect?: PagoWhereUniqueInput | PagoWhereUniqueInput[]
+    update?: PagoUpdateWithWhereUniqueWithoutClasePracticaInput | PagoUpdateWithWhereUniqueWithoutClasePracticaInput[]
+    updateMany?: PagoUpdateManyWithWhereWithoutClasePracticaInput | PagoUpdateManyWithWhereWithoutClasePracticaInput[]
+    deleteMany?: PagoScalarWhereInput | PagoScalarWhereInput[]
+  }
+
+  export type FacturaUncheckedUpdateManyWithoutClasePracticaNestedInput = {
+    create?: XOR<FacturaCreateWithoutClasePracticaInput, FacturaUncheckedCreateWithoutClasePracticaInput> | FacturaCreateWithoutClasePracticaInput[] | FacturaUncheckedCreateWithoutClasePracticaInput[]
+    connectOrCreate?: FacturaCreateOrConnectWithoutClasePracticaInput | FacturaCreateOrConnectWithoutClasePracticaInput[]
+    upsert?: FacturaUpsertWithWhereUniqueWithoutClasePracticaInput | FacturaUpsertWithWhereUniqueWithoutClasePracticaInput[]
+    createMany?: FacturaCreateManyClasePracticaInputEnvelope
+    set?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    disconnect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    delete?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    connect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+    update?: FacturaUpdateWithWhereUniqueWithoutClasePracticaInput | FacturaUpdateWithWhereUniqueWithoutClasePracticaInput[]
+    updateMany?: FacturaUpdateManyWithWhereWithoutClasePracticaInput | FacturaUpdateManyWithWhereWithoutClasePracticaInput[]
+    deleteMany?: FacturaScalarWhereInput | FacturaScalarWhereInput[]
   }
 
   export type AlumnoCreateNestedOneWithoutExamenesInput = {
@@ -50347,14 +52876,6 @@ export namespace Prisma {
     connectOrCreate?: MatriculaCreateOrConnectWithoutPromocionInput | MatriculaCreateOrConnectWithoutPromocionInput[]
     createMany?: MatriculaCreateManyPromocionInputEnvelope
     connect?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
-  }
-
-  export type DecimalFieldUpdateOperationsInput = {
-    set?: Decimal | DecimalJsLike | number | string
-    increment?: Decimal | DecimalJsLike | number | string
-    decrement?: Decimal | DecimalJsLike | number | string
-    multiply?: Decimal | DecimalJsLike | number | string
-    divide?: Decimal | DecimalJsLike | number | string
   }
 
   export type PromocionUpdatelicenciasAplicablesInput = {
@@ -50668,6 +53189,18 @@ export namespace Prisma {
     connect?: MatriculaWhereUniqueInput
   }
 
+  export type CompraBonoCreateNestedOneWithoutPagosInput = {
+    create?: XOR<CompraBonoCreateWithoutPagosInput, CompraBonoUncheckedCreateWithoutPagosInput>
+    connectOrCreate?: CompraBonoCreateOrConnectWithoutPagosInput
+    connect?: CompraBonoWhereUniqueInput
+  }
+
+  export type ClasePracticaCreateNestedOneWithoutPagosInput = {
+    create?: XOR<ClasePracticaCreateWithoutPagosInput, ClasePracticaUncheckedCreateWithoutPagosInput>
+    connectOrCreate?: ClasePracticaCreateOrConnectWithoutPagosInput
+    connect?: ClasePracticaWhereUniqueInput
+  }
+
   export type AlumnoUpdateOneRequiredWithoutPagosNestedInput = {
     create?: XOR<AlumnoCreateWithoutPagosInput, AlumnoUncheckedCreateWithoutPagosInput>
     connectOrCreate?: AlumnoCreateOrConnectWithoutPagosInput
@@ -50684,6 +53217,26 @@ export namespace Prisma {
     delete?: MatriculaWhereInput | boolean
     connect?: MatriculaWhereUniqueInput
     update?: XOR<XOR<MatriculaUpdateToOneWithWhereWithoutPagosInput, MatriculaUpdateWithoutPagosInput>, MatriculaUncheckedUpdateWithoutPagosInput>
+  }
+
+  export type CompraBonoUpdateOneWithoutPagosNestedInput = {
+    create?: XOR<CompraBonoCreateWithoutPagosInput, CompraBonoUncheckedCreateWithoutPagosInput>
+    connectOrCreate?: CompraBonoCreateOrConnectWithoutPagosInput
+    upsert?: CompraBonoUpsertWithoutPagosInput
+    disconnect?: CompraBonoWhereInput | boolean
+    delete?: CompraBonoWhereInput | boolean
+    connect?: CompraBonoWhereUniqueInput
+    update?: XOR<XOR<CompraBonoUpdateToOneWithWhereWithoutPagosInput, CompraBonoUpdateWithoutPagosInput>, CompraBonoUncheckedUpdateWithoutPagosInput>
+  }
+
+  export type ClasePracticaUpdateOneWithoutPagosNestedInput = {
+    create?: XOR<ClasePracticaCreateWithoutPagosInput, ClasePracticaUncheckedCreateWithoutPagosInput>
+    connectOrCreate?: ClasePracticaCreateOrConnectWithoutPagosInput
+    upsert?: ClasePracticaUpsertWithoutPagosInput
+    disconnect?: ClasePracticaWhereInput | boolean
+    delete?: ClasePracticaWhereInput | boolean
+    connect?: ClasePracticaWhereUniqueInput
+    update?: XOR<XOR<ClasePracticaUpdateToOneWithWhereWithoutPagosInput, ClasePracticaUpdateWithoutPagosInput>, ClasePracticaUncheckedUpdateWithoutPagosInput>
   }
 
   export type TheoreticalExamProcessSolicitudCreateNestedManyWithoutBatchInput = {
@@ -50846,6 +53399,18 @@ export namespace Prisma {
     connect?: MatriculaWhereUniqueInput
   }
 
+  export type CompraBonoCreateNestedOneWithoutFacturasInput = {
+    create?: XOR<CompraBonoCreateWithoutFacturasInput, CompraBonoUncheckedCreateWithoutFacturasInput>
+    connectOrCreate?: CompraBonoCreateOrConnectWithoutFacturasInput
+    connect?: CompraBonoWhereUniqueInput
+  }
+
+  export type ClasePracticaCreateNestedOneWithoutFacturasInput = {
+    create?: XOR<ClasePracticaCreateWithoutFacturasInput, ClasePracticaUncheckedCreateWithoutFacturasInput>
+    connectOrCreate?: ClasePracticaCreateOrConnectWithoutFacturasInput
+    connect?: ClasePracticaWhereUniqueInput
+  }
+
   export type AlumnoUpdateOneRequiredWithoutFacturasNestedInput = {
     create?: XOR<AlumnoCreateWithoutFacturasInput, AlumnoUncheckedCreateWithoutFacturasInput>
     connectOrCreate?: AlumnoCreateOrConnectWithoutFacturasInput
@@ -50854,12 +53419,48 @@ export namespace Prisma {
     update?: XOR<XOR<AlumnoUpdateToOneWithWhereWithoutFacturasInput, AlumnoUpdateWithoutFacturasInput>, AlumnoUncheckedUpdateWithoutFacturasInput>
   }
 
-  export type MatriculaUpdateOneRequiredWithoutFacturasNestedInput = {
+  export type MatriculaUpdateOneWithoutFacturasNestedInput = {
     create?: XOR<MatriculaCreateWithoutFacturasInput, MatriculaUncheckedCreateWithoutFacturasInput>
     connectOrCreate?: MatriculaCreateOrConnectWithoutFacturasInput
     upsert?: MatriculaUpsertWithoutFacturasInput
+    disconnect?: MatriculaWhereInput | boolean
+    delete?: MatriculaWhereInput | boolean
     connect?: MatriculaWhereUniqueInput
     update?: XOR<XOR<MatriculaUpdateToOneWithWhereWithoutFacturasInput, MatriculaUpdateWithoutFacturasInput>, MatriculaUncheckedUpdateWithoutFacturasInput>
+  }
+
+  export type CompraBonoUpdateOneWithoutFacturasNestedInput = {
+    create?: XOR<CompraBonoCreateWithoutFacturasInput, CompraBonoUncheckedCreateWithoutFacturasInput>
+    connectOrCreate?: CompraBonoCreateOrConnectWithoutFacturasInput
+    upsert?: CompraBonoUpsertWithoutFacturasInput
+    disconnect?: CompraBonoWhereInput | boolean
+    delete?: CompraBonoWhereInput | boolean
+    connect?: CompraBonoWhereUniqueInput
+    update?: XOR<XOR<CompraBonoUpdateToOneWithWhereWithoutFacturasInput, CompraBonoUpdateWithoutFacturasInput>, CompraBonoUncheckedUpdateWithoutFacturasInput>
+  }
+
+  export type ClasePracticaUpdateOneWithoutFacturasNestedInput = {
+    create?: XOR<ClasePracticaCreateWithoutFacturasInput, ClasePracticaUncheckedCreateWithoutFacturasInput>
+    connectOrCreate?: ClasePracticaCreateOrConnectWithoutFacturasInput
+    upsert?: ClasePracticaUpsertWithoutFacturasInput
+    disconnect?: ClasePracticaWhereInput | boolean
+    delete?: ClasePracticaWhereInput | boolean
+    connect?: ClasePracticaWhereUniqueInput
+    update?: XOR<XOR<ClasePracticaUpdateToOneWithWhereWithoutFacturasInput, ClasePracticaUpdateWithoutFacturasInput>, ClasePracticaUncheckedUpdateWithoutFacturasInput>
+  }
+
+  export type UsuarioCreateNestedOneWithoutNotificacionesInput = {
+    create?: XOR<UsuarioCreateWithoutNotificacionesInput, UsuarioUncheckedCreateWithoutNotificacionesInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutNotificacionesInput
+    connect?: UsuarioWhereUniqueInput
+  }
+
+  export type UsuarioUpdateOneRequiredWithoutNotificacionesNestedInput = {
+    create?: XOR<UsuarioCreateWithoutNotificacionesInput, UsuarioUncheckedCreateWithoutNotificacionesInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutNotificacionesInput
+    upsert?: UsuarioUpsertWithoutNotificacionesInput
+    connect?: UsuarioWhereUniqueInput
+    update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutNotificacionesInput, UsuarioUpdateWithoutNotificacionesInput>, UsuarioUncheckedUpdateWithoutNotificacionesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -51200,6 +53801,29 @@ export namespace Prisma {
     _min?: NestedBigIntFilter<$PrismaModel>
     _max?: NestedBigIntFilter<$PrismaModel>
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type ActivacionCuentaCreateWithoutUsuarioInput = {
     id?: string
@@ -51228,6 +53852,38 @@ export namespace Prisma {
 
   export type ActivacionCuentaCreateManyUsuarioInputEnvelope = {
     data: ActivacionCuentaCreateManyUsuarioInput | ActivacionCuentaCreateManyUsuarioInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NotificacionCreateWithoutUsuarioInput = {
+    id?: string
+    tipo: string
+    titulo: string
+    mensaje: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    leida?: boolean
+    createdAt?: Date | string
+    readAt?: Date | string | null
+  }
+
+  export type NotificacionUncheckedCreateWithoutUsuarioInput = {
+    id?: string
+    tipo: string
+    titulo: string
+    mensaje: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    leida?: boolean
+    createdAt?: Date | string
+    readAt?: Date | string | null
+  }
+
+  export type NotificacionCreateOrConnectWithoutUsuarioInput = {
+    where: NotificacionWhereUniqueInput
+    create: XOR<NotificacionCreateWithoutUsuarioInput, NotificacionUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type NotificacionCreateManyUsuarioInputEnvelope = {
+    data: NotificacionCreateManyUsuarioInput | NotificacionCreateManyUsuarioInput[]
     skipDuplicates?: boolean
   }
 
@@ -51331,6 +53987,37 @@ export namespace Prisma {
     resendCount?: IntFilter<"ActivacionCuenta"> | number
   }
 
+  export type NotificacionUpsertWithWhereUniqueWithoutUsuarioInput = {
+    where: NotificacionWhereUniqueInput
+    update: XOR<NotificacionUpdateWithoutUsuarioInput, NotificacionUncheckedUpdateWithoutUsuarioInput>
+    create: XOR<NotificacionCreateWithoutUsuarioInput, NotificacionUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type NotificacionUpdateWithWhereUniqueWithoutUsuarioInput = {
+    where: NotificacionWhereUniqueInput
+    data: XOR<NotificacionUpdateWithoutUsuarioInput, NotificacionUncheckedUpdateWithoutUsuarioInput>
+  }
+
+  export type NotificacionUpdateManyWithWhereWithoutUsuarioInput = {
+    where: NotificacionScalarWhereInput
+    data: XOR<NotificacionUpdateManyMutationInput, NotificacionUncheckedUpdateManyWithoutUsuarioInput>
+  }
+
+  export type NotificacionScalarWhereInput = {
+    AND?: NotificacionScalarWhereInput | NotificacionScalarWhereInput[]
+    OR?: NotificacionScalarWhereInput[]
+    NOT?: NotificacionScalarWhereInput | NotificacionScalarWhereInput[]
+    id?: StringFilter<"Notificacion"> | string
+    usuarioId?: StringFilter<"Notificacion"> | string
+    tipo?: StringFilter<"Notificacion"> | string
+    titulo?: StringFilter<"Notificacion"> | string
+    mensaje?: StringFilter<"Notificacion"> | string
+    metadata?: JsonNullableFilter<"Notificacion">
+    leida?: BoolFilter<"Notificacion"> | boolean
+    createdAt?: DateTimeFilter<"Notificacion"> | Date | string
+    readAt?: DateTimeNullableFilter<"Notificacion"> | Date | string | null
+  }
+
   export type AlumnoUpsertWithoutUsuarioInput = {
     update: XOR<AlumnoUpdateWithoutUsuarioInput, AlumnoUncheckedUpdateWithoutUsuarioInput>
     create: XOR<AlumnoCreateWithoutUsuarioInput, AlumnoUncheckedCreateWithoutUsuarioInput>
@@ -51423,6 +54110,7 @@ export namespace Prisma {
     telefono?: string | null
     dni?: string | null
     requiereCambioPassword?: boolean
+    notificaciones?: NotificacionCreateNestedManyWithoutUsuarioInput
     alumno?: AlumnoCreateNestedOneWithoutUsuarioInput
     profesor?: ProfesorCreateNestedOneWithoutUsuarioInput
   }
@@ -51437,6 +54125,7 @@ export namespace Prisma {
     telefono?: string | null
     dni?: string | null
     requiereCambioPassword?: boolean
+    notificaciones?: NotificacionUncheckedCreateNestedManyWithoutUsuarioInput
     alumno?: AlumnoUncheckedCreateNestedOneWithoutUsuarioInput
     profesor?: ProfesorUncheckedCreateNestedOneWithoutUsuarioInput
   }
@@ -51467,6 +54156,7 @@ export namespace Prisma {
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     dni?: NullableStringFieldUpdateOperationsInput | string | null
     requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
+    notificaciones?: NotificacionUpdateManyWithoutUsuarioNestedInput
     alumno?: AlumnoUpdateOneWithoutUsuarioNestedInput
     profesor?: ProfesorUpdateOneWithoutUsuarioNestedInput
   }
@@ -51481,6 +54171,7 @@ export namespace Prisma {
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     dni?: NullableStringFieldUpdateOperationsInput | string | null
     requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
+    notificaciones?: NotificacionUncheckedUpdateManyWithoutUsuarioNestedInput
     alumno?: AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput
     profesor?: ProfesorUncheckedUpdateOneWithoutUsuarioNestedInput
   }
@@ -51572,17 +54263,31 @@ export namespace Prisma {
     fecha: Date | string
     duracion: number
     estado: string
+    metodoPago?: string
+    pagoLimiteAt?: Date | string | null
+    canceladaPor?: string | null
+    canceladaConPenalizacion?: boolean
     alumno: AlumnoCreateNestedOneWithoutClasesInput
     vehiculo: VehiculoCreateNestedOneWithoutClasesInput
+    compraBono?: CompraBonoCreateNestedOneWithoutClasesInput
+    pagos?: PagoCreateNestedManyWithoutClasePracticaInput
+    facturas?: FacturaCreateNestedManyWithoutClasePracticaInput
   }
 
   export type ClasePracticaUncheckedCreateWithoutProfesorInput = {
     id?: string
     alumnoId: string
     vehiculoId: string
+    compraBonoId?: string | null
     fecha: Date | string
     duracion: number
     estado: string
+    metodoPago?: string
+    pagoLimiteAt?: Date | string | null
+    canceladaPor?: string | null
+    canceladaConPenalizacion?: boolean
+    pagos?: PagoUncheckedCreateNestedManyWithoutClasePracticaInput
+    facturas?: FacturaUncheckedCreateNestedManyWithoutClasePracticaInput
   }
 
   export type ClasePracticaCreateOrConnectWithoutProfesorInput = {
@@ -51634,6 +54339,7 @@ export namespace Prisma {
     dni?: string | null
     requiereCambioPassword?: boolean
     activacionesCuenta?: ActivacionCuentaCreateNestedManyWithoutUsuarioInput
+    notificaciones?: NotificacionCreateNestedManyWithoutUsuarioInput
     alumno?: AlumnoCreateNestedOneWithoutUsuarioInput
   }
 
@@ -51648,6 +54354,7 @@ export namespace Prisma {
     dni?: string | null
     requiereCambioPassword?: boolean
     activacionesCuenta?: ActivacionCuentaUncheckedCreateNestedManyWithoutUsuarioInput
+    notificaciones?: NotificacionUncheckedCreateNestedManyWithoutUsuarioInput
     alumno?: AlumnoUncheckedCreateNestedOneWithoutUsuarioInput
   }
 
@@ -51740,9 +54447,14 @@ export namespace Prisma {
     alumnoId?: StringFilter<"ClasePractica"> | string
     profesorId?: StringFilter<"ClasePractica"> | string
     vehiculoId?: StringFilter<"ClasePractica"> | string
+    compraBonoId?: StringNullableFilter<"ClasePractica"> | string | null
     fecha?: DateTimeFilter<"ClasePractica"> | Date | string
     duracion?: IntFilter<"ClasePractica"> | number
     estado?: StringFilter<"ClasePractica"> | string
+    metodoPago?: StringFilter<"ClasePractica"> | string
+    pagoLimiteAt?: DateTimeNullableFilter<"ClasePractica"> | Date | string | null
+    canceladaPor?: StringNullableFilter<"ClasePractica"> | string | null
+    canceladaConPenalizacion?: BoolFilter<"ClasePractica"> | boolean
   }
 
   export type ProfesorHorarioBloqueUpsertWithWhereUniqueWithoutProfesorInput = {
@@ -51796,6 +54508,7 @@ export namespace Prisma {
     dni?: NullableStringFieldUpdateOperationsInput | string | null
     requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     activacionesCuenta?: ActivacionCuentaUpdateManyWithoutUsuarioNestedInput
+    notificaciones?: NotificacionUpdateManyWithoutUsuarioNestedInput
     alumno?: AlumnoUpdateOneWithoutUsuarioNestedInput
   }
 
@@ -51810,6 +54523,7 @@ export namespace Prisma {
     dni?: NullableStringFieldUpdateOperationsInput | string | null
     requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     activacionesCuenta?: ActivacionCuentaUncheckedUpdateManyWithoutUsuarioNestedInput
+    notificaciones?: NotificacionUncheckedUpdateManyWithoutUsuarioNestedInput
     alumno?: AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput
   }
 
@@ -51884,6 +54598,7 @@ export namespace Prisma {
     dni?: string | null
     requiereCambioPassword?: boolean
     activacionesCuenta?: ActivacionCuentaCreateNestedManyWithoutUsuarioInput
+    notificaciones?: NotificacionCreateNestedManyWithoutUsuarioInput
     profesor?: ProfesorCreateNestedOneWithoutUsuarioInput
   }
 
@@ -51898,6 +54613,7 @@ export namespace Prisma {
     dni?: string | null
     requiereCambioPassword?: boolean
     activacionesCuenta?: ActivacionCuentaUncheckedCreateNestedManyWithoutUsuarioInput
+    notificaciones?: NotificacionUncheckedCreateNestedManyWithoutUsuarioInput
     profesor?: ProfesorUncheckedCreateNestedOneWithoutUsuarioInput
   }
 
@@ -51938,17 +54654,31 @@ export namespace Prisma {
     fecha: Date | string
     duracion: number
     estado: string
+    metodoPago?: string
+    pagoLimiteAt?: Date | string | null
+    canceladaPor?: string | null
+    canceladaConPenalizacion?: boolean
     profesor: ProfesorCreateNestedOneWithoutClasesInput
     vehiculo: VehiculoCreateNestedOneWithoutClasesInput
+    compraBono?: CompraBonoCreateNestedOneWithoutClasesInput
+    pagos?: PagoCreateNestedManyWithoutClasePracticaInput
+    facturas?: FacturaCreateNestedManyWithoutClasePracticaInput
   }
 
   export type ClasePracticaUncheckedCreateWithoutAlumnoInput = {
     id?: string
     profesorId: string
     vehiculoId: string
+    compraBonoId?: string | null
     fecha: Date | string
     duracion: number
     estado: string
+    metodoPago?: string
+    pagoLimiteAt?: Date | string | null
+    canceladaPor?: string | null
+    canceladaConPenalizacion?: boolean
+    pagos?: PagoUncheckedCreateNestedManyWithoutClasePracticaInput
+    facturas?: FacturaUncheckedCreateNestedManyWithoutClasePracticaInput
   }
 
   export type ClasePracticaCreateOrConnectWithoutAlumnoInput = {
@@ -51968,6 +54698,9 @@ export namespace Prisma {
     pagado?: boolean
     fechaCompra?: Date | string
     fechaValidezHasta: Date | string
+    pagos?: PagoCreateNestedManyWithoutCompraBonoInput
+    facturas?: FacturaCreateNestedManyWithoutCompraBonoInput
+    clases?: ClasePracticaCreateNestedManyWithoutCompraBonoInput
     bono: BonoCreateNestedOneWithoutComprasInput
   }
 
@@ -51979,6 +54712,9 @@ export namespace Prisma {
     pagado?: boolean
     fechaCompra?: Date | string
     fechaValidezHasta: Date | string
+    pagos?: PagoUncheckedCreateNestedManyWithoutCompraBonoInput
+    facturas?: FacturaUncheckedCreateNestedManyWithoutCompraBonoInput
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutCompraBonoInput
   }
 
   export type CompraBonoCreateOrConnectWithoutAlumnoInput = {
@@ -52025,13 +54761,17 @@ export namespace Prisma {
     estado?: string
     fechaEmision?: Date | string
     fechaPago?: Date | string | null
-    matricula: MatriculaCreateNestedOneWithoutFacturasInput
+    matricula?: MatriculaCreateNestedOneWithoutFacturasInput
+    compraBono?: CompraBonoCreateNestedOneWithoutFacturasInput
+    clasePractica?: ClasePracticaCreateNestedOneWithoutFacturasInput
   }
 
   export type FacturaUncheckedCreateWithoutAlumnoInput = {
     id?: string
     numero: string
-    matriculaId: string
+    matriculaId?: string | null
+    compraBonoId?: string | null
+    clasePracticaId?: string | null
     concepto: string
     baseImponible: Decimal | DecimalJsLike | number | string
     descuento: Decimal | DecimalJsLike | number | string
@@ -52065,11 +54805,15 @@ export namespace Prisma {
     numeroFacturaPago?: string | null
     observaciones?: string | null
     matricula?: MatriculaCreateNestedOneWithoutPagosInput
+    compraBono?: CompraBonoCreateNestedOneWithoutPagosInput
+    clasePractica?: ClasePracticaCreateNestedOneWithoutPagosInput
   }
 
   export type PagoUncheckedCreateWithoutAlumnoInput = {
     id?: string
     matriculaId?: string | null
+    compraBonoId?: string | null
+    clasePracticaId?: string | null
     tipo: string
     concepto: string
     permiso: string
@@ -52305,6 +55049,7 @@ export namespace Prisma {
     dni?: NullableStringFieldUpdateOperationsInput | string | null
     requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     activacionesCuenta?: ActivacionCuentaUpdateManyWithoutUsuarioNestedInput
+    notificaciones?: NotificacionUpdateManyWithoutUsuarioNestedInput
     profesor?: ProfesorUpdateOneWithoutUsuarioNestedInput
   }
 
@@ -52319,6 +55064,7 @@ export namespace Prisma {
     dni?: NullableStringFieldUpdateOperationsInput | string | null
     requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     activacionesCuenta?: ActivacionCuentaUncheckedUpdateManyWithoutUsuarioNestedInput
+    notificaciones?: NotificacionUncheckedUpdateManyWithoutUsuarioNestedInput
     profesor?: ProfesorUncheckedUpdateOneWithoutUsuarioNestedInput
   }
 
@@ -52451,7 +55197,9 @@ export namespace Prisma {
     id?: StringFilter<"Factura"> | string
     numero?: StringFilter<"Factura"> | string
     alumnoId?: StringFilter<"Factura"> | string
-    matriculaId?: StringFilter<"Factura"> | string
+    matriculaId?: StringNullableFilter<"Factura"> | string | null
+    compraBonoId?: StringNullableFilter<"Factura"> | string | null
+    clasePracticaId?: StringNullableFilter<"Factura"> | string | null
     concepto?: StringFilter<"Factura"> | string
     baseImponible?: DecimalFilter<"Factura"> | Decimal | DecimalJsLike | number | string
     descuento?: DecimalFilter<"Factura"> | Decimal | DecimalJsLike | number | string
@@ -52484,6 +55232,8 @@ export namespace Prisma {
     id?: StringFilter<"Pago"> | string
     alumnoId?: StringFilter<"Pago"> | string
     matriculaId?: StringNullableFilter<"Pago"> | string | null
+    compraBonoId?: StringNullableFilter<"Pago"> | string | null
+    clasePracticaId?: StringNullableFilter<"Pago"> | string | null
     tipo?: StringFilter<"Pago"> | string
     concepto?: StringFilter<"Pago"> | string
     permiso?: StringFilter<"Pago"> | string
@@ -53550,6 +56300,9 @@ export namespace Prisma {
     pagado?: boolean
     fechaCompra?: Date | string
     fechaValidezHasta: Date | string
+    pagos?: PagoCreateNestedManyWithoutCompraBonoInput
+    facturas?: FacturaCreateNestedManyWithoutCompraBonoInput
+    clases?: ClasePracticaCreateNestedManyWithoutCompraBonoInput
     alumno: AlumnoCreateNestedOneWithoutBonosCompradosInput
   }
 
@@ -53561,6 +56314,9 @@ export namespace Prisma {
     pagado?: boolean
     fechaCompra?: Date | string
     fechaValidezHasta: Date | string
+    pagos?: PagoUncheckedCreateNestedManyWithoutCompraBonoInput
+    facturas?: FacturaUncheckedCreateNestedManyWithoutCompraBonoInput
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutCompraBonoInput
   }
 
   export type CompraBonoCreateOrConnectWithoutBonoInput = {
@@ -53587,6 +56343,134 @@ export namespace Prisma {
   export type CompraBonoUpdateManyWithWhereWithoutBonoInput = {
     where: CompraBonoScalarWhereInput
     data: XOR<CompraBonoUpdateManyMutationInput, CompraBonoUncheckedUpdateManyWithoutBonoInput>
+  }
+
+  export type PagoCreateWithoutCompraBonoInput = {
+    id?: string
+    tipo: string
+    concepto: string
+    permiso: string
+    importe: Decimal | DecimalJsLike | number | string
+    estado?: string
+    convocatoriasIncluidas?: number
+    convocatoriasConsumidas?: number
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    numeroFacturaPago?: string | null
+    observaciones?: string | null
+    alumno: AlumnoCreateNestedOneWithoutPagosInput
+    matricula?: MatriculaCreateNestedOneWithoutPagosInput
+    clasePractica?: ClasePracticaCreateNestedOneWithoutPagosInput
+  }
+
+  export type PagoUncheckedCreateWithoutCompraBonoInput = {
+    id?: string
+    alumnoId: string
+    matriculaId?: string | null
+    clasePracticaId?: string | null
+    tipo: string
+    concepto: string
+    permiso: string
+    importe: Decimal | DecimalJsLike | number | string
+    estado?: string
+    convocatoriasIncluidas?: number
+    convocatoriasConsumidas?: number
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    numeroFacturaPago?: string | null
+    observaciones?: string | null
+  }
+
+  export type PagoCreateOrConnectWithoutCompraBonoInput = {
+    where: PagoWhereUniqueInput
+    create: XOR<PagoCreateWithoutCompraBonoInput, PagoUncheckedCreateWithoutCompraBonoInput>
+  }
+
+  export type PagoCreateManyCompraBonoInputEnvelope = {
+    data: PagoCreateManyCompraBonoInput | PagoCreateManyCompraBonoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FacturaCreateWithoutCompraBonoInput = {
+    id?: string
+    numero: string
+    concepto: string
+    baseImponible: Decimal | DecimalJsLike | number | string
+    descuento: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    estado?: string
+    fechaEmision?: Date | string
+    fechaPago?: Date | string | null
+    alumno: AlumnoCreateNestedOneWithoutFacturasInput
+    matricula?: MatriculaCreateNestedOneWithoutFacturasInput
+    clasePractica?: ClasePracticaCreateNestedOneWithoutFacturasInput
+  }
+
+  export type FacturaUncheckedCreateWithoutCompraBonoInput = {
+    id?: string
+    numero: string
+    alumnoId: string
+    matriculaId?: string | null
+    clasePracticaId?: string | null
+    concepto: string
+    baseImponible: Decimal | DecimalJsLike | number | string
+    descuento: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    estado?: string
+    fechaEmision?: Date | string
+    fechaPago?: Date | string | null
+  }
+
+  export type FacturaCreateOrConnectWithoutCompraBonoInput = {
+    where: FacturaWhereUniqueInput
+    create: XOR<FacturaCreateWithoutCompraBonoInput, FacturaUncheckedCreateWithoutCompraBonoInput>
+  }
+
+  export type FacturaCreateManyCompraBonoInputEnvelope = {
+    data: FacturaCreateManyCompraBonoInput | FacturaCreateManyCompraBonoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ClasePracticaCreateWithoutCompraBonoInput = {
+    id?: string
+    fecha: Date | string
+    duracion: number
+    estado: string
+    metodoPago?: string
+    pagoLimiteAt?: Date | string | null
+    canceladaPor?: string | null
+    canceladaConPenalizacion?: boolean
+    alumno: AlumnoCreateNestedOneWithoutClasesInput
+    profesor: ProfesorCreateNestedOneWithoutClasesInput
+    vehiculo: VehiculoCreateNestedOneWithoutClasesInput
+    pagos?: PagoCreateNestedManyWithoutClasePracticaInput
+    facturas?: FacturaCreateNestedManyWithoutClasePracticaInput
+  }
+
+  export type ClasePracticaUncheckedCreateWithoutCompraBonoInput = {
+    id?: string
+    alumnoId: string
+    profesorId: string
+    vehiculoId: string
+    fecha: Date | string
+    duracion: number
+    estado: string
+    metodoPago?: string
+    pagoLimiteAt?: Date | string | null
+    canceladaPor?: string | null
+    canceladaConPenalizacion?: boolean
+    pagos?: PagoUncheckedCreateNestedManyWithoutClasePracticaInput
+    facturas?: FacturaUncheckedCreateNestedManyWithoutClasePracticaInput
+  }
+
+  export type ClasePracticaCreateOrConnectWithoutCompraBonoInput = {
+    where: ClasePracticaWhereUniqueInput
+    create: XOR<ClasePracticaCreateWithoutCompraBonoInput, ClasePracticaUncheckedCreateWithoutCompraBonoInput>
+  }
+
+  export type ClasePracticaCreateManyCompraBonoInputEnvelope = {
+    data: ClasePracticaCreateManyCompraBonoInput | ClasePracticaCreateManyCompraBonoInput[]
+    skipDuplicates?: boolean
   }
 
   export type AlumnoCreateWithoutBonosCompradosInput = {
@@ -53637,6 +56521,7 @@ export namespace Prisma {
     nombre: string
     descripcion?: string | null
     clasesIncluidas: number
+    precio?: Decimal | DecimalJsLike | number | string
     validezDias?: number
     activo?: boolean
   }
@@ -53646,6 +56531,7 @@ export namespace Prisma {
     nombre: string
     descripcion?: string | null
     clasesIncluidas: number
+    precio?: Decimal | DecimalJsLike | number | string
     validezDias?: number
     activo?: boolean
   }
@@ -53653,6 +56539,54 @@ export namespace Prisma {
   export type BonoCreateOrConnectWithoutComprasInput = {
     where: BonoWhereUniqueInput
     create: XOR<BonoCreateWithoutComprasInput, BonoUncheckedCreateWithoutComprasInput>
+  }
+
+  export type PagoUpsertWithWhereUniqueWithoutCompraBonoInput = {
+    where: PagoWhereUniqueInput
+    update: XOR<PagoUpdateWithoutCompraBonoInput, PagoUncheckedUpdateWithoutCompraBonoInput>
+    create: XOR<PagoCreateWithoutCompraBonoInput, PagoUncheckedCreateWithoutCompraBonoInput>
+  }
+
+  export type PagoUpdateWithWhereUniqueWithoutCompraBonoInput = {
+    where: PagoWhereUniqueInput
+    data: XOR<PagoUpdateWithoutCompraBonoInput, PagoUncheckedUpdateWithoutCompraBonoInput>
+  }
+
+  export type PagoUpdateManyWithWhereWithoutCompraBonoInput = {
+    where: PagoScalarWhereInput
+    data: XOR<PagoUpdateManyMutationInput, PagoUncheckedUpdateManyWithoutCompraBonoInput>
+  }
+
+  export type FacturaUpsertWithWhereUniqueWithoutCompraBonoInput = {
+    where: FacturaWhereUniqueInput
+    update: XOR<FacturaUpdateWithoutCompraBonoInput, FacturaUncheckedUpdateWithoutCompraBonoInput>
+    create: XOR<FacturaCreateWithoutCompraBonoInput, FacturaUncheckedCreateWithoutCompraBonoInput>
+  }
+
+  export type FacturaUpdateWithWhereUniqueWithoutCompraBonoInput = {
+    where: FacturaWhereUniqueInput
+    data: XOR<FacturaUpdateWithoutCompraBonoInput, FacturaUncheckedUpdateWithoutCompraBonoInput>
+  }
+
+  export type FacturaUpdateManyWithWhereWithoutCompraBonoInput = {
+    where: FacturaScalarWhereInput
+    data: XOR<FacturaUpdateManyMutationInput, FacturaUncheckedUpdateManyWithoutCompraBonoInput>
+  }
+
+  export type ClasePracticaUpsertWithWhereUniqueWithoutCompraBonoInput = {
+    where: ClasePracticaWhereUniqueInput
+    update: XOR<ClasePracticaUpdateWithoutCompraBonoInput, ClasePracticaUncheckedUpdateWithoutCompraBonoInput>
+    create: XOR<ClasePracticaCreateWithoutCompraBonoInput, ClasePracticaUncheckedCreateWithoutCompraBonoInput>
+  }
+
+  export type ClasePracticaUpdateWithWhereUniqueWithoutCompraBonoInput = {
+    where: ClasePracticaWhereUniqueInput
+    data: XOR<ClasePracticaUpdateWithoutCompraBonoInput, ClasePracticaUncheckedUpdateWithoutCompraBonoInput>
+  }
+
+  export type ClasePracticaUpdateManyWithWhereWithoutCompraBonoInput = {
+    where: ClasePracticaScalarWhereInput
+    data: XOR<ClasePracticaUpdateManyMutationInput, ClasePracticaUncheckedUpdateManyWithoutCompraBonoInput>
   }
 
   export type AlumnoUpsertWithoutBonosCompradosInput = {
@@ -53720,6 +56654,7 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     clasesIncluidas?: IntFieldUpdateOperationsInput | number
+    precio?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     validezDias?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
   }
@@ -53729,6 +56664,7 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     clasesIncluidas?: IntFieldUpdateOperationsInput | number
+    precio?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     validezDias?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
   }
@@ -53830,17 +56766,31 @@ export namespace Prisma {
     fecha: Date | string
     duracion: number
     estado: string
+    metodoPago?: string
+    pagoLimiteAt?: Date | string | null
+    canceladaPor?: string | null
+    canceladaConPenalizacion?: boolean
     alumno: AlumnoCreateNestedOneWithoutClasesInput
     profesor: ProfesorCreateNestedOneWithoutClasesInput
+    compraBono?: CompraBonoCreateNestedOneWithoutClasesInput
+    pagos?: PagoCreateNestedManyWithoutClasePracticaInput
+    facturas?: FacturaCreateNestedManyWithoutClasePracticaInput
   }
 
   export type ClasePracticaUncheckedCreateWithoutVehiculoInput = {
     id?: string
     alumnoId: string
     profesorId: string
+    compraBonoId?: string | null
     fecha: Date | string
     duracion: number
     estado: string
+    metodoPago?: string
+    pagoLimiteAt?: Date | string | null
+    canceladaPor?: string | null
+    canceladaConPenalizacion?: boolean
+    pagos?: PagoUncheckedCreateNestedManyWithoutClasePracticaInput
+    facturas?: FacturaUncheckedCreateNestedManyWithoutClasePracticaInput
   }
 
   export type ClasePracticaCreateOrConnectWithoutVehiculoInput = {
@@ -53964,6 +56914,123 @@ export namespace Prisma {
     create: XOR<VehiculoCreateWithoutClasesInput, VehiculoUncheckedCreateWithoutClasesInput>
   }
 
+  export type CompraBonoCreateWithoutClasesInput = {
+    id?: string
+    clasesCompradas: number
+    clasesConsumidas?: number
+    pagado?: boolean
+    fechaCompra?: Date | string
+    fechaValidezHasta: Date | string
+    pagos?: PagoCreateNestedManyWithoutCompraBonoInput
+    facturas?: FacturaCreateNestedManyWithoutCompraBonoInput
+    alumno: AlumnoCreateNestedOneWithoutBonosCompradosInput
+    bono: BonoCreateNestedOneWithoutComprasInput
+  }
+
+  export type CompraBonoUncheckedCreateWithoutClasesInput = {
+    id?: string
+    alumnoId: string
+    bonoId: string
+    clasesCompradas: number
+    clasesConsumidas?: number
+    pagado?: boolean
+    fechaCompra?: Date | string
+    fechaValidezHasta: Date | string
+    pagos?: PagoUncheckedCreateNestedManyWithoutCompraBonoInput
+    facturas?: FacturaUncheckedCreateNestedManyWithoutCompraBonoInput
+  }
+
+  export type CompraBonoCreateOrConnectWithoutClasesInput = {
+    where: CompraBonoWhereUniqueInput
+    create: XOR<CompraBonoCreateWithoutClasesInput, CompraBonoUncheckedCreateWithoutClasesInput>
+  }
+
+  export type PagoCreateWithoutClasePracticaInput = {
+    id?: string
+    tipo: string
+    concepto: string
+    permiso: string
+    importe: Decimal | DecimalJsLike | number | string
+    estado?: string
+    convocatoriasIncluidas?: number
+    convocatoriasConsumidas?: number
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    numeroFacturaPago?: string | null
+    observaciones?: string | null
+    alumno: AlumnoCreateNestedOneWithoutPagosInput
+    matricula?: MatriculaCreateNestedOneWithoutPagosInput
+    compraBono?: CompraBonoCreateNestedOneWithoutPagosInput
+  }
+
+  export type PagoUncheckedCreateWithoutClasePracticaInput = {
+    id?: string
+    alumnoId: string
+    matriculaId?: string | null
+    compraBonoId?: string | null
+    tipo: string
+    concepto: string
+    permiso: string
+    importe: Decimal | DecimalJsLike | number | string
+    estado?: string
+    convocatoriasIncluidas?: number
+    convocatoriasConsumidas?: number
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    numeroFacturaPago?: string | null
+    observaciones?: string | null
+  }
+
+  export type PagoCreateOrConnectWithoutClasePracticaInput = {
+    where: PagoWhereUniqueInput
+    create: XOR<PagoCreateWithoutClasePracticaInput, PagoUncheckedCreateWithoutClasePracticaInput>
+  }
+
+  export type PagoCreateManyClasePracticaInputEnvelope = {
+    data: PagoCreateManyClasePracticaInput | PagoCreateManyClasePracticaInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FacturaCreateWithoutClasePracticaInput = {
+    id?: string
+    numero: string
+    concepto: string
+    baseImponible: Decimal | DecimalJsLike | number | string
+    descuento: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    estado?: string
+    fechaEmision?: Date | string
+    fechaPago?: Date | string | null
+    alumno: AlumnoCreateNestedOneWithoutFacturasInput
+    matricula?: MatriculaCreateNestedOneWithoutFacturasInput
+    compraBono?: CompraBonoCreateNestedOneWithoutFacturasInput
+  }
+
+  export type FacturaUncheckedCreateWithoutClasePracticaInput = {
+    id?: string
+    numero: string
+    alumnoId: string
+    matriculaId?: string | null
+    compraBonoId?: string | null
+    concepto: string
+    baseImponible: Decimal | DecimalJsLike | number | string
+    descuento: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    estado?: string
+    fechaEmision?: Date | string
+    fechaPago?: Date | string | null
+  }
+
+  export type FacturaCreateOrConnectWithoutClasePracticaInput = {
+    where: FacturaWhereUniqueInput
+    create: XOR<FacturaCreateWithoutClasePracticaInput, FacturaUncheckedCreateWithoutClasePracticaInput>
+  }
+
+  export type FacturaCreateManyClasePracticaInputEnvelope = {
+    data: FacturaCreateManyClasePracticaInput | FacturaCreateManyClasePracticaInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AlumnoUpsertWithoutClasesInput = {
     update: XOR<AlumnoUpdateWithoutClasesInput, AlumnoUncheckedUpdateWithoutClasesInput>
     create: XOR<AlumnoCreateWithoutClasesInput, AlumnoUncheckedCreateWithoutClasesInput>
@@ -54075,6 +57142,75 @@ export namespace Prisma {
     tipoPermiso?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
     imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CompraBonoUpsertWithoutClasesInput = {
+    update: XOR<CompraBonoUpdateWithoutClasesInput, CompraBonoUncheckedUpdateWithoutClasesInput>
+    create: XOR<CompraBonoCreateWithoutClasesInput, CompraBonoUncheckedCreateWithoutClasesInput>
+    where?: CompraBonoWhereInput
+  }
+
+  export type CompraBonoUpdateToOneWithWhereWithoutClasesInput = {
+    where?: CompraBonoWhereInput
+    data: XOR<CompraBonoUpdateWithoutClasesInput, CompraBonoUncheckedUpdateWithoutClasesInput>
+  }
+
+  export type CompraBonoUpdateWithoutClasesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clasesCompradas?: IntFieldUpdateOperationsInput | number
+    clasesConsumidas?: IntFieldUpdateOperationsInput | number
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    fechaCompra?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
+    pagos?: PagoUpdateManyWithoutCompraBonoNestedInput
+    facturas?: FacturaUpdateManyWithoutCompraBonoNestedInput
+    alumno?: AlumnoUpdateOneRequiredWithoutBonosCompradosNestedInput
+    bono?: BonoUpdateOneRequiredWithoutComprasNestedInput
+  }
+
+  export type CompraBonoUncheckedUpdateWithoutClasesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    bonoId?: StringFieldUpdateOperationsInput | string
+    clasesCompradas?: IntFieldUpdateOperationsInput | number
+    clasesConsumidas?: IntFieldUpdateOperationsInput | number
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    fechaCompra?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
+    pagos?: PagoUncheckedUpdateManyWithoutCompraBonoNestedInput
+    facturas?: FacturaUncheckedUpdateManyWithoutCompraBonoNestedInput
+  }
+
+  export type PagoUpsertWithWhereUniqueWithoutClasePracticaInput = {
+    where: PagoWhereUniqueInput
+    update: XOR<PagoUpdateWithoutClasePracticaInput, PagoUncheckedUpdateWithoutClasePracticaInput>
+    create: XOR<PagoCreateWithoutClasePracticaInput, PagoUncheckedCreateWithoutClasePracticaInput>
+  }
+
+  export type PagoUpdateWithWhereUniqueWithoutClasePracticaInput = {
+    where: PagoWhereUniqueInput
+    data: XOR<PagoUpdateWithoutClasePracticaInput, PagoUncheckedUpdateWithoutClasePracticaInput>
+  }
+
+  export type PagoUpdateManyWithWhereWithoutClasePracticaInput = {
+    where: PagoScalarWhereInput
+    data: XOR<PagoUpdateManyMutationInput, PagoUncheckedUpdateManyWithoutClasePracticaInput>
+  }
+
+  export type FacturaUpsertWithWhereUniqueWithoutClasePracticaInput = {
+    where: FacturaWhereUniqueInput
+    update: XOR<FacturaUpdateWithoutClasePracticaInput, FacturaUncheckedUpdateWithoutClasePracticaInput>
+    create: XOR<FacturaCreateWithoutClasePracticaInput, FacturaUncheckedCreateWithoutClasePracticaInput>
+  }
+
+  export type FacturaUpdateWithWhereUniqueWithoutClasePracticaInput = {
+    where: FacturaWhereUniqueInput
+    data: XOR<FacturaUpdateWithoutClasePracticaInput, FacturaUncheckedUpdateWithoutClasePracticaInput>
+  }
+
+  export type FacturaUpdateManyWithWhereWithoutClasePracticaInput = {
+    where: FacturaScalarWhereInput
+    data: XOR<FacturaUpdateManyMutationInput, FacturaUncheckedUpdateManyWithoutClasePracticaInput>
   }
 
   export type AlumnoCreateWithoutExamenesInput = {
@@ -54433,12 +57569,16 @@ export namespace Prisma {
     fechaEmision?: Date | string
     fechaPago?: Date | string | null
     alumno: AlumnoCreateNestedOneWithoutFacturasInput
+    compraBono?: CompraBonoCreateNestedOneWithoutFacturasInput
+    clasePractica?: ClasePracticaCreateNestedOneWithoutFacturasInput
   }
 
   export type FacturaUncheckedCreateWithoutMatriculaInput = {
     id?: string
     numero: string
     alumnoId: string
+    compraBonoId?: string | null
+    clasePracticaId?: string | null
     concepto: string
     baseImponible: Decimal | DecimalJsLike | number | string
     descuento: Decimal | DecimalJsLike | number | string
@@ -54472,11 +57612,15 @@ export namespace Prisma {
     numeroFacturaPago?: string | null
     observaciones?: string | null
     alumno: AlumnoCreateNestedOneWithoutPagosInput
+    compraBono?: CompraBonoCreateNestedOneWithoutPagosInput
+    clasePractica?: ClasePracticaCreateNestedOneWithoutPagosInput
   }
 
   export type PagoUncheckedCreateWithoutMatriculaInput = {
     id?: string
     alumnoId: string
+    compraBonoId?: string | null
+    clasePracticaId?: string | null
     tipo: string
     concepto: string
     permiso: string
@@ -54844,6 +57988,74 @@ export namespace Prisma {
     create: XOR<MatriculaCreateWithoutPagosInput, MatriculaUncheckedCreateWithoutPagosInput>
   }
 
+  export type CompraBonoCreateWithoutPagosInput = {
+    id?: string
+    clasesCompradas: number
+    clasesConsumidas?: number
+    pagado?: boolean
+    fechaCompra?: Date | string
+    fechaValidezHasta: Date | string
+    facturas?: FacturaCreateNestedManyWithoutCompraBonoInput
+    clases?: ClasePracticaCreateNestedManyWithoutCompraBonoInput
+    alumno: AlumnoCreateNestedOneWithoutBonosCompradosInput
+    bono: BonoCreateNestedOneWithoutComprasInput
+  }
+
+  export type CompraBonoUncheckedCreateWithoutPagosInput = {
+    id?: string
+    alumnoId: string
+    bonoId: string
+    clasesCompradas: number
+    clasesConsumidas?: number
+    pagado?: boolean
+    fechaCompra?: Date | string
+    fechaValidezHasta: Date | string
+    facturas?: FacturaUncheckedCreateNestedManyWithoutCompraBonoInput
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutCompraBonoInput
+  }
+
+  export type CompraBonoCreateOrConnectWithoutPagosInput = {
+    where: CompraBonoWhereUniqueInput
+    create: XOR<CompraBonoCreateWithoutPagosInput, CompraBonoUncheckedCreateWithoutPagosInput>
+  }
+
+  export type ClasePracticaCreateWithoutPagosInput = {
+    id?: string
+    fecha: Date | string
+    duracion: number
+    estado: string
+    metodoPago?: string
+    pagoLimiteAt?: Date | string | null
+    canceladaPor?: string | null
+    canceladaConPenalizacion?: boolean
+    alumno: AlumnoCreateNestedOneWithoutClasesInput
+    profesor: ProfesorCreateNestedOneWithoutClasesInput
+    vehiculo: VehiculoCreateNestedOneWithoutClasesInput
+    compraBono?: CompraBonoCreateNestedOneWithoutClasesInput
+    facturas?: FacturaCreateNestedManyWithoutClasePracticaInput
+  }
+
+  export type ClasePracticaUncheckedCreateWithoutPagosInput = {
+    id?: string
+    alumnoId: string
+    profesorId: string
+    vehiculoId: string
+    compraBonoId?: string | null
+    fecha: Date | string
+    duracion: number
+    estado: string
+    metodoPago?: string
+    pagoLimiteAt?: Date | string | null
+    canceladaPor?: string | null
+    canceladaConPenalizacion?: boolean
+    facturas?: FacturaUncheckedCreateNestedManyWithoutClasePracticaInput
+  }
+
+  export type ClasePracticaCreateOrConnectWithoutPagosInput = {
+    where: ClasePracticaWhereUniqueInput
+    create: XOR<ClasePracticaCreateWithoutPagosInput, ClasePracticaUncheckedCreateWithoutPagosInput>
+  }
+
   export type AlumnoUpsertWithoutPagosInput = {
     update: XOR<AlumnoUpdateWithoutPagosInput, AlumnoUncheckedUpdateWithoutPagosInput>
     create: XOR<AlumnoCreateWithoutPagosInput, AlumnoUncheckedCreateWithoutPagosInput>
@@ -54932,6 +58144,86 @@ export namespace Prisma {
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     facturas?: FacturaUncheckedUpdateManyWithoutMatriculaNestedInput
     conceptos?: MatriculaConceptoUncheckedUpdateManyWithoutMatriculaNestedInput
+  }
+
+  export type CompraBonoUpsertWithoutPagosInput = {
+    update: XOR<CompraBonoUpdateWithoutPagosInput, CompraBonoUncheckedUpdateWithoutPagosInput>
+    create: XOR<CompraBonoCreateWithoutPagosInput, CompraBonoUncheckedCreateWithoutPagosInput>
+    where?: CompraBonoWhereInput
+  }
+
+  export type CompraBonoUpdateToOneWithWhereWithoutPagosInput = {
+    where?: CompraBonoWhereInput
+    data: XOR<CompraBonoUpdateWithoutPagosInput, CompraBonoUncheckedUpdateWithoutPagosInput>
+  }
+
+  export type CompraBonoUpdateWithoutPagosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clasesCompradas?: IntFieldUpdateOperationsInput | number
+    clasesConsumidas?: IntFieldUpdateOperationsInput | number
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    fechaCompra?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
+    facturas?: FacturaUpdateManyWithoutCompraBonoNestedInput
+    clases?: ClasePracticaUpdateManyWithoutCompraBonoNestedInput
+    alumno?: AlumnoUpdateOneRequiredWithoutBonosCompradosNestedInput
+    bono?: BonoUpdateOneRequiredWithoutComprasNestedInput
+  }
+
+  export type CompraBonoUncheckedUpdateWithoutPagosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    bonoId?: StringFieldUpdateOperationsInput | string
+    clasesCompradas?: IntFieldUpdateOperationsInput | number
+    clasesConsumidas?: IntFieldUpdateOperationsInput | number
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    fechaCompra?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
+    facturas?: FacturaUncheckedUpdateManyWithoutCompraBonoNestedInput
+    clases?: ClasePracticaUncheckedUpdateManyWithoutCompraBonoNestedInput
+  }
+
+  export type ClasePracticaUpsertWithoutPagosInput = {
+    update: XOR<ClasePracticaUpdateWithoutPagosInput, ClasePracticaUncheckedUpdateWithoutPagosInput>
+    create: XOR<ClasePracticaCreateWithoutPagosInput, ClasePracticaUncheckedCreateWithoutPagosInput>
+    where?: ClasePracticaWhereInput
+  }
+
+  export type ClasePracticaUpdateToOneWithWhereWithoutPagosInput = {
+    where?: ClasePracticaWhereInput
+    data: XOR<ClasePracticaUpdateWithoutPagosInput, ClasePracticaUncheckedUpdateWithoutPagosInput>
+  }
+
+  export type ClasePracticaUpdateWithoutPagosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    duracion?: IntFieldUpdateOperationsInput | number
+    estado?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
+    canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
+    alumno?: AlumnoUpdateOneRequiredWithoutClasesNestedInput
+    profesor?: ProfesorUpdateOneRequiredWithoutClasesNestedInput
+    vehiculo?: VehiculoUpdateOneRequiredWithoutClasesNestedInput
+    compraBono?: CompraBonoUpdateOneWithoutClasesNestedInput
+    facturas?: FacturaUpdateManyWithoutClasePracticaNestedInput
+  }
+
+  export type ClasePracticaUncheckedUpdateWithoutPagosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    profesorId?: StringFieldUpdateOperationsInput | string
+    vehiculoId?: StringFieldUpdateOperationsInput | string
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    duracion?: IntFieldUpdateOperationsInput | number
+    estado?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
+    canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
+    facturas?: FacturaUncheckedUpdateManyWithoutClasePracticaNestedInput
   }
 
   export type TheoreticalExamProcessSolicitudCreateWithoutBatchInput = {
@@ -55451,6 +58743,74 @@ export namespace Prisma {
     create: XOR<MatriculaCreateWithoutFacturasInput, MatriculaUncheckedCreateWithoutFacturasInput>
   }
 
+  export type CompraBonoCreateWithoutFacturasInput = {
+    id?: string
+    clasesCompradas: number
+    clasesConsumidas?: number
+    pagado?: boolean
+    fechaCompra?: Date | string
+    fechaValidezHasta: Date | string
+    pagos?: PagoCreateNestedManyWithoutCompraBonoInput
+    clases?: ClasePracticaCreateNestedManyWithoutCompraBonoInput
+    alumno: AlumnoCreateNestedOneWithoutBonosCompradosInput
+    bono: BonoCreateNestedOneWithoutComprasInput
+  }
+
+  export type CompraBonoUncheckedCreateWithoutFacturasInput = {
+    id?: string
+    alumnoId: string
+    bonoId: string
+    clasesCompradas: number
+    clasesConsumidas?: number
+    pagado?: boolean
+    fechaCompra?: Date | string
+    fechaValidezHasta: Date | string
+    pagos?: PagoUncheckedCreateNestedManyWithoutCompraBonoInput
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutCompraBonoInput
+  }
+
+  export type CompraBonoCreateOrConnectWithoutFacturasInput = {
+    where: CompraBonoWhereUniqueInput
+    create: XOR<CompraBonoCreateWithoutFacturasInput, CompraBonoUncheckedCreateWithoutFacturasInput>
+  }
+
+  export type ClasePracticaCreateWithoutFacturasInput = {
+    id?: string
+    fecha: Date | string
+    duracion: number
+    estado: string
+    metodoPago?: string
+    pagoLimiteAt?: Date | string | null
+    canceladaPor?: string | null
+    canceladaConPenalizacion?: boolean
+    alumno: AlumnoCreateNestedOneWithoutClasesInput
+    profesor: ProfesorCreateNestedOneWithoutClasesInput
+    vehiculo: VehiculoCreateNestedOneWithoutClasesInput
+    compraBono?: CompraBonoCreateNestedOneWithoutClasesInput
+    pagos?: PagoCreateNestedManyWithoutClasePracticaInput
+  }
+
+  export type ClasePracticaUncheckedCreateWithoutFacturasInput = {
+    id?: string
+    alumnoId: string
+    profesorId: string
+    vehiculoId: string
+    compraBonoId?: string | null
+    fecha: Date | string
+    duracion: number
+    estado: string
+    metodoPago?: string
+    pagoLimiteAt?: Date | string | null
+    canceladaPor?: string | null
+    canceladaConPenalizacion?: boolean
+    pagos?: PagoUncheckedCreateNestedManyWithoutClasePracticaInput
+  }
+
+  export type ClasePracticaCreateOrConnectWithoutFacturasInput = {
+    where: ClasePracticaWhereUniqueInput
+    create: XOR<ClasePracticaCreateWithoutFacturasInput, ClasePracticaUncheckedCreateWithoutFacturasInput>
+  }
+
   export type AlumnoUpsertWithoutFacturasInput = {
     update: XOR<AlumnoUpdateWithoutFacturasInput, AlumnoUncheckedUpdateWithoutFacturasInput>
     create: XOR<AlumnoCreateWithoutFacturasInput, AlumnoUncheckedCreateWithoutFacturasInput>
@@ -55541,6 +58901,162 @@ export namespace Prisma {
     conceptos?: MatriculaConceptoUncheckedUpdateManyWithoutMatriculaNestedInput
   }
 
+  export type CompraBonoUpsertWithoutFacturasInput = {
+    update: XOR<CompraBonoUpdateWithoutFacturasInput, CompraBonoUncheckedUpdateWithoutFacturasInput>
+    create: XOR<CompraBonoCreateWithoutFacturasInput, CompraBonoUncheckedCreateWithoutFacturasInput>
+    where?: CompraBonoWhereInput
+  }
+
+  export type CompraBonoUpdateToOneWithWhereWithoutFacturasInput = {
+    where?: CompraBonoWhereInput
+    data: XOR<CompraBonoUpdateWithoutFacturasInput, CompraBonoUncheckedUpdateWithoutFacturasInput>
+  }
+
+  export type CompraBonoUpdateWithoutFacturasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clasesCompradas?: IntFieldUpdateOperationsInput | number
+    clasesConsumidas?: IntFieldUpdateOperationsInput | number
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    fechaCompra?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
+    pagos?: PagoUpdateManyWithoutCompraBonoNestedInput
+    clases?: ClasePracticaUpdateManyWithoutCompraBonoNestedInput
+    alumno?: AlumnoUpdateOneRequiredWithoutBonosCompradosNestedInput
+    bono?: BonoUpdateOneRequiredWithoutComprasNestedInput
+  }
+
+  export type CompraBonoUncheckedUpdateWithoutFacturasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    bonoId?: StringFieldUpdateOperationsInput | string
+    clasesCompradas?: IntFieldUpdateOperationsInput | number
+    clasesConsumidas?: IntFieldUpdateOperationsInput | number
+    pagado?: BoolFieldUpdateOperationsInput | boolean
+    fechaCompra?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
+    pagos?: PagoUncheckedUpdateManyWithoutCompraBonoNestedInput
+    clases?: ClasePracticaUncheckedUpdateManyWithoutCompraBonoNestedInput
+  }
+
+  export type ClasePracticaUpsertWithoutFacturasInput = {
+    update: XOR<ClasePracticaUpdateWithoutFacturasInput, ClasePracticaUncheckedUpdateWithoutFacturasInput>
+    create: XOR<ClasePracticaCreateWithoutFacturasInput, ClasePracticaUncheckedCreateWithoutFacturasInput>
+    where?: ClasePracticaWhereInput
+  }
+
+  export type ClasePracticaUpdateToOneWithWhereWithoutFacturasInput = {
+    where?: ClasePracticaWhereInput
+    data: XOR<ClasePracticaUpdateWithoutFacturasInput, ClasePracticaUncheckedUpdateWithoutFacturasInput>
+  }
+
+  export type ClasePracticaUpdateWithoutFacturasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    duracion?: IntFieldUpdateOperationsInput | number
+    estado?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
+    canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
+    alumno?: AlumnoUpdateOneRequiredWithoutClasesNestedInput
+    profesor?: ProfesorUpdateOneRequiredWithoutClasesNestedInput
+    vehiculo?: VehiculoUpdateOneRequiredWithoutClasesNestedInput
+    compraBono?: CompraBonoUpdateOneWithoutClasesNestedInput
+    pagos?: PagoUpdateManyWithoutClasePracticaNestedInput
+  }
+
+  export type ClasePracticaUncheckedUpdateWithoutFacturasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    profesorId?: StringFieldUpdateOperationsInput | string
+    vehiculoId?: StringFieldUpdateOperationsInput | string
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    duracion?: IntFieldUpdateOperationsInput | number
+    estado?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
+    canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
+    pagos?: PagoUncheckedUpdateManyWithoutClasePracticaNestedInput
+  }
+
+  export type UsuarioCreateWithoutNotificacionesInput = {
+    id?: string
+    nombre: string
+    email: string
+    passwordHash: string
+    rol: $Enums.Rol
+    fechaCreacion?: Date | string
+    telefono?: string | null
+    dni?: string | null
+    requiereCambioPassword?: boolean
+    activacionesCuenta?: ActivacionCuentaCreateNestedManyWithoutUsuarioInput
+    alumno?: AlumnoCreateNestedOneWithoutUsuarioInput
+    profesor?: ProfesorCreateNestedOneWithoutUsuarioInput
+  }
+
+  export type UsuarioUncheckedCreateWithoutNotificacionesInput = {
+    id?: string
+    nombre: string
+    email: string
+    passwordHash: string
+    rol: $Enums.Rol
+    fechaCreacion?: Date | string
+    telefono?: string | null
+    dni?: string | null
+    requiereCambioPassword?: boolean
+    activacionesCuenta?: ActivacionCuentaUncheckedCreateNestedManyWithoutUsuarioInput
+    alumno?: AlumnoUncheckedCreateNestedOneWithoutUsuarioInput
+    profesor?: ProfesorUncheckedCreateNestedOneWithoutUsuarioInput
+  }
+
+  export type UsuarioCreateOrConnectWithoutNotificacionesInput = {
+    where: UsuarioWhereUniqueInput
+    create: XOR<UsuarioCreateWithoutNotificacionesInput, UsuarioUncheckedCreateWithoutNotificacionesInput>
+  }
+
+  export type UsuarioUpsertWithoutNotificacionesInput = {
+    update: XOR<UsuarioUpdateWithoutNotificacionesInput, UsuarioUncheckedUpdateWithoutNotificacionesInput>
+    create: XOR<UsuarioCreateWithoutNotificacionesInput, UsuarioUncheckedCreateWithoutNotificacionesInput>
+    where?: UsuarioWhereInput
+  }
+
+  export type UsuarioUpdateToOneWithWhereWithoutNotificacionesInput = {
+    where?: UsuarioWhereInput
+    data: XOR<UsuarioUpdateWithoutNotificacionesInput, UsuarioUncheckedUpdateWithoutNotificacionesInput>
+  }
+
+  export type UsuarioUpdateWithoutNotificacionesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
+    activacionesCuenta?: ActivacionCuentaUpdateManyWithoutUsuarioNestedInput
+    alumno?: AlumnoUpdateOneWithoutUsuarioNestedInput
+    profesor?: ProfesorUpdateOneWithoutUsuarioNestedInput
+  }
+
+  export type UsuarioUncheckedUpdateWithoutNotificacionesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
+    activacionesCuenta?: ActivacionCuentaUncheckedUpdateManyWithoutUsuarioNestedInput
+    alumno?: AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput
+    profesor?: ProfesorUncheckedUpdateOneWithoutUsuarioNestedInput
+  }
+
   export type ActivacionCuentaCreateManyUsuarioInput = {
     id?: string
     tokenHash: string
@@ -55549,6 +59065,17 @@ export namespace Prisma {
     createdAt?: Date | string
     createdById?: string | null
     resendCount?: number
+  }
+
+  export type NotificacionCreateManyUsuarioInput = {
+    id?: string
+    tipo: string
+    titulo: string
+    mensaje: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    leida?: boolean
+    createdAt?: Date | string
+    readAt?: Date | string | null
   }
 
   export type ActivacionCuentaUpdateWithoutUsuarioInput = {
@@ -55581,6 +59108,39 @@ export namespace Prisma {
     resendCount?: IntFieldUpdateOperationsInput | number
   }
 
+  export type NotificacionUpdateWithoutUsuarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    mensaje?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    leida?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type NotificacionUncheckedUpdateWithoutUsuarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    mensaje?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    leida?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type NotificacionUncheckedUpdateManyWithoutUsuarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    mensaje?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    leida?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type AlumnoCreateManyProfesorAsignadoInput = {
     id: string
     tipoLicenciaObjetivo: string
@@ -55605,9 +59165,14 @@ export namespace Prisma {
     id?: string
     alumnoId: string
     vehiculoId: string
+    compraBonoId?: string | null
     fecha: Date | string
     duracion: number
     estado: string
+    metodoPago?: string
+    pagoLimiteAt?: Date | string | null
+    canceladaPor?: string | null
+    canceladaConPenalizacion?: boolean
   }
 
   export type ProfesorHorarioBloqueCreateManyProfesorInput = {
@@ -55706,26 +59271,45 @@ export namespace Prisma {
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
+    canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
     alumno?: AlumnoUpdateOneRequiredWithoutClasesNestedInput
     vehiculo?: VehiculoUpdateOneRequiredWithoutClasesNestedInput
+    compraBono?: CompraBonoUpdateOneWithoutClasesNestedInput
+    pagos?: PagoUpdateManyWithoutClasePracticaNestedInput
+    facturas?: FacturaUpdateManyWithoutClasePracticaNestedInput
   }
 
   export type ClasePracticaUncheckedUpdateWithoutProfesorInput = {
     id?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
     vehiculoId?: StringFieldUpdateOperationsInput | string
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
+    canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
+    pagos?: PagoUncheckedUpdateManyWithoutClasePracticaNestedInput
+    facturas?: FacturaUncheckedUpdateManyWithoutClasePracticaNestedInput
   }
 
   export type ClasePracticaUncheckedUpdateManyWithoutProfesorInput = {
     id?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
     vehiculoId?: StringFieldUpdateOperationsInput | string
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
+    canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ProfesorHorarioBloqueUpdateWithoutProfesorInput = {
@@ -55759,9 +59343,14 @@ export namespace Prisma {
     id?: string
     profesorId: string
     vehiculoId: string
+    compraBonoId?: string | null
     fecha: Date | string
     duracion: number
     estado: string
+    metodoPago?: string
+    pagoLimiteAt?: Date | string | null
+    canceladaPor?: string | null
+    canceladaConPenalizacion?: boolean
   }
 
   export type CompraBonoCreateManyAlumnoInput = {
@@ -55784,7 +59373,9 @@ export namespace Prisma {
   export type FacturaCreateManyAlumnoInput = {
     id?: string
     numero: string
-    matriculaId: string
+    matriculaId?: string | null
+    compraBonoId?: string | null
+    clasePracticaId?: string | null
     concepto: string
     baseImponible: Decimal | DecimalJsLike | number | string
     descuento: Decimal | DecimalJsLike | number | string
@@ -55797,6 +59388,8 @@ export namespace Prisma {
   export type PagoCreateManyAlumnoInput = {
     id?: string
     matriculaId?: string | null
+    compraBonoId?: string | null
+    clasePracticaId?: string | null
     tipo: string
     concepto: string
     permiso: string
@@ -55876,26 +59469,45 @@ export namespace Prisma {
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
+    canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
     profesor?: ProfesorUpdateOneRequiredWithoutClasesNestedInput
     vehiculo?: VehiculoUpdateOneRequiredWithoutClasesNestedInput
+    compraBono?: CompraBonoUpdateOneWithoutClasesNestedInput
+    pagos?: PagoUpdateManyWithoutClasePracticaNestedInput
+    facturas?: FacturaUpdateManyWithoutClasePracticaNestedInput
   }
 
   export type ClasePracticaUncheckedUpdateWithoutAlumnoInput = {
     id?: StringFieldUpdateOperationsInput | string
     profesorId?: StringFieldUpdateOperationsInput | string
     vehiculoId?: StringFieldUpdateOperationsInput | string
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
+    canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
+    pagos?: PagoUncheckedUpdateManyWithoutClasePracticaNestedInput
+    facturas?: FacturaUncheckedUpdateManyWithoutClasePracticaNestedInput
   }
 
   export type ClasePracticaUncheckedUpdateManyWithoutAlumnoInput = {
     id?: StringFieldUpdateOperationsInput | string
     profesorId?: StringFieldUpdateOperationsInput | string
     vehiculoId?: StringFieldUpdateOperationsInput | string
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
+    canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CompraBonoUpdateWithoutAlumnoInput = {
@@ -55905,6 +59517,9 @@ export namespace Prisma {
     pagado?: BoolFieldUpdateOperationsInput | boolean
     fechaCompra?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
+    pagos?: PagoUpdateManyWithoutCompraBonoNestedInput
+    facturas?: FacturaUpdateManyWithoutCompraBonoNestedInput
+    clases?: ClasePracticaUpdateManyWithoutCompraBonoNestedInput
     bono?: BonoUpdateOneRequiredWithoutComprasNestedInput
   }
 
@@ -55916,6 +59531,9 @@ export namespace Prisma {
     pagado?: BoolFieldUpdateOperationsInput | boolean
     fechaCompra?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
+    pagos?: PagoUncheckedUpdateManyWithoutCompraBonoNestedInput
+    facturas?: FacturaUncheckedUpdateManyWithoutCompraBonoNestedInput
+    clases?: ClasePracticaUncheckedUpdateManyWithoutCompraBonoNestedInput
   }
 
   export type CompraBonoUncheckedUpdateManyWithoutAlumnoInput = {
@@ -55959,13 +59577,17 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
     fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    matricula?: MatriculaUpdateOneRequiredWithoutFacturasNestedInput
+    matricula?: MatriculaUpdateOneWithoutFacturasNestedInput
+    compraBono?: CompraBonoUpdateOneWithoutFacturasNestedInput
+    clasePractica?: ClasePracticaUpdateOneWithoutFacturasNestedInput
   }
 
   export type FacturaUncheckedUpdateWithoutAlumnoInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
-    matriculaId?: StringFieldUpdateOperationsInput | string
+    matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
     concepto?: StringFieldUpdateOperationsInput | string
     baseImponible?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     descuento?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -55978,7 +59600,9 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateManyWithoutAlumnoInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
-    matriculaId?: StringFieldUpdateOperationsInput | string
+    matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
     concepto?: StringFieldUpdateOperationsInput | string
     baseImponible?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     descuento?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -56002,11 +59626,15 @@ export namespace Prisma {
     numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     matricula?: MatriculaUpdateOneWithoutPagosNestedInput
+    compraBono?: CompraBonoUpdateOneWithoutPagosNestedInput
+    clasePractica?: ClasePracticaUpdateOneWithoutPagosNestedInput
   }
 
   export type PagoUncheckedUpdateWithoutAlumnoInput = {
     id?: StringFieldUpdateOperationsInput | string
     matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
     tipo?: StringFieldUpdateOperationsInput | string
     concepto?: StringFieldUpdateOperationsInput | string
     permiso?: StringFieldUpdateOperationsInput | string
@@ -56023,6 +59651,8 @@ export namespace Prisma {
   export type PagoUncheckedUpdateManyWithoutAlumnoInput = {
     id?: StringFieldUpdateOperationsInput | string
     matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
     tipo?: StringFieldUpdateOperationsInput | string
     concepto?: StringFieldUpdateOperationsInput | string
     permiso?: StringFieldUpdateOperationsInput | string
@@ -56380,6 +60010,9 @@ export namespace Prisma {
     pagado?: BoolFieldUpdateOperationsInput | boolean
     fechaCompra?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
+    pagos?: PagoUpdateManyWithoutCompraBonoNestedInput
+    facturas?: FacturaUpdateManyWithoutCompraBonoNestedInput
+    clases?: ClasePracticaUpdateManyWithoutCompraBonoNestedInput
     alumno?: AlumnoUpdateOneRequiredWithoutBonosCompradosNestedInput
   }
 
@@ -56391,6 +60024,9 @@ export namespace Prisma {
     pagado?: BoolFieldUpdateOperationsInput | boolean
     fechaCompra?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
+    pagos?: PagoUncheckedUpdateManyWithoutCompraBonoNestedInput
+    facturas?: FacturaUncheckedUpdateManyWithoutCompraBonoNestedInput
+    clases?: ClasePracticaUncheckedUpdateManyWithoutCompraBonoNestedInput
   }
 
   export type CompraBonoUncheckedUpdateManyWithoutBonoInput = {
@@ -56403,13 +60039,210 @@ export namespace Prisma {
     fechaValidezHasta?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PagoCreateManyCompraBonoInput = {
+    id?: string
+    alumnoId: string
+    matriculaId?: string | null
+    clasePracticaId?: string | null
+    tipo: string
+    concepto: string
+    permiso: string
+    importe: Decimal | DecimalJsLike | number | string
+    estado?: string
+    convocatoriasIncluidas?: number
+    convocatoriasConsumidas?: number
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    numeroFacturaPago?: string | null
+    observaciones?: string | null
+  }
+
+  export type FacturaCreateManyCompraBonoInput = {
+    id?: string
+    numero: string
+    alumnoId: string
+    matriculaId?: string | null
+    clasePracticaId?: string | null
+    concepto: string
+    baseImponible: Decimal | DecimalJsLike | number | string
+    descuento: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    estado?: string
+    fechaEmision?: Date | string
+    fechaPago?: Date | string | null
+  }
+
+  export type ClasePracticaCreateManyCompraBonoInput = {
+    id?: string
+    alumnoId: string
+    profesorId: string
+    vehiculoId: string
+    fecha: Date | string
+    duracion: number
+    estado: string
+    metodoPago?: string
+    pagoLimiteAt?: Date | string | null
+    canceladaPor?: string | null
+    canceladaConPenalizacion?: boolean
+  }
+
+  export type PagoUpdateWithoutCompraBonoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    permiso?: StringFieldUpdateOperationsInput | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    convocatoriasIncluidas?: IntFieldUpdateOperationsInput | number
+    convocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    alumno?: AlumnoUpdateOneRequiredWithoutPagosNestedInput
+    matricula?: MatriculaUpdateOneWithoutPagosNestedInput
+    clasePractica?: ClasePracticaUpdateOneWithoutPagosNestedInput
+  }
+
+  export type PagoUncheckedUpdateWithoutCompraBonoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
+    clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    permiso?: StringFieldUpdateOperationsInput | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    convocatoriasIncluidas?: IntFieldUpdateOperationsInput | number
+    convocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PagoUncheckedUpdateManyWithoutCompraBonoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
+    clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    permiso?: StringFieldUpdateOperationsInput | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    convocatoriasIncluidas?: IntFieldUpdateOperationsInput | number
+    convocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type FacturaUpdateWithoutCompraBonoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    baseImponible?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    descuento?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    alumno?: AlumnoUpdateOneRequiredWithoutFacturasNestedInput
+    matricula?: MatriculaUpdateOneWithoutFacturasNestedInput
+    clasePractica?: ClasePracticaUpdateOneWithoutFacturasNestedInput
+  }
+
+  export type FacturaUncheckedUpdateWithoutCompraBonoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
+    clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
+    concepto?: StringFieldUpdateOperationsInput | string
+    baseImponible?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    descuento?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type FacturaUncheckedUpdateManyWithoutCompraBonoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
+    clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
+    concepto?: StringFieldUpdateOperationsInput | string
+    baseImponible?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    descuento?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ClasePracticaUpdateWithoutCompraBonoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    duracion?: IntFieldUpdateOperationsInput | number
+    estado?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
+    canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
+    alumno?: AlumnoUpdateOneRequiredWithoutClasesNestedInput
+    profesor?: ProfesorUpdateOneRequiredWithoutClasesNestedInput
+    vehiculo?: VehiculoUpdateOneRequiredWithoutClasesNestedInput
+    pagos?: PagoUpdateManyWithoutClasePracticaNestedInput
+    facturas?: FacturaUpdateManyWithoutClasePracticaNestedInput
+  }
+
+  export type ClasePracticaUncheckedUpdateWithoutCompraBonoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    profesorId?: StringFieldUpdateOperationsInput | string
+    vehiculoId?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    duracion?: IntFieldUpdateOperationsInput | number
+    estado?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
+    canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
+    pagos?: PagoUncheckedUpdateManyWithoutClasePracticaNestedInput
+    facturas?: FacturaUncheckedUpdateManyWithoutClasePracticaNestedInput
+  }
+
+  export type ClasePracticaUncheckedUpdateManyWithoutCompraBonoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    profesorId?: StringFieldUpdateOperationsInput | string
+    vehiculoId?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    duracion?: IntFieldUpdateOperationsInput | number
+    estado?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
+    canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
+  }
+
   export type ClasePracticaCreateManyVehiculoInput = {
     id?: string
     alumnoId: string
     profesorId: string
+    compraBonoId?: string | null
     fecha: Date | string
     duracion: number
     estado: string
+    metodoPago?: string
+    pagoLimiteAt?: Date | string | null
+    canceladaPor?: string | null
+    canceladaConPenalizacion?: boolean
   }
 
   export type ClasePracticaUpdateWithoutVehiculoInput = {
@@ -56417,26 +60250,177 @@ export namespace Prisma {
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
+    canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
     alumno?: AlumnoUpdateOneRequiredWithoutClasesNestedInput
     profesor?: ProfesorUpdateOneRequiredWithoutClasesNestedInput
+    compraBono?: CompraBonoUpdateOneWithoutClasesNestedInput
+    pagos?: PagoUpdateManyWithoutClasePracticaNestedInput
+    facturas?: FacturaUpdateManyWithoutClasePracticaNestedInput
   }
 
   export type ClasePracticaUncheckedUpdateWithoutVehiculoInput = {
     id?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
     profesorId?: StringFieldUpdateOperationsInput | string
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
+    canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
+    pagos?: PagoUncheckedUpdateManyWithoutClasePracticaNestedInput
+    facturas?: FacturaUncheckedUpdateManyWithoutClasePracticaNestedInput
   }
 
   export type ClasePracticaUncheckedUpdateManyWithoutVehiculoInput = {
     id?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
     profesorId?: StringFieldUpdateOperationsInput | string
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
+    canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type PagoCreateManyClasePracticaInput = {
+    id?: string
+    alumnoId: string
+    matriculaId?: string | null
+    compraBonoId?: string | null
+    tipo: string
+    concepto: string
+    permiso: string
+    importe: Decimal | DecimalJsLike | number | string
+    estado?: string
+    convocatoriasIncluidas?: number
+    convocatoriasConsumidas?: number
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    numeroFacturaPago?: string | null
+    observaciones?: string | null
+  }
+
+  export type FacturaCreateManyClasePracticaInput = {
+    id?: string
+    numero: string
+    alumnoId: string
+    matriculaId?: string | null
+    compraBonoId?: string | null
+    concepto: string
+    baseImponible: Decimal | DecimalJsLike | number | string
+    descuento: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    estado?: string
+    fechaEmision?: Date | string
+    fechaPago?: Date | string | null
+  }
+
+  export type PagoUpdateWithoutClasePracticaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    permiso?: StringFieldUpdateOperationsInput | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    convocatoriasIncluidas?: IntFieldUpdateOperationsInput | number
+    convocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    alumno?: AlumnoUpdateOneRequiredWithoutPagosNestedInput
+    matricula?: MatriculaUpdateOneWithoutPagosNestedInput
+    compraBono?: CompraBonoUpdateOneWithoutPagosNestedInput
+  }
+
+  export type PagoUncheckedUpdateWithoutClasePracticaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    permiso?: StringFieldUpdateOperationsInput | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    convocatoriasIncluidas?: IntFieldUpdateOperationsInput | number
+    convocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PagoUncheckedUpdateManyWithoutClasePracticaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    permiso?: StringFieldUpdateOperationsInput | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    convocatoriasIncluidas?: IntFieldUpdateOperationsInput | number
+    convocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type FacturaUpdateWithoutClasePracticaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    baseImponible?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    descuento?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    alumno?: AlumnoUpdateOneRequiredWithoutFacturasNestedInput
+    matricula?: MatriculaUpdateOneWithoutFacturasNestedInput
+    compraBono?: CompraBonoUpdateOneWithoutFacturasNestedInput
+  }
+
+  export type FacturaUncheckedUpdateWithoutClasePracticaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    concepto?: StringFieldUpdateOperationsInput | string
+    baseImponible?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    descuento?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type FacturaUncheckedUpdateManyWithoutClasePracticaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    concepto?: StringFieldUpdateOperationsInput | string
+    baseImponible?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    descuento?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type MatriculaCreateManyPromocionInput = {
@@ -56589,6 +60573,8 @@ export namespace Prisma {
     id?: string
     numero: string
     alumnoId: string
+    compraBonoId?: string | null
+    clasePracticaId?: string | null
     concepto: string
     baseImponible: Decimal | DecimalJsLike | number | string
     descuento: Decimal | DecimalJsLike | number | string
@@ -56601,6 +60587,8 @@ export namespace Prisma {
   export type PagoCreateManyMatriculaInput = {
     id?: string
     alumnoId: string
+    compraBonoId?: string | null
+    clasePracticaId?: string | null
     tipo: string
     concepto: string
     permiso: string
@@ -56637,12 +60625,16 @@ export namespace Prisma {
     fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alumno?: AlumnoUpdateOneRequiredWithoutFacturasNestedInput
+    compraBono?: CompraBonoUpdateOneWithoutFacturasNestedInput
+    clasePractica?: ClasePracticaUpdateOneWithoutFacturasNestedInput
   }
 
   export type FacturaUncheckedUpdateWithoutMatriculaInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
     concepto?: StringFieldUpdateOperationsInput | string
     baseImponible?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     descuento?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -56656,6 +60648,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
     concepto?: StringFieldUpdateOperationsInput | string
     baseImponible?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     descuento?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -56679,11 +60673,15 @@ export namespace Prisma {
     numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     alumno?: AlumnoUpdateOneRequiredWithoutPagosNestedInput
+    compraBono?: CompraBonoUpdateOneWithoutPagosNestedInput
+    clasePractica?: ClasePracticaUpdateOneWithoutPagosNestedInput
   }
 
   export type PagoUncheckedUpdateWithoutMatriculaInput = {
     id?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
     tipo?: StringFieldUpdateOperationsInput | string
     concepto?: StringFieldUpdateOperationsInput | string
     permiso?: StringFieldUpdateOperationsInput | string
@@ -56700,6 +60698,8 @@ export namespace Prisma {
   export type PagoUncheckedUpdateManyWithoutMatriculaInput = {
     id?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
     tipo?: StringFieldUpdateOperationsInput | string
     concepto?: StringFieldUpdateOperationsInput | string
     permiso?: StringFieldUpdateOperationsInput | string

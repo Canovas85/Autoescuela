@@ -26,6 +26,7 @@ import pagosRoutes from "./features/pagos/pagos.routes.js";
 import preguntasDGTRoutes from "./features/preguntas-dgt/preguntas-dgt.routes.js";
 import documentosAlumnoRoutes from "./features/documentos-alumno/documentos-alumno.routes.js";
 import convocatoriasTeoricoRoutes from "./features/convocatorias-teorico/convocatorias-teorico.routes.js";
+import notificacionesRoutes from "./features/notificaciones/notificaciones.routes.js";
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -73,6 +74,7 @@ app.use("/api/pagos", pagosRoutes);
 app.use("/api/preguntas-dgt", preguntasDGTRoutes);
 app.use("/api/documentos-alumno", documentosAlumnoRoutes);
 app.use("/api/convocatorias-teorico", convocatoriasTeoricoRoutes);
+app.use("/api/notificaciones", notificacionesRoutes);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 

@@ -167,4 +167,53 @@ router.delete(
   controller.cancel.bind(controller),
 );
 
+router.get(
+  "/mine/student/eligibility",
+  authenticate,
+  authorize("ALUMNO"),
+  controller.getStudentEligibility.bind(controller),
+);
+
+router.get(
+  "/mine/student/booking-context",
+  authenticate,
+  authorize("ALUMNO"),
+  controller.getStudentBookingContext.bind(controller),
+);
+
+router.post(
+  "/mine/student/request",
+  authenticate,
+  authorize("ALUMNO"),
+  controller.createStudentRequest.bind(controller),
+);
+
+router.patch(
+  "/mine/student/:id/cancel",
+  authenticate,
+  authorize("ALUMNO"),
+  controller.cancelStudentRequest.bind(controller),
+);
+
+router.get(
+  "/mine/professor/requests",
+  authenticate,
+  authorize("PROFESOR"),
+  controller.getProfessorRequests.bind(controller),
+);
+
+router.patch(
+  "/mine/professor/:id/confirm",
+  authenticate,
+  authorize("PROFESOR"),
+  controller.confirmProfessorRequest.bind(controller),
+);
+
+router.patch(
+  "/mine/professor/:id/cancel",
+  authenticate,
+  authorize("PROFESOR"),
+  controller.cancelProfessorRequest.bind(controller),
+);
+
 export default router;

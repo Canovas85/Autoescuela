@@ -44,6 +44,9 @@ import DocumentosAlumno from "../pages/DocumentosAlumno/DocumentosAlumno";
 import DocumentosAlumnoAdmin from "../pages/DocumentosAlumno/DocumentosAlumnoAdmin";
 import ExamenTeoricoAlumno from "../pages/ExamenTeoricoAlumno/ExamenTeoricoAlumno";
 import ConvocatoriasTeoricoAdmin from "../pages/ConvocatoriasTeoricoAdmin/ConvocatoriasTeoricoAdmin";
+import ReservarClase from "../pages/ReservarClase/ReservarClase";
+import ClasesPracticasProfesor from "../pages/ClasesPracticasProfesor/ClasesPracticasProfesor";
+import Notificaciones from "../pages/Notificaciones/Notificaciones";
 
 function RequireAuth() {
   const token = localStorage.getItem("token");
@@ -83,6 +86,10 @@ export default function AppRouter() {
               <Route path="/alumnos" element={<Alumnos />} />
               <Route path="/profesor-alumnos" element={<ProfesorAlumnos />} />
               <Route path="/agenda" element={<ProfesorAgenda />} />
+              <Route
+                path="/clases-practicas"
+                element={<ClasesPracticasProfesor />}
+              />
 
               <Route path="/profesores" element={<Profesores />} />
 
@@ -149,6 +156,8 @@ export default function AppRouter() {
               <Route path="/mis-facturas" element={<MisFacturas />} />
               <Route path="/mis-pagos" element={<MisPagos />} />
               <Route path="/mis-documentos" element={<DocumentosAlumno />} />
+              <Route path="/reservar-clase" element={<ReservarClase />} />
+              <Route path="/notificaciones" element={<Notificaciones />} />
               <Route
                 path="/documentos-alumno-admin"
                 element={<DocumentosAlumnoAdmin />}

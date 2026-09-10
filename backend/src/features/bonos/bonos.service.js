@@ -25,10 +25,18 @@ export class BonosService {
       throw new Error("La validez debe ser un número entero mayor que 0");
     }
 
+    const precio = Number(data.precio);
+    if (!Number.isFinite(precio) || precio <= 0) {
+      throw new Error("El precio debe ser un número mayor que 0");
+    }
+
+    const precioNormalizado = Number(precio.toFixed(2));
+
     return {
       nombre,
       descripcion: normalizarTexto(data.descripcion) || null,
       clasesIncluidas,
+      precio: precioNormalizado,
       validezDias,
       activo: data.activo === undefined ? true : Boolean(data.activo),
     };
@@ -40,6 +48,10 @@ export class BonosService {
 
   async getAll() {
     return this.repository.findAll();
+  }
+
+  async getActivos() {
+    return this.repository.findActivos();
   }
 
   async getById(id) {
@@ -66,5 +78,24 @@ export class BonosService {
 
   async deactivate(id) {
     return this.repository.deactivate(id);
+  }
+
+  async createCompraPendiente(alumnoId, bonoId) {
+    const alumno = await this.repository.findAlumnoById(alumnoId);
+
+    if (!alumno) {
+      throw new Error("Alumno no encontrado");
+    }
+
+    const bono = await this.repository.findActivoById(bonoId);
+
+    if (!bono) {
+      throw new Error("Bono no disponible para compra");
+    }
+
+    return this.repository.createCompraPendiente({
+      alumno,
+      bono,
+    });
   }
 }

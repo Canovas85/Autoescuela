@@ -31,6 +31,28 @@ describe("Bonos Routes", () => {
     expect(response.status).toBe(401);
   });
 
+  it("debe exponer GET /api/bonos/disponibles", async () => {
+    const app = express();
+
+    app.use(express.json());
+    app.use("/api/bonos", bonosRoutes);
+
+    const response = await request(app).get("/api/bonos/disponibles");
+
+    expect(response.status).toBe(401);
+  });
+
+  it("debe exponer POST /api/bonos/:id/comprar", async () => {
+    const app = express();
+
+    app.use(express.json());
+    app.use("/api/bonos", bonosRoutes);
+
+    const response = await request(app).post("/api/bonos/bono-1/comprar");
+
+    expect(response.status).toBe(401);
+  });
+
   it("debe devolver 403 cuando un usuario sin rol ADMIN intenta listar bonos", async () => {
     const app = express();
 

@@ -271,6 +271,7 @@ exports.Prisma.BonoScalarFieldEnum = {
   nombre: 'nombre',
   descripcion: 'descripcion',
   clasesIncluidas: 'clasesIncluidas',
+  precio: 'precio',
   validezDias: 'validezDias',
   activo: 'activo'
 };
@@ -322,9 +323,14 @@ exports.Prisma.ClasePracticaScalarFieldEnum = {
   alumnoId: 'alumnoId',
   profesorId: 'profesorId',
   vehiculoId: 'vehiculoId',
+  compraBonoId: 'compraBonoId',
   fecha: 'fecha',
   duracion: 'duracion',
-  estado: 'estado'
+  estado: 'estado',
+  metodoPago: 'metodoPago',
+  pagoLimiteAt: 'pagoLimiteAt',
+  canceladaPor: 'canceladaPor',
+  canceladaConPenalizacion: 'canceladaConPenalizacion'
 };
 
 exports.Prisma.ExamenScalarFieldEnum = {
@@ -404,6 +410,8 @@ exports.Prisma.PagoScalarFieldEnum = {
   id: 'id',
   alumnoId: 'alumnoId',
   matriculaId: 'matriculaId',
+  compraBonoId: 'compraBonoId',
+  clasePracticaId: 'clasePracticaId',
   tipo: 'tipo',
   concepto: 'concepto',
   permiso: 'permiso',
@@ -477,6 +485,8 @@ exports.Prisma.FacturaScalarFieldEnum = {
   numero: 'numero',
   alumnoId: 'alumnoId',
   matriculaId: 'matriculaId',
+  compraBonoId: 'compraBonoId',
+  clasePracticaId: 'clasePracticaId',
   concepto: 'concepto',
   baseImponible: 'baseImponible',
   descuento: 'descuento',
@@ -486,12 +496,29 @@ exports.Prisma.FacturaScalarFieldEnum = {
   fechaPago: 'fechaPago'
 };
 
+exports.Prisma.NotificacionScalarFieldEnum = {
+  id: 'id',
+  usuarioId: 'usuarioId',
+  tipo: 'tipo',
+  titulo: 'titulo',
+  mensaje: 'mensaje',
+  metadata: 'metadata',
+  leida: 'leida',
+  createdAt: 'createdAt',
+  readAt: 'readAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
 };
 
 exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull
 };
 
@@ -555,7 +582,8 @@ exports.Prisma.ModelName = {
   TheoreticalExamProcessSolicitud: 'TheoreticalExamProcessSolicitud',
   TheoreticalExamProcessPago: 'TheoreticalExamProcessPago',
   MatriculaConcepto: 'MatriculaConcepto',
-  Factura: 'Factura'
+  Factura: 'Factura',
+  Notificacion: 'Notificacion'
 };
 
 /**

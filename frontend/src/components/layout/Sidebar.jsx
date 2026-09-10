@@ -1,4 +1,5 @@
 import {
+  Chip,
   Drawer,
   List,
   ListItemButton,
@@ -50,6 +51,7 @@ import ReceiptIcon from "@mui/icons-material/Receipt";
 import DescriptionIcon from "@mui/icons-material/Description";
 
 import { matriculasService } from "../../services/matriculasService";
+import { notificacionesService } from "../../services/notificacionesService";
 
 const drawerWidth = 240;
 
@@ -59,6 +61,11 @@ const menus = {
       label: "Dashboard",
       icon: <DashboardIcon />,
       path: "/dashboard",
+    },
+    {
+      label: "Notificaciones",
+      icon: <EventNoteIcon />,
+      path: "/notificaciones",
     },
 
     {
@@ -229,6 +236,12 @@ const menus = {
     },
 
     {
+      label: "Notificaciones",
+      icon: <EventNoteIcon />,
+      path: "/notificaciones",
+    },
+
+    {
       label: "Agenda",
       icon: <EventNoteIcon />,
       path: "/agenda",
@@ -264,6 +277,11 @@ const menus = {
       label: "Mi progreso",
       icon: <TrendingUpIcon />,
       path: "/dashboard",
+    },
+    {
+      label: "Notificaciones",
+      icon: <EventNoteIcon />,
+      path: "/notificaciones",
     },
 
     {
@@ -374,6 +392,16 @@ export default function Sidebar({ navigate, location }) {
   });
 
   const [matriculaPagada, setMatriculaPagada] = useState(true);
+  const [unreadNotifications, setUnreadNotifications] = useState(0);
+
+  const loadUnreadNotifications = async () => {
+    try {
+      const unread = await notificacionesService.getMine(true);
+      setUnreadNotifications(Array.isArray(unread) ? unread.length : 0);
+    } catch (error) {
+      setUnreadNotifications(0);
+    }
+  };
 
   const toggleMenu = (label) => {
     setOpenMenus((prev) => ({
@@ -415,6 +443,25 @@ export default function Sidebar({ navigate, location }) {
     loadMatricula();
   }, [role]);
 
+  useEffect(() => {
+    loadUnreadNotifications();
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const onNotificationsUpdated = () => {
+      loadUnreadNotifications();
+    };
+
+    window.addEventListener("notificaciones:updated", onNotificationsUpdated);
+
+    return () => {
+      window.removeEventListener(
+        "notificaciones:updated",
+        onNotificationsUpdated,
+      );
+    };
+  }, []);
+
   let menu = menus[role];
 
   if (role === "ALUMNO" && !matriculaPagada) {
@@ -423,6 +470,11 @@ export default function Sidebar({ navigate, location }) {
         label: "Mi progreso",
         icon: <TrendingUpIcon />,
         path: "/dashboard",
+      },
+      {
+        label: "Notificaciones",
+        icon: <EventNoteIcon />,
+        path: "/notificaciones",
       },
 
       {
@@ -459,6 +511,76 @@ export default function Sidebar({ navigate, location }) {
       },
     ];
   }
+
+  const renderPrimaryLabel = (label) => {
+    const isNotificationsLabel = label === "Notificaciones";
+
+    if (!isNotificationsLabel) {
+      return label;
+    }
+
+    return (
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 1,
+        }}
+      >
+        <span>{label}</span>
+        {unreadNotifications > 0 ? (
+          <Chip
+            label={unreadNotifications}
+            size="small"
+            sx={{
+              height: 20,
+              minWidth: 24,
+              backgroundColor: "#dc2626",
+              color: "#fff",
+              fontWeight: 700,
+            }}
+          />
+        ) : null}
+      </Box>
+    );
+  };
+
+  const renderChildPrimaryLabel = (child) => {
+    const isNotificationsChild = child.path === "/notificaciones";
+
+    if (!isNotificationsChild) {
+      return child.label;
+    }
+
+    return (
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 1,
+        }}
+      >
+        <span>{child.label}</span>
+        {unreadNotifications > 0 ? (
+          <Chip
+            label={unreadNotifications}
+            size="small"
+            sx={{
+              height: 20,
+              minWidth: 24,
+              backgroundColor: "#dc2626",
+              color: "#fff",
+              fontWeight: 700,
+            }}
+          />
+        ) : null}
+      </Box>
+    );
+  };
   if (!menu) {
     return null;
   }
@@ -565,7 +687,7 @@ export default function Sidebar({ navigate, location }) {
                               {child.icon}
 
                               <ListItemText
-                                primary={child.label}
+                                primary={renderChildPrimaryLabel(child)}
                                 sx={{ ml: 1 }}
                               />
                             </>
@@ -581,7 +703,10 @@ export default function Sidebar({ navigate, location }) {
                   >
                     {item.icon}
 
-                    <ListItemText primary={item.label} sx={{ ml: 2 }} />
+                    <ListItemText
+                      primary={renderPrimaryLabel(item.label)}
+                      sx={{ ml: 2 }}
+                    />
                   </ListItemButton>
                 )}
               </Box>
@@ -600,7 +725,7 @@ export default function Sidebar({ navigate, location }) {
                   {item.icon}
 
                   <ListItemText
-                    primary={item.label}
+                    primary={renderPrimaryLabel(item.label)}
                     sx={{
                       ml: 2,
                       "& .MuiListItemText-primary": {
@@ -656,7 +781,7 @@ export default function Sidebar({ navigate, location }) {
                               {child.icon}
 
                               <ListItemText
-                                primary={child.label}
+                                primary={renderChildPrimaryLabel(child)}
                                 sx={{ ml: 1 }}
                               />
                             </ListItemButton>
@@ -672,7 +797,7 @@ export default function Sidebar({ navigate, location }) {
                       {item.icon}
 
                       <ListItemText
-                        primary={item.label}
+                        primary={renderPrimaryLabel(item.label)}
                         sx={{
                           ml: 2,
                           "& .MuiListItemText-primary": {
