@@ -117,7 +117,7 @@ export default function UserMenu({ navigate }) {
               fontWeight: 600,
             }}
           >
-            {profile?.email || user?.email || "Usuario"}
+            {profile?.nombre || user?.nombre || "Usuario"}
           </Typography>
 
           <Typography

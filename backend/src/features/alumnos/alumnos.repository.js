@@ -47,7 +47,11 @@ export class AlumnosRepository {
     return this.prisma.alumno.findMany({
       include: {
         usuario: true,
+
         matriculas: {
+          include: {
+            promocion: true,
+          },
           orderBy: {
             fechaCreacion: "desc",
           },

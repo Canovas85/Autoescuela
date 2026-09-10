@@ -577,9 +577,6 @@ export default function Promociones() {
       >
         <Box>
           <Typography variant="h4">Promociones</Typography>
-          <Typography color="text.secondary">
-            Gestión de promociones comerciales aplicables a licencias.
-          </Typography>
         </Box>
         <Button
           variant="contained"

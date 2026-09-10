@@ -294,9 +294,6 @@ export default function Bonos() {
           <Typography variant="h4" fontWeight="bold">
             Bonos
           </Typography>
-          <Typography color="text.secondary">
-            Catálogo de packs de clases y su estado de activación.
-          </Typography>
         </Box>
         <Button
           variant="contained"

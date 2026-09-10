@@ -303,9 +303,6 @@ export default function TarifasConcepto() {
           <Typography variant="h4" fontWeight="bold">
             Tarifas por permisos
           </Typography>
-          <Typography color="text.secondary">
-            Gestión de precios por concepto para uno o varios permisos.
-          </Typography>
         </Box>
 
         <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>

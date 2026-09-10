@@ -276,9 +276,6 @@ export default function TarifasMatricula() {
           <Typography variant="h4" fontWeight="bold">
             Tarifas de Matrícula
           </Typography>
-          <Typography color="text.secondary">
-            Catálogo de packs de clases y su estado de activación.
-          </Typography>
         </Box>
         <Button
           variant="contained"

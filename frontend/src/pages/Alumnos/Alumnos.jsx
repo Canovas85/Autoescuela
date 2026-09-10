@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Paper,
+  Grid,
   Typography,
   Chip,
   CircularProgress,
@@ -642,6 +643,7 @@ export default function Alumnos() {
   const [openDetail, setOpenDetail] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [selectedAlumno, setSelectedAlumno] = useState(null);
+  const [promocionMatricula, setPromocionMatricula] = useState(null);
 
   const [newAlumno, setNewAlumno] = useState({
     nombre: "",
@@ -709,6 +711,8 @@ export default function Alumnos() {
       fechaNacimiento: false,
     });
 
+    setPromocionMatricula(row?.matriculas?.[0]?.promocion || null);
+
     setOpen(true);
 
     if (!matriculaPagada) {
@@ -763,6 +767,7 @@ export default function Alumnos() {
       const detalle = await alumnosService.getById(row.id);
 
       setSelectedAlumno(detalle);
+      setPromocionMatricula(detalle?.matriculas?.[0]?.promocion || null);
     } catch (error) {
       console.error(error);
 
@@ -823,6 +828,17 @@ export default function Alumnos() {
     }
   };
 
+  const readOnlyFieldSx = {
+    "& .MuiInputBase-input": {
+      cursor: "default",
+      caretColor: "transparent",
+      userSelect: "none",
+    },
+    "& .MuiOutlinedInput-root": {
+      backgroundColor: "action.hover",
+    },
+  };
+
   return (
     <Box>
       <Typography variant="h4" fontWeight="bold" mb={4}>
@@ -841,6 +857,7 @@ export default function Alumnos() {
           variant="contained"
           onClick={() => {
             setEditingId(null);
+            setPromocionMatricula(null);
 
             setNewAlumno({
               nombre: "",
@@ -890,11 +907,13 @@ export default function Alumnos() {
           <FormControlLabel value="todos" control={<Radio />} label="Todos" />
         </RadioGroup>
 
-        <Select
+        <TextField
+          select
           size="small"
+          label="Buscar por profesor"
           value={profesorFiltro}
           onChange={(e) => setProfesorFiltro(e.target.value)}
-          sx={{ minWidth: 220 }}
+          sx={{ width: 320 }}
         >
           <MenuItem value="">Todos los profesores</MenuItem>
 
@@ -903,7 +922,7 @@ export default function Alumnos() {
               {profesor.usuario?.nombre}
             </MenuItem>
           ))}
-        </Select>
+        </TextField>
 
         <TextField
           size="small"
@@ -971,308 +990,510 @@ export default function Alumnos() {
         open={open}
         onClose={() => setOpen(false)}
         fullWidth
-        maxWidth="sm"
+        maxWidth="md" // 🌟 Cambiado a 'md' para dar suficiente espacio a las dos columnas
       >
         <DialogTitle>
           {editingId ? "Editar Alumno" : "Crear Alumno"}
         </DialogTitle>
 
         <DialogContent>
-          <TextField
-            margin="normal"
-            fullWidth
-            label="Nombre"
-            required
-            value={newAlumno.nombre}
-            onChange={(e) =>
-              setNewAlumno({
-                ...newAlumno,
-                nombre: e.target.value,
-              })
-            }
-          />
-
-          <TextField
-            margin="normal"
-            fullWidth
-            label="Email"
-            required
-            value={newAlumno.email}
-            onChange={(e) =>
-              setNewAlumno({
-                ...newAlumno,
-                email: e.target.value,
-              })
-            }
-          />
-
-          <TextField
-            margin="normal"
-            fullWidth
-            label="Contraseña"
-            required={!editingId}
-            type="password"
-            helperText={
-              editingId
-                ? "Si la dejas vacía, se mantiene la contraseña actual."
-                : "Mínimo 8 caracteres"
-            }
-            value={newAlumno.password}
-            onChange={(e) =>
-              setNewAlumno({
-                ...newAlumno,
-                password: e.target.value,
-              })
-            }
-          />
-
-          <TextField
-            margin="normal"
-            fullWidth
-            label="Teléfono"
-            required
-            value={newAlumno.telefono}
-            onChange={(e) =>
-              setNewAlumno({
-                ...newAlumno,
-                telefono: e.target.value,
-              })
-            }
-          />
-
-          <TextField
-            margin="normal"
-            fullWidth
-            label="DNI"
-            required
-            placeholder="12345678Z"
-            value={newAlumno.dni}
-            onChange={(e) =>
-              setNewAlumno({
-                ...newAlumno,
-                dni: normalizarDniFormulario(e.target.value),
-              })
-            }
-            onBlur={() =>
-              setFieldTouched((prev) => ({
-                ...prev,
-                dni: true,
-              }))
-            }
-            error={dniIncompleto}
-            helperText={
-              dniIncompleto
-                ? "DNI incompleto. Introduce 8 números y 1 letra (ejemplo: 12345678Z)."
-                : " "
-            }
-            inputProps={{ maxLength: 9 }}
-          />
-
-          <TextField
-            margin="normal"
-            fullWidth
-            required
-            type="text"
-            label="Fecha de nacimiento"
-            placeholder="dd/mm/aaaa"
-            InputLabelProps={{ shrink: true }}
-            value={newAlumno.fechaNacimiento}
-            onChange={(e) =>
-              setNewAlumno({
-                ...newAlumno,
-                fechaNacimiento: aplicarMascaraFecha(e.target.value),
-              })
-            }
-            onBlur={() =>
-              setFieldTouched((prev) => ({
-                ...prev,
-                fechaNacimiento: true,
-              }))
-            }
-            error={fechaIncompleta}
-            helperText={
-              fechaIncompleta
-                ? "Fecha incompleta o inválida. Usa el formato dd/mm/aaaa."
-                : " "
-            }
-            inputProps={{ maxLength: 10 }}
-          />
-
-          <TextField
-            margin="normal"
-            fullWidth
-            required
-            select
-            label="Licencia Objetivo"
-            value={newAlumno.tipoLicencia}
-            onChange={(e) =>
-              setNewAlumno({
-                ...newAlumno,
-                tipoLicencia: e.target.value,
-                promocionId: "",
-              })
-            }
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, // 1 columna en móvil, 2 en pantallas 'sm' o superior
+              gap: 3, // Espacio entre las dos columnas
+              mt: 1,
+            }}
           >
-            {LICENCIAS_OPCIONES.map((licencia) => (
-              <MenuItem key={licencia.value} value={licencia.value}>
-                {licencia.label}
-              </MenuItem>
-            ))}
-          </TextField>
-
-          {editingId && (
-            <>
-              {!puedeAsignarProfesor && (
-                <Alert severity="info" sx={{ mt: 1 }}>
-                  Solo se puede asignar profesor cuando la matrícula del alumno
-                  está pagada.
-                </Alert>
-              )}
+            {/* --- COLUMNA IZQUIERDA: FORMULARIO PRINCIPAL --- */}
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+              <TextField
+                margin="none"
+                fullWidth
+                label="Nombre"
+                required
+                value={newAlumno.nombre}
+                onChange={(e) =>
+                  setNewAlumno({
+                    ...newAlumno,
+                    nombre: e.target.value,
+                  })
+                }
+              />
 
               <TextField
-                margin="normal"
+                margin="none"
                 fullWidth
-                select
-                label="Profesor Asignado"
-                value={newAlumno.profesorAsignadoId || ""}
-                disabled={!puedeAsignarProfesor || loadingProfesoresElegibles}
+                label="Email"
+                required
+                value={newAlumno.email}
                 onChange={(e) =>
-                  setNewAlumno((prev) => ({
+                  setNewAlumno({
+                    ...newAlumno,
+                    email: e.target.value,
+                  })
+                }
+              />
+
+              <TextField
+                margin="none"
+                fullWidth
+                label="Contraseña"
+                required={!editingId}
+                type="password"
+                helperText={
+                  editingId
+                    ? "Si la dejas vacía, se mantiene la contraseña actual."
+                    : "Mínimo 8 caracteres"
+                }
+                value={newAlumno.password}
+                onChange={(e) =>
+                  setNewAlumno({
+                    ...newAlumno,
+                    password: e.target.value,
+                  })
+                }
+              />
+
+              <TextField
+                margin="none"
+                fullWidth
+                label="Teléfono"
+                required
+                value={newAlumno.telefono}
+                onChange={(e) =>
+                  setNewAlumno({
+                    ...newAlumno,
+                    telefono: e.target.value,
+                  })
+                }
+              />
+
+              <TextField
+                margin="none"
+                fullWidth
+                label="DNI"
+                required
+                placeholder="12345678Z"
+                value={newAlumno.dni}
+                onChange={(e) =>
+                  setNewAlumno({
+                    ...newAlumno,
+                    dni: normalizarDniFormulario(e.target.value),
+                  })
+                }
+                onBlur={() =>
+                  setFieldTouched((prev) => ({
                     ...prev,
-                    profesorAsignadoId: e.target.value,
+                    dni: true,
                   }))
                 }
+                error={dniIncompleto}
                 helperText={
-                  !puedeAsignarProfesor
-                    ? "Matrícula pendiente de pago"
-                    : "Solo se muestran profesores activos con permiso para esta licencia"
+                  dniIncompleto
+                    ? "DNI incompleto. Introduce 8 números y 1 letra."
+                    : undefined // Eliminado el espacio vacío " " para reducir la altura real
+                }
+                inputProps={{ maxLength: 9 }}
+              />
+
+              <TextField
+                margin="none"
+                fullWidth
+                required
+                type="text"
+                label="Fecha de nacimiento"
+                placeholder="dd/mm/aaaa"
+                InputLabelProps={{ shrink: true }}
+                value={newAlumno.fechaNacimiento}
+                onChange={(e) =>
+                  setNewAlumno({
+                    ...newAlumno,
+                    fechaNacimiento: aplicarMascaraFecha(e.target.value),
+                  })
+                }
+                onBlur={() =>
+                  setFieldTouched((prev) => ({
+                    ...prev,
+                    fechaNacimiento: true,
+                  }))
+                }
+                error={fechaIncompleta}
+                helperText={
+                  fechaIncompleta
+                    ? "Fecha incompleta o inválida. Usa dd/mm/aaaa."
+                    : undefined // Eliminado el espacio vacío " " para reducir la altura real
+                }
+                inputProps={{ maxLength: 10 }}
+              />
+
+              <TextField
+                margin="none"
+                fullWidth
+                required
+                select
+                label="Licencia Objetivo"
+                value={newAlumno.tipoLicencia}
+                onChange={(e) =>
+                  setNewAlumno({
+                    ...newAlumno,
+                    tipoLicencia: e.target.value,
+                    promocionId: "",
+                  })
                 }
               >
-                <MenuItem value="">Sin asignar</MenuItem>
-
-                {profesoresElegibles.map((profesor) => (
-                  <MenuItem key={profesor.id} value={profesor.id}>
-                    {profesor.usuario?.nombre} (
-                    {(profesor.permisosLicencias || []).join(", ")})
+                {LICENCIAS_OPCIONES.map((licencia) => (
+                  <MenuItem key={licencia.value} value={licencia.value}>
+                    {licencia.label}
                   </MenuItem>
                 ))}
               </TextField>
-            </>
-          )}
 
-          {!editingId && (
-            <>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={Boolean(newAlumno.esEstudiante)}
-                    onChange={(event) =>
+              {editingId && (
+                <>
+                  {!puedeAsignarProfesor && (
+                    <Alert severity="info" sx={{ mt: 1 }}>
+                      Solo se puede asignar profesor cuando la matrícula del
+                      alumno está pagada.
+                    </Alert>
+                  )}
+
+                  <TextField
+                    margin="none"
+                    fullWidth
+                    select
+                    label="Profesor Asignado"
+                    value={newAlumno.profesorAsignadoId || ""}
+                    disabled={
+                      !puedeAsignarProfesor || loadingProfesoresElegibles
+                    }
+                    onChange={(e) =>
                       setNewAlumno((prev) => ({
                         ...prev,
-                        esEstudiante: event.target.checked,
-                        promocionId: "",
+                        profesorAsignadoId: e.target.value,
                       }))
                     }
+                    helperText={
+                      !puedeAsignarProfesor
+                        ? "Matrícula pendiente de pago"
+                        : "Solo se muestran profesores activos con permiso para esta licencia"
+                    }
+                  >
+                    <MenuItem value="">Sin asignar</MenuItem>
+                    {profesoresElegibles.map((profesor) => (
+                      <MenuItem key={profesor.id} value={profesor.id}>
+                        {profesor.usuario?.nombre}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </>
+              )}
+            </Box>
+
+            {/* --- COLUMNA DERECHA: SECCIÓN DE PROMOCIONES --- */}
+            <Box>
+              {!editingId ? (
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                  <Typography
+                    variant="subtitle2"
+                    color="text.secondary"
+                    sx={{ mb: -0.5 }}
+                  >
+                    Promociones y Descuentos
+                  </Typography>
+
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={Boolean(newAlumno.esEstudiante)}
+                        onChange={(event) =>
+                          setNewAlumno((prev) => ({
+                            ...prev,
+                            esEstudiante: event.target.checked,
+                            promocionId: "",
+                          }))
+                        }
+                      />
+                    }
+                    label="Acredita carnet de estudiante"
                   />
-                }
-                label="Acredita carnet de estudiante"
-              />
 
-              <Button
-                variant="outlined"
-                onClick={cargarPromocionesElegibles}
-                disabled={loadingPromociones}
-                sx={{ mt: 1 }}
-              >
-                {loadingPromociones
-                  ? "Comprobando promociones..."
-                  : "Comprobar promociones vigentes"}
-              </Button>
+                  <Button
+                    variant="outlined"
+                    onClick={cargarPromocionesElegibles}
+                    disabled={loadingPromociones}
+                    fullWidth
+                  >
+                    {loadingPromociones
+                      ? "Comprobando promociones..."
+                      : "Comprobar promociones vigentes"}
+                  </Button>
 
-              {promocionesElegibles.length > 0 && (
+                  {promocionesElegibles.length > 0 && (
+                    <Box
+                      sx={{
+                        mt: 1,
+                        p: 2,
+                        borderRadius: 2,
+                        border: "1px solid",
+                        borderColor: "divider",
+                        display: "grid",
+                        gap: 1.5,
+                        maxHeight: "260px", // Limita el alto del contenedor para que no estire el modal
+                        overflowY: "auto", // Añade scroll interno si hay muchas tarjetas de descuento
+                      }}
+                    >
+                      <Typography variant="caption" fontWeight="bold">
+                        Promociones elegibles para este alta
+                      </Typography>
+
+                      {promocionesElegibles.map((promocion) => (
+                        <Box
+                          key={promocion.id}
+                          sx={{
+                            p: 1,
+                            borderRadius: 1,
+                            backgroundColor: "background.default",
+                            border: "1px solid",
+                            borderColor: "action.hover",
+                          }}
+                        >
+                          <Typography variant="body2" fontWeight={700}>
+                            {promocion.nombre}
+                          </Typography>
+                          <Typography
+                            variant="caption"
+                            color="text.secondary"
+                            component="p"
+                          >
+                            {promocion.descripcion || "Sin descripción"}
+                          </Typography>
+                          <Typography variant="body2" sx={{ mt: 0.5 }}>
+                            Precio promoción: {promocion.precioPromocional} EUR
+                          </Typography>
+                          <Typography
+                            variant="caption"
+                            color="text.secondary"
+                            component="p"
+                          >
+                            Reglas:{" "}
+                            {promocion.requiereCarnetEstudiante
+                              ? "requiere carnet estudiante"
+                              : "público general"}
+                            {promocion.requiereFidelidad ? " + fidelidad" : ""}
+                            {promocion.edadMinima !== null &&
+                            promocion.edadMinima !== undefined
+                              ? ` + edad mín. ${promocion.edadMinima}`
+                              : ""}
+                            {promocion.edadMaxima !== null &&
+                            promocion.edadMaxima !== undefined
+                              ? ` + edad máx. ${promocion.edadMaxima}`
+                              : ""}
+                          </Typography>
+                        </Box>
+                      ))}
+
+                      <TextField
+                        select
+                        fullWidth
+                        size="small"
+                        label="Promoción a asignar"
+                        value={newAlumno.promocionId}
+                        onChange={(event) =>
+                          setNewAlumno((prev) => ({
+                            ...prev,
+                            promocionId: event.target.value,
+                          }))
+                        }
+                        helperText={
+                          promocionesElegibles.length > 1
+                            ? "Obligatorio seleccionar una promoción"
+                            : "Si solo hay una promoción aplicable se asignará automáticamente"
+                        }
+                      >
+                        {promocionesElegibles.length > 1 && (
+                          <MenuItem value="">Seleccionar promoción...</MenuItem>
+                        )}
+                        {promocionesElegibles.map((promocion) => (
+                          <MenuItem key={promocion.id} value={promocion.id}>
+                            {promocion.nombre} - {promocion.precioPromocional}{" "}
+                            EUR
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </Box>
+                  )}
+                </Box>
+              ) : (
                 <Box
                   sx={{
-                    mt: 2,
                     p: 2,
                     borderRadius: 2,
                     border: "1px solid",
                     borderColor: "divider",
-                    display: "grid",
-                    gap: 1,
+                    backgroundColor: "background.paper",
                   }}
                 >
-                  <Typography variant="subtitle2">
-                    Promociones elegibles para este alta
+                  <Typography
+                    variant="subtitle1"
+                    fontWeight="bold"
+                    sx={{ mb: 2 }}
+                  >
+                    Promoción asociada a la matrícula
                   </Typography>
 
-                  {promocionesElegibles.map((promocion) => (
-                    <Box
-                      key={promocion.id}
-                      sx={{
-                        p: 1,
-                        borderRadius: 1,
-                        backgroundColor: "background.default",
-                      }}
-                    >
-                      <Typography fontWeight={700}>
-                        {promocion.nombre}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {promocion.descripcion || "Sin descripción"}
-                      </Typography>
-                      <Typography variant="body2">
-                        Precio promoción: {promocion.precioPromocional} EUR
-                      </Typography>
-                      <Typography variant="caption" color="text.secondary">
-                        Reglas:{" "}
-                        {promocion.requiereCarnetEstudiante
-                          ? "requiere carnet estudiante"
-                          : "público general"}
-                        {promocion.requiereFidelidad
-                          ? " + fidelidad (licencia aprobada previa)"
-                          : ""}
-                        {promocion.edadMinima !== null &&
-                        promocion.edadMinima !== undefined
-                          ? ` + edad mínima ${promocion.edadMinima}`
-                          : ""}
-                        {promocion.edadMaxima !== null &&
-                        promocion.edadMaxima !== undefined
-                          ? ` + edad máxima ${promocion.edadMaxima}`
-                          : ""}
-                      </Typography>
-                    </Box>
-                  ))}
+                  {promocionMatricula ? (
+                    <>
+                      <TextField
+                        fullWidth
+                        margin="dense"
+                        label="Nombre de la promoción"
+                        value={promocionMatricula.nombre || ""}
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                      />
 
-                  <TextField
-                    select
-                    fullWidth
-                    label="Promoción a asignar"
-                    value={newAlumno.promocionId}
-                    onChange={(event) =>
-                      setNewAlumno((prev) => ({
-                        ...prev,
-                        promocionId: event.target.value,
-                      }))
-                    }
-                    helperText={
-                      promocionesElegibles.length > 1
-                        ? "Obligatorio seleccionar una promoción"
-                        : "Si solo hay una promoción aplicable se asignará automáticamente"
-                    }
-                  >
-                    {promocionesElegibles.length > 1 && (
-                      <MenuItem value="">Seleccionar promoción...</MenuItem>
-                    )}
-                    {promocionesElegibles.map((promocion) => (
-                      <MenuItem key={promocion.id} value={promocion.id}>
-                        {promocion.nombre} - {promocion.precioPromocional} EUR
-                      </MenuItem>
-                    ))}
-                  </TextField>
+                      <TextField
+                        fullWidth
+                        margin="dense"
+                        multiline
+                        minRows={3}
+                        label="Descripción"
+                        value={promocionMatricula.descripcion || ""}
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                      />
+
+                      <Grid container spacing={2} sx={{ mt: 1 }}>
+                        <Grid item xs={12} md={4}>
+                          <Box
+                            sx={{
+                              p: 2,
+                              borderRadius: 2,
+                              bgcolor: "#f5f5f5",
+                              textAlign: "center",
+                              border: "1px solid #e0e0e0",
+                            }}
+                          >
+                            <Typography
+                              variant="caption"
+                              color="text.secondary"
+                              display="block"
+                            >
+                              Precio Base
+                            </Typography>
+
+                            <Typography variant="h6" fontWeight="bold">
+                              {Number(
+                                promocionMatricula.precioOriginal || 0,
+                              ).toFixed(2)}{" "}
+                              €
+                            </Typography>
+                          </Box>
+                        </Grid>
+
+                        <Grid item xs={12} md={4}>
+                          <Box
+                            sx={{
+                              p: 2,
+                              borderRadius: 2,
+                              bgcolor: "#e8f5e9",
+                              textAlign: "center",
+                              border: "1px solid #81c784",
+                            }}
+                          >
+                            <Typography
+                              variant="caption"
+                              color="text.secondary"
+                              display="block"
+                            >
+                              Precio Final
+                            </Typography>
+
+                            <Typography
+                              variant="h6"
+                              fontWeight="bold"
+                              color="success.main"
+                            >
+                              {Number(
+                                promocionMatricula.precioPromocional || 0,
+                              ).toFixed(2)}{" "}
+                              €
+                            </Typography>
+                          </Box>
+                        </Grid>
+
+                        <Grid item xs={12} md={4}>
+                          <Box
+                            sx={{
+                              p: 2,
+                              borderRadius: 2,
+                              bgcolor: "#fff8e1",
+                              textAlign: "center",
+                              border: "1px solid #ffcc80",
+                            }}
+                          >
+                            <Typography
+                              variant="caption"
+                              color="text.secondary"
+                              display="block"
+                            >
+                              Ahorro
+                            </Typography>
+
+                            <Typography
+                              variant="h6"
+                              fontWeight="bold"
+                              color="warning.main"
+                            >
+                              {(
+                                Number(promocionMatricula.precioOriginal || 0) -
+                                Number(
+                                  promocionMatricula.precioPromocional || 0,
+                                )
+                              ).toFixed(2)}{" "}
+                              €
+                            </Typography>
+                          </Box>
+                        </Grid>
+                      </Grid>
+
+                      <Chip
+                        color="success"
+                        sx={{
+                          mt: 2,
+                          fontWeight: "bold",
+                        }}
+                        label={`Descuento aplicado: ${(
+                          Number(promocionMatricula.precioOriginal || 0) -
+                          Number(promocionMatricula.precioPromocional || 0)
+                        ).toFixed(2)} €`}
+                      />
+
+                      <Alert severity="success" sx={{ mt: 2 }}>
+                        El alumno obtuvo un descuento de{" "}
+                        <strong>
+                          {(
+                            Number(promocionMatricula.precioOriginal || 0) -
+                            Number(promocionMatricula.precioPromocional || 0)
+                          ).toFixed(2)}{" "}
+                          €
+                        </strong>{" "}
+                        durante el alta de matrícula.
+                      </Alert>
+                    </>
+                  ) : (
+                    <Alert severity="info">
+                      No existen promociones asignadas en el alta de matrícula
+                      del alumno.
+                    </Alert>
+                  )}
                 </Box>
               )}
-            </>
-          )}
+            </Box>
+          </Box>
         </DialogContent>
 
         <DialogActions>
@@ -1313,68 +1534,245 @@ export default function Alumnos() {
             <Box
               sx={{
                 display: "grid",
-                gap: 2,
+                gridTemplateColumns: {
+                  xs: "1fr",
+                  md: "1fr 1fr",
+                },
+                gap: 3,
                 mt: 2,
               }}
             >
-              <TextField
-                label="Nombre"
-                value={selectedAlumno?.usuario?.nombre || ""}
-                InputProps={{ readOnly: true }}
-                fullWidth
-              />
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 2,
+                }}
+              >
+                <TextField
+                  label="Nombre"
+                  value={selectedAlumno?.usuario?.nombre || ""}
+                  InputProps={{ readOnly: true }}
+                  sx={readOnlyFieldSx}
+                  fullWidth
+                />
 
-              <TextField
-                label="Email"
-                value={selectedAlumno?.usuario?.email || ""}
-                InputProps={{ readOnly: true }}
-                fullWidth
-              />
+                <TextField
+                  label="Email"
+                  value={selectedAlumno?.usuario?.email || ""}
+                  InputProps={{ readOnly: true }}
+                  sx={readOnlyFieldSx}
+                  fullWidth
+                />
 
-              <TextField
-                label="Teléfono"
-                value={selectedAlumno?.usuario?.telefono || ""}
-                InputProps={{ readOnly: true }}
-                fullWidth
-              />
+                <TextField
+                  label="Teléfono"
+                  value={selectedAlumno?.usuario?.telefono || ""}
+                  InputProps={{ readOnly: true }}
+                  sx={readOnlyFieldSx}
+                  fullWidth
+                />
 
-              <TextField
-                label="DNI"
-                value={selectedAlumno?.usuario?.dni || ""}
-                InputProps={{ readOnly: true }}
-                fullWidth
-              />
+                <TextField
+                  label="DNI"
+                  value={selectedAlumno?.usuario?.dni || ""}
+                  InputProps={{ readOnly: true }}
+                  sx={readOnlyFieldSx}
+                  fullWidth
+                />
 
-              <TextField
-                label="Licencia Objetivo"
-                value={selectedAlumno?.tipoLicenciaObjetivo || ""}
-                InputProps={{ readOnly: true }}
-                fullWidth
-              />
+                <TextField
+                  label="Licencia Objetivo"
+                  value={selectedAlumno?.tipoLicenciaObjetivo || ""}
+                  InputProps={{ readOnly: true }}
+                  sx={readOnlyFieldSx}
+                  fullWidth
+                />
 
-              <TextField
-                label="Horas Prácticas"
-                value={selectedAlumno?.horasPracticasCompletadas ?? 0}
-                InputProps={{ readOnly: true }}
-                fullWidth
-              />
+                <TextField
+                  label="Horas Prácticas"
+                  value={selectedAlumno?.horasPracticasCompletadas ?? 0}
+                  InputProps={{ readOnly: true }}
+                  sx={readOnlyFieldSx}
+                  fullWidth
+                />
 
-              <TextField
-                label="Profesor Asignado"
-                value={
-                  selectedAlumno?.profesorAsignado?.usuario?.nombre ||
-                  "Sin asignar"
-                }
-                InputProps={{ readOnly: true }}
-                fullWidth
-              />
+                <TextField
+                  label="Profesor Asignado"
+                  value={
+                    selectedAlumno?.profesorAsignado?.usuario?.nombre ||
+                    "Sin asignar"
+                  }
+                  InputProps={{ readOnly: true }}
+                  sx={readOnlyFieldSx}
+                  fullWidth
+                />
 
-              <TextField
-                label="Estado"
-                value={selectedAlumno?.activo ? "Activo" : "Inactivo"}
-                InputProps={{ readOnly: true }}
-                fullWidth
-              />
+                <TextField
+                  label="Estado"
+                  value={selectedAlumno?.activo ? "Activo" : "Inactivo"}
+                  InputProps={{ readOnly: true }}
+                  sx={readOnlyFieldSx}
+                  fullWidth
+                />
+              </Box>
+              <Box>
+                <Typography
+                  variant="subtitle1"
+                  fontWeight="bold"
+                  sx={{ mb: 2 }}
+                >
+                  Promoción asociada a la matrícula
+                </Typography>
+                {promocionMatricula ? (
+                  <>
+                    <TextField
+                      fullWidth
+                      margin="dense"
+                      label="Nombre de la promoción"
+                      value={promocionMatricula.nombre || ""}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      sx={readOnlyFieldSx}
+                    />
+
+                    <TextField
+                      fullWidth
+                      margin="dense"
+                      multiline
+                      minRows={3}
+                      label="Descripción"
+                      value={promocionMatricula.descripcion || ""}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      sx={readOnlyFieldSx}
+                    />
+
+                    <Grid container spacing={2} sx={{ mt: 1 }}>
+                      <Grid item xs={12} md={4}>
+                        <Box
+                          sx={{
+                            p: 2,
+                            borderRadius: 2,
+                            bgcolor: "#f5f5f5",
+                            textAlign: "center",
+                            border: "1px solid #e0e0e0",
+                          }}
+                        >
+                          <Typography
+                            variant="caption"
+                            color="text.secondary"
+                            display="block"
+                          >
+                            Precio Base
+                          </Typography>
+
+                          <Typography variant="h6" fontWeight="bold">
+                            {Number(
+                              promocionMatricula.precioOriginal || 0,
+                            ).toFixed(2)}{" "}
+                            €
+                          </Typography>
+                        </Box>
+                      </Grid>
+
+                      <Grid item xs={12} md={4}>
+                        <Box
+                          sx={{
+                            p: 2,
+                            borderRadius: 2,
+                            bgcolor: "#e8f5e9",
+                            textAlign: "center",
+                            border: "1px solid #81c784",
+                          }}
+                        >
+                          <Typography
+                            variant="caption"
+                            color="text.secondary"
+                            display="block"
+                          >
+                            Precio Final
+                          </Typography>
+
+                          <Typography
+                            variant="h6"
+                            fontWeight="bold"
+                            color="success.main"
+                          >
+                            {Number(
+                              promocionMatricula.precioPromocional || 0,
+                            ).toFixed(2)}{" "}
+                            €
+                          </Typography>
+                        </Box>
+                      </Grid>
+
+                      <Grid item xs={12} md={4}>
+                        <Box
+                          sx={{
+                            p: 2,
+                            borderRadius: 2,
+                            bgcolor: "#fff8e1",
+                            textAlign: "center",
+                            border: "1px solid #ffcc80",
+                          }}
+                        >
+                          <Typography
+                            variant="caption"
+                            color="text.secondary"
+                            display="block"
+                          >
+                            Ahorro
+                          </Typography>
+
+                          <Typography
+                            variant="h6"
+                            fontWeight="bold"
+                            color="warning.main"
+                          >
+                            {(
+                              Number(promocionMatricula.precioOriginal || 0) -
+                              Number(promocionMatricula.precioPromocional || 0)
+                            ).toFixed(2)}{" "}
+                            €
+                          </Typography>
+                        </Box>
+                      </Grid>
+                    </Grid>
+
+                    <Chip
+                      color="success"
+                      sx={{
+                        mt: 2,
+                        fontWeight: "bold",
+                      }}
+                      label={`Descuento aplicado: ${(
+                        Number(promocionMatricula.precioOriginal || 0) -
+                        Number(promocionMatricula.precioPromocional || 0)
+                      ).toFixed(2)} €`}
+                    />
+
+                    <Alert severity="success" sx={{ mt: 2 }}>
+                      El alumno obtuvo un descuento de{" "}
+                      <strong>
+                        {(
+                          Number(promocionMatricula.precioOriginal || 0) -
+                          Number(promocionMatricula.precioPromocional || 0)
+                        ).toFixed(2)}{" "}
+                        €
+                      </strong>{" "}
+                      durante el alta de matrícula.
+                    </Alert>
+                  </>
+                ) : (
+                  <Alert severity="info">
+                    No existen promociones asignadas en el alta de matrícula del
+                    alumno.
+                  </Alert>
+                )}
+              </Box>
             </Box>
           )}
         </DialogContent>

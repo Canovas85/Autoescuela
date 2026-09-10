@@ -533,7 +533,7 @@ export default function Vehiculos() {
           placeholder="Matrícula, marca, modelo o permiso"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          sx={{ width: 340 }}
+          sx={{ width: 340, mt: 0.5 }}
         />
 
         <Button
