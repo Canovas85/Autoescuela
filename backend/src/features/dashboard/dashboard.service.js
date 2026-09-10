@@ -144,9 +144,9 @@ export class DashboardService {
     return (aprobadosMes / examenesMes) * 100;
   }
   async getTopProfesorPorClases() {
-    const profesores = (await this.repository.getClasesPorProfesor()) || [];
+    const profesores = await this.repository.getClasesPorProfesor();
 
-    if (profesores.length === 0) {
+    if (!profesores?.length) {
       return null;
     }
 
@@ -154,15 +154,18 @@ export class DashboardService {
       actual._count.id > max._count.id ? actual : max,
     );
 
+    const profesor = await this.repository.getProfesorById(top.profesorId);
+
     return {
       profesorId: top.profesorId,
+      nombre: profesor?.usuario?.nombre ?? "Profesor",
       totalClases: top._count.id,
     };
   }
   async getTopProfesorPorHoras() {
-    const profesores = (await this.repository.getHorasPorProfesor()) || [];
+    const profesores = await this.repository.getHorasPorProfesor();
 
-    if (profesores.length === 0) {
+    if (!profesores?.length) {
       return null;
     }
 
@@ -170,9 +173,12 @@ export class DashboardService {
       actual._sum.duracion > max._sum.duracion ? actual : max,
     );
 
+    const profesor = await this.repository.getProfesorById(top.profesorId);
+
     return {
       profesorId: top.profesorId,
-      horas: top._sum.duracion,
+      nombre: profesor?.usuario?.nombre ?? "Profesor",
+      horas: top._sum.duracion ?? 0,
     };
   }
 
@@ -481,21 +487,50 @@ export class DashboardService {
     };
   }
   async getExecutiveDashboard() {
+    const totalDgtTests = await this.repository.getTotalDgtTests();
+
+    const approvedDgtTests = await this.repository.getDgtApprovedTests();
+
     return {
+      activeStudents: await this.repository.getTotalAlumnosActivos(),
+
+      activeEnrollments: await this.repository.getTotalMatriculasActivas(),
+
+      scheduledClasses: await this.repository.getTotalClasesProgramadas(),
+
+      pendingExams: await this.repository.getTotalExamenesPendientes(),
+
+      examsThisMonth: await this.repository.getExamenesEsteMes(),
+
       successRate: await this.getTasaExito(),
 
       monthlySuccessRate: await this.getPorcentajeExitoMensual(),
 
-      pendingExams: await this.repository.getTotalExamenesPendientes(),
+      dgtTestsToday: await this.repository.getDgtTestsToday(),
 
-      scheduledClasses: await this.repository.getTotalClasesProgramadas(),
+      dgtTestsThisMonth: await this.repository.getDgtTestsThisMonth(),
+
+      dgtSuccessRate: await this.getDgtSuccessRate(),
+
+      totalDgtTests: await this.repository.getTotalDgtTests(),
+
+      topStudents: await this.getTopStudentsRanking(),
+
+      topProfessors: await this.getProfessorRanking(),
 
       topProfesorByClasses: await this.getTopProfesorPorClases(),
 
       topProfesorByHours: await this.getTopProfesorPorHoras(),
+
+      dgtEvolution: await this.getDgtEvolution(),
+
+      dgtSummary: {
+        total: totalDgtTests,
+        aprobados: approvedDgtTests,
+        suspendidos: totalDgtTests - approvedDgtTests,
+      },
     };
   }
-
   async getProfessorDashboard(userId) {
     const profile = await this.repository.getProfessorProfile(userId);
 
@@ -1035,5 +1070,82 @@ export class DashboardService {
     );
 
     return this.mapProfessorAgendaClass(updated);
+  }
+
+  async getDgtSuccessRate() {
+    const total = await this.repository.getTotalDgtTests();
+
+    const aprobados = await this.repository.getDgtApprovedTests();
+
+    if (total === 0) {
+      return 0;
+    }
+
+    return (aprobados / total) * 100;
+  }
+
+  async getTopStudentsRanking() {
+    const alumnos = await this.repository.getTopStudentsDGT();
+
+    return alumnos
+      .map((alumno) => {
+        const examenes = alumno.examenesDGT || [];
+
+        const aprobados = examenes.filter((e) => e.aprobado).length;
+
+        const porcentaje =
+          examenes.length === 0 ? 0 : (aprobados / examenes.length) * 100;
+
+        return {
+          nombre: alumno.usuario?.nombre,
+          totalTests: examenes.length,
+          porcentaje,
+        };
+      })
+      .filter((a) => a.totalTests > 0)
+      .sort((a, b) => b.porcentaje - a.porcentaje)
+      .slice(0, 5);
+  }
+
+  async getProfessorRanking() {
+    const profesores = await this.repository.getProfessorRanking();
+
+    return profesores
+      .map((profesor) => ({
+        nombre: profesor.usuario?.nombre ?? "Profesor",
+        totalClases: profesor.clases?.length ?? 0,
+      }))
+      .sort((a, b) => b.totalClases - a.totalClases)
+      .slice(0, 5);
+  }
+
+  async getDgtEvolution() {
+    const exams = await this.repository.getDgtTestsEvolution();
+
+    const meses = {};
+
+    exams.forEach((exam) => {
+      const fecha = new Date(exam.fecha);
+
+      const key = `${fecha.getFullYear()}-${String(
+        fecha.getMonth() + 1,
+      ).padStart(2, "0")}`;
+
+      if (!meses[key]) {
+        meses[key] = {
+          mes: key,
+          realizados: 0,
+          aprobados: 0,
+        };
+      }
+
+      meses[key].realizados++;
+
+      if (exam.aprobado) {
+        meses[key].aprobados++;
+      }
+    });
+
+    return Object.values(meses);
   }
 }

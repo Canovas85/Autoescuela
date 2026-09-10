@@ -651,4 +651,134 @@ export class DashboardRepository {
       },
     });
   }
+
+  async getTotalAlumnosActivos() {
+    return this.prisma.alumno.count({
+      where: {
+        activo: true,
+      },
+    });
+  }
+
+  async getTotalMatriculasActivas() {
+    return this.prisma.matricula.count({
+      where: {
+        estado: {
+          in: ["PENDIENTE", "PAGADA"],
+        },
+      },
+    });
+  }
+
+  async getProfesorById(profesorId) {
+    return this.prisma.profesor.findUnique({
+      where: {
+        id: profesorId,
+      },
+      include: {
+        usuario: {
+          select: {
+            nombre: true,
+            email: true,
+          },
+        },
+      },
+    });
+  }
+
+  async getDgtTestsToday() {
+    const inicio = new Date();
+    inicio.setHours(0, 0, 0, 0);
+
+    const fin = new Date();
+    fin.setHours(23, 59, 59, 999);
+
+    return this.prisma.examenDGTAlumno.count({
+      where: {
+        fecha: {
+          gte: inicio,
+          lte: fin,
+        },
+      },
+    });
+  }
+
+  async getDgtTestsThisMonth() {
+    const ahora = new Date();
+
+    const inicio = new Date(ahora.getFullYear(), ahora.getMonth(), 1);
+
+    const fin = new Date(
+      ahora.getFullYear(),
+      ahora.getMonth() + 1,
+      0,
+      23,
+      59,
+      59,
+    );
+
+    return this.prisma.examenDGTAlumno.count({
+      where: {
+        fecha: {
+          gte: inicio,
+          lte: fin,
+        },
+      },
+    });
+  }
+
+  async getDgtApprovedTests() {
+    return this.prisma.examenDGTAlumno.count({
+      where: {
+        aprobado: true,
+      },
+    });
+  }
+
+  async getTotalDgtTests() {
+    return this.prisma.examenDGTAlumno.count();
+  }
+
+  async getTopStudentsDGT() {
+    return this.prisma.alumno.findMany({
+      include: {
+        usuario: {
+          select: {
+            nombre: true,
+          },
+        },
+        examenesDGT: true,
+      },
+    });
+  }
+
+  async getProfessorRanking() {
+    const profesores = await this.prisma.profesor.findMany({
+      include: {
+        usuario: {
+          select: {
+            nombre: true,
+          },
+        },
+        clases: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+
+    return profesores;
+  }
+  async getDgtTestsEvolution() {
+    return this.prisma.examenDGTAlumno.findMany({
+      select: {
+        fecha: true,
+        aprobado: true,
+      },
+      orderBy: {
+        fecha: "asc",
+      },
+    });
+  }
 }

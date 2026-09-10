@@ -139,125 +139,138 @@ export default function ProfessorDashboard({ data }) {
         </Grid>
       </Grid>
 
-      <Grid container spacing={3}>
-        <Grid item xs={12} lg={7}>
-          <Card sx={{ borderRadius: 3, height: "100%" }}>
-            <CardContent>
-              <Typography variant="h6" fontWeight={800} sx={{ mb: 2 }}>
-                Alumnos Asignados
-              </Typography>
+      {/* Seccion alumnos asignados */}
 
-              <Stack spacing={2}>
-                {alumnos.length === 0 && (
-                  <Typography color="text.secondary">
-                    No tienes alumnos asignados actualmente.
-                  </Typography>
-                )}
+      <Card sx={{ borderRadius: 3 }}>
+        <CardContent>
+          <Typography variant="h6" fontWeight={800} sx={{ mb: 3 }}>
+            Alumnos Asignados
+          </Typography>
 
-                {alumnos.map((alumno) => (
-                  <Box
-                    key={alumno.id}
-                    sx={{
-                      p: 2,
-                      borderRadius: 2,
-                      border: "1px solid #e2e8f0",
-                      backgroundColor: "#fff",
-                    }}
-                  >
+          <Grid container spacing={2}>
+            {alumnos.length === 0 && (
+              <Grid item xs={12}>
+                <Typography color="text.secondary">
+                  No tienes alumnos asignados actualmente.
+                </Typography>
+              </Grid>
+            )}
+
+            {alumnos.map((alumno) => (
+              <Grid item xs={12} sm={6} md={4} lg={2} key={alumno.id}>
+                <Card
+                  variant="outlined"
+                  sx={{
+                    height: "100%",
+                    borderRadius: 2,
+                  }}
+                >
+                  <CardContent>
+                    <Typography fontWeight={700}>{alumno.nombre}</Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {alumno.email || "Sin email"}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Tel: {alumno.telefono || "Sin teléfono"}
+                    </Typography>
+
                     <Box
-                      display="flex"
-                      justifyContent="space-between"
-                      gap={2}
-                      flexWrap="wrap"
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 1,
+                        alignItems: "flex-end",
+                      }}
                     >
-                      <Box>
-                        <Typography fontWeight={700}>
-                          {alumno.nombre}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {alumno.email || "Sin email"}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Tel: {alumno.telefono || "Sin teléfono"}
-                        </Typography>
-                      </Box>
-
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: 1,
-                          alignItems: "flex-end",
-                        }}
-                      >
-                        <Chip
-                          label={`Licencia ${alumno.tipoLicenciaObjetivo || "-"}`}
-                          color="primary"
-                          size="small"
-                        />
-                        <Chip
-                          label={alumno.matriculaEstado || "PENDIENTE"}
-                          color={
-                            alumno.matriculaEstado === "PAGADA"
-                              ? "success"
-                              : "warning"
-                          }
-                          size="small"
-                        />
-                      </Box>
+                      <Chip
+                        label={`Licencia ${alumno.tipoLicenciaObjetivo || "-"}`}
+                        color="primary"
+                        size="small"
+                      />
+                      <Chip
+                        label={alumno.matriculaEstado || "PENDIENTE"}
+                        color={
+                          alumno.matriculaEstado === "PAGADA"
+                            ? "success"
+                            : "warning"
+                        }
+                        size="small"
+                      />
                     </Box>
-                  </Box>
-                ))}
-              </Stack>
-            </CardContent>
-          </Card>
-        </Grid>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </CardContent>
+      </Card>
 
-        <Grid item xs={12} lg={5}>
-          <Card sx={{ borderRadius: 3, height: "100%" }}>
-            <CardContent>
-              <Typography variant="h6" fontWeight={800} sx={{ mb: 2 }}>
-                Vehículos Compatibles
-              </Typography>
+      {/* Seccion vehiculos asignados */}
 
-              <Stack spacing={2}>
-                {vehiculos.length === 0 && (
-                  <Typography color="text.secondary">
-                    No hay vehículos activos para tus permisos actualmente.
-                  </Typography>
-                )}
+      <Card sx={{ borderRadius: 3, mt: 3 }}>
+        <CardContent>
+          <Typography variant="h6" fontWeight={800} sx={{ mb: 3 }}>
+            Vehículos Compatibles
+          </Typography>
 
-                {vehiculos.map((vehiculo) => (
-                  <Box
-                    key={vehiculo.id}
-                    sx={{
-                      p: 2,
-                      borderRadius: 2,
-                      border: "1px solid #e2e8f0",
-                      backgroundColor: "#fff",
-                    }}
-                  >
+          <Grid container spacing={2}>
+            {vehiculos.length === 0 && (
+              <Grid item xs={12}>
+                <Typography color="text.secondary">
+                  No hay vehículos activos para tus permisos.
+                </Typography>
+              </Grid>
+            )}
+
+            {vehiculos.map((vehiculo) => (
+              <Grid item xs={12} sm={6} md={4} lg={2} key={vehiculo.id}>
+                <Card
+                  variant="outlined"
+                  sx={{
+                    height: "100%",
+                    borderRadius: 2,
+                  }}
+                >
+                  <CardContent>
                     <Typography fontWeight={700}>
                       {vehiculo.matricula}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {(vehiculo.marca || "Marca") +
-                        " " +
-                        (vehiculo.modelo || "Modelo")}
+
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ mt: 1 }}
+                    >
+                      {vehiculo.marca} {vehiculo.modelo}
                     </Typography>
+
                     <Chip
                       sx={{ mt: 1 }}
                       label={`Permiso ${vehiculo.tipoPermiso || "-"}`}
-                      color="info"
+                      color={
+                        vehiculo.tipoPermiso === "A" ||
+                        vehiculo.tipoPermiso === "A1" ||
+                        vehiculo.tipoPermiso === "A2"
+                          ? "primary"
+                          : vehiculo.tipoPermiso === "B"
+                            ? "success"
+                            : vehiculo.tipoPermiso === "C"
+                              ? "warning"
+                              : vehiculo.tipoPermiso === "D"
+                                ? "default"
+                                : vehiculo.tipoPermiso === "E"
+                                  ? "secondary"
+                                  : "error"
+                      }
                       size="small"
                     />
-                  </Box>
-                ))}
-              </Stack>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </CardContent>
+      </Card>
     </Box>
   );
 }
