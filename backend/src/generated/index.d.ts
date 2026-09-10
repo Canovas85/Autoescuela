@@ -149,6 +149,21 @@ export type Matricula = $Result.DefaultSelection<Prisma.$MatriculaPayload>
  */
 export type Pago = $Result.DefaultSelection<Prisma.$PagoPayload>
 /**
+ * Model TheoreticalExamProcessBatch
+ * 
+ */
+export type TheoreticalExamProcessBatch = $Result.DefaultSelection<Prisma.$TheoreticalExamProcessBatchPayload>
+/**
+ * Model TheoreticalExamProcessSolicitud
+ * 
+ */
+export type TheoreticalExamProcessSolicitud = $Result.DefaultSelection<Prisma.$TheoreticalExamProcessSolicitudPayload>
+/**
+ * Model TheoreticalExamProcessPago
+ * 
+ */
+export type TheoreticalExamProcessPago = $Result.DefaultSelection<Prisma.$TheoreticalExamProcessPagoPayload>
+/**
  * Model MatriculaConcepto
  * 
  */
@@ -578,6 +593,36 @@ export class PrismaClient<
     * ```
     */
   get pago(): Prisma.PagoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.theoreticalExamProcessBatch`: Exposes CRUD operations for the **TheoreticalExamProcessBatch** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TheoreticalExamProcessBatches
+    * const theoreticalExamProcessBatches = await prisma.theoreticalExamProcessBatch.findMany()
+    * ```
+    */
+  get theoreticalExamProcessBatch(): Prisma.TheoreticalExamProcessBatchDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.theoreticalExamProcessSolicitud`: Exposes CRUD operations for the **TheoreticalExamProcessSolicitud** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TheoreticalExamProcessSolicituds
+    * const theoreticalExamProcessSolicituds = await prisma.theoreticalExamProcessSolicitud.findMany()
+    * ```
+    */
+  get theoreticalExamProcessSolicitud(): Prisma.TheoreticalExamProcessSolicitudDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.theoreticalExamProcessPago`: Exposes CRUD operations for the **TheoreticalExamProcessPago** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TheoreticalExamProcessPagos
+    * const theoreticalExamProcessPagos = await prisma.theoreticalExamProcessPago.findMany()
+    * ```
+    */
+  get theoreticalExamProcessPago(): Prisma.TheoreticalExamProcessPagoDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.matriculaConcepto`: Exposes CRUD operations for the **MatriculaConcepto** model.
@@ -1066,6 +1111,9 @@ export namespace Prisma {
     TarifaMatricula: 'TarifaMatricula',
     Matricula: 'Matricula',
     Pago: 'Pago',
+    TheoreticalExamProcessBatch: 'TheoreticalExamProcessBatch',
+    TheoreticalExamProcessSolicitud: 'TheoreticalExamProcessSolicitud',
+    TheoreticalExamProcessPago: 'TheoreticalExamProcessPago',
     MatriculaConcepto: 'MatriculaConcepto',
     Factura: 'Factura'
   };
@@ -1086,7 +1134,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "usuario" | "activacionCuenta" | "profesor" | "profesorHorarioBloque" | "alumno" | "documentoAlumno" | "documentoAlumnoArchivo" | "temario" | "temarioProgreso" | "claseDirecto" | "testPractica" | "preguntaDGT" | "respuestaPreguntaDGT" | "examenDGTAlumno" | "bono" | "compraBono" | "solicitudExamen" | "convocatoriaTeorico" | "vehiculo" | "clasePractica" | "examen" | "promocion" | "tarifaConcepto" | "tarifaConceptoHistorial" | "tarifaMatricula" | "matricula" | "pago" | "matriculaConcepto" | "factura"
+      modelProps: "usuario" | "activacionCuenta" | "profesor" | "profesorHorarioBloque" | "alumno" | "documentoAlumno" | "documentoAlumnoArchivo" | "temario" | "temarioProgreso" | "claseDirecto" | "testPractica" | "preguntaDGT" | "respuestaPreguntaDGT" | "examenDGTAlumno" | "bono" | "compraBono" | "solicitudExamen" | "convocatoriaTeorico" | "vehiculo" | "clasePractica" | "examen" | "promocion" | "tarifaConcepto" | "tarifaConceptoHistorial" | "tarifaMatricula" | "matricula" | "pago" | "theoreticalExamProcessBatch" | "theoreticalExamProcessSolicitud" | "theoreticalExamProcessPago" | "matriculaConcepto" | "factura"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3088,6 +3136,228 @@ export namespace Prisma {
           }
         }
       }
+      TheoreticalExamProcessBatch: {
+        payload: Prisma.$TheoreticalExamProcessBatchPayload<ExtArgs>
+        fields: Prisma.TheoreticalExamProcessBatchFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TheoreticalExamProcessBatchFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessBatchPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TheoreticalExamProcessBatchFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessBatchPayload>
+          }
+          findFirst: {
+            args: Prisma.TheoreticalExamProcessBatchFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessBatchPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TheoreticalExamProcessBatchFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessBatchPayload>
+          }
+          findMany: {
+            args: Prisma.TheoreticalExamProcessBatchFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessBatchPayload>[]
+          }
+          create: {
+            args: Prisma.TheoreticalExamProcessBatchCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessBatchPayload>
+          }
+          createMany: {
+            args: Prisma.TheoreticalExamProcessBatchCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TheoreticalExamProcessBatchCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessBatchPayload>[]
+          }
+          delete: {
+            args: Prisma.TheoreticalExamProcessBatchDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessBatchPayload>
+          }
+          update: {
+            args: Prisma.TheoreticalExamProcessBatchUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessBatchPayload>
+          }
+          deleteMany: {
+            args: Prisma.TheoreticalExamProcessBatchDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TheoreticalExamProcessBatchUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TheoreticalExamProcessBatchUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessBatchPayload>[]
+          }
+          upsert: {
+            args: Prisma.TheoreticalExamProcessBatchUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessBatchPayload>
+          }
+          aggregate: {
+            args: Prisma.TheoreticalExamProcessBatchAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTheoreticalExamProcessBatch>
+          }
+          groupBy: {
+            args: Prisma.TheoreticalExamProcessBatchGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TheoreticalExamProcessBatchGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TheoreticalExamProcessBatchCountArgs<ExtArgs>
+            result: $Utils.Optional<TheoreticalExamProcessBatchCountAggregateOutputType> | number
+          }
+        }
+      }
+      TheoreticalExamProcessSolicitud: {
+        payload: Prisma.$TheoreticalExamProcessSolicitudPayload<ExtArgs>
+        fields: Prisma.TheoreticalExamProcessSolicitudFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TheoreticalExamProcessSolicitudFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessSolicitudPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TheoreticalExamProcessSolicitudFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessSolicitudPayload>
+          }
+          findFirst: {
+            args: Prisma.TheoreticalExamProcessSolicitudFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessSolicitudPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TheoreticalExamProcessSolicitudFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessSolicitudPayload>
+          }
+          findMany: {
+            args: Prisma.TheoreticalExamProcessSolicitudFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessSolicitudPayload>[]
+          }
+          create: {
+            args: Prisma.TheoreticalExamProcessSolicitudCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessSolicitudPayload>
+          }
+          createMany: {
+            args: Prisma.TheoreticalExamProcessSolicitudCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TheoreticalExamProcessSolicitudCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessSolicitudPayload>[]
+          }
+          delete: {
+            args: Prisma.TheoreticalExamProcessSolicitudDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessSolicitudPayload>
+          }
+          update: {
+            args: Prisma.TheoreticalExamProcessSolicitudUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessSolicitudPayload>
+          }
+          deleteMany: {
+            args: Prisma.TheoreticalExamProcessSolicitudDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TheoreticalExamProcessSolicitudUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TheoreticalExamProcessSolicitudUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessSolicitudPayload>[]
+          }
+          upsert: {
+            args: Prisma.TheoreticalExamProcessSolicitudUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessSolicitudPayload>
+          }
+          aggregate: {
+            args: Prisma.TheoreticalExamProcessSolicitudAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTheoreticalExamProcessSolicitud>
+          }
+          groupBy: {
+            args: Prisma.TheoreticalExamProcessSolicitudGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TheoreticalExamProcessSolicitudGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TheoreticalExamProcessSolicitudCountArgs<ExtArgs>
+            result: $Utils.Optional<TheoreticalExamProcessSolicitudCountAggregateOutputType> | number
+          }
+        }
+      }
+      TheoreticalExamProcessPago: {
+        payload: Prisma.$TheoreticalExamProcessPagoPayload<ExtArgs>
+        fields: Prisma.TheoreticalExamProcessPagoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TheoreticalExamProcessPagoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessPagoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TheoreticalExamProcessPagoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessPagoPayload>
+          }
+          findFirst: {
+            args: Prisma.TheoreticalExamProcessPagoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessPagoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TheoreticalExamProcessPagoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessPagoPayload>
+          }
+          findMany: {
+            args: Prisma.TheoreticalExamProcessPagoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessPagoPayload>[]
+          }
+          create: {
+            args: Prisma.TheoreticalExamProcessPagoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessPagoPayload>
+          }
+          createMany: {
+            args: Prisma.TheoreticalExamProcessPagoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TheoreticalExamProcessPagoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessPagoPayload>[]
+          }
+          delete: {
+            args: Prisma.TheoreticalExamProcessPagoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessPagoPayload>
+          }
+          update: {
+            args: Prisma.TheoreticalExamProcessPagoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessPagoPayload>
+          }
+          deleteMany: {
+            args: Prisma.TheoreticalExamProcessPagoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TheoreticalExamProcessPagoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TheoreticalExamProcessPagoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessPagoPayload>[]
+          }
+          upsert: {
+            args: Prisma.TheoreticalExamProcessPagoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TheoreticalExamProcessPagoPayload>
+          }
+          aggregate: {
+            args: Prisma.TheoreticalExamProcessPagoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTheoreticalExamProcessPago>
+          }
+          groupBy: {
+            args: Prisma.TheoreticalExamProcessPagoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TheoreticalExamProcessPagoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TheoreticalExamProcessPagoCountArgs<ExtArgs>
+            result: $Utils.Optional<TheoreticalExamProcessPagoCountAggregateOutputType> | number
+          }
+        }
+      }
       MatriculaConcepto: {
         payload: Prisma.$MatriculaConceptoPayload<ExtArgs>
         fields: Prisma.MatriculaConceptoFieldRefs
@@ -3359,6 +3629,9 @@ export namespace Prisma {
     tarifaMatricula?: TarifaMatriculaOmit
     matricula?: MatriculaOmit
     pago?: PagoOmit
+    theoreticalExamProcessBatch?: TheoreticalExamProcessBatchOmit
+    theoreticalExamProcessSolicitud?: TheoreticalExamProcessSolicitudOmit
+    theoreticalExamProcessPago?: TheoreticalExamProcessPagoOmit
     matriculaConcepto?: MatriculaConceptoOmit
     factura?: FacturaOmit
   }
@@ -3927,6 +4200,46 @@ export namespace Prisma {
    */
   export type MatriculaCountOutputTypeCountConceptosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MatriculaConceptoWhereInput
+  }
+
+
+  /**
+   * Count Type TheoreticalExamProcessBatchCountOutputType
+   */
+
+  export type TheoreticalExamProcessBatchCountOutputType = {
+    solicitudes: number
+    pagos: number
+  }
+
+  export type TheoreticalExamProcessBatchCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    solicitudes?: boolean | TheoreticalExamProcessBatchCountOutputTypeCountSolicitudesArgs
+    pagos?: boolean | TheoreticalExamProcessBatchCountOutputTypeCountPagosArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TheoreticalExamProcessBatchCountOutputType without action
+   */
+  export type TheoreticalExamProcessBatchCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessBatchCountOutputType
+     */
+    select?: TheoreticalExamProcessBatchCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TheoreticalExamProcessBatchCountOutputType without action
+   */
+  export type TheoreticalExamProcessBatchCountOutputTypeCountSolicitudesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TheoreticalExamProcessSolicitudWhereInput
+  }
+
+  /**
+   * TheoreticalExamProcessBatchCountOutputType without action
+   */
+  export type TheoreticalExamProcessBatchCountOutputTypeCountPagosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TheoreticalExamProcessPagoWhereInput
   }
 
 
@@ -35020,6 +35333,3542 @@ export namespace Prisma {
 
 
   /**
+   * Model TheoreticalExamProcessBatch
+   */
+
+  export type AggregateTheoreticalExamProcessBatch = {
+    _count: TheoreticalExamProcessBatchCountAggregateOutputType | null
+    _min: TheoreticalExamProcessBatchMinAggregateOutputType | null
+    _max: TheoreticalExamProcessBatchMaxAggregateOutputType | null
+  }
+
+  export type TheoreticalExamProcessBatchMinAggregateOutputType = {
+    id: string | null
+    status: string | null
+    mode: string | null
+    targetDate: Date | null
+    seed: string | null
+    operator: string | null
+    reason: string | null
+    dryRun: boolean | null
+    createdAt: Date | null
+    appliedAt: Date | null
+    rolledBackAt: Date | null
+  }
+
+  export type TheoreticalExamProcessBatchMaxAggregateOutputType = {
+    id: string | null
+    status: string | null
+    mode: string | null
+    targetDate: Date | null
+    seed: string | null
+    operator: string | null
+    reason: string | null
+    dryRun: boolean | null
+    createdAt: Date | null
+    appliedAt: Date | null
+    rolledBackAt: Date | null
+  }
+
+  export type TheoreticalExamProcessBatchCountAggregateOutputType = {
+    id: number
+    status: number
+    mode: number
+    targetDate: number
+    seed: number
+    operator: number
+    reason: number
+    dryRun: number
+    summary: number
+    createdAt: number
+    appliedAt: number
+    rolledBackAt: number
+    _all: number
+  }
+
+
+  export type TheoreticalExamProcessBatchMinAggregateInputType = {
+    id?: true
+    status?: true
+    mode?: true
+    targetDate?: true
+    seed?: true
+    operator?: true
+    reason?: true
+    dryRun?: true
+    createdAt?: true
+    appliedAt?: true
+    rolledBackAt?: true
+  }
+
+  export type TheoreticalExamProcessBatchMaxAggregateInputType = {
+    id?: true
+    status?: true
+    mode?: true
+    targetDate?: true
+    seed?: true
+    operator?: true
+    reason?: true
+    dryRun?: true
+    createdAt?: true
+    appliedAt?: true
+    rolledBackAt?: true
+  }
+
+  export type TheoreticalExamProcessBatchCountAggregateInputType = {
+    id?: true
+    status?: true
+    mode?: true
+    targetDate?: true
+    seed?: true
+    operator?: true
+    reason?: true
+    dryRun?: true
+    summary?: true
+    createdAt?: true
+    appliedAt?: true
+    rolledBackAt?: true
+    _all?: true
+  }
+
+  export type TheoreticalExamProcessBatchAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TheoreticalExamProcessBatch to aggregate.
+     */
+    where?: TheoreticalExamProcessBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TheoreticalExamProcessBatches to fetch.
+     */
+    orderBy?: TheoreticalExamProcessBatchOrderByWithRelationInput | TheoreticalExamProcessBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TheoreticalExamProcessBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TheoreticalExamProcessBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TheoreticalExamProcessBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TheoreticalExamProcessBatches
+    **/
+    _count?: true | TheoreticalExamProcessBatchCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TheoreticalExamProcessBatchMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TheoreticalExamProcessBatchMaxAggregateInputType
+  }
+
+  export type GetTheoreticalExamProcessBatchAggregateType<T extends TheoreticalExamProcessBatchAggregateArgs> = {
+        [P in keyof T & keyof AggregateTheoreticalExamProcessBatch]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTheoreticalExamProcessBatch[P]>
+      : GetScalarType<T[P], AggregateTheoreticalExamProcessBatch[P]>
+  }
+
+
+
+
+  export type TheoreticalExamProcessBatchGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TheoreticalExamProcessBatchWhereInput
+    orderBy?: TheoreticalExamProcessBatchOrderByWithAggregationInput | TheoreticalExamProcessBatchOrderByWithAggregationInput[]
+    by: TheoreticalExamProcessBatchScalarFieldEnum[] | TheoreticalExamProcessBatchScalarFieldEnum
+    having?: TheoreticalExamProcessBatchScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TheoreticalExamProcessBatchCountAggregateInputType | true
+    _min?: TheoreticalExamProcessBatchMinAggregateInputType
+    _max?: TheoreticalExamProcessBatchMaxAggregateInputType
+  }
+
+  export type TheoreticalExamProcessBatchGroupByOutputType = {
+    id: string
+    status: string
+    mode: string
+    targetDate: Date
+    seed: string | null
+    operator: string | null
+    reason: string | null
+    dryRun: boolean
+    summary: JsonValue
+    createdAt: Date
+    appliedAt: Date | null
+    rolledBackAt: Date | null
+    _count: TheoreticalExamProcessBatchCountAggregateOutputType | null
+    _min: TheoreticalExamProcessBatchMinAggregateOutputType | null
+    _max: TheoreticalExamProcessBatchMaxAggregateOutputType | null
+  }
+
+  type GetTheoreticalExamProcessBatchGroupByPayload<T extends TheoreticalExamProcessBatchGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TheoreticalExamProcessBatchGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TheoreticalExamProcessBatchGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TheoreticalExamProcessBatchGroupByOutputType[P]>
+            : GetScalarType<T[P], TheoreticalExamProcessBatchGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TheoreticalExamProcessBatchSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    status?: boolean
+    mode?: boolean
+    targetDate?: boolean
+    seed?: boolean
+    operator?: boolean
+    reason?: boolean
+    dryRun?: boolean
+    summary?: boolean
+    createdAt?: boolean
+    appliedAt?: boolean
+    rolledBackAt?: boolean
+    solicitudes?: boolean | TheoreticalExamProcessBatch$solicitudesArgs<ExtArgs>
+    pagos?: boolean | TheoreticalExamProcessBatch$pagosArgs<ExtArgs>
+    _count?: boolean | TheoreticalExamProcessBatchCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["theoreticalExamProcessBatch"]>
+
+  export type TheoreticalExamProcessBatchSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    status?: boolean
+    mode?: boolean
+    targetDate?: boolean
+    seed?: boolean
+    operator?: boolean
+    reason?: boolean
+    dryRun?: boolean
+    summary?: boolean
+    createdAt?: boolean
+    appliedAt?: boolean
+    rolledBackAt?: boolean
+  }, ExtArgs["result"]["theoreticalExamProcessBatch"]>
+
+  export type TheoreticalExamProcessBatchSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    status?: boolean
+    mode?: boolean
+    targetDate?: boolean
+    seed?: boolean
+    operator?: boolean
+    reason?: boolean
+    dryRun?: boolean
+    summary?: boolean
+    createdAt?: boolean
+    appliedAt?: boolean
+    rolledBackAt?: boolean
+  }, ExtArgs["result"]["theoreticalExamProcessBatch"]>
+
+  export type TheoreticalExamProcessBatchSelectScalar = {
+    id?: boolean
+    status?: boolean
+    mode?: boolean
+    targetDate?: boolean
+    seed?: boolean
+    operator?: boolean
+    reason?: boolean
+    dryRun?: boolean
+    summary?: boolean
+    createdAt?: boolean
+    appliedAt?: boolean
+    rolledBackAt?: boolean
+  }
+
+  export type TheoreticalExamProcessBatchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "status" | "mode" | "targetDate" | "seed" | "operator" | "reason" | "dryRun" | "summary" | "createdAt" | "appliedAt" | "rolledBackAt", ExtArgs["result"]["theoreticalExamProcessBatch"]>
+  export type TheoreticalExamProcessBatchInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    solicitudes?: boolean | TheoreticalExamProcessBatch$solicitudesArgs<ExtArgs>
+    pagos?: boolean | TheoreticalExamProcessBatch$pagosArgs<ExtArgs>
+    _count?: boolean | TheoreticalExamProcessBatchCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type TheoreticalExamProcessBatchIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type TheoreticalExamProcessBatchIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $TheoreticalExamProcessBatchPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TheoreticalExamProcessBatch"
+    objects: {
+      solicitudes: Prisma.$TheoreticalExamProcessSolicitudPayload<ExtArgs>[]
+      pagos: Prisma.$TheoreticalExamProcessPagoPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      status: string
+      mode: string
+      targetDate: Date
+      seed: string | null
+      operator: string | null
+      reason: string | null
+      dryRun: boolean
+      summary: Prisma.JsonValue
+      createdAt: Date
+      appliedAt: Date | null
+      rolledBackAt: Date | null
+    }, ExtArgs["result"]["theoreticalExamProcessBatch"]>
+    composites: {}
+  }
+
+  type TheoreticalExamProcessBatchGetPayload<S extends boolean | null | undefined | TheoreticalExamProcessBatchDefaultArgs> = $Result.GetResult<Prisma.$TheoreticalExamProcessBatchPayload, S>
+
+  type TheoreticalExamProcessBatchCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TheoreticalExamProcessBatchFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TheoreticalExamProcessBatchCountAggregateInputType | true
+    }
+
+  export interface TheoreticalExamProcessBatchDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TheoreticalExamProcessBatch'], meta: { name: 'TheoreticalExamProcessBatch' } }
+    /**
+     * Find zero or one TheoreticalExamProcessBatch that matches the filter.
+     * @param {TheoreticalExamProcessBatchFindUniqueArgs} args - Arguments to find a TheoreticalExamProcessBatch
+     * @example
+     * // Get one TheoreticalExamProcessBatch
+     * const theoreticalExamProcessBatch = await prisma.theoreticalExamProcessBatch.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TheoreticalExamProcessBatchFindUniqueArgs>(args: SelectSubset<T, TheoreticalExamProcessBatchFindUniqueArgs<ExtArgs>>): Prisma__TheoreticalExamProcessBatchClient<$Result.GetResult<Prisma.$TheoreticalExamProcessBatchPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TheoreticalExamProcessBatch that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TheoreticalExamProcessBatchFindUniqueOrThrowArgs} args - Arguments to find a TheoreticalExamProcessBatch
+     * @example
+     * // Get one TheoreticalExamProcessBatch
+     * const theoreticalExamProcessBatch = await prisma.theoreticalExamProcessBatch.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TheoreticalExamProcessBatchFindUniqueOrThrowArgs>(args: SelectSubset<T, TheoreticalExamProcessBatchFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TheoreticalExamProcessBatchClient<$Result.GetResult<Prisma.$TheoreticalExamProcessBatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TheoreticalExamProcessBatch that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TheoreticalExamProcessBatchFindFirstArgs} args - Arguments to find a TheoreticalExamProcessBatch
+     * @example
+     * // Get one TheoreticalExamProcessBatch
+     * const theoreticalExamProcessBatch = await prisma.theoreticalExamProcessBatch.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TheoreticalExamProcessBatchFindFirstArgs>(args?: SelectSubset<T, TheoreticalExamProcessBatchFindFirstArgs<ExtArgs>>): Prisma__TheoreticalExamProcessBatchClient<$Result.GetResult<Prisma.$TheoreticalExamProcessBatchPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TheoreticalExamProcessBatch that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TheoreticalExamProcessBatchFindFirstOrThrowArgs} args - Arguments to find a TheoreticalExamProcessBatch
+     * @example
+     * // Get one TheoreticalExamProcessBatch
+     * const theoreticalExamProcessBatch = await prisma.theoreticalExamProcessBatch.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TheoreticalExamProcessBatchFindFirstOrThrowArgs>(args?: SelectSubset<T, TheoreticalExamProcessBatchFindFirstOrThrowArgs<ExtArgs>>): Prisma__TheoreticalExamProcessBatchClient<$Result.GetResult<Prisma.$TheoreticalExamProcessBatchPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TheoreticalExamProcessBatches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TheoreticalExamProcessBatchFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TheoreticalExamProcessBatches
+     * const theoreticalExamProcessBatches = await prisma.theoreticalExamProcessBatch.findMany()
+     * 
+     * // Get first 10 TheoreticalExamProcessBatches
+     * const theoreticalExamProcessBatches = await prisma.theoreticalExamProcessBatch.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const theoreticalExamProcessBatchWithIdOnly = await prisma.theoreticalExamProcessBatch.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TheoreticalExamProcessBatchFindManyArgs>(args?: SelectSubset<T, TheoreticalExamProcessBatchFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TheoreticalExamProcessBatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TheoreticalExamProcessBatch.
+     * @param {TheoreticalExamProcessBatchCreateArgs} args - Arguments to create a TheoreticalExamProcessBatch.
+     * @example
+     * // Create one TheoreticalExamProcessBatch
+     * const TheoreticalExamProcessBatch = await prisma.theoreticalExamProcessBatch.create({
+     *   data: {
+     *     // ... data to create a TheoreticalExamProcessBatch
+     *   }
+     * })
+     * 
+     */
+    create<T extends TheoreticalExamProcessBatchCreateArgs>(args: SelectSubset<T, TheoreticalExamProcessBatchCreateArgs<ExtArgs>>): Prisma__TheoreticalExamProcessBatchClient<$Result.GetResult<Prisma.$TheoreticalExamProcessBatchPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TheoreticalExamProcessBatches.
+     * @param {TheoreticalExamProcessBatchCreateManyArgs} args - Arguments to create many TheoreticalExamProcessBatches.
+     * @example
+     * // Create many TheoreticalExamProcessBatches
+     * const theoreticalExamProcessBatch = await prisma.theoreticalExamProcessBatch.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TheoreticalExamProcessBatchCreateManyArgs>(args?: SelectSubset<T, TheoreticalExamProcessBatchCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TheoreticalExamProcessBatches and returns the data saved in the database.
+     * @param {TheoreticalExamProcessBatchCreateManyAndReturnArgs} args - Arguments to create many TheoreticalExamProcessBatches.
+     * @example
+     * // Create many TheoreticalExamProcessBatches
+     * const theoreticalExamProcessBatch = await prisma.theoreticalExamProcessBatch.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TheoreticalExamProcessBatches and only return the `id`
+     * const theoreticalExamProcessBatchWithIdOnly = await prisma.theoreticalExamProcessBatch.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TheoreticalExamProcessBatchCreateManyAndReturnArgs>(args?: SelectSubset<T, TheoreticalExamProcessBatchCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TheoreticalExamProcessBatchPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TheoreticalExamProcessBatch.
+     * @param {TheoreticalExamProcessBatchDeleteArgs} args - Arguments to delete one TheoreticalExamProcessBatch.
+     * @example
+     * // Delete one TheoreticalExamProcessBatch
+     * const TheoreticalExamProcessBatch = await prisma.theoreticalExamProcessBatch.delete({
+     *   where: {
+     *     // ... filter to delete one TheoreticalExamProcessBatch
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TheoreticalExamProcessBatchDeleteArgs>(args: SelectSubset<T, TheoreticalExamProcessBatchDeleteArgs<ExtArgs>>): Prisma__TheoreticalExamProcessBatchClient<$Result.GetResult<Prisma.$TheoreticalExamProcessBatchPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TheoreticalExamProcessBatch.
+     * @param {TheoreticalExamProcessBatchUpdateArgs} args - Arguments to update one TheoreticalExamProcessBatch.
+     * @example
+     * // Update one TheoreticalExamProcessBatch
+     * const theoreticalExamProcessBatch = await prisma.theoreticalExamProcessBatch.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TheoreticalExamProcessBatchUpdateArgs>(args: SelectSubset<T, TheoreticalExamProcessBatchUpdateArgs<ExtArgs>>): Prisma__TheoreticalExamProcessBatchClient<$Result.GetResult<Prisma.$TheoreticalExamProcessBatchPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TheoreticalExamProcessBatches.
+     * @param {TheoreticalExamProcessBatchDeleteManyArgs} args - Arguments to filter TheoreticalExamProcessBatches to delete.
+     * @example
+     * // Delete a few TheoreticalExamProcessBatches
+     * const { count } = await prisma.theoreticalExamProcessBatch.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TheoreticalExamProcessBatchDeleteManyArgs>(args?: SelectSubset<T, TheoreticalExamProcessBatchDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TheoreticalExamProcessBatches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TheoreticalExamProcessBatchUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TheoreticalExamProcessBatches
+     * const theoreticalExamProcessBatch = await prisma.theoreticalExamProcessBatch.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TheoreticalExamProcessBatchUpdateManyArgs>(args: SelectSubset<T, TheoreticalExamProcessBatchUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TheoreticalExamProcessBatches and returns the data updated in the database.
+     * @param {TheoreticalExamProcessBatchUpdateManyAndReturnArgs} args - Arguments to update many TheoreticalExamProcessBatches.
+     * @example
+     * // Update many TheoreticalExamProcessBatches
+     * const theoreticalExamProcessBatch = await prisma.theoreticalExamProcessBatch.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TheoreticalExamProcessBatches and only return the `id`
+     * const theoreticalExamProcessBatchWithIdOnly = await prisma.theoreticalExamProcessBatch.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TheoreticalExamProcessBatchUpdateManyAndReturnArgs>(args: SelectSubset<T, TheoreticalExamProcessBatchUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TheoreticalExamProcessBatchPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TheoreticalExamProcessBatch.
+     * @param {TheoreticalExamProcessBatchUpsertArgs} args - Arguments to update or create a TheoreticalExamProcessBatch.
+     * @example
+     * // Update or create a TheoreticalExamProcessBatch
+     * const theoreticalExamProcessBatch = await prisma.theoreticalExamProcessBatch.upsert({
+     *   create: {
+     *     // ... data to create a TheoreticalExamProcessBatch
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TheoreticalExamProcessBatch we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TheoreticalExamProcessBatchUpsertArgs>(args: SelectSubset<T, TheoreticalExamProcessBatchUpsertArgs<ExtArgs>>): Prisma__TheoreticalExamProcessBatchClient<$Result.GetResult<Prisma.$TheoreticalExamProcessBatchPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TheoreticalExamProcessBatches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TheoreticalExamProcessBatchCountArgs} args - Arguments to filter TheoreticalExamProcessBatches to count.
+     * @example
+     * // Count the number of TheoreticalExamProcessBatches
+     * const count = await prisma.theoreticalExamProcessBatch.count({
+     *   where: {
+     *     // ... the filter for the TheoreticalExamProcessBatches we want to count
+     *   }
+     * })
+    **/
+    count<T extends TheoreticalExamProcessBatchCountArgs>(
+      args?: Subset<T, TheoreticalExamProcessBatchCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TheoreticalExamProcessBatchCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TheoreticalExamProcessBatch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TheoreticalExamProcessBatchAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TheoreticalExamProcessBatchAggregateArgs>(args: Subset<T, TheoreticalExamProcessBatchAggregateArgs>): Prisma.PrismaPromise<GetTheoreticalExamProcessBatchAggregateType<T>>
+
+    /**
+     * Group by TheoreticalExamProcessBatch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TheoreticalExamProcessBatchGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TheoreticalExamProcessBatchGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TheoreticalExamProcessBatchGroupByArgs['orderBy'] }
+        : { orderBy?: TheoreticalExamProcessBatchGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TheoreticalExamProcessBatchGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTheoreticalExamProcessBatchGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TheoreticalExamProcessBatch model
+   */
+  readonly fields: TheoreticalExamProcessBatchFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TheoreticalExamProcessBatch.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TheoreticalExamProcessBatchClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    solicitudes<T extends TheoreticalExamProcessBatch$solicitudesArgs<ExtArgs> = {}>(args?: Subset<T, TheoreticalExamProcessBatch$solicitudesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TheoreticalExamProcessSolicitudPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    pagos<T extends TheoreticalExamProcessBatch$pagosArgs<ExtArgs> = {}>(args?: Subset<T, TheoreticalExamProcessBatch$pagosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TheoreticalExamProcessPagoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TheoreticalExamProcessBatch model
+   */
+  interface TheoreticalExamProcessBatchFieldRefs {
+    readonly id: FieldRef<"TheoreticalExamProcessBatch", 'String'>
+    readonly status: FieldRef<"TheoreticalExamProcessBatch", 'String'>
+    readonly mode: FieldRef<"TheoreticalExamProcessBatch", 'String'>
+    readonly targetDate: FieldRef<"TheoreticalExamProcessBatch", 'DateTime'>
+    readonly seed: FieldRef<"TheoreticalExamProcessBatch", 'String'>
+    readonly operator: FieldRef<"TheoreticalExamProcessBatch", 'String'>
+    readonly reason: FieldRef<"TheoreticalExamProcessBatch", 'String'>
+    readonly dryRun: FieldRef<"TheoreticalExamProcessBatch", 'Boolean'>
+    readonly summary: FieldRef<"TheoreticalExamProcessBatch", 'Json'>
+    readonly createdAt: FieldRef<"TheoreticalExamProcessBatch", 'DateTime'>
+    readonly appliedAt: FieldRef<"TheoreticalExamProcessBatch", 'DateTime'>
+    readonly rolledBackAt: FieldRef<"TheoreticalExamProcessBatch", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TheoreticalExamProcessBatch findUnique
+   */
+  export type TheoreticalExamProcessBatchFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessBatch
+     */
+    select?: TheoreticalExamProcessBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessBatch
+     */
+    omit?: TheoreticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which TheoreticalExamProcessBatch to fetch.
+     */
+    where: TheoreticalExamProcessBatchWhereUniqueInput
+  }
+
+  /**
+   * TheoreticalExamProcessBatch findUniqueOrThrow
+   */
+  export type TheoreticalExamProcessBatchFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessBatch
+     */
+    select?: TheoreticalExamProcessBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessBatch
+     */
+    omit?: TheoreticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which TheoreticalExamProcessBatch to fetch.
+     */
+    where: TheoreticalExamProcessBatchWhereUniqueInput
+  }
+
+  /**
+   * TheoreticalExamProcessBatch findFirst
+   */
+  export type TheoreticalExamProcessBatchFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessBatch
+     */
+    select?: TheoreticalExamProcessBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessBatch
+     */
+    omit?: TheoreticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which TheoreticalExamProcessBatch to fetch.
+     */
+    where?: TheoreticalExamProcessBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TheoreticalExamProcessBatches to fetch.
+     */
+    orderBy?: TheoreticalExamProcessBatchOrderByWithRelationInput | TheoreticalExamProcessBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TheoreticalExamProcessBatches.
+     */
+    cursor?: TheoreticalExamProcessBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TheoreticalExamProcessBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TheoreticalExamProcessBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TheoreticalExamProcessBatches.
+     */
+    distinct?: TheoreticalExamProcessBatchScalarFieldEnum | TheoreticalExamProcessBatchScalarFieldEnum[]
+  }
+
+  /**
+   * TheoreticalExamProcessBatch findFirstOrThrow
+   */
+  export type TheoreticalExamProcessBatchFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessBatch
+     */
+    select?: TheoreticalExamProcessBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessBatch
+     */
+    omit?: TheoreticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which TheoreticalExamProcessBatch to fetch.
+     */
+    where?: TheoreticalExamProcessBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TheoreticalExamProcessBatches to fetch.
+     */
+    orderBy?: TheoreticalExamProcessBatchOrderByWithRelationInput | TheoreticalExamProcessBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TheoreticalExamProcessBatches.
+     */
+    cursor?: TheoreticalExamProcessBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TheoreticalExamProcessBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TheoreticalExamProcessBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TheoreticalExamProcessBatches.
+     */
+    distinct?: TheoreticalExamProcessBatchScalarFieldEnum | TheoreticalExamProcessBatchScalarFieldEnum[]
+  }
+
+  /**
+   * TheoreticalExamProcessBatch findMany
+   */
+  export type TheoreticalExamProcessBatchFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessBatch
+     */
+    select?: TheoreticalExamProcessBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessBatch
+     */
+    omit?: TheoreticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which TheoreticalExamProcessBatches to fetch.
+     */
+    where?: TheoreticalExamProcessBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TheoreticalExamProcessBatches to fetch.
+     */
+    orderBy?: TheoreticalExamProcessBatchOrderByWithRelationInput | TheoreticalExamProcessBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TheoreticalExamProcessBatches.
+     */
+    cursor?: TheoreticalExamProcessBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TheoreticalExamProcessBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TheoreticalExamProcessBatches.
+     */
+    skip?: number
+    distinct?: TheoreticalExamProcessBatchScalarFieldEnum | TheoreticalExamProcessBatchScalarFieldEnum[]
+  }
+
+  /**
+   * TheoreticalExamProcessBatch create
+   */
+  export type TheoreticalExamProcessBatchCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessBatch
+     */
+    select?: TheoreticalExamProcessBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessBatch
+     */
+    omit?: TheoreticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessBatchInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TheoreticalExamProcessBatch.
+     */
+    data: XOR<TheoreticalExamProcessBatchCreateInput, TheoreticalExamProcessBatchUncheckedCreateInput>
+  }
+
+  /**
+   * TheoreticalExamProcessBatch createMany
+   */
+  export type TheoreticalExamProcessBatchCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TheoreticalExamProcessBatches.
+     */
+    data: TheoreticalExamProcessBatchCreateManyInput | TheoreticalExamProcessBatchCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TheoreticalExamProcessBatch createManyAndReturn
+   */
+  export type TheoreticalExamProcessBatchCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessBatch
+     */
+    select?: TheoreticalExamProcessBatchSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessBatch
+     */
+    omit?: TheoreticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * The data used to create many TheoreticalExamProcessBatches.
+     */
+    data: TheoreticalExamProcessBatchCreateManyInput | TheoreticalExamProcessBatchCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TheoreticalExamProcessBatch update
+   */
+  export type TheoreticalExamProcessBatchUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessBatch
+     */
+    select?: TheoreticalExamProcessBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessBatch
+     */
+    omit?: TheoreticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessBatchInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TheoreticalExamProcessBatch.
+     */
+    data: XOR<TheoreticalExamProcessBatchUpdateInput, TheoreticalExamProcessBatchUncheckedUpdateInput>
+    /**
+     * Choose, which TheoreticalExamProcessBatch to update.
+     */
+    where: TheoreticalExamProcessBatchWhereUniqueInput
+  }
+
+  /**
+   * TheoreticalExamProcessBatch updateMany
+   */
+  export type TheoreticalExamProcessBatchUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TheoreticalExamProcessBatches.
+     */
+    data: XOR<TheoreticalExamProcessBatchUpdateManyMutationInput, TheoreticalExamProcessBatchUncheckedUpdateManyInput>
+    /**
+     * Filter which TheoreticalExamProcessBatches to update
+     */
+    where?: TheoreticalExamProcessBatchWhereInput
+    /**
+     * Limit how many TheoreticalExamProcessBatches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TheoreticalExamProcessBatch updateManyAndReturn
+   */
+  export type TheoreticalExamProcessBatchUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessBatch
+     */
+    select?: TheoreticalExamProcessBatchSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessBatch
+     */
+    omit?: TheoreticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * The data used to update TheoreticalExamProcessBatches.
+     */
+    data: XOR<TheoreticalExamProcessBatchUpdateManyMutationInput, TheoreticalExamProcessBatchUncheckedUpdateManyInput>
+    /**
+     * Filter which TheoreticalExamProcessBatches to update
+     */
+    where?: TheoreticalExamProcessBatchWhereInput
+    /**
+     * Limit how many TheoreticalExamProcessBatches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TheoreticalExamProcessBatch upsert
+   */
+  export type TheoreticalExamProcessBatchUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessBatch
+     */
+    select?: TheoreticalExamProcessBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessBatch
+     */
+    omit?: TheoreticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessBatchInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TheoreticalExamProcessBatch to update in case it exists.
+     */
+    where: TheoreticalExamProcessBatchWhereUniqueInput
+    /**
+     * In case the TheoreticalExamProcessBatch found by the `where` argument doesn't exist, create a new TheoreticalExamProcessBatch with this data.
+     */
+    create: XOR<TheoreticalExamProcessBatchCreateInput, TheoreticalExamProcessBatchUncheckedCreateInput>
+    /**
+     * In case the TheoreticalExamProcessBatch was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TheoreticalExamProcessBatchUpdateInput, TheoreticalExamProcessBatchUncheckedUpdateInput>
+  }
+
+  /**
+   * TheoreticalExamProcessBatch delete
+   */
+  export type TheoreticalExamProcessBatchDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessBatch
+     */
+    select?: TheoreticalExamProcessBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessBatch
+     */
+    omit?: TheoreticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessBatchInclude<ExtArgs> | null
+    /**
+     * Filter which TheoreticalExamProcessBatch to delete.
+     */
+    where: TheoreticalExamProcessBatchWhereUniqueInput
+  }
+
+  /**
+   * TheoreticalExamProcessBatch deleteMany
+   */
+  export type TheoreticalExamProcessBatchDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TheoreticalExamProcessBatches to delete
+     */
+    where?: TheoreticalExamProcessBatchWhereInput
+    /**
+     * Limit how many TheoreticalExamProcessBatches to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TheoreticalExamProcessBatch.solicitudes
+   */
+  export type TheoreticalExamProcessBatch$solicitudesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessSolicitud
+     */
+    select?: TheoreticalExamProcessSolicitudSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessSolicitud
+     */
+    omit?: TheoreticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessSolicitudInclude<ExtArgs> | null
+    where?: TheoreticalExamProcessSolicitudWhereInput
+    orderBy?: TheoreticalExamProcessSolicitudOrderByWithRelationInput | TheoreticalExamProcessSolicitudOrderByWithRelationInput[]
+    cursor?: TheoreticalExamProcessSolicitudWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TheoreticalExamProcessSolicitudScalarFieldEnum | TheoreticalExamProcessSolicitudScalarFieldEnum[]
+  }
+
+  /**
+   * TheoreticalExamProcessBatch.pagos
+   */
+  export type TheoreticalExamProcessBatch$pagosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessPago
+     */
+    select?: TheoreticalExamProcessPagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessPago
+     */
+    omit?: TheoreticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessPagoInclude<ExtArgs> | null
+    where?: TheoreticalExamProcessPagoWhereInput
+    orderBy?: TheoreticalExamProcessPagoOrderByWithRelationInput | TheoreticalExamProcessPagoOrderByWithRelationInput[]
+    cursor?: TheoreticalExamProcessPagoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TheoreticalExamProcessPagoScalarFieldEnum | TheoreticalExamProcessPagoScalarFieldEnum[]
+  }
+
+  /**
+   * TheoreticalExamProcessBatch without action
+   */
+  export type TheoreticalExamProcessBatchDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessBatch
+     */
+    select?: TheoreticalExamProcessBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessBatch
+     */
+    omit?: TheoreticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessBatchInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TheoreticalExamProcessSolicitud
+   */
+
+  export type AggregateTheoreticalExamProcessSolicitud = {
+    _count: TheoreticalExamProcessSolicitudCountAggregateOutputType | null
+    _avg: TheoreticalExamProcessSolicitudAvgAggregateOutputType | null
+    _sum: TheoreticalExamProcessSolicitudSumAggregateOutputType | null
+    _min: TheoreticalExamProcessSolicitudMinAggregateOutputType | null
+    _max: TheoreticalExamProcessSolicitudMaxAggregateOutputType | null
+  }
+
+  export type TheoreticalExamProcessSolicitudAvgAggregateOutputType = {
+    id: number | null
+    beforeErrores: number | null
+    beforeAciertos: number | null
+    afterErrores: number | null
+    afterAciertos: number | null
+  }
+
+  export type TheoreticalExamProcessSolicitudSumAggregateOutputType = {
+    id: bigint | null
+    beforeErrores: number | null
+    beforeAciertos: number | null
+    afterErrores: number | null
+    afterAciertos: number | null
+  }
+
+  export type TheoreticalExamProcessSolicitudMinAggregateOutputType = {
+    id: bigint | null
+    batchId: string | null
+    solicitudId: string | null
+    alumnoId: string | null
+    beforeEstado: string | null
+    beforeErrores: number | null
+    beforeAciertos: number | null
+    afterEstado: string | null
+    afterErrores: number | null
+    afterAciertos: number | null
+    revertedAt: Date | null
+    conflictReason: string | null
+  }
+
+  export type TheoreticalExamProcessSolicitudMaxAggregateOutputType = {
+    id: bigint | null
+    batchId: string | null
+    solicitudId: string | null
+    alumnoId: string | null
+    beforeEstado: string | null
+    beforeErrores: number | null
+    beforeAciertos: number | null
+    afterEstado: string | null
+    afterErrores: number | null
+    afterAciertos: number | null
+    revertedAt: Date | null
+    conflictReason: string | null
+  }
+
+  export type TheoreticalExamProcessSolicitudCountAggregateOutputType = {
+    id: number
+    batchId: number
+    solicitudId: number
+    alumnoId: number
+    beforeEstado: number
+    beforeErrores: number
+    beforeAciertos: number
+    afterEstado: number
+    afterErrores: number
+    afterAciertos: number
+    revertedAt: number
+    conflictReason: number
+    _all: number
+  }
+
+
+  export type TheoreticalExamProcessSolicitudAvgAggregateInputType = {
+    id?: true
+    beforeErrores?: true
+    beforeAciertos?: true
+    afterErrores?: true
+    afterAciertos?: true
+  }
+
+  export type TheoreticalExamProcessSolicitudSumAggregateInputType = {
+    id?: true
+    beforeErrores?: true
+    beforeAciertos?: true
+    afterErrores?: true
+    afterAciertos?: true
+  }
+
+  export type TheoreticalExamProcessSolicitudMinAggregateInputType = {
+    id?: true
+    batchId?: true
+    solicitudId?: true
+    alumnoId?: true
+    beforeEstado?: true
+    beforeErrores?: true
+    beforeAciertos?: true
+    afterEstado?: true
+    afterErrores?: true
+    afterAciertos?: true
+    revertedAt?: true
+    conflictReason?: true
+  }
+
+  export type TheoreticalExamProcessSolicitudMaxAggregateInputType = {
+    id?: true
+    batchId?: true
+    solicitudId?: true
+    alumnoId?: true
+    beforeEstado?: true
+    beforeErrores?: true
+    beforeAciertos?: true
+    afterEstado?: true
+    afterErrores?: true
+    afterAciertos?: true
+    revertedAt?: true
+    conflictReason?: true
+  }
+
+  export type TheoreticalExamProcessSolicitudCountAggregateInputType = {
+    id?: true
+    batchId?: true
+    solicitudId?: true
+    alumnoId?: true
+    beforeEstado?: true
+    beforeErrores?: true
+    beforeAciertos?: true
+    afterEstado?: true
+    afterErrores?: true
+    afterAciertos?: true
+    revertedAt?: true
+    conflictReason?: true
+    _all?: true
+  }
+
+  export type TheoreticalExamProcessSolicitudAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TheoreticalExamProcessSolicitud to aggregate.
+     */
+    where?: TheoreticalExamProcessSolicitudWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TheoreticalExamProcessSolicituds to fetch.
+     */
+    orderBy?: TheoreticalExamProcessSolicitudOrderByWithRelationInput | TheoreticalExamProcessSolicitudOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TheoreticalExamProcessSolicitudWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TheoreticalExamProcessSolicituds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TheoreticalExamProcessSolicituds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TheoreticalExamProcessSolicituds
+    **/
+    _count?: true | TheoreticalExamProcessSolicitudCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TheoreticalExamProcessSolicitudAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TheoreticalExamProcessSolicitudSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TheoreticalExamProcessSolicitudMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TheoreticalExamProcessSolicitudMaxAggregateInputType
+  }
+
+  export type GetTheoreticalExamProcessSolicitudAggregateType<T extends TheoreticalExamProcessSolicitudAggregateArgs> = {
+        [P in keyof T & keyof AggregateTheoreticalExamProcessSolicitud]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTheoreticalExamProcessSolicitud[P]>
+      : GetScalarType<T[P], AggregateTheoreticalExamProcessSolicitud[P]>
+  }
+
+
+
+
+  export type TheoreticalExamProcessSolicitudGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TheoreticalExamProcessSolicitudWhereInput
+    orderBy?: TheoreticalExamProcessSolicitudOrderByWithAggregationInput | TheoreticalExamProcessSolicitudOrderByWithAggregationInput[]
+    by: TheoreticalExamProcessSolicitudScalarFieldEnum[] | TheoreticalExamProcessSolicitudScalarFieldEnum
+    having?: TheoreticalExamProcessSolicitudScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TheoreticalExamProcessSolicitudCountAggregateInputType | true
+    _avg?: TheoreticalExamProcessSolicitudAvgAggregateInputType
+    _sum?: TheoreticalExamProcessSolicitudSumAggregateInputType
+    _min?: TheoreticalExamProcessSolicitudMinAggregateInputType
+    _max?: TheoreticalExamProcessSolicitudMaxAggregateInputType
+  }
+
+  export type TheoreticalExamProcessSolicitudGroupByOutputType = {
+    id: bigint
+    batchId: string
+    solicitudId: string
+    alumnoId: string
+    beforeEstado: string
+    beforeErrores: number | null
+    beforeAciertos: number | null
+    afterEstado: string
+    afterErrores: number
+    afterAciertos: number
+    revertedAt: Date | null
+    conflictReason: string | null
+    _count: TheoreticalExamProcessSolicitudCountAggregateOutputType | null
+    _avg: TheoreticalExamProcessSolicitudAvgAggregateOutputType | null
+    _sum: TheoreticalExamProcessSolicitudSumAggregateOutputType | null
+    _min: TheoreticalExamProcessSolicitudMinAggregateOutputType | null
+    _max: TheoreticalExamProcessSolicitudMaxAggregateOutputType | null
+  }
+
+  type GetTheoreticalExamProcessSolicitudGroupByPayload<T extends TheoreticalExamProcessSolicitudGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TheoreticalExamProcessSolicitudGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TheoreticalExamProcessSolicitudGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TheoreticalExamProcessSolicitudGroupByOutputType[P]>
+            : GetScalarType<T[P], TheoreticalExamProcessSolicitudGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TheoreticalExamProcessSolicitudSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    batchId?: boolean
+    solicitudId?: boolean
+    alumnoId?: boolean
+    beforeEstado?: boolean
+    beforeErrores?: boolean
+    beforeAciertos?: boolean
+    afterEstado?: boolean
+    afterErrores?: boolean
+    afterAciertos?: boolean
+    revertedAt?: boolean
+    conflictReason?: boolean
+    batch?: boolean | TheoreticalExamProcessBatchDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["theoreticalExamProcessSolicitud"]>
+
+  export type TheoreticalExamProcessSolicitudSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    batchId?: boolean
+    solicitudId?: boolean
+    alumnoId?: boolean
+    beforeEstado?: boolean
+    beforeErrores?: boolean
+    beforeAciertos?: boolean
+    afterEstado?: boolean
+    afterErrores?: boolean
+    afterAciertos?: boolean
+    revertedAt?: boolean
+    conflictReason?: boolean
+    batch?: boolean | TheoreticalExamProcessBatchDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["theoreticalExamProcessSolicitud"]>
+
+  export type TheoreticalExamProcessSolicitudSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    batchId?: boolean
+    solicitudId?: boolean
+    alumnoId?: boolean
+    beforeEstado?: boolean
+    beforeErrores?: boolean
+    beforeAciertos?: boolean
+    afterEstado?: boolean
+    afterErrores?: boolean
+    afterAciertos?: boolean
+    revertedAt?: boolean
+    conflictReason?: boolean
+    batch?: boolean | TheoreticalExamProcessBatchDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["theoreticalExamProcessSolicitud"]>
+
+  export type TheoreticalExamProcessSolicitudSelectScalar = {
+    id?: boolean
+    batchId?: boolean
+    solicitudId?: boolean
+    alumnoId?: boolean
+    beforeEstado?: boolean
+    beforeErrores?: boolean
+    beforeAciertos?: boolean
+    afterEstado?: boolean
+    afterErrores?: boolean
+    afterAciertos?: boolean
+    revertedAt?: boolean
+    conflictReason?: boolean
+  }
+
+  export type TheoreticalExamProcessSolicitudOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "batchId" | "solicitudId" | "alumnoId" | "beforeEstado" | "beforeErrores" | "beforeAciertos" | "afterEstado" | "afterErrores" | "afterAciertos" | "revertedAt" | "conflictReason", ExtArgs["result"]["theoreticalExamProcessSolicitud"]>
+  export type TheoreticalExamProcessSolicitudInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    batch?: boolean | TheoreticalExamProcessBatchDefaultArgs<ExtArgs>
+  }
+  export type TheoreticalExamProcessSolicitudIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    batch?: boolean | TheoreticalExamProcessBatchDefaultArgs<ExtArgs>
+  }
+  export type TheoreticalExamProcessSolicitudIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    batch?: boolean | TheoreticalExamProcessBatchDefaultArgs<ExtArgs>
+  }
+
+  export type $TheoreticalExamProcessSolicitudPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TheoreticalExamProcessSolicitud"
+    objects: {
+      batch: Prisma.$TheoreticalExamProcessBatchPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      batchId: string
+      solicitudId: string
+      alumnoId: string
+      beforeEstado: string
+      beforeErrores: number | null
+      beforeAciertos: number | null
+      afterEstado: string
+      afterErrores: number
+      afterAciertos: number
+      revertedAt: Date | null
+      conflictReason: string | null
+    }, ExtArgs["result"]["theoreticalExamProcessSolicitud"]>
+    composites: {}
+  }
+
+  type TheoreticalExamProcessSolicitudGetPayload<S extends boolean | null | undefined | TheoreticalExamProcessSolicitudDefaultArgs> = $Result.GetResult<Prisma.$TheoreticalExamProcessSolicitudPayload, S>
+
+  type TheoreticalExamProcessSolicitudCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TheoreticalExamProcessSolicitudFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TheoreticalExamProcessSolicitudCountAggregateInputType | true
+    }
+
+  export interface TheoreticalExamProcessSolicitudDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TheoreticalExamProcessSolicitud'], meta: { name: 'TheoreticalExamProcessSolicitud' } }
+    /**
+     * Find zero or one TheoreticalExamProcessSolicitud that matches the filter.
+     * @param {TheoreticalExamProcessSolicitudFindUniqueArgs} args - Arguments to find a TheoreticalExamProcessSolicitud
+     * @example
+     * // Get one TheoreticalExamProcessSolicitud
+     * const theoreticalExamProcessSolicitud = await prisma.theoreticalExamProcessSolicitud.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TheoreticalExamProcessSolicitudFindUniqueArgs>(args: SelectSubset<T, TheoreticalExamProcessSolicitudFindUniqueArgs<ExtArgs>>): Prisma__TheoreticalExamProcessSolicitudClient<$Result.GetResult<Prisma.$TheoreticalExamProcessSolicitudPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TheoreticalExamProcessSolicitud that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TheoreticalExamProcessSolicitudFindUniqueOrThrowArgs} args - Arguments to find a TheoreticalExamProcessSolicitud
+     * @example
+     * // Get one TheoreticalExamProcessSolicitud
+     * const theoreticalExamProcessSolicitud = await prisma.theoreticalExamProcessSolicitud.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TheoreticalExamProcessSolicitudFindUniqueOrThrowArgs>(args: SelectSubset<T, TheoreticalExamProcessSolicitudFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TheoreticalExamProcessSolicitudClient<$Result.GetResult<Prisma.$TheoreticalExamProcessSolicitudPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TheoreticalExamProcessSolicitud that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TheoreticalExamProcessSolicitudFindFirstArgs} args - Arguments to find a TheoreticalExamProcessSolicitud
+     * @example
+     * // Get one TheoreticalExamProcessSolicitud
+     * const theoreticalExamProcessSolicitud = await prisma.theoreticalExamProcessSolicitud.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TheoreticalExamProcessSolicitudFindFirstArgs>(args?: SelectSubset<T, TheoreticalExamProcessSolicitudFindFirstArgs<ExtArgs>>): Prisma__TheoreticalExamProcessSolicitudClient<$Result.GetResult<Prisma.$TheoreticalExamProcessSolicitudPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TheoreticalExamProcessSolicitud that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TheoreticalExamProcessSolicitudFindFirstOrThrowArgs} args - Arguments to find a TheoreticalExamProcessSolicitud
+     * @example
+     * // Get one TheoreticalExamProcessSolicitud
+     * const theoreticalExamProcessSolicitud = await prisma.theoreticalExamProcessSolicitud.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TheoreticalExamProcessSolicitudFindFirstOrThrowArgs>(args?: SelectSubset<T, TheoreticalExamProcessSolicitudFindFirstOrThrowArgs<ExtArgs>>): Prisma__TheoreticalExamProcessSolicitudClient<$Result.GetResult<Prisma.$TheoreticalExamProcessSolicitudPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TheoreticalExamProcessSolicituds that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TheoreticalExamProcessSolicitudFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TheoreticalExamProcessSolicituds
+     * const theoreticalExamProcessSolicituds = await prisma.theoreticalExamProcessSolicitud.findMany()
+     * 
+     * // Get first 10 TheoreticalExamProcessSolicituds
+     * const theoreticalExamProcessSolicituds = await prisma.theoreticalExamProcessSolicitud.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const theoreticalExamProcessSolicitudWithIdOnly = await prisma.theoreticalExamProcessSolicitud.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TheoreticalExamProcessSolicitudFindManyArgs>(args?: SelectSubset<T, TheoreticalExamProcessSolicitudFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TheoreticalExamProcessSolicitudPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TheoreticalExamProcessSolicitud.
+     * @param {TheoreticalExamProcessSolicitudCreateArgs} args - Arguments to create a TheoreticalExamProcessSolicitud.
+     * @example
+     * // Create one TheoreticalExamProcessSolicitud
+     * const TheoreticalExamProcessSolicitud = await prisma.theoreticalExamProcessSolicitud.create({
+     *   data: {
+     *     // ... data to create a TheoreticalExamProcessSolicitud
+     *   }
+     * })
+     * 
+     */
+    create<T extends TheoreticalExamProcessSolicitudCreateArgs>(args: SelectSubset<T, TheoreticalExamProcessSolicitudCreateArgs<ExtArgs>>): Prisma__TheoreticalExamProcessSolicitudClient<$Result.GetResult<Prisma.$TheoreticalExamProcessSolicitudPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TheoreticalExamProcessSolicituds.
+     * @param {TheoreticalExamProcessSolicitudCreateManyArgs} args - Arguments to create many TheoreticalExamProcessSolicituds.
+     * @example
+     * // Create many TheoreticalExamProcessSolicituds
+     * const theoreticalExamProcessSolicitud = await prisma.theoreticalExamProcessSolicitud.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TheoreticalExamProcessSolicitudCreateManyArgs>(args?: SelectSubset<T, TheoreticalExamProcessSolicitudCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TheoreticalExamProcessSolicituds and returns the data saved in the database.
+     * @param {TheoreticalExamProcessSolicitudCreateManyAndReturnArgs} args - Arguments to create many TheoreticalExamProcessSolicituds.
+     * @example
+     * // Create many TheoreticalExamProcessSolicituds
+     * const theoreticalExamProcessSolicitud = await prisma.theoreticalExamProcessSolicitud.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TheoreticalExamProcessSolicituds and only return the `id`
+     * const theoreticalExamProcessSolicitudWithIdOnly = await prisma.theoreticalExamProcessSolicitud.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TheoreticalExamProcessSolicitudCreateManyAndReturnArgs>(args?: SelectSubset<T, TheoreticalExamProcessSolicitudCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TheoreticalExamProcessSolicitudPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TheoreticalExamProcessSolicitud.
+     * @param {TheoreticalExamProcessSolicitudDeleteArgs} args - Arguments to delete one TheoreticalExamProcessSolicitud.
+     * @example
+     * // Delete one TheoreticalExamProcessSolicitud
+     * const TheoreticalExamProcessSolicitud = await prisma.theoreticalExamProcessSolicitud.delete({
+     *   where: {
+     *     // ... filter to delete one TheoreticalExamProcessSolicitud
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TheoreticalExamProcessSolicitudDeleteArgs>(args: SelectSubset<T, TheoreticalExamProcessSolicitudDeleteArgs<ExtArgs>>): Prisma__TheoreticalExamProcessSolicitudClient<$Result.GetResult<Prisma.$TheoreticalExamProcessSolicitudPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TheoreticalExamProcessSolicitud.
+     * @param {TheoreticalExamProcessSolicitudUpdateArgs} args - Arguments to update one TheoreticalExamProcessSolicitud.
+     * @example
+     * // Update one TheoreticalExamProcessSolicitud
+     * const theoreticalExamProcessSolicitud = await prisma.theoreticalExamProcessSolicitud.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TheoreticalExamProcessSolicitudUpdateArgs>(args: SelectSubset<T, TheoreticalExamProcessSolicitudUpdateArgs<ExtArgs>>): Prisma__TheoreticalExamProcessSolicitudClient<$Result.GetResult<Prisma.$TheoreticalExamProcessSolicitudPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TheoreticalExamProcessSolicituds.
+     * @param {TheoreticalExamProcessSolicitudDeleteManyArgs} args - Arguments to filter TheoreticalExamProcessSolicituds to delete.
+     * @example
+     * // Delete a few TheoreticalExamProcessSolicituds
+     * const { count } = await prisma.theoreticalExamProcessSolicitud.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TheoreticalExamProcessSolicitudDeleteManyArgs>(args?: SelectSubset<T, TheoreticalExamProcessSolicitudDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TheoreticalExamProcessSolicituds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TheoreticalExamProcessSolicitudUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TheoreticalExamProcessSolicituds
+     * const theoreticalExamProcessSolicitud = await prisma.theoreticalExamProcessSolicitud.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TheoreticalExamProcessSolicitudUpdateManyArgs>(args: SelectSubset<T, TheoreticalExamProcessSolicitudUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TheoreticalExamProcessSolicituds and returns the data updated in the database.
+     * @param {TheoreticalExamProcessSolicitudUpdateManyAndReturnArgs} args - Arguments to update many TheoreticalExamProcessSolicituds.
+     * @example
+     * // Update many TheoreticalExamProcessSolicituds
+     * const theoreticalExamProcessSolicitud = await prisma.theoreticalExamProcessSolicitud.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TheoreticalExamProcessSolicituds and only return the `id`
+     * const theoreticalExamProcessSolicitudWithIdOnly = await prisma.theoreticalExamProcessSolicitud.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TheoreticalExamProcessSolicitudUpdateManyAndReturnArgs>(args: SelectSubset<T, TheoreticalExamProcessSolicitudUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TheoreticalExamProcessSolicitudPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TheoreticalExamProcessSolicitud.
+     * @param {TheoreticalExamProcessSolicitudUpsertArgs} args - Arguments to update or create a TheoreticalExamProcessSolicitud.
+     * @example
+     * // Update or create a TheoreticalExamProcessSolicitud
+     * const theoreticalExamProcessSolicitud = await prisma.theoreticalExamProcessSolicitud.upsert({
+     *   create: {
+     *     // ... data to create a TheoreticalExamProcessSolicitud
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TheoreticalExamProcessSolicitud we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TheoreticalExamProcessSolicitudUpsertArgs>(args: SelectSubset<T, TheoreticalExamProcessSolicitudUpsertArgs<ExtArgs>>): Prisma__TheoreticalExamProcessSolicitudClient<$Result.GetResult<Prisma.$TheoreticalExamProcessSolicitudPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TheoreticalExamProcessSolicituds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TheoreticalExamProcessSolicitudCountArgs} args - Arguments to filter TheoreticalExamProcessSolicituds to count.
+     * @example
+     * // Count the number of TheoreticalExamProcessSolicituds
+     * const count = await prisma.theoreticalExamProcessSolicitud.count({
+     *   where: {
+     *     // ... the filter for the TheoreticalExamProcessSolicituds we want to count
+     *   }
+     * })
+    **/
+    count<T extends TheoreticalExamProcessSolicitudCountArgs>(
+      args?: Subset<T, TheoreticalExamProcessSolicitudCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TheoreticalExamProcessSolicitudCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TheoreticalExamProcessSolicitud.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TheoreticalExamProcessSolicitudAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TheoreticalExamProcessSolicitudAggregateArgs>(args: Subset<T, TheoreticalExamProcessSolicitudAggregateArgs>): Prisma.PrismaPromise<GetTheoreticalExamProcessSolicitudAggregateType<T>>
+
+    /**
+     * Group by TheoreticalExamProcessSolicitud.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TheoreticalExamProcessSolicitudGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TheoreticalExamProcessSolicitudGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TheoreticalExamProcessSolicitudGroupByArgs['orderBy'] }
+        : { orderBy?: TheoreticalExamProcessSolicitudGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TheoreticalExamProcessSolicitudGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTheoreticalExamProcessSolicitudGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TheoreticalExamProcessSolicitud model
+   */
+  readonly fields: TheoreticalExamProcessSolicitudFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TheoreticalExamProcessSolicitud.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TheoreticalExamProcessSolicitudClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    batch<T extends TheoreticalExamProcessBatchDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TheoreticalExamProcessBatchDefaultArgs<ExtArgs>>): Prisma__TheoreticalExamProcessBatchClient<$Result.GetResult<Prisma.$TheoreticalExamProcessBatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TheoreticalExamProcessSolicitud model
+   */
+  interface TheoreticalExamProcessSolicitudFieldRefs {
+    readonly id: FieldRef<"TheoreticalExamProcessSolicitud", 'BigInt'>
+    readonly batchId: FieldRef<"TheoreticalExamProcessSolicitud", 'String'>
+    readonly solicitudId: FieldRef<"TheoreticalExamProcessSolicitud", 'String'>
+    readonly alumnoId: FieldRef<"TheoreticalExamProcessSolicitud", 'String'>
+    readonly beforeEstado: FieldRef<"TheoreticalExamProcessSolicitud", 'String'>
+    readonly beforeErrores: FieldRef<"TheoreticalExamProcessSolicitud", 'Int'>
+    readonly beforeAciertos: FieldRef<"TheoreticalExamProcessSolicitud", 'Int'>
+    readonly afterEstado: FieldRef<"TheoreticalExamProcessSolicitud", 'String'>
+    readonly afterErrores: FieldRef<"TheoreticalExamProcessSolicitud", 'Int'>
+    readonly afterAciertos: FieldRef<"TheoreticalExamProcessSolicitud", 'Int'>
+    readonly revertedAt: FieldRef<"TheoreticalExamProcessSolicitud", 'DateTime'>
+    readonly conflictReason: FieldRef<"TheoreticalExamProcessSolicitud", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TheoreticalExamProcessSolicitud findUnique
+   */
+  export type TheoreticalExamProcessSolicitudFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessSolicitud
+     */
+    select?: TheoreticalExamProcessSolicitudSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessSolicitud
+     */
+    omit?: TheoreticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessSolicitudInclude<ExtArgs> | null
+    /**
+     * Filter, which TheoreticalExamProcessSolicitud to fetch.
+     */
+    where: TheoreticalExamProcessSolicitudWhereUniqueInput
+  }
+
+  /**
+   * TheoreticalExamProcessSolicitud findUniqueOrThrow
+   */
+  export type TheoreticalExamProcessSolicitudFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessSolicitud
+     */
+    select?: TheoreticalExamProcessSolicitudSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessSolicitud
+     */
+    omit?: TheoreticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessSolicitudInclude<ExtArgs> | null
+    /**
+     * Filter, which TheoreticalExamProcessSolicitud to fetch.
+     */
+    where: TheoreticalExamProcessSolicitudWhereUniqueInput
+  }
+
+  /**
+   * TheoreticalExamProcessSolicitud findFirst
+   */
+  export type TheoreticalExamProcessSolicitudFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessSolicitud
+     */
+    select?: TheoreticalExamProcessSolicitudSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessSolicitud
+     */
+    omit?: TheoreticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessSolicitudInclude<ExtArgs> | null
+    /**
+     * Filter, which TheoreticalExamProcessSolicitud to fetch.
+     */
+    where?: TheoreticalExamProcessSolicitudWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TheoreticalExamProcessSolicituds to fetch.
+     */
+    orderBy?: TheoreticalExamProcessSolicitudOrderByWithRelationInput | TheoreticalExamProcessSolicitudOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TheoreticalExamProcessSolicituds.
+     */
+    cursor?: TheoreticalExamProcessSolicitudWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TheoreticalExamProcessSolicituds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TheoreticalExamProcessSolicituds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TheoreticalExamProcessSolicituds.
+     */
+    distinct?: TheoreticalExamProcessSolicitudScalarFieldEnum | TheoreticalExamProcessSolicitudScalarFieldEnum[]
+  }
+
+  /**
+   * TheoreticalExamProcessSolicitud findFirstOrThrow
+   */
+  export type TheoreticalExamProcessSolicitudFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessSolicitud
+     */
+    select?: TheoreticalExamProcessSolicitudSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessSolicitud
+     */
+    omit?: TheoreticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessSolicitudInclude<ExtArgs> | null
+    /**
+     * Filter, which TheoreticalExamProcessSolicitud to fetch.
+     */
+    where?: TheoreticalExamProcessSolicitudWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TheoreticalExamProcessSolicituds to fetch.
+     */
+    orderBy?: TheoreticalExamProcessSolicitudOrderByWithRelationInput | TheoreticalExamProcessSolicitudOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TheoreticalExamProcessSolicituds.
+     */
+    cursor?: TheoreticalExamProcessSolicitudWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TheoreticalExamProcessSolicituds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TheoreticalExamProcessSolicituds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TheoreticalExamProcessSolicituds.
+     */
+    distinct?: TheoreticalExamProcessSolicitudScalarFieldEnum | TheoreticalExamProcessSolicitudScalarFieldEnum[]
+  }
+
+  /**
+   * TheoreticalExamProcessSolicitud findMany
+   */
+  export type TheoreticalExamProcessSolicitudFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessSolicitud
+     */
+    select?: TheoreticalExamProcessSolicitudSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessSolicitud
+     */
+    omit?: TheoreticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessSolicitudInclude<ExtArgs> | null
+    /**
+     * Filter, which TheoreticalExamProcessSolicituds to fetch.
+     */
+    where?: TheoreticalExamProcessSolicitudWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TheoreticalExamProcessSolicituds to fetch.
+     */
+    orderBy?: TheoreticalExamProcessSolicitudOrderByWithRelationInput | TheoreticalExamProcessSolicitudOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TheoreticalExamProcessSolicituds.
+     */
+    cursor?: TheoreticalExamProcessSolicitudWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TheoreticalExamProcessSolicituds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TheoreticalExamProcessSolicituds.
+     */
+    skip?: number
+    distinct?: TheoreticalExamProcessSolicitudScalarFieldEnum | TheoreticalExamProcessSolicitudScalarFieldEnum[]
+  }
+
+  /**
+   * TheoreticalExamProcessSolicitud create
+   */
+  export type TheoreticalExamProcessSolicitudCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessSolicitud
+     */
+    select?: TheoreticalExamProcessSolicitudSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessSolicitud
+     */
+    omit?: TheoreticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessSolicitudInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TheoreticalExamProcessSolicitud.
+     */
+    data: XOR<TheoreticalExamProcessSolicitudCreateInput, TheoreticalExamProcessSolicitudUncheckedCreateInput>
+  }
+
+  /**
+   * TheoreticalExamProcessSolicitud createMany
+   */
+  export type TheoreticalExamProcessSolicitudCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TheoreticalExamProcessSolicituds.
+     */
+    data: TheoreticalExamProcessSolicitudCreateManyInput | TheoreticalExamProcessSolicitudCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TheoreticalExamProcessSolicitud createManyAndReturn
+   */
+  export type TheoreticalExamProcessSolicitudCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessSolicitud
+     */
+    select?: TheoreticalExamProcessSolicitudSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessSolicitud
+     */
+    omit?: TheoreticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * The data used to create many TheoreticalExamProcessSolicituds.
+     */
+    data: TheoreticalExamProcessSolicitudCreateManyInput | TheoreticalExamProcessSolicitudCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessSolicitudIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TheoreticalExamProcessSolicitud update
+   */
+  export type TheoreticalExamProcessSolicitudUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessSolicitud
+     */
+    select?: TheoreticalExamProcessSolicitudSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessSolicitud
+     */
+    omit?: TheoreticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessSolicitudInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TheoreticalExamProcessSolicitud.
+     */
+    data: XOR<TheoreticalExamProcessSolicitudUpdateInput, TheoreticalExamProcessSolicitudUncheckedUpdateInput>
+    /**
+     * Choose, which TheoreticalExamProcessSolicitud to update.
+     */
+    where: TheoreticalExamProcessSolicitudWhereUniqueInput
+  }
+
+  /**
+   * TheoreticalExamProcessSolicitud updateMany
+   */
+  export type TheoreticalExamProcessSolicitudUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TheoreticalExamProcessSolicituds.
+     */
+    data: XOR<TheoreticalExamProcessSolicitudUpdateManyMutationInput, TheoreticalExamProcessSolicitudUncheckedUpdateManyInput>
+    /**
+     * Filter which TheoreticalExamProcessSolicituds to update
+     */
+    where?: TheoreticalExamProcessSolicitudWhereInput
+    /**
+     * Limit how many TheoreticalExamProcessSolicituds to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TheoreticalExamProcessSolicitud updateManyAndReturn
+   */
+  export type TheoreticalExamProcessSolicitudUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessSolicitud
+     */
+    select?: TheoreticalExamProcessSolicitudSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessSolicitud
+     */
+    omit?: TheoreticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * The data used to update TheoreticalExamProcessSolicituds.
+     */
+    data: XOR<TheoreticalExamProcessSolicitudUpdateManyMutationInput, TheoreticalExamProcessSolicitudUncheckedUpdateManyInput>
+    /**
+     * Filter which TheoreticalExamProcessSolicituds to update
+     */
+    where?: TheoreticalExamProcessSolicitudWhereInput
+    /**
+     * Limit how many TheoreticalExamProcessSolicituds to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessSolicitudIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TheoreticalExamProcessSolicitud upsert
+   */
+  export type TheoreticalExamProcessSolicitudUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessSolicitud
+     */
+    select?: TheoreticalExamProcessSolicitudSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessSolicitud
+     */
+    omit?: TheoreticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessSolicitudInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TheoreticalExamProcessSolicitud to update in case it exists.
+     */
+    where: TheoreticalExamProcessSolicitudWhereUniqueInput
+    /**
+     * In case the TheoreticalExamProcessSolicitud found by the `where` argument doesn't exist, create a new TheoreticalExamProcessSolicitud with this data.
+     */
+    create: XOR<TheoreticalExamProcessSolicitudCreateInput, TheoreticalExamProcessSolicitudUncheckedCreateInput>
+    /**
+     * In case the TheoreticalExamProcessSolicitud was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TheoreticalExamProcessSolicitudUpdateInput, TheoreticalExamProcessSolicitudUncheckedUpdateInput>
+  }
+
+  /**
+   * TheoreticalExamProcessSolicitud delete
+   */
+  export type TheoreticalExamProcessSolicitudDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessSolicitud
+     */
+    select?: TheoreticalExamProcessSolicitudSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessSolicitud
+     */
+    omit?: TheoreticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessSolicitudInclude<ExtArgs> | null
+    /**
+     * Filter which TheoreticalExamProcessSolicitud to delete.
+     */
+    where: TheoreticalExamProcessSolicitudWhereUniqueInput
+  }
+
+  /**
+   * TheoreticalExamProcessSolicitud deleteMany
+   */
+  export type TheoreticalExamProcessSolicitudDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TheoreticalExamProcessSolicituds to delete
+     */
+    where?: TheoreticalExamProcessSolicitudWhereInput
+    /**
+     * Limit how many TheoreticalExamProcessSolicituds to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TheoreticalExamProcessSolicitud without action
+   */
+  export type TheoreticalExamProcessSolicitudDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessSolicitud
+     */
+    select?: TheoreticalExamProcessSolicitudSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessSolicitud
+     */
+    omit?: TheoreticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessSolicitudInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TheoreticalExamProcessPago
+   */
+
+  export type AggregateTheoreticalExamProcessPago = {
+    _count: TheoreticalExamProcessPagoCountAggregateOutputType | null
+    _avg: TheoreticalExamProcessPagoAvgAggregateOutputType | null
+    _sum: TheoreticalExamProcessPagoSumAggregateOutputType | null
+    _min: TheoreticalExamProcessPagoMinAggregateOutputType | null
+    _max: TheoreticalExamProcessPagoMaxAggregateOutputType | null
+  }
+
+  export type TheoreticalExamProcessPagoAvgAggregateOutputType = {
+    id: number | null
+    beforeConvocatoriasConsumidas: number | null
+    afterConvocatoriasConsumidas: number | null
+  }
+
+  export type TheoreticalExamProcessPagoSumAggregateOutputType = {
+    id: bigint | null
+    beforeConvocatoriasConsumidas: number | null
+    afterConvocatoriasConsumidas: number | null
+  }
+
+  export type TheoreticalExamProcessPagoMinAggregateOutputType = {
+    id: bigint | null
+    batchId: string | null
+    pagoId: string | null
+    alumnoId: string | null
+    beforeConvocatoriasConsumidas: number | null
+    afterConvocatoriasConsumidas: number | null
+    applied: boolean | null
+    revertedAt: Date | null
+    conflictReason: string | null
+  }
+
+  export type TheoreticalExamProcessPagoMaxAggregateOutputType = {
+    id: bigint | null
+    batchId: string | null
+    pagoId: string | null
+    alumnoId: string | null
+    beforeConvocatoriasConsumidas: number | null
+    afterConvocatoriasConsumidas: number | null
+    applied: boolean | null
+    revertedAt: Date | null
+    conflictReason: string | null
+  }
+
+  export type TheoreticalExamProcessPagoCountAggregateOutputType = {
+    id: number
+    batchId: number
+    pagoId: number
+    alumnoId: number
+    beforeConvocatoriasConsumidas: number
+    afterConvocatoriasConsumidas: number
+    applied: number
+    revertedAt: number
+    conflictReason: number
+    _all: number
+  }
+
+
+  export type TheoreticalExamProcessPagoAvgAggregateInputType = {
+    id?: true
+    beforeConvocatoriasConsumidas?: true
+    afterConvocatoriasConsumidas?: true
+  }
+
+  export type TheoreticalExamProcessPagoSumAggregateInputType = {
+    id?: true
+    beforeConvocatoriasConsumidas?: true
+    afterConvocatoriasConsumidas?: true
+  }
+
+  export type TheoreticalExamProcessPagoMinAggregateInputType = {
+    id?: true
+    batchId?: true
+    pagoId?: true
+    alumnoId?: true
+    beforeConvocatoriasConsumidas?: true
+    afterConvocatoriasConsumidas?: true
+    applied?: true
+    revertedAt?: true
+    conflictReason?: true
+  }
+
+  export type TheoreticalExamProcessPagoMaxAggregateInputType = {
+    id?: true
+    batchId?: true
+    pagoId?: true
+    alumnoId?: true
+    beforeConvocatoriasConsumidas?: true
+    afterConvocatoriasConsumidas?: true
+    applied?: true
+    revertedAt?: true
+    conflictReason?: true
+  }
+
+  export type TheoreticalExamProcessPagoCountAggregateInputType = {
+    id?: true
+    batchId?: true
+    pagoId?: true
+    alumnoId?: true
+    beforeConvocatoriasConsumidas?: true
+    afterConvocatoriasConsumidas?: true
+    applied?: true
+    revertedAt?: true
+    conflictReason?: true
+    _all?: true
+  }
+
+  export type TheoreticalExamProcessPagoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TheoreticalExamProcessPago to aggregate.
+     */
+    where?: TheoreticalExamProcessPagoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TheoreticalExamProcessPagos to fetch.
+     */
+    orderBy?: TheoreticalExamProcessPagoOrderByWithRelationInput | TheoreticalExamProcessPagoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TheoreticalExamProcessPagoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TheoreticalExamProcessPagos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TheoreticalExamProcessPagos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TheoreticalExamProcessPagos
+    **/
+    _count?: true | TheoreticalExamProcessPagoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TheoreticalExamProcessPagoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TheoreticalExamProcessPagoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TheoreticalExamProcessPagoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TheoreticalExamProcessPagoMaxAggregateInputType
+  }
+
+  export type GetTheoreticalExamProcessPagoAggregateType<T extends TheoreticalExamProcessPagoAggregateArgs> = {
+        [P in keyof T & keyof AggregateTheoreticalExamProcessPago]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTheoreticalExamProcessPago[P]>
+      : GetScalarType<T[P], AggregateTheoreticalExamProcessPago[P]>
+  }
+
+
+
+
+  export type TheoreticalExamProcessPagoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TheoreticalExamProcessPagoWhereInput
+    orderBy?: TheoreticalExamProcessPagoOrderByWithAggregationInput | TheoreticalExamProcessPagoOrderByWithAggregationInput[]
+    by: TheoreticalExamProcessPagoScalarFieldEnum[] | TheoreticalExamProcessPagoScalarFieldEnum
+    having?: TheoreticalExamProcessPagoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TheoreticalExamProcessPagoCountAggregateInputType | true
+    _avg?: TheoreticalExamProcessPagoAvgAggregateInputType
+    _sum?: TheoreticalExamProcessPagoSumAggregateInputType
+    _min?: TheoreticalExamProcessPagoMinAggregateInputType
+    _max?: TheoreticalExamProcessPagoMaxAggregateInputType
+  }
+
+  export type TheoreticalExamProcessPagoGroupByOutputType = {
+    id: bigint
+    batchId: string
+    pagoId: string
+    alumnoId: string
+    beforeConvocatoriasConsumidas: number
+    afterConvocatoriasConsumidas: number
+    applied: boolean
+    revertedAt: Date | null
+    conflictReason: string | null
+    _count: TheoreticalExamProcessPagoCountAggregateOutputType | null
+    _avg: TheoreticalExamProcessPagoAvgAggregateOutputType | null
+    _sum: TheoreticalExamProcessPagoSumAggregateOutputType | null
+    _min: TheoreticalExamProcessPagoMinAggregateOutputType | null
+    _max: TheoreticalExamProcessPagoMaxAggregateOutputType | null
+  }
+
+  type GetTheoreticalExamProcessPagoGroupByPayload<T extends TheoreticalExamProcessPagoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TheoreticalExamProcessPagoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TheoreticalExamProcessPagoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TheoreticalExamProcessPagoGroupByOutputType[P]>
+            : GetScalarType<T[P], TheoreticalExamProcessPagoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TheoreticalExamProcessPagoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    batchId?: boolean
+    pagoId?: boolean
+    alumnoId?: boolean
+    beforeConvocatoriasConsumidas?: boolean
+    afterConvocatoriasConsumidas?: boolean
+    applied?: boolean
+    revertedAt?: boolean
+    conflictReason?: boolean
+    batch?: boolean | TheoreticalExamProcessBatchDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["theoreticalExamProcessPago"]>
+
+  export type TheoreticalExamProcessPagoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    batchId?: boolean
+    pagoId?: boolean
+    alumnoId?: boolean
+    beforeConvocatoriasConsumidas?: boolean
+    afterConvocatoriasConsumidas?: boolean
+    applied?: boolean
+    revertedAt?: boolean
+    conflictReason?: boolean
+    batch?: boolean | TheoreticalExamProcessBatchDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["theoreticalExamProcessPago"]>
+
+  export type TheoreticalExamProcessPagoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    batchId?: boolean
+    pagoId?: boolean
+    alumnoId?: boolean
+    beforeConvocatoriasConsumidas?: boolean
+    afterConvocatoriasConsumidas?: boolean
+    applied?: boolean
+    revertedAt?: boolean
+    conflictReason?: boolean
+    batch?: boolean | TheoreticalExamProcessBatchDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["theoreticalExamProcessPago"]>
+
+  export type TheoreticalExamProcessPagoSelectScalar = {
+    id?: boolean
+    batchId?: boolean
+    pagoId?: boolean
+    alumnoId?: boolean
+    beforeConvocatoriasConsumidas?: boolean
+    afterConvocatoriasConsumidas?: boolean
+    applied?: boolean
+    revertedAt?: boolean
+    conflictReason?: boolean
+  }
+
+  export type TheoreticalExamProcessPagoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "batchId" | "pagoId" | "alumnoId" | "beforeConvocatoriasConsumidas" | "afterConvocatoriasConsumidas" | "applied" | "revertedAt" | "conflictReason", ExtArgs["result"]["theoreticalExamProcessPago"]>
+  export type TheoreticalExamProcessPagoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    batch?: boolean | TheoreticalExamProcessBatchDefaultArgs<ExtArgs>
+  }
+  export type TheoreticalExamProcessPagoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    batch?: boolean | TheoreticalExamProcessBatchDefaultArgs<ExtArgs>
+  }
+  export type TheoreticalExamProcessPagoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    batch?: boolean | TheoreticalExamProcessBatchDefaultArgs<ExtArgs>
+  }
+
+  export type $TheoreticalExamProcessPagoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TheoreticalExamProcessPago"
+    objects: {
+      batch: Prisma.$TheoreticalExamProcessBatchPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      batchId: string
+      pagoId: string
+      alumnoId: string
+      beforeConvocatoriasConsumidas: number
+      afterConvocatoriasConsumidas: number
+      applied: boolean
+      revertedAt: Date | null
+      conflictReason: string | null
+    }, ExtArgs["result"]["theoreticalExamProcessPago"]>
+    composites: {}
+  }
+
+  type TheoreticalExamProcessPagoGetPayload<S extends boolean | null | undefined | TheoreticalExamProcessPagoDefaultArgs> = $Result.GetResult<Prisma.$TheoreticalExamProcessPagoPayload, S>
+
+  type TheoreticalExamProcessPagoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TheoreticalExamProcessPagoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TheoreticalExamProcessPagoCountAggregateInputType | true
+    }
+
+  export interface TheoreticalExamProcessPagoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TheoreticalExamProcessPago'], meta: { name: 'TheoreticalExamProcessPago' } }
+    /**
+     * Find zero or one TheoreticalExamProcessPago that matches the filter.
+     * @param {TheoreticalExamProcessPagoFindUniqueArgs} args - Arguments to find a TheoreticalExamProcessPago
+     * @example
+     * // Get one TheoreticalExamProcessPago
+     * const theoreticalExamProcessPago = await prisma.theoreticalExamProcessPago.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TheoreticalExamProcessPagoFindUniqueArgs>(args: SelectSubset<T, TheoreticalExamProcessPagoFindUniqueArgs<ExtArgs>>): Prisma__TheoreticalExamProcessPagoClient<$Result.GetResult<Prisma.$TheoreticalExamProcessPagoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TheoreticalExamProcessPago that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TheoreticalExamProcessPagoFindUniqueOrThrowArgs} args - Arguments to find a TheoreticalExamProcessPago
+     * @example
+     * // Get one TheoreticalExamProcessPago
+     * const theoreticalExamProcessPago = await prisma.theoreticalExamProcessPago.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TheoreticalExamProcessPagoFindUniqueOrThrowArgs>(args: SelectSubset<T, TheoreticalExamProcessPagoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TheoreticalExamProcessPagoClient<$Result.GetResult<Prisma.$TheoreticalExamProcessPagoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TheoreticalExamProcessPago that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TheoreticalExamProcessPagoFindFirstArgs} args - Arguments to find a TheoreticalExamProcessPago
+     * @example
+     * // Get one TheoreticalExamProcessPago
+     * const theoreticalExamProcessPago = await prisma.theoreticalExamProcessPago.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TheoreticalExamProcessPagoFindFirstArgs>(args?: SelectSubset<T, TheoreticalExamProcessPagoFindFirstArgs<ExtArgs>>): Prisma__TheoreticalExamProcessPagoClient<$Result.GetResult<Prisma.$TheoreticalExamProcessPagoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TheoreticalExamProcessPago that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TheoreticalExamProcessPagoFindFirstOrThrowArgs} args - Arguments to find a TheoreticalExamProcessPago
+     * @example
+     * // Get one TheoreticalExamProcessPago
+     * const theoreticalExamProcessPago = await prisma.theoreticalExamProcessPago.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TheoreticalExamProcessPagoFindFirstOrThrowArgs>(args?: SelectSubset<T, TheoreticalExamProcessPagoFindFirstOrThrowArgs<ExtArgs>>): Prisma__TheoreticalExamProcessPagoClient<$Result.GetResult<Prisma.$TheoreticalExamProcessPagoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TheoreticalExamProcessPagos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TheoreticalExamProcessPagoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TheoreticalExamProcessPagos
+     * const theoreticalExamProcessPagos = await prisma.theoreticalExamProcessPago.findMany()
+     * 
+     * // Get first 10 TheoreticalExamProcessPagos
+     * const theoreticalExamProcessPagos = await prisma.theoreticalExamProcessPago.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const theoreticalExamProcessPagoWithIdOnly = await prisma.theoreticalExamProcessPago.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TheoreticalExamProcessPagoFindManyArgs>(args?: SelectSubset<T, TheoreticalExamProcessPagoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TheoreticalExamProcessPagoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TheoreticalExamProcessPago.
+     * @param {TheoreticalExamProcessPagoCreateArgs} args - Arguments to create a TheoreticalExamProcessPago.
+     * @example
+     * // Create one TheoreticalExamProcessPago
+     * const TheoreticalExamProcessPago = await prisma.theoreticalExamProcessPago.create({
+     *   data: {
+     *     // ... data to create a TheoreticalExamProcessPago
+     *   }
+     * })
+     * 
+     */
+    create<T extends TheoreticalExamProcessPagoCreateArgs>(args: SelectSubset<T, TheoreticalExamProcessPagoCreateArgs<ExtArgs>>): Prisma__TheoreticalExamProcessPagoClient<$Result.GetResult<Prisma.$TheoreticalExamProcessPagoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TheoreticalExamProcessPagos.
+     * @param {TheoreticalExamProcessPagoCreateManyArgs} args - Arguments to create many TheoreticalExamProcessPagos.
+     * @example
+     * // Create many TheoreticalExamProcessPagos
+     * const theoreticalExamProcessPago = await prisma.theoreticalExamProcessPago.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TheoreticalExamProcessPagoCreateManyArgs>(args?: SelectSubset<T, TheoreticalExamProcessPagoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TheoreticalExamProcessPagos and returns the data saved in the database.
+     * @param {TheoreticalExamProcessPagoCreateManyAndReturnArgs} args - Arguments to create many TheoreticalExamProcessPagos.
+     * @example
+     * // Create many TheoreticalExamProcessPagos
+     * const theoreticalExamProcessPago = await prisma.theoreticalExamProcessPago.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TheoreticalExamProcessPagos and only return the `id`
+     * const theoreticalExamProcessPagoWithIdOnly = await prisma.theoreticalExamProcessPago.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TheoreticalExamProcessPagoCreateManyAndReturnArgs>(args?: SelectSubset<T, TheoreticalExamProcessPagoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TheoreticalExamProcessPagoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TheoreticalExamProcessPago.
+     * @param {TheoreticalExamProcessPagoDeleteArgs} args - Arguments to delete one TheoreticalExamProcessPago.
+     * @example
+     * // Delete one TheoreticalExamProcessPago
+     * const TheoreticalExamProcessPago = await prisma.theoreticalExamProcessPago.delete({
+     *   where: {
+     *     // ... filter to delete one TheoreticalExamProcessPago
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TheoreticalExamProcessPagoDeleteArgs>(args: SelectSubset<T, TheoreticalExamProcessPagoDeleteArgs<ExtArgs>>): Prisma__TheoreticalExamProcessPagoClient<$Result.GetResult<Prisma.$TheoreticalExamProcessPagoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TheoreticalExamProcessPago.
+     * @param {TheoreticalExamProcessPagoUpdateArgs} args - Arguments to update one TheoreticalExamProcessPago.
+     * @example
+     * // Update one TheoreticalExamProcessPago
+     * const theoreticalExamProcessPago = await prisma.theoreticalExamProcessPago.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TheoreticalExamProcessPagoUpdateArgs>(args: SelectSubset<T, TheoreticalExamProcessPagoUpdateArgs<ExtArgs>>): Prisma__TheoreticalExamProcessPagoClient<$Result.GetResult<Prisma.$TheoreticalExamProcessPagoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TheoreticalExamProcessPagos.
+     * @param {TheoreticalExamProcessPagoDeleteManyArgs} args - Arguments to filter TheoreticalExamProcessPagos to delete.
+     * @example
+     * // Delete a few TheoreticalExamProcessPagos
+     * const { count } = await prisma.theoreticalExamProcessPago.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TheoreticalExamProcessPagoDeleteManyArgs>(args?: SelectSubset<T, TheoreticalExamProcessPagoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TheoreticalExamProcessPagos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TheoreticalExamProcessPagoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TheoreticalExamProcessPagos
+     * const theoreticalExamProcessPago = await prisma.theoreticalExamProcessPago.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TheoreticalExamProcessPagoUpdateManyArgs>(args: SelectSubset<T, TheoreticalExamProcessPagoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TheoreticalExamProcessPagos and returns the data updated in the database.
+     * @param {TheoreticalExamProcessPagoUpdateManyAndReturnArgs} args - Arguments to update many TheoreticalExamProcessPagos.
+     * @example
+     * // Update many TheoreticalExamProcessPagos
+     * const theoreticalExamProcessPago = await prisma.theoreticalExamProcessPago.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TheoreticalExamProcessPagos and only return the `id`
+     * const theoreticalExamProcessPagoWithIdOnly = await prisma.theoreticalExamProcessPago.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TheoreticalExamProcessPagoUpdateManyAndReturnArgs>(args: SelectSubset<T, TheoreticalExamProcessPagoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TheoreticalExamProcessPagoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TheoreticalExamProcessPago.
+     * @param {TheoreticalExamProcessPagoUpsertArgs} args - Arguments to update or create a TheoreticalExamProcessPago.
+     * @example
+     * // Update or create a TheoreticalExamProcessPago
+     * const theoreticalExamProcessPago = await prisma.theoreticalExamProcessPago.upsert({
+     *   create: {
+     *     // ... data to create a TheoreticalExamProcessPago
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TheoreticalExamProcessPago we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TheoreticalExamProcessPagoUpsertArgs>(args: SelectSubset<T, TheoreticalExamProcessPagoUpsertArgs<ExtArgs>>): Prisma__TheoreticalExamProcessPagoClient<$Result.GetResult<Prisma.$TheoreticalExamProcessPagoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TheoreticalExamProcessPagos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TheoreticalExamProcessPagoCountArgs} args - Arguments to filter TheoreticalExamProcessPagos to count.
+     * @example
+     * // Count the number of TheoreticalExamProcessPagos
+     * const count = await prisma.theoreticalExamProcessPago.count({
+     *   where: {
+     *     // ... the filter for the TheoreticalExamProcessPagos we want to count
+     *   }
+     * })
+    **/
+    count<T extends TheoreticalExamProcessPagoCountArgs>(
+      args?: Subset<T, TheoreticalExamProcessPagoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TheoreticalExamProcessPagoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TheoreticalExamProcessPago.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TheoreticalExamProcessPagoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TheoreticalExamProcessPagoAggregateArgs>(args: Subset<T, TheoreticalExamProcessPagoAggregateArgs>): Prisma.PrismaPromise<GetTheoreticalExamProcessPagoAggregateType<T>>
+
+    /**
+     * Group by TheoreticalExamProcessPago.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TheoreticalExamProcessPagoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TheoreticalExamProcessPagoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TheoreticalExamProcessPagoGroupByArgs['orderBy'] }
+        : { orderBy?: TheoreticalExamProcessPagoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TheoreticalExamProcessPagoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTheoreticalExamProcessPagoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TheoreticalExamProcessPago model
+   */
+  readonly fields: TheoreticalExamProcessPagoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TheoreticalExamProcessPago.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TheoreticalExamProcessPagoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    batch<T extends TheoreticalExamProcessBatchDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TheoreticalExamProcessBatchDefaultArgs<ExtArgs>>): Prisma__TheoreticalExamProcessBatchClient<$Result.GetResult<Prisma.$TheoreticalExamProcessBatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TheoreticalExamProcessPago model
+   */
+  interface TheoreticalExamProcessPagoFieldRefs {
+    readonly id: FieldRef<"TheoreticalExamProcessPago", 'BigInt'>
+    readonly batchId: FieldRef<"TheoreticalExamProcessPago", 'String'>
+    readonly pagoId: FieldRef<"TheoreticalExamProcessPago", 'String'>
+    readonly alumnoId: FieldRef<"TheoreticalExamProcessPago", 'String'>
+    readonly beforeConvocatoriasConsumidas: FieldRef<"TheoreticalExamProcessPago", 'Int'>
+    readonly afterConvocatoriasConsumidas: FieldRef<"TheoreticalExamProcessPago", 'Int'>
+    readonly applied: FieldRef<"TheoreticalExamProcessPago", 'Boolean'>
+    readonly revertedAt: FieldRef<"TheoreticalExamProcessPago", 'DateTime'>
+    readonly conflictReason: FieldRef<"TheoreticalExamProcessPago", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TheoreticalExamProcessPago findUnique
+   */
+  export type TheoreticalExamProcessPagoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessPago
+     */
+    select?: TheoreticalExamProcessPagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessPago
+     */
+    omit?: TheoreticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessPagoInclude<ExtArgs> | null
+    /**
+     * Filter, which TheoreticalExamProcessPago to fetch.
+     */
+    where: TheoreticalExamProcessPagoWhereUniqueInput
+  }
+
+  /**
+   * TheoreticalExamProcessPago findUniqueOrThrow
+   */
+  export type TheoreticalExamProcessPagoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessPago
+     */
+    select?: TheoreticalExamProcessPagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessPago
+     */
+    omit?: TheoreticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessPagoInclude<ExtArgs> | null
+    /**
+     * Filter, which TheoreticalExamProcessPago to fetch.
+     */
+    where: TheoreticalExamProcessPagoWhereUniqueInput
+  }
+
+  /**
+   * TheoreticalExamProcessPago findFirst
+   */
+  export type TheoreticalExamProcessPagoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessPago
+     */
+    select?: TheoreticalExamProcessPagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessPago
+     */
+    omit?: TheoreticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessPagoInclude<ExtArgs> | null
+    /**
+     * Filter, which TheoreticalExamProcessPago to fetch.
+     */
+    where?: TheoreticalExamProcessPagoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TheoreticalExamProcessPagos to fetch.
+     */
+    orderBy?: TheoreticalExamProcessPagoOrderByWithRelationInput | TheoreticalExamProcessPagoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TheoreticalExamProcessPagos.
+     */
+    cursor?: TheoreticalExamProcessPagoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TheoreticalExamProcessPagos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TheoreticalExamProcessPagos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TheoreticalExamProcessPagos.
+     */
+    distinct?: TheoreticalExamProcessPagoScalarFieldEnum | TheoreticalExamProcessPagoScalarFieldEnum[]
+  }
+
+  /**
+   * TheoreticalExamProcessPago findFirstOrThrow
+   */
+  export type TheoreticalExamProcessPagoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessPago
+     */
+    select?: TheoreticalExamProcessPagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessPago
+     */
+    omit?: TheoreticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessPagoInclude<ExtArgs> | null
+    /**
+     * Filter, which TheoreticalExamProcessPago to fetch.
+     */
+    where?: TheoreticalExamProcessPagoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TheoreticalExamProcessPagos to fetch.
+     */
+    orderBy?: TheoreticalExamProcessPagoOrderByWithRelationInput | TheoreticalExamProcessPagoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TheoreticalExamProcessPagos.
+     */
+    cursor?: TheoreticalExamProcessPagoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TheoreticalExamProcessPagos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TheoreticalExamProcessPagos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TheoreticalExamProcessPagos.
+     */
+    distinct?: TheoreticalExamProcessPagoScalarFieldEnum | TheoreticalExamProcessPagoScalarFieldEnum[]
+  }
+
+  /**
+   * TheoreticalExamProcessPago findMany
+   */
+  export type TheoreticalExamProcessPagoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessPago
+     */
+    select?: TheoreticalExamProcessPagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessPago
+     */
+    omit?: TheoreticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessPagoInclude<ExtArgs> | null
+    /**
+     * Filter, which TheoreticalExamProcessPagos to fetch.
+     */
+    where?: TheoreticalExamProcessPagoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TheoreticalExamProcessPagos to fetch.
+     */
+    orderBy?: TheoreticalExamProcessPagoOrderByWithRelationInput | TheoreticalExamProcessPagoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TheoreticalExamProcessPagos.
+     */
+    cursor?: TheoreticalExamProcessPagoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TheoreticalExamProcessPagos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TheoreticalExamProcessPagos.
+     */
+    skip?: number
+    distinct?: TheoreticalExamProcessPagoScalarFieldEnum | TheoreticalExamProcessPagoScalarFieldEnum[]
+  }
+
+  /**
+   * TheoreticalExamProcessPago create
+   */
+  export type TheoreticalExamProcessPagoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessPago
+     */
+    select?: TheoreticalExamProcessPagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessPago
+     */
+    omit?: TheoreticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessPagoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TheoreticalExamProcessPago.
+     */
+    data: XOR<TheoreticalExamProcessPagoCreateInput, TheoreticalExamProcessPagoUncheckedCreateInput>
+  }
+
+  /**
+   * TheoreticalExamProcessPago createMany
+   */
+  export type TheoreticalExamProcessPagoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TheoreticalExamProcessPagos.
+     */
+    data: TheoreticalExamProcessPagoCreateManyInput | TheoreticalExamProcessPagoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TheoreticalExamProcessPago createManyAndReturn
+   */
+  export type TheoreticalExamProcessPagoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessPago
+     */
+    select?: TheoreticalExamProcessPagoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessPago
+     */
+    omit?: TheoreticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * The data used to create many TheoreticalExamProcessPagos.
+     */
+    data: TheoreticalExamProcessPagoCreateManyInput | TheoreticalExamProcessPagoCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessPagoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TheoreticalExamProcessPago update
+   */
+  export type TheoreticalExamProcessPagoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessPago
+     */
+    select?: TheoreticalExamProcessPagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessPago
+     */
+    omit?: TheoreticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessPagoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TheoreticalExamProcessPago.
+     */
+    data: XOR<TheoreticalExamProcessPagoUpdateInput, TheoreticalExamProcessPagoUncheckedUpdateInput>
+    /**
+     * Choose, which TheoreticalExamProcessPago to update.
+     */
+    where: TheoreticalExamProcessPagoWhereUniqueInput
+  }
+
+  /**
+   * TheoreticalExamProcessPago updateMany
+   */
+  export type TheoreticalExamProcessPagoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TheoreticalExamProcessPagos.
+     */
+    data: XOR<TheoreticalExamProcessPagoUpdateManyMutationInput, TheoreticalExamProcessPagoUncheckedUpdateManyInput>
+    /**
+     * Filter which TheoreticalExamProcessPagos to update
+     */
+    where?: TheoreticalExamProcessPagoWhereInput
+    /**
+     * Limit how many TheoreticalExamProcessPagos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TheoreticalExamProcessPago updateManyAndReturn
+   */
+  export type TheoreticalExamProcessPagoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessPago
+     */
+    select?: TheoreticalExamProcessPagoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessPago
+     */
+    omit?: TheoreticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * The data used to update TheoreticalExamProcessPagos.
+     */
+    data: XOR<TheoreticalExamProcessPagoUpdateManyMutationInput, TheoreticalExamProcessPagoUncheckedUpdateManyInput>
+    /**
+     * Filter which TheoreticalExamProcessPagos to update
+     */
+    where?: TheoreticalExamProcessPagoWhereInput
+    /**
+     * Limit how many TheoreticalExamProcessPagos to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessPagoIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TheoreticalExamProcessPago upsert
+   */
+  export type TheoreticalExamProcessPagoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessPago
+     */
+    select?: TheoreticalExamProcessPagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessPago
+     */
+    omit?: TheoreticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessPagoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TheoreticalExamProcessPago to update in case it exists.
+     */
+    where: TheoreticalExamProcessPagoWhereUniqueInput
+    /**
+     * In case the TheoreticalExamProcessPago found by the `where` argument doesn't exist, create a new TheoreticalExamProcessPago with this data.
+     */
+    create: XOR<TheoreticalExamProcessPagoCreateInput, TheoreticalExamProcessPagoUncheckedCreateInput>
+    /**
+     * In case the TheoreticalExamProcessPago was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TheoreticalExamProcessPagoUpdateInput, TheoreticalExamProcessPagoUncheckedUpdateInput>
+  }
+
+  /**
+   * TheoreticalExamProcessPago delete
+   */
+  export type TheoreticalExamProcessPagoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessPago
+     */
+    select?: TheoreticalExamProcessPagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessPago
+     */
+    omit?: TheoreticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessPagoInclude<ExtArgs> | null
+    /**
+     * Filter which TheoreticalExamProcessPago to delete.
+     */
+    where: TheoreticalExamProcessPagoWhereUniqueInput
+  }
+
+  /**
+   * TheoreticalExamProcessPago deleteMany
+   */
+  export type TheoreticalExamProcessPagoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TheoreticalExamProcessPagos to delete
+     */
+    where?: TheoreticalExamProcessPagoWhereInput
+    /**
+     * Limit how many TheoreticalExamProcessPagos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TheoreticalExamProcessPago without action
+   */
+  export type TheoreticalExamProcessPagoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TheoreticalExamProcessPago
+     */
+    select?: TheoreticalExamProcessPagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TheoreticalExamProcessPago
+     */
+    omit?: TheoreticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TheoreticalExamProcessPagoInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model MatriculaConcepto
    */
 
@@ -37769,6 +41618,57 @@ export namespace Prisma {
   export type PagoScalarFieldEnum = (typeof PagoScalarFieldEnum)[keyof typeof PagoScalarFieldEnum]
 
 
+  export const TheoreticalExamProcessBatchScalarFieldEnum: {
+    id: 'id',
+    status: 'status',
+    mode: 'mode',
+    targetDate: 'targetDate',
+    seed: 'seed',
+    operator: 'operator',
+    reason: 'reason',
+    dryRun: 'dryRun',
+    summary: 'summary',
+    createdAt: 'createdAt',
+    appliedAt: 'appliedAt',
+    rolledBackAt: 'rolledBackAt'
+  };
+
+  export type TheoreticalExamProcessBatchScalarFieldEnum = (typeof TheoreticalExamProcessBatchScalarFieldEnum)[keyof typeof TheoreticalExamProcessBatchScalarFieldEnum]
+
+
+  export const TheoreticalExamProcessSolicitudScalarFieldEnum: {
+    id: 'id',
+    batchId: 'batchId',
+    solicitudId: 'solicitudId',
+    alumnoId: 'alumnoId',
+    beforeEstado: 'beforeEstado',
+    beforeErrores: 'beforeErrores',
+    beforeAciertos: 'beforeAciertos',
+    afterEstado: 'afterEstado',
+    afterErrores: 'afterErrores',
+    afterAciertos: 'afterAciertos',
+    revertedAt: 'revertedAt',
+    conflictReason: 'conflictReason'
+  };
+
+  export type TheoreticalExamProcessSolicitudScalarFieldEnum = (typeof TheoreticalExamProcessSolicitudScalarFieldEnum)[keyof typeof TheoreticalExamProcessSolicitudScalarFieldEnum]
+
+
+  export const TheoreticalExamProcessPagoScalarFieldEnum: {
+    id: 'id',
+    batchId: 'batchId',
+    pagoId: 'pagoId',
+    alumnoId: 'alumnoId',
+    beforeConvocatoriasConsumidas: 'beforeConvocatoriasConsumidas',
+    afterConvocatoriasConsumidas: 'afterConvocatoriasConsumidas',
+    applied: 'applied',
+    revertedAt: 'revertedAt',
+    conflictReason: 'conflictReason'
+  };
+
+  export type TheoreticalExamProcessPagoScalarFieldEnum = (typeof TheoreticalExamProcessPagoScalarFieldEnum)[keyof typeof TheoreticalExamProcessPagoScalarFieldEnum]
+
+
   export const MatriculaConceptoScalarFieldEnum: {
     id: 'id',
     matriculaId: 'matriculaId',
@@ -37810,6 +41710,13 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
@@ -37824,6 +41731,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -37919,6 +41835,34 @@ export namespace Prisma {
    * Reference to a field of type 'TipoPrecio[]'
    */
   export type ListEnumTipoPrecioFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoPrecio[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'BigInt'
+   */
+  export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
+    
+
+
+  /**
+   * Reference to a field of type 'BigInt[]'
+   */
+  export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
     
 
 
@@ -39950,6 +43894,270 @@ export namespace Prisma {
     fechaPago?: DateTimeNullableWithAggregatesFilter<"Pago"> | Date | string | null
     numeroFacturaPago?: StringNullableWithAggregatesFilter<"Pago"> | string | null
     observaciones?: StringNullableWithAggregatesFilter<"Pago"> | string | null
+  }
+
+  export type TheoreticalExamProcessBatchWhereInput = {
+    AND?: TheoreticalExamProcessBatchWhereInput | TheoreticalExamProcessBatchWhereInput[]
+    OR?: TheoreticalExamProcessBatchWhereInput[]
+    NOT?: TheoreticalExamProcessBatchWhereInput | TheoreticalExamProcessBatchWhereInput[]
+    id?: StringFilter<"TheoreticalExamProcessBatch"> | string
+    status?: StringFilter<"TheoreticalExamProcessBatch"> | string
+    mode?: StringFilter<"TheoreticalExamProcessBatch"> | string
+    targetDate?: DateTimeFilter<"TheoreticalExamProcessBatch"> | Date | string
+    seed?: StringNullableFilter<"TheoreticalExamProcessBatch"> | string | null
+    operator?: StringNullableFilter<"TheoreticalExamProcessBatch"> | string | null
+    reason?: StringNullableFilter<"TheoreticalExamProcessBatch"> | string | null
+    dryRun?: BoolFilter<"TheoreticalExamProcessBatch"> | boolean
+    summary?: JsonFilter<"TheoreticalExamProcessBatch">
+    createdAt?: DateTimeFilter<"TheoreticalExamProcessBatch"> | Date | string
+    appliedAt?: DateTimeNullableFilter<"TheoreticalExamProcessBatch"> | Date | string | null
+    rolledBackAt?: DateTimeNullableFilter<"TheoreticalExamProcessBatch"> | Date | string | null
+    solicitudes?: TheoreticalExamProcessSolicitudListRelationFilter
+    pagos?: TheoreticalExamProcessPagoListRelationFilter
+  }
+
+  export type TheoreticalExamProcessBatchOrderByWithRelationInput = {
+    id?: SortOrder
+    status?: SortOrder
+    mode?: SortOrder
+    targetDate?: SortOrder
+    seed?: SortOrderInput | SortOrder
+    operator?: SortOrderInput | SortOrder
+    reason?: SortOrderInput | SortOrder
+    dryRun?: SortOrder
+    summary?: SortOrder
+    createdAt?: SortOrder
+    appliedAt?: SortOrderInput | SortOrder
+    rolledBackAt?: SortOrderInput | SortOrder
+    solicitudes?: TheoreticalExamProcessSolicitudOrderByRelationAggregateInput
+    pagos?: TheoreticalExamProcessPagoOrderByRelationAggregateInput
+  }
+
+  export type TheoreticalExamProcessBatchWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: TheoreticalExamProcessBatchWhereInput | TheoreticalExamProcessBatchWhereInput[]
+    OR?: TheoreticalExamProcessBatchWhereInput[]
+    NOT?: TheoreticalExamProcessBatchWhereInput | TheoreticalExamProcessBatchWhereInput[]
+    status?: StringFilter<"TheoreticalExamProcessBatch"> | string
+    mode?: StringFilter<"TheoreticalExamProcessBatch"> | string
+    targetDate?: DateTimeFilter<"TheoreticalExamProcessBatch"> | Date | string
+    seed?: StringNullableFilter<"TheoreticalExamProcessBatch"> | string | null
+    operator?: StringNullableFilter<"TheoreticalExamProcessBatch"> | string | null
+    reason?: StringNullableFilter<"TheoreticalExamProcessBatch"> | string | null
+    dryRun?: BoolFilter<"TheoreticalExamProcessBatch"> | boolean
+    summary?: JsonFilter<"TheoreticalExamProcessBatch">
+    createdAt?: DateTimeFilter<"TheoreticalExamProcessBatch"> | Date | string
+    appliedAt?: DateTimeNullableFilter<"TheoreticalExamProcessBatch"> | Date | string | null
+    rolledBackAt?: DateTimeNullableFilter<"TheoreticalExamProcessBatch"> | Date | string | null
+    solicitudes?: TheoreticalExamProcessSolicitudListRelationFilter
+    pagos?: TheoreticalExamProcessPagoListRelationFilter
+  }, "id">
+
+  export type TheoreticalExamProcessBatchOrderByWithAggregationInput = {
+    id?: SortOrder
+    status?: SortOrder
+    mode?: SortOrder
+    targetDate?: SortOrder
+    seed?: SortOrderInput | SortOrder
+    operator?: SortOrderInput | SortOrder
+    reason?: SortOrderInput | SortOrder
+    dryRun?: SortOrder
+    summary?: SortOrder
+    createdAt?: SortOrder
+    appliedAt?: SortOrderInput | SortOrder
+    rolledBackAt?: SortOrderInput | SortOrder
+    _count?: TheoreticalExamProcessBatchCountOrderByAggregateInput
+    _max?: TheoreticalExamProcessBatchMaxOrderByAggregateInput
+    _min?: TheoreticalExamProcessBatchMinOrderByAggregateInput
+  }
+
+  export type TheoreticalExamProcessBatchScalarWhereWithAggregatesInput = {
+    AND?: TheoreticalExamProcessBatchScalarWhereWithAggregatesInput | TheoreticalExamProcessBatchScalarWhereWithAggregatesInput[]
+    OR?: TheoreticalExamProcessBatchScalarWhereWithAggregatesInput[]
+    NOT?: TheoreticalExamProcessBatchScalarWhereWithAggregatesInput | TheoreticalExamProcessBatchScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TheoreticalExamProcessBatch"> | string
+    status?: StringWithAggregatesFilter<"TheoreticalExamProcessBatch"> | string
+    mode?: StringWithAggregatesFilter<"TheoreticalExamProcessBatch"> | string
+    targetDate?: DateTimeWithAggregatesFilter<"TheoreticalExamProcessBatch"> | Date | string
+    seed?: StringNullableWithAggregatesFilter<"TheoreticalExamProcessBatch"> | string | null
+    operator?: StringNullableWithAggregatesFilter<"TheoreticalExamProcessBatch"> | string | null
+    reason?: StringNullableWithAggregatesFilter<"TheoreticalExamProcessBatch"> | string | null
+    dryRun?: BoolWithAggregatesFilter<"TheoreticalExamProcessBatch"> | boolean
+    summary?: JsonWithAggregatesFilter<"TheoreticalExamProcessBatch">
+    createdAt?: DateTimeWithAggregatesFilter<"TheoreticalExamProcessBatch"> | Date | string
+    appliedAt?: DateTimeNullableWithAggregatesFilter<"TheoreticalExamProcessBatch"> | Date | string | null
+    rolledBackAt?: DateTimeNullableWithAggregatesFilter<"TheoreticalExamProcessBatch"> | Date | string | null
+  }
+
+  export type TheoreticalExamProcessSolicitudWhereInput = {
+    AND?: TheoreticalExamProcessSolicitudWhereInput | TheoreticalExamProcessSolicitudWhereInput[]
+    OR?: TheoreticalExamProcessSolicitudWhereInput[]
+    NOT?: TheoreticalExamProcessSolicitudWhereInput | TheoreticalExamProcessSolicitudWhereInput[]
+    id?: BigIntFilter<"TheoreticalExamProcessSolicitud"> | bigint | number
+    batchId?: StringFilter<"TheoreticalExamProcessSolicitud"> | string
+    solicitudId?: StringFilter<"TheoreticalExamProcessSolicitud"> | string
+    alumnoId?: StringFilter<"TheoreticalExamProcessSolicitud"> | string
+    beforeEstado?: StringFilter<"TheoreticalExamProcessSolicitud"> | string
+    beforeErrores?: IntNullableFilter<"TheoreticalExamProcessSolicitud"> | number | null
+    beforeAciertos?: IntNullableFilter<"TheoreticalExamProcessSolicitud"> | number | null
+    afterEstado?: StringFilter<"TheoreticalExamProcessSolicitud"> | string
+    afterErrores?: IntFilter<"TheoreticalExamProcessSolicitud"> | number
+    afterAciertos?: IntFilter<"TheoreticalExamProcessSolicitud"> | number
+    revertedAt?: DateTimeNullableFilter<"TheoreticalExamProcessSolicitud"> | Date | string | null
+    conflictReason?: StringNullableFilter<"TheoreticalExamProcessSolicitud"> | string | null
+    batch?: XOR<TheoreticalExamProcessBatchScalarRelationFilter, TheoreticalExamProcessBatchWhereInput>
+  }
+
+  export type TheoreticalExamProcessSolicitudOrderByWithRelationInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    solicitudId?: SortOrder
+    alumnoId?: SortOrder
+    beforeEstado?: SortOrder
+    beforeErrores?: SortOrderInput | SortOrder
+    beforeAciertos?: SortOrderInput | SortOrder
+    afterEstado?: SortOrder
+    afterErrores?: SortOrder
+    afterAciertos?: SortOrder
+    revertedAt?: SortOrderInput | SortOrder
+    conflictReason?: SortOrderInput | SortOrder
+    batch?: TheoreticalExamProcessBatchOrderByWithRelationInput
+  }
+
+  export type TheoreticalExamProcessSolicitudWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    batchId_solicitudId?: TheoreticalExamProcessSolicitudBatchIdSolicitudIdCompoundUniqueInput
+    AND?: TheoreticalExamProcessSolicitudWhereInput | TheoreticalExamProcessSolicitudWhereInput[]
+    OR?: TheoreticalExamProcessSolicitudWhereInput[]
+    NOT?: TheoreticalExamProcessSolicitudWhereInput | TheoreticalExamProcessSolicitudWhereInput[]
+    batchId?: StringFilter<"TheoreticalExamProcessSolicitud"> | string
+    solicitudId?: StringFilter<"TheoreticalExamProcessSolicitud"> | string
+    alumnoId?: StringFilter<"TheoreticalExamProcessSolicitud"> | string
+    beforeEstado?: StringFilter<"TheoreticalExamProcessSolicitud"> | string
+    beforeErrores?: IntNullableFilter<"TheoreticalExamProcessSolicitud"> | number | null
+    beforeAciertos?: IntNullableFilter<"TheoreticalExamProcessSolicitud"> | number | null
+    afterEstado?: StringFilter<"TheoreticalExamProcessSolicitud"> | string
+    afterErrores?: IntFilter<"TheoreticalExamProcessSolicitud"> | number
+    afterAciertos?: IntFilter<"TheoreticalExamProcessSolicitud"> | number
+    revertedAt?: DateTimeNullableFilter<"TheoreticalExamProcessSolicitud"> | Date | string | null
+    conflictReason?: StringNullableFilter<"TheoreticalExamProcessSolicitud"> | string | null
+    batch?: XOR<TheoreticalExamProcessBatchScalarRelationFilter, TheoreticalExamProcessBatchWhereInput>
+  }, "id" | "batchId_solicitudId">
+
+  export type TheoreticalExamProcessSolicitudOrderByWithAggregationInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    solicitudId?: SortOrder
+    alumnoId?: SortOrder
+    beforeEstado?: SortOrder
+    beforeErrores?: SortOrderInput | SortOrder
+    beforeAciertos?: SortOrderInput | SortOrder
+    afterEstado?: SortOrder
+    afterErrores?: SortOrder
+    afterAciertos?: SortOrder
+    revertedAt?: SortOrderInput | SortOrder
+    conflictReason?: SortOrderInput | SortOrder
+    _count?: TheoreticalExamProcessSolicitudCountOrderByAggregateInput
+    _avg?: TheoreticalExamProcessSolicitudAvgOrderByAggregateInput
+    _max?: TheoreticalExamProcessSolicitudMaxOrderByAggregateInput
+    _min?: TheoreticalExamProcessSolicitudMinOrderByAggregateInput
+    _sum?: TheoreticalExamProcessSolicitudSumOrderByAggregateInput
+  }
+
+  export type TheoreticalExamProcessSolicitudScalarWhereWithAggregatesInput = {
+    AND?: TheoreticalExamProcessSolicitudScalarWhereWithAggregatesInput | TheoreticalExamProcessSolicitudScalarWhereWithAggregatesInput[]
+    OR?: TheoreticalExamProcessSolicitudScalarWhereWithAggregatesInput[]
+    NOT?: TheoreticalExamProcessSolicitudScalarWhereWithAggregatesInput | TheoreticalExamProcessSolicitudScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"TheoreticalExamProcessSolicitud"> | bigint | number
+    batchId?: StringWithAggregatesFilter<"TheoreticalExamProcessSolicitud"> | string
+    solicitudId?: StringWithAggregatesFilter<"TheoreticalExamProcessSolicitud"> | string
+    alumnoId?: StringWithAggregatesFilter<"TheoreticalExamProcessSolicitud"> | string
+    beforeEstado?: StringWithAggregatesFilter<"TheoreticalExamProcessSolicitud"> | string
+    beforeErrores?: IntNullableWithAggregatesFilter<"TheoreticalExamProcessSolicitud"> | number | null
+    beforeAciertos?: IntNullableWithAggregatesFilter<"TheoreticalExamProcessSolicitud"> | number | null
+    afterEstado?: StringWithAggregatesFilter<"TheoreticalExamProcessSolicitud"> | string
+    afterErrores?: IntWithAggregatesFilter<"TheoreticalExamProcessSolicitud"> | number
+    afterAciertos?: IntWithAggregatesFilter<"TheoreticalExamProcessSolicitud"> | number
+    revertedAt?: DateTimeNullableWithAggregatesFilter<"TheoreticalExamProcessSolicitud"> | Date | string | null
+    conflictReason?: StringNullableWithAggregatesFilter<"TheoreticalExamProcessSolicitud"> | string | null
+  }
+
+  export type TheoreticalExamProcessPagoWhereInput = {
+    AND?: TheoreticalExamProcessPagoWhereInput | TheoreticalExamProcessPagoWhereInput[]
+    OR?: TheoreticalExamProcessPagoWhereInput[]
+    NOT?: TheoreticalExamProcessPagoWhereInput | TheoreticalExamProcessPagoWhereInput[]
+    id?: BigIntFilter<"TheoreticalExamProcessPago"> | bigint | number
+    batchId?: StringFilter<"TheoreticalExamProcessPago"> | string
+    pagoId?: StringFilter<"TheoreticalExamProcessPago"> | string
+    alumnoId?: StringFilter<"TheoreticalExamProcessPago"> | string
+    beforeConvocatoriasConsumidas?: IntFilter<"TheoreticalExamProcessPago"> | number
+    afterConvocatoriasConsumidas?: IntFilter<"TheoreticalExamProcessPago"> | number
+    applied?: BoolFilter<"TheoreticalExamProcessPago"> | boolean
+    revertedAt?: DateTimeNullableFilter<"TheoreticalExamProcessPago"> | Date | string | null
+    conflictReason?: StringNullableFilter<"TheoreticalExamProcessPago"> | string | null
+    batch?: XOR<TheoreticalExamProcessBatchScalarRelationFilter, TheoreticalExamProcessBatchWhereInput>
+  }
+
+  export type TheoreticalExamProcessPagoOrderByWithRelationInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    pagoId?: SortOrder
+    alumnoId?: SortOrder
+    beforeConvocatoriasConsumidas?: SortOrder
+    afterConvocatoriasConsumidas?: SortOrder
+    applied?: SortOrder
+    revertedAt?: SortOrderInput | SortOrder
+    conflictReason?: SortOrderInput | SortOrder
+    batch?: TheoreticalExamProcessBatchOrderByWithRelationInput
+  }
+
+  export type TheoreticalExamProcessPagoWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    batchId_pagoId?: TheoreticalExamProcessPagoBatchIdPagoIdCompoundUniqueInput
+    AND?: TheoreticalExamProcessPagoWhereInput | TheoreticalExamProcessPagoWhereInput[]
+    OR?: TheoreticalExamProcessPagoWhereInput[]
+    NOT?: TheoreticalExamProcessPagoWhereInput | TheoreticalExamProcessPagoWhereInput[]
+    batchId?: StringFilter<"TheoreticalExamProcessPago"> | string
+    pagoId?: StringFilter<"TheoreticalExamProcessPago"> | string
+    alumnoId?: StringFilter<"TheoreticalExamProcessPago"> | string
+    beforeConvocatoriasConsumidas?: IntFilter<"TheoreticalExamProcessPago"> | number
+    afterConvocatoriasConsumidas?: IntFilter<"TheoreticalExamProcessPago"> | number
+    applied?: BoolFilter<"TheoreticalExamProcessPago"> | boolean
+    revertedAt?: DateTimeNullableFilter<"TheoreticalExamProcessPago"> | Date | string | null
+    conflictReason?: StringNullableFilter<"TheoreticalExamProcessPago"> | string | null
+    batch?: XOR<TheoreticalExamProcessBatchScalarRelationFilter, TheoreticalExamProcessBatchWhereInput>
+  }, "id" | "batchId_pagoId">
+
+  export type TheoreticalExamProcessPagoOrderByWithAggregationInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    pagoId?: SortOrder
+    alumnoId?: SortOrder
+    beforeConvocatoriasConsumidas?: SortOrder
+    afterConvocatoriasConsumidas?: SortOrder
+    applied?: SortOrder
+    revertedAt?: SortOrderInput | SortOrder
+    conflictReason?: SortOrderInput | SortOrder
+    _count?: TheoreticalExamProcessPagoCountOrderByAggregateInput
+    _avg?: TheoreticalExamProcessPagoAvgOrderByAggregateInput
+    _max?: TheoreticalExamProcessPagoMaxOrderByAggregateInput
+    _min?: TheoreticalExamProcessPagoMinOrderByAggregateInput
+    _sum?: TheoreticalExamProcessPagoSumOrderByAggregateInput
+  }
+
+  export type TheoreticalExamProcessPagoScalarWhereWithAggregatesInput = {
+    AND?: TheoreticalExamProcessPagoScalarWhereWithAggregatesInput | TheoreticalExamProcessPagoScalarWhereWithAggregatesInput[]
+    OR?: TheoreticalExamProcessPagoScalarWhereWithAggregatesInput[]
+    NOT?: TheoreticalExamProcessPagoScalarWhereWithAggregatesInput | TheoreticalExamProcessPagoScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"TheoreticalExamProcessPago"> | bigint | number
+    batchId?: StringWithAggregatesFilter<"TheoreticalExamProcessPago"> | string
+    pagoId?: StringWithAggregatesFilter<"TheoreticalExamProcessPago"> | string
+    alumnoId?: StringWithAggregatesFilter<"TheoreticalExamProcessPago"> | string
+    beforeConvocatoriasConsumidas?: IntWithAggregatesFilter<"TheoreticalExamProcessPago"> | number
+    afterConvocatoriasConsumidas?: IntWithAggregatesFilter<"TheoreticalExamProcessPago"> | number
+    applied?: BoolWithAggregatesFilter<"TheoreticalExamProcessPago"> | boolean
+    revertedAt?: DateTimeNullableWithAggregatesFilter<"TheoreticalExamProcessPago"> | Date | string | null
+    conflictReason?: StringNullableWithAggregatesFilter<"TheoreticalExamProcessPago"> | string | null
   }
 
   export type MatriculaConceptoWhereInput = {
@@ -42293,6 +46501,306 @@ export namespace Prisma {
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type TheoreticalExamProcessBatchCreateInput = {
+    id: string
+    status: string
+    mode: string
+    targetDate: Date | string
+    seed?: string | null
+    operator?: string | null
+    reason?: string | null
+    dryRun?: boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    appliedAt?: Date | string | null
+    rolledBackAt?: Date | string | null
+    solicitudes?: TheoreticalExamProcessSolicitudCreateNestedManyWithoutBatchInput
+    pagos?: TheoreticalExamProcessPagoCreateNestedManyWithoutBatchInput
+  }
+
+  export type TheoreticalExamProcessBatchUncheckedCreateInput = {
+    id: string
+    status: string
+    mode: string
+    targetDate: Date | string
+    seed?: string | null
+    operator?: string | null
+    reason?: string | null
+    dryRun?: boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    appliedAt?: Date | string | null
+    rolledBackAt?: Date | string | null
+    solicitudes?: TheoreticalExamProcessSolicitudUncheckedCreateNestedManyWithoutBatchInput
+    pagos?: TheoreticalExamProcessPagoUncheckedCreateNestedManyWithoutBatchInput
+  }
+
+  export type TheoreticalExamProcessBatchUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    targetDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seed?: NullableStringFieldUpdateOperationsInput | string | null
+    operator?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    dryRun?: BoolFieldUpdateOperationsInput | boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    appliedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rolledBackAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    solicitudes?: TheoreticalExamProcessSolicitudUpdateManyWithoutBatchNestedInput
+    pagos?: TheoreticalExamProcessPagoUpdateManyWithoutBatchNestedInput
+  }
+
+  export type TheoreticalExamProcessBatchUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    targetDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seed?: NullableStringFieldUpdateOperationsInput | string | null
+    operator?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    dryRun?: BoolFieldUpdateOperationsInput | boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    appliedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rolledBackAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    solicitudes?: TheoreticalExamProcessSolicitudUncheckedUpdateManyWithoutBatchNestedInput
+    pagos?: TheoreticalExamProcessPagoUncheckedUpdateManyWithoutBatchNestedInput
+  }
+
+  export type TheoreticalExamProcessBatchCreateManyInput = {
+    id: string
+    status: string
+    mode: string
+    targetDate: Date | string
+    seed?: string | null
+    operator?: string | null
+    reason?: string | null
+    dryRun?: boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    appliedAt?: Date | string | null
+    rolledBackAt?: Date | string | null
+  }
+
+  export type TheoreticalExamProcessBatchUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    targetDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seed?: NullableStringFieldUpdateOperationsInput | string | null
+    operator?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    dryRun?: BoolFieldUpdateOperationsInput | boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    appliedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rolledBackAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type TheoreticalExamProcessBatchUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    targetDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seed?: NullableStringFieldUpdateOperationsInput | string | null
+    operator?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    dryRun?: BoolFieldUpdateOperationsInput | boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    appliedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rolledBackAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type TheoreticalExamProcessSolicitudCreateInput = {
+    id?: bigint | number
+    solicitudId: string
+    alumnoId: string
+    beforeEstado: string
+    beforeErrores?: number | null
+    beforeAciertos?: number | null
+    afterEstado: string
+    afterErrores: number
+    afterAciertos: number
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+    batch: TheoreticalExamProcessBatchCreateNestedOneWithoutSolicitudesInput
+  }
+
+  export type TheoreticalExamProcessSolicitudUncheckedCreateInput = {
+    id?: bigint | number
+    batchId: string
+    solicitudId: string
+    alumnoId: string
+    beforeEstado: string
+    beforeErrores?: number | null
+    beforeAciertos?: number | null
+    afterEstado: string
+    afterErrores: number
+    afterAciertos: number
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+  }
+
+  export type TheoreticalExamProcessSolicitudUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    solicitudId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeEstado?: StringFieldUpdateOperationsInput | string
+    beforeErrores?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeAciertos?: NullableIntFieldUpdateOperationsInput | number | null
+    afterEstado?: StringFieldUpdateOperationsInput | string
+    afterErrores?: IntFieldUpdateOperationsInput | number
+    afterAciertos?: IntFieldUpdateOperationsInput | number
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+    batch?: TheoreticalExamProcessBatchUpdateOneRequiredWithoutSolicitudesNestedInput
+  }
+
+  export type TheoreticalExamProcessSolicitudUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    batchId?: StringFieldUpdateOperationsInput | string
+    solicitudId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeEstado?: StringFieldUpdateOperationsInput | string
+    beforeErrores?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeAciertos?: NullableIntFieldUpdateOperationsInput | number | null
+    afterEstado?: StringFieldUpdateOperationsInput | string
+    afterErrores?: IntFieldUpdateOperationsInput | number
+    afterAciertos?: IntFieldUpdateOperationsInput | number
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TheoreticalExamProcessSolicitudCreateManyInput = {
+    id?: bigint | number
+    batchId: string
+    solicitudId: string
+    alumnoId: string
+    beforeEstado: string
+    beforeErrores?: number | null
+    beforeAciertos?: number | null
+    afterEstado: string
+    afterErrores: number
+    afterAciertos: number
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+  }
+
+  export type TheoreticalExamProcessSolicitudUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    solicitudId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeEstado?: StringFieldUpdateOperationsInput | string
+    beforeErrores?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeAciertos?: NullableIntFieldUpdateOperationsInput | number | null
+    afterEstado?: StringFieldUpdateOperationsInput | string
+    afterErrores?: IntFieldUpdateOperationsInput | number
+    afterAciertos?: IntFieldUpdateOperationsInput | number
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TheoreticalExamProcessSolicitudUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    batchId?: StringFieldUpdateOperationsInput | string
+    solicitudId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeEstado?: StringFieldUpdateOperationsInput | string
+    beforeErrores?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeAciertos?: NullableIntFieldUpdateOperationsInput | number | null
+    afterEstado?: StringFieldUpdateOperationsInput | string
+    afterErrores?: IntFieldUpdateOperationsInput | number
+    afterAciertos?: IntFieldUpdateOperationsInput | number
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TheoreticalExamProcessPagoCreateInput = {
+    id?: bigint | number
+    pagoId: string
+    alumnoId: string
+    beforeConvocatoriasConsumidas: number
+    afterConvocatoriasConsumidas: number
+    applied?: boolean
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+    batch: TheoreticalExamProcessBatchCreateNestedOneWithoutPagosInput
+  }
+
+  export type TheoreticalExamProcessPagoUncheckedCreateInput = {
+    id?: bigint | number
+    batchId: string
+    pagoId: string
+    alumnoId: string
+    beforeConvocatoriasConsumidas: number
+    afterConvocatoriasConsumidas: number
+    applied?: boolean
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+  }
+
+  export type TheoreticalExamProcessPagoUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    pagoId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    afterConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    applied?: BoolFieldUpdateOperationsInput | boolean
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+    batch?: TheoreticalExamProcessBatchUpdateOneRequiredWithoutPagosNestedInput
+  }
+
+  export type TheoreticalExamProcessPagoUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    batchId?: StringFieldUpdateOperationsInput | string
+    pagoId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    afterConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    applied?: BoolFieldUpdateOperationsInput | boolean
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TheoreticalExamProcessPagoCreateManyInput = {
+    id?: bigint | number
+    batchId: string
+    pagoId: string
+    alumnoId: string
+    beforeConvocatoriasConsumidas: number
+    afterConvocatoriasConsumidas: number
+    applied?: boolean
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+  }
+
+  export type TheoreticalExamProcessPagoUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    pagoId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    afterConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    applied?: BoolFieldUpdateOperationsInput | boolean
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TheoreticalExamProcessPagoUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    batchId?: StringFieldUpdateOperationsInput | string
+    pagoId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    afterConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    applied?: BoolFieldUpdateOperationsInput | boolean
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type MatriculaConceptoCreateInput = {
     id?: string
     cantidad?: number
@@ -44093,6 +48601,269 @@ export namespace Prisma {
     importe?: SortOrder
     convocatoriasIncluidas?: SortOrder
     convocatoriasConsumidas?: SortOrder
+  }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type TheoreticalExamProcessSolicitudListRelationFilter = {
+    every?: TheoreticalExamProcessSolicitudWhereInput
+    some?: TheoreticalExamProcessSolicitudWhereInput
+    none?: TheoreticalExamProcessSolicitudWhereInput
+  }
+
+  export type TheoreticalExamProcessPagoListRelationFilter = {
+    every?: TheoreticalExamProcessPagoWhereInput
+    some?: TheoreticalExamProcessPagoWhereInput
+    none?: TheoreticalExamProcessPagoWhereInput
+  }
+
+  export type TheoreticalExamProcessSolicitudOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TheoreticalExamProcessPagoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TheoreticalExamProcessBatchCountOrderByAggregateInput = {
+    id?: SortOrder
+    status?: SortOrder
+    mode?: SortOrder
+    targetDate?: SortOrder
+    seed?: SortOrder
+    operator?: SortOrder
+    reason?: SortOrder
+    dryRun?: SortOrder
+    summary?: SortOrder
+    createdAt?: SortOrder
+    appliedAt?: SortOrder
+    rolledBackAt?: SortOrder
+  }
+
+  export type TheoreticalExamProcessBatchMaxOrderByAggregateInput = {
+    id?: SortOrder
+    status?: SortOrder
+    mode?: SortOrder
+    targetDate?: SortOrder
+    seed?: SortOrder
+    operator?: SortOrder
+    reason?: SortOrder
+    dryRun?: SortOrder
+    createdAt?: SortOrder
+    appliedAt?: SortOrder
+    rolledBackAt?: SortOrder
+  }
+
+  export type TheoreticalExamProcessBatchMinOrderByAggregateInput = {
+    id?: SortOrder
+    status?: SortOrder
+    mode?: SortOrder
+    targetDate?: SortOrder
+    seed?: SortOrder
+    operator?: SortOrder
+    reason?: SortOrder
+    dryRun?: SortOrder
+    createdAt?: SortOrder
+    appliedAt?: SortOrder
+    rolledBackAt?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
+
+  export type BigIntFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntFilter<$PrismaModel> | bigint | number
+  }
+
+  export type TheoreticalExamProcessBatchScalarRelationFilter = {
+    is?: TheoreticalExamProcessBatchWhereInput
+    isNot?: TheoreticalExamProcessBatchWhereInput
+  }
+
+  export type TheoreticalExamProcessSolicitudBatchIdSolicitudIdCompoundUniqueInput = {
+    batchId: string
+    solicitudId: string
+  }
+
+  export type TheoreticalExamProcessSolicitudCountOrderByAggregateInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    solicitudId?: SortOrder
+    alumnoId?: SortOrder
+    beforeEstado?: SortOrder
+    beforeErrores?: SortOrder
+    beforeAciertos?: SortOrder
+    afterEstado?: SortOrder
+    afterErrores?: SortOrder
+    afterAciertos?: SortOrder
+    revertedAt?: SortOrder
+    conflictReason?: SortOrder
+  }
+
+  export type TheoreticalExamProcessSolicitudAvgOrderByAggregateInput = {
+    id?: SortOrder
+    beforeErrores?: SortOrder
+    beforeAciertos?: SortOrder
+    afterErrores?: SortOrder
+    afterAciertos?: SortOrder
+  }
+
+  export type TheoreticalExamProcessSolicitudMaxOrderByAggregateInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    solicitudId?: SortOrder
+    alumnoId?: SortOrder
+    beforeEstado?: SortOrder
+    beforeErrores?: SortOrder
+    beforeAciertos?: SortOrder
+    afterEstado?: SortOrder
+    afterErrores?: SortOrder
+    afterAciertos?: SortOrder
+    revertedAt?: SortOrder
+    conflictReason?: SortOrder
+  }
+
+  export type TheoreticalExamProcessSolicitudMinOrderByAggregateInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    solicitudId?: SortOrder
+    alumnoId?: SortOrder
+    beforeEstado?: SortOrder
+    beforeErrores?: SortOrder
+    beforeAciertos?: SortOrder
+    afterEstado?: SortOrder
+    afterErrores?: SortOrder
+    afterAciertos?: SortOrder
+    revertedAt?: SortOrder
+    conflictReason?: SortOrder
+  }
+
+  export type TheoreticalExamProcessSolicitudSumOrderByAggregateInput = {
+    id?: SortOrder
+    beforeErrores?: SortOrder
+    beforeAciertos?: SortOrder
+    afterErrores?: SortOrder
+    afterAciertos?: SortOrder
+  }
+
+  export type BigIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntWithAggregatesFilter<$PrismaModel> | bigint | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedBigIntFilter<$PrismaModel>
+    _min?: NestedBigIntFilter<$PrismaModel>
+    _max?: NestedBigIntFilter<$PrismaModel>
+  }
+
+  export type TheoreticalExamProcessPagoBatchIdPagoIdCompoundUniqueInput = {
+    batchId: string
+    pagoId: string
+  }
+
+  export type TheoreticalExamProcessPagoCountOrderByAggregateInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    pagoId?: SortOrder
+    alumnoId?: SortOrder
+    beforeConvocatoriasConsumidas?: SortOrder
+    afterConvocatoriasConsumidas?: SortOrder
+    applied?: SortOrder
+    revertedAt?: SortOrder
+    conflictReason?: SortOrder
+  }
+
+  export type TheoreticalExamProcessPagoAvgOrderByAggregateInput = {
+    id?: SortOrder
+    beforeConvocatoriasConsumidas?: SortOrder
+    afterConvocatoriasConsumidas?: SortOrder
+  }
+
+  export type TheoreticalExamProcessPagoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    pagoId?: SortOrder
+    alumnoId?: SortOrder
+    beforeConvocatoriasConsumidas?: SortOrder
+    afterConvocatoriasConsumidas?: SortOrder
+    applied?: SortOrder
+    revertedAt?: SortOrder
+    conflictReason?: SortOrder
+  }
+
+  export type TheoreticalExamProcessPagoMinOrderByAggregateInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    pagoId?: SortOrder
+    alumnoId?: SortOrder
+    beforeConvocatoriasConsumidas?: SortOrder
+    afterConvocatoriasConsumidas?: SortOrder
+    applied?: SortOrder
+    revertedAt?: SortOrder
+    conflictReason?: SortOrder
+  }
+
+  export type TheoreticalExamProcessPagoSumOrderByAggregateInput = {
+    id?: SortOrder
+    beforeConvocatoriasConsumidas?: SortOrder
+    afterConvocatoriasConsumidas?: SortOrder
   }
 
   export type MatriculaScalarRelationFilter = {
@@ -45915,6 +50686,126 @@ export namespace Prisma {
     update?: XOR<XOR<MatriculaUpdateToOneWithWhereWithoutPagosInput, MatriculaUpdateWithoutPagosInput>, MatriculaUncheckedUpdateWithoutPagosInput>
   }
 
+  export type TheoreticalExamProcessSolicitudCreateNestedManyWithoutBatchInput = {
+    create?: XOR<TheoreticalExamProcessSolicitudCreateWithoutBatchInput, TheoreticalExamProcessSolicitudUncheckedCreateWithoutBatchInput> | TheoreticalExamProcessSolicitudCreateWithoutBatchInput[] | TheoreticalExamProcessSolicitudUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: TheoreticalExamProcessSolicitudCreateOrConnectWithoutBatchInput | TheoreticalExamProcessSolicitudCreateOrConnectWithoutBatchInput[]
+    createMany?: TheoreticalExamProcessSolicitudCreateManyBatchInputEnvelope
+    connect?: TheoreticalExamProcessSolicitudWhereUniqueInput | TheoreticalExamProcessSolicitudWhereUniqueInput[]
+  }
+
+  export type TheoreticalExamProcessPagoCreateNestedManyWithoutBatchInput = {
+    create?: XOR<TheoreticalExamProcessPagoCreateWithoutBatchInput, TheoreticalExamProcessPagoUncheckedCreateWithoutBatchInput> | TheoreticalExamProcessPagoCreateWithoutBatchInput[] | TheoreticalExamProcessPagoUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: TheoreticalExamProcessPagoCreateOrConnectWithoutBatchInput | TheoreticalExamProcessPagoCreateOrConnectWithoutBatchInput[]
+    createMany?: TheoreticalExamProcessPagoCreateManyBatchInputEnvelope
+    connect?: TheoreticalExamProcessPagoWhereUniqueInput | TheoreticalExamProcessPagoWhereUniqueInput[]
+  }
+
+  export type TheoreticalExamProcessSolicitudUncheckedCreateNestedManyWithoutBatchInput = {
+    create?: XOR<TheoreticalExamProcessSolicitudCreateWithoutBatchInput, TheoreticalExamProcessSolicitudUncheckedCreateWithoutBatchInput> | TheoreticalExamProcessSolicitudCreateWithoutBatchInput[] | TheoreticalExamProcessSolicitudUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: TheoreticalExamProcessSolicitudCreateOrConnectWithoutBatchInput | TheoreticalExamProcessSolicitudCreateOrConnectWithoutBatchInput[]
+    createMany?: TheoreticalExamProcessSolicitudCreateManyBatchInputEnvelope
+    connect?: TheoreticalExamProcessSolicitudWhereUniqueInput | TheoreticalExamProcessSolicitudWhereUniqueInput[]
+  }
+
+  export type TheoreticalExamProcessPagoUncheckedCreateNestedManyWithoutBatchInput = {
+    create?: XOR<TheoreticalExamProcessPagoCreateWithoutBatchInput, TheoreticalExamProcessPagoUncheckedCreateWithoutBatchInput> | TheoreticalExamProcessPagoCreateWithoutBatchInput[] | TheoreticalExamProcessPagoUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: TheoreticalExamProcessPagoCreateOrConnectWithoutBatchInput | TheoreticalExamProcessPagoCreateOrConnectWithoutBatchInput[]
+    createMany?: TheoreticalExamProcessPagoCreateManyBatchInputEnvelope
+    connect?: TheoreticalExamProcessPagoWhereUniqueInput | TheoreticalExamProcessPagoWhereUniqueInput[]
+  }
+
+  export type TheoreticalExamProcessSolicitudUpdateManyWithoutBatchNestedInput = {
+    create?: XOR<TheoreticalExamProcessSolicitudCreateWithoutBatchInput, TheoreticalExamProcessSolicitudUncheckedCreateWithoutBatchInput> | TheoreticalExamProcessSolicitudCreateWithoutBatchInput[] | TheoreticalExamProcessSolicitudUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: TheoreticalExamProcessSolicitudCreateOrConnectWithoutBatchInput | TheoreticalExamProcessSolicitudCreateOrConnectWithoutBatchInput[]
+    upsert?: TheoreticalExamProcessSolicitudUpsertWithWhereUniqueWithoutBatchInput | TheoreticalExamProcessSolicitudUpsertWithWhereUniqueWithoutBatchInput[]
+    createMany?: TheoreticalExamProcessSolicitudCreateManyBatchInputEnvelope
+    set?: TheoreticalExamProcessSolicitudWhereUniqueInput | TheoreticalExamProcessSolicitudWhereUniqueInput[]
+    disconnect?: TheoreticalExamProcessSolicitudWhereUniqueInput | TheoreticalExamProcessSolicitudWhereUniqueInput[]
+    delete?: TheoreticalExamProcessSolicitudWhereUniqueInput | TheoreticalExamProcessSolicitudWhereUniqueInput[]
+    connect?: TheoreticalExamProcessSolicitudWhereUniqueInput | TheoreticalExamProcessSolicitudWhereUniqueInput[]
+    update?: TheoreticalExamProcessSolicitudUpdateWithWhereUniqueWithoutBatchInput | TheoreticalExamProcessSolicitudUpdateWithWhereUniqueWithoutBatchInput[]
+    updateMany?: TheoreticalExamProcessSolicitudUpdateManyWithWhereWithoutBatchInput | TheoreticalExamProcessSolicitudUpdateManyWithWhereWithoutBatchInput[]
+    deleteMany?: TheoreticalExamProcessSolicitudScalarWhereInput | TheoreticalExamProcessSolicitudScalarWhereInput[]
+  }
+
+  export type TheoreticalExamProcessPagoUpdateManyWithoutBatchNestedInput = {
+    create?: XOR<TheoreticalExamProcessPagoCreateWithoutBatchInput, TheoreticalExamProcessPagoUncheckedCreateWithoutBatchInput> | TheoreticalExamProcessPagoCreateWithoutBatchInput[] | TheoreticalExamProcessPagoUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: TheoreticalExamProcessPagoCreateOrConnectWithoutBatchInput | TheoreticalExamProcessPagoCreateOrConnectWithoutBatchInput[]
+    upsert?: TheoreticalExamProcessPagoUpsertWithWhereUniqueWithoutBatchInput | TheoreticalExamProcessPagoUpsertWithWhereUniqueWithoutBatchInput[]
+    createMany?: TheoreticalExamProcessPagoCreateManyBatchInputEnvelope
+    set?: TheoreticalExamProcessPagoWhereUniqueInput | TheoreticalExamProcessPagoWhereUniqueInput[]
+    disconnect?: TheoreticalExamProcessPagoWhereUniqueInput | TheoreticalExamProcessPagoWhereUniqueInput[]
+    delete?: TheoreticalExamProcessPagoWhereUniqueInput | TheoreticalExamProcessPagoWhereUniqueInput[]
+    connect?: TheoreticalExamProcessPagoWhereUniqueInput | TheoreticalExamProcessPagoWhereUniqueInput[]
+    update?: TheoreticalExamProcessPagoUpdateWithWhereUniqueWithoutBatchInput | TheoreticalExamProcessPagoUpdateWithWhereUniqueWithoutBatchInput[]
+    updateMany?: TheoreticalExamProcessPagoUpdateManyWithWhereWithoutBatchInput | TheoreticalExamProcessPagoUpdateManyWithWhereWithoutBatchInput[]
+    deleteMany?: TheoreticalExamProcessPagoScalarWhereInput | TheoreticalExamProcessPagoScalarWhereInput[]
+  }
+
+  export type TheoreticalExamProcessSolicitudUncheckedUpdateManyWithoutBatchNestedInput = {
+    create?: XOR<TheoreticalExamProcessSolicitudCreateWithoutBatchInput, TheoreticalExamProcessSolicitudUncheckedCreateWithoutBatchInput> | TheoreticalExamProcessSolicitudCreateWithoutBatchInput[] | TheoreticalExamProcessSolicitudUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: TheoreticalExamProcessSolicitudCreateOrConnectWithoutBatchInput | TheoreticalExamProcessSolicitudCreateOrConnectWithoutBatchInput[]
+    upsert?: TheoreticalExamProcessSolicitudUpsertWithWhereUniqueWithoutBatchInput | TheoreticalExamProcessSolicitudUpsertWithWhereUniqueWithoutBatchInput[]
+    createMany?: TheoreticalExamProcessSolicitudCreateManyBatchInputEnvelope
+    set?: TheoreticalExamProcessSolicitudWhereUniqueInput | TheoreticalExamProcessSolicitudWhereUniqueInput[]
+    disconnect?: TheoreticalExamProcessSolicitudWhereUniqueInput | TheoreticalExamProcessSolicitudWhereUniqueInput[]
+    delete?: TheoreticalExamProcessSolicitudWhereUniqueInput | TheoreticalExamProcessSolicitudWhereUniqueInput[]
+    connect?: TheoreticalExamProcessSolicitudWhereUniqueInput | TheoreticalExamProcessSolicitudWhereUniqueInput[]
+    update?: TheoreticalExamProcessSolicitudUpdateWithWhereUniqueWithoutBatchInput | TheoreticalExamProcessSolicitudUpdateWithWhereUniqueWithoutBatchInput[]
+    updateMany?: TheoreticalExamProcessSolicitudUpdateManyWithWhereWithoutBatchInput | TheoreticalExamProcessSolicitudUpdateManyWithWhereWithoutBatchInput[]
+    deleteMany?: TheoreticalExamProcessSolicitudScalarWhereInput | TheoreticalExamProcessSolicitudScalarWhereInput[]
+  }
+
+  export type TheoreticalExamProcessPagoUncheckedUpdateManyWithoutBatchNestedInput = {
+    create?: XOR<TheoreticalExamProcessPagoCreateWithoutBatchInput, TheoreticalExamProcessPagoUncheckedCreateWithoutBatchInput> | TheoreticalExamProcessPagoCreateWithoutBatchInput[] | TheoreticalExamProcessPagoUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: TheoreticalExamProcessPagoCreateOrConnectWithoutBatchInput | TheoreticalExamProcessPagoCreateOrConnectWithoutBatchInput[]
+    upsert?: TheoreticalExamProcessPagoUpsertWithWhereUniqueWithoutBatchInput | TheoreticalExamProcessPagoUpsertWithWhereUniqueWithoutBatchInput[]
+    createMany?: TheoreticalExamProcessPagoCreateManyBatchInputEnvelope
+    set?: TheoreticalExamProcessPagoWhereUniqueInput | TheoreticalExamProcessPagoWhereUniqueInput[]
+    disconnect?: TheoreticalExamProcessPagoWhereUniqueInput | TheoreticalExamProcessPagoWhereUniqueInput[]
+    delete?: TheoreticalExamProcessPagoWhereUniqueInput | TheoreticalExamProcessPagoWhereUniqueInput[]
+    connect?: TheoreticalExamProcessPagoWhereUniqueInput | TheoreticalExamProcessPagoWhereUniqueInput[]
+    update?: TheoreticalExamProcessPagoUpdateWithWhereUniqueWithoutBatchInput | TheoreticalExamProcessPagoUpdateWithWhereUniqueWithoutBatchInput[]
+    updateMany?: TheoreticalExamProcessPagoUpdateManyWithWhereWithoutBatchInput | TheoreticalExamProcessPagoUpdateManyWithWhereWithoutBatchInput[]
+    deleteMany?: TheoreticalExamProcessPagoScalarWhereInput | TheoreticalExamProcessPagoScalarWhereInput[]
+  }
+
+  export type TheoreticalExamProcessBatchCreateNestedOneWithoutSolicitudesInput = {
+    create?: XOR<TheoreticalExamProcessBatchCreateWithoutSolicitudesInput, TheoreticalExamProcessBatchUncheckedCreateWithoutSolicitudesInput>
+    connectOrCreate?: TheoreticalExamProcessBatchCreateOrConnectWithoutSolicitudesInput
+    connect?: TheoreticalExamProcessBatchWhereUniqueInput
+  }
+
+  export type BigIntFieldUpdateOperationsInput = {
+    set?: bigint | number
+    increment?: bigint | number
+    decrement?: bigint | number
+    multiply?: bigint | number
+    divide?: bigint | number
+  }
+
+  export type TheoreticalExamProcessBatchUpdateOneRequiredWithoutSolicitudesNestedInput = {
+    create?: XOR<TheoreticalExamProcessBatchCreateWithoutSolicitudesInput, TheoreticalExamProcessBatchUncheckedCreateWithoutSolicitudesInput>
+    connectOrCreate?: TheoreticalExamProcessBatchCreateOrConnectWithoutSolicitudesInput
+    upsert?: TheoreticalExamProcessBatchUpsertWithoutSolicitudesInput
+    connect?: TheoreticalExamProcessBatchWhereUniqueInput
+    update?: XOR<XOR<TheoreticalExamProcessBatchUpdateToOneWithWhereWithoutSolicitudesInput, TheoreticalExamProcessBatchUpdateWithoutSolicitudesInput>, TheoreticalExamProcessBatchUncheckedUpdateWithoutSolicitudesInput>
+  }
+
+  export type TheoreticalExamProcessBatchCreateNestedOneWithoutPagosInput = {
+    create?: XOR<TheoreticalExamProcessBatchCreateWithoutPagosInput, TheoreticalExamProcessBatchUncheckedCreateWithoutPagosInput>
+    connectOrCreate?: TheoreticalExamProcessBatchCreateOrConnectWithoutPagosInput
+    connect?: TheoreticalExamProcessBatchWhereUniqueInput
+  }
+
+  export type TheoreticalExamProcessBatchUpdateOneRequiredWithoutPagosNestedInput = {
+    create?: XOR<TheoreticalExamProcessBatchCreateWithoutPagosInput, TheoreticalExamProcessBatchUncheckedCreateWithoutPagosInput>
+    connectOrCreate?: TheoreticalExamProcessBatchCreateOrConnectWithoutPagosInput
+    upsert?: TheoreticalExamProcessBatchUpsertWithoutPagosInput
+    connect?: TheoreticalExamProcessBatchWhereUniqueInput
+    update?: XOR<XOR<TheoreticalExamProcessBatchUpdateToOneWithWhereWithoutPagosInput, TheoreticalExamProcessBatchUpdateWithoutPagosInput>, TheoreticalExamProcessBatchUncheckedUpdateWithoutPagosInput>
+  }
+
   export type MatriculaCreateNestedOneWithoutConceptosInput = {
     create?: XOR<MatriculaCreateWithoutConceptosInput, MatriculaUncheckedCreateWithoutConceptosInput>
     connectOrCreate?: MatriculaCreateOrConnectWithoutConceptosInput
@@ -46258,6 +51149,56 @@ export namespace Prisma {
     _sum?: NestedDecimalNullableFilter<$PrismaModel>
     _min?: NestedDecimalNullableFilter<$PrismaModel>
     _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedBigIntFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntFilter<$PrismaModel> | bigint | number
+  }
+
+  export type NestedBigIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntWithAggregatesFilter<$PrismaModel> | bigint | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedBigIntFilter<$PrismaModel>
+    _min?: NestedBigIntFilter<$PrismaModel>
+    _max?: NestedBigIntFilter<$PrismaModel>
   }
 
   export type ActivacionCuentaCreateWithoutUsuarioInput = {
@@ -49993,6 +54934,301 @@ export namespace Prisma {
     conceptos?: MatriculaConceptoUncheckedUpdateManyWithoutMatriculaNestedInput
   }
 
+  export type TheoreticalExamProcessSolicitudCreateWithoutBatchInput = {
+    id?: bigint | number
+    solicitudId: string
+    alumnoId: string
+    beforeEstado: string
+    beforeErrores?: number | null
+    beforeAciertos?: number | null
+    afterEstado: string
+    afterErrores: number
+    afterAciertos: number
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+  }
+
+  export type TheoreticalExamProcessSolicitudUncheckedCreateWithoutBatchInput = {
+    id?: bigint | number
+    solicitudId: string
+    alumnoId: string
+    beforeEstado: string
+    beforeErrores?: number | null
+    beforeAciertos?: number | null
+    afterEstado: string
+    afterErrores: number
+    afterAciertos: number
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+  }
+
+  export type TheoreticalExamProcessSolicitudCreateOrConnectWithoutBatchInput = {
+    where: TheoreticalExamProcessSolicitudWhereUniqueInput
+    create: XOR<TheoreticalExamProcessSolicitudCreateWithoutBatchInput, TheoreticalExamProcessSolicitudUncheckedCreateWithoutBatchInput>
+  }
+
+  export type TheoreticalExamProcessSolicitudCreateManyBatchInputEnvelope = {
+    data: TheoreticalExamProcessSolicitudCreateManyBatchInput | TheoreticalExamProcessSolicitudCreateManyBatchInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TheoreticalExamProcessPagoCreateWithoutBatchInput = {
+    id?: bigint | number
+    pagoId: string
+    alumnoId: string
+    beforeConvocatoriasConsumidas: number
+    afterConvocatoriasConsumidas: number
+    applied?: boolean
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+  }
+
+  export type TheoreticalExamProcessPagoUncheckedCreateWithoutBatchInput = {
+    id?: bigint | number
+    pagoId: string
+    alumnoId: string
+    beforeConvocatoriasConsumidas: number
+    afterConvocatoriasConsumidas: number
+    applied?: boolean
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+  }
+
+  export type TheoreticalExamProcessPagoCreateOrConnectWithoutBatchInput = {
+    where: TheoreticalExamProcessPagoWhereUniqueInput
+    create: XOR<TheoreticalExamProcessPagoCreateWithoutBatchInput, TheoreticalExamProcessPagoUncheckedCreateWithoutBatchInput>
+  }
+
+  export type TheoreticalExamProcessPagoCreateManyBatchInputEnvelope = {
+    data: TheoreticalExamProcessPagoCreateManyBatchInput | TheoreticalExamProcessPagoCreateManyBatchInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TheoreticalExamProcessSolicitudUpsertWithWhereUniqueWithoutBatchInput = {
+    where: TheoreticalExamProcessSolicitudWhereUniqueInput
+    update: XOR<TheoreticalExamProcessSolicitudUpdateWithoutBatchInput, TheoreticalExamProcessSolicitudUncheckedUpdateWithoutBatchInput>
+    create: XOR<TheoreticalExamProcessSolicitudCreateWithoutBatchInput, TheoreticalExamProcessSolicitudUncheckedCreateWithoutBatchInput>
+  }
+
+  export type TheoreticalExamProcessSolicitudUpdateWithWhereUniqueWithoutBatchInput = {
+    where: TheoreticalExamProcessSolicitudWhereUniqueInput
+    data: XOR<TheoreticalExamProcessSolicitudUpdateWithoutBatchInput, TheoreticalExamProcessSolicitudUncheckedUpdateWithoutBatchInput>
+  }
+
+  export type TheoreticalExamProcessSolicitudUpdateManyWithWhereWithoutBatchInput = {
+    where: TheoreticalExamProcessSolicitudScalarWhereInput
+    data: XOR<TheoreticalExamProcessSolicitudUpdateManyMutationInput, TheoreticalExamProcessSolicitudUncheckedUpdateManyWithoutBatchInput>
+  }
+
+  export type TheoreticalExamProcessSolicitudScalarWhereInput = {
+    AND?: TheoreticalExamProcessSolicitudScalarWhereInput | TheoreticalExamProcessSolicitudScalarWhereInput[]
+    OR?: TheoreticalExamProcessSolicitudScalarWhereInput[]
+    NOT?: TheoreticalExamProcessSolicitudScalarWhereInput | TheoreticalExamProcessSolicitudScalarWhereInput[]
+    id?: BigIntFilter<"TheoreticalExamProcessSolicitud"> | bigint | number
+    batchId?: StringFilter<"TheoreticalExamProcessSolicitud"> | string
+    solicitudId?: StringFilter<"TheoreticalExamProcessSolicitud"> | string
+    alumnoId?: StringFilter<"TheoreticalExamProcessSolicitud"> | string
+    beforeEstado?: StringFilter<"TheoreticalExamProcessSolicitud"> | string
+    beforeErrores?: IntNullableFilter<"TheoreticalExamProcessSolicitud"> | number | null
+    beforeAciertos?: IntNullableFilter<"TheoreticalExamProcessSolicitud"> | number | null
+    afterEstado?: StringFilter<"TheoreticalExamProcessSolicitud"> | string
+    afterErrores?: IntFilter<"TheoreticalExamProcessSolicitud"> | number
+    afterAciertos?: IntFilter<"TheoreticalExamProcessSolicitud"> | number
+    revertedAt?: DateTimeNullableFilter<"TheoreticalExamProcessSolicitud"> | Date | string | null
+    conflictReason?: StringNullableFilter<"TheoreticalExamProcessSolicitud"> | string | null
+  }
+
+  export type TheoreticalExamProcessPagoUpsertWithWhereUniqueWithoutBatchInput = {
+    where: TheoreticalExamProcessPagoWhereUniqueInput
+    update: XOR<TheoreticalExamProcessPagoUpdateWithoutBatchInput, TheoreticalExamProcessPagoUncheckedUpdateWithoutBatchInput>
+    create: XOR<TheoreticalExamProcessPagoCreateWithoutBatchInput, TheoreticalExamProcessPagoUncheckedCreateWithoutBatchInput>
+  }
+
+  export type TheoreticalExamProcessPagoUpdateWithWhereUniqueWithoutBatchInput = {
+    where: TheoreticalExamProcessPagoWhereUniqueInput
+    data: XOR<TheoreticalExamProcessPagoUpdateWithoutBatchInput, TheoreticalExamProcessPagoUncheckedUpdateWithoutBatchInput>
+  }
+
+  export type TheoreticalExamProcessPagoUpdateManyWithWhereWithoutBatchInput = {
+    where: TheoreticalExamProcessPagoScalarWhereInput
+    data: XOR<TheoreticalExamProcessPagoUpdateManyMutationInput, TheoreticalExamProcessPagoUncheckedUpdateManyWithoutBatchInput>
+  }
+
+  export type TheoreticalExamProcessPagoScalarWhereInput = {
+    AND?: TheoreticalExamProcessPagoScalarWhereInput | TheoreticalExamProcessPagoScalarWhereInput[]
+    OR?: TheoreticalExamProcessPagoScalarWhereInput[]
+    NOT?: TheoreticalExamProcessPagoScalarWhereInput | TheoreticalExamProcessPagoScalarWhereInput[]
+    id?: BigIntFilter<"TheoreticalExamProcessPago"> | bigint | number
+    batchId?: StringFilter<"TheoreticalExamProcessPago"> | string
+    pagoId?: StringFilter<"TheoreticalExamProcessPago"> | string
+    alumnoId?: StringFilter<"TheoreticalExamProcessPago"> | string
+    beforeConvocatoriasConsumidas?: IntFilter<"TheoreticalExamProcessPago"> | number
+    afterConvocatoriasConsumidas?: IntFilter<"TheoreticalExamProcessPago"> | number
+    applied?: BoolFilter<"TheoreticalExamProcessPago"> | boolean
+    revertedAt?: DateTimeNullableFilter<"TheoreticalExamProcessPago"> | Date | string | null
+    conflictReason?: StringNullableFilter<"TheoreticalExamProcessPago"> | string | null
+  }
+
+  export type TheoreticalExamProcessBatchCreateWithoutSolicitudesInput = {
+    id: string
+    status: string
+    mode: string
+    targetDate: Date | string
+    seed?: string | null
+    operator?: string | null
+    reason?: string | null
+    dryRun?: boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    appliedAt?: Date | string | null
+    rolledBackAt?: Date | string | null
+    pagos?: TheoreticalExamProcessPagoCreateNestedManyWithoutBatchInput
+  }
+
+  export type TheoreticalExamProcessBatchUncheckedCreateWithoutSolicitudesInput = {
+    id: string
+    status: string
+    mode: string
+    targetDate: Date | string
+    seed?: string | null
+    operator?: string | null
+    reason?: string | null
+    dryRun?: boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    appliedAt?: Date | string | null
+    rolledBackAt?: Date | string | null
+    pagos?: TheoreticalExamProcessPagoUncheckedCreateNestedManyWithoutBatchInput
+  }
+
+  export type TheoreticalExamProcessBatchCreateOrConnectWithoutSolicitudesInput = {
+    where: TheoreticalExamProcessBatchWhereUniqueInput
+    create: XOR<TheoreticalExamProcessBatchCreateWithoutSolicitudesInput, TheoreticalExamProcessBatchUncheckedCreateWithoutSolicitudesInput>
+  }
+
+  export type TheoreticalExamProcessBatchUpsertWithoutSolicitudesInput = {
+    update: XOR<TheoreticalExamProcessBatchUpdateWithoutSolicitudesInput, TheoreticalExamProcessBatchUncheckedUpdateWithoutSolicitudesInput>
+    create: XOR<TheoreticalExamProcessBatchCreateWithoutSolicitudesInput, TheoreticalExamProcessBatchUncheckedCreateWithoutSolicitudesInput>
+    where?: TheoreticalExamProcessBatchWhereInput
+  }
+
+  export type TheoreticalExamProcessBatchUpdateToOneWithWhereWithoutSolicitudesInput = {
+    where?: TheoreticalExamProcessBatchWhereInput
+    data: XOR<TheoreticalExamProcessBatchUpdateWithoutSolicitudesInput, TheoreticalExamProcessBatchUncheckedUpdateWithoutSolicitudesInput>
+  }
+
+  export type TheoreticalExamProcessBatchUpdateWithoutSolicitudesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    targetDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seed?: NullableStringFieldUpdateOperationsInput | string | null
+    operator?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    dryRun?: BoolFieldUpdateOperationsInput | boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    appliedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rolledBackAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pagos?: TheoreticalExamProcessPagoUpdateManyWithoutBatchNestedInput
+  }
+
+  export type TheoreticalExamProcessBatchUncheckedUpdateWithoutSolicitudesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    targetDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seed?: NullableStringFieldUpdateOperationsInput | string | null
+    operator?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    dryRun?: BoolFieldUpdateOperationsInput | boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    appliedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rolledBackAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pagos?: TheoreticalExamProcessPagoUncheckedUpdateManyWithoutBatchNestedInput
+  }
+
+  export type TheoreticalExamProcessBatchCreateWithoutPagosInput = {
+    id: string
+    status: string
+    mode: string
+    targetDate: Date | string
+    seed?: string | null
+    operator?: string | null
+    reason?: string | null
+    dryRun?: boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    appliedAt?: Date | string | null
+    rolledBackAt?: Date | string | null
+    solicitudes?: TheoreticalExamProcessSolicitudCreateNestedManyWithoutBatchInput
+  }
+
+  export type TheoreticalExamProcessBatchUncheckedCreateWithoutPagosInput = {
+    id: string
+    status: string
+    mode: string
+    targetDate: Date | string
+    seed?: string | null
+    operator?: string | null
+    reason?: string | null
+    dryRun?: boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    appliedAt?: Date | string | null
+    rolledBackAt?: Date | string | null
+    solicitudes?: TheoreticalExamProcessSolicitudUncheckedCreateNestedManyWithoutBatchInput
+  }
+
+  export type TheoreticalExamProcessBatchCreateOrConnectWithoutPagosInput = {
+    where: TheoreticalExamProcessBatchWhereUniqueInput
+    create: XOR<TheoreticalExamProcessBatchCreateWithoutPagosInput, TheoreticalExamProcessBatchUncheckedCreateWithoutPagosInput>
+  }
+
+  export type TheoreticalExamProcessBatchUpsertWithoutPagosInput = {
+    update: XOR<TheoreticalExamProcessBatchUpdateWithoutPagosInput, TheoreticalExamProcessBatchUncheckedUpdateWithoutPagosInput>
+    create: XOR<TheoreticalExamProcessBatchCreateWithoutPagosInput, TheoreticalExamProcessBatchUncheckedCreateWithoutPagosInput>
+    where?: TheoreticalExamProcessBatchWhereInput
+  }
+
+  export type TheoreticalExamProcessBatchUpdateToOneWithWhereWithoutPagosInput = {
+    where?: TheoreticalExamProcessBatchWhereInput
+    data: XOR<TheoreticalExamProcessBatchUpdateWithoutPagosInput, TheoreticalExamProcessBatchUncheckedUpdateWithoutPagosInput>
+  }
+
+  export type TheoreticalExamProcessBatchUpdateWithoutPagosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    targetDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seed?: NullableStringFieldUpdateOperationsInput | string | null
+    operator?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    dryRun?: BoolFieldUpdateOperationsInput | boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    appliedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rolledBackAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    solicitudes?: TheoreticalExamProcessSolicitudUpdateManyWithoutBatchNestedInput
+  }
+
+  export type TheoreticalExamProcessBatchUncheckedUpdateWithoutPagosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    targetDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seed?: NullableStringFieldUpdateOperationsInput | string | null
+    operator?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    dryRun?: BoolFieldUpdateOperationsInput | boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    appliedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rolledBackAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    solicitudes?: TheoreticalExamProcessSolicitudUncheckedUpdateManyWithoutBatchNestedInput
+  }
+
   export type MatriculaCreateWithoutConceptosInput = {
     id?: string
     licencia: string
@@ -51511,6 +56747,106 @@ export namespace Prisma {
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TheoreticalExamProcessSolicitudCreateManyBatchInput = {
+    id?: bigint | number
+    solicitudId: string
+    alumnoId: string
+    beforeEstado: string
+    beforeErrores?: number | null
+    beforeAciertos?: number | null
+    afterEstado: string
+    afterErrores: number
+    afterAciertos: number
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+  }
+
+  export type TheoreticalExamProcessPagoCreateManyBatchInput = {
+    id?: bigint | number
+    pagoId: string
+    alumnoId: string
+    beforeConvocatoriasConsumidas: number
+    afterConvocatoriasConsumidas: number
+    applied?: boolean
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+  }
+
+  export type TheoreticalExamProcessSolicitudUpdateWithoutBatchInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    solicitudId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeEstado?: StringFieldUpdateOperationsInput | string
+    beforeErrores?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeAciertos?: NullableIntFieldUpdateOperationsInput | number | null
+    afterEstado?: StringFieldUpdateOperationsInput | string
+    afterErrores?: IntFieldUpdateOperationsInput | number
+    afterAciertos?: IntFieldUpdateOperationsInput | number
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TheoreticalExamProcessSolicitudUncheckedUpdateWithoutBatchInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    solicitudId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeEstado?: StringFieldUpdateOperationsInput | string
+    beforeErrores?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeAciertos?: NullableIntFieldUpdateOperationsInput | number | null
+    afterEstado?: StringFieldUpdateOperationsInput | string
+    afterErrores?: IntFieldUpdateOperationsInput | number
+    afterAciertos?: IntFieldUpdateOperationsInput | number
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TheoreticalExamProcessSolicitudUncheckedUpdateManyWithoutBatchInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    solicitudId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeEstado?: StringFieldUpdateOperationsInput | string
+    beforeErrores?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeAciertos?: NullableIntFieldUpdateOperationsInput | number | null
+    afterEstado?: StringFieldUpdateOperationsInput | string
+    afterErrores?: IntFieldUpdateOperationsInput | number
+    afterAciertos?: IntFieldUpdateOperationsInput | number
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TheoreticalExamProcessPagoUpdateWithoutBatchInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    pagoId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    afterConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    applied?: BoolFieldUpdateOperationsInput | boolean
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TheoreticalExamProcessPagoUncheckedUpdateWithoutBatchInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    pagoId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    afterConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    applied?: BoolFieldUpdateOperationsInput | boolean
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TheoreticalExamProcessPagoUncheckedUpdateManyWithoutBatchInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    pagoId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    afterConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    applied?: BoolFieldUpdateOperationsInput | boolean
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

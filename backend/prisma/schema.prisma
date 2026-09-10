@@ -474,6 +474,66 @@ model Pago {
   @@map("pagos")
 }
 
+model TheoreticalExamProcessBatch {
+  id                String                             @id
+  status            String
+  mode              String
+  targetDate        DateTime                           @db.Date
+  seed              String?
+  operator          String?
+  reason            String?
+  dryRun            Boolean                            @default(false)
+  summary           Json                               @default("{}")
+  createdAt         DateTime                           @default(now())
+  appliedAt         DateTime?
+  rolledBackAt      DateTime?
+  solicitudes       TheoreticalExamProcessSolicitud[]
+  pagos             TheoreticalExamProcessPago[]
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("theoretical_exam_process_batches")
+}
+
+model TheoreticalExamProcessSolicitud {
+  id              BigInt                     @id @default(autoincrement())
+  batchId         String
+  solicitudId     String
+  alumnoId        String
+  beforeEstado    String
+  beforeErrores   Int?
+  beforeAciertos  Int?
+  afterEstado     String
+  afterErrores    Int
+  afterAciertos   Int
+  revertedAt      DateTime?
+  conflictReason  String?
+  batch           TheoreticalExamProcessBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+
+  @@unique([batchId, solicitudId])
+  @@index([batchId])
+  @@index([solicitudId])
+  @@map("theoretical_exam_process_solicitudes")
+}
+
+model TheoreticalExamProcessPago {
+  id                           BigInt                     @id @default(autoincrement())
+  batchId                      String
+  pagoId                       String
+  alumnoId                     String
+  beforeConvocatoriasConsumidas Int
+  afterConvocatoriasConsumidas Int
+  applied                      Boolean                    @default(true)
+  revertedAt                   DateTime?
+  conflictReason               String?
+  batch                        TheoreticalExamProcessBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+
+  @@unique([batchId, pagoId])
+  @@index([batchId])
+  @@index([pagoId])
+  @@map("theoretical_exam_process_pagos")
+}
+
 model MatriculaConcepto {
   id              String         @id @default(uuid())
   matriculaId     String

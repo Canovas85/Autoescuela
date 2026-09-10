@@ -417,6 +417,48 @@ exports.Prisma.PagoScalarFieldEnum = {
   observaciones: 'observaciones'
 };
 
+exports.Prisma.TheoreticalExamProcessBatchScalarFieldEnum = {
+  id: 'id',
+  status: 'status',
+  mode: 'mode',
+  targetDate: 'targetDate',
+  seed: 'seed',
+  operator: 'operator',
+  reason: 'reason',
+  dryRun: 'dryRun',
+  summary: 'summary',
+  createdAt: 'createdAt',
+  appliedAt: 'appliedAt',
+  rolledBackAt: 'rolledBackAt'
+};
+
+exports.Prisma.TheoreticalExamProcessSolicitudScalarFieldEnum = {
+  id: 'id',
+  batchId: 'batchId',
+  solicitudId: 'solicitudId',
+  alumnoId: 'alumnoId',
+  beforeEstado: 'beforeEstado',
+  beforeErrores: 'beforeErrores',
+  beforeAciertos: 'beforeAciertos',
+  afterEstado: 'afterEstado',
+  afterErrores: 'afterErrores',
+  afterAciertos: 'afterAciertos',
+  revertedAt: 'revertedAt',
+  conflictReason: 'conflictReason'
+};
+
+exports.Prisma.TheoreticalExamProcessPagoScalarFieldEnum = {
+  id: 'id',
+  batchId: 'batchId',
+  pagoId: 'pagoId',
+  alumnoId: 'alumnoId',
+  beforeConvocatoriasConsumidas: 'beforeConvocatoriasConsumidas',
+  afterConvocatoriasConsumidas: 'afterConvocatoriasConsumidas',
+  applied: 'applied',
+  revertedAt: 'revertedAt',
+  conflictReason: 'conflictReason'
+};
+
 exports.Prisma.MatriculaConceptoScalarFieldEnum = {
   id: 'id',
   matriculaId: 'matriculaId',
@@ -449,6 +491,10 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -457,6 +503,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.Rol = exports.$Enums.Rol = {
   ADMIN: 'ADMIN',
@@ -499,6 +551,9 @@ exports.Prisma.ModelName = {
   TarifaMatricula: 'TarifaMatricula',
   Matricula: 'Matricula',
   Pago: 'Pago',
+  TheoreticalExamProcessBatch: 'TheoreticalExamProcessBatch',
+  TheoreticalExamProcessSolicitud: 'TheoreticalExamProcessSolicitud',
+  TheoreticalExamProcessPago: 'TheoreticalExamProcessPago',
   MatriculaConcepto: 'MatriculaConcepto',
   Factura: 'Factura'
 };
