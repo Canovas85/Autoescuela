@@ -25,6 +25,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { documentosAlumnoService } from "../../services/documentosAlumnoService";
+import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
 
 const TIPOS_DOCUMENTO = [
   "DNI",
@@ -225,38 +226,50 @@ export default function DocumentosAlumno() {
         renderCell: (params) => (
           <Stack direction="row" spacing={1}>
             {(params.row.archivos || []).length > 0 && (
-              <IconButton
-                color="primary"
-                size="small"
-                aria-label="Ver archivo"
-                onClick={() =>
-                  window.open(
-                    buildFileUrl(params.row.archivos[0]?.ruta),
-                    "_blank",
-                  )
-                }
-              >
-                <VisibilityIcon />
-              </IconButton>
+              <Tooltip title="Ver archivo" arrow>
+                <span>
+                  <IconButton
+                    color="primary"
+                    size="small"
+                    aria-label="Ver archivo"
+                    onClick={() =>
+                      window.open(
+                        buildFileUrl(params.row.archivos[0]?.ruta),
+                        "_blank",
+                      )
+                    }
+                  >
+                    <VisibilityIcon />
+                  </IconButton>
+                </span>
+              </Tooltip>
             )}
-            <IconButton
-              color="primary"
-              size="small"
-              aria-label="Editar documento"
-              disabled={params.row.estado !== "PENDIENTE_VALIDACION"}
-              onClick={() => handleEditRow(params.row)}
-            >
-              <EditIcon />
-            </IconButton>
-            <IconButton
-              color="error"
-              size="small"
-              aria-label="Eliminar documento"
-              disabled={params.row.estado !== "PENDIENTE_VALIDACION"}
-              onClick={() => handleDelete(params.row)}
-            >
-              <DeleteIcon />
-            </IconButton>
+            <Tooltip title="Editar documento" arrow>
+              <span>
+                <IconButton
+                  color="primary"
+                  size="small"
+                  aria-label="Editar documento"
+                  disabled={params.row.estado !== "PENDIENTE_VALIDACION"}
+                  onClick={() => handleEditRow(params.row)}
+                >
+                  <EditIcon />
+                </IconButton>
+              </span>
+            </Tooltip>
+            <Tooltip title="Eliminar documento" arrow>
+              <span>
+                <IconButton
+                  color="error"
+                  size="small"
+                  aria-label="Eliminar documento"
+                  disabled={params.row.estado !== "PENDIENTE_VALIDACION"}
+                  onClick={() => handleDelete(params.row)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </span>
+            </Tooltip>
           </Stack>
         ),
       },

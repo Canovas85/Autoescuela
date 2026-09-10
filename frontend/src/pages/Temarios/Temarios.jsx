@@ -24,6 +24,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
+
+import VisibilityIcon from "@mui/icons-material/Visibility"; // Manteniendo el icono de ojo original
 
 import { temariosService } from "../../services/temariosService";
 import TemarioHero from "./TemarioHero";
@@ -265,21 +268,26 @@ export default function Temarios() {
             mt: 1,
           }}
         >
-          <IconButton
-            color="primary"
-            onClick={() => navigate(`/temarios/${params.row.id}`)}
-            title="Ver detalle"
-          >
-            <OpenInNewIcon />
-          </IconButton>
+          <Tooltip title="Ver detalle" arrow>
+            <IconButton
+              color="primary"
+              onClick={() => navigate(`/temarios/${params.row.id}`)}
+            >
+              <VisibilityIcon />
+            </IconButton>
+          </Tooltip>
 
-          <IconButton color="primary" onClick={() => handleEdit(params.row)}>
-            <EditIcon />
-          </IconButton>
+          <Tooltip title="Editar" arrow>
+            <IconButton color="primary" onClick={() => handleEdit(params.row)}>
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
 
-          <IconButton color="error" onClick={() => handleDelete(params.row)}>
-            <DeleteIcon />
-          </IconButton>
+          <Tooltip title="Eliminar" arrow>
+            <IconButton color="error" onClick={() => handleDelete(params.row)}>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
         </Box>
       ),
     },

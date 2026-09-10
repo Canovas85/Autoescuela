@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { solicitudesExamenService } from "../../services/solicitudesExamenService";
+import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
 
 const WEEK_DAYS = ["L", "M", "X", "J", "V", "S", "D"];
 

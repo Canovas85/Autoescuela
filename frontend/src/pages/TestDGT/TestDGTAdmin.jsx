@@ -30,6 +30,7 @@ import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import UndoIcon from "@mui/icons-material/Undo";
+import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
 
 import { preguntasDGTService } from "../../services/preguntasDGTService";
 
@@ -479,32 +480,40 @@ export default function TestDGTAdmin() {
       sortable: false,
       renderCell: (params) => (
         <Box sx={{ display: "flex", gap: 0.5 }}>
-          <IconButton color="primary" onClick={() => handleEdit(params.row)}>
-            <EditIcon />
-          </IconButton>
+          <Tooltip title="Editar" arrow>
+            <IconButton color="primary" onClick={() => handleEdit(params.row)}>
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
 
           {params.row.activa ? (
-            <IconButton
-              color="warning"
-              onClick={() => openConfirm("deactivate", params.row)}
-            >
-              <ToggleOffIcon />
-            </IconButton>
+            <Tooltip title="Desactivar" arrow>
+              <IconButton
+                color="warning"
+                onClick={() => openConfirm("deactivate", params.row)}
+              >
+                <ToggleOffIcon />
+              </IconButton>
+            </Tooltip>
           ) : (
-            <IconButton
-              color="success"
-              onClick={() => openConfirm("activate", params.row)}
-            >
-              <ToggleOnIcon />
-            </IconButton>
+            <Tooltip title="Activar" arrow>
+              <IconButton
+                color="success"
+                onClick={() => openConfirm("activate", params.row)}
+              >
+                <ToggleOnIcon />
+              </IconButton>
+            </Tooltip>
           )}
 
-          <IconButton
-            color="error"
-            onClick={() => openConfirm("delete", params.row)}
-          >
-            <DeleteIcon />
-          </IconButton>
+          <Tooltip title="Eliminar" arrow>
+            <IconButton
+              color="error"
+              onClick={() => openConfirm("delete", params.row)}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
         </Box>
       ),
     },

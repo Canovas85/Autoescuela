@@ -20,6 +20,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { convocatoriasTeoricoService } from "../../services/convocatoriasTeoricoService";
+import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
 
 const formatDateInput = (value) => {
   if (!value) return "";
@@ -197,21 +198,25 @@ export default function ConvocatoriasTeoricoAdmin() {
         sortable: false,
         renderCell: (params) => (
           <Stack direction="row" spacing={0.5}>
-            <IconButton
-              onClick={() => handleEdit(params.row)}
-              size="small"
-              color="primary"
-            >
-              <EditIcon fontSize="small" />
-            </IconButton>
-            <IconButton
-              onClick={() => handleDeactivate(params.row)}
-              size="small"
-              color="error"
-              disabled={!params.row.activo}
-            >
-              <DeleteIcon fontSize="small" />
-            </IconButton>
+            <Tooltip title="Editar" arrow>
+              <IconButton
+                onClick={() => handleEdit(params.row)}
+                size="small"
+                color="primary"
+              >
+                <EditIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Eliminar" arrow>
+              <IconButton
+                onClick={() => handleDeactivate(params.row)}
+                size="small"
+                color="error"
+                disabled={!params.row.activo}
+              >
+                <DeleteIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
           </Stack>
         ),
       },

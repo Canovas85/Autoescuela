@@ -29,6 +29,8 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import UndoIcon from "@mui/icons-material/Undo";
 import { vehiculosService } from "../../services/vehiculosService";
 
+import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
+
 import DownloadIcon from "@mui/icons-material/Download";
 import Menu from "@mui/material/Menu";
 
@@ -453,37 +455,41 @@ export default function Vehiculos() {
       sortable: false,
       renderCell: (params) => (
         <>
-          <IconButton
-            color="primary"
-            onClick={(event) => {
-              event.stopPropagation();
-              handleEdit(params.row);
-            }}
-          >
-            <EditIcon />
-          </IconButton>
+          <Tooltip title="Editar" arrow>
+            <IconButton
+              color="primary"
+              onClick={(event) => {
+                event.stopPropagation();
+                handleEdit(params.row);
+              }}
+            >
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
 
-          {params.row.activo ? (
-            <IconButton
-              color="warning"
-              onClick={(event) => {
-                event.stopPropagation();
-                handleDeactivate(params.row);
-              }}
-            >
-              <ToggleOffIcon />
-            </IconButton>
-          ) : (
-            <IconButton
-              color="success"
-              onClick={(event) => {
-                event.stopPropagation();
-                handleActivate(params.row);
-              }}
-            >
-              <ToggleOnIcon />
-            </IconButton>
-          )}
+          <Tooltip title={params.row.activo ? "Desactivar" : "Activar"} arrow>
+            {params.row.activo ? (
+              <IconButton
+                color="warning"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleDeactivate(params.row);
+                }}
+              >
+                <ToggleOffIcon />
+              </IconButton>
+            ) : (
+              <IconButton
+                color="success"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleActivate(params.row);
+                }}
+              >
+                <ToggleOnIcon />
+              </IconButton>
+            )}
+          </Tooltip>
         </>
       ),
     },

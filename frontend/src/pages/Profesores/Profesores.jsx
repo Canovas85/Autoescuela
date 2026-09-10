@@ -19,6 +19,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 
+import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
+
 import { IconButton } from "@mui/material";
 
 import Snackbar from "@mui/material/Snackbar";
@@ -363,47 +365,53 @@ export default function Profesores() {
 
       renderCell: (params) => (
         <>
-          <IconButton
-            color="primary"
-            onClick={(event) => {
-              event.stopPropagation();
-              handleEdit(params.row);
-            }}
-          >
-            <EditIcon />
-          </IconButton>
-
-          {params.row.activo ? (
+          <Tooltip title="Editar" arrow>
             <IconButton
-              color="warning"
+              color="primary"
               onClick={(event) => {
                 event.stopPropagation();
-                handleDeactivate(params.row);
+                handleEdit(params.row);
               }}
             >
-              <ToggleOffIcon />
+              <EditIcon />
             </IconButton>
-          ) : (
+          </Tooltip>
+
+          <Tooltip title={params.row.activo ? "Desactivar" : "Activar"} arrow>
+            {params.row.activo ? (
+              <IconButton
+                color="warning"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleDeactivate(params.row);
+                }}
+              >
+                <ToggleOffIcon />
+              </IconButton>
+            ) : (
+              <IconButton
+                color="success"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleActivate(params.row);
+                }}
+              >
+                <ToggleOnIcon />
+              </IconButton>
+            )}
+          </Tooltip>
+
+          <Tooltip title="Eliminar" arrow>
             <IconButton
-              color="success"
+              color="error"
               onClick={(event) => {
                 event.stopPropagation();
-                handleActivate(params.row);
+                handleDelete(params.row);
               }}
             >
-              <ToggleOnIcon />
+              <DeleteIcon />
             </IconButton>
-          )}
-
-          <IconButton
-            color="error"
-            onClick={(event) => {
-              event.stopPropagation();
-              handleDelete(params.row);
-            }}
-          >
-            <DeleteIcon />
-          </IconButton>
+          </Tooltip>
         </>
       ),
     },

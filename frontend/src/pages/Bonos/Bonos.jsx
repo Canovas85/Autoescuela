@@ -26,6 +26,8 @@ import AddIcon from "@mui/icons-material/Add";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 
+import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
+
 import { bonosService } from "../../services/bonosService";
 
 const emptyForm = {
@@ -261,20 +263,26 @@ export default function Bonos() {
             width: "100%",
           }}
         >
-          <IconButton color="primary" onClick={() => handleEdit(params.row)}>
-            <EditIcon />
-          </IconButton>
+          <Tooltip title="Editar" arrow>
+            <IconButton color="primary" onClick={() => handleEdit(params.row)}>
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
 
-          <IconButton
-            color={params.row.activo ? "warning" : "success"}
-            onClick={() => handleToggleActivo(params.row)}
-          >
-            {params.row.activo ? <ToggleOffIcon /> : <ToggleOnIcon />}
-          </IconButton>
+          <Tooltip title={params.row.activo ? "Desactivar" : "Activar"} arrow>
+            <IconButton
+              color={params.row.activo ? "warning" : "success"}
+              onClick={() => handleToggleActivo(params.row)}
+            >
+              {params.row.activo ? <ToggleOffIcon /> : <ToggleOnIcon />}
+            </IconButton>
+          </Tooltip>
 
-          <IconButton color="error" onClick={() => handleDelete(params.row)}>
-            <DeleteIcon />
-          </IconButton>
+          <Tooltip title="Eliminar" arrow>
+            <IconButton color="error" onClick={() => handleDelete(params.row)}>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
         </Box>
       ),
     },

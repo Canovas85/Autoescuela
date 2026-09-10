@@ -7,12 +7,14 @@ import {
   Snackbar,
   Stack,
   Button,
+  Link,
   Typography,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { documentosAlumnoService } from "../../services/documentosAlumnoService";
+import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
 
 const ESTADOS = {
   PENDIENTE_VALIDACION: "Pendiente de validar",
@@ -129,16 +131,22 @@ export default function DocumentosAlumnoAdmin() {
         renderCell: (params) => (
           <Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
             {(params.row.archivos || []).map((archivo) => (
-              <Button
+              <Link
                 key={archivo.id}
-                size="small"
-                variant="outlined"
+                component="button"
+                variant="body2"
+                color="#C00000" /* Color del texto */
+                underline="none" /* Cambia a "hover" si  quieres que se subraye al pasar el ratón */
                 onClick={() =>
                   window.open(buildFileUrl(archivo.ruta), "_blank")
                 }
+                sx={{
+                  mt: 2,
+                  textAlign: "left",
+                }} /* Evita problemas de alineación si el texto es largo */
               >
                 {archivo.nombreOriginal}
-              </Button>
+              </Link>
             ))}
           </Stack>
         ),
@@ -159,24 +167,32 @@ export default function DocumentosAlumnoAdmin() {
         flex: 1.2,
         renderCell: (params) => (
           <Stack direction="row" spacing={1}>
-            <IconButton
-              color="success"
-              size="small"
-              aria-label="Validar documento"
-              disabled={params.row.estado === "VALIDADO"}
-              onClick={() => handleValidate(params.row.id)}
-            >
-              <CheckCircleIcon />
-            </IconButton>
-            <IconButton
-              color="error"
-              size="small"
-              aria-label="Rechazar documento"
-              disabled={params.row.estado === "RECHAZADO"}
-              onClick={() => handleReject(params.row.id)}
-            >
-              <CancelIcon />
-            </IconButton>
+            <Tooltip title="Validar documento" arrow>
+              <span>
+                <IconButton
+                  color="success"
+                  size="small"
+                  aria-label="Validar documento"
+                  disabled={params.row.estado === "VALIDADO"}
+                  onClick={() => handleValidate(params.row.id)}
+                >
+                  <CheckCircleIcon />
+                </IconButton>
+              </span>
+            </Tooltip>
+            <Tooltip title="Rechazar documento" arrow>
+              <span>
+                <IconButton
+                  color="error"
+                  size="small"
+                  aria-label="Rechazar documento"
+                  disabled={params.row.estado === "RECHAZADO"}
+                  onClick={() => handleReject(params.row.id)}
+                >
+                  <CancelIcon />
+                </IconButton>
+              </span>
+            </Tooltip>
           </Stack>
         ),
       },

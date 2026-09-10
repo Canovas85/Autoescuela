@@ -27,6 +27,7 @@ import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 
 import { tarifasMatriculaService } from "../../services/tarifasMatriculaService";
+import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
 
 const LICENCIAS = ["B", "A1", "A2", "A", "C", "D", "E"];
 
@@ -243,20 +244,26 @@ export default function TarifasMatricula() {
       sortable: false,
       renderCell: (params) => (
         <Box sx={{ display: "flex", gap: 1, mt: 1 }}>
-          <IconButton color="primary" onClick={() => handleEdit(params.row)}>
-            <EditIcon />
-          </IconButton>
+          <Tooltip title="Editar" arrow>
+            <IconButton color="primary" onClick={() => handleEdit(params.row)}>
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
 
-          <IconButton
-            onClick={() => handleToggleActivo(params.row)}
-            color={params.row.activa ? "warning" : "success"}
-          >
-            {params.row.activa ? <ToggleOffIcon /> : <ToggleOnIcon />}
-          </IconButton>
+          <Tooltip title={params.row.activa ? "Desactivar" : "Activar"} arrow>
+            <IconButton
+              onClick={() => handleToggleActivo(params.row)}
+              color={params.row.activa ? "warning" : "success"}
+            >
+              {params.row.activa ? <ToggleOffIcon /> : <ToggleOnIcon />}
+            </IconButton>
+          </Tooltip>
 
-          <IconButton onClick={() => handleDelete(params.row)} color="error">
-            <DeleteIcon />
-          </IconButton>
+          <Tooltip title="Eliminar" arrow>
+            <IconButton onClick={() => handleDelete(params.row)} color="error">
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
         </Box>
       ),
     },

@@ -30,6 +30,8 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 
+import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
+
 import InputAdornment from "@mui/material/InputAdornment";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -602,37 +604,41 @@ export default function Alumnos() {
 
       renderCell: (params) => (
         <>
-          <IconButton
-            color="primary"
-            onClick={(event) => {
-              event.stopPropagation();
-              handleEdit(params.row);
-            }}
-          >
-            <EditIcon />
-          </IconButton>
+          <Tooltip title="Editar" arrow>
+            <IconButton
+              color="primary"
+              onClick={(event) => {
+                event.stopPropagation();
+                handleEdit(params.row);
+              }}
+            >
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
 
-          {params.row.activo ? (
-            <IconButton
-              color="warning"
-              onClick={(event) => {
-                event.stopPropagation();
-                handleDeactivate(params.row);
-              }}
-            >
-              <ToggleOffIcon />
-            </IconButton>
-          ) : (
-            <IconButton
-              color="success"
-              onClick={(event) => {
-                event.stopPropagation();
-                handleActivate(params.row);
-              }}
-            >
-              <ToggleOnIcon />
-            </IconButton>
-          )}
+          <Tooltip title={params.row.activo ? "Desactivar" : "Activar"} arrow>
+            {params.row.activo ? (
+              <IconButton
+                color="warning"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleDeactivate(params.row);
+                }}
+              >
+                <ToggleOffIcon />
+              </IconButton>
+            ) : (
+              <IconButton
+                color="success"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleActivate(params.row);
+                }}
+              >
+                <ToggleOnIcon />
+              </IconButton>
+            )}
+          </Tooltip>
         </>
       ),
     },

@@ -11,10 +11,15 @@ import {
   Snackbar,
   Typography,
 } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+
 import { DataGrid } from "@mui/x-data-grid";
 
 import { evaluacionExamenesService } from "../../services/evaluacionExamenesService";
+
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+
+import VisibilityIcon from "@mui/icons-material/Visibility"; // Manteniendo el icono de ojo original
 
 const formatDate = (value) => {
   if (!value) return "-";
@@ -104,21 +109,33 @@ export default function EvaluacionExamenTeorico() {
       },
       {
         field: "acciones",
-        headerName: "Acción",
+        headerName: "Acciones",
         width: 120,
         sortable: false,
         renderCell: (params) => (
-          <Button
-            size="small"
-            variant="outlined"
-            startIcon={<VisibilityIcon />}
-            onClick={(event) => {
-              event.stopPropagation();
-              handleOpenDetail(params.row);
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              gap: 0.5,
+              mt: 1,
+              ml: -2,
             }}
           >
-            Detalle
-          </Button>
+            <Tooltip title="Ver detalle" arrow>
+              <IconButton
+                color="primary"
+                onClick={(event) => {
+                  event.stopPropagation(); // Evita que se seleccione la fila al hacer clic
+                  handleOpenDetail(params.row); // Abre tu modal original con los datos de la fila
+                }}
+              >
+                <VisibilityIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
         ),
       },
     ],
