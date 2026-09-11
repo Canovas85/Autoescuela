@@ -299,10 +299,11 @@ exports.Prisma.SolicitudExamenScalarFieldEnum = {
   observaciones: 'observaciones'
 };
 
-exports.Prisma.ConvocatoriaTeoricoScalarFieldEnum = {
+exports.Prisma.ConvocatoriaExamenScalarFieldEnum = {
   id: 'id',
   fecha: 'fecha',
   licencia: 'licencia',
+  tipoExamen: 'tipoExamen',
   activo: 'activo',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -331,6 +332,46 @@ exports.Prisma.ClasePracticaScalarFieldEnum = {
   pagoLimiteAt: 'pagoLimiteAt',
   canceladaPor: 'canceladaPor',
   canceladaConPenalizacion: 'canceladaConPenalizacion'
+};
+
+exports.Prisma.HojaRutaScalarFieldEnum = {
+  id: 'id',
+  clasePracticaId: 'clasePracticaId',
+  profesorId: 'profesorId',
+  alumnoId: 'alumnoId',
+  estado: 'estado',
+  observacionesProfesor: 'observacionesProfesor',
+  kilometrosInicio: 'kilometrosInicio',
+  kilometrosFin: 'kilometrosFin',
+  combustibleInicioPct: 'combustibleInicioPct',
+  combustibleFinPct: 'combustibleFinPct',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  finalizedAt: 'finalizedAt'
+};
+
+exports.Prisma.HojaRutaFaltaScalarFieldEnum = {
+  id: 'id',
+  hojaRutaId: 'hojaRutaId',
+  hora: 'hora',
+  tipo: 'tipo',
+  categoria: 'categoria',
+  descripcion: 'descripcion',
+  orden: 'orden',
+  catalogoId: 'catalogoId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.HojaRutaFaltaCatalogoScalarFieldEnum = {
+  id: 'id',
+  tipo: 'tipo',
+  categoria: 'categoria',
+  descripcion: 'descripcion',
+  activo: 'activo',
+  orden: 'orden',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ExamenScalarFieldEnum = {
@@ -568,9 +609,12 @@ exports.Prisma.ModelName = {
   Bono: 'Bono',
   CompraBono: 'CompraBono',
   SolicitudExamen: 'SolicitudExamen',
-  ConvocatoriaTeorico: 'ConvocatoriaTeorico',
+  ConvocatoriaExamen: 'ConvocatoriaExamen',
   Vehiculo: 'Vehiculo',
   ClasePractica: 'ClasePractica',
+  HojaRuta: 'HojaRuta',
+  HojaRutaFalta: 'HojaRutaFalta',
+  HojaRutaFaltaCatalogo: 'HojaRutaFaltaCatalogo',
   Examen: 'Examen',
   Promocion: 'Promocion',
   TarifaConcepto: 'TarifaConcepto',

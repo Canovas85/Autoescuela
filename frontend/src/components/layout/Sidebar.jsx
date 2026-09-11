@@ -96,7 +96,7 @@ const menus = {
         },
         {
           label: "Convocatorias Teórico / Práctico",
-          path: "/convocatorias-teorico",
+          path: "/convocatorias-examen",
           icon: <CalendarMonthIcon fontSize="small" />,
         },
         {
@@ -258,7 +258,7 @@ const menus = {
     {
       label: "Hoja de Ruta",
       icon: <AssignmentIcon />,
-      path: "/hoja-ruta",
+      path: "/hojas-ruta",
     },
 
     {
@@ -323,7 +323,7 @@ const menus = {
         },
         {
           label: "Hoja Ruta",
-          path: "/AssignmentIcon",
+          path: "/hojas-ruta",
           icon: <AssignmentOutlinedIcon fontSize="small" />,
         },
       ],

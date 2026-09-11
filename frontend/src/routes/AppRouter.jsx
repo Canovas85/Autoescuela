@@ -43,10 +43,11 @@ import TestDGT from "../pages/TestDGT/TestDGT";
 import DocumentosAlumno from "../pages/DocumentosAlumno/DocumentosAlumno";
 import DocumentosAlumnoAdmin from "../pages/DocumentosAlumno/DocumentosAlumnoAdmin";
 import ExamenTeoricoAlumno from "../pages/ExamenTeoricoAlumno/ExamenTeoricoAlumno";
-import ConvocatoriasTeoricoAdmin from "../pages/ConvocatoriasTeoricoAdmin/ConvocatoriasTeoricoAdmin";
+import ConvocatoriaExamen from "../pages/ConvocatoriaExamen/ConvocatoriaExamen";
 import ReservarClase from "../pages/ReservarClase/ReservarClase";
 import ClasesPracticasProfesor from "../pages/ClasesPracticasProfesor/ClasesPracticasProfesor";
 import Notificaciones from "../pages/Notificaciones/Notificaciones";
+import HojasRuta from "../pages/HojasRuta/HojasRuta";
 
 function RequireAuth() {
   const token = localStorage.getItem("token");
@@ -128,8 +129,8 @@ export default function AppRouter() {
                 element={<SolicitudesExamen />}
               />
               <Route
-                path="/convocatorias-teorico"
-                element={<ConvocatoriasTeoricoAdmin />}
+                path="/convocatorias-examen"
+                element={<ConvocatoriaExamen />}
               />
 
               <Route path="/promociones" element={<Promociones />} />
@@ -158,6 +159,7 @@ export default function AppRouter() {
               <Route path="/mis-documentos" element={<DocumentosAlumno />} />
               <Route path="/reservar-clase" element={<ReservarClase />} />
               <Route path="/notificaciones" element={<Notificaciones />} />
+              <Route path="/hojas-ruta" element={<HojasRuta />} />
               <Route
                 path="/documentos-alumno-admin"
                 element={<DocumentosAlumnoAdmin />}

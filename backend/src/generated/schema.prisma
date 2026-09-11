@@ -53,6 +53,7 @@ model Profesor {
   alumnosAsignados  Alumno[]
   clasesDirecto     ClaseDirecto[]
   clases            ClasePractica[]
+  hojasRuta         HojaRuta[]
   horarioBloques    ProfesorHorarioBloque[]
   usuario           Usuario                 @relation(fields: [id], references: [id], onDelete: Cascade)
 
@@ -93,6 +94,7 @@ model Alumno {
   testsPractica             TestPractica[]
   examenesDGT               ExamenDGTAlumno[]
   documentosAlumno          DocumentoAlumno[]
+  hojasRuta                 HojaRuta[]
 
   @@map("alumnos")
 }
@@ -294,18 +296,21 @@ model SolicitudExamen {
   @@map("solicitudes_examen")
 }
 
-model ConvocatoriaTeorico {
-  id        String   @id @default(uuid())
-  fecha     DateTime
-  licencia  String
-  activo    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model ConvocatoriaExamen {
+  id         String   @id @default(uuid())
+  fecha      DateTime
+  licencia   String
+  tipoExamen String
+  activo     Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
+  @@unique([fecha, licencia, tipoExamen])
   @@index([fecha])
   @@index([licencia])
+  @@index([tipoExamen])
   @@index([activo])
-  @@map("convocatorias_teorico")
+  @@map("convocatorias_examen")
 }
 
 model Vehiculo {
@@ -340,6 +345,7 @@ model ClasePractica {
   compraBono               CompraBono? @relation(fields: [compraBonoId], references: [id], onDelete: SetNull)
   pagos                    Pago[]
   facturas                 Factura[]
+  hojaRuta                 HojaRuta?
 
   @@index([alumnoId])
   @@index([profesorId])
@@ -347,6 +353,69 @@ model ClasePractica {
   @@index([compraBonoId])
   @@index([fecha])
   @@map("clases_practicas")
+}
+
+model HojaRuta {
+  id                    String          @id @default(uuid())
+  clasePracticaId       String          @unique
+  profesorId            String
+  alumnoId              String
+  estado                String          @default("EN_CURSO")
+  observacionesProfesor String?
+  kilometrosInicio      Int?
+  kilometrosFin         Int?
+  combustibleInicioPct  Int?
+  combustibleFinPct     Int?
+  createdAt             DateTime        @default(now())
+  updatedAt             DateTime        @updatedAt
+  finalizedAt           DateTime?
+  clasePractica         ClasePractica   @relation(fields: [clasePracticaId], references: [id], onDelete: Cascade)
+  profesor              Profesor        @relation(fields: [profesorId], references: [id], onDelete: Restrict)
+  alumno                Alumno          @relation(fields: [alumnoId], references: [id], onDelete: Restrict)
+  faltas                HojaRutaFalta[]
+
+  @@index([profesorId])
+  @@index([alumnoId])
+  @@index([estado])
+  @@index([createdAt])
+  @@map("hojas_ruta")
+}
+
+model HojaRutaFalta {
+  id          String                 @id @default(uuid())
+  hojaRutaId  String
+  hora        String
+  tipo        String
+  categoria   String
+  descripcion String
+  orden       Int                    @default(0)
+  catalogoId  String?
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
+  hojaRuta    HojaRuta               @relation(fields: [hojaRutaId], references: [id], onDelete: Cascade)
+  catalogo    HojaRutaFaltaCatalogo? @relation(fields: [catalogoId], references: [id], onDelete: SetNull)
+
+  @@index([hojaRutaId])
+  @@index([tipo])
+  @@index([catalogoId])
+  @@map("hojas_ruta_faltas")
+}
+
+model HojaRutaFaltaCatalogo {
+  id          String          @id @default(uuid())
+  tipo        String
+  categoria   String
+  descripcion String
+  activo      Boolean         @default(true)
+  orden       Int             @default(0)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  faltas      HojaRutaFalta[]
+
+  @@index([tipo])
+  @@index([activo])
+  @@index([orden])
+  @@map("hojas_ruta_faltas_catalogo")
 }
 
 model Examen {

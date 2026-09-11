@@ -99,10 +99,10 @@ export type CompraBono = $Result.DefaultSelection<Prisma.$CompraBonoPayload>
  */
 export type SolicitudExamen = $Result.DefaultSelection<Prisma.$SolicitudExamenPayload>
 /**
- * Model ConvocatoriaTeorico
+ * Model ConvocatoriaExamen
  * 
  */
-export type ConvocatoriaTeorico = $Result.DefaultSelection<Prisma.$ConvocatoriaTeoricoPayload>
+export type ConvocatoriaExamen = $Result.DefaultSelection<Prisma.$ConvocatoriaExamenPayload>
 /**
  * Model Vehiculo
  * 
@@ -113,6 +113,21 @@ export type Vehiculo = $Result.DefaultSelection<Prisma.$VehiculoPayload>
  * 
  */
 export type ClasePractica = $Result.DefaultSelection<Prisma.$ClasePracticaPayload>
+/**
+ * Model HojaRuta
+ * 
+ */
+export type HojaRuta = $Result.DefaultSelection<Prisma.$HojaRutaPayload>
+/**
+ * Model HojaRutaFalta
+ * 
+ */
+export type HojaRutaFalta = $Result.DefaultSelection<Prisma.$HojaRutaFaltaPayload>
+/**
+ * Model HojaRutaFaltaCatalogo
+ * 
+ */
+export type HojaRutaFaltaCatalogo = $Result.DefaultSelection<Prisma.$HojaRutaFaltaCatalogoPayload>
 /**
  * Model Examen
  * 
@@ -500,14 +515,14 @@ export class PrismaClient<
   get solicitudExamen(): Prisma.SolicitudExamenDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.convocatoriaTeorico`: Exposes CRUD operations for the **ConvocatoriaTeorico** model.
+   * `prisma.convocatoriaExamen`: Exposes CRUD operations for the **ConvocatoriaExamen** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more ConvocatoriaTeoricos
-    * const convocatoriaTeoricos = await prisma.convocatoriaTeorico.findMany()
+    * // Fetch zero or more ConvocatoriaExamen
+    * const convocatoriaExamen = await prisma.convocatoriaExamen.findMany()
     * ```
     */
-  get convocatoriaTeorico(): Prisma.ConvocatoriaTeoricoDelegate<ExtArgs, ClientOptions>;
+  get convocatoriaExamen(): Prisma.ConvocatoriaExamenDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.vehiculo`: Exposes CRUD operations for the **Vehiculo** model.
@@ -528,6 +543,36 @@ export class PrismaClient<
     * ```
     */
   get clasePractica(): Prisma.ClasePracticaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.hojaRuta`: Exposes CRUD operations for the **HojaRuta** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more HojaRutas
+    * const hojaRutas = await prisma.hojaRuta.findMany()
+    * ```
+    */
+  get hojaRuta(): Prisma.HojaRutaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.hojaRutaFalta`: Exposes CRUD operations for the **HojaRutaFalta** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more HojaRutaFaltas
+    * const hojaRutaFaltas = await prisma.hojaRutaFalta.findMany()
+    * ```
+    */
+  get hojaRutaFalta(): Prisma.HojaRutaFaltaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.hojaRutaFaltaCatalogo`: Exposes CRUD operations for the **HojaRutaFaltaCatalogo** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more HojaRutaFaltaCatalogos
+    * const hojaRutaFaltaCatalogos = await prisma.hojaRutaFaltaCatalogo.findMany()
+    * ```
+    */
+  get hojaRutaFaltaCatalogo(): Prisma.HojaRutaFaltaCatalogoDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.examen`: Exposes CRUD operations for the **Examen** model.
@@ -1116,9 +1161,12 @@ export namespace Prisma {
     Bono: 'Bono',
     CompraBono: 'CompraBono',
     SolicitudExamen: 'SolicitudExamen',
-    ConvocatoriaTeorico: 'ConvocatoriaTeorico',
+    ConvocatoriaExamen: 'ConvocatoriaExamen',
     Vehiculo: 'Vehiculo',
     ClasePractica: 'ClasePractica',
+    HojaRuta: 'HojaRuta',
+    HojaRutaFalta: 'HojaRutaFalta',
+    HojaRutaFaltaCatalogo: 'HojaRutaFaltaCatalogo',
     Examen: 'Examen',
     Promocion: 'Promocion',
     TarifaConcepto: 'TarifaConcepto',
@@ -1150,7 +1198,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "usuario" | "activacionCuenta" | "profesor" | "profesorHorarioBloque" | "alumno" | "documentoAlumno" | "documentoAlumnoArchivo" | "temario" | "temarioProgreso" | "claseDirecto" | "testPractica" | "preguntaDGT" | "respuestaPreguntaDGT" | "examenDGTAlumno" | "bono" | "compraBono" | "solicitudExamen" | "convocatoriaTeorico" | "vehiculo" | "clasePractica" | "examen" | "promocion" | "tarifaConcepto" | "tarifaConceptoHistorial" | "tarifaMatricula" | "matricula" | "pago" | "theoreticalExamProcessBatch" | "theoreticalExamProcessSolicitud" | "theoreticalExamProcessPago" | "matriculaConcepto" | "factura" | "notificacion"
+      modelProps: "usuario" | "activacionCuenta" | "profesor" | "profesorHorarioBloque" | "alumno" | "documentoAlumno" | "documentoAlumnoArchivo" | "temario" | "temarioProgreso" | "claseDirecto" | "testPractica" | "preguntaDGT" | "respuestaPreguntaDGT" | "examenDGTAlumno" | "bono" | "compraBono" | "solicitudExamen" | "convocatoriaExamen" | "vehiculo" | "clasePractica" | "hojaRuta" | "hojaRutaFalta" | "hojaRutaFaltaCatalogo" | "examen" | "promocion" | "tarifaConcepto" | "tarifaConceptoHistorial" | "tarifaMatricula" | "matricula" | "pago" | "theoreticalExamProcessBatch" | "theoreticalExamProcessSolicitud" | "theoreticalExamProcessPago" | "matriculaConcepto" | "factura" | "notificacion"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2412,77 +2460,77 @@ export namespace Prisma {
           }
         }
       }
-      ConvocatoriaTeorico: {
-        payload: Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>
-        fields: Prisma.ConvocatoriaTeoricoFieldRefs
+      ConvocatoriaExamen: {
+        payload: Prisma.$ConvocatoriaExamenPayload<ExtArgs>
+        fields: Prisma.ConvocatoriaExamenFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.ConvocatoriaTeoricoFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaTeoricoPayload> | null
+            args: Prisma.ConvocatoriaExamenFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaExamenPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.ConvocatoriaTeoricoFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaTeoricoPayload>
+            args: Prisma.ConvocatoriaExamenFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaExamenPayload>
           }
           findFirst: {
-            args: Prisma.ConvocatoriaTeoricoFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaTeoricoPayload> | null
+            args: Prisma.ConvocatoriaExamenFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaExamenPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.ConvocatoriaTeoricoFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaTeoricoPayload>
+            args: Prisma.ConvocatoriaExamenFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaExamenPayload>
           }
           findMany: {
-            args: Prisma.ConvocatoriaTeoricoFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaTeoricoPayload>[]
+            args: Prisma.ConvocatoriaExamenFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaExamenPayload>[]
           }
           create: {
-            args: Prisma.ConvocatoriaTeoricoCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaTeoricoPayload>
+            args: Prisma.ConvocatoriaExamenCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaExamenPayload>
           }
           createMany: {
-            args: Prisma.ConvocatoriaTeoricoCreateManyArgs<ExtArgs>
+            args: Prisma.ConvocatoriaExamenCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.ConvocatoriaTeoricoCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaTeoricoPayload>[]
+            args: Prisma.ConvocatoriaExamenCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaExamenPayload>[]
           }
           delete: {
-            args: Prisma.ConvocatoriaTeoricoDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaTeoricoPayload>
+            args: Prisma.ConvocatoriaExamenDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaExamenPayload>
           }
           update: {
-            args: Prisma.ConvocatoriaTeoricoUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaTeoricoPayload>
+            args: Prisma.ConvocatoriaExamenUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaExamenPayload>
           }
           deleteMany: {
-            args: Prisma.ConvocatoriaTeoricoDeleteManyArgs<ExtArgs>
+            args: Prisma.ConvocatoriaExamenDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.ConvocatoriaTeoricoUpdateManyArgs<ExtArgs>
+            args: Prisma.ConvocatoriaExamenUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.ConvocatoriaTeoricoUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaTeoricoPayload>[]
+            args: Prisma.ConvocatoriaExamenUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaExamenPayload>[]
           }
           upsert: {
-            args: Prisma.ConvocatoriaTeoricoUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaTeoricoPayload>
+            args: Prisma.ConvocatoriaExamenUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConvocatoriaExamenPayload>
           }
           aggregate: {
-            args: Prisma.ConvocatoriaTeoricoAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateConvocatoriaTeorico>
+            args: Prisma.ConvocatoriaExamenAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateConvocatoriaExamen>
           }
           groupBy: {
-            args: Prisma.ConvocatoriaTeoricoGroupByArgs<ExtArgs>
-            result: $Utils.Optional<ConvocatoriaTeoricoGroupByOutputType>[]
+            args: Prisma.ConvocatoriaExamenGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ConvocatoriaExamenGroupByOutputType>[]
           }
           count: {
-            args: Prisma.ConvocatoriaTeoricoCountArgs<ExtArgs>
-            result: $Utils.Optional<ConvocatoriaTeoricoCountAggregateOutputType> | number
+            args: Prisma.ConvocatoriaExamenCountArgs<ExtArgs>
+            result: $Utils.Optional<ConvocatoriaExamenCountAggregateOutputType> | number
           }
         }
       }
@@ -2631,6 +2679,228 @@ export namespace Prisma {
           count: {
             args: Prisma.ClasePracticaCountArgs<ExtArgs>
             result: $Utils.Optional<ClasePracticaCountAggregateOutputType> | number
+          }
+        }
+      }
+      HojaRuta: {
+        payload: Prisma.$HojaRutaPayload<ExtArgs>
+        fields: Prisma.HojaRutaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.HojaRutaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.HojaRutaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaPayload>
+          }
+          findFirst: {
+            args: Prisma.HojaRutaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.HojaRutaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaPayload>
+          }
+          findMany: {
+            args: Prisma.HojaRutaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaPayload>[]
+          }
+          create: {
+            args: Prisma.HojaRutaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaPayload>
+          }
+          createMany: {
+            args: Prisma.HojaRutaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.HojaRutaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaPayload>[]
+          }
+          delete: {
+            args: Prisma.HojaRutaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaPayload>
+          }
+          update: {
+            args: Prisma.HojaRutaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaPayload>
+          }
+          deleteMany: {
+            args: Prisma.HojaRutaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.HojaRutaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.HojaRutaUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaPayload>[]
+          }
+          upsert: {
+            args: Prisma.HojaRutaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaPayload>
+          }
+          aggregate: {
+            args: Prisma.HojaRutaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateHojaRuta>
+          }
+          groupBy: {
+            args: Prisma.HojaRutaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<HojaRutaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.HojaRutaCountArgs<ExtArgs>
+            result: $Utils.Optional<HojaRutaCountAggregateOutputType> | number
+          }
+        }
+      }
+      HojaRutaFalta: {
+        payload: Prisma.$HojaRutaFaltaPayload<ExtArgs>
+        fields: Prisma.HojaRutaFaltaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.HojaRutaFaltaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaFaltaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.HojaRutaFaltaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaFaltaPayload>
+          }
+          findFirst: {
+            args: Prisma.HojaRutaFaltaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaFaltaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.HojaRutaFaltaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaFaltaPayload>
+          }
+          findMany: {
+            args: Prisma.HojaRutaFaltaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaFaltaPayload>[]
+          }
+          create: {
+            args: Prisma.HojaRutaFaltaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaFaltaPayload>
+          }
+          createMany: {
+            args: Prisma.HojaRutaFaltaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.HojaRutaFaltaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaFaltaPayload>[]
+          }
+          delete: {
+            args: Prisma.HojaRutaFaltaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaFaltaPayload>
+          }
+          update: {
+            args: Prisma.HojaRutaFaltaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaFaltaPayload>
+          }
+          deleteMany: {
+            args: Prisma.HojaRutaFaltaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.HojaRutaFaltaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.HojaRutaFaltaUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaFaltaPayload>[]
+          }
+          upsert: {
+            args: Prisma.HojaRutaFaltaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaFaltaPayload>
+          }
+          aggregate: {
+            args: Prisma.HojaRutaFaltaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateHojaRutaFalta>
+          }
+          groupBy: {
+            args: Prisma.HojaRutaFaltaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<HojaRutaFaltaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.HojaRutaFaltaCountArgs<ExtArgs>
+            result: $Utils.Optional<HojaRutaFaltaCountAggregateOutputType> | number
+          }
+        }
+      }
+      HojaRutaFaltaCatalogo: {
+        payload: Prisma.$HojaRutaFaltaCatalogoPayload<ExtArgs>
+        fields: Prisma.HojaRutaFaltaCatalogoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.HojaRutaFaltaCatalogoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaFaltaCatalogoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.HojaRutaFaltaCatalogoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaFaltaCatalogoPayload>
+          }
+          findFirst: {
+            args: Prisma.HojaRutaFaltaCatalogoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaFaltaCatalogoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.HojaRutaFaltaCatalogoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaFaltaCatalogoPayload>
+          }
+          findMany: {
+            args: Prisma.HojaRutaFaltaCatalogoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaFaltaCatalogoPayload>[]
+          }
+          create: {
+            args: Prisma.HojaRutaFaltaCatalogoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaFaltaCatalogoPayload>
+          }
+          createMany: {
+            args: Prisma.HojaRutaFaltaCatalogoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.HojaRutaFaltaCatalogoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaFaltaCatalogoPayload>[]
+          }
+          delete: {
+            args: Prisma.HojaRutaFaltaCatalogoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaFaltaCatalogoPayload>
+          }
+          update: {
+            args: Prisma.HojaRutaFaltaCatalogoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaFaltaCatalogoPayload>
+          }
+          deleteMany: {
+            args: Prisma.HojaRutaFaltaCatalogoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.HojaRutaFaltaCatalogoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.HojaRutaFaltaCatalogoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaFaltaCatalogoPayload>[]
+          }
+          upsert: {
+            args: Prisma.HojaRutaFaltaCatalogoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HojaRutaFaltaCatalogoPayload>
+          }
+          aggregate: {
+            args: Prisma.HojaRutaFaltaCatalogoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateHojaRutaFaltaCatalogo>
+          }
+          groupBy: {
+            args: Prisma.HojaRutaFaltaCatalogoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<HojaRutaFaltaCatalogoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.HojaRutaFaltaCatalogoCountArgs<ExtArgs>
+            result: $Utils.Optional<HojaRutaFaltaCatalogoCountAggregateOutputType> | number
           }
         }
       }
@@ -3709,9 +3979,12 @@ export namespace Prisma {
     bono?: BonoOmit
     compraBono?: CompraBonoOmit
     solicitudExamen?: SolicitudExamenOmit
-    convocatoriaTeorico?: ConvocatoriaTeoricoOmit
+    convocatoriaExamen?: ConvocatoriaExamenOmit
     vehiculo?: VehiculoOmit
     clasePractica?: ClasePracticaOmit
+    hojaRuta?: HojaRutaOmit
+    hojaRutaFalta?: HojaRutaFaltaOmit
+    hojaRutaFaltaCatalogo?: HojaRutaFaltaCatalogoOmit
     examen?: ExamenOmit
     promocion?: PromocionOmit
     tarifaConcepto?: TarifaConceptoOmit
@@ -3848,6 +4121,7 @@ export namespace Prisma {
     alumnosAsignados: number
     clasesDirecto: number
     clases: number
+    hojasRuta: number
     horarioBloques: number
   }
 
@@ -3855,6 +4129,7 @@ export namespace Prisma {
     alumnosAsignados?: boolean | ProfesorCountOutputTypeCountAlumnosAsignadosArgs
     clasesDirecto?: boolean | ProfesorCountOutputTypeCountClasesDirectoArgs
     clases?: boolean | ProfesorCountOutputTypeCountClasesArgs
+    hojasRuta?: boolean | ProfesorCountOutputTypeCountHojasRutaArgs
     horarioBloques?: boolean | ProfesorCountOutputTypeCountHorarioBloquesArgs
   }
 
@@ -3893,6 +4168,13 @@ export namespace Prisma {
   /**
    * ProfesorCountOutputType without action
    */
+  export type ProfesorCountOutputTypeCountHojasRutaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HojaRutaWhereInput
+  }
+
+  /**
+   * ProfesorCountOutputType without action
+   */
   export type ProfesorCountOutputTypeCountHorarioBloquesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProfesorHorarioBloqueWhereInput
   }
@@ -3914,6 +4196,7 @@ export namespace Prisma {
     testsPractica: number
     examenesDGT: number
     documentosAlumno: number
+    hojasRuta: number
   }
 
   export type AlumnoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3928,6 +4211,7 @@ export namespace Prisma {
     testsPractica?: boolean | AlumnoCountOutputTypeCountTestsPracticaArgs
     examenesDGT?: boolean | AlumnoCountOutputTypeCountExamenesDGTArgs
     documentosAlumno?: boolean | AlumnoCountOutputTypeCountDocumentosAlumnoArgs
+    hojasRuta?: boolean | AlumnoCountOutputTypeCountHojasRutaArgs
   }
 
   // Custom InputTypes
@@ -4016,6 +4300,13 @@ export namespace Prisma {
    */
   export type AlumnoCountOutputTypeCountDocumentosAlumnoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DocumentoAlumnoWhereInput
+  }
+
+  /**
+   * AlumnoCountOutputType without action
+   */
+  export type AlumnoCountOutputTypeCountHojasRutaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HojaRutaWhereInput
   }
 
 
@@ -4269,6 +4560,68 @@ export namespace Prisma {
    */
   export type ClasePracticaCountOutputTypeCountFacturasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FacturaWhereInput
+  }
+
+
+  /**
+   * Count Type HojaRutaCountOutputType
+   */
+
+  export type HojaRutaCountOutputType = {
+    faltas: number
+  }
+
+  export type HojaRutaCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    faltas?: boolean | HojaRutaCountOutputTypeCountFaltasArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * HojaRutaCountOutputType without action
+   */
+  export type HojaRutaCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaCountOutputType
+     */
+    select?: HojaRutaCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * HojaRutaCountOutputType without action
+   */
+  export type HojaRutaCountOutputTypeCountFaltasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HojaRutaFaltaWhereInput
+  }
+
+
+  /**
+   * Count Type HojaRutaFaltaCatalogoCountOutputType
+   */
+
+  export type HojaRutaFaltaCatalogoCountOutputType = {
+    faltas: number
+  }
+
+  export type HojaRutaFaltaCatalogoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    faltas?: boolean | HojaRutaFaltaCatalogoCountOutputTypeCountFaltasArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * HojaRutaFaltaCatalogoCountOutputType without action
+   */
+  export type HojaRutaFaltaCatalogoCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFaltaCatalogoCountOutputType
+     */
+    select?: HojaRutaFaltaCatalogoCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * HojaRutaFaltaCatalogoCountOutputType without action
+   */
+  export type HojaRutaFaltaCatalogoCountOutputTypeCountFaltasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HojaRutaFaltaWhereInput
   }
 
 
@@ -6926,6 +7279,7 @@ export namespace Prisma {
     alumnosAsignados?: boolean | Profesor$alumnosAsignadosArgs<ExtArgs>
     clasesDirecto?: boolean | Profesor$clasesDirectoArgs<ExtArgs>
     clases?: boolean | Profesor$clasesArgs<ExtArgs>
+    hojasRuta?: boolean | Profesor$hojasRutaArgs<ExtArgs>
     horarioBloques?: boolean | Profesor$horarioBloquesArgs<ExtArgs>
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     _count?: boolean | ProfesorCountOutputTypeDefaultArgs<ExtArgs>
@@ -6962,6 +7316,7 @@ export namespace Prisma {
     alumnosAsignados?: boolean | Profesor$alumnosAsignadosArgs<ExtArgs>
     clasesDirecto?: boolean | Profesor$clasesDirectoArgs<ExtArgs>
     clases?: boolean | Profesor$clasesArgs<ExtArgs>
+    hojasRuta?: boolean | Profesor$hojasRutaArgs<ExtArgs>
     horarioBloques?: boolean | Profesor$horarioBloquesArgs<ExtArgs>
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     _count?: boolean | ProfesorCountOutputTypeDefaultArgs<ExtArgs>
@@ -6979,6 +7334,7 @@ export namespace Prisma {
       alumnosAsignados: Prisma.$AlumnoPayload<ExtArgs>[]
       clasesDirecto: Prisma.$ClaseDirectoPayload<ExtArgs>[]
       clases: Prisma.$ClasePracticaPayload<ExtArgs>[]
+      hojasRuta: Prisma.$HojaRutaPayload<ExtArgs>[]
       horarioBloques: Prisma.$ProfesorHorarioBloquePayload<ExtArgs>[]
       usuario: Prisma.$UsuarioPayload<ExtArgs>
     }
@@ -7385,6 +7741,7 @@ export namespace Prisma {
     alumnosAsignados<T extends Profesor$alumnosAsignadosArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$alumnosAsignadosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     clasesDirecto<T extends Profesor$clasesDirectoArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$clasesDirectoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClaseDirectoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     clases<T extends Profesor$clasesArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$clasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClasePracticaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    hojasRuta<T extends Profesor$hojasRutaArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$hojasRutaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HojaRutaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     horarioBloques<T extends Profesor$horarioBloquesArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$horarioBloquesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProfesorHorarioBloquePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     usuario<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
@@ -7886,6 +8243,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ClasePracticaScalarFieldEnum | ClasePracticaScalarFieldEnum[]
+  }
+
+  /**
+   * Profesor.hojasRuta
+   */
+  export type Profesor$hojasRutaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRuta
+     */
+    select?: HojaRutaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRuta
+     */
+    omit?: HojaRutaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaInclude<ExtArgs> | null
+    where?: HojaRutaWhereInput
+    orderBy?: HojaRutaOrderByWithRelationInput | HojaRutaOrderByWithRelationInput[]
+    cursor?: HojaRutaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: HojaRutaScalarFieldEnum | HojaRutaScalarFieldEnum[]
   }
 
   /**
@@ -9268,6 +9649,7 @@ export namespace Prisma {
     testsPractica?: boolean | Alumno$testsPracticaArgs<ExtArgs>
     examenesDGT?: boolean | Alumno$examenesDGTArgs<ExtArgs>
     documentosAlumno?: boolean | Alumno$documentosAlumnoArgs<ExtArgs>
+    hojasRuta?: boolean | Alumno$hojasRutaArgs<ExtArgs>
     _count?: boolean | AlumnoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["alumno"]>
 
@@ -9317,6 +9699,7 @@ export namespace Prisma {
     testsPractica?: boolean | Alumno$testsPracticaArgs<ExtArgs>
     examenesDGT?: boolean | Alumno$examenesDGTArgs<ExtArgs>
     documentosAlumno?: boolean | Alumno$documentosAlumnoArgs<ExtArgs>
+    hojasRuta?: boolean | Alumno$hojasRutaArgs<ExtArgs>
     _count?: boolean | AlumnoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AlumnoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9344,6 +9727,7 @@ export namespace Prisma {
       testsPractica: Prisma.$TestPracticaPayload<ExtArgs>[]
       examenesDGT: Prisma.$ExamenDGTAlumnoPayload<ExtArgs>[]
       documentosAlumno: Prisma.$DocumentoAlumnoPayload<ExtArgs>[]
+      hojasRuta: Prisma.$HojaRutaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9759,6 +10143,7 @@ export namespace Prisma {
     testsPractica<T extends Alumno$testsPracticaArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$testsPracticaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestPracticaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     examenesDGT<T extends Alumno$examenesDGTArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$examenesDGTArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamenDGTAlumnoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     documentosAlumno<T extends Alumno$documentosAlumnoArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$documentosAlumnoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentoAlumnoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    hojasRuta<T extends Alumno$hojasRutaArgs<ExtArgs> = {}>(args?: Subset<T, Alumno$hojasRutaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HojaRutaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10470,6 +10855,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: DocumentoAlumnoScalarFieldEnum | DocumentoAlumnoScalarFieldEnum[]
+  }
+
+  /**
+   * Alumno.hojasRuta
+   */
+  export type Alumno$hojasRutaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRuta
+     */
+    select?: HojaRutaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRuta
+     */
+    omit?: HojaRutaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaInclude<ExtArgs> | null
+    where?: HojaRutaWhereInput
+    orderBy?: HojaRutaOrderByWithRelationInput | HojaRutaOrderByWithRelationInput[]
+    cursor?: HojaRutaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: HojaRutaScalarFieldEnum | HojaRutaScalarFieldEnum[]
   }
 
   /**
@@ -24210,37 +24619,40 @@ export namespace Prisma {
 
 
   /**
-   * Model ConvocatoriaTeorico
+   * Model ConvocatoriaExamen
    */
 
-  export type AggregateConvocatoriaTeorico = {
-    _count: ConvocatoriaTeoricoCountAggregateOutputType | null
-    _min: ConvocatoriaTeoricoMinAggregateOutputType | null
-    _max: ConvocatoriaTeoricoMaxAggregateOutputType | null
+  export type AggregateConvocatoriaExamen = {
+    _count: ConvocatoriaExamenCountAggregateOutputType | null
+    _min: ConvocatoriaExamenMinAggregateOutputType | null
+    _max: ConvocatoriaExamenMaxAggregateOutputType | null
   }
 
-  export type ConvocatoriaTeoricoMinAggregateOutputType = {
+  export type ConvocatoriaExamenMinAggregateOutputType = {
     id: string | null
     fecha: Date | null
     licencia: string | null
+    tipoExamen: string | null
     activo: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
-  export type ConvocatoriaTeoricoMaxAggregateOutputType = {
+  export type ConvocatoriaExamenMaxAggregateOutputType = {
     id: string | null
     fecha: Date | null
     licencia: string | null
+    tipoExamen: string | null
     activo: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
-  export type ConvocatoriaTeoricoCountAggregateOutputType = {
+  export type ConvocatoriaExamenCountAggregateOutputType = {
     id: number
     fecha: number
     licencia: number
+    tipoExamen: number
     activo: number
     createdAt: number
     updatedAt: number
@@ -24248,310 +24660,319 @@ export namespace Prisma {
   }
 
 
-  export type ConvocatoriaTeoricoMinAggregateInputType = {
+  export type ConvocatoriaExamenMinAggregateInputType = {
     id?: true
     fecha?: true
     licencia?: true
+    tipoExamen?: true
     activo?: true
     createdAt?: true
     updatedAt?: true
   }
 
-  export type ConvocatoriaTeoricoMaxAggregateInputType = {
+  export type ConvocatoriaExamenMaxAggregateInputType = {
     id?: true
     fecha?: true
     licencia?: true
+    tipoExamen?: true
     activo?: true
     createdAt?: true
     updatedAt?: true
   }
 
-  export type ConvocatoriaTeoricoCountAggregateInputType = {
+  export type ConvocatoriaExamenCountAggregateInputType = {
     id?: true
     fecha?: true
     licencia?: true
+    tipoExamen?: true
     activo?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
   }
 
-  export type ConvocatoriaTeoricoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ConvocatoriaExamenAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which ConvocatoriaTeorico to aggregate.
+     * Filter which ConvocatoriaExamen to aggregate.
      */
-    where?: ConvocatoriaTeoricoWhereInput
+    where?: ConvocatoriaExamenWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ConvocatoriaTeoricos to fetch.
+     * Determine the order of ConvocatoriaExamen to fetch.
      */
-    orderBy?: ConvocatoriaTeoricoOrderByWithRelationInput | ConvocatoriaTeoricoOrderByWithRelationInput[]
+    orderBy?: ConvocatoriaExamenOrderByWithRelationInput | ConvocatoriaExamenOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: ConvocatoriaTeoricoWhereUniqueInput
+    cursor?: ConvocatoriaExamenWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ConvocatoriaTeoricos from the position of the cursor.
+     * Take `±n` ConvocatoriaExamen from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ConvocatoriaTeoricos.
+     * Skip the first `n` ConvocatoriaExamen.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned ConvocatoriaTeoricos
+     * Count returned ConvocatoriaExamen
     **/
-    _count?: true | ConvocatoriaTeoricoCountAggregateInputType
+    _count?: true | ConvocatoriaExamenCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: ConvocatoriaTeoricoMinAggregateInputType
+    _min?: ConvocatoriaExamenMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: ConvocatoriaTeoricoMaxAggregateInputType
+    _max?: ConvocatoriaExamenMaxAggregateInputType
   }
 
-  export type GetConvocatoriaTeoricoAggregateType<T extends ConvocatoriaTeoricoAggregateArgs> = {
-        [P in keyof T & keyof AggregateConvocatoriaTeorico]: P extends '_count' | 'count'
+  export type GetConvocatoriaExamenAggregateType<T extends ConvocatoriaExamenAggregateArgs> = {
+        [P in keyof T & keyof AggregateConvocatoriaExamen]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateConvocatoriaTeorico[P]>
-      : GetScalarType<T[P], AggregateConvocatoriaTeorico[P]>
+        : GetScalarType<T[P], AggregateConvocatoriaExamen[P]>
+      : GetScalarType<T[P], AggregateConvocatoriaExamen[P]>
   }
 
 
 
 
-  export type ConvocatoriaTeoricoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ConvocatoriaTeoricoWhereInput
-    orderBy?: ConvocatoriaTeoricoOrderByWithAggregationInput | ConvocatoriaTeoricoOrderByWithAggregationInput[]
-    by: ConvocatoriaTeoricoScalarFieldEnum[] | ConvocatoriaTeoricoScalarFieldEnum
-    having?: ConvocatoriaTeoricoScalarWhereWithAggregatesInput
+  export type ConvocatoriaExamenGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConvocatoriaExamenWhereInput
+    orderBy?: ConvocatoriaExamenOrderByWithAggregationInput | ConvocatoriaExamenOrderByWithAggregationInput[]
+    by: ConvocatoriaExamenScalarFieldEnum[] | ConvocatoriaExamenScalarFieldEnum
+    having?: ConvocatoriaExamenScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: ConvocatoriaTeoricoCountAggregateInputType | true
-    _min?: ConvocatoriaTeoricoMinAggregateInputType
-    _max?: ConvocatoriaTeoricoMaxAggregateInputType
+    _count?: ConvocatoriaExamenCountAggregateInputType | true
+    _min?: ConvocatoriaExamenMinAggregateInputType
+    _max?: ConvocatoriaExamenMaxAggregateInputType
   }
 
-  export type ConvocatoriaTeoricoGroupByOutputType = {
+  export type ConvocatoriaExamenGroupByOutputType = {
     id: string
     fecha: Date
     licencia: string
+    tipoExamen: string
     activo: boolean
     createdAt: Date
     updatedAt: Date
-    _count: ConvocatoriaTeoricoCountAggregateOutputType | null
-    _min: ConvocatoriaTeoricoMinAggregateOutputType | null
-    _max: ConvocatoriaTeoricoMaxAggregateOutputType | null
+    _count: ConvocatoriaExamenCountAggregateOutputType | null
+    _min: ConvocatoriaExamenMinAggregateOutputType | null
+    _max: ConvocatoriaExamenMaxAggregateOutputType | null
   }
 
-  type GetConvocatoriaTeoricoGroupByPayload<T extends ConvocatoriaTeoricoGroupByArgs> = Prisma.PrismaPromise<
+  type GetConvocatoriaExamenGroupByPayload<T extends ConvocatoriaExamenGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<ConvocatoriaTeoricoGroupByOutputType, T['by']> &
+      PickEnumerable<ConvocatoriaExamenGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof ConvocatoriaTeoricoGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof ConvocatoriaExamenGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], ConvocatoriaTeoricoGroupByOutputType[P]>
-            : GetScalarType<T[P], ConvocatoriaTeoricoGroupByOutputType[P]>
+              : GetScalarType<T[P], ConvocatoriaExamenGroupByOutputType[P]>
+            : GetScalarType<T[P], ConvocatoriaExamenGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type ConvocatoriaTeoricoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type ConvocatoriaExamenSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     fecha?: boolean
     licencia?: boolean
+    tipoExamen?: boolean
     activo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-  }, ExtArgs["result"]["convocatoriaTeorico"]>
+  }, ExtArgs["result"]["convocatoriaExamen"]>
 
-  export type ConvocatoriaTeoricoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type ConvocatoriaExamenSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     fecha?: boolean
     licencia?: boolean
+    tipoExamen?: boolean
     activo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-  }, ExtArgs["result"]["convocatoriaTeorico"]>
+  }, ExtArgs["result"]["convocatoriaExamen"]>
 
-  export type ConvocatoriaTeoricoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type ConvocatoriaExamenSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     fecha?: boolean
     licencia?: boolean
+    tipoExamen?: boolean
     activo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-  }, ExtArgs["result"]["convocatoriaTeorico"]>
+  }, ExtArgs["result"]["convocatoriaExamen"]>
 
-  export type ConvocatoriaTeoricoSelectScalar = {
+  export type ConvocatoriaExamenSelectScalar = {
     id?: boolean
     fecha?: boolean
     licencia?: boolean
+    tipoExamen?: boolean
     activo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ConvocatoriaTeoricoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fecha" | "licencia" | "activo" | "createdAt" | "updatedAt", ExtArgs["result"]["convocatoriaTeorico"]>
+  export type ConvocatoriaExamenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fecha" | "licencia" | "tipoExamen" | "activo" | "createdAt" | "updatedAt", ExtArgs["result"]["convocatoriaExamen"]>
 
-  export type $ConvocatoriaTeoricoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "ConvocatoriaTeorico"
+  export type $ConvocatoriaExamenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ConvocatoriaExamen"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
       fecha: Date
       licencia: string
+      tipoExamen: string
       activo: boolean
       createdAt: Date
       updatedAt: Date
-    }, ExtArgs["result"]["convocatoriaTeorico"]>
+    }, ExtArgs["result"]["convocatoriaExamen"]>
     composites: {}
   }
 
-  type ConvocatoriaTeoricoGetPayload<S extends boolean | null | undefined | ConvocatoriaTeoricoDefaultArgs> = $Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload, S>
+  type ConvocatoriaExamenGetPayload<S extends boolean | null | undefined | ConvocatoriaExamenDefaultArgs> = $Result.GetResult<Prisma.$ConvocatoriaExamenPayload, S>
 
-  type ConvocatoriaTeoricoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<ConvocatoriaTeoricoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: ConvocatoriaTeoricoCountAggregateInputType | true
+  type ConvocatoriaExamenCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ConvocatoriaExamenFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ConvocatoriaExamenCountAggregateInputType | true
     }
 
-  export interface ConvocatoriaTeoricoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ConvocatoriaTeorico'], meta: { name: 'ConvocatoriaTeorico' } }
+  export interface ConvocatoriaExamenDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ConvocatoriaExamen'], meta: { name: 'ConvocatoriaExamen' } }
     /**
-     * Find zero or one ConvocatoriaTeorico that matches the filter.
-     * @param {ConvocatoriaTeoricoFindUniqueArgs} args - Arguments to find a ConvocatoriaTeorico
+     * Find zero or one ConvocatoriaExamen that matches the filter.
+     * @param {ConvocatoriaExamenFindUniqueArgs} args - Arguments to find a ConvocatoriaExamen
      * @example
-     * // Get one ConvocatoriaTeorico
-     * const convocatoriaTeorico = await prisma.convocatoriaTeorico.findUnique({
+     * // Get one ConvocatoriaExamen
+     * const convocatoriaExamen = await prisma.convocatoriaExamen.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends ConvocatoriaTeoricoFindUniqueArgs>(args: SelectSubset<T, ConvocatoriaTeoricoFindUniqueArgs<ExtArgs>>): Prisma__ConvocatoriaTeoricoClient<$Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends ConvocatoriaExamenFindUniqueArgs>(args: SelectSubset<T, ConvocatoriaExamenFindUniqueArgs<ExtArgs>>): Prisma__ConvocatoriaExamenClient<$Result.GetResult<Prisma.$ConvocatoriaExamenPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one ConvocatoriaTeorico that matches the filter or throw an error with `error.code='P2025'`
+     * Find one ConvocatoriaExamen that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {ConvocatoriaTeoricoFindUniqueOrThrowArgs} args - Arguments to find a ConvocatoriaTeorico
+     * @param {ConvocatoriaExamenFindUniqueOrThrowArgs} args - Arguments to find a ConvocatoriaExamen
      * @example
-     * // Get one ConvocatoriaTeorico
-     * const convocatoriaTeorico = await prisma.convocatoriaTeorico.findUniqueOrThrow({
+     * // Get one ConvocatoriaExamen
+     * const convocatoriaExamen = await prisma.convocatoriaExamen.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends ConvocatoriaTeoricoFindUniqueOrThrowArgs>(args: SelectSubset<T, ConvocatoriaTeoricoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ConvocatoriaTeoricoClient<$Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends ConvocatoriaExamenFindUniqueOrThrowArgs>(args: SelectSubset<T, ConvocatoriaExamenFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ConvocatoriaExamenClient<$Result.GetResult<Prisma.$ConvocatoriaExamenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first ConvocatoriaTeorico that matches the filter.
+     * Find the first ConvocatoriaExamen that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ConvocatoriaTeoricoFindFirstArgs} args - Arguments to find a ConvocatoriaTeorico
+     * @param {ConvocatoriaExamenFindFirstArgs} args - Arguments to find a ConvocatoriaExamen
      * @example
-     * // Get one ConvocatoriaTeorico
-     * const convocatoriaTeorico = await prisma.convocatoriaTeorico.findFirst({
+     * // Get one ConvocatoriaExamen
+     * const convocatoriaExamen = await prisma.convocatoriaExamen.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends ConvocatoriaTeoricoFindFirstArgs>(args?: SelectSubset<T, ConvocatoriaTeoricoFindFirstArgs<ExtArgs>>): Prisma__ConvocatoriaTeoricoClient<$Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends ConvocatoriaExamenFindFirstArgs>(args?: SelectSubset<T, ConvocatoriaExamenFindFirstArgs<ExtArgs>>): Prisma__ConvocatoriaExamenClient<$Result.GetResult<Prisma.$ConvocatoriaExamenPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first ConvocatoriaTeorico that matches the filter or
+     * Find the first ConvocatoriaExamen that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ConvocatoriaTeoricoFindFirstOrThrowArgs} args - Arguments to find a ConvocatoriaTeorico
+     * @param {ConvocatoriaExamenFindFirstOrThrowArgs} args - Arguments to find a ConvocatoriaExamen
      * @example
-     * // Get one ConvocatoriaTeorico
-     * const convocatoriaTeorico = await prisma.convocatoriaTeorico.findFirstOrThrow({
+     * // Get one ConvocatoriaExamen
+     * const convocatoriaExamen = await prisma.convocatoriaExamen.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends ConvocatoriaTeoricoFindFirstOrThrowArgs>(args?: SelectSubset<T, ConvocatoriaTeoricoFindFirstOrThrowArgs<ExtArgs>>): Prisma__ConvocatoriaTeoricoClient<$Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends ConvocatoriaExamenFindFirstOrThrowArgs>(args?: SelectSubset<T, ConvocatoriaExamenFindFirstOrThrowArgs<ExtArgs>>): Prisma__ConvocatoriaExamenClient<$Result.GetResult<Prisma.$ConvocatoriaExamenPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more ConvocatoriaTeoricos that matches the filter.
+     * Find zero or more ConvocatoriaExamen that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ConvocatoriaTeoricoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {ConvocatoriaExamenFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all ConvocatoriaTeoricos
-     * const convocatoriaTeoricos = await prisma.convocatoriaTeorico.findMany()
+     * // Get all ConvocatoriaExamen
+     * const convocatoriaExamen = await prisma.convocatoriaExamen.findMany()
      * 
-     * // Get first 10 ConvocatoriaTeoricos
-     * const convocatoriaTeoricos = await prisma.convocatoriaTeorico.findMany({ take: 10 })
+     * // Get first 10 ConvocatoriaExamen
+     * const convocatoriaExamen = await prisma.convocatoriaExamen.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const convocatoriaTeoricoWithIdOnly = await prisma.convocatoriaTeorico.findMany({ select: { id: true } })
+     * const convocatoriaExamenWithIdOnly = await prisma.convocatoriaExamen.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends ConvocatoriaTeoricoFindManyArgs>(args?: SelectSubset<T, ConvocatoriaTeoricoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends ConvocatoriaExamenFindManyArgs>(args?: SelectSubset<T, ConvocatoriaExamenFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConvocatoriaExamenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a ConvocatoriaTeorico.
-     * @param {ConvocatoriaTeoricoCreateArgs} args - Arguments to create a ConvocatoriaTeorico.
+     * Create a ConvocatoriaExamen.
+     * @param {ConvocatoriaExamenCreateArgs} args - Arguments to create a ConvocatoriaExamen.
      * @example
-     * // Create one ConvocatoriaTeorico
-     * const ConvocatoriaTeorico = await prisma.convocatoriaTeorico.create({
+     * // Create one ConvocatoriaExamen
+     * const ConvocatoriaExamen = await prisma.convocatoriaExamen.create({
      *   data: {
-     *     // ... data to create a ConvocatoriaTeorico
+     *     // ... data to create a ConvocatoriaExamen
      *   }
      * })
      * 
      */
-    create<T extends ConvocatoriaTeoricoCreateArgs>(args: SelectSubset<T, ConvocatoriaTeoricoCreateArgs<ExtArgs>>): Prisma__ConvocatoriaTeoricoClient<$Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends ConvocatoriaExamenCreateArgs>(args: SelectSubset<T, ConvocatoriaExamenCreateArgs<ExtArgs>>): Prisma__ConvocatoriaExamenClient<$Result.GetResult<Prisma.$ConvocatoriaExamenPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many ConvocatoriaTeoricos.
-     * @param {ConvocatoriaTeoricoCreateManyArgs} args - Arguments to create many ConvocatoriaTeoricos.
+     * Create many ConvocatoriaExamen.
+     * @param {ConvocatoriaExamenCreateManyArgs} args - Arguments to create many ConvocatoriaExamen.
      * @example
-     * // Create many ConvocatoriaTeoricos
-     * const convocatoriaTeorico = await prisma.convocatoriaTeorico.createMany({
+     * // Create many ConvocatoriaExamen
+     * const convocatoriaExamen = await prisma.convocatoriaExamen.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends ConvocatoriaTeoricoCreateManyArgs>(args?: SelectSubset<T, ConvocatoriaTeoricoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends ConvocatoriaExamenCreateManyArgs>(args?: SelectSubset<T, ConvocatoriaExamenCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many ConvocatoriaTeoricos and returns the data saved in the database.
-     * @param {ConvocatoriaTeoricoCreateManyAndReturnArgs} args - Arguments to create many ConvocatoriaTeoricos.
+     * Create many ConvocatoriaExamen and returns the data saved in the database.
+     * @param {ConvocatoriaExamenCreateManyAndReturnArgs} args - Arguments to create many ConvocatoriaExamen.
      * @example
-     * // Create many ConvocatoriaTeoricos
-     * const convocatoriaTeorico = await prisma.convocatoriaTeorico.createManyAndReturn({
+     * // Create many ConvocatoriaExamen
+     * const convocatoriaExamen = await prisma.convocatoriaExamen.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many ConvocatoriaTeoricos and only return the `id`
-     * const convocatoriaTeoricoWithIdOnly = await prisma.convocatoriaTeorico.createManyAndReturn({
+     * // Create many ConvocatoriaExamen and only return the `id`
+     * const convocatoriaExamenWithIdOnly = await prisma.convocatoriaExamen.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -24561,28 +24982,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends ConvocatoriaTeoricoCreateManyAndReturnArgs>(args?: SelectSubset<T, ConvocatoriaTeoricoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends ConvocatoriaExamenCreateManyAndReturnArgs>(args?: SelectSubset<T, ConvocatoriaExamenCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConvocatoriaExamenPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a ConvocatoriaTeorico.
-     * @param {ConvocatoriaTeoricoDeleteArgs} args - Arguments to delete one ConvocatoriaTeorico.
+     * Delete a ConvocatoriaExamen.
+     * @param {ConvocatoriaExamenDeleteArgs} args - Arguments to delete one ConvocatoriaExamen.
      * @example
-     * // Delete one ConvocatoriaTeorico
-     * const ConvocatoriaTeorico = await prisma.convocatoriaTeorico.delete({
+     * // Delete one ConvocatoriaExamen
+     * const ConvocatoriaExamen = await prisma.convocatoriaExamen.delete({
      *   where: {
-     *     // ... filter to delete one ConvocatoriaTeorico
+     *     // ... filter to delete one ConvocatoriaExamen
      *   }
      * })
      * 
      */
-    delete<T extends ConvocatoriaTeoricoDeleteArgs>(args: SelectSubset<T, ConvocatoriaTeoricoDeleteArgs<ExtArgs>>): Prisma__ConvocatoriaTeoricoClient<$Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends ConvocatoriaExamenDeleteArgs>(args: SelectSubset<T, ConvocatoriaExamenDeleteArgs<ExtArgs>>): Prisma__ConvocatoriaExamenClient<$Result.GetResult<Prisma.$ConvocatoriaExamenPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one ConvocatoriaTeorico.
-     * @param {ConvocatoriaTeoricoUpdateArgs} args - Arguments to update one ConvocatoriaTeorico.
+     * Update one ConvocatoriaExamen.
+     * @param {ConvocatoriaExamenUpdateArgs} args - Arguments to update one ConvocatoriaExamen.
      * @example
-     * // Update one ConvocatoriaTeorico
-     * const convocatoriaTeorico = await prisma.convocatoriaTeorico.update({
+     * // Update one ConvocatoriaExamen
+     * const convocatoriaExamen = await prisma.convocatoriaExamen.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -24592,30 +25013,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends ConvocatoriaTeoricoUpdateArgs>(args: SelectSubset<T, ConvocatoriaTeoricoUpdateArgs<ExtArgs>>): Prisma__ConvocatoriaTeoricoClient<$Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends ConvocatoriaExamenUpdateArgs>(args: SelectSubset<T, ConvocatoriaExamenUpdateArgs<ExtArgs>>): Prisma__ConvocatoriaExamenClient<$Result.GetResult<Prisma.$ConvocatoriaExamenPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more ConvocatoriaTeoricos.
-     * @param {ConvocatoriaTeoricoDeleteManyArgs} args - Arguments to filter ConvocatoriaTeoricos to delete.
+     * Delete zero or more ConvocatoriaExamen.
+     * @param {ConvocatoriaExamenDeleteManyArgs} args - Arguments to filter ConvocatoriaExamen to delete.
      * @example
-     * // Delete a few ConvocatoriaTeoricos
-     * const { count } = await prisma.convocatoriaTeorico.deleteMany({
+     * // Delete a few ConvocatoriaExamen
+     * const { count } = await prisma.convocatoriaExamen.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends ConvocatoriaTeoricoDeleteManyArgs>(args?: SelectSubset<T, ConvocatoriaTeoricoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends ConvocatoriaExamenDeleteManyArgs>(args?: SelectSubset<T, ConvocatoriaExamenDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more ConvocatoriaTeoricos.
+     * Update zero or more ConvocatoriaExamen.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ConvocatoriaTeoricoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {ConvocatoriaExamenUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many ConvocatoriaTeoricos
-     * const convocatoriaTeorico = await prisma.convocatoriaTeorico.updateMany({
+     * // Update many ConvocatoriaExamen
+     * const convocatoriaExamen = await prisma.convocatoriaExamen.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -24625,14 +25046,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends ConvocatoriaTeoricoUpdateManyArgs>(args: SelectSubset<T, ConvocatoriaTeoricoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends ConvocatoriaExamenUpdateManyArgs>(args: SelectSubset<T, ConvocatoriaExamenUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more ConvocatoriaTeoricos and returns the data updated in the database.
-     * @param {ConvocatoriaTeoricoUpdateManyAndReturnArgs} args - Arguments to update many ConvocatoriaTeoricos.
+     * Update zero or more ConvocatoriaExamen and returns the data updated in the database.
+     * @param {ConvocatoriaExamenUpdateManyAndReturnArgs} args - Arguments to update many ConvocatoriaExamen.
      * @example
-     * // Update many ConvocatoriaTeoricos
-     * const convocatoriaTeorico = await prisma.convocatoriaTeorico.updateManyAndReturn({
+     * // Update many ConvocatoriaExamen
+     * const convocatoriaExamen = await prisma.convocatoriaExamen.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -24641,8 +25062,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more ConvocatoriaTeoricos and only return the `id`
-     * const convocatoriaTeoricoWithIdOnly = await prisma.convocatoriaTeorico.updateManyAndReturn({
+     * // Update zero or more ConvocatoriaExamen and only return the `id`
+     * const convocatoriaExamenWithIdOnly = await prisma.convocatoriaExamen.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -24655,56 +25076,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends ConvocatoriaTeoricoUpdateManyAndReturnArgs>(args: SelectSubset<T, ConvocatoriaTeoricoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends ConvocatoriaExamenUpdateManyAndReturnArgs>(args: SelectSubset<T, ConvocatoriaExamenUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConvocatoriaExamenPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one ConvocatoriaTeorico.
-     * @param {ConvocatoriaTeoricoUpsertArgs} args - Arguments to update or create a ConvocatoriaTeorico.
+     * Create or update one ConvocatoriaExamen.
+     * @param {ConvocatoriaExamenUpsertArgs} args - Arguments to update or create a ConvocatoriaExamen.
      * @example
-     * // Update or create a ConvocatoriaTeorico
-     * const convocatoriaTeorico = await prisma.convocatoriaTeorico.upsert({
+     * // Update or create a ConvocatoriaExamen
+     * const convocatoriaExamen = await prisma.convocatoriaExamen.upsert({
      *   create: {
-     *     // ... data to create a ConvocatoriaTeorico
+     *     // ... data to create a ConvocatoriaExamen
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the ConvocatoriaTeorico we want to update
+     *     // ... the filter for the ConvocatoriaExamen we want to update
      *   }
      * })
      */
-    upsert<T extends ConvocatoriaTeoricoUpsertArgs>(args: SelectSubset<T, ConvocatoriaTeoricoUpsertArgs<ExtArgs>>): Prisma__ConvocatoriaTeoricoClient<$Result.GetResult<Prisma.$ConvocatoriaTeoricoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends ConvocatoriaExamenUpsertArgs>(args: SelectSubset<T, ConvocatoriaExamenUpsertArgs<ExtArgs>>): Prisma__ConvocatoriaExamenClient<$Result.GetResult<Prisma.$ConvocatoriaExamenPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of ConvocatoriaTeoricos.
+     * Count the number of ConvocatoriaExamen.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ConvocatoriaTeoricoCountArgs} args - Arguments to filter ConvocatoriaTeoricos to count.
+     * @param {ConvocatoriaExamenCountArgs} args - Arguments to filter ConvocatoriaExamen to count.
      * @example
-     * // Count the number of ConvocatoriaTeoricos
-     * const count = await prisma.convocatoriaTeorico.count({
+     * // Count the number of ConvocatoriaExamen
+     * const count = await prisma.convocatoriaExamen.count({
      *   where: {
-     *     // ... the filter for the ConvocatoriaTeoricos we want to count
+     *     // ... the filter for the ConvocatoriaExamen we want to count
      *   }
      * })
     **/
-    count<T extends ConvocatoriaTeoricoCountArgs>(
-      args?: Subset<T, ConvocatoriaTeoricoCountArgs>,
+    count<T extends ConvocatoriaExamenCountArgs>(
+      args?: Subset<T, ConvocatoriaExamenCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], ConvocatoriaTeoricoCountAggregateOutputType>
+          : GetScalarType<T['select'], ConvocatoriaExamenCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a ConvocatoriaTeorico.
+     * Allows you to perform aggregations operations on a ConvocatoriaExamen.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ConvocatoriaTeoricoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {ConvocatoriaExamenAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -24724,13 +25145,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends ConvocatoriaTeoricoAggregateArgs>(args: Subset<T, ConvocatoriaTeoricoAggregateArgs>): Prisma.PrismaPromise<GetConvocatoriaTeoricoAggregateType<T>>
+    aggregate<T extends ConvocatoriaExamenAggregateArgs>(args: Subset<T, ConvocatoriaExamenAggregateArgs>): Prisma.PrismaPromise<GetConvocatoriaExamenAggregateType<T>>
 
     /**
-     * Group by ConvocatoriaTeorico.
+     * Group by ConvocatoriaExamen.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ConvocatoriaTeoricoGroupByArgs} args - Group by arguments.
+     * @param {ConvocatoriaExamenGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -24745,14 +25166,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends ConvocatoriaTeoricoGroupByArgs,
+      T extends ConvocatoriaExamenGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ConvocatoriaTeoricoGroupByArgs['orderBy'] }
-        : { orderBy?: ConvocatoriaTeoricoGroupByArgs['orderBy'] },
+        ? { orderBy: ConvocatoriaExamenGroupByArgs['orderBy'] }
+        : { orderBy?: ConvocatoriaExamenGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -24801,20 +25222,20 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, ConvocatoriaTeoricoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetConvocatoriaTeoricoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, ConvocatoriaExamenGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetConvocatoriaExamenGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the ConvocatoriaTeorico model
+   * Fields of the ConvocatoriaExamen model
    */
-  readonly fields: ConvocatoriaTeoricoFieldRefs;
+  readonly fields: ConvocatoriaExamenFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for ConvocatoriaTeorico.
+   * The delegate class that acts as a "Promise-like" for ConvocatoriaExamen.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__ConvocatoriaTeoricoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__ConvocatoriaExamenClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -24842,378 +25263,379 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the ConvocatoriaTeorico model
+   * Fields of the ConvocatoriaExamen model
    */
-  interface ConvocatoriaTeoricoFieldRefs {
-    readonly id: FieldRef<"ConvocatoriaTeorico", 'String'>
-    readonly fecha: FieldRef<"ConvocatoriaTeorico", 'DateTime'>
-    readonly licencia: FieldRef<"ConvocatoriaTeorico", 'String'>
-    readonly activo: FieldRef<"ConvocatoriaTeorico", 'Boolean'>
-    readonly createdAt: FieldRef<"ConvocatoriaTeorico", 'DateTime'>
-    readonly updatedAt: FieldRef<"ConvocatoriaTeorico", 'DateTime'>
+  interface ConvocatoriaExamenFieldRefs {
+    readonly id: FieldRef<"ConvocatoriaExamen", 'String'>
+    readonly fecha: FieldRef<"ConvocatoriaExamen", 'DateTime'>
+    readonly licencia: FieldRef<"ConvocatoriaExamen", 'String'>
+    readonly tipoExamen: FieldRef<"ConvocatoriaExamen", 'String'>
+    readonly activo: FieldRef<"ConvocatoriaExamen", 'Boolean'>
+    readonly createdAt: FieldRef<"ConvocatoriaExamen", 'DateTime'>
+    readonly updatedAt: FieldRef<"ConvocatoriaExamen", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * ConvocatoriaTeorico findUnique
+   * ConvocatoriaExamen findUnique
    */
-  export type ConvocatoriaTeoricoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ConvocatoriaExamenFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ConvocatoriaTeorico
+     * Select specific fields to fetch from the ConvocatoriaExamen
      */
-    select?: ConvocatoriaTeoricoSelect<ExtArgs> | null
+    select?: ConvocatoriaExamenSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ConvocatoriaTeorico
+     * Omit specific fields from the ConvocatoriaExamen
      */
-    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    omit?: ConvocatoriaExamenOmit<ExtArgs> | null
     /**
-     * Filter, which ConvocatoriaTeorico to fetch.
+     * Filter, which ConvocatoriaExamen to fetch.
      */
-    where: ConvocatoriaTeoricoWhereUniqueInput
+    where: ConvocatoriaExamenWhereUniqueInput
   }
 
   /**
-   * ConvocatoriaTeorico findUniqueOrThrow
+   * ConvocatoriaExamen findUniqueOrThrow
    */
-  export type ConvocatoriaTeoricoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ConvocatoriaExamenFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ConvocatoriaTeorico
+     * Select specific fields to fetch from the ConvocatoriaExamen
      */
-    select?: ConvocatoriaTeoricoSelect<ExtArgs> | null
+    select?: ConvocatoriaExamenSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ConvocatoriaTeorico
+     * Omit specific fields from the ConvocatoriaExamen
      */
-    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    omit?: ConvocatoriaExamenOmit<ExtArgs> | null
     /**
-     * Filter, which ConvocatoriaTeorico to fetch.
+     * Filter, which ConvocatoriaExamen to fetch.
      */
-    where: ConvocatoriaTeoricoWhereUniqueInput
+    where: ConvocatoriaExamenWhereUniqueInput
   }
 
   /**
-   * ConvocatoriaTeorico findFirst
+   * ConvocatoriaExamen findFirst
    */
-  export type ConvocatoriaTeoricoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ConvocatoriaExamenFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ConvocatoriaTeorico
+     * Select specific fields to fetch from the ConvocatoriaExamen
      */
-    select?: ConvocatoriaTeoricoSelect<ExtArgs> | null
+    select?: ConvocatoriaExamenSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ConvocatoriaTeorico
+     * Omit specific fields from the ConvocatoriaExamen
      */
-    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    omit?: ConvocatoriaExamenOmit<ExtArgs> | null
     /**
-     * Filter, which ConvocatoriaTeorico to fetch.
+     * Filter, which ConvocatoriaExamen to fetch.
      */
-    where?: ConvocatoriaTeoricoWhereInput
+    where?: ConvocatoriaExamenWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ConvocatoriaTeoricos to fetch.
+     * Determine the order of ConvocatoriaExamen to fetch.
      */
-    orderBy?: ConvocatoriaTeoricoOrderByWithRelationInput | ConvocatoriaTeoricoOrderByWithRelationInput[]
+    orderBy?: ConvocatoriaExamenOrderByWithRelationInput | ConvocatoriaExamenOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for ConvocatoriaTeoricos.
+     * Sets the position for searching for ConvocatoriaExamen.
      */
-    cursor?: ConvocatoriaTeoricoWhereUniqueInput
+    cursor?: ConvocatoriaExamenWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ConvocatoriaTeoricos from the position of the cursor.
+     * Take `±n` ConvocatoriaExamen from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ConvocatoriaTeoricos.
+     * Skip the first `n` ConvocatoriaExamen.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of ConvocatoriaTeoricos.
+     * Filter by unique combinations of ConvocatoriaExamen.
      */
-    distinct?: ConvocatoriaTeoricoScalarFieldEnum | ConvocatoriaTeoricoScalarFieldEnum[]
+    distinct?: ConvocatoriaExamenScalarFieldEnum | ConvocatoriaExamenScalarFieldEnum[]
   }
 
   /**
-   * ConvocatoriaTeorico findFirstOrThrow
+   * ConvocatoriaExamen findFirstOrThrow
    */
-  export type ConvocatoriaTeoricoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ConvocatoriaExamenFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ConvocatoriaTeorico
+     * Select specific fields to fetch from the ConvocatoriaExamen
      */
-    select?: ConvocatoriaTeoricoSelect<ExtArgs> | null
+    select?: ConvocatoriaExamenSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ConvocatoriaTeorico
+     * Omit specific fields from the ConvocatoriaExamen
      */
-    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    omit?: ConvocatoriaExamenOmit<ExtArgs> | null
     /**
-     * Filter, which ConvocatoriaTeorico to fetch.
+     * Filter, which ConvocatoriaExamen to fetch.
      */
-    where?: ConvocatoriaTeoricoWhereInput
+    where?: ConvocatoriaExamenWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ConvocatoriaTeoricos to fetch.
+     * Determine the order of ConvocatoriaExamen to fetch.
      */
-    orderBy?: ConvocatoriaTeoricoOrderByWithRelationInput | ConvocatoriaTeoricoOrderByWithRelationInput[]
+    orderBy?: ConvocatoriaExamenOrderByWithRelationInput | ConvocatoriaExamenOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for ConvocatoriaTeoricos.
+     * Sets the position for searching for ConvocatoriaExamen.
      */
-    cursor?: ConvocatoriaTeoricoWhereUniqueInput
+    cursor?: ConvocatoriaExamenWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ConvocatoriaTeoricos from the position of the cursor.
+     * Take `±n` ConvocatoriaExamen from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ConvocatoriaTeoricos.
+     * Skip the first `n` ConvocatoriaExamen.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of ConvocatoriaTeoricos.
+     * Filter by unique combinations of ConvocatoriaExamen.
      */
-    distinct?: ConvocatoriaTeoricoScalarFieldEnum | ConvocatoriaTeoricoScalarFieldEnum[]
+    distinct?: ConvocatoriaExamenScalarFieldEnum | ConvocatoriaExamenScalarFieldEnum[]
   }
 
   /**
-   * ConvocatoriaTeorico findMany
+   * ConvocatoriaExamen findMany
    */
-  export type ConvocatoriaTeoricoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ConvocatoriaExamenFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ConvocatoriaTeorico
+     * Select specific fields to fetch from the ConvocatoriaExamen
      */
-    select?: ConvocatoriaTeoricoSelect<ExtArgs> | null
+    select?: ConvocatoriaExamenSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ConvocatoriaTeorico
+     * Omit specific fields from the ConvocatoriaExamen
      */
-    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    omit?: ConvocatoriaExamenOmit<ExtArgs> | null
     /**
-     * Filter, which ConvocatoriaTeoricos to fetch.
+     * Filter, which ConvocatoriaExamen to fetch.
      */
-    where?: ConvocatoriaTeoricoWhereInput
+    where?: ConvocatoriaExamenWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ConvocatoriaTeoricos to fetch.
+     * Determine the order of ConvocatoriaExamen to fetch.
      */
-    orderBy?: ConvocatoriaTeoricoOrderByWithRelationInput | ConvocatoriaTeoricoOrderByWithRelationInput[]
+    orderBy?: ConvocatoriaExamenOrderByWithRelationInput | ConvocatoriaExamenOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing ConvocatoriaTeoricos.
+     * Sets the position for listing ConvocatoriaExamen.
      */
-    cursor?: ConvocatoriaTeoricoWhereUniqueInput
+    cursor?: ConvocatoriaExamenWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ConvocatoriaTeoricos from the position of the cursor.
+     * Take `±n` ConvocatoriaExamen from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ConvocatoriaTeoricos.
+     * Skip the first `n` ConvocatoriaExamen.
      */
     skip?: number
-    distinct?: ConvocatoriaTeoricoScalarFieldEnum | ConvocatoriaTeoricoScalarFieldEnum[]
+    distinct?: ConvocatoriaExamenScalarFieldEnum | ConvocatoriaExamenScalarFieldEnum[]
   }
 
   /**
-   * ConvocatoriaTeorico create
+   * ConvocatoriaExamen create
    */
-  export type ConvocatoriaTeoricoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ConvocatoriaExamenCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ConvocatoriaTeorico
+     * Select specific fields to fetch from the ConvocatoriaExamen
      */
-    select?: ConvocatoriaTeoricoSelect<ExtArgs> | null
+    select?: ConvocatoriaExamenSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ConvocatoriaTeorico
+     * Omit specific fields from the ConvocatoriaExamen
      */
-    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    omit?: ConvocatoriaExamenOmit<ExtArgs> | null
     /**
-     * The data needed to create a ConvocatoriaTeorico.
+     * The data needed to create a ConvocatoriaExamen.
      */
-    data: XOR<ConvocatoriaTeoricoCreateInput, ConvocatoriaTeoricoUncheckedCreateInput>
+    data: XOR<ConvocatoriaExamenCreateInput, ConvocatoriaExamenUncheckedCreateInput>
   }
 
   /**
-   * ConvocatoriaTeorico createMany
+   * ConvocatoriaExamen createMany
    */
-  export type ConvocatoriaTeoricoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ConvocatoriaExamenCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many ConvocatoriaTeoricos.
+     * The data used to create many ConvocatoriaExamen.
      */
-    data: ConvocatoriaTeoricoCreateManyInput | ConvocatoriaTeoricoCreateManyInput[]
+    data: ConvocatoriaExamenCreateManyInput | ConvocatoriaExamenCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * ConvocatoriaTeorico createManyAndReturn
+   * ConvocatoriaExamen createManyAndReturn
    */
-  export type ConvocatoriaTeoricoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ConvocatoriaExamenCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ConvocatoriaTeorico
+     * Select specific fields to fetch from the ConvocatoriaExamen
      */
-    select?: ConvocatoriaTeoricoSelectCreateManyAndReturn<ExtArgs> | null
+    select?: ConvocatoriaExamenSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the ConvocatoriaTeorico
+     * Omit specific fields from the ConvocatoriaExamen
      */
-    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    omit?: ConvocatoriaExamenOmit<ExtArgs> | null
     /**
-     * The data used to create many ConvocatoriaTeoricos.
+     * The data used to create many ConvocatoriaExamen.
      */
-    data: ConvocatoriaTeoricoCreateManyInput | ConvocatoriaTeoricoCreateManyInput[]
+    data: ConvocatoriaExamenCreateManyInput | ConvocatoriaExamenCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * ConvocatoriaTeorico update
+   * ConvocatoriaExamen update
    */
-  export type ConvocatoriaTeoricoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ConvocatoriaExamenUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ConvocatoriaTeorico
+     * Select specific fields to fetch from the ConvocatoriaExamen
      */
-    select?: ConvocatoriaTeoricoSelect<ExtArgs> | null
+    select?: ConvocatoriaExamenSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ConvocatoriaTeorico
+     * Omit specific fields from the ConvocatoriaExamen
      */
-    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    omit?: ConvocatoriaExamenOmit<ExtArgs> | null
     /**
-     * The data needed to update a ConvocatoriaTeorico.
+     * The data needed to update a ConvocatoriaExamen.
      */
-    data: XOR<ConvocatoriaTeoricoUpdateInput, ConvocatoriaTeoricoUncheckedUpdateInput>
+    data: XOR<ConvocatoriaExamenUpdateInput, ConvocatoriaExamenUncheckedUpdateInput>
     /**
-     * Choose, which ConvocatoriaTeorico to update.
+     * Choose, which ConvocatoriaExamen to update.
      */
-    where: ConvocatoriaTeoricoWhereUniqueInput
+    where: ConvocatoriaExamenWhereUniqueInput
   }
 
   /**
-   * ConvocatoriaTeorico updateMany
+   * ConvocatoriaExamen updateMany
    */
-  export type ConvocatoriaTeoricoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ConvocatoriaExamenUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update ConvocatoriaTeoricos.
+     * The data used to update ConvocatoriaExamen.
      */
-    data: XOR<ConvocatoriaTeoricoUpdateManyMutationInput, ConvocatoriaTeoricoUncheckedUpdateManyInput>
+    data: XOR<ConvocatoriaExamenUpdateManyMutationInput, ConvocatoriaExamenUncheckedUpdateManyInput>
     /**
-     * Filter which ConvocatoriaTeoricos to update
+     * Filter which ConvocatoriaExamen to update
      */
-    where?: ConvocatoriaTeoricoWhereInput
+    where?: ConvocatoriaExamenWhereInput
     /**
-     * Limit how many ConvocatoriaTeoricos to update.
+     * Limit how many ConvocatoriaExamen to update.
      */
     limit?: number
   }
 
   /**
-   * ConvocatoriaTeorico updateManyAndReturn
+   * ConvocatoriaExamen updateManyAndReturn
    */
-  export type ConvocatoriaTeoricoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ConvocatoriaExamenUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ConvocatoriaTeorico
+     * Select specific fields to fetch from the ConvocatoriaExamen
      */
-    select?: ConvocatoriaTeoricoSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: ConvocatoriaExamenSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the ConvocatoriaTeorico
+     * Omit specific fields from the ConvocatoriaExamen
      */
-    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    omit?: ConvocatoriaExamenOmit<ExtArgs> | null
     /**
-     * The data used to update ConvocatoriaTeoricos.
+     * The data used to update ConvocatoriaExamen.
      */
-    data: XOR<ConvocatoriaTeoricoUpdateManyMutationInput, ConvocatoriaTeoricoUncheckedUpdateManyInput>
+    data: XOR<ConvocatoriaExamenUpdateManyMutationInput, ConvocatoriaExamenUncheckedUpdateManyInput>
     /**
-     * Filter which ConvocatoriaTeoricos to update
+     * Filter which ConvocatoriaExamen to update
      */
-    where?: ConvocatoriaTeoricoWhereInput
+    where?: ConvocatoriaExamenWhereInput
     /**
-     * Limit how many ConvocatoriaTeoricos to update.
+     * Limit how many ConvocatoriaExamen to update.
      */
     limit?: number
   }
 
   /**
-   * ConvocatoriaTeorico upsert
+   * ConvocatoriaExamen upsert
    */
-  export type ConvocatoriaTeoricoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ConvocatoriaExamenUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ConvocatoriaTeorico
+     * Select specific fields to fetch from the ConvocatoriaExamen
      */
-    select?: ConvocatoriaTeoricoSelect<ExtArgs> | null
+    select?: ConvocatoriaExamenSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ConvocatoriaTeorico
+     * Omit specific fields from the ConvocatoriaExamen
      */
-    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    omit?: ConvocatoriaExamenOmit<ExtArgs> | null
     /**
-     * The filter to search for the ConvocatoriaTeorico to update in case it exists.
+     * The filter to search for the ConvocatoriaExamen to update in case it exists.
      */
-    where: ConvocatoriaTeoricoWhereUniqueInput
+    where: ConvocatoriaExamenWhereUniqueInput
     /**
-     * In case the ConvocatoriaTeorico found by the `where` argument doesn't exist, create a new ConvocatoriaTeorico with this data.
+     * In case the ConvocatoriaExamen found by the `where` argument doesn't exist, create a new ConvocatoriaExamen with this data.
      */
-    create: XOR<ConvocatoriaTeoricoCreateInput, ConvocatoriaTeoricoUncheckedCreateInput>
+    create: XOR<ConvocatoriaExamenCreateInput, ConvocatoriaExamenUncheckedCreateInput>
     /**
-     * In case the ConvocatoriaTeorico was found with the provided `where` argument, update it with this data.
+     * In case the ConvocatoriaExamen was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<ConvocatoriaTeoricoUpdateInput, ConvocatoriaTeoricoUncheckedUpdateInput>
+    update: XOR<ConvocatoriaExamenUpdateInput, ConvocatoriaExamenUncheckedUpdateInput>
   }
 
   /**
-   * ConvocatoriaTeorico delete
+   * ConvocatoriaExamen delete
    */
-  export type ConvocatoriaTeoricoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ConvocatoriaExamenDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ConvocatoriaTeorico
+     * Select specific fields to fetch from the ConvocatoriaExamen
      */
-    select?: ConvocatoriaTeoricoSelect<ExtArgs> | null
+    select?: ConvocatoriaExamenSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ConvocatoriaTeorico
+     * Omit specific fields from the ConvocatoriaExamen
      */
-    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    omit?: ConvocatoriaExamenOmit<ExtArgs> | null
     /**
-     * Filter which ConvocatoriaTeorico to delete.
+     * Filter which ConvocatoriaExamen to delete.
      */
-    where: ConvocatoriaTeoricoWhereUniqueInput
+    where: ConvocatoriaExamenWhereUniqueInput
   }
 
   /**
-   * ConvocatoriaTeorico deleteMany
+   * ConvocatoriaExamen deleteMany
    */
-  export type ConvocatoriaTeoricoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ConvocatoriaExamenDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which ConvocatoriaTeoricos to delete
+     * Filter which ConvocatoriaExamen to delete
      */
-    where?: ConvocatoriaTeoricoWhereInput
+    where?: ConvocatoriaExamenWhereInput
     /**
-     * Limit how many ConvocatoriaTeoricos to delete.
+     * Limit how many ConvocatoriaExamen to delete.
      */
     limit?: number
   }
 
   /**
-   * ConvocatoriaTeorico without action
+   * ConvocatoriaExamen without action
    */
-  export type ConvocatoriaTeoricoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ConvocatoriaExamenDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ConvocatoriaTeorico
+     * Select specific fields to fetch from the ConvocatoriaExamen
      */
-    select?: ConvocatoriaTeoricoSelect<ExtArgs> | null
+    select?: ConvocatoriaExamenSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ConvocatoriaTeorico
+     * Omit specific fields from the ConvocatoriaExamen
      */
-    omit?: ConvocatoriaTeoricoOmit<ExtArgs> | null
+    omit?: ConvocatoriaExamenOmit<ExtArgs> | null
   }
 
 
@@ -26573,6 +26995,7 @@ export namespace Prisma {
     compraBono?: boolean | ClasePractica$compraBonoArgs<ExtArgs>
     pagos?: boolean | ClasePractica$pagosArgs<ExtArgs>
     facturas?: boolean | ClasePractica$facturasArgs<ExtArgs>
+    hojaRuta?: boolean | ClasePractica$hojaRutaArgs<ExtArgs>
     _count?: boolean | ClasePracticaCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["clasePractica"]>
 
@@ -26637,6 +27060,7 @@ export namespace Prisma {
     compraBono?: boolean | ClasePractica$compraBonoArgs<ExtArgs>
     pagos?: boolean | ClasePractica$pagosArgs<ExtArgs>
     facturas?: boolean | ClasePractica$facturasArgs<ExtArgs>
+    hojaRuta?: boolean | ClasePractica$hojaRutaArgs<ExtArgs>
     _count?: boolean | ClasePracticaCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ClasePracticaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -26661,6 +27085,7 @@ export namespace Prisma {
       compraBono: Prisma.$CompraBonoPayload<ExtArgs> | null
       pagos: Prisma.$PagoPayload<ExtArgs>[]
       facturas: Prisma.$FacturaPayload<ExtArgs>[]
+      hojaRuta: Prisma.$HojaRutaPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -27075,6 +27500,7 @@ export namespace Prisma {
     compraBono<T extends ClasePractica$compraBonoArgs<ExtArgs> = {}>(args?: Subset<T, ClasePractica$compraBonoArgs<ExtArgs>>): Prisma__CompraBonoClient<$Result.GetResult<Prisma.$CompraBonoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     pagos<T extends ClasePractica$pagosArgs<ExtArgs> = {}>(args?: Subset<T, ClasePractica$pagosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PagoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     facturas<T extends ClasePractica$facturasArgs<ExtArgs> = {}>(args?: Subset<T, ClasePractica$facturasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FacturaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    hojaRuta<T extends ClasePractica$hojaRutaArgs<ExtArgs> = {}>(args?: Subset<T, ClasePractica$hojaRutaArgs<ExtArgs>>): Prisma__HojaRutaClient<$Result.GetResult<Prisma.$HojaRutaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -27579,6 +28005,25 @@ export namespace Prisma {
   }
 
   /**
+   * ClasePractica.hojaRuta
+   */
+  export type ClasePractica$hojaRutaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRuta
+     */
+    select?: HojaRutaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRuta
+     */
+    omit?: HojaRutaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaInclude<ExtArgs> | null
+    where?: HojaRutaWhereInput
+  }
+
+  /**
    * ClasePractica without action
    */
   export type ClasePracticaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -27594,6 +28039,3587 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ClasePracticaInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model HojaRuta
+   */
+
+  export type AggregateHojaRuta = {
+    _count: HojaRutaCountAggregateOutputType | null
+    _avg: HojaRutaAvgAggregateOutputType | null
+    _sum: HojaRutaSumAggregateOutputType | null
+    _min: HojaRutaMinAggregateOutputType | null
+    _max: HojaRutaMaxAggregateOutputType | null
+  }
+
+  export type HojaRutaAvgAggregateOutputType = {
+    kilometrosInicio: number | null
+    kilometrosFin: number | null
+    combustibleInicioPct: number | null
+    combustibleFinPct: number | null
+  }
+
+  export type HojaRutaSumAggregateOutputType = {
+    kilometrosInicio: number | null
+    kilometrosFin: number | null
+    combustibleInicioPct: number | null
+    combustibleFinPct: number | null
+  }
+
+  export type HojaRutaMinAggregateOutputType = {
+    id: string | null
+    clasePracticaId: string | null
+    profesorId: string | null
+    alumnoId: string | null
+    estado: string | null
+    observacionesProfesor: string | null
+    kilometrosInicio: number | null
+    kilometrosFin: number | null
+    combustibleInicioPct: number | null
+    combustibleFinPct: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    finalizedAt: Date | null
+  }
+
+  export type HojaRutaMaxAggregateOutputType = {
+    id: string | null
+    clasePracticaId: string | null
+    profesorId: string | null
+    alumnoId: string | null
+    estado: string | null
+    observacionesProfesor: string | null
+    kilometrosInicio: number | null
+    kilometrosFin: number | null
+    combustibleInicioPct: number | null
+    combustibleFinPct: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    finalizedAt: Date | null
+  }
+
+  export type HojaRutaCountAggregateOutputType = {
+    id: number
+    clasePracticaId: number
+    profesorId: number
+    alumnoId: number
+    estado: number
+    observacionesProfesor: number
+    kilometrosInicio: number
+    kilometrosFin: number
+    combustibleInicioPct: number
+    combustibleFinPct: number
+    createdAt: number
+    updatedAt: number
+    finalizedAt: number
+    _all: number
+  }
+
+
+  export type HojaRutaAvgAggregateInputType = {
+    kilometrosInicio?: true
+    kilometrosFin?: true
+    combustibleInicioPct?: true
+    combustibleFinPct?: true
+  }
+
+  export type HojaRutaSumAggregateInputType = {
+    kilometrosInicio?: true
+    kilometrosFin?: true
+    combustibleInicioPct?: true
+    combustibleFinPct?: true
+  }
+
+  export type HojaRutaMinAggregateInputType = {
+    id?: true
+    clasePracticaId?: true
+    profesorId?: true
+    alumnoId?: true
+    estado?: true
+    observacionesProfesor?: true
+    kilometrosInicio?: true
+    kilometrosFin?: true
+    combustibleInicioPct?: true
+    combustibleFinPct?: true
+    createdAt?: true
+    updatedAt?: true
+    finalizedAt?: true
+  }
+
+  export type HojaRutaMaxAggregateInputType = {
+    id?: true
+    clasePracticaId?: true
+    profesorId?: true
+    alumnoId?: true
+    estado?: true
+    observacionesProfesor?: true
+    kilometrosInicio?: true
+    kilometrosFin?: true
+    combustibleInicioPct?: true
+    combustibleFinPct?: true
+    createdAt?: true
+    updatedAt?: true
+    finalizedAt?: true
+  }
+
+  export type HojaRutaCountAggregateInputType = {
+    id?: true
+    clasePracticaId?: true
+    profesorId?: true
+    alumnoId?: true
+    estado?: true
+    observacionesProfesor?: true
+    kilometrosInicio?: true
+    kilometrosFin?: true
+    combustibleInicioPct?: true
+    combustibleFinPct?: true
+    createdAt?: true
+    updatedAt?: true
+    finalizedAt?: true
+    _all?: true
+  }
+
+  export type HojaRutaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which HojaRuta to aggregate.
+     */
+    where?: HojaRutaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HojaRutas to fetch.
+     */
+    orderBy?: HojaRutaOrderByWithRelationInput | HojaRutaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: HojaRutaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HojaRutas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HojaRutas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned HojaRutas
+    **/
+    _count?: true | HojaRutaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: HojaRutaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: HojaRutaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: HojaRutaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: HojaRutaMaxAggregateInputType
+  }
+
+  export type GetHojaRutaAggregateType<T extends HojaRutaAggregateArgs> = {
+        [P in keyof T & keyof AggregateHojaRuta]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateHojaRuta[P]>
+      : GetScalarType<T[P], AggregateHojaRuta[P]>
+  }
+
+
+
+
+  export type HojaRutaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HojaRutaWhereInput
+    orderBy?: HojaRutaOrderByWithAggregationInput | HojaRutaOrderByWithAggregationInput[]
+    by: HojaRutaScalarFieldEnum[] | HojaRutaScalarFieldEnum
+    having?: HojaRutaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: HojaRutaCountAggregateInputType | true
+    _avg?: HojaRutaAvgAggregateInputType
+    _sum?: HojaRutaSumAggregateInputType
+    _min?: HojaRutaMinAggregateInputType
+    _max?: HojaRutaMaxAggregateInputType
+  }
+
+  export type HojaRutaGroupByOutputType = {
+    id: string
+    clasePracticaId: string
+    profesorId: string
+    alumnoId: string
+    estado: string
+    observacionesProfesor: string | null
+    kilometrosInicio: number | null
+    kilometrosFin: number | null
+    combustibleInicioPct: number | null
+    combustibleFinPct: number | null
+    createdAt: Date
+    updatedAt: Date
+    finalizedAt: Date | null
+    _count: HojaRutaCountAggregateOutputType | null
+    _avg: HojaRutaAvgAggregateOutputType | null
+    _sum: HojaRutaSumAggregateOutputType | null
+    _min: HojaRutaMinAggregateOutputType | null
+    _max: HojaRutaMaxAggregateOutputType | null
+  }
+
+  type GetHojaRutaGroupByPayload<T extends HojaRutaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<HojaRutaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof HojaRutaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], HojaRutaGroupByOutputType[P]>
+            : GetScalarType<T[P], HojaRutaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type HojaRutaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    clasePracticaId?: boolean
+    profesorId?: boolean
+    alumnoId?: boolean
+    estado?: boolean
+    observacionesProfesor?: boolean
+    kilometrosInicio?: boolean
+    kilometrosFin?: boolean
+    combustibleInicioPct?: boolean
+    combustibleFinPct?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    finalizedAt?: boolean
+    clasePractica?: boolean | ClasePracticaDefaultArgs<ExtArgs>
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    faltas?: boolean | HojaRuta$faltasArgs<ExtArgs>
+    _count?: boolean | HojaRutaCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["hojaRuta"]>
+
+  export type HojaRutaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    clasePracticaId?: boolean
+    profesorId?: boolean
+    alumnoId?: boolean
+    estado?: boolean
+    observacionesProfesor?: boolean
+    kilometrosInicio?: boolean
+    kilometrosFin?: boolean
+    combustibleInicioPct?: boolean
+    combustibleFinPct?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    finalizedAt?: boolean
+    clasePractica?: boolean | ClasePracticaDefaultArgs<ExtArgs>
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["hojaRuta"]>
+
+  export type HojaRutaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    clasePracticaId?: boolean
+    profesorId?: boolean
+    alumnoId?: boolean
+    estado?: boolean
+    observacionesProfesor?: boolean
+    kilometrosInicio?: boolean
+    kilometrosFin?: boolean
+    combustibleInicioPct?: boolean
+    combustibleFinPct?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    finalizedAt?: boolean
+    clasePractica?: boolean | ClasePracticaDefaultArgs<ExtArgs>
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["hojaRuta"]>
+
+  export type HojaRutaSelectScalar = {
+    id?: boolean
+    clasePracticaId?: boolean
+    profesorId?: boolean
+    alumnoId?: boolean
+    estado?: boolean
+    observacionesProfesor?: boolean
+    kilometrosInicio?: boolean
+    kilometrosFin?: boolean
+    combustibleInicioPct?: boolean
+    combustibleFinPct?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    finalizedAt?: boolean
+  }
+
+  export type HojaRutaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clasePracticaId" | "profesorId" | "alumnoId" | "estado" | "observacionesProfesor" | "kilometrosInicio" | "kilometrosFin" | "combustibleInicioPct" | "combustibleFinPct" | "createdAt" | "updatedAt" | "finalizedAt", ExtArgs["result"]["hojaRuta"]>
+  export type HojaRutaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    clasePractica?: boolean | ClasePracticaDefaultArgs<ExtArgs>
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    faltas?: boolean | HojaRuta$faltasArgs<ExtArgs>
+    _count?: boolean | HojaRutaCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type HojaRutaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    clasePractica?: boolean | ClasePracticaDefaultArgs<ExtArgs>
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+  }
+  export type HojaRutaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    clasePractica?: boolean | ClasePracticaDefaultArgs<ExtArgs>
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+  }
+
+  export type $HojaRutaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "HojaRuta"
+    objects: {
+      clasePractica: Prisma.$ClasePracticaPayload<ExtArgs>
+      profesor: Prisma.$ProfesorPayload<ExtArgs>
+      alumno: Prisma.$AlumnoPayload<ExtArgs>
+      faltas: Prisma.$HojaRutaFaltaPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      clasePracticaId: string
+      profesorId: string
+      alumnoId: string
+      estado: string
+      observacionesProfesor: string | null
+      kilometrosInicio: number | null
+      kilometrosFin: number | null
+      combustibleInicioPct: number | null
+      combustibleFinPct: number | null
+      createdAt: Date
+      updatedAt: Date
+      finalizedAt: Date | null
+    }, ExtArgs["result"]["hojaRuta"]>
+    composites: {}
+  }
+
+  type HojaRutaGetPayload<S extends boolean | null | undefined | HojaRutaDefaultArgs> = $Result.GetResult<Prisma.$HojaRutaPayload, S>
+
+  type HojaRutaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<HojaRutaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: HojaRutaCountAggregateInputType | true
+    }
+
+  export interface HojaRutaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['HojaRuta'], meta: { name: 'HojaRuta' } }
+    /**
+     * Find zero or one HojaRuta that matches the filter.
+     * @param {HojaRutaFindUniqueArgs} args - Arguments to find a HojaRuta
+     * @example
+     * // Get one HojaRuta
+     * const hojaRuta = await prisma.hojaRuta.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends HojaRutaFindUniqueArgs>(args: SelectSubset<T, HojaRutaFindUniqueArgs<ExtArgs>>): Prisma__HojaRutaClient<$Result.GetResult<Prisma.$HojaRutaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one HojaRuta that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {HojaRutaFindUniqueOrThrowArgs} args - Arguments to find a HojaRuta
+     * @example
+     * // Get one HojaRuta
+     * const hojaRuta = await prisma.hojaRuta.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends HojaRutaFindUniqueOrThrowArgs>(args: SelectSubset<T, HojaRutaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__HojaRutaClient<$Result.GetResult<Prisma.$HojaRutaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first HojaRuta that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HojaRutaFindFirstArgs} args - Arguments to find a HojaRuta
+     * @example
+     * // Get one HojaRuta
+     * const hojaRuta = await prisma.hojaRuta.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends HojaRutaFindFirstArgs>(args?: SelectSubset<T, HojaRutaFindFirstArgs<ExtArgs>>): Prisma__HojaRutaClient<$Result.GetResult<Prisma.$HojaRutaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first HojaRuta that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HojaRutaFindFirstOrThrowArgs} args - Arguments to find a HojaRuta
+     * @example
+     * // Get one HojaRuta
+     * const hojaRuta = await prisma.hojaRuta.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends HojaRutaFindFirstOrThrowArgs>(args?: SelectSubset<T, HojaRutaFindFirstOrThrowArgs<ExtArgs>>): Prisma__HojaRutaClient<$Result.GetResult<Prisma.$HojaRutaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more HojaRutas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HojaRutaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all HojaRutas
+     * const hojaRutas = await prisma.hojaRuta.findMany()
+     * 
+     * // Get first 10 HojaRutas
+     * const hojaRutas = await prisma.hojaRuta.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const hojaRutaWithIdOnly = await prisma.hojaRuta.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends HojaRutaFindManyArgs>(args?: SelectSubset<T, HojaRutaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HojaRutaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a HojaRuta.
+     * @param {HojaRutaCreateArgs} args - Arguments to create a HojaRuta.
+     * @example
+     * // Create one HojaRuta
+     * const HojaRuta = await prisma.hojaRuta.create({
+     *   data: {
+     *     // ... data to create a HojaRuta
+     *   }
+     * })
+     * 
+     */
+    create<T extends HojaRutaCreateArgs>(args: SelectSubset<T, HojaRutaCreateArgs<ExtArgs>>): Prisma__HojaRutaClient<$Result.GetResult<Prisma.$HojaRutaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many HojaRutas.
+     * @param {HojaRutaCreateManyArgs} args - Arguments to create many HojaRutas.
+     * @example
+     * // Create many HojaRutas
+     * const hojaRuta = await prisma.hojaRuta.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends HojaRutaCreateManyArgs>(args?: SelectSubset<T, HojaRutaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many HojaRutas and returns the data saved in the database.
+     * @param {HojaRutaCreateManyAndReturnArgs} args - Arguments to create many HojaRutas.
+     * @example
+     * // Create many HojaRutas
+     * const hojaRuta = await prisma.hojaRuta.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many HojaRutas and only return the `id`
+     * const hojaRutaWithIdOnly = await prisma.hojaRuta.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends HojaRutaCreateManyAndReturnArgs>(args?: SelectSubset<T, HojaRutaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HojaRutaPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a HojaRuta.
+     * @param {HojaRutaDeleteArgs} args - Arguments to delete one HojaRuta.
+     * @example
+     * // Delete one HojaRuta
+     * const HojaRuta = await prisma.hojaRuta.delete({
+     *   where: {
+     *     // ... filter to delete one HojaRuta
+     *   }
+     * })
+     * 
+     */
+    delete<T extends HojaRutaDeleteArgs>(args: SelectSubset<T, HojaRutaDeleteArgs<ExtArgs>>): Prisma__HojaRutaClient<$Result.GetResult<Prisma.$HojaRutaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one HojaRuta.
+     * @param {HojaRutaUpdateArgs} args - Arguments to update one HojaRuta.
+     * @example
+     * // Update one HojaRuta
+     * const hojaRuta = await prisma.hojaRuta.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends HojaRutaUpdateArgs>(args: SelectSubset<T, HojaRutaUpdateArgs<ExtArgs>>): Prisma__HojaRutaClient<$Result.GetResult<Prisma.$HojaRutaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more HojaRutas.
+     * @param {HojaRutaDeleteManyArgs} args - Arguments to filter HojaRutas to delete.
+     * @example
+     * // Delete a few HojaRutas
+     * const { count } = await prisma.hojaRuta.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends HojaRutaDeleteManyArgs>(args?: SelectSubset<T, HojaRutaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more HojaRutas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HojaRutaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many HojaRutas
+     * const hojaRuta = await prisma.hojaRuta.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends HojaRutaUpdateManyArgs>(args: SelectSubset<T, HojaRutaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more HojaRutas and returns the data updated in the database.
+     * @param {HojaRutaUpdateManyAndReturnArgs} args - Arguments to update many HojaRutas.
+     * @example
+     * // Update many HojaRutas
+     * const hojaRuta = await prisma.hojaRuta.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more HojaRutas and only return the `id`
+     * const hojaRutaWithIdOnly = await prisma.hojaRuta.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends HojaRutaUpdateManyAndReturnArgs>(args: SelectSubset<T, HojaRutaUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HojaRutaPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one HojaRuta.
+     * @param {HojaRutaUpsertArgs} args - Arguments to update or create a HojaRuta.
+     * @example
+     * // Update or create a HojaRuta
+     * const hojaRuta = await prisma.hojaRuta.upsert({
+     *   create: {
+     *     // ... data to create a HojaRuta
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the HojaRuta we want to update
+     *   }
+     * })
+     */
+    upsert<T extends HojaRutaUpsertArgs>(args: SelectSubset<T, HojaRutaUpsertArgs<ExtArgs>>): Prisma__HojaRutaClient<$Result.GetResult<Prisma.$HojaRutaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of HojaRutas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HojaRutaCountArgs} args - Arguments to filter HojaRutas to count.
+     * @example
+     * // Count the number of HojaRutas
+     * const count = await prisma.hojaRuta.count({
+     *   where: {
+     *     // ... the filter for the HojaRutas we want to count
+     *   }
+     * })
+    **/
+    count<T extends HojaRutaCountArgs>(
+      args?: Subset<T, HojaRutaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], HojaRutaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a HojaRuta.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HojaRutaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends HojaRutaAggregateArgs>(args: Subset<T, HojaRutaAggregateArgs>): Prisma.PrismaPromise<GetHojaRutaAggregateType<T>>
+
+    /**
+     * Group by HojaRuta.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HojaRutaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends HojaRutaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: HojaRutaGroupByArgs['orderBy'] }
+        : { orderBy?: HojaRutaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, HojaRutaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHojaRutaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the HojaRuta model
+   */
+  readonly fields: HojaRutaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for HojaRuta.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__HojaRutaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    clasePractica<T extends ClasePracticaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClasePracticaDefaultArgs<ExtArgs>>): Prisma__ClasePracticaClient<$Result.GetResult<Prisma.$ClasePracticaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    profesor<T extends ProfesorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfesorDefaultArgs<ExtArgs>>): Prisma__ProfesorClient<$Result.GetResult<Prisma.$ProfesorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    alumno<T extends AlumnoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AlumnoDefaultArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    faltas<T extends HojaRuta$faltasArgs<ExtArgs> = {}>(args?: Subset<T, HojaRuta$faltasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HojaRutaFaltaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the HojaRuta model
+   */
+  interface HojaRutaFieldRefs {
+    readonly id: FieldRef<"HojaRuta", 'String'>
+    readonly clasePracticaId: FieldRef<"HojaRuta", 'String'>
+    readonly profesorId: FieldRef<"HojaRuta", 'String'>
+    readonly alumnoId: FieldRef<"HojaRuta", 'String'>
+    readonly estado: FieldRef<"HojaRuta", 'String'>
+    readonly observacionesProfesor: FieldRef<"HojaRuta", 'String'>
+    readonly kilometrosInicio: FieldRef<"HojaRuta", 'Int'>
+    readonly kilometrosFin: FieldRef<"HojaRuta", 'Int'>
+    readonly combustibleInicioPct: FieldRef<"HojaRuta", 'Int'>
+    readonly combustibleFinPct: FieldRef<"HojaRuta", 'Int'>
+    readonly createdAt: FieldRef<"HojaRuta", 'DateTime'>
+    readonly updatedAt: FieldRef<"HojaRuta", 'DateTime'>
+    readonly finalizedAt: FieldRef<"HojaRuta", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * HojaRuta findUnique
+   */
+  export type HojaRutaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRuta
+     */
+    select?: HojaRutaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRuta
+     */
+    omit?: HojaRutaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaInclude<ExtArgs> | null
+    /**
+     * Filter, which HojaRuta to fetch.
+     */
+    where: HojaRutaWhereUniqueInput
+  }
+
+  /**
+   * HojaRuta findUniqueOrThrow
+   */
+  export type HojaRutaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRuta
+     */
+    select?: HojaRutaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRuta
+     */
+    omit?: HojaRutaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaInclude<ExtArgs> | null
+    /**
+     * Filter, which HojaRuta to fetch.
+     */
+    where: HojaRutaWhereUniqueInput
+  }
+
+  /**
+   * HojaRuta findFirst
+   */
+  export type HojaRutaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRuta
+     */
+    select?: HojaRutaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRuta
+     */
+    omit?: HojaRutaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaInclude<ExtArgs> | null
+    /**
+     * Filter, which HojaRuta to fetch.
+     */
+    where?: HojaRutaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HojaRutas to fetch.
+     */
+    orderBy?: HojaRutaOrderByWithRelationInput | HojaRutaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HojaRutas.
+     */
+    cursor?: HojaRutaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HojaRutas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HojaRutas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HojaRutas.
+     */
+    distinct?: HojaRutaScalarFieldEnum | HojaRutaScalarFieldEnum[]
+  }
+
+  /**
+   * HojaRuta findFirstOrThrow
+   */
+  export type HojaRutaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRuta
+     */
+    select?: HojaRutaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRuta
+     */
+    omit?: HojaRutaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaInclude<ExtArgs> | null
+    /**
+     * Filter, which HojaRuta to fetch.
+     */
+    where?: HojaRutaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HojaRutas to fetch.
+     */
+    orderBy?: HojaRutaOrderByWithRelationInput | HojaRutaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HojaRutas.
+     */
+    cursor?: HojaRutaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HojaRutas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HojaRutas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HojaRutas.
+     */
+    distinct?: HojaRutaScalarFieldEnum | HojaRutaScalarFieldEnum[]
+  }
+
+  /**
+   * HojaRuta findMany
+   */
+  export type HojaRutaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRuta
+     */
+    select?: HojaRutaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRuta
+     */
+    omit?: HojaRutaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaInclude<ExtArgs> | null
+    /**
+     * Filter, which HojaRutas to fetch.
+     */
+    where?: HojaRutaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HojaRutas to fetch.
+     */
+    orderBy?: HojaRutaOrderByWithRelationInput | HojaRutaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing HojaRutas.
+     */
+    cursor?: HojaRutaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HojaRutas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HojaRutas.
+     */
+    skip?: number
+    distinct?: HojaRutaScalarFieldEnum | HojaRutaScalarFieldEnum[]
+  }
+
+  /**
+   * HojaRuta create
+   */
+  export type HojaRutaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRuta
+     */
+    select?: HojaRutaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRuta
+     */
+    omit?: HojaRutaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a HojaRuta.
+     */
+    data: XOR<HojaRutaCreateInput, HojaRutaUncheckedCreateInput>
+  }
+
+  /**
+   * HojaRuta createMany
+   */
+  export type HojaRutaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many HojaRutas.
+     */
+    data: HojaRutaCreateManyInput | HojaRutaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * HojaRuta createManyAndReturn
+   */
+  export type HojaRutaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRuta
+     */
+    select?: HojaRutaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRuta
+     */
+    omit?: HojaRutaOmit<ExtArgs> | null
+    /**
+     * The data used to create many HojaRutas.
+     */
+    data: HojaRutaCreateManyInput | HojaRutaCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * HojaRuta update
+   */
+  export type HojaRutaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRuta
+     */
+    select?: HojaRutaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRuta
+     */
+    omit?: HojaRutaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a HojaRuta.
+     */
+    data: XOR<HojaRutaUpdateInput, HojaRutaUncheckedUpdateInput>
+    /**
+     * Choose, which HojaRuta to update.
+     */
+    where: HojaRutaWhereUniqueInput
+  }
+
+  /**
+   * HojaRuta updateMany
+   */
+  export type HojaRutaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update HojaRutas.
+     */
+    data: XOR<HojaRutaUpdateManyMutationInput, HojaRutaUncheckedUpdateManyInput>
+    /**
+     * Filter which HojaRutas to update
+     */
+    where?: HojaRutaWhereInput
+    /**
+     * Limit how many HojaRutas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * HojaRuta updateManyAndReturn
+   */
+  export type HojaRutaUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRuta
+     */
+    select?: HojaRutaSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRuta
+     */
+    omit?: HojaRutaOmit<ExtArgs> | null
+    /**
+     * The data used to update HojaRutas.
+     */
+    data: XOR<HojaRutaUpdateManyMutationInput, HojaRutaUncheckedUpdateManyInput>
+    /**
+     * Filter which HojaRutas to update
+     */
+    where?: HojaRutaWhereInput
+    /**
+     * Limit how many HojaRutas to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * HojaRuta upsert
+   */
+  export type HojaRutaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRuta
+     */
+    select?: HojaRutaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRuta
+     */
+    omit?: HojaRutaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the HojaRuta to update in case it exists.
+     */
+    where: HojaRutaWhereUniqueInput
+    /**
+     * In case the HojaRuta found by the `where` argument doesn't exist, create a new HojaRuta with this data.
+     */
+    create: XOR<HojaRutaCreateInput, HojaRutaUncheckedCreateInput>
+    /**
+     * In case the HojaRuta was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<HojaRutaUpdateInput, HojaRutaUncheckedUpdateInput>
+  }
+
+  /**
+   * HojaRuta delete
+   */
+  export type HojaRutaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRuta
+     */
+    select?: HojaRutaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRuta
+     */
+    omit?: HojaRutaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaInclude<ExtArgs> | null
+    /**
+     * Filter which HojaRuta to delete.
+     */
+    where: HojaRutaWhereUniqueInput
+  }
+
+  /**
+   * HojaRuta deleteMany
+   */
+  export type HojaRutaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which HojaRutas to delete
+     */
+    where?: HojaRutaWhereInput
+    /**
+     * Limit how many HojaRutas to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * HojaRuta.faltas
+   */
+  export type HojaRuta$faltasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFalta
+     */
+    select?: HojaRutaFaltaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFalta
+     */
+    omit?: HojaRutaFaltaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaInclude<ExtArgs> | null
+    where?: HojaRutaFaltaWhereInput
+    orderBy?: HojaRutaFaltaOrderByWithRelationInput | HojaRutaFaltaOrderByWithRelationInput[]
+    cursor?: HojaRutaFaltaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: HojaRutaFaltaScalarFieldEnum | HojaRutaFaltaScalarFieldEnum[]
+  }
+
+  /**
+   * HojaRuta without action
+   */
+  export type HojaRutaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRuta
+     */
+    select?: HojaRutaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRuta
+     */
+    omit?: HojaRutaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model HojaRutaFalta
+   */
+
+  export type AggregateHojaRutaFalta = {
+    _count: HojaRutaFaltaCountAggregateOutputType | null
+    _avg: HojaRutaFaltaAvgAggregateOutputType | null
+    _sum: HojaRutaFaltaSumAggregateOutputType | null
+    _min: HojaRutaFaltaMinAggregateOutputType | null
+    _max: HojaRutaFaltaMaxAggregateOutputType | null
+  }
+
+  export type HojaRutaFaltaAvgAggregateOutputType = {
+    orden: number | null
+  }
+
+  export type HojaRutaFaltaSumAggregateOutputType = {
+    orden: number | null
+  }
+
+  export type HojaRutaFaltaMinAggregateOutputType = {
+    id: string | null
+    hojaRutaId: string | null
+    hora: string | null
+    tipo: string | null
+    categoria: string | null
+    descripcion: string | null
+    orden: number | null
+    catalogoId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type HojaRutaFaltaMaxAggregateOutputType = {
+    id: string | null
+    hojaRutaId: string | null
+    hora: string | null
+    tipo: string | null
+    categoria: string | null
+    descripcion: string | null
+    orden: number | null
+    catalogoId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type HojaRutaFaltaCountAggregateOutputType = {
+    id: number
+    hojaRutaId: number
+    hora: number
+    tipo: number
+    categoria: number
+    descripcion: number
+    orden: number
+    catalogoId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type HojaRutaFaltaAvgAggregateInputType = {
+    orden?: true
+  }
+
+  export type HojaRutaFaltaSumAggregateInputType = {
+    orden?: true
+  }
+
+  export type HojaRutaFaltaMinAggregateInputType = {
+    id?: true
+    hojaRutaId?: true
+    hora?: true
+    tipo?: true
+    categoria?: true
+    descripcion?: true
+    orden?: true
+    catalogoId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type HojaRutaFaltaMaxAggregateInputType = {
+    id?: true
+    hojaRutaId?: true
+    hora?: true
+    tipo?: true
+    categoria?: true
+    descripcion?: true
+    orden?: true
+    catalogoId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type HojaRutaFaltaCountAggregateInputType = {
+    id?: true
+    hojaRutaId?: true
+    hora?: true
+    tipo?: true
+    categoria?: true
+    descripcion?: true
+    orden?: true
+    catalogoId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type HojaRutaFaltaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which HojaRutaFalta to aggregate.
+     */
+    where?: HojaRutaFaltaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HojaRutaFaltas to fetch.
+     */
+    orderBy?: HojaRutaFaltaOrderByWithRelationInput | HojaRutaFaltaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: HojaRutaFaltaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HojaRutaFaltas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HojaRutaFaltas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned HojaRutaFaltas
+    **/
+    _count?: true | HojaRutaFaltaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: HojaRutaFaltaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: HojaRutaFaltaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: HojaRutaFaltaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: HojaRutaFaltaMaxAggregateInputType
+  }
+
+  export type GetHojaRutaFaltaAggregateType<T extends HojaRutaFaltaAggregateArgs> = {
+        [P in keyof T & keyof AggregateHojaRutaFalta]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateHojaRutaFalta[P]>
+      : GetScalarType<T[P], AggregateHojaRutaFalta[P]>
+  }
+
+
+
+
+  export type HojaRutaFaltaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HojaRutaFaltaWhereInput
+    orderBy?: HojaRutaFaltaOrderByWithAggregationInput | HojaRutaFaltaOrderByWithAggregationInput[]
+    by: HojaRutaFaltaScalarFieldEnum[] | HojaRutaFaltaScalarFieldEnum
+    having?: HojaRutaFaltaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: HojaRutaFaltaCountAggregateInputType | true
+    _avg?: HojaRutaFaltaAvgAggregateInputType
+    _sum?: HojaRutaFaltaSumAggregateInputType
+    _min?: HojaRutaFaltaMinAggregateInputType
+    _max?: HojaRutaFaltaMaxAggregateInputType
+  }
+
+  export type HojaRutaFaltaGroupByOutputType = {
+    id: string
+    hojaRutaId: string
+    hora: string
+    tipo: string
+    categoria: string
+    descripcion: string
+    orden: number
+    catalogoId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: HojaRutaFaltaCountAggregateOutputType | null
+    _avg: HojaRutaFaltaAvgAggregateOutputType | null
+    _sum: HojaRutaFaltaSumAggregateOutputType | null
+    _min: HojaRutaFaltaMinAggregateOutputType | null
+    _max: HojaRutaFaltaMaxAggregateOutputType | null
+  }
+
+  type GetHojaRutaFaltaGroupByPayload<T extends HojaRutaFaltaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<HojaRutaFaltaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof HojaRutaFaltaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], HojaRutaFaltaGroupByOutputType[P]>
+            : GetScalarType<T[P], HojaRutaFaltaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type HojaRutaFaltaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    hojaRutaId?: boolean
+    hora?: boolean
+    tipo?: boolean
+    categoria?: boolean
+    descripcion?: boolean
+    orden?: boolean
+    catalogoId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    hojaRuta?: boolean | HojaRutaDefaultArgs<ExtArgs>
+    catalogo?: boolean | HojaRutaFalta$catalogoArgs<ExtArgs>
+  }, ExtArgs["result"]["hojaRutaFalta"]>
+
+  export type HojaRutaFaltaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    hojaRutaId?: boolean
+    hora?: boolean
+    tipo?: boolean
+    categoria?: boolean
+    descripcion?: boolean
+    orden?: boolean
+    catalogoId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    hojaRuta?: boolean | HojaRutaDefaultArgs<ExtArgs>
+    catalogo?: boolean | HojaRutaFalta$catalogoArgs<ExtArgs>
+  }, ExtArgs["result"]["hojaRutaFalta"]>
+
+  export type HojaRutaFaltaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    hojaRutaId?: boolean
+    hora?: boolean
+    tipo?: boolean
+    categoria?: boolean
+    descripcion?: boolean
+    orden?: boolean
+    catalogoId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    hojaRuta?: boolean | HojaRutaDefaultArgs<ExtArgs>
+    catalogo?: boolean | HojaRutaFalta$catalogoArgs<ExtArgs>
+  }, ExtArgs["result"]["hojaRutaFalta"]>
+
+  export type HojaRutaFaltaSelectScalar = {
+    id?: boolean
+    hojaRutaId?: boolean
+    hora?: boolean
+    tipo?: boolean
+    categoria?: boolean
+    descripcion?: boolean
+    orden?: boolean
+    catalogoId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type HojaRutaFaltaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "hojaRutaId" | "hora" | "tipo" | "categoria" | "descripcion" | "orden" | "catalogoId" | "createdAt" | "updatedAt", ExtArgs["result"]["hojaRutaFalta"]>
+  export type HojaRutaFaltaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    hojaRuta?: boolean | HojaRutaDefaultArgs<ExtArgs>
+    catalogo?: boolean | HojaRutaFalta$catalogoArgs<ExtArgs>
+  }
+  export type HojaRutaFaltaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    hojaRuta?: boolean | HojaRutaDefaultArgs<ExtArgs>
+    catalogo?: boolean | HojaRutaFalta$catalogoArgs<ExtArgs>
+  }
+  export type HojaRutaFaltaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    hojaRuta?: boolean | HojaRutaDefaultArgs<ExtArgs>
+    catalogo?: boolean | HojaRutaFalta$catalogoArgs<ExtArgs>
+  }
+
+  export type $HojaRutaFaltaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "HojaRutaFalta"
+    objects: {
+      hojaRuta: Prisma.$HojaRutaPayload<ExtArgs>
+      catalogo: Prisma.$HojaRutaFaltaCatalogoPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      hojaRutaId: string
+      hora: string
+      tipo: string
+      categoria: string
+      descripcion: string
+      orden: number
+      catalogoId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["hojaRutaFalta"]>
+    composites: {}
+  }
+
+  type HojaRutaFaltaGetPayload<S extends boolean | null | undefined | HojaRutaFaltaDefaultArgs> = $Result.GetResult<Prisma.$HojaRutaFaltaPayload, S>
+
+  type HojaRutaFaltaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<HojaRutaFaltaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: HojaRutaFaltaCountAggregateInputType | true
+    }
+
+  export interface HojaRutaFaltaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['HojaRutaFalta'], meta: { name: 'HojaRutaFalta' } }
+    /**
+     * Find zero or one HojaRutaFalta that matches the filter.
+     * @param {HojaRutaFaltaFindUniqueArgs} args - Arguments to find a HojaRutaFalta
+     * @example
+     * // Get one HojaRutaFalta
+     * const hojaRutaFalta = await prisma.hojaRutaFalta.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends HojaRutaFaltaFindUniqueArgs>(args: SelectSubset<T, HojaRutaFaltaFindUniqueArgs<ExtArgs>>): Prisma__HojaRutaFaltaClient<$Result.GetResult<Prisma.$HojaRutaFaltaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one HojaRutaFalta that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {HojaRutaFaltaFindUniqueOrThrowArgs} args - Arguments to find a HojaRutaFalta
+     * @example
+     * // Get one HojaRutaFalta
+     * const hojaRutaFalta = await prisma.hojaRutaFalta.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends HojaRutaFaltaFindUniqueOrThrowArgs>(args: SelectSubset<T, HojaRutaFaltaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__HojaRutaFaltaClient<$Result.GetResult<Prisma.$HojaRutaFaltaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first HojaRutaFalta that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HojaRutaFaltaFindFirstArgs} args - Arguments to find a HojaRutaFalta
+     * @example
+     * // Get one HojaRutaFalta
+     * const hojaRutaFalta = await prisma.hojaRutaFalta.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends HojaRutaFaltaFindFirstArgs>(args?: SelectSubset<T, HojaRutaFaltaFindFirstArgs<ExtArgs>>): Prisma__HojaRutaFaltaClient<$Result.GetResult<Prisma.$HojaRutaFaltaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first HojaRutaFalta that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HojaRutaFaltaFindFirstOrThrowArgs} args - Arguments to find a HojaRutaFalta
+     * @example
+     * // Get one HojaRutaFalta
+     * const hojaRutaFalta = await prisma.hojaRutaFalta.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends HojaRutaFaltaFindFirstOrThrowArgs>(args?: SelectSubset<T, HojaRutaFaltaFindFirstOrThrowArgs<ExtArgs>>): Prisma__HojaRutaFaltaClient<$Result.GetResult<Prisma.$HojaRutaFaltaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more HojaRutaFaltas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HojaRutaFaltaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all HojaRutaFaltas
+     * const hojaRutaFaltas = await prisma.hojaRutaFalta.findMany()
+     * 
+     * // Get first 10 HojaRutaFaltas
+     * const hojaRutaFaltas = await prisma.hojaRutaFalta.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const hojaRutaFaltaWithIdOnly = await prisma.hojaRutaFalta.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends HojaRutaFaltaFindManyArgs>(args?: SelectSubset<T, HojaRutaFaltaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HojaRutaFaltaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a HojaRutaFalta.
+     * @param {HojaRutaFaltaCreateArgs} args - Arguments to create a HojaRutaFalta.
+     * @example
+     * // Create one HojaRutaFalta
+     * const HojaRutaFalta = await prisma.hojaRutaFalta.create({
+     *   data: {
+     *     // ... data to create a HojaRutaFalta
+     *   }
+     * })
+     * 
+     */
+    create<T extends HojaRutaFaltaCreateArgs>(args: SelectSubset<T, HojaRutaFaltaCreateArgs<ExtArgs>>): Prisma__HojaRutaFaltaClient<$Result.GetResult<Prisma.$HojaRutaFaltaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many HojaRutaFaltas.
+     * @param {HojaRutaFaltaCreateManyArgs} args - Arguments to create many HojaRutaFaltas.
+     * @example
+     * // Create many HojaRutaFaltas
+     * const hojaRutaFalta = await prisma.hojaRutaFalta.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends HojaRutaFaltaCreateManyArgs>(args?: SelectSubset<T, HojaRutaFaltaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many HojaRutaFaltas and returns the data saved in the database.
+     * @param {HojaRutaFaltaCreateManyAndReturnArgs} args - Arguments to create many HojaRutaFaltas.
+     * @example
+     * // Create many HojaRutaFaltas
+     * const hojaRutaFalta = await prisma.hojaRutaFalta.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many HojaRutaFaltas and only return the `id`
+     * const hojaRutaFaltaWithIdOnly = await prisma.hojaRutaFalta.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends HojaRutaFaltaCreateManyAndReturnArgs>(args?: SelectSubset<T, HojaRutaFaltaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HojaRutaFaltaPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a HojaRutaFalta.
+     * @param {HojaRutaFaltaDeleteArgs} args - Arguments to delete one HojaRutaFalta.
+     * @example
+     * // Delete one HojaRutaFalta
+     * const HojaRutaFalta = await prisma.hojaRutaFalta.delete({
+     *   where: {
+     *     // ... filter to delete one HojaRutaFalta
+     *   }
+     * })
+     * 
+     */
+    delete<T extends HojaRutaFaltaDeleteArgs>(args: SelectSubset<T, HojaRutaFaltaDeleteArgs<ExtArgs>>): Prisma__HojaRutaFaltaClient<$Result.GetResult<Prisma.$HojaRutaFaltaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one HojaRutaFalta.
+     * @param {HojaRutaFaltaUpdateArgs} args - Arguments to update one HojaRutaFalta.
+     * @example
+     * // Update one HojaRutaFalta
+     * const hojaRutaFalta = await prisma.hojaRutaFalta.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends HojaRutaFaltaUpdateArgs>(args: SelectSubset<T, HojaRutaFaltaUpdateArgs<ExtArgs>>): Prisma__HojaRutaFaltaClient<$Result.GetResult<Prisma.$HojaRutaFaltaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more HojaRutaFaltas.
+     * @param {HojaRutaFaltaDeleteManyArgs} args - Arguments to filter HojaRutaFaltas to delete.
+     * @example
+     * // Delete a few HojaRutaFaltas
+     * const { count } = await prisma.hojaRutaFalta.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends HojaRutaFaltaDeleteManyArgs>(args?: SelectSubset<T, HojaRutaFaltaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more HojaRutaFaltas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HojaRutaFaltaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many HojaRutaFaltas
+     * const hojaRutaFalta = await prisma.hojaRutaFalta.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends HojaRutaFaltaUpdateManyArgs>(args: SelectSubset<T, HojaRutaFaltaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more HojaRutaFaltas and returns the data updated in the database.
+     * @param {HojaRutaFaltaUpdateManyAndReturnArgs} args - Arguments to update many HojaRutaFaltas.
+     * @example
+     * // Update many HojaRutaFaltas
+     * const hojaRutaFalta = await prisma.hojaRutaFalta.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more HojaRutaFaltas and only return the `id`
+     * const hojaRutaFaltaWithIdOnly = await prisma.hojaRutaFalta.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends HojaRutaFaltaUpdateManyAndReturnArgs>(args: SelectSubset<T, HojaRutaFaltaUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HojaRutaFaltaPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one HojaRutaFalta.
+     * @param {HojaRutaFaltaUpsertArgs} args - Arguments to update or create a HojaRutaFalta.
+     * @example
+     * // Update or create a HojaRutaFalta
+     * const hojaRutaFalta = await prisma.hojaRutaFalta.upsert({
+     *   create: {
+     *     // ... data to create a HojaRutaFalta
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the HojaRutaFalta we want to update
+     *   }
+     * })
+     */
+    upsert<T extends HojaRutaFaltaUpsertArgs>(args: SelectSubset<T, HojaRutaFaltaUpsertArgs<ExtArgs>>): Prisma__HojaRutaFaltaClient<$Result.GetResult<Prisma.$HojaRutaFaltaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of HojaRutaFaltas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HojaRutaFaltaCountArgs} args - Arguments to filter HojaRutaFaltas to count.
+     * @example
+     * // Count the number of HojaRutaFaltas
+     * const count = await prisma.hojaRutaFalta.count({
+     *   where: {
+     *     // ... the filter for the HojaRutaFaltas we want to count
+     *   }
+     * })
+    **/
+    count<T extends HojaRutaFaltaCountArgs>(
+      args?: Subset<T, HojaRutaFaltaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], HojaRutaFaltaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a HojaRutaFalta.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HojaRutaFaltaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends HojaRutaFaltaAggregateArgs>(args: Subset<T, HojaRutaFaltaAggregateArgs>): Prisma.PrismaPromise<GetHojaRutaFaltaAggregateType<T>>
+
+    /**
+     * Group by HojaRutaFalta.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HojaRutaFaltaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends HojaRutaFaltaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: HojaRutaFaltaGroupByArgs['orderBy'] }
+        : { orderBy?: HojaRutaFaltaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, HojaRutaFaltaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHojaRutaFaltaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the HojaRutaFalta model
+   */
+  readonly fields: HojaRutaFaltaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for HojaRutaFalta.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__HojaRutaFaltaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    hojaRuta<T extends HojaRutaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, HojaRutaDefaultArgs<ExtArgs>>): Prisma__HojaRutaClient<$Result.GetResult<Prisma.$HojaRutaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    catalogo<T extends HojaRutaFalta$catalogoArgs<ExtArgs> = {}>(args?: Subset<T, HojaRutaFalta$catalogoArgs<ExtArgs>>): Prisma__HojaRutaFaltaCatalogoClient<$Result.GetResult<Prisma.$HojaRutaFaltaCatalogoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the HojaRutaFalta model
+   */
+  interface HojaRutaFaltaFieldRefs {
+    readonly id: FieldRef<"HojaRutaFalta", 'String'>
+    readonly hojaRutaId: FieldRef<"HojaRutaFalta", 'String'>
+    readonly hora: FieldRef<"HojaRutaFalta", 'String'>
+    readonly tipo: FieldRef<"HojaRutaFalta", 'String'>
+    readonly categoria: FieldRef<"HojaRutaFalta", 'String'>
+    readonly descripcion: FieldRef<"HojaRutaFalta", 'String'>
+    readonly orden: FieldRef<"HojaRutaFalta", 'Int'>
+    readonly catalogoId: FieldRef<"HojaRutaFalta", 'String'>
+    readonly createdAt: FieldRef<"HojaRutaFalta", 'DateTime'>
+    readonly updatedAt: FieldRef<"HojaRutaFalta", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * HojaRutaFalta findUnique
+   */
+  export type HojaRutaFaltaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFalta
+     */
+    select?: HojaRutaFaltaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFalta
+     */
+    omit?: HojaRutaFaltaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaInclude<ExtArgs> | null
+    /**
+     * Filter, which HojaRutaFalta to fetch.
+     */
+    where: HojaRutaFaltaWhereUniqueInput
+  }
+
+  /**
+   * HojaRutaFalta findUniqueOrThrow
+   */
+  export type HojaRutaFaltaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFalta
+     */
+    select?: HojaRutaFaltaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFalta
+     */
+    omit?: HojaRutaFaltaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaInclude<ExtArgs> | null
+    /**
+     * Filter, which HojaRutaFalta to fetch.
+     */
+    where: HojaRutaFaltaWhereUniqueInput
+  }
+
+  /**
+   * HojaRutaFalta findFirst
+   */
+  export type HojaRutaFaltaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFalta
+     */
+    select?: HojaRutaFaltaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFalta
+     */
+    omit?: HojaRutaFaltaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaInclude<ExtArgs> | null
+    /**
+     * Filter, which HojaRutaFalta to fetch.
+     */
+    where?: HojaRutaFaltaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HojaRutaFaltas to fetch.
+     */
+    orderBy?: HojaRutaFaltaOrderByWithRelationInput | HojaRutaFaltaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HojaRutaFaltas.
+     */
+    cursor?: HojaRutaFaltaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HojaRutaFaltas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HojaRutaFaltas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HojaRutaFaltas.
+     */
+    distinct?: HojaRutaFaltaScalarFieldEnum | HojaRutaFaltaScalarFieldEnum[]
+  }
+
+  /**
+   * HojaRutaFalta findFirstOrThrow
+   */
+  export type HojaRutaFaltaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFalta
+     */
+    select?: HojaRutaFaltaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFalta
+     */
+    omit?: HojaRutaFaltaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaInclude<ExtArgs> | null
+    /**
+     * Filter, which HojaRutaFalta to fetch.
+     */
+    where?: HojaRutaFaltaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HojaRutaFaltas to fetch.
+     */
+    orderBy?: HojaRutaFaltaOrderByWithRelationInput | HojaRutaFaltaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HojaRutaFaltas.
+     */
+    cursor?: HojaRutaFaltaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HojaRutaFaltas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HojaRutaFaltas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HojaRutaFaltas.
+     */
+    distinct?: HojaRutaFaltaScalarFieldEnum | HojaRutaFaltaScalarFieldEnum[]
+  }
+
+  /**
+   * HojaRutaFalta findMany
+   */
+  export type HojaRutaFaltaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFalta
+     */
+    select?: HojaRutaFaltaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFalta
+     */
+    omit?: HojaRutaFaltaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaInclude<ExtArgs> | null
+    /**
+     * Filter, which HojaRutaFaltas to fetch.
+     */
+    where?: HojaRutaFaltaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HojaRutaFaltas to fetch.
+     */
+    orderBy?: HojaRutaFaltaOrderByWithRelationInput | HojaRutaFaltaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing HojaRutaFaltas.
+     */
+    cursor?: HojaRutaFaltaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HojaRutaFaltas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HojaRutaFaltas.
+     */
+    skip?: number
+    distinct?: HojaRutaFaltaScalarFieldEnum | HojaRutaFaltaScalarFieldEnum[]
+  }
+
+  /**
+   * HojaRutaFalta create
+   */
+  export type HojaRutaFaltaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFalta
+     */
+    select?: HojaRutaFaltaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFalta
+     */
+    omit?: HojaRutaFaltaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a HojaRutaFalta.
+     */
+    data: XOR<HojaRutaFaltaCreateInput, HojaRutaFaltaUncheckedCreateInput>
+  }
+
+  /**
+   * HojaRutaFalta createMany
+   */
+  export type HojaRutaFaltaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many HojaRutaFaltas.
+     */
+    data: HojaRutaFaltaCreateManyInput | HojaRutaFaltaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * HojaRutaFalta createManyAndReturn
+   */
+  export type HojaRutaFaltaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFalta
+     */
+    select?: HojaRutaFaltaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFalta
+     */
+    omit?: HojaRutaFaltaOmit<ExtArgs> | null
+    /**
+     * The data used to create many HojaRutaFaltas.
+     */
+    data: HojaRutaFaltaCreateManyInput | HojaRutaFaltaCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * HojaRutaFalta update
+   */
+  export type HojaRutaFaltaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFalta
+     */
+    select?: HojaRutaFaltaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFalta
+     */
+    omit?: HojaRutaFaltaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a HojaRutaFalta.
+     */
+    data: XOR<HojaRutaFaltaUpdateInput, HojaRutaFaltaUncheckedUpdateInput>
+    /**
+     * Choose, which HojaRutaFalta to update.
+     */
+    where: HojaRutaFaltaWhereUniqueInput
+  }
+
+  /**
+   * HojaRutaFalta updateMany
+   */
+  export type HojaRutaFaltaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update HojaRutaFaltas.
+     */
+    data: XOR<HojaRutaFaltaUpdateManyMutationInput, HojaRutaFaltaUncheckedUpdateManyInput>
+    /**
+     * Filter which HojaRutaFaltas to update
+     */
+    where?: HojaRutaFaltaWhereInput
+    /**
+     * Limit how many HojaRutaFaltas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * HojaRutaFalta updateManyAndReturn
+   */
+  export type HojaRutaFaltaUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFalta
+     */
+    select?: HojaRutaFaltaSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFalta
+     */
+    omit?: HojaRutaFaltaOmit<ExtArgs> | null
+    /**
+     * The data used to update HojaRutaFaltas.
+     */
+    data: XOR<HojaRutaFaltaUpdateManyMutationInput, HojaRutaFaltaUncheckedUpdateManyInput>
+    /**
+     * Filter which HojaRutaFaltas to update
+     */
+    where?: HojaRutaFaltaWhereInput
+    /**
+     * Limit how many HojaRutaFaltas to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * HojaRutaFalta upsert
+   */
+  export type HojaRutaFaltaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFalta
+     */
+    select?: HojaRutaFaltaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFalta
+     */
+    omit?: HojaRutaFaltaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the HojaRutaFalta to update in case it exists.
+     */
+    where: HojaRutaFaltaWhereUniqueInput
+    /**
+     * In case the HojaRutaFalta found by the `where` argument doesn't exist, create a new HojaRutaFalta with this data.
+     */
+    create: XOR<HojaRutaFaltaCreateInput, HojaRutaFaltaUncheckedCreateInput>
+    /**
+     * In case the HojaRutaFalta was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<HojaRutaFaltaUpdateInput, HojaRutaFaltaUncheckedUpdateInput>
+  }
+
+  /**
+   * HojaRutaFalta delete
+   */
+  export type HojaRutaFaltaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFalta
+     */
+    select?: HojaRutaFaltaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFalta
+     */
+    omit?: HojaRutaFaltaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaInclude<ExtArgs> | null
+    /**
+     * Filter which HojaRutaFalta to delete.
+     */
+    where: HojaRutaFaltaWhereUniqueInput
+  }
+
+  /**
+   * HojaRutaFalta deleteMany
+   */
+  export type HojaRutaFaltaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which HojaRutaFaltas to delete
+     */
+    where?: HojaRutaFaltaWhereInput
+    /**
+     * Limit how many HojaRutaFaltas to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * HojaRutaFalta.catalogo
+   */
+  export type HojaRutaFalta$catalogoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFaltaCatalogo
+     */
+    select?: HojaRutaFaltaCatalogoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFaltaCatalogo
+     */
+    omit?: HojaRutaFaltaCatalogoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaCatalogoInclude<ExtArgs> | null
+    where?: HojaRutaFaltaCatalogoWhereInput
+  }
+
+  /**
+   * HojaRutaFalta without action
+   */
+  export type HojaRutaFaltaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFalta
+     */
+    select?: HojaRutaFaltaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFalta
+     */
+    omit?: HojaRutaFaltaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model HojaRutaFaltaCatalogo
+   */
+
+  export type AggregateHojaRutaFaltaCatalogo = {
+    _count: HojaRutaFaltaCatalogoCountAggregateOutputType | null
+    _avg: HojaRutaFaltaCatalogoAvgAggregateOutputType | null
+    _sum: HojaRutaFaltaCatalogoSumAggregateOutputType | null
+    _min: HojaRutaFaltaCatalogoMinAggregateOutputType | null
+    _max: HojaRutaFaltaCatalogoMaxAggregateOutputType | null
+  }
+
+  export type HojaRutaFaltaCatalogoAvgAggregateOutputType = {
+    orden: number | null
+  }
+
+  export type HojaRutaFaltaCatalogoSumAggregateOutputType = {
+    orden: number | null
+  }
+
+  export type HojaRutaFaltaCatalogoMinAggregateOutputType = {
+    id: string | null
+    tipo: string | null
+    categoria: string | null
+    descripcion: string | null
+    activo: boolean | null
+    orden: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type HojaRutaFaltaCatalogoMaxAggregateOutputType = {
+    id: string | null
+    tipo: string | null
+    categoria: string | null
+    descripcion: string | null
+    activo: boolean | null
+    orden: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type HojaRutaFaltaCatalogoCountAggregateOutputType = {
+    id: number
+    tipo: number
+    categoria: number
+    descripcion: number
+    activo: number
+    orden: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type HojaRutaFaltaCatalogoAvgAggregateInputType = {
+    orden?: true
+  }
+
+  export type HojaRutaFaltaCatalogoSumAggregateInputType = {
+    orden?: true
+  }
+
+  export type HojaRutaFaltaCatalogoMinAggregateInputType = {
+    id?: true
+    tipo?: true
+    categoria?: true
+    descripcion?: true
+    activo?: true
+    orden?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type HojaRutaFaltaCatalogoMaxAggregateInputType = {
+    id?: true
+    tipo?: true
+    categoria?: true
+    descripcion?: true
+    activo?: true
+    orden?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type HojaRutaFaltaCatalogoCountAggregateInputType = {
+    id?: true
+    tipo?: true
+    categoria?: true
+    descripcion?: true
+    activo?: true
+    orden?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type HojaRutaFaltaCatalogoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which HojaRutaFaltaCatalogo to aggregate.
+     */
+    where?: HojaRutaFaltaCatalogoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HojaRutaFaltaCatalogos to fetch.
+     */
+    orderBy?: HojaRutaFaltaCatalogoOrderByWithRelationInput | HojaRutaFaltaCatalogoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: HojaRutaFaltaCatalogoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HojaRutaFaltaCatalogos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HojaRutaFaltaCatalogos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned HojaRutaFaltaCatalogos
+    **/
+    _count?: true | HojaRutaFaltaCatalogoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: HojaRutaFaltaCatalogoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: HojaRutaFaltaCatalogoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: HojaRutaFaltaCatalogoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: HojaRutaFaltaCatalogoMaxAggregateInputType
+  }
+
+  export type GetHojaRutaFaltaCatalogoAggregateType<T extends HojaRutaFaltaCatalogoAggregateArgs> = {
+        [P in keyof T & keyof AggregateHojaRutaFaltaCatalogo]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateHojaRutaFaltaCatalogo[P]>
+      : GetScalarType<T[P], AggregateHojaRutaFaltaCatalogo[P]>
+  }
+
+
+
+
+  export type HojaRutaFaltaCatalogoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HojaRutaFaltaCatalogoWhereInput
+    orderBy?: HojaRutaFaltaCatalogoOrderByWithAggregationInput | HojaRutaFaltaCatalogoOrderByWithAggregationInput[]
+    by: HojaRutaFaltaCatalogoScalarFieldEnum[] | HojaRutaFaltaCatalogoScalarFieldEnum
+    having?: HojaRutaFaltaCatalogoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: HojaRutaFaltaCatalogoCountAggregateInputType | true
+    _avg?: HojaRutaFaltaCatalogoAvgAggregateInputType
+    _sum?: HojaRutaFaltaCatalogoSumAggregateInputType
+    _min?: HojaRutaFaltaCatalogoMinAggregateInputType
+    _max?: HojaRutaFaltaCatalogoMaxAggregateInputType
+  }
+
+  export type HojaRutaFaltaCatalogoGroupByOutputType = {
+    id: string
+    tipo: string
+    categoria: string
+    descripcion: string
+    activo: boolean
+    orden: number
+    createdAt: Date
+    updatedAt: Date
+    _count: HojaRutaFaltaCatalogoCountAggregateOutputType | null
+    _avg: HojaRutaFaltaCatalogoAvgAggregateOutputType | null
+    _sum: HojaRutaFaltaCatalogoSumAggregateOutputType | null
+    _min: HojaRutaFaltaCatalogoMinAggregateOutputType | null
+    _max: HojaRutaFaltaCatalogoMaxAggregateOutputType | null
+  }
+
+  type GetHojaRutaFaltaCatalogoGroupByPayload<T extends HojaRutaFaltaCatalogoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<HojaRutaFaltaCatalogoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof HojaRutaFaltaCatalogoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], HojaRutaFaltaCatalogoGroupByOutputType[P]>
+            : GetScalarType<T[P], HojaRutaFaltaCatalogoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type HojaRutaFaltaCatalogoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tipo?: boolean
+    categoria?: boolean
+    descripcion?: boolean
+    activo?: boolean
+    orden?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    faltas?: boolean | HojaRutaFaltaCatalogo$faltasArgs<ExtArgs>
+    _count?: boolean | HojaRutaFaltaCatalogoCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["hojaRutaFaltaCatalogo"]>
+
+  export type HojaRutaFaltaCatalogoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tipo?: boolean
+    categoria?: boolean
+    descripcion?: boolean
+    activo?: boolean
+    orden?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["hojaRutaFaltaCatalogo"]>
+
+  export type HojaRutaFaltaCatalogoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tipo?: boolean
+    categoria?: boolean
+    descripcion?: boolean
+    activo?: boolean
+    orden?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["hojaRutaFaltaCatalogo"]>
+
+  export type HojaRutaFaltaCatalogoSelectScalar = {
+    id?: boolean
+    tipo?: boolean
+    categoria?: boolean
+    descripcion?: boolean
+    activo?: boolean
+    orden?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type HojaRutaFaltaCatalogoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tipo" | "categoria" | "descripcion" | "activo" | "orden" | "createdAt" | "updatedAt", ExtArgs["result"]["hojaRutaFaltaCatalogo"]>
+  export type HojaRutaFaltaCatalogoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    faltas?: boolean | HojaRutaFaltaCatalogo$faltasArgs<ExtArgs>
+    _count?: boolean | HojaRutaFaltaCatalogoCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type HojaRutaFaltaCatalogoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type HojaRutaFaltaCatalogoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $HojaRutaFaltaCatalogoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "HojaRutaFaltaCatalogo"
+    objects: {
+      faltas: Prisma.$HojaRutaFaltaPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tipo: string
+      categoria: string
+      descripcion: string
+      activo: boolean
+      orden: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["hojaRutaFaltaCatalogo"]>
+    composites: {}
+  }
+
+  type HojaRutaFaltaCatalogoGetPayload<S extends boolean | null | undefined | HojaRutaFaltaCatalogoDefaultArgs> = $Result.GetResult<Prisma.$HojaRutaFaltaCatalogoPayload, S>
+
+  type HojaRutaFaltaCatalogoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<HojaRutaFaltaCatalogoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: HojaRutaFaltaCatalogoCountAggregateInputType | true
+    }
+
+  export interface HojaRutaFaltaCatalogoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['HojaRutaFaltaCatalogo'], meta: { name: 'HojaRutaFaltaCatalogo' } }
+    /**
+     * Find zero or one HojaRutaFaltaCatalogo that matches the filter.
+     * @param {HojaRutaFaltaCatalogoFindUniqueArgs} args - Arguments to find a HojaRutaFaltaCatalogo
+     * @example
+     * // Get one HojaRutaFaltaCatalogo
+     * const hojaRutaFaltaCatalogo = await prisma.hojaRutaFaltaCatalogo.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends HojaRutaFaltaCatalogoFindUniqueArgs>(args: SelectSubset<T, HojaRutaFaltaCatalogoFindUniqueArgs<ExtArgs>>): Prisma__HojaRutaFaltaCatalogoClient<$Result.GetResult<Prisma.$HojaRutaFaltaCatalogoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one HojaRutaFaltaCatalogo that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {HojaRutaFaltaCatalogoFindUniqueOrThrowArgs} args - Arguments to find a HojaRutaFaltaCatalogo
+     * @example
+     * // Get one HojaRutaFaltaCatalogo
+     * const hojaRutaFaltaCatalogo = await prisma.hojaRutaFaltaCatalogo.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends HojaRutaFaltaCatalogoFindUniqueOrThrowArgs>(args: SelectSubset<T, HojaRutaFaltaCatalogoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__HojaRutaFaltaCatalogoClient<$Result.GetResult<Prisma.$HojaRutaFaltaCatalogoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first HojaRutaFaltaCatalogo that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HojaRutaFaltaCatalogoFindFirstArgs} args - Arguments to find a HojaRutaFaltaCatalogo
+     * @example
+     * // Get one HojaRutaFaltaCatalogo
+     * const hojaRutaFaltaCatalogo = await prisma.hojaRutaFaltaCatalogo.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends HojaRutaFaltaCatalogoFindFirstArgs>(args?: SelectSubset<T, HojaRutaFaltaCatalogoFindFirstArgs<ExtArgs>>): Prisma__HojaRutaFaltaCatalogoClient<$Result.GetResult<Prisma.$HojaRutaFaltaCatalogoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first HojaRutaFaltaCatalogo that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HojaRutaFaltaCatalogoFindFirstOrThrowArgs} args - Arguments to find a HojaRutaFaltaCatalogo
+     * @example
+     * // Get one HojaRutaFaltaCatalogo
+     * const hojaRutaFaltaCatalogo = await prisma.hojaRutaFaltaCatalogo.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends HojaRutaFaltaCatalogoFindFirstOrThrowArgs>(args?: SelectSubset<T, HojaRutaFaltaCatalogoFindFirstOrThrowArgs<ExtArgs>>): Prisma__HojaRutaFaltaCatalogoClient<$Result.GetResult<Prisma.$HojaRutaFaltaCatalogoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more HojaRutaFaltaCatalogos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HojaRutaFaltaCatalogoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all HojaRutaFaltaCatalogos
+     * const hojaRutaFaltaCatalogos = await prisma.hojaRutaFaltaCatalogo.findMany()
+     * 
+     * // Get first 10 HojaRutaFaltaCatalogos
+     * const hojaRutaFaltaCatalogos = await prisma.hojaRutaFaltaCatalogo.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const hojaRutaFaltaCatalogoWithIdOnly = await prisma.hojaRutaFaltaCatalogo.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends HojaRutaFaltaCatalogoFindManyArgs>(args?: SelectSubset<T, HojaRutaFaltaCatalogoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HojaRutaFaltaCatalogoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a HojaRutaFaltaCatalogo.
+     * @param {HojaRutaFaltaCatalogoCreateArgs} args - Arguments to create a HojaRutaFaltaCatalogo.
+     * @example
+     * // Create one HojaRutaFaltaCatalogo
+     * const HojaRutaFaltaCatalogo = await prisma.hojaRutaFaltaCatalogo.create({
+     *   data: {
+     *     // ... data to create a HojaRutaFaltaCatalogo
+     *   }
+     * })
+     * 
+     */
+    create<T extends HojaRutaFaltaCatalogoCreateArgs>(args: SelectSubset<T, HojaRutaFaltaCatalogoCreateArgs<ExtArgs>>): Prisma__HojaRutaFaltaCatalogoClient<$Result.GetResult<Prisma.$HojaRutaFaltaCatalogoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many HojaRutaFaltaCatalogos.
+     * @param {HojaRutaFaltaCatalogoCreateManyArgs} args - Arguments to create many HojaRutaFaltaCatalogos.
+     * @example
+     * // Create many HojaRutaFaltaCatalogos
+     * const hojaRutaFaltaCatalogo = await prisma.hojaRutaFaltaCatalogo.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends HojaRutaFaltaCatalogoCreateManyArgs>(args?: SelectSubset<T, HojaRutaFaltaCatalogoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many HojaRutaFaltaCatalogos and returns the data saved in the database.
+     * @param {HojaRutaFaltaCatalogoCreateManyAndReturnArgs} args - Arguments to create many HojaRutaFaltaCatalogos.
+     * @example
+     * // Create many HojaRutaFaltaCatalogos
+     * const hojaRutaFaltaCatalogo = await prisma.hojaRutaFaltaCatalogo.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many HojaRutaFaltaCatalogos and only return the `id`
+     * const hojaRutaFaltaCatalogoWithIdOnly = await prisma.hojaRutaFaltaCatalogo.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends HojaRutaFaltaCatalogoCreateManyAndReturnArgs>(args?: SelectSubset<T, HojaRutaFaltaCatalogoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HojaRutaFaltaCatalogoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a HojaRutaFaltaCatalogo.
+     * @param {HojaRutaFaltaCatalogoDeleteArgs} args - Arguments to delete one HojaRutaFaltaCatalogo.
+     * @example
+     * // Delete one HojaRutaFaltaCatalogo
+     * const HojaRutaFaltaCatalogo = await prisma.hojaRutaFaltaCatalogo.delete({
+     *   where: {
+     *     // ... filter to delete one HojaRutaFaltaCatalogo
+     *   }
+     * })
+     * 
+     */
+    delete<T extends HojaRutaFaltaCatalogoDeleteArgs>(args: SelectSubset<T, HojaRutaFaltaCatalogoDeleteArgs<ExtArgs>>): Prisma__HojaRutaFaltaCatalogoClient<$Result.GetResult<Prisma.$HojaRutaFaltaCatalogoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one HojaRutaFaltaCatalogo.
+     * @param {HojaRutaFaltaCatalogoUpdateArgs} args - Arguments to update one HojaRutaFaltaCatalogo.
+     * @example
+     * // Update one HojaRutaFaltaCatalogo
+     * const hojaRutaFaltaCatalogo = await prisma.hojaRutaFaltaCatalogo.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends HojaRutaFaltaCatalogoUpdateArgs>(args: SelectSubset<T, HojaRutaFaltaCatalogoUpdateArgs<ExtArgs>>): Prisma__HojaRutaFaltaCatalogoClient<$Result.GetResult<Prisma.$HojaRutaFaltaCatalogoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more HojaRutaFaltaCatalogos.
+     * @param {HojaRutaFaltaCatalogoDeleteManyArgs} args - Arguments to filter HojaRutaFaltaCatalogos to delete.
+     * @example
+     * // Delete a few HojaRutaFaltaCatalogos
+     * const { count } = await prisma.hojaRutaFaltaCatalogo.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends HojaRutaFaltaCatalogoDeleteManyArgs>(args?: SelectSubset<T, HojaRutaFaltaCatalogoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more HojaRutaFaltaCatalogos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HojaRutaFaltaCatalogoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many HojaRutaFaltaCatalogos
+     * const hojaRutaFaltaCatalogo = await prisma.hojaRutaFaltaCatalogo.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends HojaRutaFaltaCatalogoUpdateManyArgs>(args: SelectSubset<T, HojaRutaFaltaCatalogoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more HojaRutaFaltaCatalogos and returns the data updated in the database.
+     * @param {HojaRutaFaltaCatalogoUpdateManyAndReturnArgs} args - Arguments to update many HojaRutaFaltaCatalogos.
+     * @example
+     * // Update many HojaRutaFaltaCatalogos
+     * const hojaRutaFaltaCatalogo = await prisma.hojaRutaFaltaCatalogo.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more HojaRutaFaltaCatalogos and only return the `id`
+     * const hojaRutaFaltaCatalogoWithIdOnly = await prisma.hojaRutaFaltaCatalogo.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends HojaRutaFaltaCatalogoUpdateManyAndReturnArgs>(args: SelectSubset<T, HojaRutaFaltaCatalogoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HojaRutaFaltaCatalogoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one HojaRutaFaltaCatalogo.
+     * @param {HojaRutaFaltaCatalogoUpsertArgs} args - Arguments to update or create a HojaRutaFaltaCatalogo.
+     * @example
+     * // Update or create a HojaRutaFaltaCatalogo
+     * const hojaRutaFaltaCatalogo = await prisma.hojaRutaFaltaCatalogo.upsert({
+     *   create: {
+     *     // ... data to create a HojaRutaFaltaCatalogo
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the HojaRutaFaltaCatalogo we want to update
+     *   }
+     * })
+     */
+    upsert<T extends HojaRutaFaltaCatalogoUpsertArgs>(args: SelectSubset<T, HojaRutaFaltaCatalogoUpsertArgs<ExtArgs>>): Prisma__HojaRutaFaltaCatalogoClient<$Result.GetResult<Prisma.$HojaRutaFaltaCatalogoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of HojaRutaFaltaCatalogos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HojaRutaFaltaCatalogoCountArgs} args - Arguments to filter HojaRutaFaltaCatalogos to count.
+     * @example
+     * // Count the number of HojaRutaFaltaCatalogos
+     * const count = await prisma.hojaRutaFaltaCatalogo.count({
+     *   where: {
+     *     // ... the filter for the HojaRutaFaltaCatalogos we want to count
+     *   }
+     * })
+    **/
+    count<T extends HojaRutaFaltaCatalogoCountArgs>(
+      args?: Subset<T, HojaRutaFaltaCatalogoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], HojaRutaFaltaCatalogoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a HojaRutaFaltaCatalogo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HojaRutaFaltaCatalogoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends HojaRutaFaltaCatalogoAggregateArgs>(args: Subset<T, HojaRutaFaltaCatalogoAggregateArgs>): Prisma.PrismaPromise<GetHojaRutaFaltaCatalogoAggregateType<T>>
+
+    /**
+     * Group by HojaRutaFaltaCatalogo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HojaRutaFaltaCatalogoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends HojaRutaFaltaCatalogoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: HojaRutaFaltaCatalogoGroupByArgs['orderBy'] }
+        : { orderBy?: HojaRutaFaltaCatalogoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, HojaRutaFaltaCatalogoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHojaRutaFaltaCatalogoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the HojaRutaFaltaCatalogo model
+   */
+  readonly fields: HojaRutaFaltaCatalogoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for HojaRutaFaltaCatalogo.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__HojaRutaFaltaCatalogoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    faltas<T extends HojaRutaFaltaCatalogo$faltasArgs<ExtArgs> = {}>(args?: Subset<T, HojaRutaFaltaCatalogo$faltasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HojaRutaFaltaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the HojaRutaFaltaCatalogo model
+   */
+  interface HojaRutaFaltaCatalogoFieldRefs {
+    readonly id: FieldRef<"HojaRutaFaltaCatalogo", 'String'>
+    readonly tipo: FieldRef<"HojaRutaFaltaCatalogo", 'String'>
+    readonly categoria: FieldRef<"HojaRutaFaltaCatalogo", 'String'>
+    readonly descripcion: FieldRef<"HojaRutaFaltaCatalogo", 'String'>
+    readonly activo: FieldRef<"HojaRutaFaltaCatalogo", 'Boolean'>
+    readonly orden: FieldRef<"HojaRutaFaltaCatalogo", 'Int'>
+    readonly createdAt: FieldRef<"HojaRutaFaltaCatalogo", 'DateTime'>
+    readonly updatedAt: FieldRef<"HojaRutaFaltaCatalogo", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * HojaRutaFaltaCatalogo findUnique
+   */
+  export type HojaRutaFaltaCatalogoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFaltaCatalogo
+     */
+    select?: HojaRutaFaltaCatalogoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFaltaCatalogo
+     */
+    omit?: HojaRutaFaltaCatalogoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaCatalogoInclude<ExtArgs> | null
+    /**
+     * Filter, which HojaRutaFaltaCatalogo to fetch.
+     */
+    where: HojaRutaFaltaCatalogoWhereUniqueInput
+  }
+
+  /**
+   * HojaRutaFaltaCatalogo findUniqueOrThrow
+   */
+  export type HojaRutaFaltaCatalogoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFaltaCatalogo
+     */
+    select?: HojaRutaFaltaCatalogoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFaltaCatalogo
+     */
+    omit?: HojaRutaFaltaCatalogoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaCatalogoInclude<ExtArgs> | null
+    /**
+     * Filter, which HojaRutaFaltaCatalogo to fetch.
+     */
+    where: HojaRutaFaltaCatalogoWhereUniqueInput
+  }
+
+  /**
+   * HojaRutaFaltaCatalogo findFirst
+   */
+  export type HojaRutaFaltaCatalogoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFaltaCatalogo
+     */
+    select?: HojaRutaFaltaCatalogoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFaltaCatalogo
+     */
+    omit?: HojaRutaFaltaCatalogoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaCatalogoInclude<ExtArgs> | null
+    /**
+     * Filter, which HojaRutaFaltaCatalogo to fetch.
+     */
+    where?: HojaRutaFaltaCatalogoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HojaRutaFaltaCatalogos to fetch.
+     */
+    orderBy?: HojaRutaFaltaCatalogoOrderByWithRelationInput | HojaRutaFaltaCatalogoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HojaRutaFaltaCatalogos.
+     */
+    cursor?: HojaRutaFaltaCatalogoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HojaRutaFaltaCatalogos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HojaRutaFaltaCatalogos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HojaRutaFaltaCatalogos.
+     */
+    distinct?: HojaRutaFaltaCatalogoScalarFieldEnum | HojaRutaFaltaCatalogoScalarFieldEnum[]
+  }
+
+  /**
+   * HojaRutaFaltaCatalogo findFirstOrThrow
+   */
+  export type HojaRutaFaltaCatalogoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFaltaCatalogo
+     */
+    select?: HojaRutaFaltaCatalogoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFaltaCatalogo
+     */
+    omit?: HojaRutaFaltaCatalogoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaCatalogoInclude<ExtArgs> | null
+    /**
+     * Filter, which HojaRutaFaltaCatalogo to fetch.
+     */
+    where?: HojaRutaFaltaCatalogoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HojaRutaFaltaCatalogos to fetch.
+     */
+    orderBy?: HojaRutaFaltaCatalogoOrderByWithRelationInput | HojaRutaFaltaCatalogoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HojaRutaFaltaCatalogos.
+     */
+    cursor?: HojaRutaFaltaCatalogoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HojaRutaFaltaCatalogos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HojaRutaFaltaCatalogos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HojaRutaFaltaCatalogos.
+     */
+    distinct?: HojaRutaFaltaCatalogoScalarFieldEnum | HojaRutaFaltaCatalogoScalarFieldEnum[]
+  }
+
+  /**
+   * HojaRutaFaltaCatalogo findMany
+   */
+  export type HojaRutaFaltaCatalogoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFaltaCatalogo
+     */
+    select?: HojaRutaFaltaCatalogoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFaltaCatalogo
+     */
+    omit?: HojaRutaFaltaCatalogoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaCatalogoInclude<ExtArgs> | null
+    /**
+     * Filter, which HojaRutaFaltaCatalogos to fetch.
+     */
+    where?: HojaRutaFaltaCatalogoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HojaRutaFaltaCatalogos to fetch.
+     */
+    orderBy?: HojaRutaFaltaCatalogoOrderByWithRelationInput | HojaRutaFaltaCatalogoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing HojaRutaFaltaCatalogos.
+     */
+    cursor?: HojaRutaFaltaCatalogoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HojaRutaFaltaCatalogos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HojaRutaFaltaCatalogos.
+     */
+    skip?: number
+    distinct?: HojaRutaFaltaCatalogoScalarFieldEnum | HojaRutaFaltaCatalogoScalarFieldEnum[]
+  }
+
+  /**
+   * HojaRutaFaltaCatalogo create
+   */
+  export type HojaRutaFaltaCatalogoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFaltaCatalogo
+     */
+    select?: HojaRutaFaltaCatalogoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFaltaCatalogo
+     */
+    omit?: HojaRutaFaltaCatalogoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaCatalogoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a HojaRutaFaltaCatalogo.
+     */
+    data: XOR<HojaRutaFaltaCatalogoCreateInput, HojaRutaFaltaCatalogoUncheckedCreateInput>
+  }
+
+  /**
+   * HojaRutaFaltaCatalogo createMany
+   */
+  export type HojaRutaFaltaCatalogoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many HojaRutaFaltaCatalogos.
+     */
+    data: HojaRutaFaltaCatalogoCreateManyInput | HojaRutaFaltaCatalogoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * HojaRutaFaltaCatalogo createManyAndReturn
+   */
+  export type HojaRutaFaltaCatalogoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFaltaCatalogo
+     */
+    select?: HojaRutaFaltaCatalogoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFaltaCatalogo
+     */
+    omit?: HojaRutaFaltaCatalogoOmit<ExtArgs> | null
+    /**
+     * The data used to create many HojaRutaFaltaCatalogos.
+     */
+    data: HojaRutaFaltaCatalogoCreateManyInput | HojaRutaFaltaCatalogoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * HojaRutaFaltaCatalogo update
+   */
+  export type HojaRutaFaltaCatalogoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFaltaCatalogo
+     */
+    select?: HojaRutaFaltaCatalogoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFaltaCatalogo
+     */
+    omit?: HojaRutaFaltaCatalogoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaCatalogoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a HojaRutaFaltaCatalogo.
+     */
+    data: XOR<HojaRutaFaltaCatalogoUpdateInput, HojaRutaFaltaCatalogoUncheckedUpdateInput>
+    /**
+     * Choose, which HojaRutaFaltaCatalogo to update.
+     */
+    where: HojaRutaFaltaCatalogoWhereUniqueInput
+  }
+
+  /**
+   * HojaRutaFaltaCatalogo updateMany
+   */
+  export type HojaRutaFaltaCatalogoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update HojaRutaFaltaCatalogos.
+     */
+    data: XOR<HojaRutaFaltaCatalogoUpdateManyMutationInput, HojaRutaFaltaCatalogoUncheckedUpdateManyInput>
+    /**
+     * Filter which HojaRutaFaltaCatalogos to update
+     */
+    where?: HojaRutaFaltaCatalogoWhereInput
+    /**
+     * Limit how many HojaRutaFaltaCatalogos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * HojaRutaFaltaCatalogo updateManyAndReturn
+   */
+  export type HojaRutaFaltaCatalogoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFaltaCatalogo
+     */
+    select?: HojaRutaFaltaCatalogoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFaltaCatalogo
+     */
+    omit?: HojaRutaFaltaCatalogoOmit<ExtArgs> | null
+    /**
+     * The data used to update HojaRutaFaltaCatalogos.
+     */
+    data: XOR<HojaRutaFaltaCatalogoUpdateManyMutationInput, HojaRutaFaltaCatalogoUncheckedUpdateManyInput>
+    /**
+     * Filter which HojaRutaFaltaCatalogos to update
+     */
+    where?: HojaRutaFaltaCatalogoWhereInput
+    /**
+     * Limit how many HojaRutaFaltaCatalogos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * HojaRutaFaltaCatalogo upsert
+   */
+  export type HojaRutaFaltaCatalogoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFaltaCatalogo
+     */
+    select?: HojaRutaFaltaCatalogoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFaltaCatalogo
+     */
+    omit?: HojaRutaFaltaCatalogoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaCatalogoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the HojaRutaFaltaCatalogo to update in case it exists.
+     */
+    where: HojaRutaFaltaCatalogoWhereUniqueInput
+    /**
+     * In case the HojaRutaFaltaCatalogo found by the `where` argument doesn't exist, create a new HojaRutaFaltaCatalogo with this data.
+     */
+    create: XOR<HojaRutaFaltaCatalogoCreateInput, HojaRutaFaltaCatalogoUncheckedCreateInput>
+    /**
+     * In case the HojaRutaFaltaCatalogo was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<HojaRutaFaltaCatalogoUpdateInput, HojaRutaFaltaCatalogoUncheckedUpdateInput>
+  }
+
+  /**
+   * HojaRutaFaltaCatalogo delete
+   */
+  export type HojaRutaFaltaCatalogoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFaltaCatalogo
+     */
+    select?: HojaRutaFaltaCatalogoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFaltaCatalogo
+     */
+    omit?: HojaRutaFaltaCatalogoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaCatalogoInclude<ExtArgs> | null
+    /**
+     * Filter which HojaRutaFaltaCatalogo to delete.
+     */
+    where: HojaRutaFaltaCatalogoWhereUniqueInput
+  }
+
+  /**
+   * HojaRutaFaltaCatalogo deleteMany
+   */
+  export type HojaRutaFaltaCatalogoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which HojaRutaFaltaCatalogos to delete
+     */
+    where?: HojaRutaFaltaCatalogoWhereInput
+    /**
+     * Limit how many HojaRutaFaltaCatalogos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * HojaRutaFaltaCatalogo.faltas
+   */
+  export type HojaRutaFaltaCatalogo$faltasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFalta
+     */
+    select?: HojaRutaFaltaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFalta
+     */
+    omit?: HojaRutaFaltaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaInclude<ExtArgs> | null
+    where?: HojaRutaFaltaWhereInput
+    orderBy?: HojaRutaFaltaOrderByWithRelationInput | HojaRutaFaltaOrderByWithRelationInput[]
+    cursor?: HojaRutaFaltaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: HojaRutaFaltaScalarFieldEnum | HojaRutaFaltaScalarFieldEnum[]
+  }
+
+  /**
+   * HojaRutaFaltaCatalogo without action
+   */
+  export type HojaRutaFaltaCatalogoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HojaRutaFaltaCatalogo
+     */
+    select?: HojaRutaFaltaCatalogoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HojaRutaFaltaCatalogo
+     */
+    omit?: HojaRutaFaltaCatalogoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HojaRutaFaltaCatalogoInclude<ExtArgs> | null
   }
 
 
@@ -43225,16 +47251,17 @@ export namespace Prisma {
   export type SolicitudExamenScalarFieldEnum = (typeof SolicitudExamenScalarFieldEnum)[keyof typeof SolicitudExamenScalarFieldEnum]
 
 
-  export const ConvocatoriaTeoricoScalarFieldEnum: {
+  export const ConvocatoriaExamenScalarFieldEnum: {
     id: 'id',
     fecha: 'fecha',
     licencia: 'licencia',
+    tipoExamen: 'tipoExamen',
     activo: 'activo',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
-  export type ConvocatoriaTeoricoScalarFieldEnum = (typeof ConvocatoriaTeoricoScalarFieldEnum)[keyof typeof ConvocatoriaTeoricoScalarFieldEnum]
+  export type ConvocatoriaExamenScalarFieldEnum = (typeof ConvocatoriaExamenScalarFieldEnum)[keyof typeof ConvocatoriaExamenScalarFieldEnum]
 
 
   export const VehiculoScalarFieldEnum: {
@@ -43266,6 +47293,55 @@ export namespace Prisma {
   };
 
   export type ClasePracticaScalarFieldEnum = (typeof ClasePracticaScalarFieldEnum)[keyof typeof ClasePracticaScalarFieldEnum]
+
+
+  export const HojaRutaScalarFieldEnum: {
+    id: 'id',
+    clasePracticaId: 'clasePracticaId',
+    profesorId: 'profesorId',
+    alumnoId: 'alumnoId',
+    estado: 'estado',
+    observacionesProfesor: 'observacionesProfesor',
+    kilometrosInicio: 'kilometrosInicio',
+    kilometrosFin: 'kilometrosFin',
+    combustibleInicioPct: 'combustibleInicioPct',
+    combustibleFinPct: 'combustibleFinPct',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    finalizedAt: 'finalizedAt'
+  };
+
+  export type HojaRutaScalarFieldEnum = (typeof HojaRutaScalarFieldEnum)[keyof typeof HojaRutaScalarFieldEnum]
+
+
+  export const HojaRutaFaltaScalarFieldEnum: {
+    id: 'id',
+    hojaRutaId: 'hojaRutaId',
+    hora: 'hora',
+    tipo: 'tipo',
+    categoria: 'categoria',
+    descripcion: 'descripcion',
+    orden: 'orden',
+    catalogoId: 'catalogoId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type HojaRutaFaltaScalarFieldEnum = (typeof HojaRutaFaltaScalarFieldEnum)[keyof typeof HojaRutaFaltaScalarFieldEnum]
+
+
+  export const HojaRutaFaltaCatalogoScalarFieldEnum: {
+    id: 'id',
+    tipo: 'tipo',
+    categoria: 'categoria',
+    descripcion: 'descripcion',
+    activo: 'activo',
+    orden: 'orden',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type HojaRutaFaltaCatalogoScalarFieldEnum = (typeof HojaRutaFaltaCatalogoScalarFieldEnum)[keyof typeof HojaRutaFaltaCatalogoScalarFieldEnum]
 
 
   export const ExamenScalarFieldEnum: {
@@ -43839,6 +47915,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoListRelationFilter
     clasesDirecto?: ClaseDirectoListRelationFilter
     clases?: ClasePracticaListRelationFilter
+    hojasRuta?: HojaRutaListRelationFilter
     horarioBloques?: ProfesorHorarioBloqueListRelationFilter
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
   }
@@ -43852,6 +47929,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoOrderByRelationAggregateInput
     clasesDirecto?: ClaseDirectoOrderByRelationAggregateInput
     clases?: ClasePracticaOrderByRelationAggregateInput
+    hojasRuta?: HojaRutaOrderByRelationAggregateInput
     horarioBloques?: ProfesorHorarioBloqueOrderByRelationAggregateInput
     usuario?: UsuarioOrderByWithRelationInput
   }
@@ -43868,6 +47946,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoListRelationFilter
     clasesDirecto?: ClaseDirectoListRelationFilter
     clases?: ClasePracticaListRelationFilter
+    hojasRuta?: HojaRutaListRelationFilter
     horarioBloques?: ProfesorHorarioBloqueListRelationFilter
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
   }, "id">
@@ -43984,6 +48063,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaListRelationFilter
     examenesDGT?: ExamenDGTAlumnoListRelationFilter
     documentosAlumno?: DocumentoAlumnoListRelationFilter
+    hojasRuta?: HojaRutaListRelationFilter
   }
 
   export type AlumnoOrderByWithRelationInput = {
@@ -44006,6 +48086,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaOrderByRelationAggregateInput
     examenesDGT?: ExamenDGTAlumnoOrderByRelationAggregateInput
     documentosAlumno?: DocumentoAlumnoOrderByRelationAggregateInput
+    hojasRuta?: HojaRutaOrderByRelationAggregateInput
   }
 
   export type AlumnoWhereUniqueInput = Prisma.AtLeast<{
@@ -44031,6 +48112,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaListRelationFilter
     examenesDGT?: ExamenDGTAlumnoListRelationFilter
     documentosAlumno?: DocumentoAlumnoListRelationFilter
+    hojasRuta?: HojaRutaListRelationFilter
   }, "id">
 
   export type AlumnoOrderByWithAggregationInput = {
@@ -44923,61 +49005,67 @@ export namespace Prisma {
     observaciones?: StringNullableWithAggregatesFilter<"SolicitudExamen"> | string | null
   }
 
-  export type ConvocatoriaTeoricoWhereInput = {
-    AND?: ConvocatoriaTeoricoWhereInput | ConvocatoriaTeoricoWhereInput[]
-    OR?: ConvocatoriaTeoricoWhereInput[]
-    NOT?: ConvocatoriaTeoricoWhereInput | ConvocatoriaTeoricoWhereInput[]
-    id?: StringFilter<"ConvocatoriaTeorico"> | string
-    fecha?: DateTimeFilter<"ConvocatoriaTeorico"> | Date | string
-    licencia?: StringFilter<"ConvocatoriaTeorico"> | string
-    activo?: BoolFilter<"ConvocatoriaTeorico"> | boolean
-    createdAt?: DateTimeFilter<"ConvocatoriaTeorico"> | Date | string
-    updatedAt?: DateTimeFilter<"ConvocatoriaTeorico"> | Date | string
+  export type ConvocatoriaExamenWhereInput = {
+    AND?: ConvocatoriaExamenWhereInput | ConvocatoriaExamenWhereInput[]
+    OR?: ConvocatoriaExamenWhereInput[]
+    NOT?: ConvocatoriaExamenWhereInput | ConvocatoriaExamenWhereInput[]
+    id?: StringFilter<"ConvocatoriaExamen"> | string
+    fecha?: DateTimeFilter<"ConvocatoriaExamen"> | Date | string
+    licencia?: StringFilter<"ConvocatoriaExamen"> | string
+    tipoExamen?: StringFilter<"ConvocatoriaExamen"> | string
+    activo?: BoolFilter<"ConvocatoriaExamen"> | boolean
+    createdAt?: DateTimeFilter<"ConvocatoriaExamen"> | Date | string
+    updatedAt?: DateTimeFilter<"ConvocatoriaExamen"> | Date | string
   }
 
-  export type ConvocatoriaTeoricoOrderByWithRelationInput = {
+  export type ConvocatoriaExamenOrderByWithRelationInput = {
     id?: SortOrder
     fecha?: SortOrder
     licencia?: SortOrder
+    tipoExamen?: SortOrder
     activo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type ConvocatoriaTeoricoWhereUniqueInput = Prisma.AtLeast<{
+  export type ConvocatoriaExamenWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    AND?: ConvocatoriaTeoricoWhereInput | ConvocatoriaTeoricoWhereInput[]
-    OR?: ConvocatoriaTeoricoWhereInput[]
-    NOT?: ConvocatoriaTeoricoWhereInput | ConvocatoriaTeoricoWhereInput[]
-    fecha?: DateTimeFilter<"ConvocatoriaTeorico"> | Date | string
-    licencia?: StringFilter<"ConvocatoriaTeorico"> | string
-    activo?: BoolFilter<"ConvocatoriaTeorico"> | boolean
-    createdAt?: DateTimeFilter<"ConvocatoriaTeorico"> | Date | string
-    updatedAt?: DateTimeFilter<"ConvocatoriaTeorico"> | Date | string
-  }, "id">
+    fecha_licencia_tipoExamen?: ConvocatoriaExamenFechaLicenciaTipoExamenCompoundUniqueInput
+    AND?: ConvocatoriaExamenWhereInput | ConvocatoriaExamenWhereInput[]
+    OR?: ConvocatoriaExamenWhereInput[]
+    NOT?: ConvocatoriaExamenWhereInput | ConvocatoriaExamenWhereInput[]
+    fecha?: DateTimeFilter<"ConvocatoriaExamen"> | Date | string
+    licencia?: StringFilter<"ConvocatoriaExamen"> | string
+    tipoExamen?: StringFilter<"ConvocatoriaExamen"> | string
+    activo?: BoolFilter<"ConvocatoriaExamen"> | boolean
+    createdAt?: DateTimeFilter<"ConvocatoriaExamen"> | Date | string
+    updatedAt?: DateTimeFilter<"ConvocatoriaExamen"> | Date | string
+  }, "id" | "fecha_licencia_tipoExamen">
 
-  export type ConvocatoriaTeoricoOrderByWithAggregationInput = {
+  export type ConvocatoriaExamenOrderByWithAggregationInput = {
     id?: SortOrder
     fecha?: SortOrder
     licencia?: SortOrder
+    tipoExamen?: SortOrder
     activo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    _count?: ConvocatoriaTeoricoCountOrderByAggregateInput
-    _max?: ConvocatoriaTeoricoMaxOrderByAggregateInput
-    _min?: ConvocatoriaTeoricoMinOrderByAggregateInput
+    _count?: ConvocatoriaExamenCountOrderByAggregateInput
+    _max?: ConvocatoriaExamenMaxOrderByAggregateInput
+    _min?: ConvocatoriaExamenMinOrderByAggregateInput
   }
 
-  export type ConvocatoriaTeoricoScalarWhereWithAggregatesInput = {
-    AND?: ConvocatoriaTeoricoScalarWhereWithAggregatesInput | ConvocatoriaTeoricoScalarWhereWithAggregatesInput[]
-    OR?: ConvocatoriaTeoricoScalarWhereWithAggregatesInput[]
-    NOT?: ConvocatoriaTeoricoScalarWhereWithAggregatesInput | ConvocatoriaTeoricoScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"ConvocatoriaTeorico"> | string
-    fecha?: DateTimeWithAggregatesFilter<"ConvocatoriaTeorico"> | Date | string
-    licencia?: StringWithAggregatesFilter<"ConvocatoriaTeorico"> | string
-    activo?: BoolWithAggregatesFilter<"ConvocatoriaTeorico"> | boolean
-    createdAt?: DateTimeWithAggregatesFilter<"ConvocatoriaTeorico"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"ConvocatoriaTeorico"> | Date | string
+  export type ConvocatoriaExamenScalarWhereWithAggregatesInput = {
+    AND?: ConvocatoriaExamenScalarWhereWithAggregatesInput | ConvocatoriaExamenScalarWhereWithAggregatesInput[]
+    OR?: ConvocatoriaExamenScalarWhereWithAggregatesInput[]
+    NOT?: ConvocatoriaExamenScalarWhereWithAggregatesInput | ConvocatoriaExamenScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ConvocatoriaExamen"> | string
+    fecha?: DateTimeWithAggregatesFilter<"ConvocatoriaExamen"> | Date | string
+    licencia?: StringWithAggregatesFilter<"ConvocatoriaExamen"> | string
+    tipoExamen?: StringWithAggregatesFilter<"ConvocatoriaExamen"> | string
+    activo?: BoolWithAggregatesFilter<"ConvocatoriaExamen"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"ConvocatoriaExamen"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ConvocatoriaExamen"> | Date | string
   }
 
   export type VehiculoWhereInput = {
@@ -45067,6 +49155,7 @@ export namespace Prisma {
     compraBono?: XOR<CompraBonoNullableScalarRelationFilter, CompraBonoWhereInput> | null
     pagos?: PagoListRelationFilter
     facturas?: FacturaListRelationFilter
+    hojaRuta?: XOR<HojaRutaNullableScalarRelationFilter, HojaRutaWhereInput> | null
   }
 
   export type ClasePracticaOrderByWithRelationInput = {
@@ -45088,6 +49177,7 @@ export namespace Prisma {
     compraBono?: CompraBonoOrderByWithRelationInput
     pagos?: PagoOrderByRelationAggregateInput
     facturas?: FacturaOrderByRelationAggregateInput
+    hojaRuta?: HojaRutaOrderByWithRelationInput
   }
 
   export type ClasePracticaWhereUniqueInput = Prisma.AtLeast<{
@@ -45112,6 +49202,7 @@ export namespace Prisma {
     compraBono?: XOR<CompraBonoNullableScalarRelationFilter, CompraBonoWhereInput> | null
     pagos?: PagoListRelationFilter
     facturas?: FacturaListRelationFilter
+    hojaRuta?: XOR<HojaRutaNullableScalarRelationFilter, HojaRutaWhereInput> | null
   }, "id">
 
   export type ClasePracticaOrderByWithAggregationInput = {
@@ -45150,6 +49241,269 @@ export namespace Prisma {
     pagoLimiteAt?: DateTimeNullableWithAggregatesFilter<"ClasePractica"> | Date | string | null
     canceladaPor?: StringNullableWithAggregatesFilter<"ClasePractica"> | string | null
     canceladaConPenalizacion?: BoolWithAggregatesFilter<"ClasePractica"> | boolean
+  }
+
+  export type HojaRutaWhereInput = {
+    AND?: HojaRutaWhereInput | HojaRutaWhereInput[]
+    OR?: HojaRutaWhereInput[]
+    NOT?: HojaRutaWhereInput | HojaRutaWhereInput[]
+    id?: StringFilter<"HojaRuta"> | string
+    clasePracticaId?: StringFilter<"HojaRuta"> | string
+    profesorId?: StringFilter<"HojaRuta"> | string
+    alumnoId?: StringFilter<"HojaRuta"> | string
+    estado?: StringFilter<"HojaRuta"> | string
+    observacionesProfesor?: StringNullableFilter<"HojaRuta"> | string | null
+    kilometrosInicio?: IntNullableFilter<"HojaRuta"> | number | null
+    kilometrosFin?: IntNullableFilter<"HojaRuta"> | number | null
+    combustibleInicioPct?: IntNullableFilter<"HojaRuta"> | number | null
+    combustibleFinPct?: IntNullableFilter<"HojaRuta"> | number | null
+    createdAt?: DateTimeFilter<"HojaRuta"> | Date | string
+    updatedAt?: DateTimeFilter<"HojaRuta"> | Date | string
+    finalizedAt?: DateTimeNullableFilter<"HojaRuta"> | Date | string | null
+    clasePractica?: XOR<ClasePracticaScalarRelationFilter, ClasePracticaWhereInput>
+    profesor?: XOR<ProfesorScalarRelationFilter, ProfesorWhereInput>
+    alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+    faltas?: HojaRutaFaltaListRelationFilter
+  }
+
+  export type HojaRutaOrderByWithRelationInput = {
+    id?: SortOrder
+    clasePracticaId?: SortOrder
+    profesorId?: SortOrder
+    alumnoId?: SortOrder
+    estado?: SortOrder
+    observacionesProfesor?: SortOrderInput | SortOrder
+    kilometrosInicio?: SortOrderInput | SortOrder
+    kilometrosFin?: SortOrderInput | SortOrder
+    combustibleInicioPct?: SortOrderInput | SortOrder
+    combustibleFinPct?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    finalizedAt?: SortOrderInput | SortOrder
+    clasePractica?: ClasePracticaOrderByWithRelationInput
+    profesor?: ProfesorOrderByWithRelationInput
+    alumno?: AlumnoOrderByWithRelationInput
+    faltas?: HojaRutaFaltaOrderByRelationAggregateInput
+  }
+
+  export type HojaRutaWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    clasePracticaId?: string
+    AND?: HojaRutaWhereInput | HojaRutaWhereInput[]
+    OR?: HojaRutaWhereInput[]
+    NOT?: HojaRutaWhereInput | HojaRutaWhereInput[]
+    profesorId?: StringFilter<"HojaRuta"> | string
+    alumnoId?: StringFilter<"HojaRuta"> | string
+    estado?: StringFilter<"HojaRuta"> | string
+    observacionesProfesor?: StringNullableFilter<"HojaRuta"> | string | null
+    kilometrosInicio?: IntNullableFilter<"HojaRuta"> | number | null
+    kilometrosFin?: IntNullableFilter<"HojaRuta"> | number | null
+    combustibleInicioPct?: IntNullableFilter<"HojaRuta"> | number | null
+    combustibleFinPct?: IntNullableFilter<"HojaRuta"> | number | null
+    createdAt?: DateTimeFilter<"HojaRuta"> | Date | string
+    updatedAt?: DateTimeFilter<"HojaRuta"> | Date | string
+    finalizedAt?: DateTimeNullableFilter<"HojaRuta"> | Date | string | null
+    clasePractica?: XOR<ClasePracticaScalarRelationFilter, ClasePracticaWhereInput>
+    profesor?: XOR<ProfesorScalarRelationFilter, ProfesorWhereInput>
+    alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+    faltas?: HojaRutaFaltaListRelationFilter
+  }, "id" | "clasePracticaId">
+
+  export type HojaRutaOrderByWithAggregationInput = {
+    id?: SortOrder
+    clasePracticaId?: SortOrder
+    profesorId?: SortOrder
+    alumnoId?: SortOrder
+    estado?: SortOrder
+    observacionesProfesor?: SortOrderInput | SortOrder
+    kilometrosInicio?: SortOrderInput | SortOrder
+    kilometrosFin?: SortOrderInput | SortOrder
+    combustibleInicioPct?: SortOrderInput | SortOrder
+    combustibleFinPct?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    finalizedAt?: SortOrderInput | SortOrder
+    _count?: HojaRutaCountOrderByAggregateInput
+    _avg?: HojaRutaAvgOrderByAggregateInput
+    _max?: HojaRutaMaxOrderByAggregateInput
+    _min?: HojaRutaMinOrderByAggregateInput
+    _sum?: HojaRutaSumOrderByAggregateInput
+  }
+
+  export type HojaRutaScalarWhereWithAggregatesInput = {
+    AND?: HojaRutaScalarWhereWithAggregatesInput | HojaRutaScalarWhereWithAggregatesInput[]
+    OR?: HojaRutaScalarWhereWithAggregatesInput[]
+    NOT?: HojaRutaScalarWhereWithAggregatesInput | HojaRutaScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"HojaRuta"> | string
+    clasePracticaId?: StringWithAggregatesFilter<"HojaRuta"> | string
+    profesorId?: StringWithAggregatesFilter<"HojaRuta"> | string
+    alumnoId?: StringWithAggregatesFilter<"HojaRuta"> | string
+    estado?: StringWithAggregatesFilter<"HojaRuta"> | string
+    observacionesProfesor?: StringNullableWithAggregatesFilter<"HojaRuta"> | string | null
+    kilometrosInicio?: IntNullableWithAggregatesFilter<"HojaRuta"> | number | null
+    kilometrosFin?: IntNullableWithAggregatesFilter<"HojaRuta"> | number | null
+    combustibleInicioPct?: IntNullableWithAggregatesFilter<"HojaRuta"> | number | null
+    combustibleFinPct?: IntNullableWithAggregatesFilter<"HojaRuta"> | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"HojaRuta"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"HojaRuta"> | Date | string
+    finalizedAt?: DateTimeNullableWithAggregatesFilter<"HojaRuta"> | Date | string | null
+  }
+
+  export type HojaRutaFaltaWhereInput = {
+    AND?: HojaRutaFaltaWhereInput | HojaRutaFaltaWhereInput[]
+    OR?: HojaRutaFaltaWhereInput[]
+    NOT?: HojaRutaFaltaWhereInput | HojaRutaFaltaWhereInput[]
+    id?: StringFilter<"HojaRutaFalta"> | string
+    hojaRutaId?: StringFilter<"HojaRutaFalta"> | string
+    hora?: StringFilter<"HojaRutaFalta"> | string
+    tipo?: StringFilter<"HojaRutaFalta"> | string
+    categoria?: StringFilter<"HojaRutaFalta"> | string
+    descripcion?: StringFilter<"HojaRutaFalta"> | string
+    orden?: IntFilter<"HojaRutaFalta"> | number
+    catalogoId?: StringNullableFilter<"HojaRutaFalta"> | string | null
+    createdAt?: DateTimeFilter<"HojaRutaFalta"> | Date | string
+    updatedAt?: DateTimeFilter<"HojaRutaFalta"> | Date | string
+    hojaRuta?: XOR<HojaRutaScalarRelationFilter, HojaRutaWhereInput>
+    catalogo?: XOR<HojaRutaFaltaCatalogoNullableScalarRelationFilter, HojaRutaFaltaCatalogoWhereInput> | null
+  }
+
+  export type HojaRutaFaltaOrderByWithRelationInput = {
+    id?: SortOrder
+    hojaRutaId?: SortOrder
+    hora?: SortOrder
+    tipo?: SortOrder
+    categoria?: SortOrder
+    descripcion?: SortOrder
+    orden?: SortOrder
+    catalogoId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    hojaRuta?: HojaRutaOrderByWithRelationInput
+    catalogo?: HojaRutaFaltaCatalogoOrderByWithRelationInput
+  }
+
+  export type HojaRutaFaltaWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: HojaRutaFaltaWhereInput | HojaRutaFaltaWhereInput[]
+    OR?: HojaRutaFaltaWhereInput[]
+    NOT?: HojaRutaFaltaWhereInput | HojaRutaFaltaWhereInput[]
+    hojaRutaId?: StringFilter<"HojaRutaFalta"> | string
+    hora?: StringFilter<"HojaRutaFalta"> | string
+    tipo?: StringFilter<"HojaRutaFalta"> | string
+    categoria?: StringFilter<"HojaRutaFalta"> | string
+    descripcion?: StringFilter<"HojaRutaFalta"> | string
+    orden?: IntFilter<"HojaRutaFalta"> | number
+    catalogoId?: StringNullableFilter<"HojaRutaFalta"> | string | null
+    createdAt?: DateTimeFilter<"HojaRutaFalta"> | Date | string
+    updatedAt?: DateTimeFilter<"HojaRutaFalta"> | Date | string
+    hojaRuta?: XOR<HojaRutaScalarRelationFilter, HojaRutaWhereInput>
+    catalogo?: XOR<HojaRutaFaltaCatalogoNullableScalarRelationFilter, HojaRutaFaltaCatalogoWhereInput> | null
+  }, "id">
+
+  export type HojaRutaFaltaOrderByWithAggregationInput = {
+    id?: SortOrder
+    hojaRutaId?: SortOrder
+    hora?: SortOrder
+    tipo?: SortOrder
+    categoria?: SortOrder
+    descripcion?: SortOrder
+    orden?: SortOrder
+    catalogoId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: HojaRutaFaltaCountOrderByAggregateInput
+    _avg?: HojaRutaFaltaAvgOrderByAggregateInput
+    _max?: HojaRutaFaltaMaxOrderByAggregateInput
+    _min?: HojaRutaFaltaMinOrderByAggregateInput
+    _sum?: HojaRutaFaltaSumOrderByAggregateInput
+  }
+
+  export type HojaRutaFaltaScalarWhereWithAggregatesInput = {
+    AND?: HojaRutaFaltaScalarWhereWithAggregatesInput | HojaRutaFaltaScalarWhereWithAggregatesInput[]
+    OR?: HojaRutaFaltaScalarWhereWithAggregatesInput[]
+    NOT?: HojaRutaFaltaScalarWhereWithAggregatesInput | HojaRutaFaltaScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"HojaRutaFalta"> | string
+    hojaRutaId?: StringWithAggregatesFilter<"HojaRutaFalta"> | string
+    hora?: StringWithAggregatesFilter<"HojaRutaFalta"> | string
+    tipo?: StringWithAggregatesFilter<"HojaRutaFalta"> | string
+    categoria?: StringWithAggregatesFilter<"HojaRutaFalta"> | string
+    descripcion?: StringWithAggregatesFilter<"HojaRutaFalta"> | string
+    orden?: IntWithAggregatesFilter<"HojaRutaFalta"> | number
+    catalogoId?: StringNullableWithAggregatesFilter<"HojaRutaFalta"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"HojaRutaFalta"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"HojaRutaFalta"> | Date | string
+  }
+
+  export type HojaRutaFaltaCatalogoWhereInput = {
+    AND?: HojaRutaFaltaCatalogoWhereInput | HojaRutaFaltaCatalogoWhereInput[]
+    OR?: HojaRutaFaltaCatalogoWhereInput[]
+    NOT?: HojaRutaFaltaCatalogoWhereInput | HojaRutaFaltaCatalogoWhereInput[]
+    id?: StringFilter<"HojaRutaFaltaCatalogo"> | string
+    tipo?: StringFilter<"HojaRutaFaltaCatalogo"> | string
+    categoria?: StringFilter<"HojaRutaFaltaCatalogo"> | string
+    descripcion?: StringFilter<"HojaRutaFaltaCatalogo"> | string
+    activo?: BoolFilter<"HojaRutaFaltaCatalogo"> | boolean
+    orden?: IntFilter<"HojaRutaFaltaCatalogo"> | number
+    createdAt?: DateTimeFilter<"HojaRutaFaltaCatalogo"> | Date | string
+    updatedAt?: DateTimeFilter<"HojaRutaFaltaCatalogo"> | Date | string
+    faltas?: HojaRutaFaltaListRelationFilter
+  }
+
+  export type HojaRutaFaltaCatalogoOrderByWithRelationInput = {
+    id?: SortOrder
+    tipo?: SortOrder
+    categoria?: SortOrder
+    descripcion?: SortOrder
+    activo?: SortOrder
+    orden?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    faltas?: HojaRutaFaltaOrderByRelationAggregateInput
+  }
+
+  export type HojaRutaFaltaCatalogoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: HojaRutaFaltaCatalogoWhereInput | HojaRutaFaltaCatalogoWhereInput[]
+    OR?: HojaRutaFaltaCatalogoWhereInput[]
+    NOT?: HojaRutaFaltaCatalogoWhereInput | HojaRutaFaltaCatalogoWhereInput[]
+    tipo?: StringFilter<"HojaRutaFaltaCatalogo"> | string
+    categoria?: StringFilter<"HojaRutaFaltaCatalogo"> | string
+    descripcion?: StringFilter<"HojaRutaFaltaCatalogo"> | string
+    activo?: BoolFilter<"HojaRutaFaltaCatalogo"> | boolean
+    orden?: IntFilter<"HojaRutaFaltaCatalogo"> | number
+    createdAt?: DateTimeFilter<"HojaRutaFaltaCatalogo"> | Date | string
+    updatedAt?: DateTimeFilter<"HojaRutaFaltaCatalogo"> | Date | string
+    faltas?: HojaRutaFaltaListRelationFilter
+  }, "id">
+
+  export type HojaRutaFaltaCatalogoOrderByWithAggregationInput = {
+    id?: SortOrder
+    tipo?: SortOrder
+    categoria?: SortOrder
+    descripcion?: SortOrder
+    activo?: SortOrder
+    orden?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: HojaRutaFaltaCatalogoCountOrderByAggregateInput
+    _avg?: HojaRutaFaltaCatalogoAvgOrderByAggregateInput
+    _max?: HojaRutaFaltaCatalogoMaxOrderByAggregateInput
+    _min?: HojaRutaFaltaCatalogoMinOrderByAggregateInput
+    _sum?: HojaRutaFaltaCatalogoSumOrderByAggregateInput
+  }
+
+  export type HojaRutaFaltaCatalogoScalarWhereWithAggregatesInput = {
+    AND?: HojaRutaFaltaCatalogoScalarWhereWithAggregatesInput | HojaRutaFaltaCatalogoScalarWhereWithAggregatesInput[]
+    OR?: HojaRutaFaltaCatalogoScalarWhereWithAggregatesInput[]
+    NOT?: HojaRutaFaltaCatalogoScalarWhereWithAggregatesInput | HojaRutaFaltaCatalogoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"HojaRutaFaltaCatalogo"> | string
+    tipo?: StringWithAggregatesFilter<"HojaRutaFaltaCatalogo"> | string
+    categoria?: StringWithAggregatesFilter<"HojaRutaFaltaCatalogo"> | string
+    descripcion?: StringWithAggregatesFilter<"HojaRutaFaltaCatalogo"> | string
+    activo?: BoolWithAggregatesFilter<"HojaRutaFaltaCatalogo"> | boolean
+    orden?: IntWithAggregatesFilter<"HojaRutaFaltaCatalogo"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"HojaRutaFaltaCatalogo"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"HojaRutaFaltaCatalogo"> | Date | string
   }
 
   export type ExamenWhereInput = {
@@ -46465,6 +50819,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
     horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
@@ -46478,6 +50833,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
 
@@ -46489,6 +50845,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
     horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
@@ -46502,6 +50859,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
@@ -46615,6 +50973,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateInput = {
@@ -46635,6 +50994,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUpdateInput = {
@@ -46655,6 +51015,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateInput = {
@@ -46675,6 +51036,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoCreateManyInput = {
@@ -47618,64 +51980,71 @@ export namespace Prisma {
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type ConvocatoriaTeoricoCreateInput = {
+  export type ConvocatoriaExamenCreateInput = {
     id?: string
     fecha: Date | string
     licencia: string
+    tipoExamen: string
     activo?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type ConvocatoriaTeoricoUncheckedCreateInput = {
+  export type ConvocatoriaExamenUncheckedCreateInput = {
     id?: string
     fecha: Date | string
     licencia: string
+    tipoExamen: string
     activo?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type ConvocatoriaTeoricoUpdateInput = {
+  export type ConvocatoriaExamenUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     licencia?: StringFieldUpdateOperationsInput | string
+    tipoExamen?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ConvocatoriaTeoricoUncheckedUpdateInput = {
+  export type ConvocatoriaExamenUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     licencia?: StringFieldUpdateOperationsInput | string
+    tipoExamen?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ConvocatoriaTeoricoCreateManyInput = {
+  export type ConvocatoriaExamenCreateManyInput = {
     id?: string
     fecha: Date | string
     licencia: string
+    tipoExamen: string
     activo?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type ConvocatoriaTeoricoUpdateManyMutationInput = {
+  export type ConvocatoriaExamenUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     licencia?: StringFieldUpdateOperationsInput | string
+    tipoExamen?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ConvocatoriaTeoricoUncheckedUpdateManyInput = {
+  export type ConvocatoriaExamenUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     licencia?: StringFieldUpdateOperationsInput | string
+    tipoExamen?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47770,6 +52139,7 @@ export namespace Prisma {
     compraBono?: CompraBonoCreateNestedOneWithoutClasesInput
     pagos?: PagoCreateNestedManyWithoutClasePracticaInput
     facturas?: FacturaCreateNestedManyWithoutClasePracticaInput
+    hojaRuta?: HojaRutaCreateNestedOneWithoutClasePracticaInput
   }
 
   export type ClasePracticaUncheckedCreateInput = {
@@ -47787,6 +52157,7 @@ export namespace Prisma {
     canceladaConPenalizacion?: boolean
     pagos?: PagoUncheckedCreateNestedManyWithoutClasePracticaInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutClasePracticaInput
+    hojaRuta?: HojaRutaUncheckedCreateNestedOneWithoutClasePracticaInput
   }
 
   export type ClasePracticaUpdateInput = {
@@ -47804,6 +52175,7 @@ export namespace Prisma {
     compraBono?: CompraBonoUpdateOneWithoutClasesNestedInput
     pagos?: PagoUpdateManyWithoutClasePracticaNestedInput
     facturas?: FacturaUpdateManyWithoutClasePracticaNestedInput
+    hojaRuta?: HojaRutaUpdateOneWithoutClasePracticaNestedInput
   }
 
   export type ClasePracticaUncheckedUpdateInput = {
@@ -47821,6 +52193,7 @@ export namespace Prisma {
     canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
     pagos?: PagoUncheckedUpdateManyWithoutClasePracticaNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutClasePracticaNestedInput
+    hojaRuta?: HojaRutaUncheckedUpdateOneWithoutClasePracticaNestedInput
   }
 
   export type ClasePracticaCreateManyInput = {
@@ -47862,6 +52235,289 @@ export namespace Prisma {
     pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
     canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type HojaRutaCreateInput = {
+    id?: string
+    estado?: string
+    observacionesProfesor?: string | null
+    kilometrosInicio?: number | null
+    kilometrosFin?: number | null
+    combustibleInicioPct?: number | null
+    combustibleFinPct?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    finalizedAt?: Date | string | null
+    clasePractica: ClasePracticaCreateNestedOneWithoutHojaRutaInput
+    profesor: ProfesorCreateNestedOneWithoutHojasRutaInput
+    alumno: AlumnoCreateNestedOneWithoutHojasRutaInput
+    faltas?: HojaRutaFaltaCreateNestedManyWithoutHojaRutaInput
+  }
+
+  export type HojaRutaUncheckedCreateInput = {
+    id?: string
+    clasePracticaId: string
+    profesorId: string
+    alumnoId: string
+    estado?: string
+    observacionesProfesor?: string | null
+    kilometrosInicio?: number | null
+    kilometrosFin?: number | null
+    combustibleInicioPct?: number | null
+    combustibleFinPct?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    finalizedAt?: Date | string | null
+    faltas?: HojaRutaFaltaUncheckedCreateNestedManyWithoutHojaRutaInput
+  }
+
+  export type HojaRutaUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
+    kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleFinPct?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finalizedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clasePractica?: ClasePracticaUpdateOneRequiredWithoutHojaRutaNestedInput
+    profesor?: ProfesorUpdateOneRequiredWithoutHojasRutaNestedInput
+    alumno?: AlumnoUpdateOneRequiredWithoutHojasRutaNestedInput
+    faltas?: HojaRutaFaltaUpdateManyWithoutHojaRutaNestedInput
+  }
+
+  export type HojaRutaUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clasePracticaId?: StringFieldUpdateOperationsInput | string
+    profesorId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
+    kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleFinPct?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finalizedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    faltas?: HojaRutaFaltaUncheckedUpdateManyWithoutHojaRutaNestedInput
+  }
+
+  export type HojaRutaCreateManyInput = {
+    id?: string
+    clasePracticaId: string
+    profesorId: string
+    alumnoId: string
+    estado?: string
+    observacionesProfesor?: string | null
+    kilometrosInicio?: number | null
+    kilometrosFin?: number | null
+    combustibleInicioPct?: number | null
+    combustibleFinPct?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    finalizedAt?: Date | string | null
+  }
+
+  export type HojaRutaUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
+    kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleFinPct?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finalizedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type HojaRutaUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clasePracticaId?: StringFieldUpdateOperationsInput | string
+    profesorId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
+    kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleFinPct?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finalizedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type HojaRutaFaltaCreateInput = {
+    id?: string
+    hora: string
+    tipo: string
+    categoria: string
+    descripcion: string
+    orden?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hojaRuta: HojaRutaCreateNestedOneWithoutFaltasInput
+    catalogo?: HojaRutaFaltaCatalogoCreateNestedOneWithoutFaltasInput
+  }
+
+  export type HojaRutaFaltaUncheckedCreateInput = {
+    id?: string
+    hojaRutaId: string
+    hora: string
+    tipo: string
+    categoria: string
+    descripcion: string
+    orden?: number
+    catalogoId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type HojaRutaFaltaUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hora?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    orden?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hojaRuta?: HojaRutaUpdateOneRequiredWithoutFaltasNestedInput
+    catalogo?: HojaRutaFaltaCatalogoUpdateOneWithoutFaltasNestedInput
+  }
+
+  export type HojaRutaFaltaUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hojaRutaId?: StringFieldUpdateOperationsInput | string
+    hora?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    orden?: IntFieldUpdateOperationsInput | number
+    catalogoId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HojaRutaFaltaCreateManyInput = {
+    id?: string
+    hojaRutaId: string
+    hora: string
+    tipo: string
+    categoria: string
+    descripcion: string
+    orden?: number
+    catalogoId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type HojaRutaFaltaUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hora?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    orden?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HojaRutaFaltaUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hojaRutaId?: StringFieldUpdateOperationsInput | string
+    hora?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    orden?: IntFieldUpdateOperationsInput | number
+    catalogoId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HojaRutaFaltaCatalogoCreateInput = {
+    id?: string
+    tipo: string
+    categoria: string
+    descripcion: string
+    activo?: boolean
+    orden?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    faltas?: HojaRutaFaltaCreateNestedManyWithoutCatalogoInput
+  }
+
+  export type HojaRutaFaltaCatalogoUncheckedCreateInput = {
+    id?: string
+    tipo: string
+    categoria: string
+    descripcion: string
+    activo?: boolean
+    orden?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    faltas?: HojaRutaFaltaUncheckedCreateNestedManyWithoutCatalogoInput
+  }
+
+  export type HojaRutaFaltaCatalogoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    orden?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    faltas?: HojaRutaFaltaUpdateManyWithoutCatalogoNestedInput
+  }
+
+  export type HojaRutaFaltaCatalogoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    orden?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    faltas?: HojaRutaFaltaUncheckedUpdateManyWithoutCatalogoNestedInput
+  }
+
+  export type HojaRutaFaltaCatalogoCreateManyInput = {
+    id?: string
+    tipo: string
+    categoria: string
+    descripcion: string
+    activo?: boolean
+    orden?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type HojaRutaFaltaCatalogoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    orden?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HojaRutaFaltaCatalogoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    orden?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ExamenCreateInput = {
@@ -49420,6 +54076,12 @@ export namespace Prisma {
     none?: ClasePracticaWhereInput
   }
 
+  export type HojaRutaListRelationFilter = {
+    every?: HojaRutaWhereInput
+    some?: HojaRutaWhereInput
+    none?: HojaRutaWhereInput
+  }
+
   export type ProfesorHorarioBloqueListRelationFilter = {
     every?: ProfesorHorarioBloqueWhereInput
     some?: ProfesorHorarioBloqueWhereInput
@@ -49435,6 +54097,10 @@ export namespace Prisma {
   }
 
   export type ClasePracticaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type HojaRutaOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -50222,28 +54888,37 @@ export namespace Prisma {
     aciertosExamen?: SortOrder
   }
 
-  export type ConvocatoriaTeoricoCountOrderByAggregateInput = {
+  export type ConvocatoriaExamenFechaLicenciaTipoExamenCompoundUniqueInput = {
+    fecha: Date | string
+    licencia: string
+    tipoExamen: string
+  }
+
+  export type ConvocatoriaExamenCountOrderByAggregateInput = {
     id?: SortOrder
     fecha?: SortOrder
     licencia?: SortOrder
+    tipoExamen?: SortOrder
     activo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type ConvocatoriaTeoricoMaxOrderByAggregateInput = {
+  export type ConvocatoriaExamenMaxOrderByAggregateInput = {
     id?: SortOrder
     fecha?: SortOrder
     licencia?: SortOrder
+    tipoExamen?: SortOrder
     activo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type ConvocatoriaTeoricoMinOrderByAggregateInput = {
+  export type ConvocatoriaExamenMinOrderByAggregateInput = {
     id?: SortOrder
     fecha?: SortOrder
     licencia?: SortOrder
+    tipoExamen?: SortOrder
     activo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -50287,6 +54962,11 @@ export namespace Prisma {
   export type CompraBonoNullableScalarRelationFilter = {
     is?: CompraBonoWhereInput | null
     isNot?: CompraBonoWhereInput | null
+  }
+
+  export type HojaRutaNullableScalarRelationFilter = {
+    is?: HojaRutaWhereInput | null
+    isNot?: HojaRutaWhereInput | null
   }
 
   export type ClasePracticaCountOrderByAggregateInput = {
@@ -50340,6 +55020,181 @@ export namespace Prisma {
 
   export type ClasePracticaSumOrderByAggregateInput = {
     duracion?: SortOrder
+  }
+
+  export type ClasePracticaScalarRelationFilter = {
+    is?: ClasePracticaWhereInput
+    isNot?: ClasePracticaWhereInput
+  }
+
+  export type HojaRutaFaltaListRelationFilter = {
+    every?: HojaRutaFaltaWhereInput
+    some?: HojaRutaFaltaWhereInput
+    none?: HojaRutaFaltaWhereInput
+  }
+
+  export type HojaRutaFaltaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type HojaRutaCountOrderByAggregateInput = {
+    id?: SortOrder
+    clasePracticaId?: SortOrder
+    profesorId?: SortOrder
+    alumnoId?: SortOrder
+    estado?: SortOrder
+    observacionesProfesor?: SortOrder
+    kilometrosInicio?: SortOrder
+    kilometrosFin?: SortOrder
+    combustibleInicioPct?: SortOrder
+    combustibleFinPct?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    finalizedAt?: SortOrder
+  }
+
+  export type HojaRutaAvgOrderByAggregateInput = {
+    kilometrosInicio?: SortOrder
+    kilometrosFin?: SortOrder
+    combustibleInicioPct?: SortOrder
+    combustibleFinPct?: SortOrder
+  }
+
+  export type HojaRutaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    clasePracticaId?: SortOrder
+    profesorId?: SortOrder
+    alumnoId?: SortOrder
+    estado?: SortOrder
+    observacionesProfesor?: SortOrder
+    kilometrosInicio?: SortOrder
+    kilometrosFin?: SortOrder
+    combustibleInicioPct?: SortOrder
+    combustibleFinPct?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    finalizedAt?: SortOrder
+  }
+
+  export type HojaRutaMinOrderByAggregateInput = {
+    id?: SortOrder
+    clasePracticaId?: SortOrder
+    profesorId?: SortOrder
+    alumnoId?: SortOrder
+    estado?: SortOrder
+    observacionesProfesor?: SortOrder
+    kilometrosInicio?: SortOrder
+    kilometrosFin?: SortOrder
+    combustibleInicioPct?: SortOrder
+    combustibleFinPct?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    finalizedAt?: SortOrder
+  }
+
+  export type HojaRutaSumOrderByAggregateInput = {
+    kilometrosInicio?: SortOrder
+    kilometrosFin?: SortOrder
+    combustibleInicioPct?: SortOrder
+    combustibleFinPct?: SortOrder
+  }
+
+  export type HojaRutaScalarRelationFilter = {
+    is?: HojaRutaWhereInput
+    isNot?: HojaRutaWhereInput
+  }
+
+  export type HojaRutaFaltaCatalogoNullableScalarRelationFilter = {
+    is?: HojaRutaFaltaCatalogoWhereInput | null
+    isNot?: HojaRutaFaltaCatalogoWhereInput | null
+  }
+
+  export type HojaRutaFaltaCountOrderByAggregateInput = {
+    id?: SortOrder
+    hojaRutaId?: SortOrder
+    hora?: SortOrder
+    tipo?: SortOrder
+    categoria?: SortOrder
+    descripcion?: SortOrder
+    orden?: SortOrder
+    catalogoId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type HojaRutaFaltaAvgOrderByAggregateInput = {
+    orden?: SortOrder
+  }
+
+  export type HojaRutaFaltaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    hojaRutaId?: SortOrder
+    hora?: SortOrder
+    tipo?: SortOrder
+    categoria?: SortOrder
+    descripcion?: SortOrder
+    orden?: SortOrder
+    catalogoId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type HojaRutaFaltaMinOrderByAggregateInput = {
+    id?: SortOrder
+    hojaRutaId?: SortOrder
+    hora?: SortOrder
+    tipo?: SortOrder
+    categoria?: SortOrder
+    descripcion?: SortOrder
+    orden?: SortOrder
+    catalogoId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type HojaRutaFaltaSumOrderByAggregateInput = {
+    orden?: SortOrder
+  }
+
+  export type HojaRutaFaltaCatalogoCountOrderByAggregateInput = {
+    id?: SortOrder
+    tipo?: SortOrder
+    categoria?: SortOrder
+    descripcion?: SortOrder
+    activo?: SortOrder
+    orden?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type HojaRutaFaltaCatalogoAvgOrderByAggregateInput = {
+    orden?: SortOrder
+  }
+
+  export type HojaRutaFaltaCatalogoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tipo?: SortOrder
+    categoria?: SortOrder
+    descripcion?: SortOrder
+    activo?: SortOrder
+    orden?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type HojaRutaFaltaCatalogoMinOrderByAggregateInput = {
+    id?: SortOrder
+    tipo?: SortOrder
+    categoria?: SortOrder
+    descripcion?: SortOrder
+    activo?: SortOrder
+    orden?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type HojaRutaFaltaCatalogoSumOrderByAggregateInput = {
+    orden?: SortOrder
   }
 
   export type ExamenCountOrderByAggregateInput = {
@@ -51448,6 +56303,13 @@ export namespace Prisma {
     connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
   }
 
+  export type HojaRutaCreateNestedManyWithoutProfesorInput = {
+    create?: XOR<HojaRutaCreateWithoutProfesorInput, HojaRutaUncheckedCreateWithoutProfesorInput> | HojaRutaCreateWithoutProfesorInput[] | HojaRutaUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: HojaRutaCreateOrConnectWithoutProfesorInput | HojaRutaCreateOrConnectWithoutProfesorInput[]
+    createMany?: HojaRutaCreateManyProfesorInputEnvelope
+    connect?: HojaRutaWhereUniqueInput | HojaRutaWhereUniqueInput[]
+  }
+
   export type ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput = {
     create?: XOR<ProfesorHorarioBloqueCreateWithoutProfesorInput, ProfesorHorarioBloqueUncheckedCreateWithoutProfesorInput> | ProfesorHorarioBloqueCreateWithoutProfesorInput[] | ProfesorHorarioBloqueUncheckedCreateWithoutProfesorInput[]
     connectOrCreate?: ProfesorHorarioBloqueCreateOrConnectWithoutProfesorInput | ProfesorHorarioBloqueCreateOrConnectWithoutProfesorInput[]
@@ -51480,6 +56342,13 @@ export namespace Prisma {
     connectOrCreate?: ClasePracticaCreateOrConnectWithoutProfesorInput | ClasePracticaCreateOrConnectWithoutProfesorInput[]
     createMany?: ClasePracticaCreateManyProfesorInputEnvelope
     connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+  }
+
+  export type HojaRutaUncheckedCreateNestedManyWithoutProfesorInput = {
+    create?: XOR<HojaRutaCreateWithoutProfesorInput, HojaRutaUncheckedCreateWithoutProfesorInput> | HojaRutaCreateWithoutProfesorInput[] | HojaRutaUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: HojaRutaCreateOrConnectWithoutProfesorInput | HojaRutaCreateOrConnectWithoutProfesorInput[]
+    createMany?: HojaRutaCreateManyProfesorInputEnvelope
+    connect?: HojaRutaWhereUniqueInput | HojaRutaWhereUniqueInput[]
   }
 
   export type ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput = {
@@ -51534,6 +56403,20 @@ export namespace Prisma {
     update?: ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput | ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput[]
     updateMany?: ClasePracticaUpdateManyWithWhereWithoutProfesorInput | ClasePracticaUpdateManyWithWhereWithoutProfesorInput[]
     deleteMany?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
+  }
+
+  export type HojaRutaUpdateManyWithoutProfesorNestedInput = {
+    create?: XOR<HojaRutaCreateWithoutProfesorInput, HojaRutaUncheckedCreateWithoutProfesorInput> | HojaRutaCreateWithoutProfesorInput[] | HojaRutaUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: HojaRutaCreateOrConnectWithoutProfesorInput | HojaRutaCreateOrConnectWithoutProfesorInput[]
+    upsert?: HojaRutaUpsertWithWhereUniqueWithoutProfesorInput | HojaRutaUpsertWithWhereUniqueWithoutProfesorInput[]
+    createMany?: HojaRutaCreateManyProfesorInputEnvelope
+    set?: HojaRutaWhereUniqueInput | HojaRutaWhereUniqueInput[]
+    disconnect?: HojaRutaWhereUniqueInput | HojaRutaWhereUniqueInput[]
+    delete?: HojaRutaWhereUniqueInput | HojaRutaWhereUniqueInput[]
+    connect?: HojaRutaWhereUniqueInput | HojaRutaWhereUniqueInput[]
+    update?: HojaRutaUpdateWithWhereUniqueWithoutProfesorInput | HojaRutaUpdateWithWhereUniqueWithoutProfesorInput[]
+    updateMany?: HojaRutaUpdateManyWithWhereWithoutProfesorInput | HojaRutaUpdateManyWithWhereWithoutProfesorInput[]
+    deleteMany?: HojaRutaScalarWhereInput | HojaRutaScalarWhereInput[]
   }
 
   export type ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput = {
@@ -51598,6 +56481,20 @@ export namespace Prisma {
     update?: ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput | ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput[]
     updateMany?: ClasePracticaUpdateManyWithWhereWithoutProfesorInput | ClasePracticaUpdateManyWithWhereWithoutProfesorInput[]
     deleteMany?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
+  }
+
+  export type HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput = {
+    create?: XOR<HojaRutaCreateWithoutProfesorInput, HojaRutaUncheckedCreateWithoutProfesorInput> | HojaRutaCreateWithoutProfesorInput[] | HojaRutaUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: HojaRutaCreateOrConnectWithoutProfesorInput | HojaRutaCreateOrConnectWithoutProfesorInput[]
+    upsert?: HojaRutaUpsertWithWhereUniqueWithoutProfesorInput | HojaRutaUpsertWithWhereUniqueWithoutProfesorInput[]
+    createMany?: HojaRutaCreateManyProfesorInputEnvelope
+    set?: HojaRutaWhereUniqueInput | HojaRutaWhereUniqueInput[]
+    disconnect?: HojaRutaWhereUniqueInput | HojaRutaWhereUniqueInput[]
+    delete?: HojaRutaWhereUniqueInput | HojaRutaWhereUniqueInput[]
+    connect?: HojaRutaWhereUniqueInput | HojaRutaWhereUniqueInput[]
+    update?: HojaRutaUpdateWithWhereUniqueWithoutProfesorInput | HojaRutaUpdateWithWhereUniqueWithoutProfesorInput[]
+    updateMany?: HojaRutaUpdateManyWithWhereWithoutProfesorInput | HojaRutaUpdateManyWithWhereWithoutProfesorInput[]
+    deleteMany?: HojaRutaScalarWhereInput | HojaRutaScalarWhereInput[]
   }
 
   export type ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput = {
@@ -51717,6 +56614,13 @@ export namespace Prisma {
     connect?: DocumentoAlumnoWhereUniqueInput | DocumentoAlumnoWhereUniqueInput[]
   }
 
+  export type HojaRutaCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<HojaRutaCreateWithoutAlumnoInput, HojaRutaUncheckedCreateWithoutAlumnoInput> | HojaRutaCreateWithoutAlumnoInput[] | HojaRutaUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: HojaRutaCreateOrConnectWithoutAlumnoInput | HojaRutaCreateOrConnectWithoutAlumnoInput[]
+    createMany?: HojaRutaCreateManyAlumnoInputEnvelope
+    connect?: HojaRutaWhereUniqueInput | HojaRutaWhereUniqueInput[]
+  }
+
   export type ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput = {
     create?: XOR<ClasePracticaCreateWithoutAlumnoInput, ClasePracticaUncheckedCreateWithoutAlumnoInput> | ClasePracticaCreateWithoutAlumnoInput[] | ClasePracticaUncheckedCreateWithoutAlumnoInput[]
     connectOrCreate?: ClasePracticaCreateOrConnectWithoutAlumnoInput | ClasePracticaCreateOrConnectWithoutAlumnoInput[]
@@ -51792,6 +56696,13 @@ export namespace Prisma {
     connectOrCreate?: DocumentoAlumnoCreateOrConnectWithoutAlumnoInput | DocumentoAlumnoCreateOrConnectWithoutAlumnoInput[]
     createMany?: DocumentoAlumnoCreateManyAlumnoInputEnvelope
     connect?: DocumentoAlumnoWhereUniqueInput | DocumentoAlumnoWhereUniqueInput[]
+  }
+
+  export type HojaRutaUncheckedCreateNestedManyWithoutAlumnoInput = {
+    create?: XOR<HojaRutaCreateWithoutAlumnoInput, HojaRutaUncheckedCreateWithoutAlumnoInput> | HojaRutaCreateWithoutAlumnoInput[] | HojaRutaUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: HojaRutaCreateOrConnectWithoutAlumnoInput | HojaRutaCreateOrConnectWithoutAlumnoInput[]
+    createMany?: HojaRutaCreateManyAlumnoInputEnvelope
+    connect?: HojaRutaWhereUniqueInput | HojaRutaWhereUniqueInput[]
   }
 
   export type UsuarioUpdateOneRequiredWithoutAlumnoNestedInput = {
@@ -51966,6 +56877,20 @@ export namespace Prisma {
     deleteMany?: DocumentoAlumnoScalarWhereInput | DocumentoAlumnoScalarWhereInput[]
   }
 
+  export type HojaRutaUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<HojaRutaCreateWithoutAlumnoInput, HojaRutaUncheckedCreateWithoutAlumnoInput> | HojaRutaCreateWithoutAlumnoInput[] | HojaRutaUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: HojaRutaCreateOrConnectWithoutAlumnoInput | HojaRutaCreateOrConnectWithoutAlumnoInput[]
+    upsert?: HojaRutaUpsertWithWhereUniqueWithoutAlumnoInput | HojaRutaUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: HojaRutaCreateManyAlumnoInputEnvelope
+    set?: HojaRutaWhereUniqueInput | HojaRutaWhereUniqueInput[]
+    disconnect?: HojaRutaWhereUniqueInput | HojaRutaWhereUniqueInput[]
+    delete?: HojaRutaWhereUniqueInput | HojaRutaWhereUniqueInput[]
+    connect?: HojaRutaWhereUniqueInput | HojaRutaWhereUniqueInput[]
+    update?: HojaRutaUpdateWithWhereUniqueWithoutAlumnoInput | HojaRutaUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: HojaRutaUpdateManyWithWhereWithoutAlumnoInput | HojaRutaUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: HojaRutaScalarWhereInput | HojaRutaScalarWhereInput[]
+  }
+
   export type ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput = {
     create?: XOR<ClasePracticaCreateWithoutAlumnoInput, ClasePracticaUncheckedCreateWithoutAlumnoInput> | ClasePracticaCreateWithoutAlumnoInput[] | ClasePracticaUncheckedCreateWithoutAlumnoInput[]
     connectOrCreate?: ClasePracticaCreateOrConnectWithoutAlumnoInput | ClasePracticaCreateOrConnectWithoutAlumnoInput[]
@@ -52118,6 +57043,20 @@ export namespace Prisma {
     update?: DocumentoAlumnoUpdateWithWhereUniqueWithoutAlumnoInput | DocumentoAlumnoUpdateWithWhereUniqueWithoutAlumnoInput[]
     updateMany?: DocumentoAlumnoUpdateManyWithWhereWithoutAlumnoInput | DocumentoAlumnoUpdateManyWithWhereWithoutAlumnoInput[]
     deleteMany?: DocumentoAlumnoScalarWhereInput | DocumentoAlumnoScalarWhereInput[]
+  }
+
+  export type HojaRutaUncheckedUpdateManyWithoutAlumnoNestedInput = {
+    create?: XOR<HojaRutaCreateWithoutAlumnoInput, HojaRutaUncheckedCreateWithoutAlumnoInput> | HojaRutaCreateWithoutAlumnoInput[] | HojaRutaUncheckedCreateWithoutAlumnoInput[]
+    connectOrCreate?: HojaRutaCreateOrConnectWithoutAlumnoInput | HojaRutaCreateOrConnectWithoutAlumnoInput[]
+    upsert?: HojaRutaUpsertWithWhereUniqueWithoutAlumnoInput | HojaRutaUpsertWithWhereUniqueWithoutAlumnoInput[]
+    createMany?: HojaRutaCreateManyAlumnoInputEnvelope
+    set?: HojaRutaWhereUniqueInput | HojaRutaWhereUniqueInput[]
+    disconnect?: HojaRutaWhereUniqueInput | HojaRutaWhereUniqueInput[]
+    delete?: HojaRutaWhereUniqueInput | HojaRutaWhereUniqueInput[]
+    connect?: HojaRutaWhereUniqueInput | HojaRutaWhereUniqueInput[]
+    update?: HojaRutaUpdateWithWhereUniqueWithoutAlumnoInput | HojaRutaUpdateWithWhereUniqueWithoutAlumnoInput[]
+    updateMany?: HojaRutaUpdateManyWithWhereWithoutAlumnoInput | HojaRutaUpdateManyWithWhereWithoutAlumnoInput[]
+    deleteMany?: HojaRutaScalarWhereInput | HojaRutaScalarWhereInput[]
   }
 
   export type AlumnoCreateNestedOneWithoutDocumentosAlumnoInput = {
@@ -52742,6 +57681,12 @@ export namespace Prisma {
     connect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
   }
 
+  export type HojaRutaCreateNestedOneWithoutClasePracticaInput = {
+    create?: XOR<HojaRutaCreateWithoutClasePracticaInput, HojaRutaUncheckedCreateWithoutClasePracticaInput>
+    connectOrCreate?: HojaRutaCreateOrConnectWithoutClasePracticaInput
+    connect?: HojaRutaWhereUniqueInput
+  }
+
   export type PagoUncheckedCreateNestedManyWithoutClasePracticaInput = {
     create?: XOR<PagoCreateWithoutClasePracticaInput, PagoUncheckedCreateWithoutClasePracticaInput> | PagoCreateWithoutClasePracticaInput[] | PagoUncheckedCreateWithoutClasePracticaInput[]
     connectOrCreate?: PagoCreateOrConnectWithoutClasePracticaInput | PagoCreateOrConnectWithoutClasePracticaInput[]
@@ -52754,6 +57699,12 @@ export namespace Prisma {
     connectOrCreate?: FacturaCreateOrConnectWithoutClasePracticaInput | FacturaCreateOrConnectWithoutClasePracticaInput[]
     createMany?: FacturaCreateManyClasePracticaInputEnvelope
     connect?: FacturaWhereUniqueInput | FacturaWhereUniqueInput[]
+  }
+
+  export type HojaRutaUncheckedCreateNestedOneWithoutClasePracticaInput = {
+    create?: XOR<HojaRutaCreateWithoutClasePracticaInput, HojaRutaUncheckedCreateWithoutClasePracticaInput>
+    connectOrCreate?: HojaRutaCreateOrConnectWithoutClasePracticaInput
+    connect?: HojaRutaWhereUniqueInput
   }
 
   export type AlumnoUpdateOneRequiredWithoutClasesNestedInput = {
@@ -52818,6 +57769,16 @@ export namespace Prisma {
     deleteMany?: FacturaScalarWhereInput | FacturaScalarWhereInput[]
   }
 
+  export type HojaRutaUpdateOneWithoutClasePracticaNestedInput = {
+    create?: XOR<HojaRutaCreateWithoutClasePracticaInput, HojaRutaUncheckedCreateWithoutClasePracticaInput>
+    connectOrCreate?: HojaRutaCreateOrConnectWithoutClasePracticaInput
+    upsert?: HojaRutaUpsertWithoutClasePracticaInput
+    disconnect?: HojaRutaWhereInput | boolean
+    delete?: HojaRutaWhereInput | boolean
+    connect?: HojaRutaWhereUniqueInput
+    update?: XOR<XOR<HojaRutaUpdateToOneWithWhereWithoutClasePracticaInput, HojaRutaUpdateWithoutClasePracticaInput>, HojaRutaUncheckedUpdateWithoutClasePracticaInput>
+  }
+
   export type PagoUncheckedUpdateManyWithoutClasePracticaNestedInput = {
     create?: XOR<PagoCreateWithoutClasePracticaInput, PagoUncheckedCreateWithoutClasePracticaInput> | PagoCreateWithoutClasePracticaInput[] | PagoUncheckedCreateWithoutClasePracticaInput[]
     connectOrCreate?: PagoCreateOrConnectWithoutClasePracticaInput | PagoCreateOrConnectWithoutClasePracticaInput[]
@@ -52844,6 +57805,172 @@ export namespace Prisma {
     update?: FacturaUpdateWithWhereUniqueWithoutClasePracticaInput | FacturaUpdateWithWhereUniqueWithoutClasePracticaInput[]
     updateMany?: FacturaUpdateManyWithWhereWithoutClasePracticaInput | FacturaUpdateManyWithWhereWithoutClasePracticaInput[]
     deleteMany?: FacturaScalarWhereInput | FacturaScalarWhereInput[]
+  }
+
+  export type HojaRutaUncheckedUpdateOneWithoutClasePracticaNestedInput = {
+    create?: XOR<HojaRutaCreateWithoutClasePracticaInput, HojaRutaUncheckedCreateWithoutClasePracticaInput>
+    connectOrCreate?: HojaRutaCreateOrConnectWithoutClasePracticaInput
+    upsert?: HojaRutaUpsertWithoutClasePracticaInput
+    disconnect?: HojaRutaWhereInput | boolean
+    delete?: HojaRutaWhereInput | boolean
+    connect?: HojaRutaWhereUniqueInput
+    update?: XOR<XOR<HojaRutaUpdateToOneWithWhereWithoutClasePracticaInput, HojaRutaUpdateWithoutClasePracticaInput>, HojaRutaUncheckedUpdateWithoutClasePracticaInput>
+  }
+
+  export type ClasePracticaCreateNestedOneWithoutHojaRutaInput = {
+    create?: XOR<ClasePracticaCreateWithoutHojaRutaInput, ClasePracticaUncheckedCreateWithoutHojaRutaInput>
+    connectOrCreate?: ClasePracticaCreateOrConnectWithoutHojaRutaInput
+    connect?: ClasePracticaWhereUniqueInput
+  }
+
+  export type ProfesorCreateNestedOneWithoutHojasRutaInput = {
+    create?: XOR<ProfesorCreateWithoutHojasRutaInput, ProfesorUncheckedCreateWithoutHojasRutaInput>
+    connectOrCreate?: ProfesorCreateOrConnectWithoutHojasRutaInput
+    connect?: ProfesorWhereUniqueInput
+  }
+
+  export type AlumnoCreateNestedOneWithoutHojasRutaInput = {
+    create?: XOR<AlumnoCreateWithoutHojasRutaInput, AlumnoUncheckedCreateWithoutHojasRutaInput>
+    connectOrCreate?: AlumnoCreateOrConnectWithoutHojasRutaInput
+    connect?: AlumnoWhereUniqueInput
+  }
+
+  export type HojaRutaFaltaCreateNestedManyWithoutHojaRutaInput = {
+    create?: XOR<HojaRutaFaltaCreateWithoutHojaRutaInput, HojaRutaFaltaUncheckedCreateWithoutHojaRutaInput> | HojaRutaFaltaCreateWithoutHojaRutaInput[] | HojaRutaFaltaUncheckedCreateWithoutHojaRutaInput[]
+    connectOrCreate?: HojaRutaFaltaCreateOrConnectWithoutHojaRutaInput | HojaRutaFaltaCreateOrConnectWithoutHojaRutaInput[]
+    createMany?: HojaRutaFaltaCreateManyHojaRutaInputEnvelope
+    connect?: HojaRutaFaltaWhereUniqueInput | HojaRutaFaltaWhereUniqueInput[]
+  }
+
+  export type HojaRutaFaltaUncheckedCreateNestedManyWithoutHojaRutaInput = {
+    create?: XOR<HojaRutaFaltaCreateWithoutHojaRutaInput, HojaRutaFaltaUncheckedCreateWithoutHojaRutaInput> | HojaRutaFaltaCreateWithoutHojaRutaInput[] | HojaRutaFaltaUncheckedCreateWithoutHojaRutaInput[]
+    connectOrCreate?: HojaRutaFaltaCreateOrConnectWithoutHojaRutaInput | HojaRutaFaltaCreateOrConnectWithoutHojaRutaInput[]
+    createMany?: HojaRutaFaltaCreateManyHojaRutaInputEnvelope
+    connect?: HojaRutaFaltaWhereUniqueInput | HojaRutaFaltaWhereUniqueInput[]
+  }
+
+  export type ClasePracticaUpdateOneRequiredWithoutHojaRutaNestedInput = {
+    create?: XOR<ClasePracticaCreateWithoutHojaRutaInput, ClasePracticaUncheckedCreateWithoutHojaRutaInput>
+    connectOrCreate?: ClasePracticaCreateOrConnectWithoutHojaRutaInput
+    upsert?: ClasePracticaUpsertWithoutHojaRutaInput
+    connect?: ClasePracticaWhereUniqueInput
+    update?: XOR<XOR<ClasePracticaUpdateToOneWithWhereWithoutHojaRutaInput, ClasePracticaUpdateWithoutHojaRutaInput>, ClasePracticaUncheckedUpdateWithoutHojaRutaInput>
+  }
+
+  export type ProfesorUpdateOneRequiredWithoutHojasRutaNestedInput = {
+    create?: XOR<ProfesorCreateWithoutHojasRutaInput, ProfesorUncheckedCreateWithoutHojasRutaInput>
+    connectOrCreate?: ProfesorCreateOrConnectWithoutHojasRutaInput
+    upsert?: ProfesorUpsertWithoutHojasRutaInput
+    connect?: ProfesorWhereUniqueInput
+    update?: XOR<XOR<ProfesorUpdateToOneWithWhereWithoutHojasRutaInput, ProfesorUpdateWithoutHojasRutaInput>, ProfesorUncheckedUpdateWithoutHojasRutaInput>
+  }
+
+  export type AlumnoUpdateOneRequiredWithoutHojasRutaNestedInput = {
+    create?: XOR<AlumnoCreateWithoutHojasRutaInput, AlumnoUncheckedCreateWithoutHojasRutaInput>
+    connectOrCreate?: AlumnoCreateOrConnectWithoutHojasRutaInput
+    upsert?: AlumnoUpsertWithoutHojasRutaInput
+    connect?: AlumnoWhereUniqueInput
+    update?: XOR<XOR<AlumnoUpdateToOneWithWhereWithoutHojasRutaInput, AlumnoUpdateWithoutHojasRutaInput>, AlumnoUncheckedUpdateWithoutHojasRutaInput>
+  }
+
+  export type HojaRutaFaltaUpdateManyWithoutHojaRutaNestedInput = {
+    create?: XOR<HojaRutaFaltaCreateWithoutHojaRutaInput, HojaRutaFaltaUncheckedCreateWithoutHojaRutaInput> | HojaRutaFaltaCreateWithoutHojaRutaInput[] | HojaRutaFaltaUncheckedCreateWithoutHojaRutaInput[]
+    connectOrCreate?: HojaRutaFaltaCreateOrConnectWithoutHojaRutaInput | HojaRutaFaltaCreateOrConnectWithoutHojaRutaInput[]
+    upsert?: HojaRutaFaltaUpsertWithWhereUniqueWithoutHojaRutaInput | HojaRutaFaltaUpsertWithWhereUniqueWithoutHojaRutaInput[]
+    createMany?: HojaRutaFaltaCreateManyHojaRutaInputEnvelope
+    set?: HojaRutaFaltaWhereUniqueInput | HojaRutaFaltaWhereUniqueInput[]
+    disconnect?: HojaRutaFaltaWhereUniqueInput | HojaRutaFaltaWhereUniqueInput[]
+    delete?: HojaRutaFaltaWhereUniqueInput | HojaRutaFaltaWhereUniqueInput[]
+    connect?: HojaRutaFaltaWhereUniqueInput | HojaRutaFaltaWhereUniqueInput[]
+    update?: HojaRutaFaltaUpdateWithWhereUniqueWithoutHojaRutaInput | HojaRutaFaltaUpdateWithWhereUniqueWithoutHojaRutaInput[]
+    updateMany?: HojaRutaFaltaUpdateManyWithWhereWithoutHojaRutaInput | HojaRutaFaltaUpdateManyWithWhereWithoutHojaRutaInput[]
+    deleteMany?: HojaRutaFaltaScalarWhereInput | HojaRutaFaltaScalarWhereInput[]
+  }
+
+  export type HojaRutaFaltaUncheckedUpdateManyWithoutHojaRutaNestedInput = {
+    create?: XOR<HojaRutaFaltaCreateWithoutHojaRutaInput, HojaRutaFaltaUncheckedCreateWithoutHojaRutaInput> | HojaRutaFaltaCreateWithoutHojaRutaInput[] | HojaRutaFaltaUncheckedCreateWithoutHojaRutaInput[]
+    connectOrCreate?: HojaRutaFaltaCreateOrConnectWithoutHojaRutaInput | HojaRutaFaltaCreateOrConnectWithoutHojaRutaInput[]
+    upsert?: HojaRutaFaltaUpsertWithWhereUniqueWithoutHojaRutaInput | HojaRutaFaltaUpsertWithWhereUniqueWithoutHojaRutaInput[]
+    createMany?: HojaRutaFaltaCreateManyHojaRutaInputEnvelope
+    set?: HojaRutaFaltaWhereUniqueInput | HojaRutaFaltaWhereUniqueInput[]
+    disconnect?: HojaRutaFaltaWhereUniqueInput | HojaRutaFaltaWhereUniqueInput[]
+    delete?: HojaRutaFaltaWhereUniqueInput | HojaRutaFaltaWhereUniqueInput[]
+    connect?: HojaRutaFaltaWhereUniqueInput | HojaRutaFaltaWhereUniqueInput[]
+    update?: HojaRutaFaltaUpdateWithWhereUniqueWithoutHojaRutaInput | HojaRutaFaltaUpdateWithWhereUniqueWithoutHojaRutaInput[]
+    updateMany?: HojaRutaFaltaUpdateManyWithWhereWithoutHojaRutaInput | HojaRutaFaltaUpdateManyWithWhereWithoutHojaRutaInput[]
+    deleteMany?: HojaRutaFaltaScalarWhereInput | HojaRutaFaltaScalarWhereInput[]
+  }
+
+  export type HojaRutaCreateNestedOneWithoutFaltasInput = {
+    create?: XOR<HojaRutaCreateWithoutFaltasInput, HojaRutaUncheckedCreateWithoutFaltasInput>
+    connectOrCreate?: HojaRutaCreateOrConnectWithoutFaltasInput
+    connect?: HojaRutaWhereUniqueInput
+  }
+
+  export type HojaRutaFaltaCatalogoCreateNestedOneWithoutFaltasInput = {
+    create?: XOR<HojaRutaFaltaCatalogoCreateWithoutFaltasInput, HojaRutaFaltaCatalogoUncheckedCreateWithoutFaltasInput>
+    connectOrCreate?: HojaRutaFaltaCatalogoCreateOrConnectWithoutFaltasInput
+    connect?: HojaRutaFaltaCatalogoWhereUniqueInput
+  }
+
+  export type HojaRutaUpdateOneRequiredWithoutFaltasNestedInput = {
+    create?: XOR<HojaRutaCreateWithoutFaltasInput, HojaRutaUncheckedCreateWithoutFaltasInput>
+    connectOrCreate?: HojaRutaCreateOrConnectWithoutFaltasInput
+    upsert?: HojaRutaUpsertWithoutFaltasInput
+    connect?: HojaRutaWhereUniqueInput
+    update?: XOR<XOR<HojaRutaUpdateToOneWithWhereWithoutFaltasInput, HojaRutaUpdateWithoutFaltasInput>, HojaRutaUncheckedUpdateWithoutFaltasInput>
+  }
+
+  export type HojaRutaFaltaCatalogoUpdateOneWithoutFaltasNestedInput = {
+    create?: XOR<HojaRutaFaltaCatalogoCreateWithoutFaltasInput, HojaRutaFaltaCatalogoUncheckedCreateWithoutFaltasInput>
+    connectOrCreate?: HojaRutaFaltaCatalogoCreateOrConnectWithoutFaltasInput
+    upsert?: HojaRutaFaltaCatalogoUpsertWithoutFaltasInput
+    disconnect?: HojaRutaFaltaCatalogoWhereInput | boolean
+    delete?: HojaRutaFaltaCatalogoWhereInput | boolean
+    connect?: HojaRutaFaltaCatalogoWhereUniqueInput
+    update?: XOR<XOR<HojaRutaFaltaCatalogoUpdateToOneWithWhereWithoutFaltasInput, HojaRutaFaltaCatalogoUpdateWithoutFaltasInput>, HojaRutaFaltaCatalogoUncheckedUpdateWithoutFaltasInput>
+  }
+
+  export type HojaRutaFaltaCreateNestedManyWithoutCatalogoInput = {
+    create?: XOR<HojaRutaFaltaCreateWithoutCatalogoInput, HojaRutaFaltaUncheckedCreateWithoutCatalogoInput> | HojaRutaFaltaCreateWithoutCatalogoInput[] | HojaRutaFaltaUncheckedCreateWithoutCatalogoInput[]
+    connectOrCreate?: HojaRutaFaltaCreateOrConnectWithoutCatalogoInput | HojaRutaFaltaCreateOrConnectWithoutCatalogoInput[]
+    createMany?: HojaRutaFaltaCreateManyCatalogoInputEnvelope
+    connect?: HojaRutaFaltaWhereUniqueInput | HojaRutaFaltaWhereUniqueInput[]
+  }
+
+  export type HojaRutaFaltaUncheckedCreateNestedManyWithoutCatalogoInput = {
+    create?: XOR<HojaRutaFaltaCreateWithoutCatalogoInput, HojaRutaFaltaUncheckedCreateWithoutCatalogoInput> | HojaRutaFaltaCreateWithoutCatalogoInput[] | HojaRutaFaltaUncheckedCreateWithoutCatalogoInput[]
+    connectOrCreate?: HojaRutaFaltaCreateOrConnectWithoutCatalogoInput | HojaRutaFaltaCreateOrConnectWithoutCatalogoInput[]
+    createMany?: HojaRutaFaltaCreateManyCatalogoInputEnvelope
+    connect?: HojaRutaFaltaWhereUniqueInput | HojaRutaFaltaWhereUniqueInput[]
+  }
+
+  export type HojaRutaFaltaUpdateManyWithoutCatalogoNestedInput = {
+    create?: XOR<HojaRutaFaltaCreateWithoutCatalogoInput, HojaRutaFaltaUncheckedCreateWithoutCatalogoInput> | HojaRutaFaltaCreateWithoutCatalogoInput[] | HojaRutaFaltaUncheckedCreateWithoutCatalogoInput[]
+    connectOrCreate?: HojaRutaFaltaCreateOrConnectWithoutCatalogoInput | HojaRutaFaltaCreateOrConnectWithoutCatalogoInput[]
+    upsert?: HojaRutaFaltaUpsertWithWhereUniqueWithoutCatalogoInput | HojaRutaFaltaUpsertWithWhereUniqueWithoutCatalogoInput[]
+    createMany?: HojaRutaFaltaCreateManyCatalogoInputEnvelope
+    set?: HojaRutaFaltaWhereUniqueInput | HojaRutaFaltaWhereUniqueInput[]
+    disconnect?: HojaRutaFaltaWhereUniqueInput | HojaRutaFaltaWhereUniqueInput[]
+    delete?: HojaRutaFaltaWhereUniqueInput | HojaRutaFaltaWhereUniqueInput[]
+    connect?: HojaRutaFaltaWhereUniqueInput | HojaRutaFaltaWhereUniqueInput[]
+    update?: HojaRutaFaltaUpdateWithWhereUniqueWithoutCatalogoInput | HojaRutaFaltaUpdateWithWhereUniqueWithoutCatalogoInput[]
+    updateMany?: HojaRutaFaltaUpdateManyWithWhereWithoutCatalogoInput | HojaRutaFaltaUpdateManyWithWhereWithoutCatalogoInput[]
+    deleteMany?: HojaRutaFaltaScalarWhereInput | HojaRutaFaltaScalarWhereInput[]
+  }
+
+  export type HojaRutaFaltaUncheckedUpdateManyWithoutCatalogoNestedInput = {
+    create?: XOR<HojaRutaFaltaCreateWithoutCatalogoInput, HojaRutaFaltaUncheckedCreateWithoutCatalogoInput> | HojaRutaFaltaCreateWithoutCatalogoInput[] | HojaRutaFaltaUncheckedCreateWithoutCatalogoInput[]
+    connectOrCreate?: HojaRutaFaltaCreateOrConnectWithoutCatalogoInput | HojaRutaFaltaCreateOrConnectWithoutCatalogoInput[]
+    upsert?: HojaRutaFaltaUpsertWithWhereUniqueWithoutCatalogoInput | HojaRutaFaltaUpsertWithWhereUniqueWithoutCatalogoInput[]
+    createMany?: HojaRutaFaltaCreateManyCatalogoInputEnvelope
+    set?: HojaRutaFaltaWhereUniqueInput | HojaRutaFaltaWhereUniqueInput[]
+    disconnect?: HojaRutaFaltaWhereUniqueInput | HojaRutaFaltaWhereUniqueInput[]
+    delete?: HojaRutaFaltaWhereUniqueInput | HojaRutaFaltaWhereUniqueInput[]
+    connect?: HojaRutaFaltaWhereUniqueInput | HojaRutaFaltaWhereUniqueInput[]
+    update?: HojaRutaFaltaUpdateWithWhereUniqueWithoutCatalogoInput | HojaRutaFaltaUpdateWithWhereUniqueWithoutCatalogoInput[]
+    updateMany?: HojaRutaFaltaUpdateManyWithWhereWithoutCatalogoInput | HojaRutaFaltaUpdateManyWithWhereWithoutCatalogoInput[]
+    deleteMany?: HojaRutaFaltaScalarWhereInput | HojaRutaFaltaScalarWhereInput[]
   }
 
   export type AlumnoCreateNestedOneWithoutExamenesInput = {
@@ -53904,6 +59031,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutUsuarioInput = {
@@ -53923,6 +59051,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutUsuarioInput = {
@@ -53938,6 +59067,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
     horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
   }
 
@@ -53949,6 +59079,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
 
@@ -54046,6 +59177,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutUsuarioInput = {
@@ -54065,6 +59197,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type ProfesorUpsertWithoutUsuarioInput = {
@@ -54086,6 +59219,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
     horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
   }
 
@@ -54097,6 +59231,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
@@ -54193,6 +59328,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutProfesorAsignadoInput = {
@@ -54212,6 +59348,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutProfesorAsignadoInput = {
@@ -54272,6 +59409,7 @@ export namespace Prisma {
     compraBono?: CompraBonoCreateNestedOneWithoutClasesInput
     pagos?: PagoCreateNestedManyWithoutClasePracticaInput
     facturas?: FacturaCreateNestedManyWithoutClasePracticaInput
+    hojaRuta?: HojaRutaCreateNestedOneWithoutClasePracticaInput
   }
 
   export type ClasePracticaUncheckedCreateWithoutProfesorInput = {
@@ -54288,6 +59426,7 @@ export namespace Prisma {
     canceladaConPenalizacion?: boolean
     pagos?: PagoUncheckedCreateNestedManyWithoutClasePracticaInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutClasePracticaInput
+    hojaRuta?: HojaRutaUncheckedCreateNestedOneWithoutClasePracticaInput
   }
 
   export type ClasePracticaCreateOrConnectWithoutProfesorInput = {
@@ -54297,6 +59436,48 @@ export namespace Prisma {
 
   export type ClasePracticaCreateManyProfesorInputEnvelope = {
     data: ClasePracticaCreateManyProfesorInput | ClasePracticaCreateManyProfesorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type HojaRutaCreateWithoutProfesorInput = {
+    id?: string
+    estado?: string
+    observacionesProfesor?: string | null
+    kilometrosInicio?: number | null
+    kilometrosFin?: number | null
+    combustibleInicioPct?: number | null
+    combustibleFinPct?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    finalizedAt?: Date | string | null
+    clasePractica: ClasePracticaCreateNestedOneWithoutHojaRutaInput
+    alumno: AlumnoCreateNestedOneWithoutHojasRutaInput
+    faltas?: HojaRutaFaltaCreateNestedManyWithoutHojaRutaInput
+  }
+
+  export type HojaRutaUncheckedCreateWithoutProfesorInput = {
+    id?: string
+    clasePracticaId: string
+    alumnoId: string
+    estado?: string
+    observacionesProfesor?: string | null
+    kilometrosInicio?: number | null
+    kilometrosFin?: number | null
+    combustibleInicioPct?: number | null
+    combustibleFinPct?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    finalizedAt?: Date | string | null
+    faltas?: HojaRutaFaltaUncheckedCreateNestedManyWithoutHojaRutaInput
+  }
+
+  export type HojaRutaCreateOrConnectWithoutProfesorInput = {
+    where: HojaRutaWhereUniqueInput
+    create: XOR<HojaRutaCreateWithoutProfesorInput, HojaRutaUncheckedCreateWithoutProfesorInput>
+  }
+
+  export type HojaRutaCreateManyProfesorInputEnvelope = {
+    data: HojaRutaCreateManyProfesorInput | HojaRutaCreateManyProfesorInput[]
     skipDuplicates?: boolean
   }
 
@@ -54457,6 +59638,41 @@ export namespace Prisma {
     canceladaConPenalizacion?: BoolFilter<"ClasePractica"> | boolean
   }
 
+  export type HojaRutaUpsertWithWhereUniqueWithoutProfesorInput = {
+    where: HojaRutaWhereUniqueInput
+    update: XOR<HojaRutaUpdateWithoutProfesorInput, HojaRutaUncheckedUpdateWithoutProfesorInput>
+    create: XOR<HojaRutaCreateWithoutProfesorInput, HojaRutaUncheckedCreateWithoutProfesorInput>
+  }
+
+  export type HojaRutaUpdateWithWhereUniqueWithoutProfesorInput = {
+    where: HojaRutaWhereUniqueInput
+    data: XOR<HojaRutaUpdateWithoutProfesorInput, HojaRutaUncheckedUpdateWithoutProfesorInput>
+  }
+
+  export type HojaRutaUpdateManyWithWhereWithoutProfesorInput = {
+    where: HojaRutaScalarWhereInput
+    data: XOR<HojaRutaUpdateManyMutationInput, HojaRutaUncheckedUpdateManyWithoutProfesorInput>
+  }
+
+  export type HojaRutaScalarWhereInput = {
+    AND?: HojaRutaScalarWhereInput | HojaRutaScalarWhereInput[]
+    OR?: HojaRutaScalarWhereInput[]
+    NOT?: HojaRutaScalarWhereInput | HojaRutaScalarWhereInput[]
+    id?: StringFilter<"HojaRuta"> | string
+    clasePracticaId?: StringFilter<"HojaRuta"> | string
+    profesorId?: StringFilter<"HojaRuta"> | string
+    alumnoId?: StringFilter<"HojaRuta"> | string
+    estado?: StringFilter<"HojaRuta"> | string
+    observacionesProfesor?: StringNullableFilter<"HojaRuta"> | string | null
+    kilometrosInicio?: IntNullableFilter<"HojaRuta"> | number | null
+    kilometrosFin?: IntNullableFilter<"HojaRuta"> | number | null
+    combustibleInicioPct?: IntNullableFilter<"HojaRuta"> | number | null
+    combustibleFinPct?: IntNullableFilter<"HojaRuta"> | number | null
+    createdAt?: DateTimeFilter<"HojaRuta"> | Date | string
+    updatedAt?: DateTimeFilter<"HojaRuta"> | Date | string
+    finalizedAt?: DateTimeNullableFilter<"HojaRuta"> | Date | string | null
+  }
+
   export type ProfesorHorarioBloqueUpsertWithWhereUniqueWithoutProfesorInput = {
     where: ProfesorHorarioBloqueWhereUniqueInput
     update: XOR<ProfesorHorarioBloqueUpdateWithoutProfesorInput, ProfesorHorarioBloqueUncheckedUpdateWithoutProfesorInput>
@@ -54535,6 +59751,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
 
@@ -54547,6 +59764,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
   }
 
   export type ProfesorCreateOrConnectWithoutHorarioBloquesInput = {
@@ -54573,6 +59791,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
 
@@ -54585,6 +59804,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
   export type UsuarioCreateWithoutAlumnoInput = {
@@ -54629,6 +59849,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
     horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
@@ -54641,6 +59862,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
 
@@ -54663,6 +59885,7 @@ export namespace Prisma {
     compraBono?: CompraBonoCreateNestedOneWithoutClasesInput
     pagos?: PagoCreateNestedManyWithoutClasePracticaInput
     facturas?: FacturaCreateNestedManyWithoutClasePracticaInput
+    hojaRuta?: HojaRutaCreateNestedOneWithoutClasePracticaInput
   }
 
   export type ClasePracticaUncheckedCreateWithoutAlumnoInput = {
@@ -54679,6 +59902,7 @@ export namespace Prisma {
     canceladaConPenalizacion?: boolean
     pagos?: PagoUncheckedCreateNestedManyWithoutClasePracticaInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutClasePracticaInput
+    hojaRuta?: HojaRutaUncheckedCreateNestedOneWithoutClasePracticaInput
   }
 
   export type ClasePracticaCreateOrConnectWithoutAlumnoInput = {
@@ -55027,6 +60251,48 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type HojaRutaCreateWithoutAlumnoInput = {
+    id?: string
+    estado?: string
+    observacionesProfesor?: string | null
+    kilometrosInicio?: number | null
+    kilometrosFin?: number | null
+    combustibleInicioPct?: number | null
+    combustibleFinPct?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    finalizedAt?: Date | string | null
+    clasePractica: ClasePracticaCreateNestedOneWithoutHojaRutaInput
+    profesor: ProfesorCreateNestedOneWithoutHojasRutaInput
+    faltas?: HojaRutaFaltaCreateNestedManyWithoutHojaRutaInput
+  }
+
+  export type HojaRutaUncheckedCreateWithoutAlumnoInput = {
+    id?: string
+    clasePracticaId: string
+    profesorId: string
+    estado?: string
+    observacionesProfesor?: string | null
+    kilometrosInicio?: number | null
+    kilometrosFin?: number | null
+    combustibleInicioPct?: number | null
+    combustibleFinPct?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    finalizedAt?: Date | string | null
+    faltas?: HojaRutaFaltaUncheckedCreateNestedManyWithoutHojaRutaInput
+  }
+
+  export type HojaRutaCreateOrConnectWithoutAlumnoInput = {
+    where: HojaRutaWhereUniqueInput
+    create: XOR<HojaRutaCreateWithoutAlumnoInput, HojaRutaUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type HojaRutaCreateManyAlumnoInputEnvelope = {
+    data: HojaRutaCreateManyAlumnoInput | HojaRutaCreateManyAlumnoInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UsuarioUpsertWithoutAlumnoInput = {
     update: XOR<UsuarioUpdateWithoutAlumnoInput, UsuarioUncheckedUpdateWithoutAlumnoInput>
     create: XOR<UsuarioCreateWithoutAlumnoInput, UsuarioUncheckedCreateWithoutAlumnoInput>
@@ -55086,6 +60352,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
     horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
@@ -55098,6 +60365,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
@@ -55428,6 +60696,22 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"DocumentoAlumno"> | Date | string
   }
 
+  export type HojaRutaUpsertWithWhereUniqueWithoutAlumnoInput = {
+    where: HojaRutaWhereUniqueInput
+    update: XOR<HojaRutaUpdateWithoutAlumnoInput, HojaRutaUncheckedUpdateWithoutAlumnoInput>
+    create: XOR<HojaRutaCreateWithoutAlumnoInput, HojaRutaUncheckedCreateWithoutAlumnoInput>
+  }
+
+  export type HojaRutaUpdateWithWhereUniqueWithoutAlumnoInput = {
+    where: HojaRutaWhereUniqueInput
+    data: XOR<HojaRutaUpdateWithoutAlumnoInput, HojaRutaUncheckedUpdateWithoutAlumnoInput>
+  }
+
+  export type HojaRutaUpdateManyWithWhereWithoutAlumnoInput = {
+    where: HojaRutaScalarWhereInput
+    data: XOR<HojaRutaUpdateManyMutationInput, HojaRutaUncheckedUpdateManyWithoutAlumnoInput>
+  }
+
   export type AlumnoCreateWithoutDocumentosAlumnoInput = {
     tipoLicenciaObjetivo: string
     horasPracticasCompletadas?: number
@@ -55445,6 +60729,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutDocumentosAlumnoInput = {
@@ -55464,6 +60749,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutDocumentosAlumnoInput = {
@@ -55529,6 +60815,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutDocumentosAlumnoInput = {
@@ -55548,6 +60835,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type DocumentoAlumnoArchivoUpsertWithWhereUniqueWithoutDocumentoInput = {
@@ -55743,6 +61031,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutTemariosProgresoInput = {
@@ -55762,6 +61051,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutTemariosProgresoInput = {
@@ -55824,6 +61114,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutTemariosProgresoInput = {
@@ -55843,6 +61134,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type TemarioUpsertWithoutProgresoInput = {
@@ -55885,6 +61177,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
     horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
@@ -55897,6 +61190,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
 
@@ -55923,6 +61217,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
     horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
@@ -55935,6 +61230,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
@@ -55955,6 +61251,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutTestsPracticaInput = {
@@ -55974,6 +61271,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutTestsPracticaInput = {
@@ -56036,6 +61334,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutTestsPracticaInput = {
@@ -56055,6 +61354,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type TemarioUpsertWithoutTestsPracticaInput = {
@@ -56218,6 +61518,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutExamenesDGTInput = {
@@ -56237,6 +61538,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutExamenesDGTInput = {
@@ -56272,6 +61574,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutExamenesDGTInput = {
@@ -56291,6 +61594,7 @@ export namespace Prisma {
     temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type CompraBonoCreateWithoutBonoInput = {
@@ -56445,6 +61749,7 @@ export namespace Prisma {
     vehiculo: VehiculoCreateNestedOneWithoutClasesInput
     pagos?: PagoCreateNestedManyWithoutClasePracticaInput
     facturas?: FacturaCreateNestedManyWithoutClasePracticaInput
+    hojaRuta?: HojaRutaCreateNestedOneWithoutClasePracticaInput
   }
 
   export type ClasePracticaUncheckedCreateWithoutCompraBonoInput = {
@@ -56461,6 +61766,7 @@ export namespace Prisma {
     canceladaConPenalizacion?: boolean
     pagos?: PagoUncheckedCreateNestedManyWithoutClasePracticaInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutClasePracticaInput
+    hojaRuta?: HojaRutaUncheckedCreateNestedOneWithoutClasePracticaInput
   }
 
   export type ClasePracticaCreateOrConnectWithoutCompraBonoInput = {
@@ -56490,6 +61796,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutBonosCompradosInput = {
@@ -56509,6 +61816,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutBonosCompradosInput = {
@@ -56617,6 +61925,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutBonosCompradosInput = {
@@ -56636,6 +61945,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type BonoUpsertWithoutComprasInput = {
@@ -56686,6 +61996,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutSolicitudesExamenInput = {
@@ -56705,6 +62016,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutSolicitudesExamenInput = {
@@ -56740,6 +62052,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutSolicitudesExamenInput = {
@@ -56759,6 +62072,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type ClasePracticaCreateWithoutVehiculoInput = {
@@ -56775,6 +62089,7 @@ export namespace Prisma {
     compraBono?: CompraBonoCreateNestedOneWithoutClasesInput
     pagos?: PagoCreateNestedManyWithoutClasePracticaInput
     facturas?: FacturaCreateNestedManyWithoutClasePracticaInput
+    hojaRuta?: HojaRutaCreateNestedOneWithoutClasePracticaInput
   }
 
   export type ClasePracticaUncheckedCreateWithoutVehiculoInput = {
@@ -56791,6 +62106,7 @@ export namespace Prisma {
     canceladaConPenalizacion?: boolean
     pagos?: PagoUncheckedCreateNestedManyWithoutClasePracticaInput
     facturas?: FacturaUncheckedCreateNestedManyWithoutClasePracticaInput
+    hojaRuta?: HojaRutaUncheckedCreateNestedOneWithoutClasePracticaInput
   }
 
   export type ClasePracticaCreateOrConnectWithoutVehiculoInput = {
@@ -56836,6 +62152,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutClasesInput = {
@@ -56855,6 +62172,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutClasesInput = {
@@ -56869,6 +62187,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
     horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
@@ -56881,6 +62200,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
 
@@ -57031,6 +62351,43 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type HojaRutaCreateWithoutClasePracticaInput = {
+    id?: string
+    estado?: string
+    observacionesProfesor?: string | null
+    kilometrosInicio?: number | null
+    kilometrosFin?: number | null
+    combustibleInicioPct?: number | null
+    combustibleFinPct?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    finalizedAt?: Date | string | null
+    profesor: ProfesorCreateNestedOneWithoutHojasRutaInput
+    alumno: AlumnoCreateNestedOneWithoutHojasRutaInput
+    faltas?: HojaRutaFaltaCreateNestedManyWithoutHojaRutaInput
+  }
+
+  export type HojaRutaUncheckedCreateWithoutClasePracticaInput = {
+    id?: string
+    profesorId: string
+    alumnoId: string
+    estado?: string
+    observacionesProfesor?: string | null
+    kilometrosInicio?: number | null
+    kilometrosFin?: number | null
+    combustibleInicioPct?: number | null
+    combustibleFinPct?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    finalizedAt?: Date | string | null
+    faltas?: HojaRutaFaltaUncheckedCreateNestedManyWithoutHojaRutaInput
+  }
+
+  export type HojaRutaCreateOrConnectWithoutClasePracticaInput = {
+    where: HojaRutaWhereUniqueInput
+    create: XOR<HojaRutaCreateWithoutClasePracticaInput, HojaRutaUncheckedCreateWithoutClasePracticaInput>
+  }
+
   export type AlumnoUpsertWithoutClasesInput = {
     update: XOR<AlumnoUpdateWithoutClasesInput, AlumnoUncheckedUpdateWithoutClasesInput>
     create: XOR<AlumnoCreateWithoutClasesInput, AlumnoUncheckedCreateWithoutClasesInput>
@@ -57059,6 +62416,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutClasesInput = {
@@ -57078,6 +62436,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type ProfesorUpsertWithoutClasesInput = {
@@ -57098,6 +62457,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
     horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
@@ -57110,6 +62470,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
@@ -57213,6 +62574,549 @@ export namespace Prisma {
     data: XOR<FacturaUpdateManyMutationInput, FacturaUncheckedUpdateManyWithoutClasePracticaInput>
   }
 
+  export type HojaRutaUpsertWithoutClasePracticaInput = {
+    update: XOR<HojaRutaUpdateWithoutClasePracticaInput, HojaRutaUncheckedUpdateWithoutClasePracticaInput>
+    create: XOR<HojaRutaCreateWithoutClasePracticaInput, HojaRutaUncheckedCreateWithoutClasePracticaInput>
+    where?: HojaRutaWhereInput
+  }
+
+  export type HojaRutaUpdateToOneWithWhereWithoutClasePracticaInput = {
+    where?: HojaRutaWhereInput
+    data: XOR<HojaRutaUpdateWithoutClasePracticaInput, HojaRutaUncheckedUpdateWithoutClasePracticaInput>
+  }
+
+  export type HojaRutaUpdateWithoutClasePracticaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
+    kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleFinPct?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finalizedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profesor?: ProfesorUpdateOneRequiredWithoutHojasRutaNestedInput
+    alumno?: AlumnoUpdateOneRequiredWithoutHojasRutaNestedInput
+    faltas?: HojaRutaFaltaUpdateManyWithoutHojaRutaNestedInput
+  }
+
+  export type HojaRutaUncheckedUpdateWithoutClasePracticaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    profesorId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
+    kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleFinPct?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finalizedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    faltas?: HojaRutaFaltaUncheckedUpdateManyWithoutHojaRutaNestedInput
+  }
+
+  export type ClasePracticaCreateWithoutHojaRutaInput = {
+    id?: string
+    fecha: Date | string
+    duracion: number
+    estado: string
+    metodoPago?: string
+    pagoLimiteAt?: Date | string | null
+    canceladaPor?: string | null
+    canceladaConPenalizacion?: boolean
+    alumno: AlumnoCreateNestedOneWithoutClasesInput
+    profesor: ProfesorCreateNestedOneWithoutClasesInput
+    vehiculo: VehiculoCreateNestedOneWithoutClasesInput
+    compraBono?: CompraBonoCreateNestedOneWithoutClasesInput
+    pagos?: PagoCreateNestedManyWithoutClasePracticaInput
+    facturas?: FacturaCreateNestedManyWithoutClasePracticaInput
+  }
+
+  export type ClasePracticaUncheckedCreateWithoutHojaRutaInput = {
+    id?: string
+    alumnoId: string
+    profesorId: string
+    vehiculoId: string
+    compraBonoId?: string | null
+    fecha: Date | string
+    duracion: number
+    estado: string
+    metodoPago?: string
+    pagoLimiteAt?: Date | string | null
+    canceladaPor?: string | null
+    canceladaConPenalizacion?: boolean
+    pagos?: PagoUncheckedCreateNestedManyWithoutClasePracticaInput
+    facturas?: FacturaUncheckedCreateNestedManyWithoutClasePracticaInput
+  }
+
+  export type ClasePracticaCreateOrConnectWithoutHojaRutaInput = {
+    where: ClasePracticaWhereUniqueInput
+    create: XOR<ClasePracticaCreateWithoutHojaRutaInput, ClasePracticaUncheckedCreateWithoutHojaRutaInput>
+  }
+
+  export type ProfesorCreateWithoutHojasRutaInput = {
+    licenciaConducir: string
+    telefono: string
+    activo?: boolean
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
+    clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
+    clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
+    usuario: UsuarioCreateNestedOneWithoutProfesorInput
+  }
+
+  export type ProfesorUncheckedCreateWithoutHojasRutaInput = {
+    id: string
+    licenciaConducir: string
+    telefono: string
+    activo?: boolean
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
+    clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
+  }
+
+  export type ProfesorCreateOrConnectWithoutHojasRutaInput = {
+    where: ProfesorWhereUniqueInput
+    create: XOR<ProfesorCreateWithoutHojasRutaInput, ProfesorUncheckedCreateWithoutHojasRutaInput>
+  }
+
+  export type AlumnoCreateWithoutHojasRutaInput = {
+    tipoLicenciaObjetivo: string
+    horasPracticasCompletadas?: number
+    activo?: boolean
+    fechaNacimiento?: Date | string | null
+    usuario: UsuarioCreateNestedOneWithoutAlumnoInput
+    profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
+    clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenCreateNestedManyWithoutAlumnoInput
+    facturas?: FacturaCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
+    examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
+  }
+
+  export type AlumnoUncheckedCreateWithoutHojasRutaInput = {
+    id: string
+    tipoLicenciaObjetivo: string
+    horasPracticasCompletadas?: number
+    profesorAsignadoId?: string | null
+    activo?: boolean
+    fechaNacimiento?: Date | string | null
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
+    examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    facturas?: FacturaUncheckedCreateNestedManyWithoutAlumnoInput
+    pagos?: PagoUncheckedCreateNestedManyWithoutAlumnoInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutAlumnoInput
+    solicitudesExamen?: SolicitudExamenUncheckedCreateNestedManyWithoutAlumnoInput
+    temariosProgreso?: TemarioProgresoUncheckedCreateNestedManyWithoutAlumnoInput
+    testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
+    examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+  }
+
+  export type AlumnoCreateOrConnectWithoutHojasRutaInput = {
+    where: AlumnoWhereUniqueInput
+    create: XOR<AlumnoCreateWithoutHojasRutaInput, AlumnoUncheckedCreateWithoutHojasRutaInput>
+  }
+
+  export type HojaRutaFaltaCreateWithoutHojaRutaInput = {
+    id?: string
+    hora: string
+    tipo: string
+    categoria: string
+    descripcion: string
+    orden?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    catalogo?: HojaRutaFaltaCatalogoCreateNestedOneWithoutFaltasInput
+  }
+
+  export type HojaRutaFaltaUncheckedCreateWithoutHojaRutaInput = {
+    id?: string
+    hora: string
+    tipo: string
+    categoria: string
+    descripcion: string
+    orden?: number
+    catalogoId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type HojaRutaFaltaCreateOrConnectWithoutHojaRutaInput = {
+    where: HojaRutaFaltaWhereUniqueInput
+    create: XOR<HojaRutaFaltaCreateWithoutHojaRutaInput, HojaRutaFaltaUncheckedCreateWithoutHojaRutaInput>
+  }
+
+  export type HojaRutaFaltaCreateManyHojaRutaInputEnvelope = {
+    data: HojaRutaFaltaCreateManyHojaRutaInput | HojaRutaFaltaCreateManyHojaRutaInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ClasePracticaUpsertWithoutHojaRutaInput = {
+    update: XOR<ClasePracticaUpdateWithoutHojaRutaInput, ClasePracticaUncheckedUpdateWithoutHojaRutaInput>
+    create: XOR<ClasePracticaCreateWithoutHojaRutaInput, ClasePracticaUncheckedCreateWithoutHojaRutaInput>
+    where?: ClasePracticaWhereInput
+  }
+
+  export type ClasePracticaUpdateToOneWithWhereWithoutHojaRutaInput = {
+    where?: ClasePracticaWhereInput
+    data: XOR<ClasePracticaUpdateWithoutHojaRutaInput, ClasePracticaUncheckedUpdateWithoutHojaRutaInput>
+  }
+
+  export type ClasePracticaUpdateWithoutHojaRutaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    duracion?: IntFieldUpdateOperationsInput | number
+    estado?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
+    canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
+    alumno?: AlumnoUpdateOneRequiredWithoutClasesNestedInput
+    profesor?: ProfesorUpdateOneRequiredWithoutClasesNestedInput
+    vehiculo?: VehiculoUpdateOneRequiredWithoutClasesNestedInput
+    compraBono?: CompraBonoUpdateOneWithoutClasesNestedInput
+    pagos?: PagoUpdateManyWithoutClasePracticaNestedInput
+    facturas?: FacturaUpdateManyWithoutClasePracticaNestedInput
+  }
+
+  export type ClasePracticaUncheckedUpdateWithoutHojaRutaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    profesorId?: StringFieldUpdateOperationsInput | string
+    vehiculoId?: StringFieldUpdateOperationsInput | string
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    duracion?: IntFieldUpdateOperationsInput | number
+    estado?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
+    canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
+    pagos?: PagoUncheckedUpdateManyWithoutClasePracticaNestedInput
+    facturas?: FacturaUncheckedUpdateManyWithoutClasePracticaNestedInput
+  }
+
+  export type ProfesorUpsertWithoutHojasRutaInput = {
+    update: XOR<ProfesorUpdateWithoutHojasRutaInput, ProfesorUncheckedUpdateWithoutHojasRutaInput>
+    create: XOR<ProfesorCreateWithoutHojasRutaInput, ProfesorUncheckedCreateWithoutHojasRutaInput>
+    where?: ProfesorWhereInput
+  }
+
+  export type ProfesorUpdateToOneWithWhereWithoutHojasRutaInput = {
+    where?: ProfesorWhereInput
+    data: XOR<ProfesorUpdateWithoutHojasRutaInput, ProfesorUncheckedUpdateWithoutHojasRutaInput>
+  }
+
+  export type ProfesorUpdateWithoutHojasRutaInput = {
+    licenciaConducir?: StringFieldUpdateOperationsInput | string
+    telefono?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
+    clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
+    clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
+    usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
+  }
+
+  export type ProfesorUncheckedUpdateWithoutHojasRutaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    licenciaConducir?: StringFieldUpdateOperationsInput | string
+    telefono?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
+    clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
+    clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
+  }
+
+  export type AlumnoUpsertWithoutHojasRutaInput = {
+    update: XOR<AlumnoUpdateWithoutHojasRutaInput, AlumnoUncheckedUpdateWithoutHojasRutaInput>
+    create: XOR<AlumnoCreateWithoutHojasRutaInput, AlumnoUncheckedCreateWithoutHojasRutaInput>
+    where?: AlumnoWhereInput
+  }
+
+  export type AlumnoUpdateToOneWithWhereWithoutHojasRutaInput = {
+    where?: AlumnoWhereInput
+    data: XOR<AlumnoUpdateWithoutHojasRutaInput, AlumnoUncheckedUpdateWithoutHojasRutaInput>
+  }
+
+  export type AlumnoUpdateWithoutHojasRutaInput = {
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
+    profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
+    clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUpdateManyWithoutAlumnoNestedInput
+    facturas?: FacturaUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
+    examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type AlumnoUncheckedUpdateWithoutHojasRutaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
+    horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
+    profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
+    examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    facturas?: FacturaUncheckedUpdateManyWithoutAlumnoNestedInput
+    pagos?: PagoUncheckedUpdateManyWithoutAlumnoNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutAlumnoNestedInput
+    solicitudesExamen?: SolicitudExamenUncheckedUpdateManyWithoutAlumnoNestedInput
+    temariosProgreso?: TemarioProgresoUncheckedUpdateManyWithoutAlumnoNestedInput
+    testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
+    examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type HojaRutaFaltaUpsertWithWhereUniqueWithoutHojaRutaInput = {
+    where: HojaRutaFaltaWhereUniqueInput
+    update: XOR<HojaRutaFaltaUpdateWithoutHojaRutaInput, HojaRutaFaltaUncheckedUpdateWithoutHojaRutaInput>
+    create: XOR<HojaRutaFaltaCreateWithoutHojaRutaInput, HojaRutaFaltaUncheckedCreateWithoutHojaRutaInput>
+  }
+
+  export type HojaRutaFaltaUpdateWithWhereUniqueWithoutHojaRutaInput = {
+    where: HojaRutaFaltaWhereUniqueInput
+    data: XOR<HojaRutaFaltaUpdateWithoutHojaRutaInput, HojaRutaFaltaUncheckedUpdateWithoutHojaRutaInput>
+  }
+
+  export type HojaRutaFaltaUpdateManyWithWhereWithoutHojaRutaInput = {
+    where: HojaRutaFaltaScalarWhereInput
+    data: XOR<HojaRutaFaltaUpdateManyMutationInput, HojaRutaFaltaUncheckedUpdateManyWithoutHojaRutaInput>
+  }
+
+  export type HojaRutaFaltaScalarWhereInput = {
+    AND?: HojaRutaFaltaScalarWhereInput | HojaRutaFaltaScalarWhereInput[]
+    OR?: HojaRutaFaltaScalarWhereInput[]
+    NOT?: HojaRutaFaltaScalarWhereInput | HojaRutaFaltaScalarWhereInput[]
+    id?: StringFilter<"HojaRutaFalta"> | string
+    hojaRutaId?: StringFilter<"HojaRutaFalta"> | string
+    hora?: StringFilter<"HojaRutaFalta"> | string
+    tipo?: StringFilter<"HojaRutaFalta"> | string
+    categoria?: StringFilter<"HojaRutaFalta"> | string
+    descripcion?: StringFilter<"HojaRutaFalta"> | string
+    orden?: IntFilter<"HojaRutaFalta"> | number
+    catalogoId?: StringNullableFilter<"HojaRutaFalta"> | string | null
+    createdAt?: DateTimeFilter<"HojaRutaFalta"> | Date | string
+    updatedAt?: DateTimeFilter<"HojaRutaFalta"> | Date | string
+  }
+
+  export type HojaRutaCreateWithoutFaltasInput = {
+    id?: string
+    estado?: string
+    observacionesProfesor?: string | null
+    kilometrosInicio?: number | null
+    kilometrosFin?: number | null
+    combustibleInicioPct?: number | null
+    combustibleFinPct?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    finalizedAt?: Date | string | null
+    clasePractica: ClasePracticaCreateNestedOneWithoutHojaRutaInput
+    profesor: ProfesorCreateNestedOneWithoutHojasRutaInput
+    alumno: AlumnoCreateNestedOneWithoutHojasRutaInput
+  }
+
+  export type HojaRutaUncheckedCreateWithoutFaltasInput = {
+    id?: string
+    clasePracticaId: string
+    profesorId: string
+    alumnoId: string
+    estado?: string
+    observacionesProfesor?: string | null
+    kilometrosInicio?: number | null
+    kilometrosFin?: number | null
+    combustibleInicioPct?: number | null
+    combustibleFinPct?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    finalizedAt?: Date | string | null
+  }
+
+  export type HojaRutaCreateOrConnectWithoutFaltasInput = {
+    where: HojaRutaWhereUniqueInput
+    create: XOR<HojaRutaCreateWithoutFaltasInput, HojaRutaUncheckedCreateWithoutFaltasInput>
+  }
+
+  export type HojaRutaFaltaCatalogoCreateWithoutFaltasInput = {
+    id?: string
+    tipo: string
+    categoria: string
+    descripcion: string
+    activo?: boolean
+    orden?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type HojaRutaFaltaCatalogoUncheckedCreateWithoutFaltasInput = {
+    id?: string
+    tipo: string
+    categoria: string
+    descripcion: string
+    activo?: boolean
+    orden?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type HojaRutaFaltaCatalogoCreateOrConnectWithoutFaltasInput = {
+    where: HojaRutaFaltaCatalogoWhereUniqueInput
+    create: XOR<HojaRutaFaltaCatalogoCreateWithoutFaltasInput, HojaRutaFaltaCatalogoUncheckedCreateWithoutFaltasInput>
+  }
+
+  export type HojaRutaUpsertWithoutFaltasInput = {
+    update: XOR<HojaRutaUpdateWithoutFaltasInput, HojaRutaUncheckedUpdateWithoutFaltasInput>
+    create: XOR<HojaRutaCreateWithoutFaltasInput, HojaRutaUncheckedCreateWithoutFaltasInput>
+    where?: HojaRutaWhereInput
+  }
+
+  export type HojaRutaUpdateToOneWithWhereWithoutFaltasInput = {
+    where?: HojaRutaWhereInput
+    data: XOR<HojaRutaUpdateWithoutFaltasInput, HojaRutaUncheckedUpdateWithoutFaltasInput>
+  }
+
+  export type HojaRutaUpdateWithoutFaltasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
+    kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleFinPct?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finalizedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clasePractica?: ClasePracticaUpdateOneRequiredWithoutHojaRutaNestedInput
+    profesor?: ProfesorUpdateOneRequiredWithoutHojasRutaNestedInput
+    alumno?: AlumnoUpdateOneRequiredWithoutHojasRutaNestedInput
+  }
+
+  export type HojaRutaUncheckedUpdateWithoutFaltasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clasePracticaId?: StringFieldUpdateOperationsInput | string
+    profesorId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
+    kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleFinPct?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finalizedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type HojaRutaFaltaCatalogoUpsertWithoutFaltasInput = {
+    update: XOR<HojaRutaFaltaCatalogoUpdateWithoutFaltasInput, HojaRutaFaltaCatalogoUncheckedUpdateWithoutFaltasInput>
+    create: XOR<HojaRutaFaltaCatalogoCreateWithoutFaltasInput, HojaRutaFaltaCatalogoUncheckedCreateWithoutFaltasInput>
+    where?: HojaRutaFaltaCatalogoWhereInput
+  }
+
+  export type HojaRutaFaltaCatalogoUpdateToOneWithWhereWithoutFaltasInput = {
+    where?: HojaRutaFaltaCatalogoWhereInput
+    data: XOR<HojaRutaFaltaCatalogoUpdateWithoutFaltasInput, HojaRutaFaltaCatalogoUncheckedUpdateWithoutFaltasInput>
+  }
+
+  export type HojaRutaFaltaCatalogoUpdateWithoutFaltasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    orden?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HojaRutaFaltaCatalogoUncheckedUpdateWithoutFaltasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    orden?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HojaRutaFaltaCreateWithoutCatalogoInput = {
+    id?: string
+    hora: string
+    tipo: string
+    categoria: string
+    descripcion: string
+    orden?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    hojaRuta: HojaRutaCreateNestedOneWithoutFaltasInput
+  }
+
+  export type HojaRutaFaltaUncheckedCreateWithoutCatalogoInput = {
+    id?: string
+    hojaRutaId: string
+    hora: string
+    tipo: string
+    categoria: string
+    descripcion: string
+    orden?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type HojaRutaFaltaCreateOrConnectWithoutCatalogoInput = {
+    where: HojaRutaFaltaWhereUniqueInput
+    create: XOR<HojaRutaFaltaCreateWithoutCatalogoInput, HojaRutaFaltaUncheckedCreateWithoutCatalogoInput>
+  }
+
+  export type HojaRutaFaltaCreateManyCatalogoInputEnvelope = {
+    data: HojaRutaFaltaCreateManyCatalogoInput | HojaRutaFaltaCreateManyCatalogoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type HojaRutaFaltaUpsertWithWhereUniqueWithoutCatalogoInput = {
+    where: HojaRutaFaltaWhereUniqueInput
+    update: XOR<HojaRutaFaltaUpdateWithoutCatalogoInput, HojaRutaFaltaUncheckedUpdateWithoutCatalogoInput>
+    create: XOR<HojaRutaFaltaCreateWithoutCatalogoInput, HojaRutaFaltaUncheckedCreateWithoutCatalogoInput>
+  }
+
+  export type HojaRutaFaltaUpdateWithWhereUniqueWithoutCatalogoInput = {
+    where: HojaRutaFaltaWhereUniqueInput
+    data: XOR<HojaRutaFaltaUpdateWithoutCatalogoInput, HojaRutaFaltaUncheckedUpdateWithoutCatalogoInput>
+  }
+
+  export type HojaRutaFaltaUpdateManyWithWhereWithoutCatalogoInput = {
+    where: HojaRutaFaltaScalarWhereInput
+    data: XOR<HojaRutaFaltaUpdateManyMutationInput, HojaRutaFaltaUncheckedUpdateManyWithoutCatalogoInput>
+  }
+
   export type AlumnoCreateWithoutExamenesInput = {
     tipoLicenciaObjetivo: string
     horasPracticasCompletadas?: number
@@ -57230,6 +63134,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutExamenesInput = {
@@ -57249,6 +63154,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutExamenesInput = {
@@ -57284,6 +63190,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutExamenesInput = {
@@ -57303,6 +63210,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type MatriculaCreateWithoutPromocionInput = {
@@ -57695,6 +63603,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutMatriculasInput = {
@@ -57714,6 +63623,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutMatriculasInput = {
@@ -57840,6 +63750,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutMatriculasInput = {
@@ -57859,6 +63770,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type PromocionUpsertWithoutMatriculasInput = {
@@ -57927,6 +63839,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutPagosInput = {
@@ -57946,6 +63859,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutPagosInput = {
@@ -58033,6 +63947,7 @@ export namespace Prisma {
     vehiculo: VehiculoCreateNestedOneWithoutClasesInput
     compraBono?: CompraBonoCreateNestedOneWithoutClasesInput
     facturas?: FacturaCreateNestedManyWithoutClasePracticaInput
+    hojaRuta?: HojaRutaCreateNestedOneWithoutClasePracticaInput
   }
 
   export type ClasePracticaUncheckedCreateWithoutPagosInput = {
@@ -58049,6 +63964,7 @@ export namespace Prisma {
     canceladaPor?: string | null
     canceladaConPenalizacion?: boolean
     facturas?: FacturaUncheckedCreateNestedManyWithoutClasePracticaInput
+    hojaRuta?: HojaRutaUncheckedCreateNestedOneWithoutClasePracticaInput
   }
 
   export type ClasePracticaCreateOrConnectWithoutPagosInput = {
@@ -58084,6 +64000,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutPagosInput = {
@@ -58103,6 +64020,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type MatriculaUpsertWithoutPagosInput = {
@@ -58208,6 +64126,7 @@ export namespace Prisma {
     vehiculo?: VehiculoUpdateOneRequiredWithoutClasesNestedInput
     compraBono?: CompraBonoUpdateOneWithoutClasesNestedInput
     facturas?: FacturaUpdateManyWithoutClasePracticaNestedInput
+    hojaRuta?: HojaRutaUpdateOneWithoutClasePracticaNestedInput
   }
 
   export type ClasePracticaUncheckedUpdateWithoutPagosInput = {
@@ -58224,6 +64143,7 @@ export namespace Prisma {
     canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
     canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
     facturas?: FacturaUncheckedUpdateManyWithoutClasePracticaNestedInput
+    hojaRuta?: HojaRutaUncheckedUpdateOneWithoutClasePracticaNestedInput
   }
 
   export type TheoreticalExamProcessSolicitudCreateWithoutBatchInput = {
@@ -58682,6 +64602,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoUncheckedCreateWithoutFacturasInput = {
@@ -58701,6 +64622,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenesDGT?: ExamenDGTAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
     documentosAlumno?: DocumentoAlumnoUncheckedCreateNestedManyWithoutAlumnoInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutAlumnoInput
   }
 
   export type AlumnoCreateOrConnectWithoutFacturasInput = {
@@ -58788,6 +64710,7 @@ export namespace Prisma {
     vehiculo: VehiculoCreateNestedOneWithoutClasesInput
     compraBono?: CompraBonoCreateNestedOneWithoutClasesInput
     pagos?: PagoCreateNestedManyWithoutClasePracticaInput
+    hojaRuta?: HojaRutaCreateNestedOneWithoutClasePracticaInput
   }
 
   export type ClasePracticaUncheckedCreateWithoutFacturasInput = {
@@ -58804,6 +64727,7 @@ export namespace Prisma {
     canceladaPor?: string | null
     canceladaConPenalizacion?: boolean
     pagos?: PagoUncheckedCreateNestedManyWithoutClasePracticaInput
+    hojaRuta?: HojaRutaUncheckedCreateNestedOneWithoutClasePracticaInput
   }
 
   export type ClasePracticaCreateOrConnectWithoutFacturasInput = {
@@ -58839,6 +64763,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutFacturasInput = {
@@ -58858,6 +64783,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type MatriculaUpsertWithoutFacturasInput = {
@@ -58963,6 +64889,7 @@ export namespace Prisma {
     vehiculo?: VehiculoUpdateOneRequiredWithoutClasesNestedInput
     compraBono?: CompraBonoUpdateOneWithoutClasesNestedInput
     pagos?: PagoUpdateManyWithoutClasePracticaNestedInput
+    hojaRuta?: HojaRutaUpdateOneWithoutClasePracticaNestedInput
   }
 
   export type ClasePracticaUncheckedUpdateWithoutFacturasInput = {
@@ -58979,6 +64906,7 @@ export namespace Prisma {
     canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
     canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
     pagos?: PagoUncheckedUpdateManyWithoutClasePracticaNestedInput
+    hojaRuta?: HojaRutaUncheckedUpdateOneWithoutClasePracticaNestedInput
   }
 
   export type UsuarioCreateWithoutNotificacionesInput = {
@@ -59175,6 +65103,21 @@ export namespace Prisma {
     canceladaConPenalizacion?: boolean
   }
 
+  export type HojaRutaCreateManyProfesorInput = {
+    id?: string
+    clasePracticaId: string
+    alumnoId: string
+    estado?: string
+    observacionesProfesor?: string | null
+    kilometrosInicio?: number | null
+    kilometrosFin?: number | null
+    combustibleInicioPct?: number | null
+    combustibleFinPct?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    finalizedAt?: Date | string | null
+  }
+
   export type ProfesorHorarioBloqueCreateManyProfesorInput = {
     id?: string
     diaSemana: number
@@ -59201,6 +65144,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateWithoutProfesorAsignadoInput = {
@@ -59220,6 +65164,7 @@ export namespace Prisma {
     testsPractica?: TestPracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenesDGT?: ExamenDGTAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
     documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
   export type AlumnoUncheckedUpdateManyWithoutProfesorAsignadoInput = {
@@ -59280,6 +65225,7 @@ export namespace Prisma {
     compraBono?: CompraBonoUpdateOneWithoutClasesNestedInput
     pagos?: PagoUpdateManyWithoutClasePracticaNestedInput
     facturas?: FacturaUpdateManyWithoutClasePracticaNestedInput
+    hojaRuta?: HojaRutaUpdateOneWithoutClasePracticaNestedInput
   }
 
   export type ClasePracticaUncheckedUpdateWithoutProfesorInput = {
@@ -59296,6 +65242,7 @@ export namespace Prisma {
     canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
     pagos?: PagoUncheckedUpdateManyWithoutClasePracticaNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutClasePracticaNestedInput
+    hojaRuta?: HojaRutaUncheckedUpdateOneWithoutClasePracticaNestedInput
   }
 
   export type ClasePracticaUncheckedUpdateManyWithoutProfesorInput = {
@@ -59310,6 +65257,53 @@ export namespace Prisma {
     pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
     canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type HojaRutaUpdateWithoutProfesorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
+    kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleFinPct?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finalizedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clasePractica?: ClasePracticaUpdateOneRequiredWithoutHojaRutaNestedInput
+    alumno?: AlumnoUpdateOneRequiredWithoutHojasRutaNestedInput
+    faltas?: HojaRutaFaltaUpdateManyWithoutHojaRutaNestedInput
+  }
+
+  export type HojaRutaUncheckedUpdateWithoutProfesorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clasePracticaId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
+    kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleFinPct?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finalizedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    faltas?: HojaRutaFaltaUncheckedUpdateManyWithoutHojaRutaNestedInput
+  }
+
+  export type HojaRutaUncheckedUpdateManyWithoutProfesorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clasePracticaId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
+    kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleFinPct?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finalizedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ProfesorHorarioBloqueUpdateWithoutProfesorInput = {
@@ -59464,6 +65458,21 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type HojaRutaCreateManyAlumnoInput = {
+    id?: string
+    clasePracticaId: string
+    profesorId: string
+    estado?: string
+    observacionesProfesor?: string | null
+    kilometrosInicio?: number | null
+    kilometrosFin?: number | null
+    combustibleInicioPct?: number | null
+    combustibleFinPct?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    finalizedAt?: Date | string | null
+  }
+
   export type ClasePracticaUpdateWithoutAlumnoInput = {
     id?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -59478,6 +65487,7 @@ export namespace Prisma {
     compraBono?: CompraBonoUpdateOneWithoutClasesNestedInput
     pagos?: PagoUpdateManyWithoutClasePracticaNestedInput
     facturas?: FacturaUpdateManyWithoutClasePracticaNestedInput
+    hojaRuta?: HojaRutaUpdateOneWithoutClasePracticaNestedInput
   }
 
   export type ClasePracticaUncheckedUpdateWithoutAlumnoInput = {
@@ -59494,6 +65504,7 @@ export namespace Prisma {
     canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
     pagos?: PagoUncheckedUpdateManyWithoutClasePracticaNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutClasePracticaNestedInput
+    hojaRuta?: HojaRutaUncheckedUpdateOneWithoutClasePracticaNestedInput
   }
 
   export type ClasePracticaUncheckedUpdateManyWithoutAlumnoInput = {
@@ -59857,6 +65868,53 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type HojaRutaUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
+    kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleFinPct?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finalizedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clasePractica?: ClasePracticaUpdateOneRequiredWithoutHojaRutaNestedInput
+    profesor?: ProfesorUpdateOneRequiredWithoutHojasRutaNestedInput
+    faltas?: HojaRutaFaltaUpdateManyWithoutHojaRutaNestedInput
+  }
+
+  export type HojaRutaUncheckedUpdateWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clasePracticaId?: StringFieldUpdateOperationsInput | string
+    profesorId?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
+    kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleFinPct?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finalizedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    faltas?: HojaRutaFaltaUncheckedUpdateManyWithoutHojaRutaNestedInput
+  }
+
+  export type HojaRutaUncheckedUpdateManyWithoutAlumnoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clasePracticaId?: StringFieldUpdateOperationsInput | string
+    profesorId?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
+    kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
+    combustibleFinPct?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finalizedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type DocumentoAlumnoArchivoCreateManyDocumentoInput = {
     id?: string
     nombreOriginal: string
@@ -60199,6 +66257,7 @@ export namespace Prisma {
     vehiculo?: VehiculoUpdateOneRequiredWithoutClasesNestedInput
     pagos?: PagoUpdateManyWithoutClasePracticaNestedInput
     facturas?: FacturaUpdateManyWithoutClasePracticaNestedInput
+    hojaRuta?: HojaRutaUpdateOneWithoutClasePracticaNestedInput
   }
 
   export type ClasePracticaUncheckedUpdateWithoutCompraBonoInput = {
@@ -60215,6 +66274,7 @@ export namespace Prisma {
     canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
     pagos?: PagoUncheckedUpdateManyWithoutClasePracticaNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutClasePracticaNestedInput
+    hojaRuta?: HojaRutaUncheckedUpdateOneWithoutClasePracticaNestedInput
   }
 
   export type ClasePracticaUncheckedUpdateManyWithoutCompraBonoInput = {
@@ -60259,6 +66319,7 @@ export namespace Prisma {
     compraBono?: CompraBonoUpdateOneWithoutClasesNestedInput
     pagos?: PagoUpdateManyWithoutClasePracticaNestedInput
     facturas?: FacturaUpdateManyWithoutClasePracticaNestedInput
+    hojaRuta?: HojaRutaUpdateOneWithoutClasePracticaNestedInput
   }
 
   export type ClasePracticaUncheckedUpdateWithoutVehiculoInput = {
@@ -60275,6 +66336,7 @@ export namespace Prisma {
     canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
     pagos?: PagoUncheckedUpdateManyWithoutClasePracticaNestedInput
     facturas?: FacturaUncheckedUpdateManyWithoutClasePracticaNestedInput
+    hojaRuta?: HojaRutaUncheckedUpdateOneWithoutClasePracticaNestedInput
   }
 
   export type ClasePracticaUncheckedUpdateManyWithoutVehiculoInput = {
@@ -60421,6 +66483,102 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
     fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type HojaRutaFaltaCreateManyHojaRutaInput = {
+    id?: string
+    hora: string
+    tipo: string
+    categoria: string
+    descripcion: string
+    orden?: number
+    catalogoId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type HojaRutaFaltaUpdateWithoutHojaRutaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hora?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    orden?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    catalogo?: HojaRutaFaltaCatalogoUpdateOneWithoutFaltasNestedInput
+  }
+
+  export type HojaRutaFaltaUncheckedUpdateWithoutHojaRutaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hora?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    orden?: IntFieldUpdateOperationsInput | number
+    catalogoId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HojaRutaFaltaUncheckedUpdateManyWithoutHojaRutaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hora?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    orden?: IntFieldUpdateOperationsInput | number
+    catalogoId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HojaRutaFaltaCreateManyCatalogoInput = {
+    id?: string
+    hojaRutaId: string
+    hora: string
+    tipo: string
+    categoria: string
+    descripcion: string
+    orden?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type HojaRutaFaltaUpdateWithoutCatalogoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hora?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    orden?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hojaRuta?: HojaRutaUpdateOneRequiredWithoutFaltasNestedInput
+  }
+
+  export type HojaRutaFaltaUncheckedUpdateWithoutCatalogoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hojaRutaId?: StringFieldUpdateOperationsInput | string
+    hora?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    orden?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HojaRutaFaltaUncheckedUpdateManyWithoutCatalogoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hojaRutaId?: StringFieldUpdateOperationsInput | string
+    hora?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    orden?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MatriculaCreateManyPromocionInput = {

@@ -120,9 +120,10 @@ export class SolicitudesExamenRepository {
   }
 
   async findConvocatoriasTeoricoDisponibles(licencia, desdeFecha) {
-    return this.prisma.convocatoriaTeorico.findMany({
+    return this.prisma.convocatoriaExamen.findMany({
       where: {
         licencia,
+        tipoExamen: "TEORICO",
         activo: true,
         fecha: {
           gte: desdeFecha,
@@ -141,9 +142,10 @@ export class SolicitudesExamenRepository {
     const fin = new Date(fecha);
     fin.setHours(23, 59, 59, 999);
 
-    return this.prisma.convocatoriaTeorico.findFirst({
+    return this.prisma.convocatoriaExamen.findFirst({
       where: {
         licencia,
+        tipoExamen: "TEORICO",
         activo: true,
         fecha: {
           gte: inicio,
