@@ -11,6 +11,9 @@ import {
   Typography,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import { solicitudesExamenService } from "../../services/solicitudesExamenService";
 import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
 
@@ -125,6 +128,10 @@ export default function ExamenTeoricoAlumno() {
   const monthGrid = useMemo(() => buildMonthGrid(viewDate), [viewDate]);
 
   const canRequest = Boolean(eligibility?.canRequest);
+  const hasApprovedTheory = useMemo(
+    () => myRequests.some((item) => item.estado === "APTO"),
+    [myRequests],
+  );
 
   const columns = [
     {
@@ -272,112 +279,166 @@ export default function ExamenTeoricoAlumno() {
         </Paper>
       )}
 
-      <Paper sx={{ p: 2.5, mb: 3, border: "1px solid #e2e8f0" }}>
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          justifyContent="space-between"
-          alignItems={{ xs: "flex-start", sm: "center" }}
-          spacing={1}
-          sx={{ mb: 2 }}
-        >
-          <Typography variant="h6">Calendario de convocatorias DGT</Typography>
-          <Stack direction="row" spacing={1}>
-            <Button
-              size="small"
-              variant="outlined"
-              onClick={() => {
-                const prev = new Date(viewDate);
-                prev.setMonth(prev.getMonth() - 1);
-                setViewDate(prev);
-              }}
-            >
-              Mes anterior
-            </Button>
-            <Button
-              size="small"
-              variant="outlined"
-              onClick={() => {
-                const next = new Date(viewDate);
-                next.setMonth(next.getMonth() + 1);
-                setViewDate(next);
-              }}
-            >
-              Mes siguiente
-            </Button>
-          </Stack>
-        </Stack>
-
-        <Typography variant="subtitle1" sx={{ mb: 1.5, fontWeight: 600 }}>
-          {viewDate.toLocaleDateString("es-ES", {
-            month: "long",
-            year: "numeric",
-          })}
-        </Typography>
-
-        <Box
+      {hasApprovedTheory ? (
+        <Paper
           sx={{
-            display: "grid",
-            gridTemplateColumns: "repeat(7, minmax(0, 1fr))",
-            gap: 1,
+            p: 2.5,
+            mb: 3,
+            border: "1px solid #bbf7d0",
+            backgroundColor: "#f0fdf4",
           }}
         >
-          {WEEK_DAYS.map((label) => (
-            <Box
-              key={label}
-              sx={{
-                textAlign: "center",
-                fontWeight: 700,
-                color: "text.secondary",
-              }}
-            >
-              {label}
-            </Box>
-          ))}
-
-          {monthGrid.map((cell, index) => {
-            if (!cell) {
-              return <Box key={`empty-${index}`} sx={{ height: 44 }} />;
-            }
-
-            const key = toLocalDateKey(cell);
-            const isAvailable = availableDateSet.has(key);
-            const isSelected = selectedDate === key;
-
-            return (
-              <Button
-                key={key}
-                variant={isSelected ? "contained" : "outlined"}
-                color={isAvailable ? "primary" : "inherit"}
-                disabled={!isAvailable || !canRequest || loading}
-                onClick={() => setSelectedDate(key)}
-                sx={{ minWidth: 0, height: 44 }}
-              >
-                {cell.getDate()}
-              </Button>
-            );
-          })}
-        </Box>
-
-        <Divider sx={{ my: 2 }} />
-
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          spacing={1}
-          alignItems={{ xs: "stretch", sm: "center" }}
-        >
-          <Typography variant="body2" color="text.secondary" sx={{ flex: 1 }}>
-            Fecha seleccionada:{" "}
-            {selectedDate ? formatDate(selectedDate) : "ninguna"}
-          </Typography>
-          <Button
-            variant="contained"
-            onClick={handleRequest}
-            disabled={!canRequest || loading}
+          <Stack
+            direction="row"
+            spacing={1.5}
+            alignItems="center"
+            sx={{ mb: 1 }}
           >
-            Solicitar convocatoria
-          </Button>
-        </Stack>
-      </Paper>
+            <CheckCircleIcon color="success" />
+            <Typography variant="h6" sx={{ fontWeight: 700 }}>
+              Enhorabuena, ya has aprobado el teórico
+            </Typography>
+          </Stack>
+
+          <Typography variant="body1" sx={{ mb: 2 }}>
+            Ya no necesitas solicitar nuevas convocatorias teóricas. Ahora
+            puedes empezar con tu preparación práctica.
+          </Typography>
+
+          <Stack spacing={1.2}>
+            <Alert
+              icon={<DirectionsCarIcon fontSize="inherit" />}
+              severity="info"
+              variant="outlined"
+            >
+              Ya puedes comenzar a solicitar y organizar tus clases prácticas
+              con tu profesor.
+            </Alert>
+            <Alert
+              icon={<LocalOfferIcon fontSize="inherit" />}
+              severity="info"
+              variant="outlined"
+            >
+              Consulta los bonos de prácticas disponibles: suelen ofrecer un
+              mejor precio por clase al comprarlos en pack.
+            </Alert>
+            <Alert severity="success" variant="outlined">
+              Recomendación: habla con secretaría para planificar un itinerario
+              de clases y elegir el bono más conveniente según tu
+              disponibilidad.
+            </Alert>
+          </Stack>
+        </Paper>
+      ) : (
+        <Paper sx={{ p: 2.5, mb: 3, border: "1px solid #e2e8f0" }}>
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            justifyContent="space-between"
+            alignItems={{ xs: "flex-start", sm: "center" }}
+            spacing={1}
+            sx={{ mb: 2 }}
+          >
+            <Typography variant="h6">
+              Calendario de convocatorias DGT
+            </Typography>
+            <Stack direction="row" spacing={1}>
+              <Button
+                size="small"
+                variant="outlined"
+                onClick={() => {
+                  const prev = new Date(viewDate);
+                  prev.setMonth(prev.getMonth() - 1);
+                  setViewDate(prev);
+                }}
+              >
+                Mes anterior
+              </Button>
+              <Button
+                size="small"
+                variant="outlined"
+                onClick={() => {
+                  const next = new Date(viewDate);
+                  next.setMonth(next.getMonth() + 1);
+                  setViewDate(next);
+                }}
+              >
+                Mes siguiente
+              </Button>
+            </Stack>
+          </Stack>
+
+          <Typography variant="subtitle1" sx={{ mb: 1.5, fontWeight: 600 }}>
+            {viewDate.toLocaleDateString("es-ES", {
+              month: "long",
+              year: "numeric",
+            })}
+          </Typography>
+
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "repeat(7, minmax(0, 1fr))",
+              gap: 1,
+            }}
+          >
+            {WEEK_DAYS.map((label) => (
+              <Box
+                key={label}
+                sx={{
+                  textAlign: "center",
+                  fontWeight: 700,
+                  color: "text.secondary",
+                }}
+              >
+                {label}
+              </Box>
+            ))}
+
+            {monthGrid.map((cell, index) => {
+              if (!cell) {
+                return <Box key={`empty-${index}`} sx={{ height: 44 }} />;
+              }
+
+              const key = toLocalDateKey(cell);
+              const isAvailable = availableDateSet.has(key);
+              const isSelected = selectedDate === key;
+
+              return (
+                <Button
+                  key={key}
+                  variant={isSelected ? "contained" : "outlined"}
+                  color={isAvailable ? "primary" : "inherit"}
+                  disabled={!isAvailable || !canRequest || loading}
+                  onClick={() => setSelectedDate(key)}
+                  sx={{ minWidth: 0, height: 44 }}
+                >
+                  {cell.getDate()}
+                </Button>
+              );
+            })}
+          </Box>
+
+          <Divider sx={{ my: 2 }} />
+
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={1}
+            alignItems={{ xs: "stretch", sm: "center" }}
+          >
+            <Typography variant="body2" color="text.secondary" sx={{ flex: 1 }}>
+              Fecha seleccionada:{" "}
+              {selectedDate ? formatDate(selectedDate) : "ninguna"}
+            </Typography>
+            <Button
+              variant="contained"
+              onClick={handleRequest}
+              disabled={!canRequest || loading}
+            >
+              Solicitar convocatoria
+            </Button>
+          </Stack>
+        </Paper>
+      )}
 
       <Paper sx={{ p: 2.5, border: "1px solid #e2e8f0" }}>
         <Typography variant="h6" sx={{ mb: 1.5 }}>

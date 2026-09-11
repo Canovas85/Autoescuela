@@ -617,7 +617,7 @@ export default function ConvocatoriaExamen() {
               onChange={(event) =>
                 setForm((prev) => ({ ...prev, fecha: event.target.value }))
               }
-              InputLabelProps={{ shrink: true }}
+              InputLabelProps={{ shrink: false }}
               fullWidth
             />
 
