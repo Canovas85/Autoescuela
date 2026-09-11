@@ -87,6 +87,7 @@ function AdminDashboardView({ metrics }) {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
+                    width: 190,
                   }}
                 >
                   <Box>
@@ -120,65 +121,113 @@ function AdminDashboardView({ metrics }) {
       <Box sx={{ height: 20 }} />
 
       <Grid container spacing={3}>
-        <Grid xs={12} md={6}>
+        {/* Tarjeta 1: Profesor más activo */}
+        <Grid xs={12} sm={6} md={4} lg={3} key="profesor-activo">
           <Card>
             <CardContent>
-              <Typography color="text.secondary">
-                Profesor más activo
-              </Typography>
-
-              <Typography variant="h5" fontWeight="bold" sx={{ mt: 1 }}>
-                {metrics.topProfesorByClasses?.nombre ?? "Sin datos"}
-              </Typography>
-
-              <Typography variant="body1">
-                {metrics.topProfesorByClasses?.totalClases ?? 0} clases
-                impartidas
-              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  minHeight: 80, // Asegura una altura consistente con tu primer diseño
+                  width: 190,
+                }}
+              >
+                <Box>
+                  <Typography color="text.secondary">
+                    Profesor más activo
+                  </Typography>
+                  <Typography variant="h5" fontWeight="bold" sx={{ mt: 0.5 }}>
+                    {metrics.topProfesorByClasses?.nombre ?? "Sin datos"}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {metrics.topProfesorByClasses?.totalClases ?? 0} clases
+                    impartidas
+                  </Typography>
+                </Box>
+              </Box>
             </CardContent>
           </Card>
         </Grid>
 
-        <Grid xs={12} md={6}>
+        {/* Tarjeta 2: Profesor con más horas */}
+        <Grid xs={12} sm={6} md={4} lg={3} key="profesor-horas">
           <Card>
             <CardContent>
-              <Typography color="text.secondary">
-                Profesor con más horas
-              </Typography>
-
-              <Typography variant="h5" fontWeight="bold" sx={{ mt: 1 }}>
-                {metrics.topProfesorByHours?.nombre ?? "Sin datos"}
-              </Typography>
-
-              <Typography variant="body1">
-                {metrics.topProfesorByHours?.horas ?? 0} horas impartidas
-              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  minHeight: 80,
+                  width: 190,
+                }}
+              >
+                <Box>
+                  <Typography color="text.secondary">
+                    Profesor con más horas
+                  </Typography>
+                  <Typography variant="h5" fontWeight="bold" sx={{ mt: 0.5 }}>
+                    {metrics.topProfesorByHours?.nombre ?? "Sin datos"}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {metrics.topProfesorByHours?.horas ?? 0} horas impartidas
+                  </Typography>
+                </Box>
+              </Box>
             </CardContent>
           </Card>
         </Grid>
 
-        <Grid xs={12} md={6}>
+        {/* Tarjeta 3: Exámenes Programados */}
+        <Grid xs={12} sm={6} md={4} lg={3} key="examenes-programados">
           <Card>
             <CardContent>
-              <Typography color="text.secondary">
-                Exámenes Programados
-              </Typography>
-
-              <Typography variant="h4" fontWeight="bold">
-                {metrics.pendingExams ?? 0}
-              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  minHeight: 80,
+                  width: 190,
+                }}
+              >
+                <Box>
+                  <Typography color="text.secondary">
+                    Exámenes Programados
+                  </Typography>
+                  <Typography variant="h4" fontWeight="bold">
+                    {metrics.pendingExams ?? 0}
+                  </Typography>
+                </Box>
+              </Box>
             </CardContent>
           </Card>
         </Grid>
 
-        <Grid xs={12} md={6}>
+        {/* Tarjeta 4: Exámenes Este Mes */}
+        <Grid xs={12} sm={6} md={4} lg={3} key="examenes-mes">
           <Card>
             <CardContent>
-              <Typography color="text.secondary">Exámenes Este Mes</Typography>
-
-              <Typography variant="h4" fontWeight="bold">
-                {metrics.examsThisMonth ?? 0}
-              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  minHeight: 80,
+                  width: 190,
+                }}
+              >
+                <Box>
+                  <Typography color="text.secondary">
+                    Exámenes Este Mes
+                  </Typography>
+                  <Typography variant="h4" fontWeight="bold">
+                    {metrics.examsThisMonth ?? 0}
+                  </Typography>
+                </Box>
+              </Box>
             </CardContent>
           </Card>
         </Grid>
@@ -191,46 +240,98 @@ function AdminDashboardView({ metrics }) {
       <Box sx={{ height: 20 }} />
 
       <Grid container spacing={3}>
-        <Grid xs={12} md={3}>
+        {/* Tarjeta 1: Tests Hoy */}
+        <Grid xs={12} sm={6} md={3} key="tests-hoy">
           <Card>
             <CardContent>
-              <Typography color="text.secondary">Tests Hoy</Typography>
-
-              <Typography variant="h4">{metrics.dgtTestsToday ?? 0}</Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  minHeight: 80, // Mantiene la misma altura que los bloques anteriores
+                  width: 100,
+                }}
+              >
+                <Box>
+                  <Typography color="text.secondary">Tests Hoy</Typography>
+                  <Typography variant="h4" fontWeight="bold">
+                    {metrics.dgtTestsToday ?? 0}
+                  </Typography>
+                </Box>
+              </Box>
             </CardContent>
           </Card>
         </Grid>
 
-        <Grid xs={12} md={3}>
+        {/* Tarjeta 2: Tests Mes */}
+        <Grid xs={12} sm={6} md={3} key="tests-mes">
           <Card>
             <CardContent>
-              <Typography color="text.secondary">Tests Mes</Typography>
-
-              <Typography variant="h4">
-                {metrics.dgtTestsThisMonth ?? 0}
-              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  minHeight: 80,
+                  width: 100,
+                }}
+              >
+                <Box>
+                  <Typography color="text.secondary">Tests Mes</Typography>
+                  <Typography variant="h4" fontWeight="bold">
+                    {metrics.dgtTestsThisMonth ?? 0}
+                  </Typography>
+                </Box>
+              </Box>
             </CardContent>
           </Card>
         </Grid>
 
-        <Grid xs={12} md={3}>
+        {/* Tarjeta 3: % Aprobados */}
+        <Grid xs={12} sm={6} md={3} key="porcentaje-aprobados">
           <Card>
             <CardContent>
-              <Typography color="text.secondary">% Aprobados</Typography>
-
-              <Typography variant="h4">
-                {metrics.dgtSuccessRate?.toFixed(1)}%
-              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  minHeight: 80,
+                  width: 100,
+                }}
+              >
+                <Box>
+                  <Typography color="text.secondary">% Aprobados</Typography>
+                  <Typography variant="h4" fontWeight="bold">
+                    {metrics.dgtSuccessRate?.toFixed(1)}%
+                  </Typography>
+                </Box>
+              </Box>
             </CardContent>
           </Card>
         </Grid>
 
-        <Grid xs={12} md={3}>
+        {/* Tarjeta 4: Total Tests */}
+        <Grid xs={12} sm={6} md={3} key="total-tests">
           <Card>
             <CardContent>
-              <Typography color="text.secondary">Total Tests</Typography>
-
-              <Typography variant="h4">{metrics.totalDgtTests ?? 0}</Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  minHeight: 80,
+                  width: 100,
+                }}
+              >
+                <Box>
+                  <Typography color="text.secondary">Total Tests</Typography>
+                  <Typography variant="h4" fontWeight="bold">
+                    {metrics.totalDgtTests ?? 0}
+                  </Typography>
+                </Box>
+              </Box>
             </CardContent>
           </Card>
         </Grid>
@@ -292,50 +393,47 @@ function AdminDashboardView({ metrics }) {
 
       <Box sx={{ height: 40 }} />
 
-      <Typography variant="h5" fontWeight="bold">
-        Evolución de aprobados
-      </Typography>
-
-      <Box sx={{ height: 20 }} />
-
-      <Card
+      <Grid
+        container
         sx={{
-          width: 900,
-          maxWidth: "100%",
-          p: 2,
+          display: "grid",
+          gridTemplateColumns: "40% 40%", // 🔥 Ajusta estos valores según tus líneas roja/negra
+          gap: 20,
+          width: "100%",
+          alignItems: "stretch",
         }}
       >
-        <SuccessChart />
-      </Card>
+        {/* Columna izquierda: Evolución DGT */}
+        <Box>
+          <Typography variant="h5" fontWeight="bold">
+            Evolución DGT
+          </Typography>
 
-      <Box sx={{ height: 40 }} />
+          <Box sx={{ height: 20 }} />
 
-      <Typography variant="h5" fontWeight="bold">
-        Evolución DGT
-      </Typography>
+          <Card sx={{ p: 2, height: "100%", width: "100%" }}>
+            <DGTChart data={metrics.dgtEvolution || []} />
+          </Card>
+        </Box>
 
-      <Box sx={{ height: 20 }} />
+        {/* Columna derecha: Distribución DGT */}
+        <Box>
+          <Typography variant="h5" fontWeight="bold">
+            Distribución DGT
+          </Typography>
 
-      <Card sx={{ p: 2 }}>
-        <DGTChart data={metrics.dgtEvolution || []} />
-      </Card>
+          <Box sx={{ height: 20 }} />
 
-      <Box sx={{ height: 40 }} />
+          <Card sx={{ p: 2, height: "100%", width: "100%" }}>
+            <DGTSummaryChart
+              aprobados={metrics.dgtSummary?.aprobados ?? 0}
+              suspendidos={metrics.dgtSummary?.suspendidos ?? 0}
+            />
+          </Card>
+        </Box>
+      </Grid>
 
-      <Typography variant="h5" fontWeight="bold">
-        Distribución DGT
-      </Typography>
-
-      <Box sx={{ height: 20 }} />
-
-      <Card sx={{ p: 2 }}>
-        <DGTSummaryChart
-          aprobados={metrics.dgtSummary?.aprobados ?? 0}
-          suspendidos={metrics.dgtSummary?.suspendidos ?? 0}
-        />
-      </Card>
-
-      <Box sx={{ height: 40 }} />
+      <Box sx={{ height: 40, mt: 4 }} />
       <Typography variant="h5" fontWeight="bold">
         Actividad reciente
       </Typography>

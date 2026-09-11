@@ -429,7 +429,7 @@ export default function StudentDashboard({ data }) {
                 subtitle="Información principal asociada a tu cuenta y a tu expediente en la autoescuela."
               />
 
-              <Grid container spacing={1.5}>
+              <Grid container spacing={2.5}>
                 {[
                   ["Nombre", perfil.nombre],
                   ["DNI", perfil.dni || "No informado"],
@@ -448,6 +448,7 @@ export default function StudentDashboard({ data }) {
                         borderRadius: 1,
                         backgroundColor: "#f8fafc",
                         border: "1px solid rgba(148, 163, 184, 0.18)",
+                        width: "238px",
                       }}
                     >
                       <Typography variant="body2" color="text.secondary">
@@ -484,8 +485,8 @@ export default function StudentDashboard({ data }) {
         </Grid>
 
         <Grid item xs={12} md={4}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+          <Grid container spacing={3.2}>
+            <Grid item xs={12} sm={6} sx={{ width: 230 }}>
               <DashboardStatCard
                 icon={<CreditCardIcon />}
                 title="Matrícula"
@@ -498,7 +499,7 @@ export default function StudentDashboard({ data }) {
                 color={resumen.matricula === "PAGADA" ? "#16a34a" : "#f59e0b"}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} sx={{ width: 239 }}>
               <DashboardStatCard
                 icon={<AssignmentIcon />}
                 title="Tests de práctica"
@@ -507,7 +508,7 @@ export default function StudentDashboard({ data }) {
                 color="#2563eb"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} sx={{ width: 239 }}>
               <DashboardStatCard
                 icon={<WorkspacePremiumIcon />}
                 title="Test DGT"
@@ -516,7 +517,7 @@ export default function StudentDashboard({ data }) {
                 color="#0891b2"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} sx={{ width: 239 }}>
               <DashboardStatCard
                 icon={<VerifiedIcon />}
                 title="Convocatorias DGT"
@@ -525,7 +526,7 @@ export default function StudentDashboard({ data }) {
                 color="#0284c7"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} sx={{ width: 239 }}>
               <DashboardStatCard
                 icon={<DirectionsCarIcon />}
                 title="Clases compradas"
@@ -534,7 +535,7 @@ export default function StudentDashboard({ data }) {
                 color="#0f172a"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} sx={{ width: 239 }}>
               <DashboardStatCard
                 icon={<EventAvailableIcon />}
                 title="Reservas activas"
@@ -557,6 +558,7 @@ export default function StudentDashboard({ data }) {
               flexDirection: "column",
               border: "1px solid rgba(148, 163, 184, 0.18)",
               boxShadow: "0 14px 32px rgba(15, 23, 42, 0.04)",
+              width: "680px",
             }}
           >
             <CardContent
@@ -902,6 +904,7 @@ export default function StudentDashboard({ data }) {
               height: "100%",
               border: "1px solid rgba(148, 163, 184, 0.18)",
               boxShadow: "0 14px 32px rgba(15, 23, 42, 0.04)",
+              width: "680px",
             }}
           >
             <CardContent sx={{ py: 2, "&:last-child": { pb: 2 } }}>
@@ -1084,6 +1087,7 @@ export default function StudentDashboard({ data }) {
                 height: "100%",
                 border: "1px solid rgba(148, 163, 184, 0.18)",
                 boxShadow: "0 14px 32px rgba(15, 23, 42, 0.04)",
+                width: "860px",
               }}
             >
               <CardContent
@@ -1169,6 +1173,7 @@ export default function StudentDashboard({ data }) {
                 width: "100%",
                 border: "1px solid rgba(148, 163, 184, 0.18)",
                 boxShadow: "0 14px 32px rgba(15, 23, 42, 0.04)",
+                width: "860px",
               }}
             >
               <CardContent

@@ -108,7 +108,7 @@ export default function ProfessorDashboard({ data }) {
       </Box>
 
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} lg={4}>
+        <Grid item xs={12} sm={6} lg={4} sx={{ width: 365 }}>
           <StatCard
             title="Alumnos Asignados"
             value={resumen.alumnosAsignados ?? 0}
@@ -118,7 +118,7 @@ export default function ProfessorDashboard({ data }) {
           />
         </Grid>
 
-        <Grid item xs={12} sm={6} lg={4}>
+        <Grid item xs={12} sm={6} lg={4} sx={{ width: 365 }}>
           <StatCard
             title="Matrículas Pagadas"
             value={resumen.alumnosMatriculaPagada ?? 0}
@@ -128,7 +128,7 @@ export default function ProfessorDashboard({ data }) {
           />
         </Grid>
 
-        <Grid item xs={12} sm={6} lg={4}>
+        <Grid item xs={12} sm={6} lg={4} sx={{ width: 365 }}>
           <StatCard
             title="Vehículos Disponibles"
             value={resumen.vehiculosDisponibles ?? 0}
@@ -163,6 +163,7 @@ export default function ProfessorDashboard({ data }) {
                   sx={{
                     height: "100%",
                     borderRadius: 2,
+                    width: 365,
                   }}
                 >
                   <CardContent>
@@ -229,6 +230,7 @@ export default function ProfessorDashboard({ data }) {
                   sx={{
                     height: "100%",
                     borderRadius: 2,
+                    width: 365,
                   }}
                 >
                   <CardContent>

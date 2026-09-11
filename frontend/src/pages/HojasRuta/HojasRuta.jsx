@@ -196,17 +196,15 @@ function RoadmapDetail({
         </Box>
       </Stack>
 
-      <Card sx={statCardSx}>
+      <Card sx={{ ...statCardSx, width: 1018 }}>
         <CardContent>
           <Grid container spacing={2.25}>
             <Grid item xs={12} md={4}>
               <Stack direction="row" spacing={1.25} alignItems="center">
                 <PersonIcon fontSize="small" />
                 <Box>
-                  <Typography variant="caption" color="text.secondary">
-                    Alumno
-                  </Typography>
-                  <Typography fontWeight={700}>
+                  <Typography color="text.secondary">Alumno</Typography>
+                  <Typography fontWeight={100}>
                     {value.alumno?.nombre}
                   </Typography>
                 </Box>
@@ -216,9 +214,7 @@ function RoadmapDetail({
               <Stack direction="row" spacing={1.25} alignItems="center">
                 <DirectionsCarIcon fontSize="small" />
                 <Box>
-                  <Typography variant="caption" color="text.secondary">
-                    Vehículo
-                  </Typography>
+                  <Typography color="text.secondary">Vehículo</Typography>
                   <Typography fontWeight={700}>
                     {value.vehiculo?.marca} {value.vehiculo?.modelo}{" "}
                     {value.vehiculo?.matricula}
@@ -230,9 +226,7 @@ function RoadmapDetail({
               <Stack direction="row" spacing={1.25} alignItems="center">
                 <CalendarMonthIcon fontSize="small" />
                 <Box>
-                  <Typography variant="caption" color="text.secondary">
-                    Fecha
-                  </Typography>
+                  <Typography color="text.secondary">Fecha</Typography>
                   <Typography fontWeight={700}>
                     {formatDate(value.fecha)}
                   </Typography>
@@ -243,9 +237,7 @@ function RoadmapDetail({
               <Stack direction="row" spacing={1.25} alignItems="center">
                 <AccessTimeIcon fontSize="small" />
                 <Box>
-                  <Typography variant="caption" color="text.secondary">
-                    Duración
-                  </Typography>
+                  <Typography color="text.secondary">Duración</Typography>
                   <Typography fontWeight={700}>
                     {value.duracion ? `${value.duracion} min` : "-"}
                   </Typography>
@@ -256,9 +248,7 @@ function RoadmapDetail({
               <Stack direction="row" spacing={1.25} alignItems="center">
                 <PersonIcon fontSize="small" />
                 <Box>
-                  <Typography variant="caption" color="text.secondary">
-                    Profesor
-                  </Typography>
+                  <Typography color="text.secondary">Profesor</Typography>
                   <Typography fontWeight={700}>
                     {value.profesor?.nombre}
                   </Typography>
@@ -271,9 +261,9 @@ function RoadmapDetail({
 
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
-          <Card sx={statCardSx}>
+          <Card sx={{ ...statCardSx, width: 500 }}>
             <CardContent>
-              <Typography fontWeight={700} sx={{ mb: 1 }}>
+              <Typography fontWeight={800} sx={{ mb: 1 }}>
                 Kilómetros
               </Typography>
               <Grid container spacing={1}>
@@ -324,9 +314,9 @@ function RoadmapDetail({
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <Card sx={statCardSx}>
+          <Card sx={{ ...statCardSx, width: 500 }}>
             <CardContent>
-              <Typography fontWeight={700} sx={{ mb: 1 }}>
+              <Typography fontWeight={800} sx={{ mb: 1 }}>
                 Combustible
               </Typography>
               <Stack spacing={1.5}>
@@ -452,7 +442,12 @@ function RoadmapDetail({
                   Leves
                 </Typography>
                 <Typography
-                  sx={{ color: "#1e7a34", fontWeight: 800, fontSize: 24 }}
+                  sx={{
+                    color: "#1e7a34",
+                    fontWeight: 800,
+                    fontSize: 24,
+                    width: 100,
+                  }}
                 >
                   {faultCounts.leves}
                 </Typography>
@@ -473,7 +468,12 @@ function RoadmapDetail({
                   Deficientes
                 </Typography>
                 <Typography
-                  sx={{ color: "#ae6500", fontWeight: 800, fontSize: 24 }}
+                  sx={{
+                    color: "#ae6500",
+                    fontWeight: 800,
+                    fontSize: 24,
+                    width: 100,
+                  }}
                 >
                   {faultCounts.deficientes}
                 </Typography>
@@ -494,7 +494,12 @@ function RoadmapDetail({
                   Eliminatorias
                 </Typography>
                 <Typography
-                  sx={{ color: "#b42318", fontWeight: 800, fontSize: 24 }}
+                  sx={{
+                    color: "#b42318",
+                    fontWeight: 800,
+                    fontSize: 24,
+                    width: 100,
+                  }}
                 >
                   {faultCounts.eliminatorias}
                 </Typography>
@@ -1285,7 +1290,7 @@ export default function HojasRuta() {
     if (viewRoadmapId) {
       return (
         <RoadmapDetail
-          title="Detalle hoja de ruta (administrador)"
+          title="Detalle hoja de ruta"
           readonly
           value={detailData}
           onBack={() => setParam("roadmapId", null)}
@@ -1305,7 +1310,7 @@ export default function HojasRuta() {
             <IconButton onClick={() => setParam("alumnoId", null)}>
               <ArrowBackIcon />
             </IconButton>
-            <Typography variant="h5" fontWeight={800}>
+            <Typography variant="h4" fontWeight={800}>
               Hojas registradas del alumno
             </Typography>
           </Stack>
@@ -1382,7 +1387,7 @@ export default function HojasRuta() {
             <IconButton onClick={() => setParam("profesorId", null)}>
               <ArrowBackIcon />
             </IconButton>
-            <Typography variant="h5" fontWeight={800}>
+            <Typography variant="h4" fontWeight={800}>
               Alumnos del profesor
             </Typography>
           </Stack>
@@ -1600,8 +1605,6 @@ export default function HojasRuta() {
           {notification}
         </Alert>
       ) : null}
-
-      <Divider />
 
       {role === "PROFESOR" && viewClaseId ? (
         <RoadmapDetail
