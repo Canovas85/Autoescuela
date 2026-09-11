@@ -203,9 +203,11 @@ export default function ProfesorAlumnos() {
                   Datos personales
                 </Typography>
                 <Typography fontWeight={700}>
-                  {detail?.perfil?.nombre}
+                  Nombre: {detail?.perfil?.nombre}
                 </Typography>
-                <Typography variant="body2">{detail?.perfil?.email}</Typography>
+                <Typography variant="body2">
+                  Email: {detail?.perfil?.email}
+                </Typography>
                 <Typography variant="body2">
                   Teléfono: {detail?.perfil?.telefono || "-"}
                 </Typography>
@@ -300,8 +302,11 @@ export default function ProfesorAlumnos() {
                   <Stack spacing={1}>
                     {detail.practica.proximasClases.map((clase) => (
                       <Typography key={clase.id} variant="body2">
-                        {formatDateTime(clase.fecha)} | {clase.duracion} min |{" "}
-                        {clase.vehiculo?.matricula || "Sin vehículo"}
+                        Fecha:{formatDateTime(clase.fecha)} | Duración:{" "}
+                        {clase.duracion} min | Vehículo:{" "}
+                        {clase.vehiculo?.marca || "Sin vehículo"}{" "}
+                        {clase.vehiculo?.modelo || "Sin vehículo"}{" "}
+                        {clase.vehiculo?.matricula || "Sin matrícula"}
                       </Typography>
                     ))}
                   </Stack>

@@ -95,12 +95,12 @@ const menus = {
           icon: <DescriptionIcon fontSize="small" />,
         },
         {
-          label: "Convocatorias Teórico / Práctico",
+          label: "Convocatorias",
           path: "/convocatorias-examen",
           icon: <CalendarMonthIcon fontSize="small" />,
         },
         {
-          label: "Solicitud Examen Practico / Teórico",
+          label: "Solicitud Examen",
           path: "/solicitudes-examen-practico",
           icon: <EditDocumentIcon fontSize="small" />,
         },
@@ -219,6 +219,7 @@ const menus = {
           label: "Informes",
           path: "/informes",
           icon: <AssessmentIcon fontSize="small" />,
+          disabled: true,
         },
       ],
     },

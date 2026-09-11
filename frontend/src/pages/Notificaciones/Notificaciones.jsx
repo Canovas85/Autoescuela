@@ -142,11 +142,14 @@ export default function Notificaciones() {
                 <Stack
                   direction="row"
                   justifyContent="space-between"
+                  spacing={3}
                   alignItems="center"
                   sx={{ mb: 0.7 }}
                 >
-                  <Typography fontWeight={800}>{item.titulo}</Typography>
-                  <Stack direction="row" spacing={1} alignItems="center">
+                  <Typography fontWeight={800} sx={{ mb: 1 }}>
+                    {item.titulo}{" "}
+                  </Typography>
+                  <Stack direction="row" spacing={3} alignItems="center">
                     <Chip
                       label={item.tipo}
                       color={colorByType(item.tipo)}
@@ -160,7 +163,7 @@ export default function Notificaciones() {
                   </Stack>
                 </Stack>
 
-                <Typography variant="body2" sx={{ mb: 1 }}>
+                <Typography variant="body2" sx={{ mb: 1, mt: 3 }}>
                   {item.mensaje}
                 </Typography>
 
@@ -169,11 +172,19 @@ export default function Notificaciones() {
                   justifyContent="space-between"
                   alignItems="center"
                 >
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography
+                    variant="caption"
+                    color="text.secondary"
+                    sx={{ mt: 2 }}
+                  >
                     {formatDate(item.createdAt)}
                   </Typography>
                   {!item.leida ? (
-                    <Button size="small" onClick={() => markOneAsRead(item.id)}>
+                    <Button
+                      size="small"
+                      onClick={() => markOneAsRead(item.id)}
+                      sx={{ ml: 5, mt: 0.3 }}
+                    >
                       Marcar como leída
                     </Button>
                   ) : null}
