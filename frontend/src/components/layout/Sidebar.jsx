@@ -36,6 +36,7 @@ import EventNoteIcon from "@mui/icons-material/EventNote";
 import GroupIcon from "@mui/icons-material/Group";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import CommuteIcon from "@mui/icons-material/Commute";
+import EditDocumentIcon from "@mui/icons-material/EditDocument";
 
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
@@ -49,11 +50,12 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import DescriptionIcon from "@mui/icons-material/Description";
+import NewReleasesIcon from "@mui/icons-material/NewReleases";
 
 import { matriculasService } from "../../services/matriculasService";
 import { notificacionesService } from "../../services/notificacionesService";
 
-const drawerWidth = 240;
+const drawerWidth = 300;
 
 const menus = {
   ADMIN: [
@@ -64,7 +66,7 @@ const menus = {
     },
     {
       label: "Notificaciones",
-      icon: <EventNoteIcon />,
+      icon: <NewReleasesIcon />,
       path: "/notificaciones",
     },
 
@@ -86,6 +88,21 @@ const menus = {
           label: "Vehículos",
           path: "/vehiculos",
           icon: <DirectionsCarFilledIcon fontSize="small" />,
+        },
+        {
+          label: "Documentación",
+          path: "/documentos-alumno-admin",
+          icon: <DescriptionIcon fontSize="small" />,
+        },
+        {
+          label: "Convocatorias Teórico / Práctico",
+          path: "/convocatorias-teorico",
+          icon: <CalendarMonthIcon fontSize="small" />,
+        },
+        {
+          label: "Solicitud Examen Practico / Teórico",
+          path: "/solicitudes-examen-practico",
+          icon: <EditDocumentIcon fontSize="small" />,
         },
         {
           label: "Otros Usuarios",
@@ -147,11 +164,6 @@ const menus = {
           path: "/test-dgt",
           icon: <QuizIcon fontSize="small" />,
         },
-        {
-          label: "Convocatorias Teórico",
-          path: "/convocatorias-teorico",
-          icon: <ArticleIcon fontSize="small" />,
-        },
       ],
     },
 
@@ -162,12 +174,7 @@ const menus = {
         {
           label: "Hojas de Ruta",
           path: "/hojas-ruta",
-          icon: <ReceiptLongIcon fontSize="small" />,
-        },
-        {
-          label: "Solicitud Examen Practico",
-          path: "/solicitudes-examen-practico",
-          icon: <ArticleIcon fontSize="small" />,
+          icon: <AssignmentIcon fontSize="small" />,
         },
       ],
     },
@@ -215,17 +222,6 @@ const menus = {
         },
       ],
     },
-    {
-      label: "Documentación",
-      icon: <DescriptionIcon />,
-      children: [
-        {
-          label: "Documentos alumnos",
-          path: "/documentos-alumno-admin",
-          icon: <DescriptionIcon fontSize="small" />,
-        },
-      ],
-    },
   ],
 
   PROFESOR: [
@@ -237,7 +233,7 @@ const menus = {
 
     {
       label: "Notificaciones",
-      icon: <EventNoteIcon />,
+      icon: <NewReleasesIcon />,
       path: "/notificaciones",
     },
 
@@ -279,8 +275,13 @@ const menus = {
       path: "/dashboard",
     },
     {
+      label: "Mis documentos",
+      icon: <DescriptionIcon />,
+      path: "/mis-documentos",
+    },
+    {
       label: "Notificaciones",
-      icon: <EventNoteIcon />,
+      icon: <NewReleasesIcon />,
       path: "/notificaciones",
     },
 
@@ -322,7 +323,7 @@ const menus = {
         },
         {
           label: "Hoja Ruta",
-          path: "/evolucion",
+          path: "/AssignmentIcon",
           icon: <AssignmentOutlinedIcon fontSize="small" />,
         },
       ],
@@ -367,12 +368,7 @@ const menus = {
         {
           label: "Mis Facturas",
           path: "/mis-facturas",
-          icon: <ReceiptIcon fontSize="small" />,
-        },
-        {
-          label: "Mis documentos",
-          path: "/mis-documentos",
-          icon: <DescriptionIcon fontSize="small" />,
+          icon: <ReceiptLongIcon fontSize="small" />,
         },
       ],
     },
