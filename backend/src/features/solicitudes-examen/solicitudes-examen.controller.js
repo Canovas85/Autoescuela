@@ -47,6 +47,22 @@ export class SolicitudesExamenController {
     return res.status(200).json(calendar);
   }
 
+  async getPracticalEligibility(req, res) {
+    const eligibility = await this.service.getPracticalEligibilityForStudent(
+      req.user.id,
+    );
+
+    return res.status(200).json(eligibility);
+  }
+
+  async getPracticalCalendar(req, res) {
+    const calendar = await this.service.getPracticalCalendarForStudent(
+      req.user.id,
+    );
+
+    return res.status(200).json(calendar);
+  }
+
   async createTheoreticalRequest(req, res) {
     try {
       const solicitud = await this.service.createTheoreticalRequestForStudent(
@@ -55,6 +71,32 @@ export class SolicitudesExamenController {
       );
 
       return res.status(201).json(solicitud);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  }
+
+  async createPracticalRequest(req, res) {
+    try {
+      const solicitud = await this.service.createPracticalRequestForStudent(
+        req.user.id,
+        req.body,
+      );
+
+      return res.status(201).json(solicitud);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  }
+
+  async cancelPracticalRequest(req, res) {
+    try {
+      const solicitud = await this.service.cancelPracticalRequestForStudent(
+        req.user.id,
+        req.params.id,
+      );
+
+      return res.status(200).json(solicitud);
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }

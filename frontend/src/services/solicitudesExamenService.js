@@ -52,4 +52,33 @@ export const solicitudesExamenService = {
     );
     return response.data;
   },
+
+  async getPracticalEligibility() {
+    const response = await api.get(
+      "/solicitudes-examen/mine/practico/eligibilidad",
+    );
+    return response.data;
+  },
+
+  async getPracticalCalendar() {
+    const response = await api.get(
+      "/solicitudes-examen/mine/practico/calendario",
+    );
+    return response.data;
+  },
+
+  async requestPracticalExam(data) {
+    const response = await api.post(
+      "/solicitudes-examen/mine/practico/solicitar",
+      data,
+    );
+    return response.data;
+  },
+
+  async cancelPracticalRequest(id) {
+    const response = await api.patch(
+      `/solicitudes-examen/mine/practico/solicitudes/${id}/cancelar`,
+    );
+    return response.data;
+  },
 };

@@ -688,8 +688,6 @@ export class ClasesService {
       } else {
         compraBonoUsada = disponibles[0].id;
       }
-
-      await this.repository.decrementBonoClass(compraBonoUsada);
     }
 
     if (clase.metodoPago === "INDIVIDUAL") {
@@ -784,21 +782,6 @@ export class ClasesService {
       );
     }
 
-    if (
-      clase.estado === "CONFIRMADA" &&
-      clase.metodoPago === "BONO" &&
-      clase.compraBonoId
-    ) {
-      const compra = await this.repository.findCompraBonoByIdForAlumno(
-        clase.compraBonoId,
-        clase.alumnoId,
-      );
-
-      if (compra && compra.clasesConsumidas > 0) {
-        await this.repository.incrementBonoClass(clase.compraBonoId);
-      }
-    }
-
     const pago = await this.repository.findPaymentByClassId(clase.id);
     if (pago && pago.estado === "PENDIENTE") {
       await this.repository.updatePaymentById(pago.id, {
@@ -857,21 +840,6 @@ export class ClasesService {
     const conPenalizacion = clase.estado === "CONFIRMADA" && diffHours <= 24;
 
     const pago = await this.repository.findPaymentByClassId(clase.id);
-
-    if (clase.metodoPago === "BONO" && clase.compraBonoId) {
-      const compra = await this.repository.findCompraBonoByIdForAlumno(
-        clase.compraBonoId,
-        alumnoId,
-      );
-
-      if (!conPenalizacion && compra && compra.clasesConsumidas > 0) {
-        await this.repository.incrementBonoClass(clase.compraBonoId);
-      }
-
-      if (conPenalizacion && (!compra || compra.clasesConsumidas <= 0)) {
-        await this.repository.decrementBonoClass(clase.compraBonoId);
-      }
-    }
 
     if (clase.metodoPago === "INDIVIDUAL") {
       if (!conPenalizacion && pago?.estado === "PENDIENTE") {

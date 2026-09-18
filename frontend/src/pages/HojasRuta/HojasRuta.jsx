@@ -417,6 +417,7 @@ function RoadmapDetail({
             </Typography>
             {!readonly ? (
               <Button
+                sx={{ ml: 2 }}
                 variant="contained"
                 startIcon={<AddIcon />}
                 onClick={() => setFaultDialogOpen(true)}
@@ -729,9 +730,16 @@ function RoadmapDetail({
       >
         <DialogTitle>Añadir falta</DialogTitle>
         <DialogContent
-          sx={{ display: "flex", flexDirection: "column", gap: 1.5, pt: 1 }}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 1.5,
+            pt: 1,
+            px: 3,
+          }}
         >
           <TextField
+            sx={{ mt: 2 }}
             label="Hora"
             type="time"
             value={faultDraft.hora}

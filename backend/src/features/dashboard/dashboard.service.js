@@ -1,3 +1,5 @@
+import { getCapacidadCombustibleByPermiso } from "../../shared/utils/vehiculo-combustible.js";
+
 export class DashboardService {
   constructor(repository) {
     this.repository = repository;
@@ -357,19 +359,11 @@ export class DashboardService {
     let convocatoriasDisponibles = 0;
 
     if (ultimoPagoDgtPagado) {
-      const fechaBaseConvocatorias =
-        ultimoPagoDgtPagado.fechaPago ||
-        ultimoPagoDgtPagado.fechaCreacion ||
-        new Date();
-
-      const suspensosDesdeUltimoPago =
-        await this.repository.countStudentExamSuspensosFromDate(
-          dashboard.profile.id,
-          fechaBaseConvocatorias,
-        );
-
+      convocatoriasConsumidas = Number(
+        ultimoPagoDgtPagado.convocatoriasConsumidas || 0,
+      );
       convocatoriasConsumidas = Math.min(
-        suspensosDesdeUltimoPago,
+        Math.max(convocatoriasConsumidas, 0),
         convocatoriasIncluidas,
       );
 
@@ -567,6 +561,11 @@ export class DashboardService {
       marca: vehiculo.marca,
       modelo: vehiculo.modelo,
       tipoPermiso: vehiculo.tipoPermiso,
+      kmActuales: vehiculo.kmActuales,
+      combustibleActualPct: vehiculo.combustibleActualPct,
+      capacidadCombustibleLitros: getCapacidadCombustibleByPermiso(
+        vehiculo.tipoPermiso,
+      ),
     }));
 
     const alumnosMatriculaPagada = alumnos.filter(
@@ -747,6 +746,11 @@ export class DashboardService {
       marca: vehiculo.marca,
       modelo: vehiculo.modelo,
       tipoPermiso: vehiculo.tipoPermiso,
+      kmActuales: vehiculo.kmActuales,
+      combustibleActualPct: vehiculo.combustibleActualPct,
+      capacidadCombustibleLitros: getCapacidadCombustibleByPermiso(
+        vehiculo.tipoPermiso,
+      ),
     }));
   }
 
@@ -795,6 +799,11 @@ export class DashboardService {
         marca: vehiculo.marca,
         modelo: vehiculo.modelo,
         tipoPermiso: vehiculo.tipoPermiso,
+        kmActuales: vehiculo.kmActuales,
+        combustibleActualPct: vehiculo.combustibleActualPct,
+        capacidadCombustibleLitros: getCapacidadCombustibleByPermiso(
+          vehiculo.tipoPermiso,
+        ),
       },
       reservas,
     };

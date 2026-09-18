@@ -3,6 +3,42 @@ export class PagosRepository {
     this.prisma = prisma;
   }
 
+  async createOrUpdateFacturaPagada(tx, pago, numeroFacturaPago, fechaPago) {
+    const facturaExistente = await tx.factura.findUnique({
+      where: {
+        numero: numeroFacturaPago,
+      },
+    });
+
+    if (facturaExistente) {
+      return tx.factura.update({
+        where: {
+          numero: numeroFacturaPago,
+        },
+        data: {
+          estado: "PAGADA",
+          fechaPago,
+        },
+      });
+    }
+
+    return tx.factura.create({
+      data: {
+        numero: numeroFacturaPago,
+        alumnoId: pago.alumnoId,
+        matriculaId: pago.matriculaId,
+        compraBonoId: pago.compraBonoId,
+        clasePracticaId: pago.clasePracticaId,
+        concepto: pago.concepto,
+        baseImponible: pago.importe,
+        descuento: 0,
+        total: pago.importe,
+        estado: "PAGADA",
+        fechaPago,
+      },
+    });
+  }
+
   addDays(baseDate, days) {
     const fecha = new Date(baseDate);
     fecha.setDate(fecha.getDate() + Number(days));
@@ -73,102 +109,25 @@ export class PagosRepository {
   }
 
   async pay(id) {
-    if (typeof this.prisma.$transaction !== "function") {
-      const fechaPago = new Date();
-      const pago = await this.prisma.pago.update({
-        where: {
-          id,
-        },
-        data: {
-          estado: "PAGADO",
-          fechaPago,
-          numeroFacturaPago: this.generarNumeroFacturaPago(),
-        },
-        include: {
-          clasePractica: true,
-          compraBono: {
-            include: {
-              bono: true,
-            },
-          },
-        },
-      });
-
-      if (pago.compraBonoId && pago.compraBono?.bono) {
-        const fechaValidezHasta = this.addDays(
-          fechaPago,
-          pago.compraBono.bono.validezDias,
-        );
-
-        await this.prisma.compraBono.update({
-          where: {
-            id: pago.compraBonoId,
-          },
-          data: {
-            pagado: true,
-            fechaCompra: fechaPago,
-            fechaValidezHasta,
-          },
-        });
-
-        await this.prisma.factura.create({
-          data: {
-            numero: pago.numeroFacturaPago,
-            alumnoId: pago.alumnoId,
-            compraBonoId: pago.compraBonoId,
-            concepto: pago.concepto,
-            baseImponible: pago.importe,
-            descuento: 0,
-            total: pago.importe,
-            estado: "PAGADA",
-            fechaPago,
-          },
-        });
-      }
-
-      if (pago.matriculaId) {
-        await this.prisma.factura.create({
-          data: {
-            numero: pago.numeroFacturaPago,
-            alumnoId: pago.alumnoId,
-            matriculaId: pago.matriculaId,
-            clasePracticaId: pago.clasePracticaId,
-            concepto: pago.concepto,
-            baseImponible: pago.importe,
-            descuento: 0,
-            total: pago.importe,
-            estado: "PAGADA",
-            fechaPago,
-          },
-        });
-      }
-
-      if (pago.clasePracticaId && !pago.matriculaId && !pago.compraBonoId) {
-        await this.prisma.factura.create({
-          data: {
-            numero: pago.numeroFacturaPago,
-            alumnoId: pago.alumnoId,
-            clasePracticaId: pago.clasePracticaId,
-            concepto: pago.concepto,
-            baseImponible: pago.importe,
-            descuento: 0,
-            total: pago.importe,
-            estado: "PAGADA",
-            fechaPago,
-          },
-        });
-      }
-
-      return pago;
-    }
-
-    return this.prisma.$transaction(async (tx) => {
+    const runPay = async (tx) => {
       const fechaPago = new Date();
       let pagoActualizado = null;
       let attempt = 0;
 
+      const pagoActual = await tx.pago.findUnique({
+        where: {
+          id,
+        },
+      });
+
+      if (!pagoActual) {
+        throw new Error("Pago no encontrado");
+      }
+
       while (attempt < 3) {
-        const numeroFacturaPago = this.generarNumeroFacturaPago(attempt);
+        const numeroFacturaPago =
+          pagoActual.numeroFacturaPago ||
+          this.generarNumeroFacturaPago(attempt);
 
         try {
           pagoActualizado = await tx.pago.update({
@@ -189,42 +148,12 @@ export class PagosRepository {
             },
           });
 
-          if (pagoActualizado.matriculaId) {
-            await tx.factura.create({
-              data: {
-                numero: numeroFacturaPago,
-                alumnoId: pagoActualizado.alumnoId,
-                matriculaId: pagoActualizado.matriculaId,
-                clasePracticaId: pagoActualizado.clasePracticaId,
-                concepto: pagoActualizado.concepto,
-                baseImponible: pagoActualizado.importe,
-                descuento: 0,
-                total: pagoActualizado.importe,
-                estado: "PAGADA",
-                fechaPago,
-              },
-            });
-          }
-
-          if (
-            pagoActualizado.clasePracticaId &&
-            !pagoActualizado.matriculaId &&
-            !pagoActualizado.compraBonoId
-          ) {
-            await tx.factura.create({
-              data: {
-                numero: numeroFacturaPago,
-                alumnoId: pagoActualizado.alumnoId,
-                clasePracticaId: pagoActualizado.clasePracticaId,
-                concepto: pagoActualizado.concepto,
-                baseImponible: pagoActualizado.importe,
-                descuento: 0,
-                total: pagoActualizado.importe,
-                estado: "PAGADA",
-                fechaPago,
-              },
-            });
-          }
+          await this.createOrUpdateFacturaPagada(
+            tx,
+            pagoActualizado,
+            numeroFacturaPago,
+            fechaPago,
+          );
 
           if (
             pagoActualizado.compraBonoId &&
@@ -245,20 +174,6 @@ export class PagosRepository {
                 fechaValidezHasta,
               },
             });
-
-            await tx.factura.create({
-              data: {
-                numero: numeroFacturaPago,
-                alumnoId: pagoActualizado.alumnoId,
-                compraBonoId: pagoActualizado.compraBonoId,
-                concepto: pagoActualizado.concepto,
-                baseImponible: pagoActualizado.importe,
-                descuento: 0,
-                total: pagoActualizado.importe,
-                estado: "PAGADA",
-                fechaPago,
-              },
-            });
           }
 
           return pagoActualizado;
@@ -272,7 +187,13 @@ export class PagosRepository {
       }
 
       return pagoActualizado;
-    });
+    };
+
+    if (typeof this.prisma.$transaction !== "function") {
+      return runPay(this.prisma);
+    }
+
+    return this.prisma.$transaction((tx) => runPay(tx));
   }
 
   async createNotification(data) {

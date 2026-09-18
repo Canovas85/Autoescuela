@@ -65,6 +65,8 @@ export default function Examenes() {
     message: "",
     severity: "success",
   });
+  const [selectedExam, setSelectedExam] = useState(null);
+  const [openDetail, setOpenDetail] = useState(false);
 
   const [confirmDialog, setConfirmDialog] = useState({
     open: false,
@@ -210,6 +212,16 @@ export default function Examenes() {
     }
   };
 
+  const handleOpenDetail = (row) => {
+    setSelectedExam(row);
+    setOpenDetail(true);
+  };
+
+  const handleCloseDetail = () => {
+    setOpenDetail(false);
+    setSelectedExam(null);
+  };
+
   const columns = [
     {
       field: "alumno",
@@ -313,6 +325,7 @@ export default function Examenes() {
           columns={columns}
           getRowId={(row) => row.id}
           disableRowSelectionOnClick
+          onRowClick={(params) => handleOpenDetail(params.row)}
           pageSizeOptions={[10, 25, 50]}
           initialState={{
             pagination: { paginationModel: { pageSize: 10, page: 0 } },
@@ -320,6 +333,36 @@ export default function Examenes() {
           }}
         />
       </Box>
+
+      <Dialog
+        open={openDetail}
+        onClose={handleCloseDetail}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>Detalle de examen</DialogTitle>
+        <DialogContent sx={{ display: "grid", gap: 1, pt: 1 }}>
+          <Typography>
+            <strong>Alumno:</strong>{" "}
+            {selectedExam?.alumno?.usuario?.nombre || "-"}
+          </Typography>
+          <Typography>
+            <strong>Tipo:</strong> {selectedExam?.tipo || "-"}
+          </Typography>
+          <Typography>
+            <strong>Estado:</strong> {selectedExam?.estado || "-"}
+          </Typography>
+          <Typography>
+            <strong>Fecha:</strong> {formatDate(selectedExam?.fecha)}
+          </Typography>
+          <Typography>
+            <strong>Observaciones:</strong> {selectedExam?.observaciones || "-"}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDetail}>Cerrar</Button>
+        </DialogActions>
+      </Dialog>
 
       <Dialog
         open={open}

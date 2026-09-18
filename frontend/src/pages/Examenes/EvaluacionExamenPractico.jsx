@@ -4,10 +4,14 @@ import {
   Box,
   Button,
   Chip,
+  Divider,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  List,
+  ListItem,
+  ListItemText,
   Snackbar,
   Typography,
 } from "@mui/material";
@@ -200,6 +204,57 @@ export default function EvaluacionExamenPractico() {
           <Typography>
             <strong>Observaciones:</strong>{" "}
             {selectedRow?.observaciones || "Sin observaciones"}
+          </Typography>
+          <Typography>
+            <strong>Faltas leves:</strong> {selectedRow?.faltasLeves ?? "-"}
+          </Typography>
+          {(selectedRow?.faltasLevesDetalle || []).length > 0 ? (
+            <List dense disablePadding>
+              {selectedRow.faltasLevesDetalle.map((falta, index) => (
+                <ListItem key={`admin-leve-${index}`} sx={{ px: 0, py: 0.2 }}>
+                  <ListItemText
+                    primaryTypographyProps={{ variant: "body2" }}
+                    primary={`- ${falta}`}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          ) : null}
+          <Typography>
+            <strong>Faltas deficientes:</strong>{" "}
+            {selectedRow?.faltasDeficientes ?? "-"}
+          </Typography>
+          {(selectedRow?.faltasDeficientesDetalle || []).length > 0 ? (
+            <List dense disablePadding>
+              {selectedRow.faltasDeficientesDetalle.map((falta, index) => (
+                <ListItem key={`admin-def-${index}`} sx={{ px: 0, py: 0.2 }}>
+                  <ListItemText
+                    primaryTypographyProps={{ variant: "body2" }}
+                    primary={`- ${falta}`}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          ) : null}
+          <Typography>
+            <strong>Faltas eliminatorias:</strong>{" "}
+            {selectedRow?.faltasEliminatorias ?? "-"}
+          </Typography>
+          {(selectedRow?.faltasEliminatoriasDetalle || []).length > 0 ? (
+            <List dense disablePadding>
+              {selectedRow.faltasEliminatoriasDetalle.map((falta, index) => (
+                <ListItem key={`admin-eli-${index}`} sx={{ px: 0, py: 0.2 }}>
+                  <ListItemText
+                    primaryTypographyProps={{ variant: "body2" }}
+                    primary={`- ${falta}`}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          ) : null}
+          <Divider />
+          <Typography>
+            <strong>Motivo no apto:</strong> {selectedRow?.motivoNoApto || "-"}
           </Typography>
         </DialogContent>
         <DialogActions>

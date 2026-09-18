@@ -194,6 +194,9 @@ describe("DashboardService", () => {
           _count: { id: 35 },
         },
       ]),
+      getProfesorById: vi.fn().mockResolvedValue({
+        usuario: { nombre: "Profesor Uno" },
+      }),
     };
 
     const service = new DashboardService(repositoryMock);
@@ -202,6 +205,7 @@ describe("DashboardService", () => {
 
     expect(result).toEqual({
       profesorId: "profesor-1",
+      nombre: "Profesor Uno",
       totalClases: 42,
     });
   });
@@ -221,6 +225,9 @@ describe("DashboardService", () => {
           },
         },
       ]),
+      getProfesorById: vi.fn().mockResolvedValue({
+        usuario: { nombre: "Profesor Uno" },
+      }),
     };
 
     const service = new DashboardService(repositoryMock);
@@ -229,11 +236,16 @@ describe("DashboardService", () => {
 
     expect(result).toEqual({
       profesorId: "profesor-1",
+      nombre: "Profesor Uno",
       horas: 120,
     });
   });
   it("debe devolver el dashboard ejecutivo", async () => {
     const repositoryMock = {
+      getTotalAlumnosActivos: vi.fn().mockResolvedValue(100),
+
+      getTotalMatriculasActivas: vi.fn().mockResolvedValue(80),
+
       getTotalExamenesPendientes: vi.fn().mockResolvedValue(12),
 
       getTotalClasesProgramadas: vi.fn().mockResolvedValue(45),
@@ -242,9 +254,25 @@ describe("DashboardService", () => {
 
       getExamenesAprobadosEsteMes: vi.fn().mockResolvedValue(15),
 
+      getExamenesSuspendidosEsteMes: vi.fn().mockResolvedValue(5),
+
       getTotalExamenes: vi.fn().mockResolvedValue(100),
 
       getTotalExamenesAprobados: vi.fn().mockResolvedValue(82),
+
+      getDgtTestsToday: vi.fn().mockResolvedValue(1),
+
+      getDgtTestsThisMonth: vi.fn().mockResolvedValue(6),
+
+      getTotalDgtTests: vi.fn().mockResolvedValue(10),
+
+      getDgtApprovedTests: vi.fn().mockResolvedValue(7),
+
+      getTopStudentsDGT: vi.fn().mockResolvedValue([]),
+
+      getProfessorRanking: vi.fn().mockResolvedValue([]),
+
+      getDgtTestsEvolution: vi.fn().mockResolvedValue([]),
 
       getClasesPorProfesor: vi.fn().mockResolvedValue([
         {
@@ -259,13 +287,17 @@ describe("DashboardService", () => {
           _sum: { duracion: 120 },
         },
       ]),
+
+      getProfesorById: vi.fn().mockResolvedValue({
+        usuario: { nombre: "Profesor Uno" },
+      }),
     };
 
     const service = new DashboardService(repositoryMock);
 
     const result = await service.getExecutiveDashboard();
 
-    expect(result).toEqual({
+    expect(result).toMatchObject({
       successRate: 82,
       monthlySuccessRate: 75,
       pendingExams: 12,
@@ -273,11 +305,13 @@ describe("DashboardService", () => {
 
       topProfesorByClasses: {
         profesorId: "profesor-1",
+        nombre: "Profesor Uno",
         totalClases: 42,
       },
 
       topProfesorByHours: {
         profesorId: "profesor-1",
+        nombre: "Profesor Uno",
         horas: 120,
       },
     });
@@ -438,10 +472,10 @@ describe("DashboardService", () => {
             fechaPago: new Date("2026-08-02T10:00:00.000Z"),
             numeroFacturaPago: "FAC-PAGO-123",
             convocatoriasIncluidas: 2,
+            convocatoriasConsumidas: 1,
           },
         ],
       }),
-      countStudentExamSuspensosFromDate: vi.fn().mockResolvedValue(1),
     };
 
     const service = new DashboardService(repositoryMock);

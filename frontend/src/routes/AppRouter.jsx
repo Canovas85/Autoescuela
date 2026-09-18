@@ -43,11 +43,13 @@ import TestDGT from "../pages/TestDGT/TestDGT";
 import DocumentosAlumno from "../pages/DocumentosAlumno/DocumentosAlumno";
 import DocumentosAlumnoAdmin from "../pages/DocumentosAlumno/DocumentosAlumnoAdmin";
 import ExamenTeoricoAlumno from "../pages/ExamenTeoricoAlumno/ExamenTeoricoAlumno";
+import ExamenPracticoAlumno from "../pages/ExamenPracticoAlumno/ExamenPracticoAlumno";
 import ConvocatoriaExamen from "../pages/ConvocatoriaExamen/ConvocatoriaExamen";
 import ReservarClase from "../pages/ReservarClase/ReservarClase";
 import ClasesPracticasProfesor from "../pages/ClasesPracticasProfesor/ClasesPracticasProfesor";
 import Notificaciones from "../pages/Notificaciones/Notificaciones";
 import HojasRuta from "../pages/HojasRuta/HojasRuta";
+import Gastos from "../pages/Gastos/Gastos";
 
 function RequireAuth() {
   const token = localStorage.getItem("token");
@@ -107,6 +109,10 @@ export default function AppRouter() {
               <Route path="/temario/:id" element={<TemarioTemaDetalle />} />
               <Route path="/test-dgt" element={<TestDGT />} />
               <Route path="/examen-teorico" element={<ExamenTeoricoAlumno />} />
+              <Route
+                path="/examen-practico"
+                element={<ExamenPracticoAlumno />}
+              />
 
               <Route path="/clases-directo" element={<ClasesDirecto />} />
 
@@ -153,6 +159,7 @@ export default function AppRouter() {
               />
 
               <Route path="/facturas" element={<Facturas />} />
+              <Route path="/gastos" element={<Gastos />} />
               <Route path="/pagos" element={<Pagos />} />
               <Route path="/mis-facturas" element={<MisFacturas />} />
               <Route path="/mis-pagos" element={<MisPagos />} />

@@ -68,6 +68,8 @@ export default function SolicitudesExamen() {
     message: "",
     severity: "success",
   });
+  const [selectedRequest, setSelectedRequest] = useState(null);
+  const [openDetail, setOpenDetail] = useState(false);
 
   const [confirmDialog, setConfirmDialog] = useState({
     open: false,
@@ -216,6 +218,16 @@ export default function SolicitudesExamen() {
     }
   };
 
+  const handleOpenDetail = (row) => {
+    setSelectedRequest(row);
+    setOpenDetail(true);
+  };
+
+  const handleCloseDetail = () => {
+    setOpenDetail(false);
+    setSelectedRequest(null);
+  };
+
   const columns = [
     {
       field: "alumno",
@@ -313,8 +325,76 @@ export default function SolicitudesExamen() {
           columns={columns}
           getRowId={(row) => row.id}
           disableRowSelectionOnClick
+          onRowClick={(params) => handleOpenDetail(params.row)}
         />
       </Box>
+
+      <Dialog
+        open={openDetail}
+        onClose={handleCloseDetail}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>Detalle de solicitud de examen</DialogTitle>
+        <DialogContent sx={{ display: "grid", gap: 1, pt: 1 }}>
+          <Typography>
+            <strong>Alumno:</strong>{" "}
+            {selectedRequest?.alumno?.usuario?.nombre || "-"}
+          </Typography>
+          <Typography>
+            <strong>Tipo:</strong> {selectedRequest?.tipo || "-"}
+          </Typography>
+          <Typography>
+            <strong>Estado:</strong> {selectedRequest?.estado || "-"}
+          </Typography>
+          <Typography>
+            <strong>Fecha solicitud:</strong>{" "}
+            {formatDate(selectedRequest?.fechaSolicitud)}
+          </Typography>
+          <Typography>
+            <strong>Fecha programada:</strong>{" "}
+            {formatDate(selectedRequest?.fechaProgramada)}
+          </Typography>
+          {selectedRequest?.tipo === "TEORICO" ? (
+            <>
+              <Typography>
+                <strong>Errores:</strong>{" "}
+                {selectedRequest?.erroresExamen ?? "-"}
+              </Typography>
+              <Typography>
+                <strong>Aciertos:</strong>{" "}
+                {selectedRequest?.aciertosExamen ?? "-"}
+              </Typography>
+            </>
+          ) : (
+            <>
+              <Typography>
+                <strong>Faltas leves:</strong>{" "}
+                {selectedRequest?.faltasLeves ?? 0}
+              </Typography>
+              <Typography>
+                <strong>Faltas deficientes:</strong>{" "}
+                {selectedRequest?.faltasDeficientes ?? 0}
+              </Typography>
+              <Typography>
+                <strong>Faltas eliminatorias:</strong>{" "}
+                {selectedRequest?.faltasEliminatorias ?? 0}
+              </Typography>
+              <Typography>
+                <strong>Motivo no apto:</strong>{" "}
+                {selectedRequest?.motivoNoApto || "-"}
+              </Typography>
+            </>
+          )}
+          <Typography>
+            <strong>Observaciones:</strong>{" "}
+            {selectedRequest?.observaciones || "-"}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDetail}>Cerrar</Button>
+        </DialogActions>
+      </Dialog>
 
       <Dialog
         open={open}

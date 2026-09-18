@@ -58,6 +58,30 @@ router.post(
   controller.createTheoreticalRequest.bind(controller),
 );
 router.get(
+  "/mine/practico/eligibilidad",
+  authenticate,
+  authorize("ALUMNO"),
+  controller.getPracticalEligibility.bind(controller),
+);
+router.get(
+  "/mine/practico/calendario",
+  authenticate,
+  authorize("ALUMNO"),
+  controller.getPracticalCalendar.bind(controller),
+);
+router.post(
+  "/mine/practico/solicitar",
+  authenticate,
+  authorize("ALUMNO"),
+  controller.createPracticalRequest.bind(controller),
+);
+router.patch(
+  "/mine/practico/solicitudes/:id/cancelar",
+  authenticate,
+  authorize("ALUMNO"),
+  controller.cancelPracticalRequest.bind(controller),
+);
+router.get(
   "/:id",
   authenticate,
   authorize("ADMIN"),

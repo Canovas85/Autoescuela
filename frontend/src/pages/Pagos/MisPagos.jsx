@@ -54,6 +54,12 @@ export default function MisPagos() {
 
   const columns = [
     {
+      field: "numeroFacturaPago",
+      headerName: "Factura pago",
+      flex: 1,
+      valueGetter: (_, row) => row.numeroFacturaPago || "Pendiente",
+    },
+    {
       field: "concepto",
       headerName: "Concepto",
       flex: 1.7,
@@ -81,19 +87,7 @@ export default function MisPagos() {
         />
       ),
     },
-    {
-      field: "convocatorias",
-      headerName: "Convocatorias",
-      flex: 1,
-      valueGetter: (_, row) =>
-        `${row.convocatoriasConsumidas}/${row.convocatoriasIncluidas}`,
-    },
-    {
-      field: "numeroFacturaPago",
-      headerName: "Factura pago",
-      flex: 1,
-      valueGetter: (_, row) => row.numeroFacturaPago || "Pendiente",
-    },
+
     {
       field: "fechaPago",
       headerName: "Fecha pago",

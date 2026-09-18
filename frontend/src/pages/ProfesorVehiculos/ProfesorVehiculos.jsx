@@ -9,13 +9,19 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  LinearProgress,
   Paper,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 import { profesorPortalService } from "../../services/profesorPortalService";
+import { gastosCombustibleService } from "../../services/gastosCombustibleService";
+
+const TITULAR_TARJETA = "Autoescuela Eguzkilore";
+const NUMERO_TARJETA = "5102 1234 4321 5015";
 
 const formatDateTime = (value) => {
   if (!value) {
@@ -41,14 +47,20 @@ export default function ProfesorVehiculos() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const [openDetail, setOpenDetail] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [detail, setDetail] = useState(null);
+  const [openRefuel, setOpenRefuel] = useState(false);
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
+  const [reciboFile, setReciboFile] = useState(null);
+  const [loadingRefuel, setLoadingRefuel] = useState(false);
 
   const loadVehicles = async () => {
     setLoading(true);
     setError("");
+    setSuccess("");
 
     try {
       const data = await profesorPortalService.getVehicles();
@@ -109,7 +121,83 @@ export default function ProfesorVehiculos() {
         <Chip label={params.value || "-"} color="info" size="small" />
       ),
     },
+    {
+      field: "kmActuales",
+      headerName: "KMs actuales",
+      width: 140,
+      valueGetter: (_, row) => row.kmActuales ?? 0,
+    },
+    {
+      field: "combustibleActualPct",
+      headerName: "Combustible",
+      width: 170,
+      renderCell: (params) => {
+        const value = Number(params.row.combustibleActualPct ?? 0);
+
+        return (
+          <Stack sx={{ width: "100%", py: 1 }} spacing={0.4}>
+            <Typography variant="caption" fontWeight={700}>
+              {value}%
+            </Typography>
+            <LinearProgress
+              variant="determinate"
+              value={Math.max(0, Math.min(100, value))}
+              color={value < 20 ? "error" : value < 40 ? "warning" : "success"}
+              sx={{ height: 7, borderRadius: 999 }}
+            />
+          </Stack>
+        );
+      },
+    },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      width: 160,
+      sortable: false,
+      filterable: false,
+      disableColumnMenu: true,
+      renderCell: (params) => {
+        const combustibleActual = Number(params.row.combustibleActualPct ?? 0);
+        const canRefuel = combustibleActual < 20;
+
+        return canRefuel ? (
+          <Button
+            size="small"
+            color="warning"
+            variant="contained"
+            startIcon={<LocalGasStationIcon />}
+            onClick={(event) => {
+              event.stopPropagation();
+              setSelectedVehicle(params.row);
+              setReciboFile(null);
+              setOpenRefuel(true);
+            }}
+          >
+            Repostar
+          </Button>
+        ) : (
+          <Chip label="Sin acciones" size="small" />
+        );
+      },
+    },
   ];
+
+  const buildRepostajeResumen = (vehiculo) => {
+    const capacidad = Number(vehiculo?.capacidadCombustibleLitros ?? 0);
+    const pct = Number(vehiculo?.combustibleActualPct ?? 0);
+    const litrosActuales = (capacidad * pct) / 100;
+    const litrosRepostados = Math.max(0, capacidad - litrosActuales);
+    const precioLitro = 1.83;
+    const total = litrosRepostados * precioLitro;
+
+    return {
+      capacidad,
+      litrosActuales,
+      litrosRepostados,
+      precioLitro,
+      total,
+    };
+  };
 
   const openVehicleDetail = async (row) => {
     setOpenDetail(true);
@@ -130,6 +218,35 @@ export default function ProfesorVehiculos() {
     }
   };
 
+  const submitRefuel = async () => {
+    if (!selectedVehicle?.id) {
+      return;
+    }
+
+    setLoadingRefuel(true);
+    setError("");
+
+    try {
+      const result = await gastosCombustibleService.repostar(
+        selectedVehicle.id,
+        reciboFile,
+      );
+
+      setSuccess(result.message || "Repostaje realizado correctamente");
+      setOpenRefuel(false);
+      setSelectedVehicle(null);
+      setReciboFile(null);
+      await loadVehicles();
+    } catch (saveError) {
+      setError(
+        saveError.response?.data?.message ||
+          "No se pudo registrar el repostaje",
+      );
+    } finally {
+      setLoadingRefuel(false);
+    }
+  };
+
   return (
     <Box>
       <Typography variant="h4" fontWeight="bold" mb={3}>
@@ -144,6 +261,12 @@ export default function ProfesorVehiculos() {
       {error && (
         <Alert severity="error" sx={{ mb: 2 }}>
           {error}
+        </Alert>
+      )}
+
+      {success && (
+        <Alert severity="success" sx={{ mb: 2 }}>
+          {success}
         </Alert>
       )}
 
@@ -268,6 +391,113 @@ export default function ProfesorVehiculos() {
 
         <DialogActions>
           <Button onClick={() => setOpenDetail(false)}>Cerrar</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={openRefuel}
+        onClose={() => !loadingRefuel && setOpenRefuel(false)}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>Pago de combustible</DialogTitle>
+        <DialogContent>
+          {selectedVehicle ? (
+            <Stack spacing={2} sx={{ mt: 1 }}>
+              <TextField
+                label="Titular de la tarjeta"
+                value={TITULAR_TARJETA}
+                disabled
+                fullWidth
+              />
+              <TextField
+                label="Número de tarjeta"
+                value={NUMERO_TARJETA}
+                disabled
+                fullWidth
+              />
+
+              <Box
+                sx={{
+                  p: 1.5,
+                  border: "1px solid",
+                  borderColor: "divider",
+                  borderRadius: 2,
+                }}
+              >
+                <Typography fontWeight={700}>
+                  {selectedVehicle.matricula} - {selectedVehicle.marca || ""}{" "}
+                  {selectedVehicle.modelo || ""}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  KMs actuales: {selectedVehicle.kmActuales ?? 0}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Combustible actual:{" "}
+                  {selectedVehicle.combustibleActualPct ?? 0}%
+                </Typography>
+              </Box>
+
+              <Box>
+                {(() => {
+                  const resumen = buildRepostajeResumen(selectedVehicle);
+
+                  return (
+                    <Stack spacing={0.6}>
+                      <Typography variant="body2">
+                        Capacidad máxima: {resumen.capacidad.toFixed(2)} L
+                      </Typography>
+                      <Typography variant="body2">
+                        Litros actuales estimados:{" "}
+                        {resumen.litrosActuales.toFixed(2)} L
+                      </Typography>
+                      <Typography variant="body2">
+                        Litros a repostar: {resumen.litrosRepostados.toFixed(2)}{" "}
+                        L
+                      </Typography>
+                      <Typography variant="body2">
+                        Precio litro: {resumen.precioLitro.toFixed(2)} EUR
+                      </Typography>
+                      <Typography variant="subtitle1" fontWeight={800}>
+                        Total: {resumen.total.toFixed(2)} EUR
+                      </Typography>
+                    </Stack>
+                  );
+                })()}
+              </Box>
+
+              <Button variant="outlined" component="label">
+                {reciboFile ? "Cambiar recibo" : "Subir recibo (opcional)"}
+                <input
+                  hidden
+                  type="file"
+                  accept="application/pdf,image/png,image/jpeg,image/webp"
+                  onChange={(event) =>
+                    setReciboFile(event.target.files?.[0] || null)
+                  }
+                />
+              </Button>
+
+              {reciboFile ? (
+                <Typography variant="caption" color="text.secondary">
+                  Archivo: {reciboFile.name}
+                </Typography>
+              ) : null}
+            </Stack>
+          ) : null}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenRefuel(false)} disabled={loadingRefuel}>
+            Cancelar
+          </Button>
+          <Button
+            onClick={submitRefuel}
+            variant="contained"
+            color="warning"
+            disabled={loadingRefuel || !selectedVehicle}
+          >
+            {loadingRefuel ? "Procesando..." : "Pagar y repostar"}
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>

@@ -5,6 +5,10 @@ import {
   Button,
   Chip,
   Divider,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Paper,
   Snackbar,
   Stack,
@@ -82,6 +86,8 @@ export default function ExamenTeoricoAlumno() {
   const [viewDate, setViewDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [selectedExam, setSelectedExam] = useState(null);
+  const [openExamModal, setOpenExamModal] = useState(false);
   const [notification, setNotification] = useState({
     open: false,
     message: "",
@@ -202,6 +208,16 @@ export default function ExamenTeoricoAlumno() {
         severity: "error",
       });
     }
+  };
+
+  const handleOpenExamModal = (row) => {
+    setSelectedExam(row);
+    setOpenExamModal(true);
+  };
+
+  const handleCloseExamModal = () => {
+    setOpenExamModal(false);
+    setSelectedExam(null);
   };
 
   return (
@@ -450,6 +466,7 @@ export default function ExamenTeoricoAlumno() {
           columns={columns}
           getRowId={(row) => row.id}
           disableRowSelectionOnClick
+          onRowClick={(params) => handleOpenExamModal(params.row)}
           pageSizeOptions={[10, 25, 50]}
           initialState={{
             pagination: { paginationModel: { pageSize: 10, page: 0 } },
@@ -459,6 +476,40 @@ export default function ExamenTeoricoAlumno() {
           }}
         />
       </Paper>
+
+      <Dialog
+        open={openExamModal}
+        onClose={handleCloseExamModal}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>Detalle de examen teórico</DialogTitle>
+        <DialogContent sx={{ display: "grid", gap: 1, pt: 1 }}>
+          <Typography>
+            <strong>Fecha programada:</strong>{" "}
+            {formatDate(selectedExam?.fechaProgramada)}
+          </Typography>
+          <Typography>
+            <strong>Estado:</strong> {selectedExam?.estado || "-"}
+          </Typography>
+          <Typography>
+            <strong>Errores:</strong> {selectedExam?.erroresExamen ?? "-"}
+          </Typography>
+          <Typography>
+            <strong>Aciertos:</strong> {selectedExam?.aciertosExamen ?? "-"}
+          </Typography>
+          <Typography>
+            <strong>Fecha solicitud:</strong>{" "}
+            {formatDate(selectedExam?.fechaSolicitud)}
+          </Typography>
+          <Typography>
+            <strong>Observaciones:</strong> {selectedExam?.observaciones || "-"}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseExamModal}>Cerrar</Button>
+        </DialogActions>
+      </Dialog>
 
       <Snackbar
         open={notification.open}

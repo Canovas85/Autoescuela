@@ -81,8 +81,6 @@ export class ConvocatoriasExamenRepository {
       orderBy: [{ fecha: "asc" }, { licencia: "asc" }, { tipoExamen: "asc" }],
     });
 
-    const ahora = new Date();
-
     const items = await Promise.all(
       convocatorias.map(async (convocatoria) => {
         const inicio = new Date(convocatoria.fecha);
@@ -91,10 +89,13 @@ export class ConvocatoriasExamenRepository {
         const fin = new Date(convocatoria.fecha);
         fin.setHours(23, 59, 59, 999);
 
-        const estadosConvocatoria =
-          fin < ahora
-            ? ["SOLICITADO", "PROGRAMADO", "APTO", "NO_APTO"]
-            : ["SOLICITADO", "PROGRAMADO"];
+        const estadosConvocatoria = [
+          "SOLICITADO",
+          "PROGRAMADO",
+          "APTO",
+          "NO_APTO",
+          "NO_PRESENTADO",
+        ];
 
         const solicitudes = await this.prisma.solicitudExamen.findMany({
           where: {
@@ -132,6 +133,19 @@ export class ConvocatoriasExamenRepository {
             estado: solicitud.estado,
             licencia: convocatoria.licencia,
             tipoExamen: convocatoria.tipoExamen,
+            fechaProgramada: solicitud.fechaProgramada,
+            fechaSolicitud: solicitud.fechaSolicitud,
+            erroresExamen: solicitud.erroresExamen,
+            aciertosExamen: solicitud.aciertosExamen,
+            faltasLeves: solicitud.faltasLeves,
+            faltasDeficientes: solicitud.faltasDeficientes,
+            faltasEliminatorias: solicitud.faltasEliminatorias,
+            faltasLevesDetalle: solicitud.faltasLevesDetalle || [],
+            faltasDeficientesDetalle: solicitud.faltasDeficientesDetalle || [],
+            faltasEliminatoriasDetalle:
+              solicitud.faltasEliminatoriasDetalle || [],
+            motivoNoApto: solicitud.motivoNoApto || null,
+            observaciones: solicitud.observaciones || null,
           })),
         };
       }),

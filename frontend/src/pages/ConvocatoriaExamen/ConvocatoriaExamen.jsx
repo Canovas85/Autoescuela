@@ -10,6 +10,9 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
+  List,
+  ListItem,
+  ListItemText,
   MenuItem,
   Snackbar,
   Stack,
@@ -105,6 +108,8 @@ export default function ConvocatoriaExamen() {
   const [openAgendaModal, setOpenAgendaModal] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [selectedConvocatoria, setSelectedConvocatoria] = useState(null);
+  const [selectedAgendaExam, setSelectedAgendaExam] = useState(null);
+  const [openAgendaExamModal, setOpenAgendaExamModal] = useState(false);
   const [form, setForm] = useState(DEFAULT_FORM);
   const [search, setSearch] = useState("");
   const [viewMode, setViewMode] = useState("TABLA");
@@ -249,6 +254,16 @@ export default function ConvocatoriaExamen() {
   const handleOpenAgendaConvocatoria = (convocatoria) => {
     setSelectedConvocatoria(convocatoria);
     setOpenAgendaModal(true);
+  };
+
+  const handleOpenAgendaExamModal = (row) => {
+    setSelectedAgendaExam(row);
+    setOpenAgendaExamModal(true);
+  };
+
+  const handleCloseAgendaExamModal = () => {
+    setOpenAgendaExamModal(false);
+    setSelectedAgendaExam(null);
   };
 
   const filteredRows = useMemo(() => {
@@ -704,6 +719,7 @@ export default function ConvocatoriaExamen() {
               columns={agendaColumns}
               getRowId={(row) => row.solicitudId}
               disableRowSelectionOnClick
+              onRowClick={(params) => handleOpenAgendaExamModal(params.row)}
               pageSizeOptions={[10, 25, 50]}
               initialState={{
                 pagination: {
@@ -735,6 +751,116 @@ export default function ConvocatoriaExamen() {
           {notification.message}
         </Alert>
       </Snackbar>
+
+      <Dialog
+        open={openAgendaExamModal}
+        onClose={handleCloseAgendaExamModal}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>Detalle de evaluación</DialogTitle>
+        <DialogContent sx={{ display: "grid", gap: 1, pt: 1 }}>
+          <Typography>
+            <strong>Alumno:</strong> {selectedAgendaExam?.nombre || "-"}
+          </Typography>
+          <Typography>
+            <strong>Tipo:</strong> {selectedAgendaExam?.tipoExamen || "-"}
+          </Typography>
+          <Typography>
+            <strong>Estado:</strong> {selectedAgendaExam?.estado || "-"}
+          </Typography>
+          <Typography>
+            <strong>Fecha convocatoria:</strong>{" "}
+            {formatDate(selectedAgendaExam?.fechaProgramada)}
+          </Typography>
+          <Typography>
+            <strong>Fecha solicitud:</strong>{" "}
+            {formatDate(selectedAgendaExam?.fechaSolicitud)}
+          </Typography>
+
+          {selectedAgendaExam?.tipoExamen === "TEORICO" ? (
+            <>
+              <Typography>
+                <strong>Errores:</strong>{" "}
+                {selectedAgendaExam?.erroresExamen ?? "-"}
+              </Typography>
+              <Typography>
+                <strong>Aciertos:</strong>{" "}
+                {selectedAgendaExam?.aciertosExamen ?? "-"}
+              </Typography>
+            </>
+          ) : (
+            <>
+              <Divider sx={{ my: 0.5 }} />
+              <Typography>
+                <strong>Faltas leves:</strong>{" "}
+                {selectedAgendaExam?.faltasLeves ?? 0}
+              </Typography>
+              {(selectedAgendaExam?.faltasLevesDetalle || []).length > 0 ? (
+                <List dense disablePadding>
+                  {selectedAgendaExam.faltasLevesDetalle.map((falta, index) => (
+                    <ListItem key={`ag-leve-${index}`} sx={{ px: 0, py: 0.2 }}>
+                      <ListItemText
+                        primaryTypographyProps={{ variant: "body2" }}
+                        primary={`- ${falta}`}
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              ) : null}
+              <Typography>
+                <strong>Faltas deficientes:</strong>{" "}
+                {selectedAgendaExam?.faltasDeficientes ?? 0}
+              </Typography>
+              {(selectedAgendaExam?.faltasDeficientesDetalle || []).length >
+              0 ? (
+                <List dense disablePadding>
+                  {selectedAgendaExam.faltasDeficientesDetalle.map(
+                    (falta, index) => (
+                      <ListItem key={`ag-def-${index}`} sx={{ px: 0, py: 0.2 }}>
+                        <ListItemText
+                          primaryTypographyProps={{ variant: "body2" }}
+                          primary={`- ${falta}`}
+                        />
+                      </ListItem>
+                    ),
+                  )}
+                </List>
+              ) : null}
+              <Typography>
+                <strong>Faltas eliminatorias:</strong>{" "}
+                {selectedAgendaExam?.faltasEliminatorias ?? 0}
+              </Typography>
+              {(selectedAgendaExam?.faltasEliminatoriasDetalle || []).length >
+              0 ? (
+                <List dense disablePadding>
+                  {selectedAgendaExam.faltasEliminatoriasDetalle.map(
+                    (falta, index) => (
+                      <ListItem key={`ag-eli-${index}`} sx={{ px: 0, py: 0.2 }}>
+                        <ListItemText
+                          primaryTypographyProps={{ variant: "body2" }}
+                          primary={`- ${falta}`}
+                        />
+                      </ListItem>
+                    ),
+                  )}
+                </List>
+              ) : null}
+              <Typography>
+                <strong>Motivo no apto:</strong>{" "}
+                {selectedAgendaExam?.motivoNoApto || "-"}
+              </Typography>
+            </>
+          )}
+          <Typography>
+            <strong>Observaciones:</strong>{" "}
+            {selectedAgendaExam?.observaciones || "-"}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseAgendaExamModal}>Cerrar</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

@@ -129,6 +129,63 @@ export class HojasRutaRepository {
     });
   }
 
+  async updateVehicleTelemetry(vehiculoId, payload) {
+    return this.prisma.vehiculo.update({
+      where: {
+        id: vehiculoId,
+      },
+      data: payload,
+    });
+  }
+
+  async markClassAsCompleted(claseId) {
+    return this.prisma.clasePractica.update({
+      where: {
+        id: claseId,
+      },
+      data: {
+        estado: "COMPLETADA",
+      },
+    });
+  }
+
+  async consumeBonoClassIfAvailable(compraBonoId) {
+    const compra = await this.prisma.compraBono.findUnique({
+      where: {
+        id: compraBonoId,
+      },
+      select: {
+        id: true,
+        clasesConsumidas: true,
+        clasesCompradas: true,
+      },
+    });
+
+    if (!compra) {
+      return false;
+    }
+
+    if (
+      Number(compra.clasesConsumidas || 0) >=
+      Number(compra.clasesCompradas || 0)
+    ) {
+      return false;
+    }
+
+    await this.prisma.compraBono.update({
+      where: {
+        id: compraBonoId,
+      },
+      data: {
+        clasesConsumidas: {
+          increment: 1,
+        },
+      },
+    });
+
+    return true;
+  }
+
   async findFaultCatalog() {
     return this.prisma.hojaRutaFaltaCatalogo.findMany({
       where: {

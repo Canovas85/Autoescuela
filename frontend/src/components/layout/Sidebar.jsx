@@ -211,6 +211,11 @@ const menus = {
           icon: <ReceiptLongIcon fontSize="small" />,
         },
         {
+          label: "Gastos",
+          path: "/gastos",
+          icon: <ReceiptIcon fontSize="small" />,
+        },
+        {
           label: "Pagos",
           path: "/pagos",
           icon: <PaymentIcon fontSize="small" />,
@@ -266,6 +271,11 @@ const menus = {
       label: "Vehículos",
       icon: <CommuteIcon />,
       path: "/profesor-vehiculos",
+    },
+    {
+      label: "Gastos",
+      icon: <ReceiptIcon />,
+      path: "/gastos",
     },
   ],
 

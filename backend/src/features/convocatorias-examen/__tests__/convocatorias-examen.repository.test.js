@@ -71,7 +71,7 @@ describe("ConvocatoriasExamenRepository", () => {
     expect(result[0].alumnos[0].nombre).toBe("Ana");
   });
 
-  it("incluye estados APTO y NO_APTO para convocatorias pasadas", async () => {
+  it("incluye estados resueltos en agenda para cualquier convocatoria", async () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2026-09-20T10:00:00.000Z"));
 
@@ -103,7 +103,13 @@ describe("ConvocatoriasExamenRepository", () => {
       expect.objectContaining({
         where: expect.objectContaining({
           estado: {
-            in: ["SOLICITADO", "PROGRAMADO", "APTO", "NO_APTO"],
+            in: [
+              "SOLICITADO",
+              "PROGRAMADO",
+              "APTO",
+              "NO_APTO",
+              "NO_PRESENTADO",
+            ],
           },
         }),
       }),

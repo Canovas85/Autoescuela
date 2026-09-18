@@ -4,6 +4,10 @@ import {
   CardContent,
   Chip,
   Divider,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Grid,
   LinearProgress,
   List,
@@ -12,6 +16,8 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+
+import { useState } from "react";
 
 import TrafficIcon from "@mui/icons-material/Traffic";
 import PersonIcon from "@mui/icons-material/Person";
@@ -268,6 +274,19 @@ export default function StudentDashboard({ data }) {
     ...evolucion.map((periodo) => Math.max(periodo.tests, periodo.clases)),
   );
 
+  const [selectedExam, setSelectedExam] = useState(null);
+  const [openExamModal, setOpenExamModal] = useState(false);
+
+  const handleOpenExamModal = (examen) => {
+    setSelectedExam(examen);
+    setOpenExamModal(true);
+  };
+
+  const handleCloseExamModal = () => {
+    setOpenExamModal(false);
+    setSelectedExam(null);
+  };
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
       {matriculaPendiente && (
@@ -385,7 +404,16 @@ export default function StudentDashboard({ data }) {
               }}
             />
             <Chip
-              label={`${teoria.testsTotales} tests realizados`}
+              label={`${teoria.testsTotales} tests de apoyo realizados`}
+              size="small"
+              sx={{
+                backgroundColor: "rgba(255,255,255,0.16)",
+                color: "#fff",
+                fontWeight: 700,
+              }}
+            />
+            <Chip
+              label={`${dgtMetrics.testsTotales} tests DGT realizados`}
               size="small"
               sx={{
                 backgroundColor: "rgba(255,255,255,0.16)",
@@ -1218,7 +1246,19 @@ export default function StudentDashboard({ data }) {
                       {examenes.teoricos.length > 0 ? (
                         <Stack spacing={1.5}>
                           {examenes.teoricos.map((examen) => (
-                            <Box key={examen.id}>
+                            <Box
+                              key={examen.id}
+                              onClick={() => handleOpenExamModal(examen)}
+                              sx={{
+                                cursor: "pointer",
+                                borderRadius: 1,
+                                p: 0.75,
+                                transition: "background-color 0.2s ease",
+                                "&:hover": {
+                                  backgroundColor: "#f8fafc",
+                                },
+                              }}
+                            >
                               <Box
                                 display="flex"
                                 justifyContent="space-between"
@@ -1243,6 +1283,13 @@ export default function StudentDashboard({ data }) {
                                   {examen.observaciones}
                                 </Typography>
                               ) : null}
+                              <Typography
+                                variant="caption"
+                                color="text.secondary"
+                                sx={{ display: "block", mt: 0.5 }}
+                              >
+                                Pulsa para ver detalle de examen
+                              </Typography>
                               <Divider sx={{ mt: 1.5 }} />
                             </Box>
                           ))}
@@ -1274,7 +1321,19 @@ export default function StudentDashboard({ data }) {
                       {examenes.practicos.length > 0 ? (
                         <Stack spacing={1.5}>
                           {examenes.practicos.map((examen) => (
-                            <Box key={examen.id}>
+                            <Box
+                              key={examen.id}
+                              onClick={() => handleOpenExamModal(examen)}
+                              sx={{
+                                cursor: "pointer",
+                                borderRadius: 1,
+                                p: 0.75,
+                                transition: "background-color 0.2s ease",
+                                "&:hover": {
+                                  backgroundColor: "#f8fafc",
+                                },
+                              }}
+                            >
                               <Box
                                 display="flex"
                                 justifyContent="space-between"
@@ -1299,6 +1358,13 @@ export default function StudentDashboard({ data }) {
                                   {examen.observaciones}
                                 </Typography>
                               ) : null}
+                              <Typography
+                                variant="caption"
+                                color="text.secondary"
+                                sx={{ display: "block", mt: 0.5 }}
+                              >
+                                Pulsa para ver detalle de faltas
+                              </Typography>
                               <Divider sx={{ mt: 1.5 }} />
                             </Box>
                           ))}
@@ -1333,6 +1399,137 @@ export default function StudentDashboard({ data }) {
                       : "Aún no estás listo para examinarte del teórico; revisa los temarios recomendados y mejora el porcentaje de acierto."}
                   </Typography>
                 </Box>
+
+                <Dialog
+                  open={openExamModal}
+                  onClose={handleCloseExamModal}
+                  fullWidth
+                  maxWidth="sm"
+                >
+                  <DialogTitle>Detalle de examen</DialogTitle>
+                  <DialogContent sx={{ display: "grid", gap: 1, pt: 1 }}>
+                    <Typography>
+                      <strong>Tipo:</strong> {selectedExam?.tipo || "-"}
+                    </Typography>
+                    <Typography>
+                      <strong>Fecha:</strong>{" "}
+                      {formatDate(selectedExam?.fechaProgramada)}
+                    </Typography>
+                    <Typography>
+                      <strong>Estado:</strong> {selectedExam?.estado || "-"}
+                    </Typography>
+                    {selectedExam?.tipo === "PRACTICO" ? (
+                      <>
+                        <Typography>
+                          <strong>Motivo no apto:</strong>{" "}
+                          {selectedExam?.motivoNoApto || "-"}
+                        </Typography>
+
+                        <Divider sx={{ my: 0.5 }} />
+
+                        <Typography>
+                          <strong>Faltas leves:</strong>{" "}
+                          {selectedExam?.faltasLeves ?? 0}
+                        </Typography>
+                        {(selectedExam?.faltasLevesDetalle || []).length > 0 ? (
+                          <List dense disablePadding>
+                            {selectedExam.faltasLevesDetalle.map(
+                              (falta, index) => (
+                                <ListItem
+                                  key={`leve-${index}`}
+                                  sx={{ px: 0, py: 0.25 }}
+                                >
+                                  <ListItemText
+                                    primaryTypographyProps={{
+                                      variant: "body2",
+                                    }}
+                                    primary={`- ${falta}`}
+                                  />
+                                </ListItem>
+                              ),
+                            )}
+                          </List>
+                        ) : (
+                          <Typography variant="body2" color="text.secondary">
+                            Sin faltas leves registradas.
+                          </Typography>
+                        )}
+
+                        <Typography>
+                          <strong>Faltas deficientes:</strong>{" "}
+                          {selectedExam?.faltasDeficientes ?? 0}
+                        </Typography>
+                        {(selectedExam?.faltasDeficientesDetalle || []).length >
+                        0 ? (
+                          <List dense disablePadding>
+                            {selectedExam.faltasDeficientesDetalle.map(
+                              (falta, index) => (
+                                <ListItem
+                                  key={`def-${index}`}
+                                  sx={{ px: 0, py: 0.25 }}
+                                >
+                                  <ListItemText
+                                    primaryTypographyProps={{
+                                      variant: "body2",
+                                    }}
+                                    primary={`- ${falta}`}
+                                  />
+                                </ListItem>
+                              ),
+                            )}
+                          </List>
+                        ) : (
+                          <Typography variant="body2" color="text.secondary">
+                            Sin faltas deficientes registradas.
+                          </Typography>
+                        )}
+
+                        <Typography>
+                          <strong>Faltas eliminatorias:</strong>{" "}
+                          {selectedExam?.faltasEliminatorias ?? 0}
+                        </Typography>
+                        {(selectedExam?.faltasEliminatoriasDetalle || [])
+                          .length > 0 ? (
+                          <List dense disablePadding>
+                            {selectedExam.faltasEliminatoriasDetalle.map(
+                              (falta, index) => (
+                                <ListItem
+                                  key={`eli-${index}`}
+                                  sx={{ px: 0, py: 0.25 }}
+                                >
+                                  <ListItemText
+                                    primaryTypographyProps={{
+                                      variant: "body2",
+                                    }}
+                                    primary={`- ${falta}`}
+                                  />
+                                </ListItem>
+                              ),
+                            )}
+                          </List>
+                        ) : (
+                          <Typography variant="body2" color="text.secondary">
+                            Sin faltas eliminatorias registradas.
+                          </Typography>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <Typography>
+                          <strong>Errores:</strong>{" "}
+                          {selectedExam?.erroresExamen ?? "-"}
+                        </Typography>
+                        <Typography>
+                          <strong>Aciertos:</strong>{" "}
+                          {selectedExam?.aciertosExamen ?? "-"}
+                        </Typography>
+                      </>
+                    )}
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleCloseExamModal}>Cerrar</Button>
+                  </DialogActions>
+                </Dialog>
               </CardContent>
             </Card>
           </Stack>

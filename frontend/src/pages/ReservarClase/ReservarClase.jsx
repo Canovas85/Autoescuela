@@ -217,6 +217,12 @@ export default function ReservarClase() {
   }
 
   const elegibilidad = context?.elegibilidad;
+  const bloqueos = Array.isArray(elegibilidad?.bloqueos)
+    ? elegibilidad.bloqueos.filter(Boolean)
+    : [];
+  const mensajeBloqueoPrincipal =
+    bloqueos[0] ||
+    "Para solicitar clase práctica necesitas tener el examen teórico en estado APTO.";
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
@@ -242,10 +248,13 @@ export default function ReservarClase() {
                 Aún no puedes reservar clases prácticas
               </Typography>
             </Stack>
-            <Typography sx={{ mt: 1 }}>
-              Para solicitar clase práctica necesitas tener el examen teórico en
-              estado APTO.
-            </Typography>
+            <Typography sx={{ mt: 1 }}>{mensajeBloqueoPrincipal}</Typography>
+
+            {bloqueos.length > 1 ? (
+              <Typography sx={{ mt: 0.75 }} color="text.secondary">
+                {bloqueos.slice(1).join(" · ")}
+              </Typography>
+            ) : null}
 
             <Stack
               direction="row"

@@ -164,6 +164,21 @@ export type Matricula = $Result.DefaultSelection<Prisma.$MatriculaPayload>
  */
 export type Pago = $Result.DefaultSelection<Prisma.$PagoPayload>
 /**
+ * Model PracticalExamProcessBatch
+ * 
+ */
+export type PracticalExamProcessBatch = $Result.DefaultSelection<Prisma.$PracticalExamProcessBatchPayload>
+/**
+ * Model PracticalExamProcessSolicitud
+ * 
+ */
+export type PracticalExamProcessSolicitud = $Result.DefaultSelection<Prisma.$PracticalExamProcessSolicitudPayload>
+/**
+ * Model PracticalExamProcessPago
+ * 
+ */
+export type PracticalExamProcessPago = $Result.DefaultSelection<Prisma.$PracticalExamProcessPagoPayload>
+/**
  * Model TheoreticalExamProcessBatch
  * 
  */
@@ -188,6 +203,11 @@ export type MatriculaConcepto = $Result.DefaultSelection<Prisma.$MatriculaConcep
  * 
  */
 export type Factura = $Result.DefaultSelection<Prisma.$FacturaPayload>
+/**
+ * Model GastoCombustible
+ * 
+ */
+export type GastoCombustible = $Result.DefaultSelection<Prisma.$GastoCombustiblePayload>
 /**
  * Model Notificacion
  * 
@@ -645,6 +665,36 @@ export class PrismaClient<
   get pago(): Prisma.PagoDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.practicalExamProcessBatch`: Exposes CRUD operations for the **PracticalExamProcessBatch** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PracticalExamProcessBatches
+    * const practicalExamProcessBatches = await prisma.practicalExamProcessBatch.findMany()
+    * ```
+    */
+  get practicalExamProcessBatch(): Prisma.PracticalExamProcessBatchDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.practicalExamProcessSolicitud`: Exposes CRUD operations for the **PracticalExamProcessSolicitud** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PracticalExamProcessSolicituds
+    * const practicalExamProcessSolicituds = await prisma.practicalExamProcessSolicitud.findMany()
+    * ```
+    */
+  get practicalExamProcessSolicitud(): Prisma.PracticalExamProcessSolicitudDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.practicalExamProcessPago`: Exposes CRUD operations for the **PracticalExamProcessPago** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PracticalExamProcessPagos
+    * const practicalExamProcessPagos = await prisma.practicalExamProcessPago.findMany()
+    * ```
+    */
+  get practicalExamProcessPago(): Prisma.PracticalExamProcessPagoDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.theoreticalExamProcessBatch`: Exposes CRUD operations for the **TheoreticalExamProcessBatch** model.
     * Example usage:
     * ```ts
@@ -693,6 +743,16 @@ export class PrismaClient<
     * ```
     */
   get factura(): Prisma.FacturaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.gastoCombustible`: Exposes CRUD operations for the **GastoCombustible** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GastoCombustibles
+    * const gastoCombustibles = await prisma.gastoCombustible.findMany()
+    * ```
+    */
+  get gastoCombustible(): Prisma.GastoCombustibleDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.notificacion`: Exposes CRUD operations for the **Notificacion** model.
@@ -1174,11 +1234,15 @@ export namespace Prisma {
     TarifaMatricula: 'TarifaMatricula',
     Matricula: 'Matricula',
     Pago: 'Pago',
+    PracticalExamProcessBatch: 'PracticalExamProcessBatch',
+    PracticalExamProcessSolicitud: 'PracticalExamProcessSolicitud',
+    PracticalExamProcessPago: 'PracticalExamProcessPago',
     TheoreticalExamProcessBatch: 'TheoreticalExamProcessBatch',
     TheoreticalExamProcessSolicitud: 'TheoreticalExamProcessSolicitud',
     TheoreticalExamProcessPago: 'TheoreticalExamProcessPago',
     MatriculaConcepto: 'MatriculaConcepto',
     Factura: 'Factura',
+    GastoCombustible: 'GastoCombustible',
     Notificacion: 'Notificacion'
   };
 
@@ -1198,7 +1262,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "usuario" | "activacionCuenta" | "profesor" | "profesorHorarioBloque" | "alumno" | "documentoAlumno" | "documentoAlumnoArchivo" | "temario" | "temarioProgreso" | "claseDirecto" | "testPractica" | "preguntaDGT" | "respuestaPreguntaDGT" | "examenDGTAlumno" | "bono" | "compraBono" | "solicitudExamen" | "convocatoriaExamen" | "vehiculo" | "clasePractica" | "hojaRuta" | "hojaRutaFalta" | "hojaRutaFaltaCatalogo" | "examen" | "promocion" | "tarifaConcepto" | "tarifaConceptoHistorial" | "tarifaMatricula" | "matricula" | "pago" | "theoreticalExamProcessBatch" | "theoreticalExamProcessSolicitud" | "theoreticalExamProcessPago" | "matriculaConcepto" | "factura" | "notificacion"
+      modelProps: "usuario" | "activacionCuenta" | "profesor" | "profesorHorarioBloque" | "alumno" | "documentoAlumno" | "documentoAlumnoArchivo" | "temario" | "temarioProgreso" | "claseDirecto" | "testPractica" | "preguntaDGT" | "respuestaPreguntaDGT" | "examenDGTAlumno" | "bono" | "compraBono" | "solicitudExamen" | "convocatoriaExamen" | "vehiculo" | "clasePractica" | "hojaRuta" | "hojaRutaFalta" | "hojaRutaFaltaCatalogo" | "examen" | "promocion" | "tarifaConcepto" | "tarifaConceptoHistorial" | "tarifaMatricula" | "matricula" | "pago" | "practicalExamProcessBatch" | "practicalExamProcessSolicitud" | "practicalExamProcessPago" | "theoreticalExamProcessBatch" | "theoreticalExamProcessSolicitud" | "theoreticalExamProcessPago" | "matriculaConcepto" | "factura" | "gastoCombustible" | "notificacion"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3422,6 +3486,228 @@ export namespace Prisma {
           }
         }
       }
+      PracticalExamProcessBatch: {
+        payload: Prisma.$PracticalExamProcessBatchPayload<ExtArgs>
+        fields: Prisma.PracticalExamProcessBatchFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PracticalExamProcessBatchFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessBatchPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PracticalExamProcessBatchFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessBatchPayload>
+          }
+          findFirst: {
+            args: Prisma.PracticalExamProcessBatchFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessBatchPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PracticalExamProcessBatchFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessBatchPayload>
+          }
+          findMany: {
+            args: Prisma.PracticalExamProcessBatchFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessBatchPayload>[]
+          }
+          create: {
+            args: Prisma.PracticalExamProcessBatchCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessBatchPayload>
+          }
+          createMany: {
+            args: Prisma.PracticalExamProcessBatchCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PracticalExamProcessBatchCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessBatchPayload>[]
+          }
+          delete: {
+            args: Prisma.PracticalExamProcessBatchDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessBatchPayload>
+          }
+          update: {
+            args: Prisma.PracticalExamProcessBatchUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessBatchPayload>
+          }
+          deleteMany: {
+            args: Prisma.PracticalExamProcessBatchDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PracticalExamProcessBatchUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PracticalExamProcessBatchUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessBatchPayload>[]
+          }
+          upsert: {
+            args: Prisma.PracticalExamProcessBatchUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessBatchPayload>
+          }
+          aggregate: {
+            args: Prisma.PracticalExamProcessBatchAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePracticalExamProcessBatch>
+          }
+          groupBy: {
+            args: Prisma.PracticalExamProcessBatchGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PracticalExamProcessBatchGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PracticalExamProcessBatchCountArgs<ExtArgs>
+            result: $Utils.Optional<PracticalExamProcessBatchCountAggregateOutputType> | number
+          }
+        }
+      }
+      PracticalExamProcessSolicitud: {
+        payload: Prisma.$PracticalExamProcessSolicitudPayload<ExtArgs>
+        fields: Prisma.PracticalExamProcessSolicitudFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PracticalExamProcessSolicitudFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessSolicitudPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PracticalExamProcessSolicitudFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessSolicitudPayload>
+          }
+          findFirst: {
+            args: Prisma.PracticalExamProcessSolicitudFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessSolicitudPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PracticalExamProcessSolicitudFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessSolicitudPayload>
+          }
+          findMany: {
+            args: Prisma.PracticalExamProcessSolicitudFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessSolicitudPayload>[]
+          }
+          create: {
+            args: Prisma.PracticalExamProcessSolicitudCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessSolicitudPayload>
+          }
+          createMany: {
+            args: Prisma.PracticalExamProcessSolicitudCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PracticalExamProcessSolicitudCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessSolicitudPayload>[]
+          }
+          delete: {
+            args: Prisma.PracticalExamProcessSolicitudDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessSolicitudPayload>
+          }
+          update: {
+            args: Prisma.PracticalExamProcessSolicitudUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessSolicitudPayload>
+          }
+          deleteMany: {
+            args: Prisma.PracticalExamProcessSolicitudDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PracticalExamProcessSolicitudUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PracticalExamProcessSolicitudUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessSolicitudPayload>[]
+          }
+          upsert: {
+            args: Prisma.PracticalExamProcessSolicitudUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessSolicitudPayload>
+          }
+          aggregate: {
+            args: Prisma.PracticalExamProcessSolicitudAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePracticalExamProcessSolicitud>
+          }
+          groupBy: {
+            args: Prisma.PracticalExamProcessSolicitudGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PracticalExamProcessSolicitudGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PracticalExamProcessSolicitudCountArgs<ExtArgs>
+            result: $Utils.Optional<PracticalExamProcessSolicitudCountAggregateOutputType> | number
+          }
+        }
+      }
+      PracticalExamProcessPago: {
+        payload: Prisma.$PracticalExamProcessPagoPayload<ExtArgs>
+        fields: Prisma.PracticalExamProcessPagoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PracticalExamProcessPagoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessPagoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PracticalExamProcessPagoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessPagoPayload>
+          }
+          findFirst: {
+            args: Prisma.PracticalExamProcessPagoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessPagoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PracticalExamProcessPagoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessPagoPayload>
+          }
+          findMany: {
+            args: Prisma.PracticalExamProcessPagoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessPagoPayload>[]
+          }
+          create: {
+            args: Prisma.PracticalExamProcessPagoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessPagoPayload>
+          }
+          createMany: {
+            args: Prisma.PracticalExamProcessPagoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PracticalExamProcessPagoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessPagoPayload>[]
+          }
+          delete: {
+            args: Prisma.PracticalExamProcessPagoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessPagoPayload>
+          }
+          update: {
+            args: Prisma.PracticalExamProcessPagoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessPagoPayload>
+          }
+          deleteMany: {
+            args: Prisma.PracticalExamProcessPagoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PracticalExamProcessPagoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PracticalExamProcessPagoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessPagoPayload>[]
+          }
+          upsert: {
+            args: Prisma.PracticalExamProcessPagoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PracticalExamProcessPagoPayload>
+          }
+          aggregate: {
+            args: Prisma.PracticalExamProcessPagoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePracticalExamProcessPago>
+          }
+          groupBy: {
+            args: Prisma.PracticalExamProcessPagoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PracticalExamProcessPagoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PracticalExamProcessPagoCountArgs<ExtArgs>
+            result: $Utils.Optional<PracticalExamProcessPagoCountAggregateOutputType> | number
+          }
+        }
+      }
       TheoreticalExamProcessBatch: {
         payload: Prisma.$TheoreticalExamProcessBatchPayload<ExtArgs>
         fields: Prisma.TheoreticalExamProcessBatchFieldRefs
@@ -3792,6 +4078,80 @@ export namespace Prisma {
           }
         }
       }
+      GastoCombustible: {
+        payload: Prisma.$GastoCombustiblePayload<ExtArgs>
+        fields: Prisma.GastoCombustibleFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GastoCombustibleFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GastoCombustiblePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GastoCombustibleFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GastoCombustiblePayload>
+          }
+          findFirst: {
+            args: Prisma.GastoCombustibleFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GastoCombustiblePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GastoCombustibleFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GastoCombustiblePayload>
+          }
+          findMany: {
+            args: Prisma.GastoCombustibleFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GastoCombustiblePayload>[]
+          }
+          create: {
+            args: Prisma.GastoCombustibleCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GastoCombustiblePayload>
+          }
+          createMany: {
+            args: Prisma.GastoCombustibleCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GastoCombustibleCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GastoCombustiblePayload>[]
+          }
+          delete: {
+            args: Prisma.GastoCombustibleDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GastoCombustiblePayload>
+          }
+          update: {
+            args: Prisma.GastoCombustibleUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GastoCombustiblePayload>
+          }
+          deleteMany: {
+            args: Prisma.GastoCombustibleDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GastoCombustibleUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.GastoCombustibleUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GastoCombustiblePayload>[]
+          }
+          upsert: {
+            args: Prisma.GastoCombustibleUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GastoCombustiblePayload>
+          }
+          aggregate: {
+            args: Prisma.GastoCombustibleAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGastoCombustible>
+          }
+          groupBy: {
+            args: Prisma.GastoCombustibleGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GastoCombustibleGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GastoCombustibleCountArgs<ExtArgs>
+            result: $Utils.Optional<GastoCombustibleCountAggregateOutputType> | number
+          }
+        }
+      }
       Notificacion: {
         payload: Prisma.$NotificacionPayload<ExtArgs>
         fields: Prisma.NotificacionFieldRefs
@@ -3992,11 +4352,15 @@ export namespace Prisma {
     tarifaMatricula?: TarifaMatriculaOmit
     matricula?: MatriculaOmit
     pago?: PagoOmit
+    practicalExamProcessBatch?: PracticalExamProcessBatchOmit
+    practicalExamProcessSolicitud?: PracticalExamProcessSolicitudOmit
+    practicalExamProcessPago?: PracticalExamProcessPagoOmit
     theoreticalExamProcessBatch?: TheoreticalExamProcessBatchOmit
     theoreticalExamProcessSolicitud?: TheoreticalExamProcessSolicitudOmit
     theoreticalExamProcessPago?: TheoreticalExamProcessPagoOmit
     matriculaConcepto?: MatriculaConceptoOmit
     factura?: FacturaOmit
+    gastoCombustible?: GastoCombustibleOmit
     notificacion?: NotificacionOmit
   }
 
@@ -4121,6 +4485,7 @@ export namespace Prisma {
     alumnosAsignados: number
     clasesDirecto: number
     clases: number
+    gastosCombustible: number
     hojasRuta: number
     horarioBloques: number
   }
@@ -4129,6 +4494,7 @@ export namespace Prisma {
     alumnosAsignados?: boolean | ProfesorCountOutputTypeCountAlumnosAsignadosArgs
     clasesDirecto?: boolean | ProfesorCountOutputTypeCountClasesDirectoArgs
     clases?: boolean | ProfesorCountOutputTypeCountClasesArgs
+    gastosCombustible?: boolean | ProfesorCountOutputTypeCountGastosCombustibleArgs
     hojasRuta?: boolean | ProfesorCountOutputTypeCountHojasRutaArgs
     horarioBloques?: boolean | ProfesorCountOutputTypeCountHorarioBloquesArgs
   }
@@ -4163,6 +4529,13 @@ export namespace Prisma {
    */
   export type ProfesorCountOutputTypeCountClasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ClasePracticaWhereInput
+  }
+
+  /**
+   * ProfesorCountOutputType without action
+   */
+  export type ProfesorCountOutputTypeCountGastosCombustibleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GastoCombustibleWhereInput
   }
 
   /**
@@ -4498,10 +4871,12 @@ export namespace Prisma {
 
   export type VehiculoCountOutputType = {
     clases: number
+    gastosCombustible: number
   }
 
   export type VehiculoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     clases?: boolean | VehiculoCountOutputTypeCountClasesArgs
+    gastosCombustible?: boolean | VehiculoCountOutputTypeCountGastosCombustibleArgs
   }
 
   // Custom InputTypes
@@ -4520,6 +4895,13 @@ export namespace Prisma {
    */
   export type VehiculoCountOutputTypeCountClasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ClasePracticaWhereInput
+  }
+
+  /**
+   * VehiculoCountOutputType without action
+   */
+  export type VehiculoCountOutputTypeCountGastosCombustibleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GastoCombustibleWhereInput
   }
 
 
@@ -4742,6 +5124,77 @@ export namespace Prisma {
    */
   export type MatriculaCountOutputTypeCountConceptosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MatriculaConceptoWhereInput
+  }
+
+
+  /**
+   * Count Type PagoCountOutputType
+   */
+
+  export type PagoCountOutputType = {
+    solicitudesExamenPractico: number
+  }
+
+  export type PagoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    solicitudesExamenPractico?: boolean | PagoCountOutputTypeCountSolicitudesExamenPracticoArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PagoCountOutputType without action
+   */
+  export type PagoCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PagoCountOutputType
+     */
+    select?: PagoCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PagoCountOutputType without action
+   */
+  export type PagoCountOutputTypeCountSolicitudesExamenPracticoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SolicitudExamenWhereInput
+  }
+
+
+  /**
+   * Count Type PracticalExamProcessBatchCountOutputType
+   */
+
+  export type PracticalExamProcessBatchCountOutputType = {
+    solicitudes: number
+    pagos: number
+  }
+
+  export type PracticalExamProcessBatchCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    solicitudes?: boolean | PracticalExamProcessBatchCountOutputTypeCountSolicitudesArgs
+    pagos?: boolean | PracticalExamProcessBatchCountOutputTypeCountPagosArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PracticalExamProcessBatchCountOutputType without action
+   */
+  export type PracticalExamProcessBatchCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessBatchCountOutputType
+     */
+    select?: PracticalExamProcessBatchCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PracticalExamProcessBatchCountOutputType without action
+   */
+  export type PracticalExamProcessBatchCountOutputTypeCountSolicitudesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PracticalExamProcessSolicitudWhereInput
+  }
+
+  /**
+   * PracticalExamProcessBatchCountOutputType without action
+   */
+  export type PracticalExamProcessBatchCountOutputTypeCountPagosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PracticalExamProcessPagoWhereInput
   }
 
 
@@ -7279,6 +7732,7 @@ export namespace Prisma {
     alumnosAsignados?: boolean | Profesor$alumnosAsignadosArgs<ExtArgs>
     clasesDirecto?: boolean | Profesor$clasesDirectoArgs<ExtArgs>
     clases?: boolean | Profesor$clasesArgs<ExtArgs>
+    gastosCombustible?: boolean | Profesor$gastosCombustibleArgs<ExtArgs>
     hojasRuta?: boolean | Profesor$hojasRutaArgs<ExtArgs>
     horarioBloques?: boolean | Profesor$horarioBloquesArgs<ExtArgs>
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
@@ -7316,6 +7770,7 @@ export namespace Prisma {
     alumnosAsignados?: boolean | Profesor$alumnosAsignadosArgs<ExtArgs>
     clasesDirecto?: boolean | Profesor$clasesDirectoArgs<ExtArgs>
     clases?: boolean | Profesor$clasesArgs<ExtArgs>
+    gastosCombustible?: boolean | Profesor$gastosCombustibleArgs<ExtArgs>
     hojasRuta?: boolean | Profesor$hojasRutaArgs<ExtArgs>
     horarioBloques?: boolean | Profesor$horarioBloquesArgs<ExtArgs>
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
@@ -7334,6 +7789,7 @@ export namespace Prisma {
       alumnosAsignados: Prisma.$AlumnoPayload<ExtArgs>[]
       clasesDirecto: Prisma.$ClaseDirectoPayload<ExtArgs>[]
       clases: Prisma.$ClasePracticaPayload<ExtArgs>[]
+      gastosCombustible: Prisma.$GastoCombustiblePayload<ExtArgs>[]
       hojasRuta: Prisma.$HojaRutaPayload<ExtArgs>[]
       horarioBloques: Prisma.$ProfesorHorarioBloquePayload<ExtArgs>[]
       usuario: Prisma.$UsuarioPayload<ExtArgs>
@@ -7741,6 +8197,7 @@ export namespace Prisma {
     alumnosAsignados<T extends Profesor$alumnosAsignadosArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$alumnosAsignadosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     clasesDirecto<T extends Profesor$clasesDirectoArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$clasesDirectoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClaseDirectoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     clases<T extends Profesor$clasesArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$clasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClasePracticaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    gastosCombustible<T extends Profesor$gastosCombustibleArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$gastosCombustibleArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GastoCombustiblePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     hojasRuta<T extends Profesor$hojasRutaArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$hojasRutaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HojaRutaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     horarioBloques<T extends Profesor$horarioBloquesArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$horarioBloquesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProfesorHorarioBloquePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     usuario<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
@@ -8243,6 +8700,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ClasePracticaScalarFieldEnum | ClasePracticaScalarFieldEnum[]
+  }
+
+  /**
+   * Profesor.gastosCombustible
+   */
+  export type Profesor$gastosCombustibleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GastoCombustible
+     */
+    select?: GastoCombustibleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GastoCombustible
+     */
+    omit?: GastoCombustibleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GastoCombustibleInclude<ExtArgs> | null
+    where?: GastoCombustibleWhereInput
+    orderBy?: GastoCombustibleOrderByWithRelationInput | GastoCombustibleOrderByWithRelationInput[]
+    cursor?: GastoCombustibleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GastoCombustibleScalarFieldEnum | GastoCombustibleScalarFieldEnum[]
   }
 
   /**
@@ -23485,11 +23966,17 @@ export namespace Prisma {
   export type SolicitudExamenAvgAggregateOutputType = {
     erroresExamen: number | null
     aciertosExamen: number | null
+    faltasLeves: number | null
+    faltasDeficientes: number | null
+    faltasEliminatorias: number | null
   }
 
   export type SolicitudExamenSumAggregateOutputType = {
     erroresExamen: number | null
     aciertosExamen: number | null
+    faltasLeves: number | null
+    faltasDeficientes: number | null
+    faltasEliminatorias: number | null
   }
 
   export type SolicitudExamenMinAggregateOutputType = {
@@ -23499,8 +23986,13 @@ export namespace Prisma {
     estado: string | null
     fechaSolicitud: Date | null
     fechaProgramada: Date | null
+    pagoGastoPracticoId: string | null
     erroresExamen: number | null
     aciertosExamen: number | null
+    faltasLeves: number | null
+    faltasDeficientes: number | null
+    faltasEliminatorias: number | null
+    motivoNoApto: string | null
     observaciones: string | null
   }
 
@@ -23511,8 +24003,13 @@ export namespace Prisma {
     estado: string | null
     fechaSolicitud: Date | null
     fechaProgramada: Date | null
+    pagoGastoPracticoId: string | null
     erroresExamen: number | null
     aciertosExamen: number | null
+    faltasLeves: number | null
+    faltasDeficientes: number | null
+    faltasEliminatorias: number | null
+    motivoNoApto: string | null
     observaciones: string | null
   }
 
@@ -23523,8 +24020,16 @@ export namespace Prisma {
     estado: number
     fechaSolicitud: number
     fechaProgramada: number
+    pagoGastoPracticoId: number
     erroresExamen: number
     aciertosExamen: number
+    faltasLeves: number
+    faltasDeficientes: number
+    faltasEliminatorias: number
+    faltasLevesDetalle: number
+    faltasDeficientesDetalle: number
+    faltasEliminatoriasDetalle: number
+    motivoNoApto: number
     observaciones: number
     _all: number
   }
@@ -23533,11 +24038,17 @@ export namespace Prisma {
   export type SolicitudExamenAvgAggregateInputType = {
     erroresExamen?: true
     aciertosExamen?: true
+    faltasLeves?: true
+    faltasDeficientes?: true
+    faltasEliminatorias?: true
   }
 
   export type SolicitudExamenSumAggregateInputType = {
     erroresExamen?: true
     aciertosExamen?: true
+    faltasLeves?: true
+    faltasDeficientes?: true
+    faltasEliminatorias?: true
   }
 
   export type SolicitudExamenMinAggregateInputType = {
@@ -23547,8 +24058,13 @@ export namespace Prisma {
     estado?: true
     fechaSolicitud?: true
     fechaProgramada?: true
+    pagoGastoPracticoId?: true
     erroresExamen?: true
     aciertosExamen?: true
+    faltasLeves?: true
+    faltasDeficientes?: true
+    faltasEliminatorias?: true
+    motivoNoApto?: true
     observaciones?: true
   }
 
@@ -23559,8 +24075,13 @@ export namespace Prisma {
     estado?: true
     fechaSolicitud?: true
     fechaProgramada?: true
+    pagoGastoPracticoId?: true
     erroresExamen?: true
     aciertosExamen?: true
+    faltasLeves?: true
+    faltasDeficientes?: true
+    faltasEliminatorias?: true
+    motivoNoApto?: true
     observaciones?: true
   }
 
@@ -23571,8 +24092,16 @@ export namespace Prisma {
     estado?: true
     fechaSolicitud?: true
     fechaProgramada?: true
+    pagoGastoPracticoId?: true
     erroresExamen?: true
     aciertosExamen?: true
+    faltasLeves?: true
+    faltasDeficientes?: true
+    faltasEliminatorias?: true
+    faltasLevesDetalle?: true
+    faltasDeficientesDetalle?: true
+    faltasEliminatoriasDetalle?: true
+    motivoNoApto?: true
     observaciones?: true
     _all?: true
   }
@@ -23670,8 +24199,16 @@ export namespace Prisma {
     estado: string
     fechaSolicitud: Date
     fechaProgramada: Date | null
+    pagoGastoPracticoId: string | null
     erroresExamen: number | null
     aciertosExamen: number | null
+    faltasLeves: number | null
+    faltasDeficientes: number | null
+    faltasEliminatorias: number | null
+    faltasLevesDetalle: string[]
+    faltasDeficientesDetalle: string[]
+    faltasEliminatoriasDetalle: string[]
+    motivoNoApto: string | null
     observaciones: string | null
     _count: SolicitudExamenCountAggregateOutputType | null
     _avg: SolicitudExamenAvgAggregateOutputType | null
@@ -23701,10 +24238,19 @@ export namespace Prisma {
     estado?: boolean
     fechaSolicitud?: boolean
     fechaProgramada?: boolean
+    pagoGastoPracticoId?: boolean
     erroresExamen?: boolean
     aciertosExamen?: boolean
+    faltasLeves?: boolean
+    faltasDeficientes?: boolean
+    faltasEliminatorias?: boolean
+    faltasLevesDetalle?: boolean
+    faltasDeficientesDetalle?: boolean
+    faltasEliminatoriasDetalle?: boolean
+    motivoNoApto?: boolean
     observaciones?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    pagoGastoPractico?: boolean | SolicitudExamen$pagoGastoPracticoArgs<ExtArgs>
   }, ExtArgs["result"]["solicitudExamen"]>
 
   export type SolicitudExamenSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -23714,10 +24260,19 @@ export namespace Prisma {
     estado?: boolean
     fechaSolicitud?: boolean
     fechaProgramada?: boolean
+    pagoGastoPracticoId?: boolean
     erroresExamen?: boolean
     aciertosExamen?: boolean
+    faltasLeves?: boolean
+    faltasDeficientes?: boolean
+    faltasEliminatorias?: boolean
+    faltasLevesDetalle?: boolean
+    faltasDeficientesDetalle?: boolean
+    faltasEliminatoriasDetalle?: boolean
+    motivoNoApto?: boolean
     observaciones?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    pagoGastoPractico?: boolean | SolicitudExamen$pagoGastoPracticoArgs<ExtArgs>
   }, ExtArgs["result"]["solicitudExamen"]>
 
   export type SolicitudExamenSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -23727,10 +24282,19 @@ export namespace Prisma {
     estado?: boolean
     fechaSolicitud?: boolean
     fechaProgramada?: boolean
+    pagoGastoPracticoId?: boolean
     erroresExamen?: boolean
     aciertosExamen?: boolean
+    faltasLeves?: boolean
+    faltasDeficientes?: boolean
+    faltasEliminatorias?: boolean
+    faltasLevesDetalle?: boolean
+    faltasDeficientesDetalle?: boolean
+    faltasEliminatoriasDetalle?: boolean
+    motivoNoApto?: boolean
     observaciones?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    pagoGastoPractico?: boolean | SolicitudExamen$pagoGastoPracticoArgs<ExtArgs>
   }, ExtArgs["result"]["solicitudExamen"]>
 
   export type SolicitudExamenSelectScalar = {
@@ -23740,26 +24304,38 @@ export namespace Prisma {
     estado?: boolean
     fechaSolicitud?: boolean
     fechaProgramada?: boolean
+    pagoGastoPracticoId?: boolean
     erroresExamen?: boolean
     aciertosExamen?: boolean
+    faltasLeves?: boolean
+    faltasDeficientes?: boolean
+    faltasEliminatorias?: boolean
+    faltasLevesDetalle?: boolean
+    faltasDeficientesDetalle?: boolean
+    faltasEliminatoriasDetalle?: boolean
+    motivoNoApto?: boolean
     observaciones?: boolean
   }
 
-  export type SolicitudExamenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "tipo" | "estado" | "fechaSolicitud" | "fechaProgramada" | "erroresExamen" | "aciertosExamen" | "observaciones", ExtArgs["result"]["solicitudExamen"]>
+  export type SolicitudExamenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "tipo" | "estado" | "fechaSolicitud" | "fechaProgramada" | "pagoGastoPracticoId" | "erroresExamen" | "aciertosExamen" | "faltasLeves" | "faltasDeficientes" | "faltasEliminatorias" | "faltasLevesDetalle" | "faltasDeficientesDetalle" | "faltasEliminatoriasDetalle" | "motivoNoApto" | "observaciones", ExtArgs["result"]["solicitudExamen"]>
   export type SolicitudExamenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    pagoGastoPractico?: boolean | SolicitudExamen$pagoGastoPracticoArgs<ExtArgs>
   }
   export type SolicitudExamenIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    pagoGastoPractico?: boolean | SolicitudExamen$pagoGastoPracticoArgs<ExtArgs>
   }
   export type SolicitudExamenIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    pagoGastoPractico?: boolean | SolicitudExamen$pagoGastoPracticoArgs<ExtArgs>
   }
 
   export type $SolicitudExamenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "SolicitudExamen"
     objects: {
       alumno: Prisma.$AlumnoPayload<ExtArgs>
+      pagoGastoPractico: Prisma.$PagoPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -23768,8 +24344,16 @@ export namespace Prisma {
       estado: string
       fechaSolicitud: Date
       fechaProgramada: Date | null
+      pagoGastoPracticoId: string | null
       erroresExamen: number | null
       aciertosExamen: number | null
+      faltasLeves: number | null
+      faltasDeficientes: number | null
+      faltasEliminatorias: number | null
+      faltasLevesDetalle: string[]
+      faltasDeficientesDetalle: string[]
+      faltasEliminatoriasDetalle: string[]
+      motivoNoApto: string | null
       observaciones: string | null
     }, ExtArgs["result"]["solicitudExamen"]>
     composites: {}
@@ -24166,6 +24750,7 @@ export namespace Prisma {
   export interface Prisma__SolicitudExamenClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     alumno<T extends AlumnoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AlumnoDefaultArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    pagoGastoPractico<T extends SolicitudExamen$pagoGastoPracticoArgs<ExtArgs> = {}>(args?: Subset<T, SolicitudExamen$pagoGastoPracticoArgs<ExtArgs>>): Prisma__PagoClient<$Result.GetResult<Prisma.$PagoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -24201,8 +24786,16 @@ export namespace Prisma {
     readonly estado: FieldRef<"SolicitudExamen", 'String'>
     readonly fechaSolicitud: FieldRef<"SolicitudExamen", 'DateTime'>
     readonly fechaProgramada: FieldRef<"SolicitudExamen", 'DateTime'>
+    readonly pagoGastoPracticoId: FieldRef<"SolicitudExamen", 'String'>
     readonly erroresExamen: FieldRef<"SolicitudExamen", 'Int'>
     readonly aciertosExamen: FieldRef<"SolicitudExamen", 'Int'>
+    readonly faltasLeves: FieldRef<"SolicitudExamen", 'Int'>
+    readonly faltasDeficientes: FieldRef<"SolicitudExamen", 'Int'>
+    readonly faltasEliminatorias: FieldRef<"SolicitudExamen", 'Int'>
+    readonly faltasLevesDetalle: FieldRef<"SolicitudExamen", 'String[]'>
+    readonly faltasDeficientesDetalle: FieldRef<"SolicitudExamen", 'String[]'>
+    readonly faltasEliminatoriasDetalle: FieldRef<"SolicitudExamen", 'String[]'>
+    readonly motivoNoApto: FieldRef<"SolicitudExamen", 'String'>
     readonly observaciones: FieldRef<"SolicitudExamen", 'String'>
   }
     
@@ -24597,6 +25190,25 @@ export namespace Prisma {
      * Limit how many SolicitudExamen to delete.
      */
     limit?: number
+  }
+
+  /**
+   * SolicitudExamen.pagoGastoPractico
+   */
+  export type SolicitudExamen$pagoGastoPracticoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pago
+     */
+    select?: PagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pago
+     */
+    omit?: PagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PagoInclude<ExtArgs> | null
+    where?: PagoWhereInput
   }
 
   /**
@@ -25645,8 +26257,20 @@ export namespace Prisma {
 
   export type AggregateVehiculo = {
     _count: VehiculoCountAggregateOutputType | null
+    _avg: VehiculoAvgAggregateOutputType | null
+    _sum: VehiculoSumAggregateOutputType | null
     _min: VehiculoMinAggregateOutputType | null
     _max: VehiculoMaxAggregateOutputType | null
+  }
+
+  export type VehiculoAvgAggregateOutputType = {
+    kmActuales: number | null
+    combustibleActualPct: number | null
+  }
+
+  export type VehiculoSumAggregateOutputType = {
+    kmActuales: number | null
+    combustibleActualPct: number | null
   }
 
   export type VehiculoMinAggregateOutputType = {
@@ -25655,6 +26279,8 @@ export namespace Prisma {
     marca: string | null
     modelo: string | null
     tipoPermiso: string | null
+    kmActuales: number | null
+    combustibleActualPct: number | null
     activo: boolean | null
     imagenRuta: string | null
   }
@@ -25665,6 +26291,8 @@ export namespace Prisma {
     marca: string | null
     modelo: string | null
     tipoPermiso: string | null
+    kmActuales: number | null
+    combustibleActualPct: number | null
     activo: boolean | null
     imagenRuta: string | null
   }
@@ -25675,11 +26303,23 @@ export namespace Prisma {
     marca: number
     modelo: number
     tipoPermiso: number
+    kmActuales: number
+    combustibleActualPct: number
     activo: number
     imagenRuta: number
     _all: number
   }
 
+
+  export type VehiculoAvgAggregateInputType = {
+    kmActuales?: true
+    combustibleActualPct?: true
+  }
+
+  export type VehiculoSumAggregateInputType = {
+    kmActuales?: true
+    combustibleActualPct?: true
+  }
 
   export type VehiculoMinAggregateInputType = {
     id?: true
@@ -25687,6 +26327,8 @@ export namespace Prisma {
     marca?: true
     modelo?: true
     tipoPermiso?: true
+    kmActuales?: true
+    combustibleActualPct?: true
     activo?: true
     imagenRuta?: true
   }
@@ -25697,6 +26339,8 @@ export namespace Prisma {
     marca?: true
     modelo?: true
     tipoPermiso?: true
+    kmActuales?: true
+    combustibleActualPct?: true
     activo?: true
     imagenRuta?: true
   }
@@ -25707,6 +26351,8 @@ export namespace Prisma {
     marca?: true
     modelo?: true
     tipoPermiso?: true
+    kmActuales?: true
+    combustibleActualPct?: true
     activo?: true
     imagenRuta?: true
     _all?: true
@@ -25750,6 +26396,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: VehiculoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: VehiculoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: VehiculoMinAggregateInputType
@@ -25780,6 +26438,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: VehiculoCountAggregateInputType | true
+    _avg?: VehiculoAvgAggregateInputType
+    _sum?: VehiculoSumAggregateInputType
     _min?: VehiculoMinAggregateInputType
     _max?: VehiculoMaxAggregateInputType
   }
@@ -25790,9 +26450,13 @@ export namespace Prisma {
     marca: string | null
     modelo: string | null
     tipoPermiso: string
+    kmActuales: number
+    combustibleActualPct: number
     activo: boolean
     imagenRuta: string | null
     _count: VehiculoCountAggregateOutputType | null
+    _avg: VehiculoAvgAggregateOutputType | null
+    _sum: VehiculoSumAggregateOutputType | null
     _min: VehiculoMinAggregateOutputType | null
     _max: VehiculoMaxAggregateOutputType | null
   }
@@ -25817,9 +26481,12 @@ export namespace Prisma {
     marca?: boolean
     modelo?: boolean
     tipoPermiso?: boolean
+    kmActuales?: boolean
+    combustibleActualPct?: boolean
     activo?: boolean
     imagenRuta?: boolean
     clases?: boolean | Vehiculo$clasesArgs<ExtArgs>
+    gastosCombustible?: boolean | Vehiculo$gastosCombustibleArgs<ExtArgs>
     _count?: boolean | VehiculoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["vehiculo"]>
 
@@ -25829,6 +26496,8 @@ export namespace Prisma {
     marca?: boolean
     modelo?: boolean
     tipoPermiso?: boolean
+    kmActuales?: boolean
+    combustibleActualPct?: boolean
     activo?: boolean
     imagenRuta?: boolean
   }, ExtArgs["result"]["vehiculo"]>
@@ -25839,6 +26508,8 @@ export namespace Prisma {
     marca?: boolean
     modelo?: boolean
     tipoPermiso?: boolean
+    kmActuales?: boolean
+    combustibleActualPct?: boolean
     activo?: boolean
     imagenRuta?: boolean
   }, ExtArgs["result"]["vehiculo"]>
@@ -25849,13 +26520,16 @@ export namespace Prisma {
     marca?: boolean
     modelo?: boolean
     tipoPermiso?: boolean
+    kmActuales?: boolean
+    combustibleActualPct?: boolean
     activo?: boolean
     imagenRuta?: boolean
   }
 
-  export type VehiculoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "matricula" | "marca" | "modelo" | "tipoPermiso" | "activo" | "imagenRuta", ExtArgs["result"]["vehiculo"]>
+  export type VehiculoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "matricula" | "marca" | "modelo" | "tipoPermiso" | "kmActuales" | "combustibleActualPct" | "activo" | "imagenRuta", ExtArgs["result"]["vehiculo"]>
   export type VehiculoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     clases?: boolean | Vehiculo$clasesArgs<ExtArgs>
+    gastosCombustible?: boolean | Vehiculo$gastosCombustibleArgs<ExtArgs>
     _count?: boolean | VehiculoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type VehiculoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -25865,6 +26539,7 @@ export namespace Prisma {
     name: "Vehiculo"
     objects: {
       clases: Prisma.$ClasePracticaPayload<ExtArgs>[]
+      gastosCombustible: Prisma.$GastoCombustiblePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -25872,6 +26547,8 @@ export namespace Prisma {
       marca: string | null
       modelo: string | null
       tipoPermiso: string
+      kmActuales: number
+      combustibleActualPct: number
       activo: boolean
       imagenRuta: string | null
     }, ExtArgs["result"]["vehiculo"]>
@@ -26269,6 +26946,7 @@ export namespace Prisma {
   export interface Prisma__VehiculoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     clases<T extends Vehiculo$clasesArgs<ExtArgs> = {}>(args?: Subset<T, Vehiculo$clasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClasePracticaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    gastosCombustible<T extends Vehiculo$gastosCombustibleArgs<ExtArgs> = {}>(args?: Subset<T, Vehiculo$gastosCombustibleArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GastoCombustiblePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -26303,6 +26981,8 @@ export namespace Prisma {
     readonly marca: FieldRef<"Vehiculo", 'String'>
     readonly modelo: FieldRef<"Vehiculo", 'String'>
     readonly tipoPermiso: FieldRef<"Vehiculo", 'String'>
+    readonly kmActuales: FieldRef<"Vehiculo", 'Int'>
+    readonly combustibleActualPct: FieldRef<"Vehiculo", 'Int'>
     readonly activo: FieldRef<"Vehiculo", 'Boolean'>
     readonly imagenRuta: FieldRef<"Vehiculo", 'String'>
   }
@@ -26714,6 +27394,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ClasePracticaScalarFieldEnum | ClasePracticaScalarFieldEnum[]
+  }
+
+  /**
+   * Vehiculo.gastosCombustible
+   */
+  export type Vehiculo$gastosCombustibleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GastoCombustible
+     */
+    select?: GastoCombustibleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GastoCombustible
+     */
+    omit?: GastoCombustibleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GastoCombustibleInclude<ExtArgs> | null
+    where?: GastoCombustibleWhereInput
+    orderBy?: GastoCombustibleOrderByWithRelationInput | GastoCombustibleOrderByWithRelationInput[]
+    cursor?: GastoCombustibleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GastoCombustibleScalarFieldEnum | GastoCombustibleScalarFieldEnum[]
   }
 
   /**
@@ -38882,6 +39586,8 @@ export namespace Prisma {
     matricula?: boolean | Pago$matriculaArgs<ExtArgs>
     compraBono?: boolean | Pago$compraBonoArgs<ExtArgs>
     clasePractica?: boolean | Pago$clasePracticaArgs<ExtArgs>
+    solicitudesExamenPractico?: boolean | Pago$solicitudesExamenPracticoArgs<ExtArgs>
+    _count?: boolean | PagoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["pago"]>
 
   export type PagoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -38955,6 +39661,8 @@ export namespace Prisma {
     matricula?: boolean | Pago$matriculaArgs<ExtArgs>
     compraBono?: boolean | Pago$compraBonoArgs<ExtArgs>
     clasePractica?: boolean | Pago$clasePracticaArgs<ExtArgs>
+    solicitudesExamenPractico?: boolean | Pago$solicitudesExamenPracticoArgs<ExtArgs>
+    _count?: boolean | PagoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PagoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
@@ -38976,6 +39684,7 @@ export namespace Prisma {
       matricula: Prisma.$MatriculaPayload<ExtArgs> | null
       compraBono: Prisma.$CompraBonoPayload<ExtArgs> | null
       clasePractica: Prisma.$ClasePracticaPayload<ExtArgs> | null
+      solicitudesExamenPractico: Prisma.$SolicitudExamenPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -39392,6 +40101,7 @@ export namespace Prisma {
     matricula<T extends Pago$matriculaArgs<ExtArgs> = {}>(args?: Subset<T, Pago$matriculaArgs<ExtArgs>>): Prisma__MatriculaClient<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     compraBono<T extends Pago$compraBonoArgs<ExtArgs> = {}>(args?: Subset<T, Pago$compraBonoArgs<ExtArgs>>): Prisma__CompraBonoClient<$Result.GetResult<Prisma.$CompraBonoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     clasePractica<T extends Pago$clasePracticaArgs<ExtArgs> = {}>(args?: Subset<T, Pago$clasePracticaArgs<ExtArgs>>): Prisma__ClasePracticaClient<$Result.GetResult<Prisma.$ClasePracticaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    solicitudesExamenPractico<T extends Pago$solicitudesExamenPracticoArgs<ExtArgs> = {}>(args?: Subset<T, Pago$solicitudesExamenPracticoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SolicitudExamenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -39890,6 +40600,30 @@ export namespace Prisma {
   }
 
   /**
+   * Pago.solicitudesExamenPractico
+   */
+  export type Pago$solicitudesExamenPracticoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SolicitudExamen
+     */
+    select?: SolicitudExamenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SolicitudExamen
+     */
+    omit?: SolicitudExamenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitudExamenInclude<ExtArgs> | null
+    where?: SolicitudExamenWhereInput
+    orderBy?: SolicitudExamenOrderByWithRelationInput | SolicitudExamenOrderByWithRelationInput[]
+    cursor?: SolicitudExamenWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SolicitudExamenScalarFieldEnum | SolicitudExamenScalarFieldEnum[]
+  }
+
+  /**
    * Pago without action
    */
   export type PagoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -39905,6 +40639,3737 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: PagoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PracticalExamProcessBatch
+   */
+
+  export type AggregatePracticalExamProcessBatch = {
+    _count: PracticalExamProcessBatchCountAggregateOutputType | null
+    _min: PracticalExamProcessBatchMinAggregateOutputType | null
+    _max: PracticalExamProcessBatchMaxAggregateOutputType | null
+  }
+
+  export type PracticalExamProcessBatchMinAggregateOutputType = {
+    id: string | null
+    status: string | null
+    mode: string | null
+    targetDate: Date | null
+    seed: string | null
+    operator: string | null
+    reason: string | null
+    dryRun: boolean | null
+    createdAt: Date | null
+    appliedAt: Date | null
+    rolledBackAt: Date | null
+  }
+
+  export type PracticalExamProcessBatchMaxAggregateOutputType = {
+    id: string | null
+    status: string | null
+    mode: string | null
+    targetDate: Date | null
+    seed: string | null
+    operator: string | null
+    reason: string | null
+    dryRun: boolean | null
+    createdAt: Date | null
+    appliedAt: Date | null
+    rolledBackAt: Date | null
+  }
+
+  export type PracticalExamProcessBatchCountAggregateOutputType = {
+    id: number
+    status: number
+    mode: number
+    targetDate: number
+    seed: number
+    operator: number
+    reason: number
+    dryRun: number
+    summary: number
+    createdAt: number
+    appliedAt: number
+    rolledBackAt: number
+    _all: number
+  }
+
+
+  export type PracticalExamProcessBatchMinAggregateInputType = {
+    id?: true
+    status?: true
+    mode?: true
+    targetDate?: true
+    seed?: true
+    operator?: true
+    reason?: true
+    dryRun?: true
+    createdAt?: true
+    appliedAt?: true
+    rolledBackAt?: true
+  }
+
+  export type PracticalExamProcessBatchMaxAggregateInputType = {
+    id?: true
+    status?: true
+    mode?: true
+    targetDate?: true
+    seed?: true
+    operator?: true
+    reason?: true
+    dryRun?: true
+    createdAt?: true
+    appliedAt?: true
+    rolledBackAt?: true
+  }
+
+  export type PracticalExamProcessBatchCountAggregateInputType = {
+    id?: true
+    status?: true
+    mode?: true
+    targetDate?: true
+    seed?: true
+    operator?: true
+    reason?: true
+    dryRun?: true
+    summary?: true
+    createdAt?: true
+    appliedAt?: true
+    rolledBackAt?: true
+    _all?: true
+  }
+
+  export type PracticalExamProcessBatchAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PracticalExamProcessBatch to aggregate.
+     */
+    where?: PracticalExamProcessBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PracticalExamProcessBatches to fetch.
+     */
+    orderBy?: PracticalExamProcessBatchOrderByWithRelationInput | PracticalExamProcessBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PracticalExamProcessBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PracticalExamProcessBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PracticalExamProcessBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PracticalExamProcessBatches
+    **/
+    _count?: true | PracticalExamProcessBatchCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PracticalExamProcessBatchMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PracticalExamProcessBatchMaxAggregateInputType
+  }
+
+  export type GetPracticalExamProcessBatchAggregateType<T extends PracticalExamProcessBatchAggregateArgs> = {
+        [P in keyof T & keyof AggregatePracticalExamProcessBatch]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePracticalExamProcessBatch[P]>
+      : GetScalarType<T[P], AggregatePracticalExamProcessBatch[P]>
+  }
+
+
+
+
+  export type PracticalExamProcessBatchGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PracticalExamProcessBatchWhereInput
+    orderBy?: PracticalExamProcessBatchOrderByWithAggregationInput | PracticalExamProcessBatchOrderByWithAggregationInput[]
+    by: PracticalExamProcessBatchScalarFieldEnum[] | PracticalExamProcessBatchScalarFieldEnum
+    having?: PracticalExamProcessBatchScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PracticalExamProcessBatchCountAggregateInputType | true
+    _min?: PracticalExamProcessBatchMinAggregateInputType
+    _max?: PracticalExamProcessBatchMaxAggregateInputType
+  }
+
+  export type PracticalExamProcessBatchGroupByOutputType = {
+    id: string
+    status: string
+    mode: string
+    targetDate: Date
+    seed: string | null
+    operator: string | null
+    reason: string | null
+    dryRun: boolean
+    summary: JsonValue
+    createdAt: Date
+    appliedAt: Date | null
+    rolledBackAt: Date | null
+    _count: PracticalExamProcessBatchCountAggregateOutputType | null
+    _min: PracticalExamProcessBatchMinAggregateOutputType | null
+    _max: PracticalExamProcessBatchMaxAggregateOutputType | null
+  }
+
+  type GetPracticalExamProcessBatchGroupByPayload<T extends PracticalExamProcessBatchGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PracticalExamProcessBatchGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PracticalExamProcessBatchGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PracticalExamProcessBatchGroupByOutputType[P]>
+            : GetScalarType<T[P], PracticalExamProcessBatchGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PracticalExamProcessBatchSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    status?: boolean
+    mode?: boolean
+    targetDate?: boolean
+    seed?: boolean
+    operator?: boolean
+    reason?: boolean
+    dryRun?: boolean
+    summary?: boolean
+    createdAt?: boolean
+    appliedAt?: boolean
+    rolledBackAt?: boolean
+    solicitudes?: boolean | PracticalExamProcessBatch$solicitudesArgs<ExtArgs>
+    pagos?: boolean | PracticalExamProcessBatch$pagosArgs<ExtArgs>
+    _count?: boolean | PracticalExamProcessBatchCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["practicalExamProcessBatch"]>
+
+  export type PracticalExamProcessBatchSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    status?: boolean
+    mode?: boolean
+    targetDate?: boolean
+    seed?: boolean
+    operator?: boolean
+    reason?: boolean
+    dryRun?: boolean
+    summary?: boolean
+    createdAt?: boolean
+    appliedAt?: boolean
+    rolledBackAt?: boolean
+  }, ExtArgs["result"]["practicalExamProcessBatch"]>
+
+  export type PracticalExamProcessBatchSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    status?: boolean
+    mode?: boolean
+    targetDate?: boolean
+    seed?: boolean
+    operator?: boolean
+    reason?: boolean
+    dryRun?: boolean
+    summary?: boolean
+    createdAt?: boolean
+    appliedAt?: boolean
+    rolledBackAt?: boolean
+  }, ExtArgs["result"]["practicalExamProcessBatch"]>
+
+  export type PracticalExamProcessBatchSelectScalar = {
+    id?: boolean
+    status?: boolean
+    mode?: boolean
+    targetDate?: boolean
+    seed?: boolean
+    operator?: boolean
+    reason?: boolean
+    dryRun?: boolean
+    summary?: boolean
+    createdAt?: boolean
+    appliedAt?: boolean
+    rolledBackAt?: boolean
+  }
+
+  export type PracticalExamProcessBatchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "status" | "mode" | "targetDate" | "seed" | "operator" | "reason" | "dryRun" | "summary" | "createdAt" | "appliedAt" | "rolledBackAt", ExtArgs["result"]["practicalExamProcessBatch"]>
+  export type PracticalExamProcessBatchInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    solicitudes?: boolean | PracticalExamProcessBatch$solicitudesArgs<ExtArgs>
+    pagos?: boolean | PracticalExamProcessBatch$pagosArgs<ExtArgs>
+    _count?: boolean | PracticalExamProcessBatchCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PracticalExamProcessBatchIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type PracticalExamProcessBatchIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $PracticalExamProcessBatchPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PracticalExamProcessBatch"
+    objects: {
+      solicitudes: Prisma.$PracticalExamProcessSolicitudPayload<ExtArgs>[]
+      pagos: Prisma.$PracticalExamProcessPagoPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      status: string
+      mode: string
+      targetDate: Date
+      seed: string | null
+      operator: string | null
+      reason: string | null
+      dryRun: boolean
+      summary: Prisma.JsonValue
+      createdAt: Date
+      appliedAt: Date | null
+      rolledBackAt: Date | null
+    }, ExtArgs["result"]["practicalExamProcessBatch"]>
+    composites: {}
+  }
+
+  type PracticalExamProcessBatchGetPayload<S extends boolean | null | undefined | PracticalExamProcessBatchDefaultArgs> = $Result.GetResult<Prisma.$PracticalExamProcessBatchPayload, S>
+
+  type PracticalExamProcessBatchCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PracticalExamProcessBatchFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PracticalExamProcessBatchCountAggregateInputType | true
+    }
+
+  export interface PracticalExamProcessBatchDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PracticalExamProcessBatch'], meta: { name: 'PracticalExamProcessBatch' } }
+    /**
+     * Find zero or one PracticalExamProcessBatch that matches the filter.
+     * @param {PracticalExamProcessBatchFindUniqueArgs} args - Arguments to find a PracticalExamProcessBatch
+     * @example
+     * // Get one PracticalExamProcessBatch
+     * const practicalExamProcessBatch = await prisma.practicalExamProcessBatch.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PracticalExamProcessBatchFindUniqueArgs>(args: SelectSubset<T, PracticalExamProcessBatchFindUniqueArgs<ExtArgs>>): Prisma__PracticalExamProcessBatchClient<$Result.GetResult<Prisma.$PracticalExamProcessBatchPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PracticalExamProcessBatch that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PracticalExamProcessBatchFindUniqueOrThrowArgs} args - Arguments to find a PracticalExamProcessBatch
+     * @example
+     * // Get one PracticalExamProcessBatch
+     * const practicalExamProcessBatch = await prisma.practicalExamProcessBatch.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PracticalExamProcessBatchFindUniqueOrThrowArgs>(args: SelectSubset<T, PracticalExamProcessBatchFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PracticalExamProcessBatchClient<$Result.GetResult<Prisma.$PracticalExamProcessBatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PracticalExamProcessBatch that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PracticalExamProcessBatchFindFirstArgs} args - Arguments to find a PracticalExamProcessBatch
+     * @example
+     * // Get one PracticalExamProcessBatch
+     * const practicalExamProcessBatch = await prisma.practicalExamProcessBatch.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PracticalExamProcessBatchFindFirstArgs>(args?: SelectSubset<T, PracticalExamProcessBatchFindFirstArgs<ExtArgs>>): Prisma__PracticalExamProcessBatchClient<$Result.GetResult<Prisma.$PracticalExamProcessBatchPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PracticalExamProcessBatch that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PracticalExamProcessBatchFindFirstOrThrowArgs} args - Arguments to find a PracticalExamProcessBatch
+     * @example
+     * // Get one PracticalExamProcessBatch
+     * const practicalExamProcessBatch = await prisma.practicalExamProcessBatch.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PracticalExamProcessBatchFindFirstOrThrowArgs>(args?: SelectSubset<T, PracticalExamProcessBatchFindFirstOrThrowArgs<ExtArgs>>): Prisma__PracticalExamProcessBatchClient<$Result.GetResult<Prisma.$PracticalExamProcessBatchPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PracticalExamProcessBatches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PracticalExamProcessBatchFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PracticalExamProcessBatches
+     * const practicalExamProcessBatches = await prisma.practicalExamProcessBatch.findMany()
+     * 
+     * // Get first 10 PracticalExamProcessBatches
+     * const practicalExamProcessBatches = await prisma.practicalExamProcessBatch.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const practicalExamProcessBatchWithIdOnly = await prisma.practicalExamProcessBatch.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PracticalExamProcessBatchFindManyArgs>(args?: SelectSubset<T, PracticalExamProcessBatchFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PracticalExamProcessBatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PracticalExamProcessBatch.
+     * @param {PracticalExamProcessBatchCreateArgs} args - Arguments to create a PracticalExamProcessBatch.
+     * @example
+     * // Create one PracticalExamProcessBatch
+     * const PracticalExamProcessBatch = await prisma.practicalExamProcessBatch.create({
+     *   data: {
+     *     // ... data to create a PracticalExamProcessBatch
+     *   }
+     * })
+     * 
+     */
+    create<T extends PracticalExamProcessBatchCreateArgs>(args: SelectSubset<T, PracticalExamProcessBatchCreateArgs<ExtArgs>>): Prisma__PracticalExamProcessBatchClient<$Result.GetResult<Prisma.$PracticalExamProcessBatchPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PracticalExamProcessBatches.
+     * @param {PracticalExamProcessBatchCreateManyArgs} args - Arguments to create many PracticalExamProcessBatches.
+     * @example
+     * // Create many PracticalExamProcessBatches
+     * const practicalExamProcessBatch = await prisma.practicalExamProcessBatch.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PracticalExamProcessBatchCreateManyArgs>(args?: SelectSubset<T, PracticalExamProcessBatchCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PracticalExamProcessBatches and returns the data saved in the database.
+     * @param {PracticalExamProcessBatchCreateManyAndReturnArgs} args - Arguments to create many PracticalExamProcessBatches.
+     * @example
+     * // Create many PracticalExamProcessBatches
+     * const practicalExamProcessBatch = await prisma.practicalExamProcessBatch.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PracticalExamProcessBatches and only return the `id`
+     * const practicalExamProcessBatchWithIdOnly = await prisma.practicalExamProcessBatch.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PracticalExamProcessBatchCreateManyAndReturnArgs>(args?: SelectSubset<T, PracticalExamProcessBatchCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PracticalExamProcessBatchPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PracticalExamProcessBatch.
+     * @param {PracticalExamProcessBatchDeleteArgs} args - Arguments to delete one PracticalExamProcessBatch.
+     * @example
+     * // Delete one PracticalExamProcessBatch
+     * const PracticalExamProcessBatch = await prisma.practicalExamProcessBatch.delete({
+     *   where: {
+     *     // ... filter to delete one PracticalExamProcessBatch
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PracticalExamProcessBatchDeleteArgs>(args: SelectSubset<T, PracticalExamProcessBatchDeleteArgs<ExtArgs>>): Prisma__PracticalExamProcessBatchClient<$Result.GetResult<Prisma.$PracticalExamProcessBatchPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PracticalExamProcessBatch.
+     * @param {PracticalExamProcessBatchUpdateArgs} args - Arguments to update one PracticalExamProcessBatch.
+     * @example
+     * // Update one PracticalExamProcessBatch
+     * const practicalExamProcessBatch = await prisma.practicalExamProcessBatch.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PracticalExamProcessBatchUpdateArgs>(args: SelectSubset<T, PracticalExamProcessBatchUpdateArgs<ExtArgs>>): Prisma__PracticalExamProcessBatchClient<$Result.GetResult<Prisma.$PracticalExamProcessBatchPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PracticalExamProcessBatches.
+     * @param {PracticalExamProcessBatchDeleteManyArgs} args - Arguments to filter PracticalExamProcessBatches to delete.
+     * @example
+     * // Delete a few PracticalExamProcessBatches
+     * const { count } = await prisma.practicalExamProcessBatch.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PracticalExamProcessBatchDeleteManyArgs>(args?: SelectSubset<T, PracticalExamProcessBatchDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PracticalExamProcessBatches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PracticalExamProcessBatchUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PracticalExamProcessBatches
+     * const practicalExamProcessBatch = await prisma.practicalExamProcessBatch.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PracticalExamProcessBatchUpdateManyArgs>(args: SelectSubset<T, PracticalExamProcessBatchUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PracticalExamProcessBatches and returns the data updated in the database.
+     * @param {PracticalExamProcessBatchUpdateManyAndReturnArgs} args - Arguments to update many PracticalExamProcessBatches.
+     * @example
+     * // Update many PracticalExamProcessBatches
+     * const practicalExamProcessBatch = await prisma.practicalExamProcessBatch.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PracticalExamProcessBatches and only return the `id`
+     * const practicalExamProcessBatchWithIdOnly = await prisma.practicalExamProcessBatch.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PracticalExamProcessBatchUpdateManyAndReturnArgs>(args: SelectSubset<T, PracticalExamProcessBatchUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PracticalExamProcessBatchPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PracticalExamProcessBatch.
+     * @param {PracticalExamProcessBatchUpsertArgs} args - Arguments to update or create a PracticalExamProcessBatch.
+     * @example
+     * // Update or create a PracticalExamProcessBatch
+     * const practicalExamProcessBatch = await prisma.practicalExamProcessBatch.upsert({
+     *   create: {
+     *     // ... data to create a PracticalExamProcessBatch
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PracticalExamProcessBatch we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PracticalExamProcessBatchUpsertArgs>(args: SelectSubset<T, PracticalExamProcessBatchUpsertArgs<ExtArgs>>): Prisma__PracticalExamProcessBatchClient<$Result.GetResult<Prisma.$PracticalExamProcessBatchPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PracticalExamProcessBatches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PracticalExamProcessBatchCountArgs} args - Arguments to filter PracticalExamProcessBatches to count.
+     * @example
+     * // Count the number of PracticalExamProcessBatches
+     * const count = await prisma.practicalExamProcessBatch.count({
+     *   where: {
+     *     // ... the filter for the PracticalExamProcessBatches we want to count
+     *   }
+     * })
+    **/
+    count<T extends PracticalExamProcessBatchCountArgs>(
+      args?: Subset<T, PracticalExamProcessBatchCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PracticalExamProcessBatchCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PracticalExamProcessBatch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PracticalExamProcessBatchAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PracticalExamProcessBatchAggregateArgs>(args: Subset<T, PracticalExamProcessBatchAggregateArgs>): Prisma.PrismaPromise<GetPracticalExamProcessBatchAggregateType<T>>
+
+    /**
+     * Group by PracticalExamProcessBatch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PracticalExamProcessBatchGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PracticalExamProcessBatchGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PracticalExamProcessBatchGroupByArgs['orderBy'] }
+        : { orderBy?: PracticalExamProcessBatchGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PracticalExamProcessBatchGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPracticalExamProcessBatchGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PracticalExamProcessBatch model
+   */
+  readonly fields: PracticalExamProcessBatchFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PracticalExamProcessBatch.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PracticalExamProcessBatchClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    solicitudes<T extends PracticalExamProcessBatch$solicitudesArgs<ExtArgs> = {}>(args?: Subset<T, PracticalExamProcessBatch$solicitudesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PracticalExamProcessSolicitudPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    pagos<T extends PracticalExamProcessBatch$pagosArgs<ExtArgs> = {}>(args?: Subset<T, PracticalExamProcessBatch$pagosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PracticalExamProcessPagoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PracticalExamProcessBatch model
+   */
+  interface PracticalExamProcessBatchFieldRefs {
+    readonly id: FieldRef<"PracticalExamProcessBatch", 'String'>
+    readonly status: FieldRef<"PracticalExamProcessBatch", 'String'>
+    readonly mode: FieldRef<"PracticalExamProcessBatch", 'String'>
+    readonly targetDate: FieldRef<"PracticalExamProcessBatch", 'DateTime'>
+    readonly seed: FieldRef<"PracticalExamProcessBatch", 'String'>
+    readonly operator: FieldRef<"PracticalExamProcessBatch", 'String'>
+    readonly reason: FieldRef<"PracticalExamProcessBatch", 'String'>
+    readonly dryRun: FieldRef<"PracticalExamProcessBatch", 'Boolean'>
+    readonly summary: FieldRef<"PracticalExamProcessBatch", 'Json'>
+    readonly createdAt: FieldRef<"PracticalExamProcessBatch", 'DateTime'>
+    readonly appliedAt: FieldRef<"PracticalExamProcessBatch", 'DateTime'>
+    readonly rolledBackAt: FieldRef<"PracticalExamProcessBatch", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PracticalExamProcessBatch findUnique
+   */
+  export type PracticalExamProcessBatchFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessBatch
+     */
+    select?: PracticalExamProcessBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessBatch
+     */
+    omit?: PracticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which PracticalExamProcessBatch to fetch.
+     */
+    where: PracticalExamProcessBatchWhereUniqueInput
+  }
+
+  /**
+   * PracticalExamProcessBatch findUniqueOrThrow
+   */
+  export type PracticalExamProcessBatchFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessBatch
+     */
+    select?: PracticalExamProcessBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessBatch
+     */
+    omit?: PracticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which PracticalExamProcessBatch to fetch.
+     */
+    where: PracticalExamProcessBatchWhereUniqueInput
+  }
+
+  /**
+   * PracticalExamProcessBatch findFirst
+   */
+  export type PracticalExamProcessBatchFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessBatch
+     */
+    select?: PracticalExamProcessBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessBatch
+     */
+    omit?: PracticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which PracticalExamProcessBatch to fetch.
+     */
+    where?: PracticalExamProcessBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PracticalExamProcessBatches to fetch.
+     */
+    orderBy?: PracticalExamProcessBatchOrderByWithRelationInput | PracticalExamProcessBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PracticalExamProcessBatches.
+     */
+    cursor?: PracticalExamProcessBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PracticalExamProcessBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PracticalExamProcessBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PracticalExamProcessBatches.
+     */
+    distinct?: PracticalExamProcessBatchScalarFieldEnum | PracticalExamProcessBatchScalarFieldEnum[]
+  }
+
+  /**
+   * PracticalExamProcessBatch findFirstOrThrow
+   */
+  export type PracticalExamProcessBatchFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessBatch
+     */
+    select?: PracticalExamProcessBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessBatch
+     */
+    omit?: PracticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which PracticalExamProcessBatch to fetch.
+     */
+    where?: PracticalExamProcessBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PracticalExamProcessBatches to fetch.
+     */
+    orderBy?: PracticalExamProcessBatchOrderByWithRelationInput | PracticalExamProcessBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PracticalExamProcessBatches.
+     */
+    cursor?: PracticalExamProcessBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PracticalExamProcessBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PracticalExamProcessBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PracticalExamProcessBatches.
+     */
+    distinct?: PracticalExamProcessBatchScalarFieldEnum | PracticalExamProcessBatchScalarFieldEnum[]
+  }
+
+  /**
+   * PracticalExamProcessBatch findMany
+   */
+  export type PracticalExamProcessBatchFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessBatch
+     */
+    select?: PracticalExamProcessBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessBatch
+     */
+    omit?: PracticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which PracticalExamProcessBatches to fetch.
+     */
+    where?: PracticalExamProcessBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PracticalExamProcessBatches to fetch.
+     */
+    orderBy?: PracticalExamProcessBatchOrderByWithRelationInput | PracticalExamProcessBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PracticalExamProcessBatches.
+     */
+    cursor?: PracticalExamProcessBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PracticalExamProcessBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PracticalExamProcessBatches.
+     */
+    skip?: number
+    distinct?: PracticalExamProcessBatchScalarFieldEnum | PracticalExamProcessBatchScalarFieldEnum[]
+  }
+
+  /**
+   * PracticalExamProcessBatch create
+   */
+  export type PracticalExamProcessBatchCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessBatch
+     */
+    select?: PracticalExamProcessBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessBatch
+     */
+    omit?: PracticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessBatchInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PracticalExamProcessBatch.
+     */
+    data: XOR<PracticalExamProcessBatchCreateInput, PracticalExamProcessBatchUncheckedCreateInput>
+  }
+
+  /**
+   * PracticalExamProcessBatch createMany
+   */
+  export type PracticalExamProcessBatchCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PracticalExamProcessBatches.
+     */
+    data: PracticalExamProcessBatchCreateManyInput | PracticalExamProcessBatchCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PracticalExamProcessBatch createManyAndReturn
+   */
+  export type PracticalExamProcessBatchCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessBatch
+     */
+    select?: PracticalExamProcessBatchSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessBatch
+     */
+    omit?: PracticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * The data used to create many PracticalExamProcessBatches.
+     */
+    data: PracticalExamProcessBatchCreateManyInput | PracticalExamProcessBatchCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PracticalExamProcessBatch update
+   */
+  export type PracticalExamProcessBatchUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessBatch
+     */
+    select?: PracticalExamProcessBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessBatch
+     */
+    omit?: PracticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessBatchInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PracticalExamProcessBatch.
+     */
+    data: XOR<PracticalExamProcessBatchUpdateInput, PracticalExamProcessBatchUncheckedUpdateInput>
+    /**
+     * Choose, which PracticalExamProcessBatch to update.
+     */
+    where: PracticalExamProcessBatchWhereUniqueInput
+  }
+
+  /**
+   * PracticalExamProcessBatch updateMany
+   */
+  export type PracticalExamProcessBatchUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PracticalExamProcessBatches.
+     */
+    data: XOR<PracticalExamProcessBatchUpdateManyMutationInput, PracticalExamProcessBatchUncheckedUpdateManyInput>
+    /**
+     * Filter which PracticalExamProcessBatches to update
+     */
+    where?: PracticalExamProcessBatchWhereInput
+    /**
+     * Limit how many PracticalExamProcessBatches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PracticalExamProcessBatch updateManyAndReturn
+   */
+  export type PracticalExamProcessBatchUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessBatch
+     */
+    select?: PracticalExamProcessBatchSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessBatch
+     */
+    omit?: PracticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * The data used to update PracticalExamProcessBatches.
+     */
+    data: XOR<PracticalExamProcessBatchUpdateManyMutationInput, PracticalExamProcessBatchUncheckedUpdateManyInput>
+    /**
+     * Filter which PracticalExamProcessBatches to update
+     */
+    where?: PracticalExamProcessBatchWhereInput
+    /**
+     * Limit how many PracticalExamProcessBatches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PracticalExamProcessBatch upsert
+   */
+  export type PracticalExamProcessBatchUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessBatch
+     */
+    select?: PracticalExamProcessBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessBatch
+     */
+    omit?: PracticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessBatchInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PracticalExamProcessBatch to update in case it exists.
+     */
+    where: PracticalExamProcessBatchWhereUniqueInput
+    /**
+     * In case the PracticalExamProcessBatch found by the `where` argument doesn't exist, create a new PracticalExamProcessBatch with this data.
+     */
+    create: XOR<PracticalExamProcessBatchCreateInput, PracticalExamProcessBatchUncheckedCreateInput>
+    /**
+     * In case the PracticalExamProcessBatch was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PracticalExamProcessBatchUpdateInput, PracticalExamProcessBatchUncheckedUpdateInput>
+  }
+
+  /**
+   * PracticalExamProcessBatch delete
+   */
+  export type PracticalExamProcessBatchDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessBatch
+     */
+    select?: PracticalExamProcessBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessBatch
+     */
+    omit?: PracticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessBatchInclude<ExtArgs> | null
+    /**
+     * Filter which PracticalExamProcessBatch to delete.
+     */
+    where: PracticalExamProcessBatchWhereUniqueInput
+  }
+
+  /**
+   * PracticalExamProcessBatch deleteMany
+   */
+  export type PracticalExamProcessBatchDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PracticalExamProcessBatches to delete
+     */
+    where?: PracticalExamProcessBatchWhereInput
+    /**
+     * Limit how many PracticalExamProcessBatches to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PracticalExamProcessBatch.solicitudes
+   */
+  export type PracticalExamProcessBatch$solicitudesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessSolicitud
+     */
+    select?: PracticalExamProcessSolicitudSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessSolicitud
+     */
+    omit?: PracticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessSolicitudInclude<ExtArgs> | null
+    where?: PracticalExamProcessSolicitudWhereInput
+    orderBy?: PracticalExamProcessSolicitudOrderByWithRelationInput | PracticalExamProcessSolicitudOrderByWithRelationInput[]
+    cursor?: PracticalExamProcessSolicitudWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PracticalExamProcessSolicitudScalarFieldEnum | PracticalExamProcessSolicitudScalarFieldEnum[]
+  }
+
+  /**
+   * PracticalExamProcessBatch.pagos
+   */
+  export type PracticalExamProcessBatch$pagosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessPago
+     */
+    select?: PracticalExamProcessPagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessPago
+     */
+    omit?: PracticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessPagoInclude<ExtArgs> | null
+    where?: PracticalExamProcessPagoWhereInput
+    orderBy?: PracticalExamProcessPagoOrderByWithRelationInput | PracticalExamProcessPagoOrderByWithRelationInput[]
+    cursor?: PracticalExamProcessPagoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PracticalExamProcessPagoScalarFieldEnum | PracticalExamProcessPagoScalarFieldEnum[]
+  }
+
+  /**
+   * PracticalExamProcessBatch without action
+   */
+  export type PracticalExamProcessBatchDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessBatch
+     */
+    select?: PracticalExamProcessBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessBatch
+     */
+    omit?: PracticalExamProcessBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessBatchInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PracticalExamProcessSolicitud
+   */
+
+  export type AggregatePracticalExamProcessSolicitud = {
+    _count: PracticalExamProcessSolicitudCountAggregateOutputType | null
+    _avg: PracticalExamProcessSolicitudAvgAggregateOutputType | null
+    _sum: PracticalExamProcessSolicitudSumAggregateOutputType | null
+    _min: PracticalExamProcessSolicitudMinAggregateOutputType | null
+    _max: PracticalExamProcessSolicitudMaxAggregateOutputType | null
+  }
+
+  export type PracticalExamProcessSolicitudAvgAggregateOutputType = {
+    id: number | null
+    beforeErrores: number | null
+    beforeAciertos: number | null
+    beforeFaltasLeves: number | null
+    beforeFaltasDeficientes: number | null
+    beforeFaltasEliminatorias: number | null
+    afterErrores: number | null
+    afterAciertos: number | null
+    afterFaltasLeves: number | null
+    afterFaltasDeficientes: number | null
+    afterFaltasEliminatorias: number | null
+  }
+
+  export type PracticalExamProcessSolicitudSumAggregateOutputType = {
+    id: bigint | null
+    beforeErrores: number | null
+    beforeAciertos: number | null
+    beforeFaltasLeves: number | null
+    beforeFaltasDeficientes: number | null
+    beforeFaltasEliminatorias: number | null
+    afterErrores: number | null
+    afterAciertos: number | null
+    afterFaltasLeves: number | null
+    afterFaltasDeficientes: number | null
+    afterFaltasEliminatorias: number | null
+  }
+
+  export type PracticalExamProcessSolicitudMinAggregateOutputType = {
+    id: bigint | null
+    batchId: string | null
+    solicitudId: string | null
+    alumnoId: string | null
+    beforeEstado: string | null
+    beforeErrores: number | null
+    beforeAciertos: number | null
+    beforeFaltasLeves: number | null
+    beforeFaltasDeficientes: number | null
+    beforeFaltasEliminatorias: number | null
+    beforeMotivoNoApto: string | null
+    afterEstado: string | null
+    afterErrores: number | null
+    afterAciertos: number | null
+    afterFaltasLeves: number | null
+    afterFaltasDeficientes: number | null
+    afterFaltasEliminatorias: number | null
+    afterMotivoNoApto: string | null
+    createdExamenId: string | null
+    revertedAt: Date | null
+    conflictReason: string | null
+  }
+
+  export type PracticalExamProcessSolicitudMaxAggregateOutputType = {
+    id: bigint | null
+    batchId: string | null
+    solicitudId: string | null
+    alumnoId: string | null
+    beforeEstado: string | null
+    beforeErrores: number | null
+    beforeAciertos: number | null
+    beforeFaltasLeves: number | null
+    beforeFaltasDeficientes: number | null
+    beforeFaltasEliminatorias: number | null
+    beforeMotivoNoApto: string | null
+    afterEstado: string | null
+    afterErrores: number | null
+    afterAciertos: number | null
+    afterFaltasLeves: number | null
+    afterFaltasDeficientes: number | null
+    afterFaltasEliminatorias: number | null
+    afterMotivoNoApto: string | null
+    createdExamenId: string | null
+    revertedAt: Date | null
+    conflictReason: string | null
+  }
+
+  export type PracticalExamProcessSolicitudCountAggregateOutputType = {
+    id: number
+    batchId: number
+    solicitudId: number
+    alumnoId: number
+    beforeEstado: number
+    beforeErrores: number
+    beforeAciertos: number
+    beforeFaltasLeves: number
+    beforeFaltasDeficientes: number
+    beforeFaltasEliminatorias: number
+    beforeFaltasLevesDetalle: number
+    beforeFaltasDeficientesDetalle: number
+    beforeFaltasEliminatoriasDetalle: number
+    beforeMotivoNoApto: number
+    afterEstado: number
+    afterErrores: number
+    afterAciertos: number
+    afterFaltasLeves: number
+    afterFaltasDeficientes: number
+    afterFaltasEliminatorias: number
+    afterFaltasLevesDetalle: number
+    afterFaltasDeficientesDetalle: number
+    afterFaltasEliminatoriasDetalle: number
+    afterMotivoNoApto: number
+    createdExamenId: number
+    revertedAt: number
+    conflictReason: number
+    _all: number
+  }
+
+
+  export type PracticalExamProcessSolicitudAvgAggregateInputType = {
+    id?: true
+    beforeErrores?: true
+    beforeAciertos?: true
+    beforeFaltasLeves?: true
+    beforeFaltasDeficientes?: true
+    beforeFaltasEliminatorias?: true
+    afterErrores?: true
+    afterAciertos?: true
+    afterFaltasLeves?: true
+    afterFaltasDeficientes?: true
+    afterFaltasEliminatorias?: true
+  }
+
+  export type PracticalExamProcessSolicitudSumAggregateInputType = {
+    id?: true
+    beforeErrores?: true
+    beforeAciertos?: true
+    beforeFaltasLeves?: true
+    beforeFaltasDeficientes?: true
+    beforeFaltasEliminatorias?: true
+    afterErrores?: true
+    afterAciertos?: true
+    afterFaltasLeves?: true
+    afterFaltasDeficientes?: true
+    afterFaltasEliminatorias?: true
+  }
+
+  export type PracticalExamProcessSolicitudMinAggregateInputType = {
+    id?: true
+    batchId?: true
+    solicitudId?: true
+    alumnoId?: true
+    beforeEstado?: true
+    beforeErrores?: true
+    beforeAciertos?: true
+    beforeFaltasLeves?: true
+    beforeFaltasDeficientes?: true
+    beforeFaltasEliminatorias?: true
+    beforeMotivoNoApto?: true
+    afterEstado?: true
+    afterErrores?: true
+    afterAciertos?: true
+    afterFaltasLeves?: true
+    afterFaltasDeficientes?: true
+    afterFaltasEliminatorias?: true
+    afterMotivoNoApto?: true
+    createdExamenId?: true
+    revertedAt?: true
+    conflictReason?: true
+  }
+
+  export type PracticalExamProcessSolicitudMaxAggregateInputType = {
+    id?: true
+    batchId?: true
+    solicitudId?: true
+    alumnoId?: true
+    beforeEstado?: true
+    beforeErrores?: true
+    beforeAciertos?: true
+    beforeFaltasLeves?: true
+    beforeFaltasDeficientes?: true
+    beforeFaltasEliminatorias?: true
+    beforeMotivoNoApto?: true
+    afterEstado?: true
+    afterErrores?: true
+    afterAciertos?: true
+    afterFaltasLeves?: true
+    afterFaltasDeficientes?: true
+    afterFaltasEliminatorias?: true
+    afterMotivoNoApto?: true
+    createdExamenId?: true
+    revertedAt?: true
+    conflictReason?: true
+  }
+
+  export type PracticalExamProcessSolicitudCountAggregateInputType = {
+    id?: true
+    batchId?: true
+    solicitudId?: true
+    alumnoId?: true
+    beforeEstado?: true
+    beforeErrores?: true
+    beforeAciertos?: true
+    beforeFaltasLeves?: true
+    beforeFaltasDeficientes?: true
+    beforeFaltasEliminatorias?: true
+    beforeFaltasLevesDetalle?: true
+    beforeFaltasDeficientesDetalle?: true
+    beforeFaltasEliminatoriasDetalle?: true
+    beforeMotivoNoApto?: true
+    afterEstado?: true
+    afterErrores?: true
+    afterAciertos?: true
+    afterFaltasLeves?: true
+    afterFaltasDeficientes?: true
+    afterFaltasEliminatorias?: true
+    afterFaltasLevesDetalle?: true
+    afterFaltasDeficientesDetalle?: true
+    afterFaltasEliminatoriasDetalle?: true
+    afterMotivoNoApto?: true
+    createdExamenId?: true
+    revertedAt?: true
+    conflictReason?: true
+    _all?: true
+  }
+
+  export type PracticalExamProcessSolicitudAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PracticalExamProcessSolicitud to aggregate.
+     */
+    where?: PracticalExamProcessSolicitudWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PracticalExamProcessSolicituds to fetch.
+     */
+    orderBy?: PracticalExamProcessSolicitudOrderByWithRelationInput | PracticalExamProcessSolicitudOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PracticalExamProcessSolicitudWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PracticalExamProcessSolicituds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PracticalExamProcessSolicituds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PracticalExamProcessSolicituds
+    **/
+    _count?: true | PracticalExamProcessSolicitudCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PracticalExamProcessSolicitudAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PracticalExamProcessSolicitudSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PracticalExamProcessSolicitudMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PracticalExamProcessSolicitudMaxAggregateInputType
+  }
+
+  export type GetPracticalExamProcessSolicitudAggregateType<T extends PracticalExamProcessSolicitudAggregateArgs> = {
+        [P in keyof T & keyof AggregatePracticalExamProcessSolicitud]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePracticalExamProcessSolicitud[P]>
+      : GetScalarType<T[P], AggregatePracticalExamProcessSolicitud[P]>
+  }
+
+
+
+
+  export type PracticalExamProcessSolicitudGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PracticalExamProcessSolicitudWhereInput
+    orderBy?: PracticalExamProcessSolicitudOrderByWithAggregationInput | PracticalExamProcessSolicitudOrderByWithAggregationInput[]
+    by: PracticalExamProcessSolicitudScalarFieldEnum[] | PracticalExamProcessSolicitudScalarFieldEnum
+    having?: PracticalExamProcessSolicitudScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PracticalExamProcessSolicitudCountAggregateInputType | true
+    _avg?: PracticalExamProcessSolicitudAvgAggregateInputType
+    _sum?: PracticalExamProcessSolicitudSumAggregateInputType
+    _min?: PracticalExamProcessSolicitudMinAggregateInputType
+    _max?: PracticalExamProcessSolicitudMaxAggregateInputType
+  }
+
+  export type PracticalExamProcessSolicitudGroupByOutputType = {
+    id: bigint
+    batchId: string
+    solicitudId: string
+    alumnoId: string
+    beforeEstado: string
+    beforeErrores: number | null
+    beforeAciertos: number | null
+    beforeFaltasLeves: number | null
+    beforeFaltasDeficientes: number | null
+    beforeFaltasEliminatorias: number | null
+    beforeFaltasLevesDetalle: string[]
+    beforeFaltasDeficientesDetalle: string[]
+    beforeFaltasEliminatoriasDetalle: string[]
+    beforeMotivoNoApto: string | null
+    afterEstado: string
+    afterErrores: number | null
+    afterAciertos: number | null
+    afterFaltasLeves: number
+    afterFaltasDeficientes: number
+    afterFaltasEliminatorias: number
+    afterFaltasLevesDetalle: string[]
+    afterFaltasDeficientesDetalle: string[]
+    afterFaltasEliminatoriasDetalle: string[]
+    afterMotivoNoApto: string | null
+    createdExamenId: string | null
+    revertedAt: Date | null
+    conflictReason: string | null
+    _count: PracticalExamProcessSolicitudCountAggregateOutputType | null
+    _avg: PracticalExamProcessSolicitudAvgAggregateOutputType | null
+    _sum: PracticalExamProcessSolicitudSumAggregateOutputType | null
+    _min: PracticalExamProcessSolicitudMinAggregateOutputType | null
+    _max: PracticalExamProcessSolicitudMaxAggregateOutputType | null
+  }
+
+  type GetPracticalExamProcessSolicitudGroupByPayload<T extends PracticalExamProcessSolicitudGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PracticalExamProcessSolicitudGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PracticalExamProcessSolicitudGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PracticalExamProcessSolicitudGroupByOutputType[P]>
+            : GetScalarType<T[P], PracticalExamProcessSolicitudGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PracticalExamProcessSolicitudSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    batchId?: boolean
+    solicitudId?: boolean
+    alumnoId?: boolean
+    beforeEstado?: boolean
+    beforeErrores?: boolean
+    beforeAciertos?: boolean
+    beforeFaltasLeves?: boolean
+    beforeFaltasDeficientes?: boolean
+    beforeFaltasEliminatorias?: boolean
+    beforeFaltasLevesDetalle?: boolean
+    beforeFaltasDeficientesDetalle?: boolean
+    beforeFaltasEliminatoriasDetalle?: boolean
+    beforeMotivoNoApto?: boolean
+    afterEstado?: boolean
+    afterErrores?: boolean
+    afterAciertos?: boolean
+    afterFaltasLeves?: boolean
+    afterFaltasDeficientes?: boolean
+    afterFaltasEliminatorias?: boolean
+    afterFaltasLevesDetalle?: boolean
+    afterFaltasDeficientesDetalle?: boolean
+    afterFaltasEliminatoriasDetalle?: boolean
+    afterMotivoNoApto?: boolean
+    createdExamenId?: boolean
+    revertedAt?: boolean
+    conflictReason?: boolean
+    batch?: boolean | PracticalExamProcessBatchDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["practicalExamProcessSolicitud"]>
+
+  export type PracticalExamProcessSolicitudSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    batchId?: boolean
+    solicitudId?: boolean
+    alumnoId?: boolean
+    beforeEstado?: boolean
+    beforeErrores?: boolean
+    beforeAciertos?: boolean
+    beforeFaltasLeves?: boolean
+    beforeFaltasDeficientes?: boolean
+    beforeFaltasEliminatorias?: boolean
+    beforeFaltasLevesDetalle?: boolean
+    beforeFaltasDeficientesDetalle?: boolean
+    beforeFaltasEliminatoriasDetalle?: boolean
+    beforeMotivoNoApto?: boolean
+    afterEstado?: boolean
+    afterErrores?: boolean
+    afterAciertos?: boolean
+    afterFaltasLeves?: boolean
+    afterFaltasDeficientes?: boolean
+    afterFaltasEliminatorias?: boolean
+    afterFaltasLevesDetalle?: boolean
+    afterFaltasDeficientesDetalle?: boolean
+    afterFaltasEliminatoriasDetalle?: boolean
+    afterMotivoNoApto?: boolean
+    createdExamenId?: boolean
+    revertedAt?: boolean
+    conflictReason?: boolean
+    batch?: boolean | PracticalExamProcessBatchDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["practicalExamProcessSolicitud"]>
+
+  export type PracticalExamProcessSolicitudSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    batchId?: boolean
+    solicitudId?: boolean
+    alumnoId?: boolean
+    beforeEstado?: boolean
+    beforeErrores?: boolean
+    beforeAciertos?: boolean
+    beforeFaltasLeves?: boolean
+    beforeFaltasDeficientes?: boolean
+    beforeFaltasEliminatorias?: boolean
+    beforeFaltasLevesDetalle?: boolean
+    beforeFaltasDeficientesDetalle?: boolean
+    beforeFaltasEliminatoriasDetalle?: boolean
+    beforeMotivoNoApto?: boolean
+    afterEstado?: boolean
+    afterErrores?: boolean
+    afterAciertos?: boolean
+    afterFaltasLeves?: boolean
+    afterFaltasDeficientes?: boolean
+    afterFaltasEliminatorias?: boolean
+    afterFaltasLevesDetalle?: boolean
+    afterFaltasDeficientesDetalle?: boolean
+    afterFaltasEliminatoriasDetalle?: boolean
+    afterMotivoNoApto?: boolean
+    createdExamenId?: boolean
+    revertedAt?: boolean
+    conflictReason?: boolean
+    batch?: boolean | PracticalExamProcessBatchDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["practicalExamProcessSolicitud"]>
+
+  export type PracticalExamProcessSolicitudSelectScalar = {
+    id?: boolean
+    batchId?: boolean
+    solicitudId?: boolean
+    alumnoId?: boolean
+    beforeEstado?: boolean
+    beforeErrores?: boolean
+    beforeAciertos?: boolean
+    beforeFaltasLeves?: boolean
+    beforeFaltasDeficientes?: boolean
+    beforeFaltasEliminatorias?: boolean
+    beforeFaltasLevesDetalle?: boolean
+    beforeFaltasDeficientesDetalle?: boolean
+    beforeFaltasEliminatoriasDetalle?: boolean
+    beforeMotivoNoApto?: boolean
+    afterEstado?: boolean
+    afterErrores?: boolean
+    afterAciertos?: boolean
+    afterFaltasLeves?: boolean
+    afterFaltasDeficientes?: boolean
+    afterFaltasEliminatorias?: boolean
+    afterFaltasLevesDetalle?: boolean
+    afterFaltasDeficientesDetalle?: boolean
+    afterFaltasEliminatoriasDetalle?: boolean
+    afterMotivoNoApto?: boolean
+    createdExamenId?: boolean
+    revertedAt?: boolean
+    conflictReason?: boolean
+  }
+
+  export type PracticalExamProcessSolicitudOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "batchId" | "solicitudId" | "alumnoId" | "beforeEstado" | "beforeErrores" | "beforeAciertos" | "beforeFaltasLeves" | "beforeFaltasDeficientes" | "beforeFaltasEliminatorias" | "beforeFaltasLevesDetalle" | "beforeFaltasDeficientesDetalle" | "beforeFaltasEliminatoriasDetalle" | "beforeMotivoNoApto" | "afterEstado" | "afterErrores" | "afterAciertos" | "afterFaltasLeves" | "afterFaltasDeficientes" | "afterFaltasEliminatorias" | "afterFaltasLevesDetalle" | "afterFaltasDeficientesDetalle" | "afterFaltasEliminatoriasDetalle" | "afterMotivoNoApto" | "createdExamenId" | "revertedAt" | "conflictReason", ExtArgs["result"]["practicalExamProcessSolicitud"]>
+  export type PracticalExamProcessSolicitudInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    batch?: boolean | PracticalExamProcessBatchDefaultArgs<ExtArgs>
+  }
+  export type PracticalExamProcessSolicitudIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    batch?: boolean | PracticalExamProcessBatchDefaultArgs<ExtArgs>
+  }
+  export type PracticalExamProcessSolicitudIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    batch?: boolean | PracticalExamProcessBatchDefaultArgs<ExtArgs>
+  }
+
+  export type $PracticalExamProcessSolicitudPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PracticalExamProcessSolicitud"
+    objects: {
+      batch: Prisma.$PracticalExamProcessBatchPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      batchId: string
+      solicitudId: string
+      alumnoId: string
+      beforeEstado: string
+      beforeErrores: number | null
+      beforeAciertos: number | null
+      beforeFaltasLeves: number | null
+      beforeFaltasDeficientes: number | null
+      beforeFaltasEliminatorias: number | null
+      beforeFaltasLevesDetalle: string[]
+      beforeFaltasDeficientesDetalle: string[]
+      beforeFaltasEliminatoriasDetalle: string[]
+      beforeMotivoNoApto: string | null
+      afterEstado: string
+      afterErrores: number | null
+      afterAciertos: number | null
+      afterFaltasLeves: number
+      afterFaltasDeficientes: number
+      afterFaltasEliminatorias: number
+      afterFaltasLevesDetalle: string[]
+      afterFaltasDeficientesDetalle: string[]
+      afterFaltasEliminatoriasDetalle: string[]
+      afterMotivoNoApto: string | null
+      createdExamenId: string | null
+      revertedAt: Date | null
+      conflictReason: string | null
+    }, ExtArgs["result"]["practicalExamProcessSolicitud"]>
+    composites: {}
+  }
+
+  type PracticalExamProcessSolicitudGetPayload<S extends boolean | null | undefined | PracticalExamProcessSolicitudDefaultArgs> = $Result.GetResult<Prisma.$PracticalExamProcessSolicitudPayload, S>
+
+  type PracticalExamProcessSolicitudCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PracticalExamProcessSolicitudFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PracticalExamProcessSolicitudCountAggregateInputType | true
+    }
+
+  export interface PracticalExamProcessSolicitudDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PracticalExamProcessSolicitud'], meta: { name: 'PracticalExamProcessSolicitud' } }
+    /**
+     * Find zero or one PracticalExamProcessSolicitud that matches the filter.
+     * @param {PracticalExamProcessSolicitudFindUniqueArgs} args - Arguments to find a PracticalExamProcessSolicitud
+     * @example
+     * // Get one PracticalExamProcessSolicitud
+     * const practicalExamProcessSolicitud = await prisma.practicalExamProcessSolicitud.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PracticalExamProcessSolicitudFindUniqueArgs>(args: SelectSubset<T, PracticalExamProcessSolicitudFindUniqueArgs<ExtArgs>>): Prisma__PracticalExamProcessSolicitudClient<$Result.GetResult<Prisma.$PracticalExamProcessSolicitudPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PracticalExamProcessSolicitud that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PracticalExamProcessSolicitudFindUniqueOrThrowArgs} args - Arguments to find a PracticalExamProcessSolicitud
+     * @example
+     * // Get one PracticalExamProcessSolicitud
+     * const practicalExamProcessSolicitud = await prisma.practicalExamProcessSolicitud.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PracticalExamProcessSolicitudFindUniqueOrThrowArgs>(args: SelectSubset<T, PracticalExamProcessSolicitudFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PracticalExamProcessSolicitudClient<$Result.GetResult<Prisma.$PracticalExamProcessSolicitudPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PracticalExamProcessSolicitud that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PracticalExamProcessSolicitudFindFirstArgs} args - Arguments to find a PracticalExamProcessSolicitud
+     * @example
+     * // Get one PracticalExamProcessSolicitud
+     * const practicalExamProcessSolicitud = await prisma.practicalExamProcessSolicitud.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PracticalExamProcessSolicitudFindFirstArgs>(args?: SelectSubset<T, PracticalExamProcessSolicitudFindFirstArgs<ExtArgs>>): Prisma__PracticalExamProcessSolicitudClient<$Result.GetResult<Prisma.$PracticalExamProcessSolicitudPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PracticalExamProcessSolicitud that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PracticalExamProcessSolicitudFindFirstOrThrowArgs} args - Arguments to find a PracticalExamProcessSolicitud
+     * @example
+     * // Get one PracticalExamProcessSolicitud
+     * const practicalExamProcessSolicitud = await prisma.practicalExamProcessSolicitud.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PracticalExamProcessSolicitudFindFirstOrThrowArgs>(args?: SelectSubset<T, PracticalExamProcessSolicitudFindFirstOrThrowArgs<ExtArgs>>): Prisma__PracticalExamProcessSolicitudClient<$Result.GetResult<Prisma.$PracticalExamProcessSolicitudPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PracticalExamProcessSolicituds that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PracticalExamProcessSolicitudFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PracticalExamProcessSolicituds
+     * const practicalExamProcessSolicituds = await prisma.practicalExamProcessSolicitud.findMany()
+     * 
+     * // Get first 10 PracticalExamProcessSolicituds
+     * const practicalExamProcessSolicituds = await prisma.practicalExamProcessSolicitud.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const practicalExamProcessSolicitudWithIdOnly = await prisma.practicalExamProcessSolicitud.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PracticalExamProcessSolicitudFindManyArgs>(args?: SelectSubset<T, PracticalExamProcessSolicitudFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PracticalExamProcessSolicitudPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PracticalExamProcessSolicitud.
+     * @param {PracticalExamProcessSolicitudCreateArgs} args - Arguments to create a PracticalExamProcessSolicitud.
+     * @example
+     * // Create one PracticalExamProcessSolicitud
+     * const PracticalExamProcessSolicitud = await prisma.practicalExamProcessSolicitud.create({
+     *   data: {
+     *     // ... data to create a PracticalExamProcessSolicitud
+     *   }
+     * })
+     * 
+     */
+    create<T extends PracticalExamProcessSolicitudCreateArgs>(args: SelectSubset<T, PracticalExamProcessSolicitudCreateArgs<ExtArgs>>): Prisma__PracticalExamProcessSolicitudClient<$Result.GetResult<Prisma.$PracticalExamProcessSolicitudPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PracticalExamProcessSolicituds.
+     * @param {PracticalExamProcessSolicitudCreateManyArgs} args - Arguments to create many PracticalExamProcessSolicituds.
+     * @example
+     * // Create many PracticalExamProcessSolicituds
+     * const practicalExamProcessSolicitud = await prisma.practicalExamProcessSolicitud.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PracticalExamProcessSolicitudCreateManyArgs>(args?: SelectSubset<T, PracticalExamProcessSolicitudCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PracticalExamProcessSolicituds and returns the data saved in the database.
+     * @param {PracticalExamProcessSolicitudCreateManyAndReturnArgs} args - Arguments to create many PracticalExamProcessSolicituds.
+     * @example
+     * // Create many PracticalExamProcessSolicituds
+     * const practicalExamProcessSolicitud = await prisma.practicalExamProcessSolicitud.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PracticalExamProcessSolicituds and only return the `id`
+     * const practicalExamProcessSolicitudWithIdOnly = await prisma.practicalExamProcessSolicitud.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PracticalExamProcessSolicitudCreateManyAndReturnArgs>(args?: SelectSubset<T, PracticalExamProcessSolicitudCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PracticalExamProcessSolicitudPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PracticalExamProcessSolicitud.
+     * @param {PracticalExamProcessSolicitudDeleteArgs} args - Arguments to delete one PracticalExamProcessSolicitud.
+     * @example
+     * // Delete one PracticalExamProcessSolicitud
+     * const PracticalExamProcessSolicitud = await prisma.practicalExamProcessSolicitud.delete({
+     *   where: {
+     *     // ... filter to delete one PracticalExamProcessSolicitud
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PracticalExamProcessSolicitudDeleteArgs>(args: SelectSubset<T, PracticalExamProcessSolicitudDeleteArgs<ExtArgs>>): Prisma__PracticalExamProcessSolicitudClient<$Result.GetResult<Prisma.$PracticalExamProcessSolicitudPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PracticalExamProcessSolicitud.
+     * @param {PracticalExamProcessSolicitudUpdateArgs} args - Arguments to update one PracticalExamProcessSolicitud.
+     * @example
+     * // Update one PracticalExamProcessSolicitud
+     * const practicalExamProcessSolicitud = await prisma.practicalExamProcessSolicitud.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PracticalExamProcessSolicitudUpdateArgs>(args: SelectSubset<T, PracticalExamProcessSolicitudUpdateArgs<ExtArgs>>): Prisma__PracticalExamProcessSolicitudClient<$Result.GetResult<Prisma.$PracticalExamProcessSolicitudPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PracticalExamProcessSolicituds.
+     * @param {PracticalExamProcessSolicitudDeleteManyArgs} args - Arguments to filter PracticalExamProcessSolicituds to delete.
+     * @example
+     * // Delete a few PracticalExamProcessSolicituds
+     * const { count } = await prisma.practicalExamProcessSolicitud.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PracticalExamProcessSolicitudDeleteManyArgs>(args?: SelectSubset<T, PracticalExamProcessSolicitudDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PracticalExamProcessSolicituds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PracticalExamProcessSolicitudUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PracticalExamProcessSolicituds
+     * const practicalExamProcessSolicitud = await prisma.practicalExamProcessSolicitud.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PracticalExamProcessSolicitudUpdateManyArgs>(args: SelectSubset<T, PracticalExamProcessSolicitudUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PracticalExamProcessSolicituds and returns the data updated in the database.
+     * @param {PracticalExamProcessSolicitudUpdateManyAndReturnArgs} args - Arguments to update many PracticalExamProcessSolicituds.
+     * @example
+     * // Update many PracticalExamProcessSolicituds
+     * const practicalExamProcessSolicitud = await prisma.practicalExamProcessSolicitud.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PracticalExamProcessSolicituds and only return the `id`
+     * const practicalExamProcessSolicitudWithIdOnly = await prisma.practicalExamProcessSolicitud.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PracticalExamProcessSolicitudUpdateManyAndReturnArgs>(args: SelectSubset<T, PracticalExamProcessSolicitudUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PracticalExamProcessSolicitudPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PracticalExamProcessSolicitud.
+     * @param {PracticalExamProcessSolicitudUpsertArgs} args - Arguments to update or create a PracticalExamProcessSolicitud.
+     * @example
+     * // Update or create a PracticalExamProcessSolicitud
+     * const practicalExamProcessSolicitud = await prisma.practicalExamProcessSolicitud.upsert({
+     *   create: {
+     *     // ... data to create a PracticalExamProcessSolicitud
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PracticalExamProcessSolicitud we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PracticalExamProcessSolicitudUpsertArgs>(args: SelectSubset<T, PracticalExamProcessSolicitudUpsertArgs<ExtArgs>>): Prisma__PracticalExamProcessSolicitudClient<$Result.GetResult<Prisma.$PracticalExamProcessSolicitudPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PracticalExamProcessSolicituds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PracticalExamProcessSolicitudCountArgs} args - Arguments to filter PracticalExamProcessSolicituds to count.
+     * @example
+     * // Count the number of PracticalExamProcessSolicituds
+     * const count = await prisma.practicalExamProcessSolicitud.count({
+     *   where: {
+     *     // ... the filter for the PracticalExamProcessSolicituds we want to count
+     *   }
+     * })
+    **/
+    count<T extends PracticalExamProcessSolicitudCountArgs>(
+      args?: Subset<T, PracticalExamProcessSolicitudCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PracticalExamProcessSolicitudCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PracticalExamProcessSolicitud.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PracticalExamProcessSolicitudAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PracticalExamProcessSolicitudAggregateArgs>(args: Subset<T, PracticalExamProcessSolicitudAggregateArgs>): Prisma.PrismaPromise<GetPracticalExamProcessSolicitudAggregateType<T>>
+
+    /**
+     * Group by PracticalExamProcessSolicitud.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PracticalExamProcessSolicitudGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PracticalExamProcessSolicitudGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PracticalExamProcessSolicitudGroupByArgs['orderBy'] }
+        : { orderBy?: PracticalExamProcessSolicitudGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PracticalExamProcessSolicitudGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPracticalExamProcessSolicitudGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PracticalExamProcessSolicitud model
+   */
+  readonly fields: PracticalExamProcessSolicitudFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PracticalExamProcessSolicitud.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PracticalExamProcessSolicitudClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    batch<T extends PracticalExamProcessBatchDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PracticalExamProcessBatchDefaultArgs<ExtArgs>>): Prisma__PracticalExamProcessBatchClient<$Result.GetResult<Prisma.$PracticalExamProcessBatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PracticalExamProcessSolicitud model
+   */
+  interface PracticalExamProcessSolicitudFieldRefs {
+    readonly id: FieldRef<"PracticalExamProcessSolicitud", 'BigInt'>
+    readonly batchId: FieldRef<"PracticalExamProcessSolicitud", 'String'>
+    readonly solicitudId: FieldRef<"PracticalExamProcessSolicitud", 'String'>
+    readonly alumnoId: FieldRef<"PracticalExamProcessSolicitud", 'String'>
+    readonly beforeEstado: FieldRef<"PracticalExamProcessSolicitud", 'String'>
+    readonly beforeErrores: FieldRef<"PracticalExamProcessSolicitud", 'Int'>
+    readonly beforeAciertos: FieldRef<"PracticalExamProcessSolicitud", 'Int'>
+    readonly beforeFaltasLeves: FieldRef<"PracticalExamProcessSolicitud", 'Int'>
+    readonly beforeFaltasDeficientes: FieldRef<"PracticalExamProcessSolicitud", 'Int'>
+    readonly beforeFaltasEliminatorias: FieldRef<"PracticalExamProcessSolicitud", 'Int'>
+    readonly beforeFaltasLevesDetalle: FieldRef<"PracticalExamProcessSolicitud", 'String[]'>
+    readonly beforeFaltasDeficientesDetalle: FieldRef<"PracticalExamProcessSolicitud", 'String[]'>
+    readonly beforeFaltasEliminatoriasDetalle: FieldRef<"PracticalExamProcessSolicitud", 'String[]'>
+    readonly beforeMotivoNoApto: FieldRef<"PracticalExamProcessSolicitud", 'String'>
+    readonly afterEstado: FieldRef<"PracticalExamProcessSolicitud", 'String'>
+    readonly afterErrores: FieldRef<"PracticalExamProcessSolicitud", 'Int'>
+    readonly afterAciertos: FieldRef<"PracticalExamProcessSolicitud", 'Int'>
+    readonly afterFaltasLeves: FieldRef<"PracticalExamProcessSolicitud", 'Int'>
+    readonly afterFaltasDeficientes: FieldRef<"PracticalExamProcessSolicitud", 'Int'>
+    readonly afterFaltasEliminatorias: FieldRef<"PracticalExamProcessSolicitud", 'Int'>
+    readonly afterFaltasLevesDetalle: FieldRef<"PracticalExamProcessSolicitud", 'String[]'>
+    readonly afterFaltasDeficientesDetalle: FieldRef<"PracticalExamProcessSolicitud", 'String[]'>
+    readonly afterFaltasEliminatoriasDetalle: FieldRef<"PracticalExamProcessSolicitud", 'String[]'>
+    readonly afterMotivoNoApto: FieldRef<"PracticalExamProcessSolicitud", 'String'>
+    readonly createdExamenId: FieldRef<"PracticalExamProcessSolicitud", 'String'>
+    readonly revertedAt: FieldRef<"PracticalExamProcessSolicitud", 'DateTime'>
+    readonly conflictReason: FieldRef<"PracticalExamProcessSolicitud", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PracticalExamProcessSolicitud findUnique
+   */
+  export type PracticalExamProcessSolicitudFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessSolicitud
+     */
+    select?: PracticalExamProcessSolicitudSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessSolicitud
+     */
+    omit?: PracticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessSolicitudInclude<ExtArgs> | null
+    /**
+     * Filter, which PracticalExamProcessSolicitud to fetch.
+     */
+    where: PracticalExamProcessSolicitudWhereUniqueInput
+  }
+
+  /**
+   * PracticalExamProcessSolicitud findUniqueOrThrow
+   */
+  export type PracticalExamProcessSolicitudFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessSolicitud
+     */
+    select?: PracticalExamProcessSolicitudSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessSolicitud
+     */
+    omit?: PracticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessSolicitudInclude<ExtArgs> | null
+    /**
+     * Filter, which PracticalExamProcessSolicitud to fetch.
+     */
+    where: PracticalExamProcessSolicitudWhereUniqueInput
+  }
+
+  /**
+   * PracticalExamProcessSolicitud findFirst
+   */
+  export type PracticalExamProcessSolicitudFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessSolicitud
+     */
+    select?: PracticalExamProcessSolicitudSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessSolicitud
+     */
+    omit?: PracticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessSolicitudInclude<ExtArgs> | null
+    /**
+     * Filter, which PracticalExamProcessSolicitud to fetch.
+     */
+    where?: PracticalExamProcessSolicitudWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PracticalExamProcessSolicituds to fetch.
+     */
+    orderBy?: PracticalExamProcessSolicitudOrderByWithRelationInput | PracticalExamProcessSolicitudOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PracticalExamProcessSolicituds.
+     */
+    cursor?: PracticalExamProcessSolicitudWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PracticalExamProcessSolicituds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PracticalExamProcessSolicituds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PracticalExamProcessSolicituds.
+     */
+    distinct?: PracticalExamProcessSolicitudScalarFieldEnum | PracticalExamProcessSolicitudScalarFieldEnum[]
+  }
+
+  /**
+   * PracticalExamProcessSolicitud findFirstOrThrow
+   */
+  export type PracticalExamProcessSolicitudFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessSolicitud
+     */
+    select?: PracticalExamProcessSolicitudSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessSolicitud
+     */
+    omit?: PracticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessSolicitudInclude<ExtArgs> | null
+    /**
+     * Filter, which PracticalExamProcessSolicitud to fetch.
+     */
+    where?: PracticalExamProcessSolicitudWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PracticalExamProcessSolicituds to fetch.
+     */
+    orderBy?: PracticalExamProcessSolicitudOrderByWithRelationInput | PracticalExamProcessSolicitudOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PracticalExamProcessSolicituds.
+     */
+    cursor?: PracticalExamProcessSolicitudWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PracticalExamProcessSolicituds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PracticalExamProcessSolicituds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PracticalExamProcessSolicituds.
+     */
+    distinct?: PracticalExamProcessSolicitudScalarFieldEnum | PracticalExamProcessSolicitudScalarFieldEnum[]
+  }
+
+  /**
+   * PracticalExamProcessSolicitud findMany
+   */
+  export type PracticalExamProcessSolicitudFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessSolicitud
+     */
+    select?: PracticalExamProcessSolicitudSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessSolicitud
+     */
+    omit?: PracticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessSolicitudInclude<ExtArgs> | null
+    /**
+     * Filter, which PracticalExamProcessSolicituds to fetch.
+     */
+    where?: PracticalExamProcessSolicitudWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PracticalExamProcessSolicituds to fetch.
+     */
+    orderBy?: PracticalExamProcessSolicitudOrderByWithRelationInput | PracticalExamProcessSolicitudOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PracticalExamProcessSolicituds.
+     */
+    cursor?: PracticalExamProcessSolicitudWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PracticalExamProcessSolicituds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PracticalExamProcessSolicituds.
+     */
+    skip?: number
+    distinct?: PracticalExamProcessSolicitudScalarFieldEnum | PracticalExamProcessSolicitudScalarFieldEnum[]
+  }
+
+  /**
+   * PracticalExamProcessSolicitud create
+   */
+  export type PracticalExamProcessSolicitudCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessSolicitud
+     */
+    select?: PracticalExamProcessSolicitudSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessSolicitud
+     */
+    omit?: PracticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessSolicitudInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PracticalExamProcessSolicitud.
+     */
+    data: XOR<PracticalExamProcessSolicitudCreateInput, PracticalExamProcessSolicitudUncheckedCreateInput>
+  }
+
+  /**
+   * PracticalExamProcessSolicitud createMany
+   */
+  export type PracticalExamProcessSolicitudCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PracticalExamProcessSolicituds.
+     */
+    data: PracticalExamProcessSolicitudCreateManyInput | PracticalExamProcessSolicitudCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PracticalExamProcessSolicitud createManyAndReturn
+   */
+  export type PracticalExamProcessSolicitudCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessSolicitud
+     */
+    select?: PracticalExamProcessSolicitudSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessSolicitud
+     */
+    omit?: PracticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * The data used to create many PracticalExamProcessSolicituds.
+     */
+    data: PracticalExamProcessSolicitudCreateManyInput | PracticalExamProcessSolicitudCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessSolicitudIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PracticalExamProcessSolicitud update
+   */
+  export type PracticalExamProcessSolicitudUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessSolicitud
+     */
+    select?: PracticalExamProcessSolicitudSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessSolicitud
+     */
+    omit?: PracticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessSolicitudInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PracticalExamProcessSolicitud.
+     */
+    data: XOR<PracticalExamProcessSolicitudUpdateInput, PracticalExamProcessSolicitudUncheckedUpdateInput>
+    /**
+     * Choose, which PracticalExamProcessSolicitud to update.
+     */
+    where: PracticalExamProcessSolicitudWhereUniqueInput
+  }
+
+  /**
+   * PracticalExamProcessSolicitud updateMany
+   */
+  export type PracticalExamProcessSolicitudUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PracticalExamProcessSolicituds.
+     */
+    data: XOR<PracticalExamProcessSolicitudUpdateManyMutationInput, PracticalExamProcessSolicitudUncheckedUpdateManyInput>
+    /**
+     * Filter which PracticalExamProcessSolicituds to update
+     */
+    where?: PracticalExamProcessSolicitudWhereInput
+    /**
+     * Limit how many PracticalExamProcessSolicituds to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PracticalExamProcessSolicitud updateManyAndReturn
+   */
+  export type PracticalExamProcessSolicitudUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessSolicitud
+     */
+    select?: PracticalExamProcessSolicitudSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessSolicitud
+     */
+    omit?: PracticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * The data used to update PracticalExamProcessSolicituds.
+     */
+    data: XOR<PracticalExamProcessSolicitudUpdateManyMutationInput, PracticalExamProcessSolicitudUncheckedUpdateManyInput>
+    /**
+     * Filter which PracticalExamProcessSolicituds to update
+     */
+    where?: PracticalExamProcessSolicitudWhereInput
+    /**
+     * Limit how many PracticalExamProcessSolicituds to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessSolicitudIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PracticalExamProcessSolicitud upsert
+   */
+  export type PracticalExamProcessSolicitudUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessSolicitud
+     */
+    select?: PracticalExamProcessSolicitudSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessSolicitud
+     */
+    omit?: PracticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessSolicitudInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PracticalExamProcessSolicitud to update in case it exists.
+     */
+    where: PracticalExamProcessSolicitudWhereUniqueInput
+    /**
+     * In case the PracticalExamProcessSolicitud found by the `where` argument doesn't exist, create a new PracticalExamProcessSolicitud with this data.
+     */
+    create: XOR<PracticalExamProcessSolicitudCreateInput, PracticalExamProcessSolicitudUncheckedCreateInput>
+    /**
+     * In case the PracticalExamProcessSolicitud was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PracticalExamProcessSolicitudUpdateInput, PracticalExamProcessSolicitudUncheckedUpdateInput>
+  }
+
+  /**
+   * PracticalExamProcessSolicitud delete
+   */
+  export type PracticalExamProcessSolicitudDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessSolicitud
+     */
+    select?: PracticalExamProcessSolicitudSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessSolicitud
+     */
+    omit?: PracticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessSolicitudInclude<ExtArgs> | null
+    /**
+     * Filter which PracticalExamProcessSolicitud to delete.
+     */
+    where: PracticalExamProcessSolicitudWhereUniqueInput
+  }
+
+  /**
+   * PracticalExamProcessSolicitud deleteMany
+   */
+  export type PracticalExamProcessSolicitudDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PracticalExamProcessSolicituds to delete
+     */
+    where?: PracticalExamProcessSolicitudWhereInput
+    /**
+     * Limit how many PracticalExamProcessSolicituds to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PracticalExamProcessSolicitud without action
+   */
+  export type PracticalExamProcessSolicitudDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessSolicitud
+     */
+    select?: PracticalExamProcessSolicitudSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessSolicitud
+     */
+    omit?: PracticalExamProcessSolicitudOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessSolicitudInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PracticalExamProcessPago
+   */
+
+  export type AggregatePracticalExamProcessPago = {
+    _count: PracticalExamProcessPagoCountAggregateOutputType | null
+    _avg: PracticalExamProcessPagoAvgAggregateOutputType | null
+    _sum: PracticalExamProcessPagoSumAggregateOutputType | null
+    _min: PracticalExamProcessPagoMinAggregateOutputType | null
+    _max: PracticalExamProcessPagoMaxAggregateOutputType | null
+  }
+
+  export type PracticalExamProcessPagoAvgAggregateOutputType = {
+    id: number | null
+    beforeConvocatoriasConsumidas: number | null
+    afterConvocatoriasConsumidas: number | null
+  }
+
+  export type PracticalExamProcessPagoSumAggregateOutputType = {
+    id: bigint | null
+    beforeConvocatoriasConsumidas: number | null
+    afterConvocatoriasConsumidas: number | null
+  }
+
+  export type PracticalExamProcessPagoMinAggregateOutputType = {
+    id: bigint | null
+    batchId: string | null
+    pagoId: string | null
+    alumnoId: string | null
+    beforeConvocatoriasConsumidas: number | null
+    afterConvocatoriasConsumidas: number | null
+    applied: boolean | null
+    revertedAt: Date | null
+    conflictReason: string | null
+  }
+
+  export type PracticalExamProcessPagoMaxAggregateOutputType = {
+    id: bigint | null
+    batchId: string | null
+    pagoId: string | null
+    alumnoId: string | null
+    beforeConvocatoriasConsumidas: number | null
+    afterConvocatoriasConsumidas: number | null
+    applied: boolean | null
+    revertedAt: Date | null
+    conflictReason: string | null
+  }
+
+  export type PracticalExamProcessPagoCountAggregateOutputType = {
+    id: number
+    batchId: number
+    pagoId: number
+    alumnoId: number
+    beforeConvocatoriasConsumidas: number
+    afterConvocatoriasConsumidas: number
+    applied: number
+    revertedAt: number
+    conflictReason: number
+    _all: number
+  }
+
+
+  export type PracticalExamProcessPagoAvgAggregateInputType = {
+    id?: true
+    beforeConvocatoriasConsumidas?: true
+    afterConvocatoriasConsumidas?: true
+  }
+
+  export type PracticalExamProcessPagoSumAggregateInputType = {
+    id?: true
+    beforeConvocatoriasConsumidas?: true
+    afterConvocatoriasConsumidas?: true
+  }
+
+  export type PracticalExamProcessPagoMinAggregateInputType = {
+    id?: true
+    batchId?: true
+    pagoId?: true
+    alumnoId?: true
+    beforeConvocatoriasConsumidas?: true
+    afterConvocatoriasConsumidas?: true
+    applied?: true
+    revertedAt?: true
+    conflictReason?: true
+  }
+
+  export type PracticalExamProcessPagoMaxAggregateInputType = {
+    id?: true
+    batchId?: true
+    pagoId?: true
+    alumnoId?: true
+    beforeConvocatoriasConsumidas?: true
+    afterConvocatoriasConsumidas?: true
+    applied?: true
+    revertedAt?: true
+    conflictReason?: true
+  }
+
+  export type PracticalExamProcessPagoCountAggregateInputType = {
+    id?: true
+    batchId?: true
+    pagoId?: true
+    alumnoId?: true
+    beforeConvocatoriasConsumidas?: true
+    afterConvocatoriasConsumidas?: true
+    applied?: true
+    revertedAt?: true
+    conflictReason?: true
+    _all?: true
+  }
+
+  export type PracticalExamProcessPagoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PracticalExamProcessPago to aggregate.
+     */
+    where?: PracticalExamProcessPagoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PracticalExamProcessPagos to fetch.
+     */
+    orderBy?: PracticalExamProcessPagoOrderByWithRelationInput | PracticalExamProcessPagoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PracticalExamProcessPagoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PracticalExamProcessPagos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PracticalExamProcessPagos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PracticalExamProcessPagos
+    **/
+    _count?: true | PracticalExamProcessPagoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PracticalExamProcessPagoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PracticalExamProcessPagoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PracticalExamProcessPagoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PracticalExamProcessPagoMaxAggregateInputType
+  }
+
+  export type GetPracticalExamProcessPagoAggregateType<T extends PracticalExamProcessPagoAggregateArgs> = {
+        [P in keyof T & keyof AggregatePracticalExamProcessPago]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePracticalExamProcessPago[P]>
+      : GetScalarType<T[P], AggregatePracticalExamProcessPago[P]>
+  }
+
+
+
+
+  export type PracticalExamProcessPagoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PracticalExamProcessPagoWhereInput
+    orderBy?: PracticalExamProcessPagoOrderByWithAggregationInput | PracticalExamProcessPagoOrderByWithAggregationInput[]
+    by: PracticalExamProcessPagoScalarFieldEnum[] | PracticalExamProcessPagoScalarFieldEnum
+    having?: PracticalExamProcessPagoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PracticalExamProcessPagoCountAggregateInputType | true
+    _avg?: PracticalExamProcessPagoAvgAggregateInputType
+    _sum?: PracticalExamProcessPagoSumAggregateInputType
+    _min?: PracticalExamProcessPagoMinAggregateInputType
+    _max?: PracticalExamProcessPagoMaxAggregateInputType
+  }
+
+  export type PracticalExamProcessPagoGroupByOutputType = {
+    id: bigint
+    batchId: string
+    pagoId: string
+    alumnoId: string
+    beforeConvocatoriasConsumidas: number
+    afterConvocatoriasConsumidas: number
+    applied: boolean
+    revertedAt: Date | null
+    conflictReason: string | null
+    _count: PracticalExamProcessPagoCountAggregateOutputType | null
+    _avg: PracticalExamProcessPagoAvgAggregateOutputType | null
+    _sum: PracticalExamProcessPagoSumAggregateOutputType | null
+    _min: PracticalExamProcessPagoMinAggregateOutputType | null
+    _max: PracticalExamProcessPagoMaxAggregateOutputType | null
+  }
+
+  type GetPracticalExamProcessPagoGroupByPayload<T extends PracticalExamProcessPagoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PracticalExamProcessPagoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PracticalExamProcessPagoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PracticalExamProcessPagoGroupByOutputType[P]>
+            : GetScalarType<T[P], PracticalExamProcessPagoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PracticalExamProcessPagoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    batchId?: boolean
+    pagoId?: boolean
+    alumnoId?: boolean
+    beforeConvocatoriasConsumidas?: boolean
+    afterConvocatoriasConsumidas?: boolean
+    applied?: boolean
+    revertedAt?: boolean
+    conflictReason?: boolean
+    batch?: boolean | PracticalExamProcessBatchDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["practicalExamProcessPago"]>
+
+  export type PracticalExamProcessPagoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    batchId?: boolean
+    pagoId?: boolean
+    alumnoId?: boolean
+    beforeConvocatoriasConsumidas?: boolean
+    afterConvocatoriasConsumidas?: boolean
+    applied?: boolean
+    revertedAt?: boolean
+    conflictReason?: boolean
+    batch?: boolean | PracticalExamProcessBatchDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["practicalExamProcessPago"]>
+
+  export type PracticalExamProcessPagoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    batchId?: boolean
+    pagoId?: boolean
+    alumnoId?: boolean
+    beforeConvocatoriasConsumidas?: boolean
+    afterConvocatoriasConsumidas?: boolean
+    applied?: boolean
+    revertedAt?: boolean
+    conflictReason?: boolean
+    batch?: boolean | PracticalExamProcessBatchDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["practicalExamProcessPago"]>
+
+  export type PracticalExamProcessPagoSelectScalar = {
+    id?: boolean
+    batchId?: boolean
+    pagoId?: boolean
+    alumnoId?: boolean
+    beforeConvocatoriasConsumidas?: boolean
+    afterConvocatoriasConsumidas?: boolean
+    applied?: boolean
+    revertedAt?: boolean
+    conflictReason?: boolean
+  }
+
+  export type PracticalExamProcessPagoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "batchId" | "pagoId" | "alumnoId" | "beforeConvocatoriasConsumidas" | "afterConvocatoriasConsumidas" | "applied" | "revertedAt" | "conflictReason", ExtArgs["result"]["practicalExamProcessPago"]>
+  export type PracticalExamProcessPagoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    batch?: boolean | PracticalExamProcessBatchDefaultArgs<ExtArgs>
+  }
+  export type PracticalExamProcessPagoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    batch?: boolean | PracticalExamProcessBatchDefaultArgs<ExtArgs>
+  }
+  export type PracticalExamProcessPagoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    batch?: boolean | PracticalExamProcessBatchDefaultArgs<ExtArgs>
+  }
+
+  export type $PracticalExamProcessPagoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PracticalExamProcessPago"
+    objects: {
+      batch: Prisma.$PracticalExamProcessBatchPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      batchId: string
+      pagoId: string
+      alumnoId: string
+      beforeConvocatoriasConsumidas: number
+      afterConvocatoriasConsumidas: number
+      applied: boolean
+      revertedAt: Date | null
+      conflictReason: string | null
+    }, ExtArgs["result"]["practicalExamProcessPago"]>
+    composites: {}
+  }
+
+  type PracticalExamProcessPagoGetPayload<S extends boolean | null | undefined | PracticalExamProcessPagoDefaultArgs> = $Result.GetResult<Prisma.$PracticalExamProcessPagoPayload, S>
+
+  type PracticalExamProcessPagoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PracticalExamProcessPagoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PracticalExamProcessPagoCountAggregateInputType | true
+    }
+
+  export interface PracticalExamProcessPagoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PracticalExamProcessPago'], meta: { name: 'PracticalExamProcessPago' } }
+    /**
+     * Find zero or one PracticalExamProcessPago that matches the filter.
+     * @param {PracticalExamProcessPagoFindUniqueArgs} args - Arguments to find a PracticalExamProcessPago
+     * @example
+     * // Get one PracticalExamProcessPago
+     * const practicalExamProcessPago = await prisma.practicalExamProcessPago.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PracticalExamProcessPagoFindUniqueArgs>(args: SelectSubset<T, PracticalExamProcessPagoFindUniqueArgs<ExtArgs>>): Prisma__PracticalExamProcessPagoClient<$Result.GetResult<Prisma.$PracticalExamProcessPagoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PracticalExamProcessPago that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PracticalExamProcessPagoFindUniqueOrThrowArgs} args - Arguments to find a PracticalExamProcessPago
+     * @example
+     * // Get one PracticalExamProcessPago
+     * const practicalExamProcessPago = await prisma.practicalExamProcessPago.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PracticalExamProcessPagoFindUniqueOrThrowArgs>(args: SelectSubset<T, PracticalExamProcessPagoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PracticalExamProcessPagoClient<$Result.GetResult<Prisma.$PracticalExamProcessPagoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PracticalExamProcessPago that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PracticalExamProcessPagoFindFirstArgs} args - Arguments to find a PracticalExamProcessPago
+     * @example
+     * // Get one PracticalExamProcessPago
+     * const practicalExamProcessPago = await prisma.practicalExamProcessPago.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PracticalExamProcessPagoFindFirstArgs>(args?: SelectSubset<T, PracticalExamProcessPagoFindFirstArgs<ExtArgs>>): Prisma__PracticalExamProcessPagoClient<$Result.GetResult<Prisma.$PracticalExamProcessPagoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PracticalExamProcessPago that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PracticalExamProcessPagoFindFirstOrThrowArgs} args - Arguments to find a PracticalExamProcessPago
+     * @example
+     * // Get one PracticalExamProcessPago
+     * const practicalExamProcessPago = await prisma.practicalExamProcessPago.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PracticalExamProcessPagoFindFirstOrThrowArgs>(args?: SelectSubset<T, PracticalExamProcessPagoFindFirstOrThrowArgs<ExtArgs>>): Prisma__PracticalExamProcessPagoClient<$Result.GetResult<Prisma.$PracticalExamProcessPagoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PracticalExamProcessPagos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PracticalExamProcessPagoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PracticalExamProcessPagos
+     * const practicalExamProcessPagos = await prisma.practicalExamProcessPago.findMany()
+     * 
+     * // Get first 10 PracticalExamProcessPagos
+     * const practicalExamProcessPagos = await prisma.practicalExamProcessPago.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const practicalExamProcessPagoWithIdOnly = await prisma.practicalExamProcessPago.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PracticalExamProcessPagoFindManyArgs>(args?: SelectSubset<T, PracticalExamProcessPagoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PracticalExamProcessPagoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PracticalExamProcessPago.
+     * @param {PracticalExamProcessPagoCreateArgs} args - Arguments to create a PracticalExamProcessPago.
+     * @example
+     * // Create one PracticalExamProcessPago
+     * const PracticalExamProcessPago = await prisma.practicalExamProcessPago.create({
+     *   data: {
+     *     // ... data to create a PracticalExamProcessPago
+     *   }
+     * })
+     * 
+     */
+    create<T extends PracticalExamProcessPagoCreateArgs>(args: SelectSubset<T, PracticalExamProcessPagoCreateArgs<ExtArgs>>): Prisma__PracticalExamProcessPagoClient<$Result.GetResult<Prisma.$PracticalExamProcessPagoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PracticalExamProcessPagos.
+     * @param {PracticalExamProcessPagoCreateManyArgs} args - Arguments to create many PracticalExamProcessPagos.
+     * @example
+     * // Create many PracticalExamProcessPagos
+     * const practicalExamProcessPago = await prisma.practicalExamProcessPago.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PracticalExamProcessPagoCreateManyArgs>(args?: SelectSubset<T, PracticalExamProcessPagoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PracticalExamProcessPagos and returns the data saved in the database.
+     * @param {PracticalExamProcessPagoCreateManyAndReturnArgs} args - Arguments to create many PracticalExamProcessPagos.
+     * @example
+     * // Create many PracticalExamProcessPagos
+     * const practicalExamProcessPago = await prisma.practicalExamProcessPago.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PracticalExamProcessPagos and only return the `id`
+     * const practicalExamProcessPagoWithIdOnly = await prisma.practicalExamProcessPago.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PracticalExamProcessPagoCreateManyAndReturnArgs>(args?: SelectSubset<T, PracticalExamProcessPagoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PracticalExamProcessPagoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PracticalExamProcessPago.
+     * @param {PracticalExamProcessPagoDeleteArgs} args - Arguments to delete one PracticalExamProcessPago.
+     * @example
+     * // Delete one PracticalExamProcessPago
+     * const PracticalExamProcessPago = await prisma.practicalExamProcessPago.delete({
+     *   where: {
+     *     // ... filter to delete one PracticalExamProcessPago
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PracticalExamProcessPagoDeleteArgs>(args: SelectSubset<T, PracticalExamProcessPagoDeleteArgs<ExtArgs>>): Prisma__PracticalExamProcessPagoClient<$Result.GetResult<Prisma.$PracticalExamProcessPagoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PracticalExamProcessPago.
+     * @param {PracticalExamProcessPagoUpdateArgs} args - Arguments to update one PracticalExamProcessPago.
+     * @example
+     * // Update one PracticalExamProcessPago
+     * const practicalExamProcessPago = await prisma.practicalExamProcessPago.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PracticalExamProcessPagoUpdateArgs>(args: SelectSubset<T, PracticalExamProcessPagoUpdateArgs<ExtArgs>>): Prisma__PracticalExamProcessPagoClient<$Result.GetResult<Prisma.$PracticalExamProcessPagoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PracticalExamProcessPagos.
+     * @param {PracticalExamProcessPagoDeleteManyArgs} args - Arguments to filter PracticalExamProcessPagos to delete.
+     * @example
+     * // Delete a few PracticalExamProcessPagos
+     * const { count } = await prisma.practicalExamProcessPago.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PracticalExamProcessPagoDeleteManyArgs>(args?: SelectSubset<T, PracticalExamProcessPagoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PracticalExamProcessPagos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PracticalExamProcessPagoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PracticalExamProcessPagos
+     * const practicalExamProcessPago = await prisma.practicalExamProcessPago.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PracticalExamProcessPagoUpdateManyArgs>(args: SelectSubset<T, PracticalExamProcessPagoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PracticalExamProcessPagos and returns the data updated in the database.
+     * @param {PracticalExamProcessPagoUpdateManyAndReturnArgs} args - Arguments to update many PracticalExamProcessPagos.
+     * @example
+     * // Update many PracticalExamProcessPagos
+     * const practicalExamProcessPago = await prisma.practicalExamProcessPago.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PracticalExamProcessPagos and only return the `id`
+     * const practicalExamProcessPagoWithIdOnly = await prisma.practicalExamProcessPago.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PracticalExamProcessPagoUpdateManyAndReturnArgs>(args: SelectSubset<T, PracticalExamProcessPagoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PracticalExamProcessPagoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PracticalExamProcessPago.
+     * @param {PracticalExamProcessPagoUpsertArgs} args - Arguments to update or create a PracticalExamProcessPago.
+     * @example
+     * // Update or create a PracticalExamProcessPago
+     * const practicalExamProcessPago = await prisma.practicalExamProcessPago.upsert({
+     *   create: {
+     *     // ... data to create a PracticalExamProcessPago
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PracticalExamProcessPago we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PracticalExamProcessPagoUpsertArgs>(args: SelectSubset<T, PracticalExamProcessPagoUpsertArgs<ExtArgs>>): Prisma__PracticalExamProcessPagoClient<$Result.GetResult<Prisma.$PracticalExamProcessPagoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PracticalExamProcessPagos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PracticalExamProcessPagoCountArgs} args - Arguments to filter PracticalExamProcessPagos to count.
+     * @example
+     * // Count the number of PracticalExamProcessPagos
+     * const count = await prisma.practicalExamProcessPago.count({
+     *   where: {
+     *     // ... the filter for the PracticalExamProcessPagos we want to count
+     *   }
+     * })
+    **/
+    count<T extends PracticalExamProcessPagoCountArgs>(
+      args?: Subset<T, PracticalExamProcessPagoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PracticalExamProcessPagoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PracticalExamProcessPago.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PracticalExamProcessPagoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PracticalExamProcessPagoAggregateArgs>(args: Subset<T, PracticalExamProcessPagoAggregateArgs>): Prisma.PrismaPromise<GetPracticalExamProcessPagoAggregateType<T>>
+
+    /**
+     * Group by PracticalExamProcessPago.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PracticalExamProcessPagoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PracticalExamProcessPagoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PracticalExamProcessPagoGroupByArgs['orderBy'] }
+        : { orderBy?: PracticalExamProcessPagoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PracticalExamProcessPagoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPracticalExamProcessPagoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PracticalExamProcessPago model
+   */
+  readonly fields: PracticalExamProcessPagoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PracticalExamProcessPago.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PracticalExamProcessPagoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    batch<T extends PracticalExamProcessBatchDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PracticalExamProcessBatchDefaultArgs<ExtArgs>>): Prisma__PracticalExamProcessBatchClient<$Result.GetResult<Prisma.$PracticalExamProcessBatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PracticalExamProcessPago model
+   */
+  interface PracticalExamProcessPagoFieldRefs {
+    readonly id: FieldRef<"PracticalExamProcessPago", 'BigInt'>
+    readonly batchId: FieldRef<"PracticalExamProcessPago", 'String'>
+    readonly pagoId: FieldRef<"PracticalExamProcessPago", 'String'>
+    readonly alumnoId: FieldRef<"PracticalExamProcessPago", 'String'>
+    readonly beforeConvocatoriasConsumidas: FieldRef<"PracticalExamProcessPago", 'Int'>
+    readonly afterConvocatoriasConsumidas: FieldRef<"PracticalExamProcessPago", 'Int'>
+    readonly applied: FieldRef<"PracticalExamProcessPago", 'Boolean'>
+    readonly revertedAt: FieldRef<"PracticalExamProcessPago", 'DateTime'>
+    readonly conflictReason: FieldRef<"PracticalExamProcessPago", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PracticalExamProcessPago findUnique
+   */
+  export type PracticalExamProcessPagoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessPago
+     */
+    select?: PracticalExamProcessPagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessPago
+     */
+    omit?: PracticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessPagoInclude<ExtArgs> | null
+    /**
+     * Filter, which PracticalExamProcessPago to fetch.
+     */
+    where: PracticalExamProcessPagoWhereUniqueInput
+  }
+
+  /**
+   * PracticalExamProcessPago findUniqueOrThrow
+   */
+  export type PracticalExamProcessPagoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessPago
+     */
+    select?: PracticalExamProcessPagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessPago
+     */
+    omit?: PracticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessPagoInclude<ExtArgs> | null
+    /**
+     * Filter, which PracticalExamProcessPago to fetch.
+     */
+    where: PracticalExamProcessPagoWhereUniqueInput
+  }
+
+  /**
+   * PracticalExamProcessPago findFirst
+   */
+  export type PracticalExamProcessPagoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessPago
+     */
+    select?: PracticalExamProcessPagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessPago
+     */
+    omit?: PracticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessPagoInclude<ExtArgs> | null
+    /**
+     * Filter, which PracticalExamProcessPago to fetch.
+     */
+    where?: PracticalExamProcessPagoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PracticalExamProcessPagos to fetch.
+     */
+    orderBy?: PracticalExamProcessPagoOrderByWithRelationInput | PracticalExamProcessPagoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PracticalExamProcessPagos.
+     */
+    cursor?: PracticalExamProcessPagoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PracticalExamProcessPagos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PracticalExamProcessPagos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PracticalExamProcessPagos.
+     */
+    distinct?: PracticalExamProcessPagoScalarFieldEnum | PracticalExamProcessPagoScalarFieldEnum[]
+  }
+
+  /**
+   * PracticalExamProcessPago findFirstOrThrow
+   */
+  export type PracticalExamProcessPagoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessPago
+     */
+    select?: PracticalExamProcessPagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessPago
+     */
+    omit?: PracticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessPagoInclude<ExtArgs> | null
+    /**
+     * Filter, which PracticalExamProcessPago to fetch.
+     */
+    where?: PracticalExamProcessPagoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PracticalExamProcessPagos to fetch.
+     */
+    orderBy?: PracticalExamProcessPagoOrderByWithRelationInput | PracticalExamProcessPagoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PracticalExamProcessPagos.
+     */
+    cursor?: PracticalExamProcessPagoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PracticalExamProcessPagos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PracticalExamProcessPagos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PracticalExamProcessPagos.
+     */
+    distinct?: PracticalExamProcessPagoScalarFieldEnum | PracticalExamProcessPagoScalarFieldEnum[]
+  }
+
+  /**
+   * PracticalExamProcessPago findMany
+   */
+  export type PracticalExamProcessPagoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessPago
+     */
+    select?: PracticalExamProcessPagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessPago
+     */
+    omit?: PracticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessPagoInclude<ExtArgs> | null
+    /**
+     * Filter, which PracticalExamProcessPagos to fetch.
+     */
+    where?: PracticalExamProcessPagoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PracticalExamProcessPagos to fetch.
+     */
+    orderBy?: PracticalExamProcessPagoOrderByWithRelationInput | PracticalExamProcessPagoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PracticalExamProcessPagos.
+     */
+    cursor?: PracticalExamProcessPagoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PracticalExamProcessPagos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PracticalExamProcessPagos.
+     */
+    skip?: number
+    distinct?: PracticalExamProcessPagoScalarFieldEnum | PracticalExamProcessPagoScalarFieldEnum[]
+  }
+
+  /**
+   * PracticalExamProcessPago create
+   */
+  export type PracticalExamProcessPagoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessPago
+     */
+    select?: PracticalExamProcessPagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessPago
+     */
+    omit?: PracticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessPagoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PracticalExamProcessPago.
+     */
+    data: XOR<PracticalExamProcessPagoCreateInput, PracticalExamProcessPagoUncheckedCreateInput>
+  }
+
+  /**
+   * PracticalExamProcessPago createMany
+   */
+  export type PracticalExamProcessPagoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PracticalExamProcessPagos.
+     */
+    data: PracticalExamProcessPagoCreateManyInput | PracticalExamProcessPagoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PracticalExamProcessPago createManyAndReturn
+   */
+  export type PracticalExamProcessPagoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessPago
+     */
+    select?: PracticalExamProcessPagoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessPago
+     */
+    omit?: PracticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * The data used to create many PracticalExamProcessPagos.
+     */
+    data: PracticalExamProcessPagoCreateManyInput | PracticalExamProcessPagoCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessPagoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PracticalExamProcessPago update
+   */
+  export type PracticalExamProcessPagoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessPago
+     */
+    select?: PracticalExamProcessPagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessPago
+     */
+    omit?: PracticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessPagoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PracticalExamProcessPago.
+     */
+    data: XOR<PracticalExamProcessPagoUpdateInput, PracticalExamProcessPagoUncheckedUpdateInput>
+    /**
+     * Choose, which PracticalExamProcessPago to update.
+     */
+    where: PracticalExamProcessPagoWhereUniqueInput
+  }
+
+  /**
+   * PracticalExamProcessPago updateMany
+   */
+  export type PracticalExamProcessPagoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PracticalExamProcessPagos.
+     */
+    data: XOR<PracticalExamProcessPagoUpdateManyMutationInput, PracticalExamProcessPagoUncheckedUpdateManyInput>
+    /**
+     * Filter which PracticalExamProcessPagos to update
+     */
+    where?: PracticalExamProcessPagoWhereInput
+    /**
+     * Limit how many PracticalExamProcessPagos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PracticalExamProcessPago updateManyAndReturn
+   */
+  export type PracticalExamProcessPagoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessPago
+     */
+    select?: PracticalExamProcessPagoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessPago
+     */
+    omit?: PracticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * The data used to update PracticalExamProcessPagos.
+     */
+    data: XOR<PracticalExamProcessPagoUpdateManyMutationInput, PracticalExamProcessPagoUncheckedUpdateManyInput>
+    /**
+     * Filter which PracticalExamProcessPagos to update
+     */
+    where?: PracticalExamProcessPagoWhereInput
+    /**
+     * Limit how many PracticalExamProcessPagos to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessPagoIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PracticalExamProcessPago upsert
+   */
+  export type PracticalExamProcessPagoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessPago
+     */
+    select?: PracticalExamProcessPagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessPago
+     */
+    omit?: PracticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessPagoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PracticalExamProcessPago to update in case it exists.
+     */
+    where: PracticalExamProcessPagoWhereUniqueInput
+    /**
+     * In case the PracticalExamProcessPago found by the `where` argument doesn't exist, create a new PracticalExamProcessPago with this data.
+     */
+    create: XOR<PracticalExamProcessPagoCreateInput, PracticalExamProcessPagoUncheckedCreateInput>
+    /**
+     * In case the PracticalExamProcessPago was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PracticalExamProcessPagoUpdateInput, PracticalExamProcessPagoUncheckedUpdateInput>
+  }
+
+  /**
+   * PracticalExamProcessPago delete
+   */
+  export type PracticalExamProcessPagoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessPago
+     */
+    select?: PracticalExamProcessPagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessPago
+     */
+    omit?: PracticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessPagoInclude<ExtArgs> | null
+    /**
+     * Filter which PracticalExamProcessPago to delete.
+     */
+    where: PracticalExamProcessPagoWhereUniqueInput
+  }
+
+  /**
+   * PracticalExamProcessPago deleteMany
+   */
+  export type PracticalExamProcessPagoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PracticalExamProcessPagos to delete
+     */
+    where?: PracticalExamProcessPagoWhereInput
+    /**
+     * Limit how many PracticalExamProcessPagos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PracticalExamProcessPago without action
+   */
+  export type PracticalExamProcessPagoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PracticalExamProcessPago
+     */
+    select?: PracticalExamProcessPagoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PracticalExamProcessPago
+     */
+    omit?: PracticalExamProcessPagoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PracticalExamProcessPagoInclude<ExtArgs> | null
   }
 
 
@@ -45903,6 +50368,1256 @@ export namespace Prisma {
 
 
   /**
+   * Model GastoCombustible
+   */
+
+  export type AggregateGastoCombustible = {
+    _count: GastoCombustibleCountAggregateOutputType | null
+    _avg: GastoCombustibleAvgAggregateOutputType | null
+    _sum: GastoCombustibleSumAggregateOutputType | null
+    _min: GastoCombustibleMinAggregateOutputType | null
+    _max: GastoCombustibleMaxAggregateOutputType | null
+  }
+
+  export type GastoCombustibleAvgAggregateOutputType = {
+    combustibleAntesPct: number | null
+    combustibleDespuesPct: number | null
+    litrosRepostados: Decimal | null
+    precioLitro: Decimal | null
+    total: Decimal | null
+    kilometrosVehiculo: number | null
+  }
+
+  export type GastoCombustibleSumAggregateOutputType = {
+    combustibleAntesPct: number | null
+    combustibleDespuesPct: number | null
+    litrosRepostados: Decimal | null
+    precioLitro: Decimal | null
+    total: Decimal | null
+    kilometrosVehiculo: number | null
+  }
+
+  export type GastoCombustibleMinAggregateOutputType = {
+    id: string | null
+    numeroFactura: string | null
+    profesorId: string | null
+    vehiculoId: string | null
+    titularTarjeta: string | null
+    numeroTarjeta: string | null
+    combustibleAntesPct: number | null
+    combustibleDespuesPct: number | null
+    litrosRepostados: Decimal | null
+    precioLitro: Decimal | null
+    total: Decimal | null
+    kilometrosVehiculo: number | null
+    rutaRecibo: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GastoCombustibleMaxAggregateOutputType = {
+    id: string | null
+    numeroFactura: string | null
+    profesorId: string | null
+    vehiculoId: string | null
+    titularTarjeta: string | null
+    numeroTarjeta: string | null
+    combustibleAntesPct: number | null
+    combustibleDespuesPct: number | null
+    litrosRepostados: Decimal | null
+    precioLitro: Decimal | null
+    total: Decimal | null
+    kilometrosVehiculo: number | null
+    rutaRecibo: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GastoCombustibleCountAggregateOutputType = {
+    id: number
+    numeroFactura: number
+    profesorId: number
+    vehiculoId: number
+    titularTarjeta: number
+    numeroTarjeta: number
+    combustibleAntesPct: number
+    combustibleDespuesPct: number
+    litrosRepostados: number
+    precioLitro: number
+    total: number
+    kilometrosVehiculo: number
+    rutaRecibo: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type GastoCombustibleAvgAggregateInputType = {
+    combustibleAntesPct?: true
+    combustibleDespuesPct?: true
+    litrosRepostados?: true
+    precioLitro?: true
+    total?: true
+    kilometrosVehiculo?: true
+  }
+
+  export type GastoCombustibleSumAggregateInputType = {
+    combustibleAntesPct?: true
+    combustibleDespuesPct?: true
+    litrosRepostados?: true
+    precioLitro?: true
+    total?: true
+    kilometrosVehiculo?: true
+  }
+
+  export type GastoCombustibleMinAggregateInputType = {
+    id?: true
+    numeroFactura?: true
+    profesorId?: true
+    vehiculoId?: true
+    titularTarjeta?: true
+    numeroTarjeta?: true
+    combustibleAntesPct?: true
+    combustibleDespuesPct?: true
+    litrosRepostados?: true
+    precioLitro?: true
+    total?: true
+    kilometrosVehiculo?: true
+    rutaRecibo?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GastoCombustibleMaxAggregateInputType = {
+    id?: true
+    numeroFactura?: true
+    profesorId?: true
+    vehiculoId?: true
+    titularTarjeta?: true
+    numeroTarjeta?: true
+    combustibleAntesPct?: true
+    combustibleDespuesPct?: true
+    litrosRepostados?: true
+    precioLitro?: true
+    total?: true
+    kilometrosVehiculo?: true
+    rutaRecibo?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GastoCombustibleCountAggregateInputType = {
+    id?: true
+    numeroFactura?: true
+    profesorId?: true
+    vehiculoId?: true
+    titularTarjeta?: true
+    numeroTarjeta?: true
+    combustibleAntesPct?: true
+    combustibleDespuesPct?: true
+    litrosRepostados?: true
+    precioLitro?: true
+    total?: true
+    kilometrosVehiculo?: true
+    rutaRecibo?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type GastoCombustibleAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GastoCombustible to aggregate.
+     */
+    where?: GastoCombustibleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GastoCombustibles to fetch.
+     */
+    orderBy?: GastoCombustibleOrderByWithRelationInput | GastoCombustibleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GastoCombustibleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GastoCombustibles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GastoCombustibles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GastoCombustibles
+    **/
+    _count?: true | GastoCombustibleCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: GastoCombustibleAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GastoCombustibleSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GastoCombustibleMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GastoCombustibleMaxAggregateInputType
+  }
+
+  export type GetGastoCombustibleAggregateType<T extends GastoCombustibleAggregateArgs> = {
+        [P in keyof T & keyof AggregateGastoCombustible]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGastoCombustible[P]>
+      : GetScalarType<T[P], AggregateGastoCombustible[P]>
+  }
+
+
+
+
+  export type GastoCombustibleGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GastoCombustibleWhereInput
+    orderBy?: GastoCombustibleOrderByWithAggregationInput | GastoCombustibleOrderByWithAggregationInput[]
+    by: GastoCombustibleScalarFieldEnum[] | GastoCombustibleScalarFieldEnum
+    having?: GastoCombustibleScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GastoCombustibleCountAggregateInputType | true
+    _avg?: GastoCombustibleAvgAggregateInputType
+    _sum?: GastoCombustibleSumAggregateInputType
+    _min?: GastoCombustibleMinAggregateInputType
+    _max?: GastoCombustibleMaxAggregateInputType
+  }
+
+  export type GastoCombustibleGroupByOutputType = {
+    id: string
+    numeroFactura: string
+    profesorId: string
+    vehiculoId: string
+    titularTarjeta: string
+    numeroTarjeta: string
+    combustibleAntesPct: number
+    combustibleDespuesPct: number
+    litrosRepostados: Decimal
+    precioLitro: Decimal
+    total: Decimal
+    kilometrosVehiculo: number
+    rutaRecibo: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: GastoCombustibleCountAggregateOutputType | null
+    _avg: GastoCombustibleAvgAggregateOutputType | null
+    _sum: GastoCombustibleSumAggregateOutputType | null
+    _min: GastoCombustibleMinAggregateOutputType | null
+    _max: GastoCombustibleMaxAggregateOutputType | null
+  }
+
+  type GetGastoCombustibleGroupByPayload<T extends GastoCombustibleGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GastoCombustibleGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GastoCombustibleGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GastoCombustibleGroupByOutputType[P]>
+            : GetScalarType<T[P], GastoCombustibleGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GastoCombustibleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    numeroFactura?: boolean
+    profesorId?: boolean
+    vehiculoId?: boolean
+    titularTarjeta?: boolean
+    numeroTarjeta?: boolean
+    combustibleAntesPct?: boolean
+    combustibleDespuesPct?: boolean
+    litrosRepostados?: boolean
+    precioLitro?: boolean
+    total?: boolean
+    kilometrosVehiculo?: boolean
+    rutaRecibo?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+    vehiculo?: boolean | VehiculoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gastoCombustible"]>
+
+  export type GastoCombustibleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    numeroFactura?: boolean
+    profesorId?: boolean
+    vehiculoId?: boolean
+    titularTarjeta?: boolean
+    numeroTarjeta?: boolean
+    combustibleAntesPct?: boolean
+    combustibleDespuesPct?: boolean
+    litrosRepostados?: boolean
+    precioLitro?: boolean
+    total?: boolean
+    kilometrosVehiculo?: boolean
+    rutaRecibo?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+    vehiculo?: boolean | VehiculoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gastoCombustible"]>
+
+  export type GastoCombustibleSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    numeroFactura?: boolean
+    profesorId?: boolean
+    vehiculoId?: boolean
+    titularTarjeta?: boolean
+    numeroTarjeta?: boolean
+    combustibleAntesPct?: boolean
+    combustibleDespuesPct?: boolean
+    litrosRepostados?: boolean
+    precioLitro?: boolean
+    total?: boolean
+    kilometrosVehiculo?: boolean
+    rutaRecibo?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+    vehiculo?: boolean | VehiculoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gastoCombustible"]>
+
+  export type GastoCombustibleSelectScalar = {
+    id?: boolean
+    numeroFactura?: boolean
+    profesorId?: boolean
+    vehiculoId?: boolean
+    titularTarjeta?: boolean
+    numeroTarjeta?: boolean
+    combustibleAntesPct?: boolean
+    combustibleDespuesPct?: boolean
+    litrosRepostados?: boolean
+    precioLitro?: boolean
+    total?: boolean
+    kilometrosVehiculo?: boolean
+    rutaRecibo?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type GastoCombustibleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "numeroFactura" | "profesorId" | "vehiculoId" | "titularTarjeta" | "numeroTarjeta" | "combustibleAntesPct" | "combustibleDespuesPct" | "litrosRepostados" | "precioLitro" | "total" | "kilometrosVehiculo" | "rutaRecibo" | "createdAt" | "updatedAt", ExtArgs["result"]["gastoCombustible"]>
+  export type GastoCombustibleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+    vehiculo?: boolean | VehiculoDefaultArgs<ExtArgs>
+  }
+  export type GastoCombustibleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+    vehiculo?: boolean | VehiculoDefaultArgs<ExtArgs>
+  }
+  export type GastoCombustibleIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+    vehiculo?: boolean | VehiculoDefaultArgs<ExtArgs>
+  }
+
+  export type $GastoCombustiblePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GastoCombustible"
+    objects: {
+      profesor: Prisma.$ProfesorPayload<ExtArgs>
+      vehiculo: Prisma.$VehiculoPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      numeroFactura: string
+      profesorId: string
+      vehiculoId: string
+      titularTarjeta: string
+      numeroTarjeta: string
+      combustibleAntesPct: number
+      combustibleDespuesPct: number
+      litrosRepostados: Prisma.Decimal
+      precioLitro: Prisma.Decimal
+      total: Prisma.Decimal
+      kilometrosVehiculo: number
+      rutaRecibo: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["gastoCombustible"]>
+    composites: {}
+  }
+
+  type GastoCombustibleGetPayload<S extends boolean | null | undefined | GastoCombustibleDefaultArgs> = $Result.GetResult<Prisma.$GastoCombustiblePayload, S>
+
+  type GastoCombustibleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GastoCombustibleFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GastoCombustibleCountAggregateInputType | true
+    }
+
+  export interface GastoCombustibleDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GastoCombustible'], meta: { name: 'GastoCombustible' } }
+    /**
+     * Find zero or one GastoCombustible that matches the filter.
+     * @param {GastoCombustibleFindUniqueArgs} args - Arguments to find a GastoCombustible
+     * @example
+     * // Get one GastoCombustible
+     * const gastoCombustible = await prisma.gastoCombustible.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GastoCombustibleFindUniqueArgs>(args: SelectSubset<T, GastoCombustibleFindUniqueArgs<ExtArgs>>): Prisma__GastoCombustibleClient<$Result.GetResult<Prisma.$GastoCombustiblePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one GastoCombustible that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GastoCombustibleFindUniqueOrThrowArgs} args - Arguments to find a GastoCombustible
+     * @example
+     * // Get one GastoCombustible
+     * const gastoCombustible = await prisma.gastoCombustible.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GastoCombustibleFindUniqueOrThrowArgs>(args: SelectSubset<T, GastoCombustibleFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GastoCombustibleClient<$Result.GetResult<Prisma.$GastoCombustiblePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GastoCombustible that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GastoCombustibleFindFirstArgs} args - Arguments to find a GastoCombustible
+     * @example
+     * // Get one GastoCombustible
+     * const gastoCombustible = await prisma.gastoCombustible.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GastoCombustibleFindFirstArgs>(args?: SelectSubset<T, GastoCombustibleFindFirstArgs<ExtArgs>>): Prisma__GastoCombustibleClient<$Result.GetResult<Prisma.$GastoCombustiblePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GastoCombustible that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GastoCombustibleFindFirstOrThrowArgs} args - Arguments to find a GastoCombustible
+     * @example
+     * // Get one GastoCombustible
+     * const gastoCombustible = await prisma.gastoCombustible.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GastoCombustibleFindFirstOrThrowArgs>(args?: SelectSubset<T, GastoCombustibleFindFirstOrThrowArgs<ExtArgs>>): Prisma__GastoCombustibleClient<$Result.GetResult<Prisma.$GastoCombustiblePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more GastoCombustibles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GastoCombustibleFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GastoCombustibles
+     * const gastoCombustibles = await prisma.gastoCombustible.findMany()
+     * 
+     * // Get first 10 GastoCombustibles
+     * const gastoCombustibles = await prisma.gastoCombustible.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const gastoCombustibleWithIdOnly = await prisma.gastoCombustible.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GastoCombustibleFindManyArgs>(args?: SelectSubset<T, GastoCombustibleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GastoCombustiblePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a GastoCombustible.
+     * @param {GastoCombustibleCreateArgs} args - Arguments to create a GastoCombustible.
+     * @example
+     * // Create one GastoCombustible
+     * const GastoCombustible = await prisma.gastoCombustible.create({
+     *   data: {
+     *     // ... data to create a GastoCombustible
+     *   }
+     * })
+     * 
+     */
+    create<T extends GastoCombustibleCreateArgs>(args: SelectSubset<T, GastoCombustibleCreateArgs<ExtArgs>>): Prisma__GastoCombustibleClient<$Result.GetResult<Prisma.$GastoCombustiblePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many GastoCombustibles.
+     * @param {GastoCombustibleCreateManyArgs} args - Arguments to create many GastoCombustibles.
+     * @example
+     * // Create many GastoCombustibles
+     * const gastoCombustible = await prisma.gastoCombustible.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GastoCombustibleCreateManyArgs>(args?: SelectSubset<T, GastoCombustibleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many GastoCombustibles and returns the data saved in the database.
+     * @param {GastoCombustibleCreateManyAndReturnArgs} args - Arguments to create many GastoCombustibles.
+     * @example
+     * // Create many GastoCombustibles
+     * const gastoCombustible = await prisma.gastoCombustible.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many GastoCombustibles and only return the `id`
+     * const gastoCombustibleWithIdOnly = await prisma.gastoCombustible.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GastoCombustibleCreateManyAndReturnArgs>(args?: SelectSubset<T, GastoCombustibleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GastoCombustiblePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a GastoCombustible.
+     * @param {GastoCombustibleDeleteArgs} args - Arguments to delete one GastoCombustible.
+     * @example
+     * // Delete one GastoCombustible
+     * const GastoCombustible = await prisma.gastoCombustible.delete({
+     *   where: {
+     *     // ... filter to delete one GastoCombustible
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GastoCombustibleDeleteArgs>(args: SelectSubset<T, GastoCombustibleDeleteArgs<ExtArgs>>): Prisma__GastoCombustibleClient<$Result.GetResult<Prisma.$GastoCombustiblePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one GastoCombustible.
+     * @param {GastoCombustibleUpdateArgs} args - Arguments to update one GastoCombustible.
+     * @example
+     * // Update one GastoCombustible
+     * const gastoCombustible = await prisma.gastoCombustible.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GastoCombustibleUpdateArgs>(args: SelectSubset<T, GastoCombustibleUpdateArgs<ExtArgs>>): Prisma__GastoCombustibleClient<$Result.GetResult<Prisma.$GastoCombustiblePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more GastoCombustibles.
+     * @param {GastoCombustibleDeleteManyArgs} args - Arguments to filter GastoCombustibles to delete.
+     * @example
+     * // Delete a few GastoCombustibles
+     * const { count } = await prisma.gastoCombustible.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GastoCombustibleDeleteManyArgs>(args?: SelectSubset<T, GastoCombustibleDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GastoCombustibles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GastoCombustibleUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GastoCombustibles
+     * const gastoCombustible = await prisma.gastoCombustible.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GastoCombustibleUpdateManyArgs>(args: SelectSubset<T, GastoCombustibleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GastoCombustibles and returns the data updated in the database.
+     * @param {GastoCombustibleUpdateManyAndReturnArgs} args - Arguments to update many GastoCombustibles.
+     * @example
+     * // Update many GastoCombustibles
+     * const gastoCombustible = await prisma.gastoCombustible.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more GastoCombustibles and only return the `id`
+     * const gastoCombustibleWithIdOnly = await prisma.gastoCombustible.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends GastoCombustibleUpdateManyAndReturnArgs>(args: SelectSubset<T, GastoCombustibleUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GastoCombustiblePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one GastoCombustible.
+     * @param {GastoCombustibleUpsertArgs} args - Arguments to update or create a GastoCombustible.
+     * @example
+     * // Update or create a GastoCombustible
+     * const gastoCombustible = await prisma.gastoCombustible.upsert({
+     *   create: {
+     *     // ... data to create a GastoCombustible
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GastoCombustible we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GastoCombustibleUpsertArgs>(args: SelectSubset<T, GastoCombustibleUpsertArgs<ExtArgs>>): Prisma__GastoCombustibleClient<$Result.GetResult<Prisma.$GastoCombustiblePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of GastoCombustibles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GastoCombustibleCountArgs} args - Arguments to filter GastoCombustibles to count.
+     * @example
+     * // Count the number of GastoCombustibles
+     * const count = await prisma.gastoCombustible.count({
+     *   where: {
+     *     // ... the filter for the GastoCombustibles we want to count
+     *   }
+     * })
+    **/
+    count<T extends GastoCombustibleCountArgs>(
+      args?: Subset<T, GastoCombustibleCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GastoCombustibleCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GastoCombustible.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GastoCombustibleAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GastoCombustibleAggregateArgs>(args: Subset<T, GastoCombustibleAggregateArgs>): Prisma.PrismaPromise<GetGastoCombustibleAggregateType<T>>
+
+    /**
+     * Group by GastoCombustible.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GastoCombustibleGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GastoCombustibleGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GastoCombustibleGroupByArgs['orderBy'] }
+        : { orderBy?: GastoCombustibleGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GastoCombustibleGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGastoCombustibleGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GastoCombustible model
+   */
+  readonly fields: GastoCombustibleFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GastoCombustible.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GastoCombustibleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    profesor<T extends ProfesorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfesorDefaultArgs<ExtArgs>>): Prisma__ProfesorClient<$Result.GetResult<Prisma.$ProfesorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    vehiculo<T extends VehiculoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VehiculoDefaultArgs<ExtArgs>>): Prisma__VehiculoClient<$Result.GetResult<Prisma.$VehiculoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GastoCombustible model
+   */
+  interface GastoCombustibleFieldRefs {
+    readonly id: FieldRef<"GastoCombustible", 'String'>
+    readonly numeroFactura: FieldRef<"GastoCombustible", 'String'>
+    readonly profesorId: FieldRef<"GastoCombustible", 'String'>
+    readonly vehiculoId: FieldRef<"GastoCombustible", 'String'>
+    readonly titularTarjeta: FieldRef<"GastoCombustible", 'String'>
+    readonly numeroTarjeta: FieldRef<"GastoCombustible", 'String'>
+    readonly combustibleAntesPct: FieldRef<"GastoCombustible", 'Int'>
+    readonly combustibleDespuesPct: FieldRef<"GastoCombustible", 'Int'>
+    readonly litrosRepostados: FieldRef<"GastoCombustible", 'Decimal'>
+    readonly precioLitro: FieldRef<"GastoCombustible", 'Decimal'>
+    readonly total: FieldRef<"GastoCombustible", 'Decimal'>
+    readonly kilometrosVehiculo: FieldRef<"GastoCombustible", 'Int'>
+    readonly rutaRecibo: FieldRef<"GastoCombustible", 'String'>
+    readonly createdAt: FieldRef<"GastoCombustible", 'DateTime'>
+    readonly updatedAt: FieldRef<"GastoCombustible", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GastoCombustible findUnique
+   */
+  export type GastoCombustibleFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GastoCombustible
+     */
+    select?: GastoCombustibleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GastoCombustible
+     */
+    omit?: GastoCombustibleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GastoCombustibleInclude<ExtArgs> | null
+    /**
+     * Filter, which GastoCombustible to fetch.
+     */
+    where: GastoCombustibleWhereUniqueInput
+  }
+
+  /**
+   * GastoCombustible findUniqueOrThrow
+   */
+  export type GastoCombustibleFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GastoCombustible
+     */
+    select?: GastoCombustibleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GastoCombustible
+     */
+    omit?: GastoCombustibleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GastoCombustibleInclude<ExtArgs> | null
+    /**
+     * Filter, which GastoCombustible to fetch.
+     */
+    where: GastoCombustibleWhereUniqueInput
+  }
+
+  /**
+   * GastoCombustible findFirst
+   */
+  export type GastoCombustibleFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GastoCombustible
+     */
+    select?: GastoCombustibleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GastoCombustible
+     */
+    omit?: GastoCombustibleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GastoCombustibleInclude<ExtArgs> | null
+    /**
+     * Filter, which GastoCombustible to fetch.
+     */
+    where?: GastoCombustibleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GastoCombustibles to fetch.
+     */
+    orderBy?: GastoCombustibleOrderByWithRelationInput | GastoCombustibleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GastoCombustibles.
+     */
+    cursor?: GastoCombustibleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GastoCombustibles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GastoCombustibles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GastoCombustibles.
+     */
+    distinct?: GastoCombustibleScalarFieldEnum | GastoCombustibleScalarFieldEnum[]
+  }
+
+  /**
+   * GastoCombustible findFirstOrThrow
+   */
+  export type GastoCombustibleFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GastoCombustible
+     */
+    select?: GastoCombustibleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GastoCombustible
+     */
+    omit?: GastoCombustibleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GastoCombustibleInclude<ExtArgs> | null
+    /**
+     * Filter, which GastoCombustible to fetch.
+     */
+    where?: GastoCombustibleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GastoCombustibles to fetch.
+     */
+    orderBy?: GastoCombustibleOrderByWithRelationInput | GastoCombustibleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GastoCombustibles.
+     */
+    cursor?: GastoCombustibleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GastoCombustibles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GastoCombustibles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GastoCombustibles.
+     */
+    distinct?: GastoCombustibleScalarFieldEnum | GastoCombustibleScalarFieldEnum[]
+  }
+
+  /**
+   * GastoCombustible findMany
+   */
+  export type GastoCombustibleFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GastoCombustible
+     */
+    select?: GastoCombustibleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GastoCombustible
+     */
+    omit?: GastoCombustibleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GastoCombustibleInclude<ExtArgs> | null
+    /**
+     * Filter, which GastoCombustibles to fetch.
+     */
+    where?: GastoCombustibleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GastoCombustibles to fetch.
+     */
+    orderBy?: GastoCombustibleOrderByWithRelationInput | GastoCombustibleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GastoCombustibles.
+     */
+    cursor?: GastoCombustibleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GastoCombustibles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GastoCombustibles.
+     */
+    skip?: number
+    distinct?: GastoCombustibleScalarFieldEnum | GastoCombustibleScalarFieldEnum[]
+  }
+
+  /**
+   * GastoCombustible create
+   */
+  export type GastoCombustibleCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GastoCombustible
+     */
+    select?: GastoCombustibleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GastoCombustible
+     */
+    omit?: GastoCombustibleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GastoCombustibleInclude<ExtArgs> | null
+    /**
+     * The data needed to create a GastoCombustible.
+     */
+    data: XOR<GastoCombustibleCreateInput, GastoCombustibleUncheckedCreateInput>
+  }
+
+  /**
+   * GastoCombustible createMany
+   */
+  export type GastoCombustibleCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GastoCombustibles.
+     */
+    data: GastoCombustibleCreateManyInput | GastoCombustibleCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GastoCombustible createManyAndReturn
+   */
+  export type GastoCombustibleCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GastoCombustible
+     */
+    select?: GastoCombustibleSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GastoCombustible
+     */
+    omit?: GastoCombustibleOmit<ExtArgs> | null
+    /**
+     * The data used to create many GastoCombustibles.
+     */
+    data: GastoCombustibleCreateManyInput | GastoCombustibleCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GastoCombustibleIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GastoCombustible update
+   */
+  export type GastoCombustibleUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GastoCombustible
+     */
+    select?: GastoCombustibleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GastoCombustible
+     */
+    omit?: GastoCombustibleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GastoCombustibleInclude<ExtArgs> | null
+    /**
+     * The data needed to update a GastoCombustible.
+     */
+    data: XOR<GastoCombustibleUpdateInput, GastoCombustibleUncheckedUpdateInput>
+    /**
+     * Choose, which GastoCombustible to update.
+     */
+    where: GastoCombustibleWhereUniqueInput
+  }
+
+  /**
+   * GastoCombustible updateMany
+   */
+  export type GastoCombustibleUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GastoCombustibles.
+     */
+    data: XOR<GastoCombustibleUpdateManyMutationInput, GastoCombustibleUncheckedUpdateManyInput>
+    /**
+     * Filter which GastoCombustibles to update
+     */
+    where?: GastoCombustibleWhereInput
+    /**
+     * Limit how many GastoCombustibles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * GastoCombustible updateManyAndReturn
+   */
+  export type GastoCombustibleUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GastoCombustible
+     */
+    select?: GastoCombustibleSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GastoCombustible
+     */
+    omit?: GastoCombustibleOmit<ExtArgs> | null
+    /**
+     * The data used to update GastoCombustibles.
+     */
+    data: XOR<GastoCombustibleUpdateManyMutationInput, GastoCombustibleUncheckedUpdateManyInput>
+    /**
+     * Filter which GastoCombustibles to update
+     */
+    where?: GastoCombustibleWhereInput
+    /**
+     * Limit how many GastoCombustibles to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GastoCombustibleIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GastoCombustible upsert
+   */
+  export type GastoCombustibleUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GastoCombustible
+     */
+    select?: GastoCombustibleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GastoCombustible
+     */
+    omit?: GastoCombustibleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GastoCombustibleInclude<ExtArgs> | null
+    /**
+     * The filter to search for the GastoCombustible to update in case it exists.
+     */
+    where: GastoCombustibleWhereUniqueInput
+    /**
+     * In case the GastoCombustible found by the `where` argument doesn't exist, create a new GastoCombustible with this data.
+     */
+    create: XOR<GastoCombustibleCreateInput, GastoCombustibleUncheckedCreateInput>
+    /**
+     * In case the GastoCombustible was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GastoCombustibleUpdateInput, GastoCombustibleUncheckedUpdateInput>
+  }
+
+  /**
+   * GastoCombustible delete
+   */
+  export type GastoCombustibleDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GastoCombustible
+     */
+    select?: GastoCombustibleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GastoCombustible
+     */
+    omit?: GastoCombustibleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GastoCombustibleInclude<ExtArgs> | null
+    /**
+     * Filter which GastoCombustible to delete.
+     */
+    where: GastoCombustibleWhereUniqueInput
+  }
+
+  /**
+   * GastoCombustible deleteMany
+   */
+  export type GastoCombustibleDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GastoCombustibles to delete
+     */
+    where?: GastoCombustibleWhereInput
+    /**
+     * Limit how many GastoCombustibles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * GastoCombustible without action
+   */
+  export type GastoCombustibleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GastoCombustible
+     */
+    select?: GastoCombustibleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GastoCombustible
+     */
+    omit?: GastoCombustibleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GastoCombustibleInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Notificacion
    */
 
@@ -47243,8 +52958,16 @@ export namespace Prisma {
     estado: 'estado',
     fechaSolicitud: 'fechaSolicitud',
     fechaProgramada: 'fechaProgramada',
+    pagoGastoPracticoId: 'pagoGastoPracticoId',
     erroresExamen: 'erroresExamen',
     aciertosExamen: 'aciertosExamen',
+    faltasLeves: 'faltasLeves',
+    faltasDeficientes: 'faltasDeficientes',
+    faltasEliminatorias: 'faltasEliminatorias',
+    faltasLevesDetalle: 'faltasLevesDetalle',
+    faltasDeficientesDetalle: 'faltasDeficientesDetalle',
+    faltasEliminatoriasDetalle: 'faltasEliminatoriasDetalle',
+    motivoNoApto: 'motivoNoApto',
     observaciones: 'observaciones'
   };
 
@@ -47270,6 +52993,8 @@ export namespace Prisma {
     marca: 'marca',
     modelo: 'modelo',
     tipoPermiso: 'tipoPermiso',
+    kmActuales: 'kmActuales',
+    combustibleActualPct: 'combustibleActualPct',
     activo: 'activo',
     imagenRuta: 'imagenRuta'
   };
@@ -47457,6 +53182,72 @@ export namespace Prisma {
   export type PagoScalarFieldEnum = (typeof PagoScalarFieldEnum)[keyof typeof PagoScalarFieldEnum]
 
 
+  export const PracticalExamProcessBatchScalarFieldEnum: {
+    id: 'id',
+    status: 'status',
+    mode: 'mode',
+    targetDate: 'targetDate',
+    seed: 'seed',
+    operator: 'operator',
+    reason: 'reason',
+    dryRun: 'dryRun',
+    summary: 'summary',
+    createdAt: 'createdAt',
+    appliedAt: 'appliedAt',
+    rolledBackAt: 'rolledBackAt'
+  };
+
+  export type PracticalExamProcessBatchScalarFieldEnum = (typeof PracticalExamProcessBatchScalarFieldEnum)[keyof typeof PracticalExamProcessBatchScalarFieldEnum]
+
+
+  export const PracticalExamProcessSolicitudScalarFieldEnum: {
+    id: 'id',
+    batchId: 'batchId',
+    solicitudId: 'solicitudId',
+    alumnoId: 'alumnoId',
+    beforeEstado: 'beforeEstado',
+    beforeErrores: 'beforeErrores',
+    beforeAciertos: 'beforeAciertos',
+    beforeFaltasLeves: 'beforeFaltasLeves',
+    beforeFaltasDeficientes: 'beforeFaltasDeficientes',
+    beforeFaltasEliminatorias: 'beforeFaltasEliminatorias',
+    beforeFaltasLevesDetalle: 'beforeFaltasLevesDetalle',
+    beforeFaltasDeficientesDetalle: 'beforeFaltasDeficientesDetalle',
+    beforeFaltasEliminatoriasDetalle: 'beforeFaltasEliminatoriasDetalle',
+    beforeMotivoNoApto: 'beforeMotivoNoApto',
+    afterEstado: 'afterEstado',
+    afterErrores: 'afterErrores',
+    afterAciertos: 'afterAciertos',
+    afterFaltasLeves: 'afterFaltasLeves',
+    afterFaltasDeficientes: 'afterFaltasDeficientes',
+    afterFaltasEliminatorias: 'afterFaltasEliminatorias',
+    afterFaltasLevesDetalle: 'afterFaltasLevesDetalle',
+    afterFaltasDeficientesDetalle: 'afterFaltasDeficientesDetalle',
+    afterFaltasEliminatoriasDetalle: 'afterFaltasEliminatoriasDetalle',
+    afterMotivoNoApto: 'afterMotivoNoApto',
+    createdExamenId: 'createdExamenId',
+    revertedAt: 'revertedAt',
+    conflictReason: 'conflictReason'
+  };
+
+  export type PracticalExamProcessSolicitudScalarFieldEnum = (typeof PracticalExamProcessSolicitudScalarFieldEnum)[keyof typeof PracticalExamProcessSolicitudScalarFieldEnum]
+
+
+  export const PracticalExamProcessPagoScalarFieldEnum: {
+    id: 'id',
+    batchId: 'batchId',
+    pagoId: 'pagoId',
+    alumnoId: 'alumnoId',
+    beforeConvocatoriasConsumidas: 'beforeConvocatoriasConsumidas',
+    afterConvocatoriasConsumidas: 'afterConvocatoriasConsumidas',
+    applied: 'applied',
+    revertedAt: 'revertedAt',
+    conflictReason: 'conflictReason'
+  };
+
+  export type PracticalExamProcessPagoScalarFieldEnum = (typeof PracticalExamProcessPagoScalarFieldEnum)[keyof typeof PracticalExamProcessPagoScalarFieldEnum]
+
+
   export const TheoreticalExamProcessBatchScalarFieldEnum: {
     id: 'id',
     status: 'status',
@@ -47541,6 +53332,27 @@ export namespace Prisma {
   };
 
   export type FacturaScalarFieldEnum = (typeof FacturaScalarFieldEnum)[keyof typeof FacturaScalarFieldEnum]
+
+
+  export const GastoCombustibleScalarFieldEnum: {
+    id: 'id',
+    numeroFactura: 'numeroFactura',
+    profesorId: 'profesorId',
+    vehiculoId: 'vehiculoId',
+    titularTarjeta: 'titularTarjeta',
+    numeroTarjeta: 'numeroTarjeta',
+    combustibleAntesPct: 'combustibleAntesPct',
+    combustibleDespuesPct: 'combustibleDespuesPct',
+    litrosRepostados: 'litrosRepostados',
+    precioLitro: 'precioLitro',
+    total: 'total',
+    kilometrosVehiculo: 'kilometrosVehiculo',
+    rutaRecibo: 'rutaRecibo',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type GastoCombustibleScalarFieldEnum = (typeof GastoCombustibleScalarFieldEnum)[keyof typeof GastoCombustibleScalarFieldEnum]
 
 
   export const NotificacionScalarFieldEnum: {
@@ -47915,6 +53727,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoListRelationFilter
     clasesDirecto?: ClaseDirectoListRelationFilter
     clases?: ClasePracticaListRelationFilter
+    gastosCombustible?: GastoCombustibleListRelationFilter
     hojasRuta?: HojaRutaListRelationFilter
     horarioBloques?: ProfesorHorarioBloqueListRelationFilter
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
@@ -47929,6 +53742,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoOrderByRelationAggregateInput
     clasesDirecto?: ClaseDirectoOrderByRelationAggregateInput
     clases?: ClasePracticaOrderByRelationAggregateInput
+    gastosCombustible?: GastoCombustibleOrderByRelationAggregateInput
     hojasRuta?: HojaRutaOrderByRelationAggregateInput
     horarioBloques?: ProfesorHorarioBloqueOrderByRelationAggregateInput
     usuario?: UsuarioOrderByWithRelationInput
@@ -47946,6 +53760,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoListRelationFilter
     clasesDirecto?: ClaseDirectoListRelationFilter
     clases?: ClasePracticaListRelationFilter
+    gastosCombustible?: GastoCombustibleListRelationFilter
     hojasRuta?: HojaRutaListRelationFilter
     horarioBloques?: ProfesorHorarioBloqueListRelationFilter
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
@@ -48938,10 +54753,19 @@ export namespace Prisma {
     estado?: StringFilter<"SolicitudExamen"> | string
     fechaSolicitud?: DateTimeFilter<"SolicitudExamen"> | Date | string
     fechaProgramada?: DateTimeNullableFilter<"SolicitudExamen"> | Date | string | null
+    pagoGastoPracticoId?: StringNullableFilter<"SolicitudExamen"> | string | null
     erroresExamen?: IntNullableFilter<"SolicitudExamen"> | number | null
     aciertosExamen?: IntNullableFilter<"SolicitudExamen"> | number | null
+    faltasLeves?: IntNullableFilter<"SolicitudExamen"> | number | null
+    faltasDeficientes?: IntNullableFilter<"SolicitudExamen"> | number | null
+    faltasEliminatorias?: IntNullableFilter<"SolicitudExamen"> | number | null
+    faltasLevesDetalle?: StringNullableListFilter<"SolicitudExamen">
+    faltasDeficientesDetalle?: StringNullableListFilter<"SolicitudExamen">
+    faltasEliminatoriasDetalle?: StringNullableListFilter<"SolicitudExamen">
+    motivoNoApto?: StringNullableFilter<"SolicitudExamen"> | string | null
     observaciones?: StringNullableFilter<"SolicitudExamen"> | string | null
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+    pagoGastoPractico?: XOR<PagoNullableScalarRelationFilter, PagoWhereInput> | null
   }
 
   export type SolicitudExamenOrderByWithRelationInput = {
@@ -48951,10 +54775,19 @@ export namespace Prisma {
     estado?: SortOrder
     fechaSolicitud?: SortOrder
     fechaProgramada?: SortOrderInput | SortOrder
+    pagoGastoPracticoId?: SortOrderInput | SortOrder
     erroresExamen?: SortOrderInput | SortOrder
     aciertosExamen?: SortOrderInput | SortOrder
+    faltasLeves?: SortOrderInput | SortOrder
+    faltasDeficientes?: SortOrderInput | SortOrder
+    faltasEliminatorias?: SortOrderInput | SortOrder
+    faltasLevesDetalle?: SortOrder
+    faltasDeficientesDetalle?: SortOrder
+    faltasEliminatoriasDetalle?: SortOrder
+    motivoNoApto?: SortOrderInput | SortOrder
     observaciones?: SortOrderInput | SortOrder
     alumno?: AlumnoOrderByWithRelationInput
+    pagoGastoPractico?: PagoOrderByWithRelationInput
   }
 
   export type SolicitudExamenWhereUniqueInput = Prisma.AtLeast<{
@@ -48967,10 +54800,19 @@ export namespace Prisma {
     estado?: StringFilter<"SolicitudExamen"> | string
     fechaSolicitud?: DateTimeFilter<"SolicitudExamen"> | Date | string
     fechaProgramada?: DateTimeNullableFilter<"SolicitudExamen"> | Date | string | null
+    pagoGastoPracticoId?: StringNullableFilter<"SolicitudExamen"> | string | null
     erroresExamen?: IntNullableFilter<"SolicitudExamen"> | number | null
     aciertosExamen?: IntNullableFilter<"SolicitudExamen"> | number | null
+    faltasLeves?: IntNullableFilter<"SolicitudExamen"> | number | null
+    faltasDeficientes?: IntNullableFilter<"SolicitudExamen"> | number | null
+    faltasEliminatorias?: IntNullableFilter<"SolicitudExamen"> | number | null
+    faltasLevesDetalle?: StringNullableListFilter<"SolicitudExamen">
+    faltasDeficientesDetalle?: StringNullableListFilter<"SolicitudExamen">
+    faltasEliminatoriasDetalle?: StringNullableListFilter<"SolicitudExamen">
+    motivoNoApto?: StringNullableFilter<"SolicitudExamen"> | string | null
     observaciones?: StringNullableFilter<"SolicitudExamen"> | string | null
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+    pagoGastoPractico?: XOR<PagoNullableScalarRelationFilter, PagoWhereInput> | null
   }, "id">
 
   export type SolicitudExamenOrderByWithAggregationInput = {
@@ -48980,8 +54822,16 @@ export namespace Prisma {
     estado?: SortOrder
     fechaSolicitud?: SortOrder
     fechaProgramada?: SortOrderInput | SortOrder
+    pagoGastoPracticoId?: SortOrderInput | SortOrder
     erroresExamen?: SortOrderInput | SortOrder
     aciertosExamen?: SortOrderInput | SortOrder
+    faltasLeves?: SortOrderInput | SortOrder
+    faltasDeficientes?: SortOrderInput | SortOrder
+    faltasEliminatorias?: SortOrderInput | SortOrder
+    faltasLevesDetalle?: SortOrder
+    faltasDeficientesDetalle?: SortOrder
+    faltasEliminatoriasDetalle?: SortOrder
+    motivoNoApto?: SortOrderInput | SortOrder
     observaciones?: SortOrderInput | SortOrder
     _count?: SolicitudExamenCountOrderByAggregateInput
     _avg?: SolicitudExamenAvgOrderByAggregateInput
@@ -49000,8 +54850,16 @@ export namespace Prisma {
     estado?: StringWithAggregatesFilter<"SolicitudExamen"> | string
     fechaSolicitud?: DateTimeWithAggregatesFilter<"SolicitudExamen"> | Date | string
     fechaProgramada?: DateTimeNullableWithAggregatesFilter<"SolicitudExamen"> | Date | string | null
+    pagoGastoPracticoId?: StringNullableWithAggregatesFilter<"SolicitudExamen"> | string | null
     erroresExamen?: IntNullableWithAggregatesFilter<"SolicitudExamen"> | number | null
     aciertosExamen?: IntNullableWithAggregatesFilter<"SolicitudExamen"> | number | null
+    faltasLeves?: IntNullableWithAggregatesFilter<"SolicitudExamen"> | number | null
+    faltasDeficientes?: IntNullableWithAggregatesFilter<"SolicitudExamen"> | number | null
+    faltasEliminatorias?: IntNullableWithAggregatesFilter<"SolicitudExamen"> | number | null
+    faltasLevesDetalle?: StringNullableListFilter<"SolicitudExamen">
+    faltasDeficientesDetalle?: StringNullableListFilter<"SolicitudExamen">
+    faltasEliminatoriasDetalle?: StringNullableListFilter<"SolicitudExamen">
+    motivoNoApto?: StringNullableWithAggregatesFilter<"SolicitudExamen"> | string | null
     observaciones?: StringNullableWithAggregatesFilter<"SolicitudExamen"> | string | null
   }
 
@@ -49077,9 +54935,12 @@ export namespace Prisma {
     marca?: StringNullableFilter<"Vehiculo"> | string | null
     modelo?: StringNullableFilter<"Vehiculo"> | string | null
     tipoPermiso?: StringFilter<"Vehiculo"> | string
+    kmActuales?: IntFilter<"Vehiculo"> | number
+    combustibleActualPct?: IntFilter<"Vehiculo"> | number
     activo?: BoolFilter<"Vehiculo"> | boolean
     imagenRuta?: StringNullableFilter<"Vehiculo"> | string | null
     clases?: ClasePracticaListRelationFilter
+    gastosCombustible?: GastoCombustibleListRelationFilter
   }
 
   export type VehiculoOrderByWithRelationInput = {
@@ -49088,9 +54949,12 @@ export namespace Prisma {
     marca?: SortOrderInput | SortOrder
     modelo?: SortOrderInput | SortOrder
     tipoPermiso?: SortOrder
+    kmActuales?: SortOrder
+    combustibleActualPct?: SortOrder
     activo?: SortOrder
     imagenRuta?: SortOrderInput | SortOrder
     clases?: ClasePracticaOrderByRelationAggregateInput
+    gastosCombustible?: GastoCombustibleOrderByRelationAggregateInput
   }
 
   export type VehiculoWhereUniqueInput = Prisma.AtLeast<{
@@ -49102,9 +54966,12 @@ export namespace Prisma {
     marca?: StringNullableFilter<"Vehiculo"> | string | null
     modelo?: StringNullableFilter<"Vehiculo"> | string | null
     tipoPermiso?: StringFilter<"Vehiculo"> | string
+    kmActuales?: IntFilter<"Vehiculo"> | number
+    combustibleActualPct?: IntFilter<"Vehiculo"> | number
     activo?: BoolFilter<"Vehiculo"> | boolean
     imagenRuta?: StringNullableFilter<"Vehiculo"> | string | null
     clases?: ClasePracticaListRelationFilter
+    gastosCombustible?: GastoCombustibleListRelationFilter
   }, "id" | "matricula">
 
   export type VehiculoOrderByWithAggregationInput = {
@@ -49113,11 +54980,15 @@ export namespace Prisma {
     marca?: SortOrderInput | SortOrder
     modelo?: SortOrderInput | SortOrder
     tipoPermiso?: SortOrder
+    kmActuales?: SortOrder
+    combustibleActualPct?: SortOrder
     activo?: SortOrder
     imagenRuta?: SortOrderInput | SortOrder
     _count?: VehiculoCountOrderByAggregateInput
+    _avg?: VehiculoAvgOrderByAggregateInput
     _max?: VehiculoMaxOrderByAggregateInput
     _min?: VehiculoMinOrderByAggregateInput
+    _sum?: VehiculoSumOrderByAggregateInput
   }
 
   export type VehiculoScalarWhereWithAggregatesInput = {
@@ -49129,6 +55000,8 @@ export namespace Prisma {
     marca?: StringNullableWithAggregatesFilter<"Vehiculo"> | string | null
     modelo?: StringNullableWithAggregatesFilter<"Vehiculo"> | string | null
     tipoPermiso?: StringWithAggregatesFilter<"Vehiculo"> | string
+    kmActuales?: IntWithAggregatesFilter<"Vehiculo"> | number
+    combustibleActualPct?: IntWithAggregatesFilter<"Vehiculo"> | number
     activo?: BoolWithAggregatesFilter<"Vehiculo"> | boolean
     imagenRuta?: StringNullableWithAggregatesFilter<"Vehiculo"> | string | null
   }
@@ -50008,6 +55881,7 @@ export namespace Prisma {
     matricula?: XOR<MatriculaNullableScalarRelationFilter, MatriculaWhereInput> | null
     compraBono?: XOR<CompraBonoNullableScalarRelationFilter, CompraBonoWhereInput> | null
     clasePractica?: XOR<ClasePracticaNullableScalarRelationFilter, ClasePracticaWhereInput> | null
+    solicitudesExamenPractico?: SolicitudExamenListRelationFilter
   }
 
   export type PagoOrderByWithRelationInput = {
@@ -50031,6 +55905,7 @@ export namespace Prisma {
     matricula?: MatriculaOrderByWithRelationInput
     compraBono?: CompraBonoOrderByWithRelationInput
     clasePractica?: ClasePracticaOrderByWithRelationInput
+    solicitudesExamenPractico?: SolicitudExamenOrderByRelationAggregateInput
   }
 
   export type PagoWhereUniqueInput = Prisma.AtLeast<{
@@ -50057,6 +55932,7 @@ export namespace Prisma {
     matricula?: XOR<MatriculaNullableScalarRelationFilter, MatriculaWhereInput> | null
     compraBono?: XOR<CompraBonoNullableScalarRelationFilter, CompraBonoWhereInput> | null
     clasePractica?: XOR<ClasePracticaNullableScalarRelationFilter, ClasePracticaWhereInput> | null
+    solicitudesExamenPractico?: SolicitudExamenListRelationFilter
   }, "id">
 
   export type PagoOrderByWithAggregationInput = {
@@ -50103,6 +55979,345 @@ export namespace Prisma {
     fechaPago?: DateTimeNullableWithAggregatesFilter<"Pago"> | Date | string | null
     numeroFacturaPago?: StringNullableWithAggregatesFilter<"Pago"> | string | null
     observaciones?: StringNullableWithAggregatesFilter<"Pago"> | string | null
+  }
+
+  export type PracticalExamProcessBatchWhereInput = {
+    AND?: PracticalExamProcessBatchWhereInput | PracticalExamProcessBatchWhereInput[]
+    OR?: PracticalExamProcessBatchWhereInput[]
+    NOT?: PracticalExamProcessBatchWhereInput | PracticalExamProcessBatchWhereInput[]
+    id?: StringFilter<"PracticalExamProcessBatch"> | string
+    status?: StringFilter<"PracticalExamProcessBatch"> | string
+    mode?: StringFilter<"PracticalExamProcessBatch"> | string
+    targetDate?: DateTimeFilter<"PracticalExamProcessBatch"> | Date | string
+    seed?: StringNullableFilter<"PracticalExamProcessBatch"> | string | null
+    operator?: StringNullableFilter<"PracticalExamProcessBatch"> | string | null
+    reason?: StringNullableFilter<"PracticalExamProcessBatch"> | string | null
+    dryRun?: BoolFilter<"PracticalExamProcessBatch"> | boolean
+    summary?: JsonFilter<"PracticalExamProcessBatch">
+    createdAt?: DateTimeFilter<"PracticalExamProcessBatch"> | Date | string
+    appliedAt?: DateTimeNullableFilter<"PracticalExamProcessBatch"> | Date | string | null
+    rolledBackAt?: DateTimeNullableFilter<"PracticalExamProcessBatch"> | Date | string | null
+    solicitudes?: PracticalExamProcessSolicitudListRelationFilter
+    pagos?: PracticalExamProcessPagoListRelationFilter
+  }
+
+  export type PracticalExamProcessBatchOrderByWithRelationInput = {
+    id?: SortOrder
+    status?: SortOrder
+    mode?: SortOrder
+    targetDate?: SortOrder
+    seed?: SortOrderInput | SortOrder
+    operator?: SortOrderInput | SortOrder
+    reason?: SortOrderInput | SortOrder
+    dryRun?: SortOrder
+    summary?: SortOrder
+    createdAt?: SortOrder
+    appliedAt?: SortOrderInput | SortOrder
+    rolledBackAt?: SortOrderInput | SortOrder
+    solicitudes?: PracticalExamProcessSolicitudOrderByRelationAggregateInput
+    pagos?: PracticalExamProcessPagoOrderByRelationAggregateInput
+  }
+
+  export type PracticalExamProcessBatchWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PracticalExamProcessBatchWhereInput | PracticalExamProcessBatchWhereInput[]
+    OR?: PracticalExamProcessBatchWhereInput[]
+    NOT?: PracticalExamProcessBatchWhereInput | PracticalExamProcessBatchWhereInput[]
+    status?: StringFilter<"PracticalExamProcessBatch"> | string
+    mode?: StringFilter<"PracticalExamProcessBatch"> | string
+    targetDate?: DateTimeFilter<"PracticalExamProcessBatch"> | Date | string
+    seed?: StringNullableFilter<"PracticalExamProcessBatch"> | string | null
+    operator?: StringNullableFilter<"PracticalExamProcessBatch"> | string | null
+    reason?: StringNullableFilter<"PracticalExamProcessBatch"> | string | null
+    dryRun?: BoolFilter<"PracticalExamProcessBatch"> | boolean
+    summary?: JsonFilter<"PracticalExamProcessBatch">
+    createdAt?: DateTimeFilter<"PracticalExamProcessBatch"> | Date | string
+    appliedAt?: DateTimeNullableFilter<"PracticalExamProcessBatch"> | Date | string | null
+    rolledBackAt?: DateTimeNullableFilter<"PracticalExamProcessBatch"> | Date | string | null
+    solicitudes?: PracticalExamProcessSolicitudListRelationFilter
+    pagos?: PracticalExamProcessPagoListRelationFilter
+  }, "id">
+
+  export type PracticalExamProcessBatchOrderByWithAggregationInput = {
+    id?: SortOrder
+    status?: SortOrder
+    mode?: SortOrder
+    targetDate?: SortOrder
+    seed?: SortOrderInput | SortOrder
+    operator?: SortOrderInput | SortOrder
+    reason?: SortOrderInput | SortOrder
+    dryRun?: SortOrder
+    summary?: SortOrder
+    createdAt?: SortOrder
+    appliedAt?: SortOrderInput | SortOrder
+    rolledBackAt?: SortOrderInput | SortOrder
+    _count?: PracticalExamProcessBatchCountOrderByAggregateInput
+    _max?: PracticalExamProcessBatchMaxOrderByAggregateInput
+    _min?: PracticalExamProcessBatchMinOrderByAggregateInput
+  }
+
+  export type PracticalExamProcessBatchScalarWhereWithAggregatesInput = {
+    AND?: PracticalExamProcessBatchScalarWhereWithAggregatesInput | PracticalExamProcessBatchScalarWhereWithAggregatesInput[]
+    OR?: PracticalExamProcessBatchScalarWhereWithAggregatesInput[]
+    NOT?: PracticalExamProcessBatchScalarWhereWithAggregatesInput | PracticalExamProcessBatchScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PracticalExamProcessBatch"> | string
+    status?: StringWithAggregatesFilter<"PracticalExamProcessBatch"> | string
+    mode?: StringWithAggregatesFilter<"PracticalExamProcessBatch"> | string
+    targetDate?: DateTimeWithAggregatesFilter<"PracticalExamProcessBatch"> | Date | string
+    seed?: StringNullableWithAggregatesFilter<"PracticalExamProcessBatch"> | string | null
+    operator?: StringNullableWithAggregatesFilter<"PracticalExamProcessBatch"> | string | null
+    reason?: StringNullableWithAggregatesFilter<"PracticalExamProcessBatch"> | string | null
+    dryRun?: BoolWithAggregatesFilter<"PracticalExamProcessBatch"> | boolean
+    summary?: JsonWithAggregatesFilter<"PracticalExamProcessBatch">
+    createdAt?: DateTimeWithAggregatesFilter<"PracticalExamProcessBatch"> | Date | string
+    appliedAt?: DateTimeNullableWithAggregatesFilter<"PracticalExamProcessBatch"> | Date | string | null
+    rolledBackAt?: DateTimeNullableWithAggregatesFilter<"PracticalExamProcessBatch"> | Date | string | null
+  }
+
+  export type PracticalExamProcessSolicitudWhereInput = {
+    AND?: PracticalExamProcessSolicitudWhereInput | PracticalExamProcessSolicitudWhereInput[]
+    OR?: PracticalExamProcessSolicitudWhereInput[]
+    NOT?: PracticalExamProcessSolicitudWhereInput | PracticalExamProcessSolicitudWhereInput[]
+    id?: BigIntFilter<"PracticalExamProcessSolicitud"> | bigint | number
+    batchId?: StringFilter<"PracticalExamProcessSolicitud"> | string
+    solicitudId?: StringFilter<"PracticalExamProcessSolicitud"> | string
+    alumnoId?: StringFilter<"PracticalExamProcessSolicitud"> | string
+    beforeEstado?: StringFilter<"PracticalExamProcessSolicitud"> | string
+    beforeErrores?: IntNullableFilter<"PracticalExamProcessSolicitud"> | number | null
+    beforeAciertos?: IntNullableFilter<"PracticalExamProcessSolicitud"> | number | null
+    beforeFaltasLeves?: IntNullableFilter<"PracticalExamProcessSolicitud"> | number | null
+    beforeFaltasDeficientes?: IntNullableFilter<"PracticalExamProcessSolicitud"> | number | null
+    beforeFaltasEliminatorias?: IntNullableFilter<"PracticalExamProcessSolicitud"> | number | null
+    beforeFaltasLevesDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    beforeFaltasDeficientesDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    beforeFaltasEliminatoriasDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    beforeMotivoNoApto?: StringNullableFilter<"PracticalExamProcessSolicitud"> | string | null
+    afterEstado?: StringFilter<"PracticalExamProcessSolicitud"> | string
+    afterErrores?: IntNullableFilter<"PracticalExamProcessSolicitud"> | number | null
+    afterAciertos?: IntNullableFilter<"PracticalExamProcessSolicitud"> | number | null
+    afterFaltasLeves?: IntFilter<"PracticalExamProcessSolicitud"> | number
+    afterFaltasDeficientes?: IntFilter<"PracticalExamProcessSolicitud"> | number
+    afterFaltasEliminatorias?: IntFilter<"PracticalExamProcessSolicitud"> | number
+    afterFaltasLevesDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    afterFaltasDeficientesDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    afterFaltasEliminatoriasDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    afterMotivoNoApto?: StringNullableFilter<"PracticalExamProcessSolicitud"> | string | null
+    createdExamenId?: StringNullableFilter<"PracticalExamProcessSolicitud"> | string | null
+    revertedAt?: DateTimeNullableFilter<"PracticalExamProcessSolicitud"> | Date | string | null
+    conflictReason?: StringNullableFilter<"PracticalExamProcessSolicitud"> | string | null
+    batch?: XOR<PracticalExamProcessBatchScalarRelationFilter, PracticalExamProcessBatchWhereInput>
+  }
+
+  export type PracticalExamProcessSolicitudOrderByWithRelationInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    solicitudId?: SortOrder
+    alumnoId?: SortOrder
+    beforeEstado?: SortOrder
+    beforeErrores?: SortOrderInput | SortOrder
+    beforeAciertos?: SortOrderInput | SortOrder
+    beforeFaltasLeves?: SortOrderInput | SortOrder
+    beforeFaltasDeficientes?: SortOrderInput | SortOrder
+    beforeFaltasEliminatorias?: SortOrderInput | SortOrder
+    beforeFaltasLevesDetalle?: SortOrder
+    beforeFaltasDeficientesDetalle?: SortOrder
+    beforeFaltasEliminatoriasDetalle?: SortOrder
+    beforeMotivoNoApto?: SortOrderInput | SortOrder
+    afterEstado?: SortOrder
+    afterErrores?: SortOrderInput | SortOrder
+    afterAciertos?: SortOrderInput | SortOrder
+    afterFaltasLeves?: SortOrder
+    afterFaltasDeficientes?: SortOrder
+    afterFaltasEliminatorias?: SortOrder
+    afterFaltasLevesDetalle?: SortOrder
+    afterFaltasDeficientesDetalle?: SortOrder
+    afterFaltasEliminatoriasDetalle?: SortOrder
+    afterMotivoNoApto?: SortOrderInput | SortOrder
+    createdExamenId?: SortOrderInput | SortOrder
+    revertedAt?: SortOrderInput | SortOrder
+    conflictReason?: SortOrderInput | SortOrder
+    batch?: PracticalExamProcessBatchOrderByWithRelationInput
+  }
+
+  export type PracticalExamProcessSolicitudWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    batchId_solicitudId?: PracticalExamProcessSolicitudBatchIdSolicitudIdCompoundUniqueInput
+    AND?: PracticalExamProcessSolicitudWhereInput | PracticalExamProcessSolicitudWhereInput[]
+    OR?: PracticalExamProcessSolicitudWhereInput[]
+    NOT?: PracticalExamProcessSolicitudWhereInput | PracticalExamProcessSolicitudWhereInput[]
+    batchId?: StringFilter<"PracticalExamProcessSolicitud"> | string
+    solicitudId?: StringFilter<"PracticalExamProcessSolicitud"> | string
+    alumnoId?: StringFilter<"PracticalExamProcessSolicitud"> | string
+    beforeEstado?: StringFilter<"PracticalExamProcessSolicitud"> | string
+    beforeErrores?: IntNullableFilter<"PracticalExamProcessSolicitud"> | number | null
+    beforeAciertos?: IntNullableFilter<"PracticalExamProcessSolicitud"> | number | null
+    beforeFaltasLeves?: IntNullableFilter<"PracticalExamProcessSolicitud"> | number | null
+    beforeFaltasDeficientes?: IntNullableFilter<"PracticalExamProcessSolicitud"> | number | null
+    beforeFaltasEliminatorias?: IntNullableFilter<"PracticalExamProcessSolicitud"> | number | null
+    beforeFaltasLevesDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    beforeFaltasDeficientesDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    beforeFaltasEliminatoriasDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    beforeMotivoNoApto?: StringNullableFilter<"PracticalExamProcessSolicitud"> | string | null
+    afterEstado?: StringFilter<"PracticalExamProcessSolicitud"> | string
+    afterErrores?: IntNullableFilter<"PracticalExamProcessSolicitud"> | number | null
+    afterAciertos?: IntNullableFilter<"PracticalExamProcessSolicitud"> | number | null
+    afterFaltasLeves?: IntFilter<"PracticalExamProcessSolicitud"> | number
+    afterFaltasDeficientes?: IntFilter<"PracticalExamProcessSolicitud"> | number
+    afterFaltasEliminatorias?: IntFilter<"PracticalExamProcessSolicitud"> | number
+    afterFaltasLevesDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    afterFaltasDeficientesDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    afterFaltasEliminatoriasDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    afterMotivoNoApto?: StringNullableFilter<"PracticalExamProcessSolicitud"> | string | null
+    createdExamenId?: StringNullableFilter<"PracticalExamProcessSolicitud"> | string | null
+    revertedAt?: DateTimeNullableFilter<"PracticalExamProcessSolicitud"> | Date | string | null
+    conflictReason?: StringNullableFilter<"PracticalExamProcessSolicitud"> | string | null
+    batch?: XOR<PracticalExamProcessBatchScalarRelationFilter, PracticalExamProcessBatchWhereInput>
+  }, "id" | "batchId_solicitudId">
+
+  export type PracticalExamProcessSolicitudOrderByWithAggregationInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    solicitudId?: SortOrder
+    alumnoId?: SortOrder
+    beforeEstado?: SortOrder
+    beforeErrores?: SortOrderInput | SortOrder
+    beforeAciertos?: SortOrderInput | SortOrder
+    beforeFaltasLeves?: SortOrderInput | SortOrder
+    beforeFaltasDeficientes?: SortOrderInput | SortOrder
+    beforeFaltasEliminatorias?: SortOrderInput | SortOrder
+    beforeFaltasLevesDetalle?: SortOrder
+    beforeFaltasDeficientesDetalle?: SortOrder
+    beforeFaltasEliminatoriasDetalle?: SortOrder
+    beforeMotivoNoApto?: SortOrderInput | SortOrder
+    afterEstado?: SortOrder
+    afterErrores?: SortOrderInput | SortOrder
+    afterAciertos?: SortOrderInput | SortOrder
+    afterFaltasLeves?: SortOrder
+    afterFaltasDeficientes?: SortOrder
+    afterFaltasEliminatorias?: SortOrder
+    afterFaltasLevesDetalle?: SortOrder
+    afterFaltasDeficientesDetalle?: SortOrder
+    afterFaltasEliminatoriasDetalle?: SortOrder
+    afterMotivoNoApto?: SortOrderInput | SortOrder
+    createdExamenId?: SortOrderInput | SortOrder
+    revertedAt?: SortOrderInput | SortOrder
+    conflictReason?: SortOrderInput | SortOrder
+    _count?: PracticalExamProcessSolicitudCountOrderByAggregateInput
+    _avg?: PracticalExamProcessSolicitudAvgOrderByAggregateInput
+    _max?: PracticalExamProcessSolicitudMaxOrderByAggregateInput
+    _min?: PracticalExamProcessSolicitudMinOrderByAggregateInput
+    _sum?: PracticalExamProcessSolicitudSumOrderByAggregateInput
+  }
+
+  export type PracticalExamProcessSolicitudScalarWhereWithAggregatesInput = {
+    AND?: PracticalExamProcessSolicitudScalarWhereWithAggregatesInput | PracticalExamProcessSolicitudScalarWhereWithAggregatesInput[]
+    OR?: PracticalExamProcessSolicitudScalarWhereWithAggregatesInput[]
+    NOT?: PracticalExamProcessSolicitudScalarWhereWithAggregatesInput | PracticalExamProcessSolicitudScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"PracticalExamProcessSolicitud"> | bigint | number
+    batchId?: StringWithAggregatesFilter<"PracticalExamProcessSolicitud"> | string
+    solicitudId?: StringWithAggregatesFilter<"PracticalExamProcessSolicitud"> | string
+    alumnoId?: StringWithAggregatesFilter<"PracticalExamProcessSolicitud"> | string
+    beforeEstado?: StringWithAggregatesFilter<"PracticalExamProcessSolicitud"> | string
+    beforeErrores?: IntNullableWithAggregatesFilter<"PracticalExamProcessSolicitud"> | number | null
+    beforeAciertos?: IntNullableWithAggregatesFilter<"PracticalExamProcessSolicitud"> | number | null
+    beforeFaltasLeves?: IntNullableWithAggregatesFilter<"PracticalExamProcessSolicitud"> | number | null
+    beforeFaltasDeficientes?: IntNullableWithAggregatesFilter<"PracticalExamProcessSolicitud"> | number | null
+    beforeFaltasEliminatorias?: IntNullableWithAggregatesFilter<"PracticalExamProcessSolicitud"> | number | null
+    beforeFaltasLevesDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    beforeFaltasDeficientesDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    beforeFaltasEliminatoriasDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    beforeMotivoNoApto?: StringNullableWithAggregatesFilter<"PracticalExamProcessSolicitud"> | string | null
+    afterEstado?: StringWithAggregatesFilter<"PracticalExamProcessSolicitud"> | string
+    afterErrores?: IntNullableWithAggregatesFilter<"PracticalExamProcessSolicitud"> | number | null
+    afterAciertos?: IntNullableWithAggregatesFilter<"PracticalExamProcessSolicitud"> | number | null
+    afterFaltasLeves?: IntWithAggregatesFilter<"PracticalExamProcessSolicitud"> | number
+    afterFaltasDeficientes?: IntWithAggregatesFilter<"PracticalExamProcessSolicitud"> | number
+    afterFaltasEliminatorias?: IntWithAggregatesFilter<"PracticalExamProcessSolicitud"> | number
+    afterFaltasLevesDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    afterFaltasDeficientesDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    afterFaltasEliminatoriasDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    afterMotivoNoApto?: StringNullableWithAggregatesFilter<"PracticalExamProcessSolicitud"> | string | null
+    createdExamenId?: StringNullableWithAggregatesFilter<"PracticalExamProcessSolicitud"> | string | null
+    revertedAt?: DateTimeNullableWithAggregatesFilter<"PracticalExamProcessSolicitud"> | Date | string | null
+    conflictReason?: StringNullableWithAggregatesFilter<"PracticalExamProcessSolicitud"> | string | null
+  }
+
+  export type PracticalExamProcessPagoWhereInput = {
+    AND?: PracticalExamProcessPagoWhereInput | PracticalExamProcessPagoWhereInput[]
+    OR?: PracticalExamProcessPagoWhereInput[]
+    NOT?: PracticalExamProcessPagoWhereInput | PracticalExamProcessPagoWhereInput[]
+    id?: BigIntFilter<"PracticalExamProcessPago"> | bigint | number
+    batchId?: StringFilter<"PracticalExamProcessPago"> | string
+    pagoId?: StringFilter<"PracticalExamProcessPago"> | string
+    alumnoId?: StringFilter<"PracticalExamProcessPago"> | string
+    beforeConvocatoriasConsumidas?: IntFilter<"PracticalExamProcessPago"> | number
+    afterConvocatoriasConsumidas?: IntFilter<"PracticalExamProcessPago"> | number
+    applied?: BoolFilter<"PracticalExamProcessPago"> | boolean
+    revertedAt?: DateTimeNullableFilter<"PracticalExamProcessPago"> | Date | string | null
+    conflictReason?: StringNullableFilter<"PracticalExamProcessPago"> | string | null
+    batch?: XOR<PracticalExamProcessBatchScalarRelationFilter, PracticalExamProcessBatchWhereInput>
+  }
+
+  export type PracticalExamProcessPagoOrderByWithRelationInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    pagoId?: SortOrder
+    alumnoId?: SortOrder
+    beforeConvocatoriasConsumidas?: SortOrder
+    afterConvocatoriasConsumidas?: SortOrder
+    applied?: SortOrder
+    revertedAt?: SortOrderInput | SortOrder
+    conflictReason?: SortOrderInput | SortOrder
+    batch?: PracticalExamProcessBatchOrderByWithRelationInput
+  }
+
+  export type PracticalExamProcessPagoWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    batchId_pagoId?: PracticalExamProcessPagoBatchIdPagoIdCompoundUniqueInput
+    AND?: PracticalExamProcessPagoWhereInput | PracticalExamProcessPagoWhereInput[]
+    OR?: PracticalExamProcessPagoWhereInput[]
+    NOT?: PracticalExamProcessPagoWhereInput | PracticalExamProcessPagoWhereInput[]
+    batchId?: StringFilter<"PracticalExamProcessPago"> | string
+    pagoId?: StringFilter<"PracticalExamProcessPago"> | string
+    alumnoId?: StringFilter<"PracticalExamProcessPago"> | string
+    beforeConvocatoriasConsumidas?: IntFilter<"PracticalExamProcessPago"> | number
+    afterConvocatoriasConsumidas?: IntFilter<"PracticalExamProcessPago"> | number
+    applied?: BoolFilter<"PracticalExamProcessPago"> | boolean
+    revertedAt?: DateTimeNullableFilter<"PracticalExamProcessPago"> | Date | string | null
+    conflictReason?: StringNullableFilter<"PracticalExamProcessPago"> | string | null
+    batch?: XOR<PracticalExamProcessBatchScalarRelationFilter, PracticalExamProcessBatchWhereInput>
+  }, "id" | "batchId_pagoId">
+
+  export type PracticalExamProcessPagoOrderByWithAggregationInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    pagoId?: SortOrder
+    alumnoId?: SortOrder
+    beforeConvocatoriasConsumidas?: SortOrder
+    afterConvocatoriasConsumidas?: SortOrder
+    applied?: SortOrder
+    revertedAt?: SortOrderInput | SortOrder
+    conflictReason?: SortOrderInput | SortOrder
+    _count?: PracticalExamProcessPagoCountOrderByAggregateInput
+    _avg?: PracticalExamProcessPagoAvgOrderByAggregateInput
+    _max?: PracticalExamProcessPagoMaxOrderByAggregateInput
+    _min?: PracticalExamProcessPagoMinOrderByAggregateInput
+    _sum?: PracticalExamProcessPagoSumOrderByAggregateInput
+  }
+
+  export type PracticalExamProcessPagoScalarWhereWithAggregatesInput = {
+    AND?: PracticalExamProcessPagoScalarWhereWithAggregatesInput | PracticalExamProcessPagoScalarWhereWithAggregatesInput[]
+    OR?: PracticalExamProcessPagoScalarWhereWithAggregatesInput[]
+    NOT?: PracticalExamProcessPagoScalarWhereWithAggregatesInput | PracticalExamProcessPagoScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"PracticalExamProcessPago"> | bigint | number
+    batchId?: StringWithAggregatesFilter<"PracticalExamProcessPago"> | string
+    pagoId?: StringWithAggregatesFilter<"PracticalExamProcessPago"> | string
+    alumnoId?: StringWithAggregatesFilter<"PracticalExamProcessPago"> | string
+    beforeConvocatoriasConsumidas?: IntWithAggregatesFilter<"PracticalExamProcessPago"> | number
+    afterConvocatoriasConsumidas?: IntWithAggregatesFilter<"PracticalExamProcessPago"> | number
+    applied?: BoolWithAggregatesFilter<"PracticalExamProcessPago"> | boolean
+    revertedAt?: DateTimeNullableWithAggregatesFilter<"PracticalExamProcessPago"> | Date | string | null
+    conflictReason?: StringNullableWithAggregatesFilter<"PracticalExamProcessPago"> | string | null
   }
 
   export type TheoreticalExamProcessBatchWhereInput = {
@@ -50560,6 +56775,116 @@ export namespace Prisma {
     fechaPago?: DateTimeNullableWithAggregatesFilter<"Factura"> | Date | string | null
   }
 
+  export type GastoCombustibleWhereInput = {
+    AND?: GastoCombustibleWhereInput | GastoCombustibleWhereInput[]
+    OR?: GastoCombustibleWhereInput[]
+    NOT?: GastoCombustibleWhereInput | GastoCombustibleWhereInput[]
+    id?: StringFilter<"GastoCombustible"> | string
+    numeroFactura?: StringFilter<"GastoCombustible"> | string
+    profesorId?: StringFilter<"GastoCombustible"> | string
+    vehiculoId?: StringFilter<"GastoCombustible"> | string
+    titularTarjeta?: StringFilter<"GastoCombustible"> | string
+    numeroTarjeta?: StringFilter<"GastoCombustible"> | string
+    combustibleAntesPct?: IntFilter<"GastoCombustible"> | number
+    combustibleDespuesPct?: IntFilter<"GastoCombustible"> | number
+    litrosRepostados?: DecimalFilter<"GastoCombustible"> | Decimal | DecimalJsLike | number | string
+    precioLitro?: DecimalFilter<"GastoCombustible"> | Decimal | DecimalJsLike | number | string
+    total?: DecimalFilter<"GastoCombustible"> | Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo?: IntFilter<"GastoCombustible"> | number
+    rutaRecibo?: StringNullableFilter<"GastoCombustible"> | string | null
+    createdAt?: DateTimeFilter<"GastoCombustible"> | Date | string
+    updatedAt?: DateTimeFilter<"GastoCombustible"> | Date | string
+    profesor?: XOR<ProfesorScalarRelationFilter, ProfesorWhereInput>
+    vehiculo?: XOR<VehiculoScalarRelationFilter, VehiculoWhereInput>
+  }
+
+  export type GastoCombustibleOrderByWithRelationInput = {
+    id?: SortOrder
+    numeroFactura?: SortOrder
+    profesorId?: SortOrder
+    vehiculoId?: SortOrder
+    titularTarjeta?: SortOrder
+    numeroTarjeta?: SortOrder
+    combustibleAntesPct?: SortOrder
+    combustibleDespuesPct?: SortOrder
+    litrosRepostados?: SortOrder
+    precioLitro?: SortOrder
+    total?: SortOrder
+    kilometrosVehiculo?: SortOrder
+    rutaRecibo?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    profesor?: ProfesorOrderByWithRelationInput
+    vehiculo?: VehiculoOrderByWithRelationInput
+  }
+
+  export type GastoCombustibleWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    numeroFactura?: string
+    AND?: GastoCombustibleWhereInput | GastoCombustibleWhereInput[]
+    OR?: GastoCombustibleWhereInput[]
+    NOT?: GastoCombustibleWhereInput | GastoCombustibleWhereInput[]
+    profesorId?: StringFilter<"GastoCombustible"> | string
+    vehiculoId?: StringFilter<"GastoCombustible"> | string
+    titularTarjeta?: StringFilter<"GastoCombustible"> | string
+    numeroTarjeta?: StringFilter<"GastoCombustible"> | string
+    combustibleAntesPct?: IntFilter<"GastoCombustible"> | number
+    combustibleDespuesPct?: IntFilter<"GastoCombustible"> | number
+    litrosRepostados?: DecimalFilter<"GastoCombustible"> | Decimal | DecimalJsLike | number | string
+    precioLitro?: DecimalFilter<"GastoCombustible"> | Decimal | DecimalJsLike | number | string
+    total?: DecimalFilter<"GastoCombustible"> | Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo?: IntFilter<"GastoCombustible"> | number
+    rutaRecibo?: StringNullableFilter<"GastoCombustible"> | string | null
+    createdAt?: DateTimeFilter<"GastoCombustible"> | Date | string
+    updatedAt?: DateTimeFilter<"GastoCombustible"> | Date | string
+    profesor?: XOR<ProfesorScalarRelationFilter, ProfesorWhereInput>
+    vehiculo?: XOR<VehiculoScalarRelationFilter, VehiculoWhereInput>
+  }, "id" | "numeroFactura">
+
+  export type GastoCombustibleOrderByWithAggregationInput = {
+    id?: SortOrder
+    numeroFactura?: SortOrder
+    profesorId?: SortOrder
+    vehiculoId?: SortOrder
+    titularTarjeta?: SortOrder
+    numeroTarjeta?: SortOrder
+    combustibleAntesPct?: SortOrder
+    combustibleDespuesPct?: SortOrder
+    litrosRepostados?: SortOrder
+    precioLitro?: SortOrder
+    total?: SortOrder
+    kilometrosVehiculo?: SortOrder
+    rutaRecibo?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: GastoCombustibleCountOrderByAggregateInput
+    _avg?: GastoCombustibleAvgOrderByAggregateInput
+    _max?: GastoCombustibleMaxOrderByAggregateInput
+    _min?: GastoCombustibleMinOrderByAggregateInput
+    _sum?: GastoCombustibleSumOrderByAggregateInput
+  }
+
+  export type GastoCombustibleScalarWhereWithAggregatesInput = {
+    AND?: GastoCombustibleScalarWhereWithAggregatesInput | GastoCombustibleScalarWhereWithAggregatesInput[]
+    OR?: GastoCombustibleScalarWhereWithAggregatesInput[]
+    NOT?: GastoCombustibleScalarWhereWithAggregatesInput | GastoCombustibleScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"GastoCombustible"> | string
+    numeroFactura?: StringWithAggregatesFilter<"GastoCombustible"> | string
+    profesorId?: StringWithAggregatesFilter<"GastoCombustible"> | string
+    vehiculoId?: StringWithAggregatesFilter<"GastoCombustible"> | string
+    titularTarjeta?: StringWithAggregatesFilter<"GastoCombustible"> | string
+    numeroTarjeta?: StringWithAggregatesFilter<"GastoCombustible"> | string
+    combustibleAntesPct?: IntWithAggregatesFilter<"GastoCombustible"> | number
+    combustibleDespuesPct?: IntWithAggregatesFilter<"GastoCombustible"> | number
+    litrosRepostados?: DecimalWithAggregatesFilter<"GastoCombustible"> | Decimal | DecimalJsLike | number | string
+    precioLitro?: DecimalWithAggregatesFilter<"GastoCombustible"> | Decimal | DecimalJsLike | number | string
+    total?: DecimalWithAggregatesFilter<"GastoCombustible"> | Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo?: IntWithAggregatesFilter<"GastoCombustible"> | number
+    rutaRecibo?: StringNullableWithAggregatesFilter<"GastoCombustible"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"GastoCombustible"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"GastoCombustible"> | Date | string
+  }
+
   export type NotificacionWhereInput = {
     AND?: NotificacionWhereInput | NotificacionWhereInput[]
     OR?: NotificacionWhereInput[]
@@ -50819,6 +57144,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    gastosCombustible?: GastoCombustibleCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
     horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
@@ -50833,6 +57159,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    gastosCombustible?: GastoCombustibleUncheckedCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
@@ -50845,6 +57172,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    gastosCombustible?: GastoCombustibleUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
     horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
@@ -50859,6 +57187,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    gastosCombustible?: GastoCombustibleUncheckedUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
@@ -51905,8 +58234,16 @@ export namespace Prisma {
     fechaProgramada?: Date | string | null
     erroresExamen?: number | null
     aciertosExamen?: number | null
+    faltasLeves?: number | null
+    faltasDeficientes?: number | null
+    faltasEliminatorias?: number | null
+    faltasLevesDetalle?: SolicitudExamenCreatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenCreatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenCreatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: string | null
     observaciones?: string | null
     alumno: AlumnoCreateNestedOneWithoutSolicitudesExamenInput
+    pagoGastoPractico?: PagoCreateNestedOneWithoutSolicitudesExamenPracticoInput
   }
 
   export type SolicitudExamenUncheckedCreateInput = {
@@ -51916,8 +58253,16 @@ export namespace Prisma {
     estado?: string
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
+    pagoGastoPracticoId?: string | null
     erroresExamen?: number | null
     aciertosExamen?: number | null
+    faltasLeves?: number | null
+    faltasDeficientes?: number | null
+    faltasEliminatorias?: number | null
+    faltasLevesDetalle?: SolicitudExamenCreatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenCreatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenCreatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: string | null
     observaciones?: string | null
   }
 
@@ -51929,8 +58274,16 @@ export namespace Prisma {
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
     aciertosExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLeves?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasDeficientes?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasEliminatorias?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLevesDetalle?: SolicitudExamenUpdatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenUpdatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     alumno?: AlumnoUpdateOneRequiredWithoutSolicitudesExamenNestedInput
+    pagoGastoPractico?: PagoUpdateOneWithoutSolicitudesExamenPracticoNestedInput
   }
 
   export type SolicitudExamenUncheckedUpdateInput = {
@@ -51940,8 +58293,16 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pagoGastoPracticoId?: NullableStringFieldUpdateOperationsInput | string | null
     erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
     aciertosExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLeves?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasDeficientes?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasEliminatorias?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLevesDetalle?: SolicitudExamenUpdatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenUpdatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -51952,8 +58313,16 @@ export namespace Prisma {
     estado?: string
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
+    pagoGastoPracticoId?: string | null
     erroresExamen?: number | null
     aciertosExamen?: number | null
+    faltasLeves?: number | null
+    faltasDeficientes?: number | null
+    faltasEliminatorias?: number | null
+    faltasLevesDetalle?: SolicitudExamenCreatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenCreatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenCreatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: string | null
     observaciones?: string | null
   }
 
@@ -51965,6 +58334,13 @@ export namespace Prisma {
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
     aciertosExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLeves?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasDeficientes?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasEliminatorias?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLevesDetalle?: SolicitudExamenUpdatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenUpdatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -51975,8 +58351,16 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pagoGastoPracticoId?: NullableStringFieldUpdateOperationsInput | string | null
     erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
     aciertosExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLeves?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasDeficientes?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasEliminatorias?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLevesDetalle?: SolicitudExamenUpdatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenUpdatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -52056,9 +58440,12 @@ export namespace Prisma {
     marca?: string | null
     modelo?: string | null
     tipoPermiso: string
+    kmActuales?: number
+    combustibleActualPct?: number
     activo?: boolean
     imagenRuta?: string | null
     clases?: ClasePracticaCreateNestedManyWithoutVehiculoInput
+    gastosCombustible?: GastoCombustibleCreateNestedManyWithoutVehiculoInput
   }
 
   export type VehiculoUncheckedCreateInput = {
@@ -52067,9 +58454,12 @@ export namespace Prisma {
     marca?: string | null
     modelo?: string | null
     tipoPermiso: string
+    kmActuales?: number
+    combustibleActualPct?: number
     activo?: boolean
     imagenRuta?: string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutVehiculoInput
+    gastosCombustible?: GastoCombustibleUncheckedCreateNestedManyWithoutVehiculoInput
   }
 
   export type VehiculoUpdateInput = {
@@ -52078,9 +58468,12 @@ export namespace Prisma {
     marca?: NullableStringFieldUpdateOperationsInput | string | null
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     tipoPermiso?: StringFieldUpdateOperationsInput | string
+    kmActuales?: IntFieldUpdateOperationsInput | number
+    combustibleActualPct?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
     imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
     clases?: ClasePracticaUpdateManyWithoutVehiculoNestedInput
+    gastosCombustible?: GastoCombustibleUpdateManyWithoutVehiculoNestedInput
   }
 
   export type VehiculoUncheckedUpdateInput = {
@@ -52089,9 +58482,12 @@ export namespace Prisma {
     marca?: NullableStringFieldUpdateOperationsInput | string | null
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     tipoPermiso?: StringFieldUpdateOperationsInput | string
+    kmActuales?: IntFieldUpdateOperationsInput | number
+    combustibleActualPct?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
     imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutVehiculoNestedInput
+    gastosCombustible?: GastoCombustibleUncheckedUpdateManyWithoutVehiculoNestedInput
   }
 
   export type VehiculoCreateManyInput = {
@@ -52100,6 +58496,8 @@ export namespace Prisma {
     marca?: string | null
     modelo?: string | null
     tipoPermiso: string
+    kmActuales?: number
+    combustibleActualPct?: number
     activo?: boolean
     imagenRuta?: string | null
   }
@@ -52110,6 +58508,8 @@ export namespace Prisma {
     marca?: NullableStringFieldUpdateOperationsInput | string | null
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     tipoPermiso?: StringFieldUpdateOperationsInput | string
+    kmActuales?: IntFieldUpdateOperationsInput | number
+    combustibleActualPct?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
     imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -52120,6 +58520,8 @@ export namespace Prisma {
     marca?: NullableStringFieldUpdateOperationsInput | string | null
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     tipoPermiso?: StringFieldUpdateOperationsInput | string
+    kmActuales?: IntFieldUpdateOperationsInput | number
+    combustibleActualPct?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
     imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -53068,6 +59470,7 @@ export namespace Prisma {
     matricula?: MatriculaCreateNestedOneWithoutPagosInput
     compraBono?: CompraBonoCreateNestedOneWithoutPagosInput
     clasePractica?: ClasePracticaCreateNestedOneWithoutPagosInput
+    solicitudesExamenPractico?: SolicitudExamenCreateNestedManyWithoutPagoGastoPracticoInput
   }
 
   export type PagoUncheckedCreateInput = {
@@ -53087,6 +59490,7 @@ export namespace Prisma {
     fechaPago?: Date | string | null
     numeroFacturaPago?: string | null
     observaciones?: string | null
+    solicitudesExamenPractico?: SolicitudExamenUncheckedCreateNestedManyWithoutPagoGastoPracticoInput
   }
 
   export type PagoUpdateInput = {
@@ -53106,6 +59510,7 @@ export namespace Prisma {
     matricula?: MatriculaUpdateOneWithoutPagosNestedInput
     compraBono?: CompraBonoUpdateOneWithoutPagosNestedInput
     clasePractica?: ClasePracticaUpdateOneWithoutPagosNestedInput
+    solicitudesExamenPractico?: SolicitudExamenUpdateManyWithoutPagoGastoPracticoNestedInput
   }
 
   export type PagoUncheckedUpdateInput = {
@@ -53125,6 +59530,7 @@ export namespace Prisma {
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    solicitudesExamenPractico?: SolicitudExamenUncheckedUpdateManyWithoutPagoGastoPracticoNestedInput
   }
 
   export type PagoCreateManyInput = {
@@ -53178,6 +59584,411 @@ export namespace Prisma {
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PracticalExamProcessBatchCreateInput = {
+    id: string
+    status: string
+    mode: string
+    targetDate: Date | string
+    seed?: string | null
+    operator?: string | null
+    reason?: string | null
+    dryRun?: boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    appliedAt?: Date | string | null
+    rolledBackAt?: Date | string | null
+    solicitudes?: PracticalExamProcessSolicitudCreateNestedManyWithoutBatchInput
+    pagos?: PracticalExamProcessPagoCreateNestedManyWithoutBatchInput
+  }
+
+  export type PracticalExamProcessBatchUncheckedCreateInput = {
+    id: string
+    status: string
+    mode: string
+    targetDate: Date | string
+    seed?: string | null
+    operator?: string | null
+    reason?: string | null
+    dryRun?: boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    appliedAt?: Date | string | null
+    rolledBackAt?: Date | string | null
+    solicitudes?: PracticalExamProcessSolicitudUncheckedCreateNestedManyWithoutBatchInput
+    pagos?: PracticalExamProcessPagoUncheckedCreateNestedManyWithoutBatchInput
+  }
+
+  export type PracticalExamProcessBatchUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    targetDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seed?: NullableStringFieldUpdateOperationsInput | string | null
+    operator?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    dryRun?: BoolFieldUpdateOperationsInput | boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    appliedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rolledBackAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    solicitudes?: PracticalExamProcessSolicitudUpdateManyWithoutBatchNestedInput
+    pagos?: PracticalExamProcessPagoUpdateManyWithoutBatchNestedInput
+  }
+
+  export type PracticalExamProcessBatchUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    targetDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seed?: NullableStringFieldUpdateOperationsInput | string | null
+    operator?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    dryRun?: BoolFieldUpdateOperationsInput | boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    appliedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rolledBackAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    solicitudes?: PracticalExamProcessSolicitudUncheckedUpdateManyWithoutBatchNestedInput
+    pagos?: PracticalExamProcessPagoUncheckedUpdateManyWithoutBatchNestedInput
+  }
+
+  export type PracticalExamProcessBatchCreateManyInput = {
+    id: string
+    status: string
+    mode: string
+    targetDate: Date | string
+    seed?: string | null
+    operator?: string | null
+    reason?: string | null
+    dryRun?: boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    appliedAt?: Date | string | null
+    rolledBackAt?: Date | string | null
+  }
+
+  export type PracticalExamProcessBatchUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    targetDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seed?: NullableStringFieldUpdateOperationsInput | string | null
+    operator?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    dryRun?: BoolFieldUpdateOperationsInput | boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    appliedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rolledBackAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PracticalExamProcessBatchUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    targetDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seed?: NullableStringFieldUpdateOperationsInput | string | null
+    operator?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    dryRun?: BoolFieldUpdateOperationsInput | boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    appliedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rolledBackAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PracticalExamProcessSolicitudCreateInput = {
+    id?: bigint | number
+    solicitudId: string
+    alumnoId: string
+    beforeEstado: string
+    beforeErrores?: number | null
+    beforeAciertos?: number | null
+    beforeFaltasLeves?: number | null
+    beforeFaltasDeficientes?: number | null
+    beforeFaltasEliminatorias?: number | null
+    beforeFaltasLevesDetalle?: PracticalExamProcessSolicitudCreatebeforeFaltasLevesDetalleInput | string[]
+    beforeFaltasDeficientesDetalle?: PracticalExamProcessSolicitudCreatebeforeFaltasDeficientesDetalleInput | string[]
+    beforeFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudCreatebeforeFaltasEliminatoriasDetalleInput | string[]
+    beforeMotivoNoApto?: string | null
+    afterEstado: string
+    afterErrores?: number | null
+    afterAciertos?: number | null
+    afterFaltasLeves: number
+    afterFaltasDeficientes: number
+    afterFaltasEliminatorias: number
+    afterFaltasLevesDetalle?: PracticalExamProcessSolicitudCreateafterFaltasLevesDetalleInput | string[]
+    afterFaltasDeficientesDetalle?: PracticalExamProcessSolicitudCreateafterFaltasDeficientesDetalleInput | string[]
+    afterFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudCreateafterFaltasEliminatoriasDetalleInput | string[]
+    afterMotivoNoApto?: string | null
+    createdExamenId?: string | null
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+    batch: PracticalExamProcessBatchCreateNestedOneWithoutSolicitudesInput
+  }
+
+  export type PracticalExamProcessSolicitudUncheckedCreateInput = {
+    id?: bigint | number
+    batchId: string
+    solicitudId: string
+    alumnoId: string
+    beforeEstado: string
+    beforeErrores?: number | null
+    beforeAciertos?: number | null
+    beforeFaltasLeves?: number | null
+    beforeFaltasDeficientes?: number | null
+    beforeFaltasEliminatorias?: number | null
+    beforeFaltasLevesDetalle?: PracticalExamProcessSolicitudCreatebeforeFaltasLevesDetalleInput | string[]
+    beforeFaltasDeficientesDetalle?: PracticalExamProcessSolicitudCreatebeforeFaltasDeficientesDetalleInput | string[]
+    beforeFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudCreatebeforeFaltasEliminatoriasDetalleInput | string[]
+    beforeMotivoNoApto?: string | null
+    afterEstado: string
+    afterErrores?: number | null
+    afterAciertos?: number | null
+    afterFaltasLeves: number
+    afterFaltasDeficientes: number
+    afterFaltasEliminatorias: number
+    afterFaltasLevesDetalle?: PracticalExamProcessSolicitudCreateafterFaltasLevesDetalleInput | string[]
+    afterFaltasDeficientesDetalle?: PracticalExamProcessSolicitudCreateafterFaltasDeficientesDetalleInput | string[]
+    afterFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudCreateafterFaltasEliminatoriasDetalleInput | string[]
+    afterMotivoNoApto?: string | null
+    createdExamenId?: string | null
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+  }
+
+  export type PracticalExamProcessSolicitudUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    solicitudId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeEstado?: StringFieldUpdateOperationsInput | string
+    beforeErrores?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeAciertos?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasLeves?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasDeficientes?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasEliminatorias?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasLevesDetalle?: PracticalExamProcessSolicitudUpdatebeforeFaltasLevesDetalleInput | string[]
+    beforeFaltasDeficientesDetalle?: PracticalExamProcessSolicitudUpdatebeforeFaltasDeficientesDetalleInput | string[]
+    beforeFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudUpdatebeforeFaltasEliminatoriasDetalleInput | string[]
+    beforeMotivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
+    afterEstado?: StringFieldUpdateOperationsInput | string
+    afterErrores?: NullableIntFieldUpdateOperationsInput | number | null
+    afterAciertos?: NullableIntFieldUpdateOperationsInput | number | null
+    afterFaltasLeves?: IntFieldUpdateOperationsInput | number
+    afterFaltasDeficientes?: IntFieldUpdateOperationsInput | number
+    afterFaltasEliminatorias?: IntFieldUpdateOperationsInput | number
+    afterFaltasLevesDetalle?: PracticalExamProcessSolicitudUpdateafterFaltasLevesDetalleInput | string[]
+    afterFaltasDeficientesDetalle?: PracticalExamProcessSolicitudUpdateafterFaltasDeficientesDetalleInput | string[]
+    afterFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudUpdateafterFaltasEliminatoriasDetalleInput | string[]
+    afterMotivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
+    createdExamenId?: NullableStringFieldUpdateOperationsInput | string | null
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+    batch?: PracticalExamProcessBatchUpdateOneRequiredWithoutSolicitudesNestedInput
+  }
+
+  export type PracticalExamProcessSolicitudUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    batchId?: StringFieldUpdateOperationsInput | string
+    solicitudId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeEstado?: StringFieldUpdateOperationsInput | string
+    beforeErrores?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeAciertos?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasLeves?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasDeficientes?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasEliminatorias?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasLevesDetalle?: PracticalExamProcessSolicitudUpdatebeforeFaltasLevesDetalleInput | string[]
+    beforeFaltasDeficientesDetalle?: PracticalExamProcessSolicitudUpdatebeforeFaltasDeficientesDetalleInput | string[]
+    beforeFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudUpdatebeforeFaltasEliminatoriasDetalleInput | string[]
+    beforeMotivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
+    afterEstado?: StringFieldUpdateOperationsInput | string
+    afterErrores?: NullableIntFieldUpdateOperationsInput | number | null
+    afterAciertos?: NullableIntFieldUpdateOperationsInput | number | null
+    afterFaltasLeves?: IntFieldUpdateOperationsInput | number
+    afterFaltasDeficientes?: IntFieldUpdateOperationsInput | number
+    afterFaltasEliminatorias?: IntFieldUpdateOperationsInput | number
+    afterFaltasLevesDetalle?: PracticalExamProcessSolicitudUpdateafterFaltasLevesDetalleInput | string[]
+    afterFaltasDeficientesDetalle?: PracticalExamProcessSolicitudUpdateafterFaltasDeficientesDetalleInput | string[]
+    afterFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudUpdateafterFaltasEliminatoriasDetalleInput | string[]
+    afterMotivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
+    createdExamenId?: NullableStringFieldUpdateOperationsInput | string | null
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PracticalExamProcessSolicitudCreateManyInput = {
+    id?: bigint | number
+    batchId: string
+    solicitudId: string
+    alumnoId: string
+    beforeEstado: string
+    beforeErrores?: number | null
+    beforeAciertos?: number | null
+    beforeFaltasLeves?: number | null
+    beforeFaltasDeficientes?: number | null
+    beforeFaltasEliminatorias?: number | null
+    beforeFaltasLevesDetalle?: PracticalExamProcessSolicitudCreatebeforeFaltasLevesDetalleInput | string[]
+    beforeFaltasDeficientesDetalle?: PracticalExamProcessSolicitudCreatebeforeFaltasDeficientesDetalleInput | string[]
+    beforeFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudCreatebeforeFaltasEliminatoriasDetalleInput | string[]
+    beforeMotivoNoApto?: string | null
+    afterEstado: string
+    afterErrores?: number | null
+    afterAciertos?: number | null
+    afterFaltasLeves: number
+    afterFaltasDeficientes: number
+    afterFaltasEliminatorias: number
+    afterFaltasLevesDetalle?: PracticalExamProcessSolicitudCreateafterFaltasLevesDetalleInput | string[]
+    afterFaltasDeficientesDetalle?: PracticalExamProcessSolicitudCreateafterFaltasDeficientesDetalleInput | string[]
+    afterFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudCreateafterFaltasEliminatoriasDetalleInput | string[]
+    afterMotivoNoApto?: string | null
+    createdExamenId?: string | null
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+  }
+
+  export type PracticalExamProcessSolicitudUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    solicitudId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeEstado?: StringFieldUpdateOperationsInput | string
+    beforeErrores?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeAciertos?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasLeves?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasDeficientes?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasEliminatorias?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasLevesDetalle?: PracticalExamProcessSolicitudUpdatebeforeFaltasLevesDetalleInput | string[]
+    beforeFaltasDeficientesDetalle?: PracticalExamProcessSolicitudUpdatebeforeFaltasDeficientesDetalleInput | string[]
+    beforeFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudUpdatebeforeFaltasEliminatoriasDetalleInput | string[]
+    beforeMotivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
+    afterEstado?: StringFieldUpdateOperationsInput | string
+    afterErrores?: NullableIntFieldUpdateOperationsInput | number | null
+    afterAciertos?: NullableIntFieldUpdateOperationsInput | number | null
+    afterFaltasLeves?: IntFieldUpdateOperationsInput | number
+    afterFaltasDeficientes?: IntFieldUpdateOperationsInput | number
+    afterFaltasEliminatorias?: IntFieldUpdateOperationsInput | number
+    afterFaltasLevesDetalle?: PracticalExamProcessSolicitudUpdateafterFaltasLevesDetalleInput | string[]
+    afterFaltasDeficientesDetalle?: PracticalExamProcessSolicitudUpdateafterFaltasDeficientesDetalleInput | string[]
+    afterFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudUpdateafterFaltasEliminatoriasDetalleInput | string[]
+    afterMotivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
+    createdExamenId?: NullableStringFieldUpdateOperationsInput | string | null
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PracticalExamProcessSolicitudUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    batchId?: StringFieldUpdateOperationsInput | string
+    solicitudId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeEstado?: StringFieldUpdateOperationsInput | string
+    beforeErrores?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeAciertos?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasLeves?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasDeficientes?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasEliminatorias?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasLevesDetalle?: PracticalExamProcessSolicitudUpdatebeforeFaltasLevesDetalleInput | string[]
+    beforeFaltasDeficientesDetalle?: PracticalExamProcessSolicitudUpdatebeforeFaltasDeficientesDetalleInput | string[]
+    beforeFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudUpdatebeforeFaltasEliminatoriasDetalleInput | string[]
+    beforeMotivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
+    afterEstado?: StringFieldUpdateOperationsInput | string
+    afterErrores?: NullableIntFieldUpdateOperationsInput | number | null
+    afterAciertos?: NullableIntFieldUpdateOperationsInput | number | null
+    afterFaltasLeves?: IntFieldUpdateOperationsInput | number
+    afterFaltasDeficientes?: IntFieldUpdateOperationsInput | number
+    afterFaltasEliminatorias?: IntFieldUpdateOperationsInput | number
+    afterFaltasLevesDetalle?: PracticalExamProcessSolicitudUpdateafterFaltasLevesDetalleInput | string[]
+    afterFaltasDeficientesDetalle?: PracticalExamProcessSolicitudUpdateafterFaltasDeficientesDetalleInput | string[]
+    afterFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudUpdateafterFaltasEliminatoriasDetalleInput | string[]
+    afterMotivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
+    createdExamenId?: NullableStringFieldUpdateOperationsInput | string | null
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PracticalExamProcessPagoCreateInput = {
+    id?: bigint | number
+    pagoId: string
+    alumnoId: string
+    beforeConvocatoriasConsumidas: number
+    afterConvocatoriasConsumidas: number
+    applied?: boolean
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+    batch: PracticalExamProcessBatchCreateNestedOneWithoutPagosInput
+  }
+
+  export type PracticalExamProcessPagoUncheckedCreateInput = {
+    id?: bigint | number
+    batchId: string
+    pagoId: string
+    alumnoId: string
+    beforeConvocatoriasConsumidas: number
+    afterConvocatoriasConsumidas: number
+    applied?: boolean
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+  }
+
+  export type PracticalExamProcessPagoUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    pagoId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    afterConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    applied?: BoolFieldUpdateOperationsInput | boolean
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+    batch?: PracticalExamProcessBatchUpdateOneRequiredWithoutPagosNestedInput
+  }
+
+  export type PracticalExamProcessPagoUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    batchId?: StringFieldUpdateOperationsInput | string
+    pagoId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    afterConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    applied?: BoolFieldUpdateOperationsInput | boolean
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PracticalExamProcessPagoCreateManyInput = {
+    id?: bigint | number
+    batchId: string
+    pagoId: string
+    alumnoId: string
+    beforeConvocatoriasConsumidas: number
+    afterConvocatoriasConsumidas: number
+    applied?: boolean
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+  }
+
+  export type PracticalExamProcessPagoUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    pagoId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    afterConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    applied?: BoolFieldUpdateOperationsInput | boolean
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PracticalExamProcessPagoUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    batchId?: StringFieldUpdateOperationsInput | string
+    pagoId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    afterConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    applied?: BoolFieldUpdateOperationsInput | boolean
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TheoreticalExamProcessBatchCreateInput = {
@@ -53677,6 +60488,130 @@ export namespace Prisma {
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type GastoCombustibleCreateInput = {
+    id?: string
+    numeroFactura: string
+    titularTarjeta: string
+    numeroTarjeta: string
+    combustibleAntesPct: number
+    combustibleDespuesPct?: number
+    litrosRepostados: Decimal | DecimalJsLike | number | string
+    precioLitro: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo: number
+    rutaRecibo?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    profesor: ProfesorCreateNestedOneWithoutGastosCombustibleInput
+    vehiculo: VehiculoCreateNestedOneWithoutGastosCombustibleInput
+  }
+
+  export type GastoCombustibleUncheckedCreateInput = {
+    id?: string
+    numeroFactura: string
+    profesorId: string
+    vehiculoId: string
+    titularTarjeta: string
+    numeroTarjeta: string
+    combustibleAntesPct: number
+    combustibleDespuesPct?: number
+    litrosRepostados: Decimal | DecimalJsLike | number | string
+    precioLitro: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo: number
+    rutaRecibo?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GastoCombustibleUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numeroFactura?: StringFieldUpdateOperationsInput | string
+    titularTarjeta?: StringFieldUpdateOperationsInput | string
+    numeroTarjeta?: StringFieldUpdateOperationsInput | string
+    combustibleAntesPct?: IntFieldUpdateOperationsInput | number
+    combustibleDespuesPct?: IntFieldUpdateOperationsInput | number
+    litrosRepostados?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioLitro?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo?: IntFieldUpdateOperationsInput | number
+    rutaRecibo?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    profesor?: ProfesorUpdateOneRequiredWithoutGastosCombustibleNestedInput
+    vehiculo?: VehiculoUpdateOneRequiredWithoutGastosCombustibleNestedInput
+  }
+
+  export type GastoCombustibleUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numeroFactura?: StringFieldUpdateOperationsInput | string
+    profesorId?: StringFieldUpdateOperationsInput | string
+    vehiculoId?: StringFieldUpdateOperationsInput | string
+    titularTarjeta?: StringFieldUpdateOperationsInput | string
+    numeroTarjeta?: StringFieldUpdateOperationsInput | string
+    combustibleAntesPct?: IntFieldUpdateOperationsInput | number
+    combustibleDespuesPct?: IntFieldUpdateOperationsInput | number
+    litrosRepostados?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioLitro?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo?: IntFieldUpdateOperationsInput | number
+    rutaRecibo?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GastoCombustibleCreateManyInput = {
+    id?: string
+    numeroFactura: string
+    profesorId: string
+    vehiculoId: string
+    titularTarjeta: string
+    numeroTarjeta: string
+    combustibleAntesPct: number
+    combustibleDespuesPct?: number
+    litrosRepostados: Decimal | DecimalJsLike | number | string
+    precioLitro: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo: number
+    rutaRecibo?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GastoCombustibleUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numeroFactura?: StringFieldUpdateOperationsInput | string
+    titularTarjeta?: StringFieldUpdateOperationsInput | string
+    numeroTarjeta?: StringFieldUpdateOperationsInput | string
+    combustibleAntesPct?: IntFieldUpdateOperationsInput | number
+    combustibleDespuesPct?: IntFieldUpdateOperationsInput | number
+    litrosRepostados?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioLitro?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo?: IntFieldUpdateOperationsInput | number
+    rutaRecibo?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GastoCombustibleUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numeroFactura?: StringFieldUpdateOperationsInput | string
+    profesorId?: StringFieldUpdateOperationsInput | string
+    vehiculoId?: StringFieldUpdateOperationsInput | string
+    titularTarjeta?: StringFieldUpdateOperationsInput | string
+    numeroTarjeta?: StringFieldUpdateOperationsInput | string
+    combustibleAntesPct?: IntFieldUpdateOperationsInput | number
+    combustibleDespuesPct?: IntFieldUpdateOperationsInput | number
+    litrosRepostados?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioLitro?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo?: IntFieldUpdateOperationsInput | number
+    rutaRecibo?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type NotificacionCreateInput = {
     id?: string
     tipo: string
@@ -54076,6 +61011,12 @@ export namespace Prisma {
     none?: ClasePracticaWhereInput
   }
 
+  export type GastoCombustibleListRelationFilter = {
+    every?: GastoCombustibleWhereInput
+    some?: GastoCombustibleWhereInput
+    none?: GastoCombustibleWhereInput
+  }
+
   export type HojaRutaListRelationFilter = {
     every?: HojaRutaWhereInput
     some?: HojaRutaWhereInput
@@ -54097,6 +61038,10 @@ export namespace Prisma {
   }
 
   export type ClasePracticaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type GastoCombustibleOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -54842,6 +61787,11 @@ export namespace Prisma {
     clasesConsumidas?: SortOrder
   }
 
+  export type PagoNullableScalarRelationFilter = {
+    is?: PagoWhereInput | null
+    isNot?: PagoWhereInput | null
+  }
+
   export type SolicitudExamenCountOrderByAggregateInput = {
     id?: SortOrder
     alumnoId?: SortOrder
@@ -54849,14 +61799,25 @@ export namespace Prisma {
     estado?: SortOrder
     fechaSolicitud?: SortOrder
     fechaProgramada?: SortOrder
+    pagoGastoPracticoId?: SortOrder
     erroresExamen?: SortOrder
     aciertosExamen?: SortOrder
+    faltasLeves?: SortOrder
+    faltasDeficientes?: SortOrder
+    faltasEliminatorias?: SortOrder
+    faltasLevesDetalle?: SortOrder
+    faltasDeficientesDetalle?: SortOrder
+    faltasEliminatoriasDetalle?: SortOrder
+    motivoNoApto?: SortOrder
     observaciones?: SortOrder
   }
 
   export type SolicitudExamenAvgOrderByAggregateInput = {
     erroresExamen?: SortOrder
     aciertosExamen?: SortOrder
+    faltasLeves?: SortOrder
+    faltasDeficientes?: SortOrder
+    faltasEliminatorias?: SortOrder
   }
 
   export type SolicitudExamenMaxOrderByAggregateInput = {
@@ -54866,8 +61827,13 @@ export namespace Prisma {
     estado?: SortOrder
     fechaSolicitud?: SortOrder
     fechaProgramada?: SortOrder
+    pagoGastoPracticoId?: SortOrder
     erroresExamen?: SortOrder
     aciertosExamen?: SortOrder
+    faltasLeves?: SortOrder
+    faltasDeficientes?: SortOrder
+    faltasEliminatorias?: SortOrder
+    motivoNoApto?: SortOrder
     observaciones?: SortOrder
   }
 
@@ -54878,14 +61844,22 @@ export namespace Prisma {
     estado?: SortOrder
     fechaSolicitud?: SortOrder
     fechaProgramada?: SortOrder
+    pagoGastoPracticoId?: SortOrder
     erroresExamen?: SortOrder
     aciertosExamen?: SortOrder
+    faltasLeves?: SortOrder
+    faltasDeficientes?: SortOrder
+    faltasEliminatorias?: SortOrder
+    motivoNoApto?: SortOrder
     observaciones?: SortOrder
   }
 
   export type SolicitudExamenSumOrderByAggregateInput = {
     erroresExamen?: SortOrder
     aciertosExamen?: SortOrder
+    faltasLeves?: SortOrder
+    faltasDeficientes?: SortOrder
+    faltasEliminatorias?: SortOrder
   }
 
   export type ConvocatoriaExamenFechaLicenciaTipoExamenCompoundUniqueInput = {
@@ -54930,8 +61904,15 @@ export namespace Prisma {
     marca?: SortOrder
     modelo?: SortOrder
     tipoPermiso?: SortOrder
+    kmActuales?: SortOrder
+    combustibleActualPct?: SortOrder
     activo?: SortOrder
     imagenRuta?: SortOrder
+  }
+
+  export type VehiculoAvgOrderByAggregateInput = {
+    kmActuales?: SortOrder
+    combustibleActualPct?: SortOrder
   }
 
   export type VehiculoMaxOrderByAggregateInput = {
@@ -54940,6 +61921,8 @@ export namespace Prisma {
     marca?: SortOrder
     modelo?: SortOrder
     tipoPermiso?: SortOrder
+    kmActuales?: SortOrder
+    combustibleActualPct?: SortOrder
     activo?: SortOrder
     imagenRuta?: SortOrder
   }
@@ -54950,8 +61933,15 @@ export namespace Prisma {
     marca?: SortOrder
     modelo?: SortOrder
     tipoPermiso?: SortOrder
+    kmActuales?: SortOrder
+    combustibleActualPct?: SortOrder
     activo?: SortOrder
     imagenRuta?: SortOrder
+  }
+
+  export type VehiculoSumOrderByAggregateInput = {
+    kmActuales?: SortOrder
+    combustibleActualPct?: SortOrder
   }
 
   export type VehiculoScalarRelationFilter = {
@@ -55645,6 +62635,291 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type PracticalExamProcessSolicitudListRelationFilter = {
+    every?: PracticalExamProcessSolicitudWhereInput
+    some?: PracticalExamProcessSolicitudWhereInput
+    none?: PracticalExamProcessSolicitudWhereInput
+  }
+
+  export type PracticalExamProcessPagoListRelationFilter = {
+    every?: PracticalExamProcessPagoWhereInput
+    some?: PracticalExamProcessPagoWhereInput
+    none?: PracticalExamProcessPagoWhereInput
+  }
+
+  export type PracticalExamProcessSolicitudOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PracticalExamProcessPagoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PracticalExamProcessBatchCountOrderByAggregateInput = {
+    id?: SortOrder
+    status?: SortOrder
+    mode?: SortOrder
+    targetDate?: SortOrder
+    seed?: SortOrder
+    operator?: SortOrder
+    reason?: SortOrder
+    dryRun?: SortOrder
+    summary?: SortOrder
+    createdAt?: SortOrder
+    appliedAt?: SortOrder
+    rolledBackAt?: SortOrder
+  }
+
+  export type PracticalExamProcessBatchMaxOrderByAggregateInput = {
+    id?: SortOrder
+    status?: SortOrder
+    mode?: SortOrder
+    targetDate?: SortOrder
+    seed?: SortOrder
+    operator?: SortOrder
+    reason?: SortOrder
+    dryRun?: SortOrder
+    createdAt?: SortOrder
+    appliedAt?: SortOrder
+    rolledBackAt?: SortOrder
+  }
+
+  export type PracticalExamProcessBatchMinOrderByAggregateInput = {
+    id?: SortOrder
+    status?: SortOrder
+    mode?: SortOrder
+    targetDate?: SortOrder
+    seed?: SortOrder
+    operator?: SortOrder
+    reason?: SortOrder
+    dryRun?: SortOrder
+    createdAt?: SortOrder
+    appliedAt?: SortOrder
+    rolledBackAt?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
+
+  export type BigIntFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntFilter<$PrismaModel> | bigint | number
+  }
+
+  export type PracticalExamProcessBatchScalarRelationFilter = {
+    is?: PracticalExamProcessBatchWhereInput
+    isNot?: PracticalExamProcessBatchWhereInput
+  }
+
+  export type PracticalExamProcessSolicitudBatchIdSolicitudIdCompoundUniqueInput = {
+    batchId: string
+    solicitudId: string
+  }
+
+  export type PracticalExamProcessSolicitudCountOrderByAggregateInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    solicitudId?: SortOrder
+    alumnoId?: SortOrder
+    beforeEstado?: SortOrder
+    beforeErrores?: SortOrder
+    beforeAciertos?: SortOrder
+    beforeFaltasLeves?: SortOrder
+    beforeFaltasDeficientes?: SortOrder
+    beforeFaltasEliminatorias?: SortOrder
+    beforeFaltasLevesDetalle?: SortOrder
+    beforeFaltasDeficientesDetalle?: SortOrder
+    beforeFaltasEliminatoriasDetalle?: SortOrder
+    beforeMotivoNoApto?: SortOrder
+    afterEstado?: SortOrder
+    afterErrores?: SortOrder
+    afterAciertos?: SortOrder
+    afterFaltasLeves?: SortOrder
+    afterFaltasDeficientes?: SortOrder
+    afterFaltasEliminatorias?: SortOrder
+    afterFaltasLevesDetalle?: SortOrder
+    afterFaltasDeficientesDetalle?: SortOrder
+    afterFaltasEliminatoriasDetalle?: SortOrder
+    afterMotivoNoApto?: SortOrder
+    createdExamenId?: SortOrder
+    revertedAt?: SortOrder
+    conflictReason?: SortOrder
+  }
+
+  export type PracticalExamProcessSolicitudAvgOrderByAggregateInput = {
+    id?: SortOrder
+    beforeErrores?: SortOrder
+    beforeAciertos?: SortOrder
+    beforeFaltasLeves?: SortOrder
+    beforeFaltasDeficientes?: SortOrder
+    beforeFaltasEliminatorias?: SortOrder
+    afterErrores?: SortOrder
+    afterAciertos?: SortOrder
+    afterFaltasLeves?: SortOrder
+    afterFaltasDeficientes?: SortOrder
+    afterFaltasEliminatorias?: SortOrder
+  }
+
+  export type PracticalExamProcessSolicitudMaxOrderByAggregateInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    solicitudId?: SortOrder
+    alumnoId?: SortOrder
+    beforeEstado?: SortOrder
+    beforeErrores?: SortOrder
+    beforeAciertos?: SortOrder
+    beforeFaltasLeves?: SortOrder
+    beforeFaltasDeficientes?: SortOrder
+    beforeFaltasEliminatorias?: SortOrder
+    beforeMotivoNoApto?: SortOrder
+    afterEstado?: SortOrder
+    afterErrores?: SortOrder
+    afterAciertos?: SortOrder
+    afterFaltasLeves?: SortOrder
+    afterFaltasDeficientes?: SortOrder
+    afterFaltasEliminatorias?: SortOrder
+    afterMotivoNoApto?: SortOrder
+    createdExamenId?: SortOrder
+    revertedAt?: SortOrder
+    conflictReason?: SortOrder
+  }
+
+  export type PracticalExamProcessSolicitudMinOrderByAggregateInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    solicitudId?: SortOrder
+    alumnoId?: SortOrder
+    beforeEstado?: SortOrder
+    beforeErrores?: SortOrder
+    beforeAciertos?: SortOrder
+    beforeFaltasLeves?: SortOrder
+    beforeFaltasDeficientes?: SortOrder
+    beforeFaltasEliminatorias?: SortOrder
+    beforeMotivoNoApto?: SortOrder
+    afterEstado?: SortOrder
+    afterErrores?: SortOrder
+    afterAciertos?: SortOrder
+    afterFaltasLeves?: SortOrder
+    afterFaltasDeficientes?: SortOrder
+    afterFaltasEliminatorias?: SortOrder
+    afterMotivoNoApto?: SortOrder
+    createdExamenId?: SortOrder
+    revertedAt?: SortOrder
+    conflictReason?: SortOrder
+  }
+
+  export type PracticalExamProcessSolicitudSumOrderByAggregateInput = {
+    id?: SortOrder
+    beforeErrores?: SortOrder
+    beforeAciertos?: SortOrder
+    beforeFaltasLeves?: SortOrder
+    beforeFaltasDeficientes?: SortOrder
+    beforeFaltasEliminatorias?: SortOrder
+    afterErrores?: SortOrder
+    afterAciertos?: SortOrder
+    afterFaltasLeves?: SortOrder
+    afterFaltasDeficientes?: SortOrder
+    afterFaltasEliminatorias?: SortOrder
+  }
+
+  export type BigIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntWithAggregatesFilter<$PrismaModel> | bigint | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedBigIntFilter<$PrismaModel>
+    _min?: NestedBigIntFilter<$PrismaModel>
+    _max?: NestedBigIntFilter<$PrismaModel>
+  }
+
+  export type PracticalExamProcessPagoBatchIdPagoIdCompoundUniqueInput = {
+    batchId: string
+    pagoId: string
+  }
+
+  export type PracticalExamProcessPagoCountOrderByAggregateInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    pagoId?: SortOrder
+    alumnoId?: SortOrder
+    beforeConvocatoriasConsumidas?: SortOrder
+    afterConvocatoriasConsumidas?: SortOrder
+    applied?: SortOrder
+    revertedAt?: SortOrder
+    conflictReason?: SortOrder
+  }
+
+  export type PracticalExamProcessPagoAvgOrderByAggregateInput = {
+    id?: SortOrder
+    beforeConvocatoriasConsumidas?: SortOrder
+    afterConvocatoriasConsumidas?: SortOrder
+  }
+
+  export type PracticalExamProcessPagoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    pagoId?: SortOrder
+    alumnoId?: SortOrder
+    beforeConvocatoriasConsumidas?: SortOrder
+    afterConvocatoriasConsumidas?: SortOrder
+    applied?: SortOrder
+    revertedAt?: SortOrder
+    conflictReason?: SortOrder
+  }
+
+  export type PracticalExamProcessPagoMinOrderByAggregateInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    pagoId?: SortOrder
+    alumnoId?: SortOrder
+    beforeConvocatoriasConsumidas?: SortOrder
+    afterConvocatoriasConsumidas?: SortOrder
+    applied?: SortOrder
+    revertedAt?: SortOrder
+    conflictReason?: SortOrder
+  }
+
+  export type PracticalExamProcessPagoSumOrderByAggregateInput = {
+    id?: SortOrder
+    beforeConvocatoriasConsumidas?: SortOrder
+    afterConvocatoriasConsumidas?: SortOrder
+  }
+
   export type TheoreticalExamProcessSolicitudListRelationFilter = {
     every?: TheoreticalExamProcessSolicitudWhereInput
     some?: TheoreticalExamProcessSolicitudWhereInput
@@ -55706,43 +62981,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     appliedAt?: SortOrder
     rolledBackAt?: SortOrder
-  }
-  export type JsonWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedJsonFilter<$PrismaModel>
-    _max?: NestedJsonFilter<$PrismaModel>
-  }
-
-  export type BigIntFilter<$PrismaModel = never> = {
-    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
-    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
-    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    not?: NestedBigIntFilter<$PrismaModel> | bigint | number
   }
 
   export type TheoreticalExamProcessBatchScalarRelationFilter = {
@@ -55814,22 +63052,6 @@ export namespace Prisma {
     beforeAciertos?: SortOrder
     afterErrores?: SortOrder
     afterAciertos?: SortOrder
-  }
-
-  export type BigIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
-    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
-    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    not?: NestedBigIntWithAggregatesFilter<$PrismaModel> | bigint | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedBigIntFilter<$PrismaModel>
-    _min?: NestedBigIntFilter<$PrismaModel>
-    _max?: NestedBigIntFilter<$PrismaModel>
   }
 
   export type TheoreticalExamProcessPagoBatchIdPagoIdCompoundUniqueInput = {
@@ -55999,6 +63221,78 @@ export namespace Prisma {
     baseImponible?: SortOrder
     descuento?: SortOrder
     total?: SortOrder
+  }
+
+  export type GastoCombustibleCountOrderByAggregateInput = {
+    id?: SortOrder
+    numeroFactura?: SortOrder
+    profesorId?: SortOrder
+    vehiculoId?: SortOrder
+    titularTarjeta?: SortOrder
+    numeroTarjeta?: SortOrder
+    combustibleAntesPct?: SortOrder
+    combustibleDespuesPct?: SortOrder
+    litrosRepostados?: SortOrder
+    precioLitro?: SortOrder
+    total?: SortOrder
+    kilometrosVehiculo?: SortOrder
+    rutaRecibo?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GastoCombustibleAvgOrderByAggregateInput = {
+    combustibleAntesPct?: SortOrder
+    combustibleDespuesPct?: SortOrder
+    litrosRepostados?: SortOrder
+    precioLitro?: SortOrder
+    total?: SortOrder
+    kilometrosVehiculo?: SortOrder
+  }
+
+  export type GastoCombustibleMaxOrderByAggregateInput = {
+    id?: SortOrder
+    numeroFactura?: SortOrder
+    profesorId?: SortOrder
+    vehiculoId?: SortOrder
+    titularTarjeta?: SortOrder
+    numeroTarjeta?: SortOrder
+    combustibleAntesPct?: SortOrder
+    combustibleDespuesPct?: SortOrder
+    litrosRepostados?: SortOrder
+    precioLitro?: SortOrder
+    total?: SortOrder
+    kilometrosVehiculo?: SortOrder
+    rutaRecibo?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GastoCombustibleMinOrderByAggregateInput = {
+    id?: SortOrder
+    numeroFactura?: SortOrder
+    profesorId?: SortOrder
+    vehiculoId?: SortOrder
+    titularTarjeta?: SortOrder
+    numeroTarjeta?: SortOrder
+    combustibleAntesPct?: SortOrder
+    combustibleDespuesPct?: SortOrder
+    litrosRepostados?: SortOrder
+    precioLitro?: SortOrder
+    total?: SortOrder
+    kilometrosVehiculo?: SortOrder
+    rutaRecibo?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GastoCombustibleSumOrderByAggregateInput = {
+    combustibleAntesPct?: SortOrder
+    combustibleDespuesPct?: SortOrder
+    litrosRepostados?: SortOrder
+    precioLitro?: SortOrder
+    total?: SortOrder
+    kilometrosVehiculo?: SortOrder
   }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -56303,6 +63597,13 @@ export namespace Prisma {
     connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
   }
 
+  export type GastoCombustibleCreateNestedManyWithoutProfesorInput = {
+    create?: XOR<GastoCombustibleCreateWithoutProfesorInput, GastoCombustibleUncheckedCreateWithoutProfesorInput> | GastoCombustibleCreateWithoutProfesorInput[] | GastoCombustibleUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: GastoCombustibleCreateOrConnectWithoutProfesorInput | GastoCombustibleCreateOrConnectWithoutProfesorInput[]
+    createMany?: GastoCombustibleCreateManyProfesorInputEnvelope
+    connect?: GastoCombustibleWhereUniqueInput | GastoCombustibleWhereUniqueInput[]
+  }
+
   export type HojaRutaCreateNestedManyWithoutProfesorInput = {
     create?: XOR<HojaRutaCreateWithoutProfesorInput, HojaRutaUncheckedCreateWithoutProfesorInput> | HojaRutaCreateWithoutProfesorInput[] | HojaRutaUncheckedCreateWithoutProfesorInput[]
     connectOrCreate?: HojaRutaCreateOrConnectWithoutProfesorInput | HojaRutaCreateOrConnectWithoutProfesorInput[]
@@ -56342,6 +63643,13 @@ export namespace Prisma {
     connectOrCreate?: ClasePracticaCreateOrConnectWithoutProfesorInput | ClasePracticaCreateOrConnectWithoutProfesorInput[]
     createMany?: ClasePracticaCreateManyProfesorInputEnvelope
     connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+  }
+
+  export type GastoCombustibleUncheckedCreateNestedManyWithoutProfesorInput = {
+    create?: XOR<GastoCombustibleCreateWithoutProfesorInput, GastoCombustibleUncheckedCreateWithoutProfesorInput> | GastoCombustibleCreateWithoutProfesorInput[] | GastoCombustibleUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: GastoCombustibleCreateOrConnectWithoutProfesorInput | GastoCombustibleCreateOrConnectWithoutProfesorInput[]
+    createMany?: GastoCombustibleCreateManyProfesorInputEnvelope
+    connect?: GastoCombustibleWhereUniqueInput | GastoCombustibleWhereUniqueInput[]
   }
 
   export type HojaRutaUncheckedCreateNestedManyWithoutProfesorInput = {
@@ -56403,6 +63711,20 @@ export namespace Prisma {
     update?: ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput | ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput[]
     updateMany?: ClasePracticaUpdateManyWithWhereWithoutProfesorInput | ClasePracticaUpdateManyWithWhereWithoutProfesorInput[]
     deleteMany?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
+  }
+
+  export type GastoCombustibleUpdateManyWithoutProfesorNestedInput = {
+    create?: XOR<GastoCombustibleCreateWithoutProfesorInput, GastoCombustibleUncheckedCreateWithoutProfesorInput> | GastoCombustibleCreateWithoutProfesorInput[] | GastoCombustibleUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: GastoCombustibleCreateOrConnectWithoutProfesorInput | GastoCombustibleCreateOrConnectWithoutProfesorInput[]
+    upsert?: GastoCombustibleUpsertWithWhereUniqueWithoutProfesorInput | GastoCombustibleUpsertWithWhereUniqueWithoutProfesorInput[]
+    createMany?: GastoCombustibleCreateManyProfesorInputEnvelope
+    set?: GastoCombustibleWhereUniqueInput | GastoCombustibleWhereUniqueInput[]
+    disconnect?: GastoCombustibleWhereUniqueInput | GastoCombustibleWhereUniqueInput[]
+    delete?: GastoCombustibleWhereUniqueInput | GastoCombustibleWhereUniqueInput[]
+    connect?: GastoCombustibleWhereUniqueInput | GastoCombustibleWhereUniqueInput[]
+    update?: GastoCombustibleUpdateWithWhereUniqueWithoutProfesorInput | GastoCombustibleUpdateWithWhereUniqueWithoutProfesorInput[]
+    updateMany?: GastoCombustibleUpdateManyWithWhereWithoutProfesorInput | GastoCombustibleUpdateManyWithWhereWithoutProfesorInput[]
+    deleteMany?: GastoCombustibleScalarWhereInput | GastoCombustibleScalarWhereInput[]
   }
 
   export type HojaRutaUpdateManyWithoutProfesorNestedInput = {
@@ -56481,6 +63803,20 @@ export namespace Prisma {
     update?: ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput | ClasePracticaUpdateWithWhereUniqueWithoutProfesorInput[]
     updateMany?: ClasePracticaUpdateManyWithWhereWithoutProfesorInput | ClasePracticaUpdateManyWithWhereWithoutProfesorInput[]
     deleteMany?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
+  }
+
+  export type GastoCombustibleUncheckedUpdateManyWithoutProfesorNestedInput = {
+    create?: XOR<GastoCombustibleCreateWithoutProfesorInput, GastoCombustibleUncheckedCreateWithoutProfesorInput> | GastoCombustibleCreateWithoutProfesorInput[] | GastoCombustibleUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: GastoCombustibleCreateOrConnectWithoutProfesorInput | GastoCombustibleCreateOrConnectWithoutProfesorInput[]
+    upsert?: GastoCombustibleUpsertWithWhereUniqueWithoutProfesorInput | GastoCombustibleUpsertWithWhereUniqueWithoutProfesorInput[]
+    createMany?: GastoCombustibleCreateManyProfesorInputEnvelope
+    set?: GastoCombustibleWhereUniqueInput | GastoCombustibleWhereUniqueInput[]
+    disconnect?: GastoCombustibleWhereUniqueInput | GastoCombustibleWhereUniqueInput[]
+    delete?: GastoCombustibleWhereUniqueInput | GastoCombustibleWhereUniqueInput[]
+    connect?: GastoCombustibleWhereUniqueInput | GastoCombustibleWhereUniqueInput[]
+    update?: GastoCombustibleUpdateWithWhereUniqueWithoutProfesorInput | GastoCombustibleUpdateWithWhereUniqueWithoutProfesorInput[]
+    updateMany?: GastoCombustibleUpdateManyWithWhereWithoutProfesorInput | GastoCombustibleUpdateManyWithWhereWithoutProfesorInput[]
+    deleteMany?: GastoCombustibleScalarWhereInput | GastoCombustibleScalarWhereInput[]
   }
 
   export type HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput = {
@@ -57587,10 +64923,43 @@ export namespace Prisma {
     deleteMany?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
   }
 
+  export type SolicitudExamenCreatefaltasLevesDetalleInput = {
+    set: string[]
+  }
+
+  export type SolicitudExamenCreatefaltasDeficientesDetalleInput = {
+    set: string[]
+  }
+
+  export type SolicitudExamenCreatefaltasEliminatoriasDetalleInput = {
+    set: string[]
+  }
+
   export type AlumnoCreateNestedOneWithoutSolicitudesExamenInput = {
     create?: XOR<AlumnoCreateWithoutSolicitudesExamenInput, AlumnoUncheckedCreateWithoutSolicitudesExamenInput>
     connectOrCreate?: AlumnoCreateOrConnectWithoutSolicitudesExamenInput
     connect?: AlumnoWhereUniqueInput
+  }
+
+  export type PagoCreateNestedOneWithoutSolicitudesExamenPracticoInput = {
+    create?: XOR<PagoCreateWithoutSolicitudesExamenPracticoInput, PagoUncheckedCreateWithoutSolicitudesExamenPracticoInput>
+    connectOrCreate?: PagoCreateOrConnectWithoutSolicitudesExamenPracticoInput
+    connect?: PagoWhereUniqueInput
+  }
+
+  export type SolicitudExamenUpdatefaltasLevesDetalleInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type SolicitudExamenUpdatefaltasDeficientesDetalleInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type SolicitudExamenUpdatefaltasEliminatoriasDetalleInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type AlumnoUpdateOneRequiredWithoutSolicitudesExamenNestedInput = {
@@ -57601,6 +64970,16 @@ export namespace Prisma {
     update?: XOR<XOR<AlumnoUpdateToOneWithWhereWithoutSolicitudesExamenInput, AlumnoUpdateWithoutSolicitudesExamenInput>, AlumnoUncheckedUpdateWithoutSolicitudesExamenInput>
   }
 
+  export type PagoUpdateOneWithoutSolicitudesExamenPracticoNestedInput = {
+    create?: XOR<PagoCreateWithoutSolicitudesExamenPracticoInput, PagoUncheckedCreateWithoutSolicitudesExamenPracticoInput>
+    connectOrCreate?: PagoCreateOrConnectWithoutSolicitudesExamenPracticoInput
+    upsert?: PagoUpsertWithoutSolicitudesExamenPracticoInput
+    disconnect?: PagoWhereInput | boolean
+    delete?: PagoWhereInput | boolean
+    connect?: PagoWhereUniqueInput
+    update?: XOR<XOR<PagoUpdateToOneWithWhereWithoutSolicitudesExamenPracticoInput, PagoUpdateWithoutSolicitudesExamenPracticoInput>, PagoUncheckedUpdateWithoutSolicitudesExamenPracticoInput>
+  }
+
   export type ClasePracticaCreateNestedManyWithoutVehiculoInput = {
     create?: XOR<ClasePracticaCreateWithoutVehiculoInput, ClasePracticaUncheckedCreateWithoutVehiculoInput> | ClasePracticaCreateWithoutVehiculoInput[] | ClasePracticaUncheckedCreateWithoutVehiculoInput[]
     connectOrCreate?: ClasePracticaCreateOrConnectWithoutVehiculoInput | ClasePracticaCreateOrConnectWithoutVehiculoInput[]
@@ -57608,11 +64987,25 @@ export namespace Prisma {
     connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
   }
 
+  export type GastoCombustibleCreateNestedManyWithoutVehiculoInput = {
+    create?: XOR<GastoCombustibleCreateWithoutVehiculoInput, GastoCombustibleUncheckedCreateWithoutVehiculoInput> | GastoCombustibleCreateWithoutVehiculoInput[] | GastoCombustibleUncheckedCreateWithoutVehiculoInput[]
+    connectOrCreate?: GastoCombustibleCreateOrConnectWithoutVehiculoInput | GastoCombustibleCreateOrConnectWithoutVehiculoInput[]
+    createMany?: GastoCombustibleCreateManyVehiculoInputEnvelope
+    connect?: GastoCombustibleWhereUniqueInput | GastoCombustibleWhereUniqueInput[]
+  }
+
   export type ClasePracticaUncheckedCreateNestedManyWithoutVehiculoInput = {
     create?: XOR<ClasePracticaCreateWithoutVehiculoInput, ClasePracticaUncheckedCreateWithoutVehiculoInput> | ClasePracticaCreateWithoutVehiculoInput[] | ClasePracticaUncheckedCreateWithoutVehiculoInput[]
     connectOrCreate?: ClasePracticaCreateOrConnectWithoutVehiculoInput | ClasePracticaCreateOrConnectWithoutVehiculoInput[]
     createMany?: ClasePracticaCreateManyVehiculoInputEnvelope
     connect?: ClasePracticaWhereUniqueInput | ClasePracticaWhereUniqueInput[]
+  }
+
+  export type GastoCombustibleUncheckedCreateNestedManyWithoutVehiculoInput = {
+    create?: XOR<GastoCombustibleCreateWithoutVehiculoInput, GastoCombustibleUncheckedCreateWithoutVehiculoInput> | GastoCombustibleCreateWithoutVehiculoInput[] | GastoCombustibleUncheckedCreateWithoutVehiculoInput[]
+    connectOrCreate?: GastoCombustibleCreateOrConnectWithoutVehiculoInput | GastoCombustibleCreateOrConnectWithoutVehiculoInput[]
+    createMany?: GastoCombustibleCreateManyVehiculoInputEnvelope
+    connect?: GastoCombustibleWhereUniqueInput | GastoCombustibleWhereUniqueInput[]
   }
 
   export type ClasePracticaUpdateManyWithoutVehiculoNestedInput = {
@@ -57629,6 +65022,20 @@ export namespace Prisma {
     deleteMany?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
   }
 
+  export type GastoCombustibleUpdateManyWithoutVehiculoNestedInput = {
+    create?: XOR<GastoCombustibleCreateWithoutVehiculoInput, GastoCombustibleUncheckedCreateWithoutVehiculoInput> | GastoCombustibleCreateWithoutVehiculoInput[] | GastoCombustibleUncheckedCreateWithoutVehiculoInput[]
+    connectOrCreate?: GastoCombustibleCreateOrConnectWithoutVehiculoInput | GastoCombustibleCreateOrConnectWithoutVehiculoInput[]
+    upsert?: GastoCombustibleUpsertWithWhereUniqueWithoutVehiculoInput | GastoCombustibleUpsertWithWhereUniqueWithoutVehiculoInput[]
+    createMany?: GastoCombustibleCreateManyVehiculoInputEnvelope
+    set?: GastoCombustibleWhereUniqueInput | GastoCombustibleWhereUniqueInput[]
+    disconnect?: GastoCombustibleWhereUniqueInput | GastoCombustibleWhereUniqueInput[]
+    delete?: GastoCombustibleWhereUniqueInput | GastoCombustibleWhereUniqueInput[]
+    connect?: GastoCombustibleWhereUniqueInput | GastoCombustibleWhereUniqueInput[]
+    update?: GastoCombustibleUpdateWithWhereUniqueWithoutVehiculoInput | GastoCombustibleUpdateWithWhereUniqueWithoutVehiculoInput[]
+    updateMany?: GastoCombustibleUpdateManyWithWhereWithoutVehiculoInput | GastoCombustibleUpdateManyWithWhereWithoutVehiculoInput[]
+    deleteMany?: GastoCombustibleScalarWhereInput | GastoCombustibleScalarWhereInput[]
+  }
+
   export type ClasePracticaUncheckedUpdateManyWithoutVehiculoNestedInput = {
     create?: XOR<ClasePracticaCreateWithoutVehiculoInput, ClasePracticaUncheckedCreateWithoutVehiculoInput> | ClasePracticaCreateWithoutVehiculoInput[] | ClasePracticaUncheckedCreateWithoutVehiculoInput[]
     connectOrCreate?: ClasePracticaCreateOrConnectWithoutVehiculoInput | ClasePracticaCreateOrConnectWithoutVehiculoInput[]
@@ -57641,6 +65048,20 @@ export namespace Prisma {
     update?: ClasePracticaUpdateWithWhereUniqueWithoutVehiculoInput | ClasePracticaUpdateWithWhereUniqueWithoutVehiculoInput[]
     updateMany?: ClasePracticaUpdateManyWithWhereWithoutVehiculoInput | ClasePracticaUpdateManyWithWhereWithoutVehiculoInput[]
     deleteMany?: ClasePracticaScalarWhereInput | ClasePracticaScalarWhereInput[]
+  }
+
+  export type GastoCombustibleUncheckedUpdateManyWithoutVehiculoNestedInput = {
+    create?: XOR<GastoCombustibleCreateWithoutVehiculoInput, GastoCombustibleUncheckedCreateWithoutVehiculoInput> | GastoCombustibleCreateWithoutVehiculoInput[] | GastoCombustibleUncheckedCreateWithoutVehiculoInput[]
+    connectOrCreate?: GastoCombustibleCreateOrConnectWithoutVehiculoInput | GastoCombustibleCreateOrConnectWithoutVehiculoInput[]
+    upsert?: GastoCombustibleUpsertWithWhereUniqueWithoutVehiculoInput | GastoCombustibleUpsertWithWhereUniqueWithoutVehiculoInput[]
+    createMany?: GastoCombustibleCreateManyVehiculoInputEnvelope
+    set?: GastoCombustibleWhereUniqueInput | GastoCombustibleWhereUniqueInput[]
+    disconnect?: GastoCombustibleWhereUniqueInput | GastoCombustibleWhereUniqueInput[]
+    delete?: GastoCombustibleWhereUniqueInput | GastoCombustibleWhereUniqueInput[]
+    connect?: GastoCombustibleWhereUniqueInput | GastoCombustibleWhereUniqueInput[]
+    update?: GastoCombustibleUpdateWithWhereUniqueWithoutVehiculoInput | GastoCombustibleUpdateWithWhereUniqueWithoutVehiculoInput[]
+    updateMany?: GastoCombustibleUpdateManyWithWhereWithoutVehiculoInput | GastoCombustibleUpdateManyWithWhereWithoutVehiculoInput[]
+    deleteMany?: GastoCombustibleScalarWhereInput | GastoCombustibleScalarWhereInput[]
   }
 
   export type AlumnoCreateNestedOneWithoutClasesInput = {
@@ -58328,6 +65749,20 @@ export namespace Prisma {
     connect?: ClasePracticaWhereUniqueInput
   }
 
+  export type SolicitudExamenCreateNestedManyWithoutPagoGastoPracticoInput = {
+    create?: XOR<SolicitudExamenCreateWithoutPagoGastoPracticoInput, SolicitudExamenUncheckedCreateWithoutPagoGastoPracticoInput> | SolicitudExamenCreateWithoutPagoGastoPracticoInput[] | SolicitudExamenUncheckedCreateWithoutPagoGastoPracticoInput[]
+    connectOrCreate?: SolicitudExamenCreateOrConnectWithoutPagoGastoPracticoInput | SolicitudExamenCreateOrConnectWithoutPagoGastoPracticoInput[]
+    createMany?: SolicitudExamenCreateManyPagoGastoPracticoInputEnvelope
+    connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+  }
+
+  export type SolicitudExamenUncheckedCreateNestedManyWithoutPagoGastoPracticoInput = {
+    create?: XOR<SolicitudExamenCreateWithoutPagoGastoPracticoInput, SolicitudExamenUncheckedCreateWithoutPagoGastoPracticoInput> | SolicitudExamenCreateWithoutPagoGastoPracticoInput[] | SolicitudExamenUncheckedCreateWithoutPagoGastoPracticoInput[]
+    connectOrCreate?: SolicitudExamenCreateOrConnectWithoutPagoGastoPracticoInput | SolicitudExamenCreateOrConnectWithoutPagoGastoPracticoInput[]
+    createMany?: SolicitudExamenCreateManyPagoGastoPracticoInputEnvelope
+    connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+  }
+
   export type AlumnoUpdateOneRequiredWithoutPagosNestedInput = {
     create?: XOR<AlumnoCreateWithoutPagosInput, AlumnoUncheckedCreateWithoutPagosInput>
     connectOrCreate?: AlumnoCreateOrConnectWithoutPagosInput
@@ -58364,6 +65799,208 @@ export namespace Prisma {
     delete?: ClasePracticaWhereInput | boolean
     connect?: ClasePracticaWhereUniqueInput
     update?: XOR<XOR<ClasePracticaUpdateToOneWithWhereWithoutPagosInput, ClasePracticaUpdateWithoutPagosInput>, ClasePracticaUncheckedUpdateWithoutPagosInput>
+  }
+
+  export type SolicitudExamenUpdateManyWithoutPagoGastoPracticoNestedInput = {
+    create?: XOR<SolicitudExamenCreateWithoutPagoGastoPracticoInput, SolicitudExamenUncheckedCreateWithoutPagoGastoPracticoInput> | SolicitudExamenCreateWithoutPagoGastoPracticoInput[] | SolicitudExamenUncheckedCreateWithoutPagoGastoPracticoInput[]
+    connectOrCreate?: SolicitudExamenCreateOrConnectWithoutPagoGastoPracticoInput | SolicitudExamenCreateOrConnectWithoutPagoGastoPracticoInput[]
+    upsert?: SolicitudExamenUpsertWithWhereUniqueWithoutPagoGastoPracticoInput | SolicitudExamenUpsertWithWhereUniqueWithoutPagoGastoPracticoInput[]
+    createMany?: SolicitudExamenCreateManyPagoGastoPracticoInputEnvelope
+    set?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    disconnect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    delete?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    update?: SolicitudExamenUpdateWithWhereUniqueWithoutPagoGastoPracticoInput | SolicitudExamenUpdateWithWhereUniqueWithoutPagoGastoPracticoInput[]
+    updateMany?: SolicitudExamenUpdateManyWithWhereWithoutPagoGastoPracticoInput | SolicitudExamenUpdateManyWithWhereWithoutPagoGastoPracticoInput[]
+    deleteMany?: SolicitudExamenScalarWhereInput | SolicitudExamenScalarWhereInput[]
+  }
+
+  export type SolicitudExamenUncheckedUpdateManyWithoutPagoGastoPracticoNestedInput = {
+    create?: XOR<SolicitudExamenCreateWithoutPagoGastoPracticoInput, SolicitudExamenUncheckedCreateWithoutPagoGastoPracticoInput> | SolicitudExamenCreateWithoutPagoGastoPracticoInput[] | SolicitudExamenUncheckedCreateWithoutPagoGastoPracticoInput[]
+    connectOrCreate?: SolicitudExamenCreateOrConnectWithoutPagoGastoPracticoInput | SolicitudExamenCreateOrConnectWithoutPagoGastoPracticoInput[]
+    upsert?: SolicitudExamenUpsertWithWhereUniqueWithoutPagoGastoPracticoInput | SolicitudExamenUpsertWithWhereUniqueWithoutPagoGastoPracticoInput[]
+    createMany?: SolicitudExamenCreateManyPagoGastoPracticoInputEnvelope
+    set?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    disconnect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    delete?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    update?: SolicitudExamenUpdateWithWhereUniqueWithoutPagoGastoPracticoInput | SolicitudExamenUpdateWithWhereUniqueWithoutPagoGastoPracticoInput[]
+    updateMany?: SolicitudExamenUpdateManyWithWhereWithoutPagoGastoPracticoInput | SolicitudExamenUpdateManyWithWhereWithoutPagoGastoPracticoInput[]
+    deleteMany?: SolicitudExamenScalarWhereInput | SolicitudExamenScalarWhereInput[]
+  }
+
+  export type PracticalExamProcessSolicitudCreateNestedManyWithoutBatchInput = {
+    create?: XOR<PracticalExamProcessSolicitudCreateWithoutBatchInput, PracticalExamProcessSolicitudUncheckedCreateWithoutBatchInput> | PracticalExamProcessSolicitudCreateWithoutBatchInput[] | PracticalExamProcessSolicitudUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: PracticalExamProcessSolicitudCreateOrConnectWithoutBatchInput | PracticalExamProcessSolicitudCreateOrConnectWithoutBatchInput[]
+    createMany?: PracticalExamProcessSolicitudCreateManyBatchInputEnvelope
+    connect?: PracticalExamProcessSolicitudWhereUniqueInput | PracticalExamProcessSolicitudWhereUniqueInput[]
+  }
+
+  export type PracticalExamProcessPagoCreateNestedManyWithoutBatchInput = {
+    create?: XOR<PracticalExamProcessPagoCreateWithoutBatchInput, PracticalExamProcessPagoUncheckedCreateWithoutBatchInput> | PracticalExamProcessPagoCreateWithoutBatchInput[] | PracticalExamProcessPagoUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: PracticalExamProcessPagoCreateOrConnectWithoutBatchInput | PracticalExamProcessPagoCreateOrConnectWithoutBatchInput[]
+    createMany?: PracticalExamProcessPagoCreateManyBatchInputEnvelope
+    connect?: PracticalExamProcessPagoWhereUniqueInput | PracticalExamProcessPagoWhereUniqueInput[]
+  }
+
+  export type PracticalExamProcessSolicitudUncheckedCreateNestedManyWithoutBatchInput = {
+    create?: XOR<PracticalExamProcessSolicitudCreateWithoutBatchInput, PracticalExamProcessSolicitudUncheckedCreateWithoutBatchInput> | PracticalExamProcessSolicitudCreateWithoutBatchInput[] | PracticalExamProcessSolicitudUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: PracticalExamProcessSolicitudCreateOrConnectWithoutBatchInput | PracticalExamProcessSolicitudCreateOrConnectWithoutBatchInput[]
+    createMany?: PracticalExamProcessSolicitudCreateManyBatchInputEnvelope
+    connect?: PracticalExamProcessSolicitudWhereUniqueInput | PracticalExamProcessSolicitudWhereUniqueInput[]
+  }
+
+  export type PracticalExamProcessPagoUncheckedCreateNestedManyWithoutBatchInput = {
+    create?: XOR<PracticalExamProcessPagoCreateWithoutBatchInput, PracticalExamProcessPagoUncheckedCreateWithoutBatchInput> | PracticalExamProcessPagoCreateWithoutBatchInput[] | PracticalExamProcessPagoUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: PracticalExamProcessPagoCreateOrConnectWithoutBatchInput | PracticalExamProcessPagoCreateOrConnectWithoutBatchInput[]
+    createMany?: PracticalExamProcessPagoCreateManyBatchInputEnvelope
+    connect?: PracticalExamProcessPagoWhereUniqueInput | PracticalExamProcessPagoWhereUniqueInput[]
+  }
+
+  export type PracticalExamProcessSolicitudUpdateManyWithoutBatchNestedInput = {
+    create?: XOR<PracticalExamProcessSolicitudCreateWithoutBatchInput, PracticalExamProcessSolicitudUncheckedCreateWithoutBatchInput> | PracticalExamProcessSolicitudCreateWithoutBatchInput[] | PracticalExamProcessSolicitudUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: PracticalExamProcessSolicitudCreateOrConnectWithoutBatchInput | PracticalExamProcessSolicitudCreateOrConnectWithoutBatchInput[]
+    upsert?: PracticalExamProcessSolicitudUpsertWithWhereUniqueWithoutBatchInput | PracticalExamProcessSolicitudUpsertWithWhereUniqueWithoutBatchInput[]
+    createMany?: PracticalExamProcessSolicitudCreateManyBatchInputEnvelope
+    set?: PracticalExamProcessSolicitudWhereUniqueInput | PracticalExamProcessSolicitudWhereUniqueInput[]
+    disconnect?: PracticalExamProcessSolicitudWhereUniqueInput | PracticalExamProcessSolicitudWhereUniqueInput[]
+    delete?: PracticalExamProcessSolicitudWhereUniqueInput | PracticalExamProcessSolicitudWhereUniqueInput[]
+    connect?: PracticalExamProcessSolicitudWhereUniqueInput | PracticalExamProcessSolicitudWhereUniqueInput[]
+    update?: PracticalExamProcessSolicitudUpdateWithWhereUniqueWithoutBatchInput | PracticalExamProcessSolicitudUpdateWithWhereUniqueWithoutBatchInput[]
+    updateMany?: PracticalExamProcessSolicitudUpdateManyWithWhereWithoutBatchInput | PracticalExamProcessSolicitudUpdateManyWithWhereWithoutBatchInput[]
+    deleteMany?: PracticalExamProcessSolicitudScalarWhereInput | PracticalExamProcessSolicitudScalarWhereInput[]
+  }
+
+  export type PracticalExamProcessPagoUpdateManyWithoutBatchNestedInput = {
+    create?: XOR<PracticalExamProcessPagoCreateWithoutBatchInput, PracticalExamProcessPagoUncheckedCreateWithoutBatchInput> | PracticalExamProcessPagoCreateWithoutBatchInput[] | PracticalExamProcessPagoUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: PracticalExamProcessPagoCreateOrConnectWithoutBatchInput | PracticalExamProcessPagoCreateOrConnectWithoutBatchInput[]
+    upsert?: PracticalExamProcessPagoUpsertWithWhereUniqueWithoutBatchInput | PracticalExamProcessPagoUpsertWithWhereUniqueWithoutBatchInput[]
+    createMany?: PracticalExamProcessPagoCreateManyBatchInputEnvelope
+    set?: PracticalExamProcessPagoWhereUniqueInput | PracticalExamProcessPagoWhereUniqueInput[]
+    disconnect?: PracticalExamProcessPagoWhereUniqueInput | PracticalExamProcessPagoWhereUniqueInput[]
+    delete?: PracticalExamProcessPagoWhereUniqueInput | PracticalExamProcessPagoWhereUniqueInput[]
+    connect?: PracticalExamProcessPagoWhereUniqueInput | PracticalExamProcessPagoWhereUniqueInput[]
+    update?: PracticalExamProcessPagoUpdateWithWhereUniqueWithoutBatchInput | PracticalExamProcessPagoUpdateWithWhereUniqueWithoutBatchInput[]
+    updateMany?: PracticalExamProcessPagoUpdateManyWithWhereWithoutBatchInput | PracticalExamProcessPagoUpdateManyWithWhereWithoutBatchInput[]
+    deleteMany?: PracticalExamProcessPagoScalarWhereInput | PracticalExamProcessPagoScalarWhereInput[]
+  }
+
+  export type PracticalExamProcessSolicitudUncheckedUpdateManyWithoutBatchNestedInput = {
+    create?: XOR<PracticalExamProcessSolicitudCreateWithoutBatchInput, PracticalExamProcessSolicitudUncheckedCreateWithoutBatchInput> | PracticalExamProcessSolicitudCreateWithoutBatchInput[] | PracticalExamProcessSolicitudUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: PracticalExamProcessSolicitudCreateOrConnectWithoutBatchInput | PracticalExamProcessSolicitudCreateOrConnectWithoutBatchInput[]
+    upsert?: PracticalExamProcessSolicitudUpsertWithWhereUniqueWithoutBatchInput | PracticalExamProcessSolicitudUpsertWithWhereUniqueWithoutBatchInput[]
+    createMany?: PracticalExamProcessSolicitudCreateManyBatchInputEnvelope
+    set?: PracticalExamProcessSolicitudWhereUniqueInput | PracticalExamProcessSolicitudWhereUniqueInput[]
+    disconnect?: PracticalExamProcessSolicitudWhereUniqueInput | PracticalExamProcessSolicitudWhereUniqueInput[]
+    delete?: PracticalExamProcessSolicitudWhereUniqueInput | PracticalExamProcessSolicitudWhereUniqueInput[]
+    connect?: PracticalExamProcessSolicitudWhereUniqueInput | PracticalExamProcessSolicitudWhereUniqueInput[]
+    update?: PracticalExamProcessSolicitudUpdateWithWhereUniqueWithoutBatchInput | PracticalExamProcessSolicitudUpdateWithWhereUniqueWithoutBatchInput[]
+    updateMany?: PracticalExamProcessSolicitudUpdateManyWithWhereWithoutBatchInput | PracticalExamProcessSolicitudUpdateManyWithWhereWithoutBatchInput[]
+    deleteMany?: PracticalExamProcessSolicitudScalarWhereInput | PracticalExamProcessSolicitudScalarWhereInput[]
+  }
+
+  export type PracticalExamProcessPagoUncheckedUpdateManyWithoutBatchNestedInput = {
+    create?: XOR<PracticalExamProcessPagoCreateWithoutBatchInput, PracticalExamProcessPagoUncheckedCreateWithoutBatchInput> | PracticalExamProcessPagoCreateWithoutBatchInput[] | PracticalExamProcessPagoUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: PracticalExamProcessPagoCreateOrConnectWithoutBatchInput | PracticalExamProcessPagoCreateOrConnectWithoutBatchInput[]
+    upsert?: PracticalExamProcessPagoUpsertWithWhereUniqueWithoutBatchInput | PracticalExamProcessPagoUpsertWithWhereUniqueWithoutBatchInput[]
+    createMany?: PracticalExamProcessPagoCreateManyBatchInputEnvelope
+    set?: PracticalExamProcessPagoWhereUniqueInput | PracticalExamProcessPagoWhereUniqueInput[]
+    disconnect?: PracticalExamProcessPagoWhereUniqueInput | PracticalExamProcessPagoWhereUniqueInput[]
+    delete?: PracticalExamProcessPagoWhereUniqueInput | PracticalExamProcessPagoWhereUniqueInput[]
+    connect?: PracticalExamProcessPagoWhereUniqueInput | PracticalExamProcessPagoWhereUniqueInput[]
+    update?: PracticalExamProcessPagoUpdateWithWhereUniqueWithoutBatchInput | PracticalExamProcessPagoUpdateWithWhereUniqueWithoutBatchInput[]
+    updateMany?: PracticalExamProcessPagoUpdateManyWithWhereWithoutBatchInput | PracticalExamProcessPagoUpdateManyWithWhereWithoutBatchInput[]
+    deleteMany?: PracticalExamProcessPagoScalarWhereInput | PracticalExamProcessPagoScalarWhereInput[]
+  }
+
+  export type PracticalExamProcessSolicitudCreatebeforeFaltasLevesDetalleInput = {
+    set: string[]
+  }
+
+  export type PracticalExamProcessSolicitudCreatebeforeFaltasDeficientesDetalleInput = {
+    set: string[]
+  }
+
+  export type PracticalExamProcessSolicitudCreatebeforeFaltasEliminatoriasDetalleInput = {
+    set: string[]
+  }
+
+  export type PracticalExamProcessSolicitudCreateafterFaltasLevesDetalleInput = {
+    set: string[]
+  }
+
+  export type PracticalExamProcessSolicitudCreateafterFaltasDeficientesDetalleInput = {
+    set: string[]
+  }
+
+  export type PracticalExamProcessSolicitudCreateafterFaltasEliminatoriasDetalleInput = {
+    set: string[]
+  }
+
+  export type PracticalExamProcessBatchCreateNestedOneWithoutSolicitudesInput = {
+    create?: XOR<PracticalExamProcessBatchCreateWithoutSolicitudesInput, PracticalExamProcessBatchUncheckedCreateWithoutSolicitudesInput>
+    connectOrCreate?: PracticalExamProcessBatchCreateOrConnectWithoutSolicitudesInput
+    connect?: PracticalExamProcessBatchWhereUniqueInput
+  }
+
+  export type BigIntFieldUpdateOperationsInput = {
+    set?: bigint | number
+    increment?: bigint | number
+    decrement?: bigint | number
+    multiply?: bigint | number
+    divide?: bigint | number
+  }
+
+  export type PracticalExamProcessSolicitudUpdatebeforeFaltasLevesDetalleInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type PracticalExamProcessSolicitudUpdatebeforeFaltasDeficientesDetalleInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type PracticalExamProcessSolicitudUpdatebeforeFaltasEliminatoriasDetalleInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type PracticalExamProcessSolicitudUpdateafterFaltasLevesDetalleInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type PracticalExamProcessSolicitudUpdateafterFaltasDeficientesDetalleInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type PracticalExamProcessSolicitudUpdateafterFaltasEliminatoriasDetalleInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type PracticalExamProcessBatchUpdateOneRequiredWithoutSolicitudesNestedInput = {
+    create?: XOR<PracticalExamProcessBatchCreateWithoutSolicitudesInput, PracticalExamProcessBatchUncheckedCreateWithoutSolicitudesInput>
+    connectOrCreate?: PracticalExamProcessBatchCreateOrConnectWithoutSolicitudesInput
+    upsert?: PracticalExamProcessBatchUpsertWithoutSolicitudesInput
+    connect?: PracticalExamProcessBatchWhereUniqueInput
+    update?: XOR<XOR<PracticalExamProcessBatchUpdateToOneWithWhereWithoutSolicitudesInput, PracticalExamProcessBatchUpdateWithoutSolicitudesInput>, PracticalExamProcessBatchUncheckedUpdateWithoutSolicitudesInput>
+  }
+
+  export type PracticalExamProcessBatchCreateNestedOneWithoutPagosInput = {
+    create?: XOR<PracticalExamProcessBatchCreateWithoutPagosInput, PracticalExamProcessBatchUncheckedCreateWithoutPagosInput>
+    connectOrCreate?: PracticalExamProcessBatchCreateOrConnectWithoutPagosInput
+    connect?: PracticalExamProcessBatchWhereUniqueInput
+  }
+
+  export type PracticalExamProcessBatchUpdateOneRequiredWithoutPagosNestedInput = {
+    create?: XOR<PracticalExamProcessBatchCreateWithoutPagosInput, PracticalExamProcessBatchUncheckedCreateWithoutPagosInput>
+    connectOrCreate?: PracticalExamProcessBatchCreateOrConnectWithoutPagosInput
+    upsert?: PracticalExamProcessBatchUpsertWithoutPagosInput
+    connect?: PracticalExamProcessBatchWhereUniqueInput
+    update?: XOR<XOR<PracticalExamProcessBatchUpdateToOneWithWhereWithoutPagosInput, PracticalExamProcessBatchUpdateWithoutPagosInput>, PracticalExamProcessBatchUncheckedUpdateWithoutPagosInput>
   }
 
   export type TheoreticalExamProcessSolicitudCreateNestedManyWithoutBatchInput = {
@@ -58454,14 +66091,6 @@ export namespace Prisma {
     create?: XOR<TheoreticalExamProcessBatchCreateWithoutSolicitudesInput, TheoreticalExamProcessBatchUncheckedCreateWithoutSolicitudesInput>
     connectOrCreate?: TheoreticalExamProcessBatchCreateOrConnectWithoutSolicitudesInput
     connect?: TheoreticalExamProcessBatchWhereUniqueInput
-  }
-
-  export type BigIntFieldUpdateOperationsInput = {
-    set?: bigint | number
-    increment?: bigint | number
-    decrement?: bigint | number
-    multiply?: bigint | number
-    divide?: bigint | number
   }
 
   export type TheoreticalExamProcessBatchUpdateOneRequiredWithoutSolicitudesNestedInput = {
@@ -58574,6 +66203,34 @@ export namespace Prisma {
     delete?: ClasePracticaWhereInput | boolean
     connect?: ClasePracticaWhereUniqueInput
     update?: XOR<XOR<ClasePracticaUpdateToOneWithWhereWithoutFacturasInput, ClasePracticaUpdateWithoutFacturasInput>, ClasePracticaUncheckedUpdateWithoutFacturasInput>
+  }
+
+  export type ProfesorCreateNestedOneWithoutGastosCombustibleInput = {
+    create?: XOR<ProfesorCreateWithoutGastosCombustibleInput, ProfesorUncheckedCreateWithoutGastosCombustibleInput>
+    connectOrCreate?: ProfesorCreateOrConnectWithoutGastosCombustibleInput
+    connect?: ProfesorWhereUniqueInput
+  }
+
+  export type VehiculoCreateNestedOneWithoutGastosCombustibleInput = {
+    create?: XOR<VehiculoCreateWithoutGastosCombustibleInput, VehiculoUncheckedCreateWithoutGastosCombustibleInput>
+    connectOrCreate?: VehiculoCreateOrConnectWithoutGastosCombustibleInput
+    connect?: VehiculoWhereUniqueInput
+  }
+
+  export type ProfesorUpdateOneRequiredWithoutGastosCombustibleNestedInput = {
+    create?: XOR<ProfesorCreateWithoutGastosCombustibleInput, ProfesorUncheckedCreateWithoutGastosCombustibleInput>
+    connectOrCreate?: ProfesorCreateOrConnectWithoutGastosCombustibleInput
+    upsert?: ProfesorUpsertWithoutGastosCombustibleInput
+    connect?: ProfesorWhereUniqueInput
+    update?: XOR<XOR<ProfesorUpdateToOneWithWhereWithoutGastosCombustibleInput, ProfesorUpdateWithoutGastosCombustibleInput>, ProfesorUncheckedUpdateWithoutGastosCombustibleInput>
+  }
+
+  export type VehiculoUpdateOneRequiredWithoutGastosCombustibleNestedInput = {
+    create?: XOR<VehiculoCreateWithoutGastosCombustibleInput, VehiculoUncheckedCreateWithoutGastosCombustibleInput>
+    connectOrCreate?: VehiculoCreateOrConnectWithoutGastosCombustibleInput
+    upsert?: VehiculoUpsertWithoutGastosCombustibleInput
+    connect?: VehiculoWhereUniqueInput
+    update?: XOR<XOR<VehiculoUpdateToOneWithWhereWithoutGastosCombustibleInput, VehiculoUpdateWithoutGastosCombustibleInput>, VehiculoUncheckedUpdateWithoutGastosCombustibleInput>
   }
 
   export type UsuarioCreateNestedOneWithoutNotificacionesInput = {
@@ -59067,6 +66724,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    gastosCombustible?: GastoCombustibleCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
     horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
   }
@@ -59079,6 +66737,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    gastosCombustible?: GastoCombustibleUncheckedCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
@@ -59219,6 +66878,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    gastosCombustible?: GastoCombustibleUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
     horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
   }
@@ -59231,6 +66891,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    gastosCombustible?: GastoCombustibleUncheckedUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
@@ -59439,6 +67100,50 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type GastoCombustibleCreateWithoutProfesorInput = {
+    id?: string
+    numeroFactura: string
+    titularTarjeta: string
+    numeroTarjeta: string
+    combustibleAntesPct: number
+    combustibleDespuesPct?: number
+    litrosRepostados: Decimal | DecimalJsLike | number | string
+    precioLitro: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo: number
+    rutaRecibo?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vehiculo: VehiculoCreateNestedOneWithoutGastosCombustibleInput
+  }
+
+  export type GastoCombustibleUncheckedCreateWithoutProfesorInput = {
+    id?: string
+    numeroFactura: string
+    vehiculoId: string
+    titularTarjeta: string
+    numeroTarjeta: string
+    combustibleAntesPct: number
+    combustibleDespuesPct?: number
+    litrosRepostados: Decimal | DecimalJsLike | number | string
+    precioLitro: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo: number
+    rutaRecibo?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GastoCombustibleCreateOrConnectWithoutProfesorInput = {
+    where: GastoCombustibleWhereUniqueInput
+    create: XOR<GastoCombustibleCreateWithoutProfesorInput, GastoCombustibleUncheckedCreateWithoutProfesorInput>
+  }
+
+  export type GastoCombustibleCreateManyProfesorInputEnvelope = {
+    data: GastoCombustibleCreateManyProfesorInput | GastoCombustibleCreateManyProfesorInput[]
+    skipDuplicates?: boolean
+  }
+
   export type HojaRutaCreateWithoutProfesorInput = {
     id?: string
     estado?: string
@@ -59638,6 +67343,43 @@ export namespace Prisma {
     canceladaConPenalizacion?: BoolFilter<"ClasePractica"> | boolean
   }
 
+  export type GastoCombustibleUpsertWithWhereUniqueWithoutProfesorInput = {
+    where: GastoCombustibleWhereUniqueInput
+    update: XOR<GastoCombustibleUpdateWithoutProfesorInput, GastoCombustibleUncheckedUpdateWithoutProfesorInput>
+    create: XOR<GastoCombustibleCreateWithoutProfesorInput, GastoCombustibleUncheckedCreateWithoutProfesorInput>
+  }
+
+  export type GastoCombustibleUpdateWithWhereUniqueWithoutProfesorInput = {
+    where: GastoCombustibleWhereUniqueInput
+    data: XOR<GastoCombustibleUpdateWithoutProfesorInput, GastoCombustibleUncheckedUpdateWithoutProfesorInput>
+  }
+
+  export type GastoCombustibleUpdateManyWithWhereWithoutProfesorInput = {
+    where: GastoCombustibleScalarWhereInput
+    data: XOR<GastoCombustibleUpdateManyMutationInput, GastoCombustibleUncheckedUpdateManyWithoutProfesorInput>
+  }
+
+  export type GastoCombustibleScalarWhereInput = {
+    AND?: GastoCombustibleScalarWhereInput | GastoCombustibleScalarWhereInput[]
+    OR?: GastoCombustibleScalarWhereInput[]
+    NOT?: GastoCombustibleScalarWhereInput | GastoCombustibleScalarWhereInput[]
+    id?: StringFilter<"GastoCombustible"> | string
+    numeroFactura?: StringFilter<"GastoCombustible"> | string
+    profesorId?: StringFilter<"GastoCombustible"> | string
+    vehiculoId?: StringFilter<"GastoCombustible"> | string
+    titularTarjeta?: StringFilter<"GastoCombustible"> | string
+    numeroTarjeta?: StringFilter<"GastoCombustible"> | string
+    combustibleAntesPct?: IntFilter<"GastoCombustible"> | number
+    combustibleDespuesPct?: IntFilter<"GastoCombustible"> | number
+    litrosRepostados?: DecimalFilter<"GastoCombustible"> | Decimal | DecimalJsLike | number | string
+    precioLitro?: DecimalFilter<"GastoCombustible"> | Decimal | DecimalJsLike | number | string
+    total?: DecimalFilter<"GastoCombustible"> | Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo?: IntFilter<"GastoCombustible"> | number
+    rutaRecibo?: StringNullableFilter<"GastoCombustible"> | string | null
+    createdAt?: DateTimeFilter<"GastoCombustible"> | Date | string
+    updatedAt?: DateTimeFilter<"GastoCombustible"> | Date | string
+  }
+
   export type HojaRutaUpsertWithWhereUniqueWithoutProfesorInput = {
     where: HojaRutaWhereUniqueInput
     update: XOR<HojaRutaUpdateWithoutProfesorInput, HojaRutaUncheckedUpdateWithoutProfesorInput>
@@ -59751,6 +67493,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    gastosCombustible?: GastoCombustibleCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
@@ -59764,6 +67507,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    gastosCombustible?: GastoCombustibleUncheckedCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
   }
 
@@ -59791,6 +67535,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    gastosCombustible?: GastoCombustibleUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
@@ -59804,6 +67549,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    gastosCombustible?: GastoCombustibleUncheckedUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
@@ -59849,6 +67595,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    gastosCombustible?: GastoCombustibleCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
     horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
@@ -59862,6 +67609,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    gastosCombustible?: GastoCombustibleUncheckedCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
@@ -60031,6 +67779,7 @@ export namespace Prisma {
     matricula?: MatriculaCreateNestedOneWithoutPagosInput
     compraBono?: CompraBonoCreateNestedOneWithoutPagosInput
     clasePractica?: ClasePracticaCreateNestedOneWithoutPagosInput
+    solicitudesExamenPractico?: SolicitudExamenCreateNestedManyWithoutPagoGastoPracticoInput
   }
 
   export type PagoUncheckedCreateWithoutAlumnoInput = {
@@ -60049,6 +67798,7 @@ export namespace Prisma {
     fechaPago?: Date | string | null
     numeroFacturaPago?: string | null
     observaciones?: string | null
+    solicitudesExamenPractico?: SolicitudExamenUncheckedCreateNestedManyWithoutPagoGastoPracticoInput
   }
 
   export type PagoCreateOrConnectWithoutAlumnoInput = {
@@ -60109,7 +67859,15 @@ export namespace Prisma {
     fechaProgramada?: Date | string | null
     erroresExamen?: number | null
     aciertosExamen?: number | null
+    faltasLeves?: number | null
+    faltasDeficientes?: number | null
+    faltasEliminatorias?: number | null
+    faltasLevesDetalle?: SolicitudExamenCreatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenCreatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenCreatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: string | null
     observaciones?: string | null
+    pagoGastoPractico?: PagoCreateNestedOneWithoutSolicitudesExamenPracticoInput
   }
 
   export type SolicitudExamenUncheckedCreateWithoutAlumnoInput = {
@@ -60118,8 +67876,16 @@ export namespace Prisma {
     estado?: string
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
+    pagoGastoPracticoId?: string | null
     erroresExamen?: number | null
     aciertosExamen?: number | null
+    faltasLeves?: number | null
+    faltasDeficientes?: number | null
+    faltasEliminatorias?: number | null
+    faltasLevesDetalle?: SolicitudExamenCreatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenCreatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenCreatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: string | null
     observaciones?: string | null
   }
 
@@ -60352,6 +68118,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    gastosCombustible?: GastoCombustibleUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
     horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
@@ -60365,6 +68132,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    gastosCombustible?: GastoCombustibleUncheckedUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
@@ -60573,8 +68341,16 @@ export namespace Prisma {
     estado?: StringFilter<"SolicitudExamen"> | string
     fechaSolicitud?: DateTimeFilter<"SolicitudExamen"> | Date | string
     fechaProgramada?: DateTimeNullableFilter<"SolicitudExamen"> | Date | string | null
+    pagoGastoPracticoId?: StringNullableFilter<"SolicitudExamen"> | string | null
     erroresExamen?: IntNullableFilter<"SolicitudExamen"> | number | null
     aciertosExamen?: IntNullableFilter<"SolicitudExamen"> | number | null
+    faltasLeves?: IntNullableFilter<"SolicitudExamen"> | number | null
+    faltasDeficientes?: IntNullableFilter<"SolicitudExamen"> | number | null
+    faltasEliminatorias?: IntNullableFilter<"SolicitudExamen"> | number | null
+    faltasLevesDetalle?: StringNullableListFilter<"SolicitudExamen">
+    faltasDeficientesDetalle?: StringNullableListFilter<"SolicitudExamen">
+    faltasEliminatoriasDetalle?: StringNullableListFilter<"SolicitudExamen">
+    motivoNoApto?: StringNullableFilter<"SolicitudExamen"> | string | null
     observaciones?: StringNullableFilter<"SolicitudExamen"> | string | null
   }
 
@@ -61177,6 +68953,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    gastosCombustible?: GastoCombustibleCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
     horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
@@ -61190,6 +68967,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    gastosCombustible?: GastoCombustibleUncheckedCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
@@ -61217,6 +68995,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    gastosCombustible?: GastoCombustibleUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
     horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
@@ -61230,6 +69009,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    gastosCombustible?: GastoCombustibleUncheckedUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
@@ -61665,6 +69445,7 @@ export namespace Prisma {
     alumno: AlumnoCreateNestedOneWithoutPagosInput
     matricula?: MatriculaCreateNestedOneWithoutPagosInput
     clasePractica?: ClasePracticaCreateNestedOneWithoutPagosInput
+    solicitudesExamenPractico?: SolicitudExamenCreateNestedManyWithoutPagoGastoPracticoInput
   }
 
   export type PagoUncheckedCreateWithoutCompraBonoInput = {
@@ -61683,6 +69464,7 @@ export namespace Prisma {
     fechaPago?: Date | string | null
     numeroFacturaPago?: string | null
     observaciones?: string | null
+    solicitudesExamenPractico?: SolicitudExamenUncheckedCreateNestedManyWithoutPagoGastoPracticoInput
   }
 
   export type PagoCreateOrConnectWithoutCompraBonoInput = {
@@ -62024,6 +69806,49 @@ export namespace Prisma {
     create: XOR<AlumnoCreateWithoutSolicitudesExamenInput, AlumnoUncheckedCreateWithoutSolicitudesExamenInput>
   }
 
+  export type PagoCreateWithoutSolicitudesExamenPracticoInput = {
+    id?: string
+    tipo: string
+    concepto: string
+    permiso: string
+    importe: Decimal | DecimalJsLike | number | string
+    estado?: string
+    convocatoriasIncluidas?: number
+    convocatoriasConsumidas?: number
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    numeroFacturaPago?: string | null
+    observaciones?: string | null
+    alumno: AlumnoCreateNestedOneWithoutPagosInput
+    matricula?: MatriculaCreateNestedOneWithoutPagosInput
+    compraBono?: CompraBonoCreateNestedOneWithoutPagosInput
+    clasePractica?: ClasePracticaCreateNestedOneWithoutPagosInput
+  }
+
+  export type PagoUncheckedCreateWithoutSolicitudesExamenPracticoInput = {
+    id?: string
+    alumnoId: string
+    matriculaId?: string | null
+    compraBonoId?: string | null
+    clasePracticaId?: string | null
+    tipo: string
+    concepto: string
+    permiso: string
+    importe: Decimal | DecimalJsLike | number | string
+    estado?: string
+    convocatoriasIncluidas?: number
+    convocatoriasConsumidas?: number
+    fechaCreacion?: Date | string
+    fechaPago?: Date | string | null
+    numeroFacturaPago?: string | null
+    observaciones?: string | null
+  }
+
+  export type PagoCreateOrConnectWithoutSolicitudesExamenPracticoInput = {
+    where: PagoWhereUniqueInput
+    create: XOR<PagoCreateWithoutSolicitudesExamenPracticoInput, PagoUncheckedCreateWithoutSolicitudesExamenPracticoInput>
+  }
+
   export type AlumnoUpsertWithoutSolicitudesExamenInput = {
     update: XOR<AlumnoUpdateWithoutSolicitudesExamenInput, AlumnoUncheckedUpdateWithoutSolicitudesExamenInput>
     create: XOR<AlumnoCreateWithoutSolicitudesExamenInput, AlumnoUncheckedCreateWithoutSolicitudesExamenInput>
@@ -62075,6 +69900,55 @@ export namespace Prisma {
     hojasRuta?: HojaRutaUncheckedUpdateManyWithoutAlumnoNestedInput
   }
 
+  export type PagoUpsertWithoutSolicitudesExamenPracticoInput = {
+    update: XOR<PagoUpdateWithoutSolicitudesExamenPracticoInput, PagoUncheckedUpdateWithoutSolicitudesExamenPracticoInput>
+    create: XOR<PagoCreateWithoutSolicitudesExamenPracticoInput, PagoUncheckedCreateWithoutSolicitudesExamenPracticoInput>
+    where?: PagoWhereInput
+  }
+
+  export type PagoUpdateToOneWithWhereWithoutSolicitudesExamenPracticoInput = {
+    where?: PagoWhereInput
+    data: XOR<PagoUpdateWithoutSolicitudesExamenPracticoInput, PagoUncheckedUpdateWithoutSolicitudesExamenPracticoInput>
+  }
+
+  export type PagoUpdateWithoutSolicitudesExamenPracticoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    permiso?: StringFieldUpdateOperationsInput | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    convocatoriasIncluidas?: IntFieldUpdateOperationsInput | number
+    convocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    alumno?: AlumnoUpdateOneRequiredWithoutPagosNestedInput
+    matricula?: MatriculaUpdateOneWithoutPagosNestedInput
+    compraBono?: CompraBonoUpdateOneWithoutPagosNestedInput
+    clasePractica?: ClasePracticaUpdateOneWithoutPagosNestedInput
+  }
+
+  export type PagoUncheckedUpdateWithoutSolicitudesExamenPracticoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
+    compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: StringFieldUpdateOperationsInput | string
+    concepto?: StringFieldUpdateOperationsInput | string
+    permiso?: StringFieldUpdateOperationsInput | string
+    importe?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    convocatoriasIncluidas?: IntFieldUpdateOperationsInput | number
+    convocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type ClasePracticaCreateWithoutVehiculoInput = {
     id?: string
     fecha: Date | string
@@ -62119,6 +69993,50 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type GastoCombustibleCreateWithoutVehiculoInput = {
+    id?: string
+    numeroFactura: string
+    titularTarjeta: string
+    numeroTarjeta: string
+    combustibleAntesPct: number
+    combustibleDespuesPct?: number
+    litrosRepostados: Decimal | DecimalJsLike | number | string
+    precioLitro: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo: number
+    rutaRecibo?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    profesor: ProfesorCreateNestedOneWithoutGastosCombustibleInput
+  }
+
+  export type GastoCombustibleUncheckedCreateWithoutVehiculoInput = {
+    id?: string
+    numeroFactura: string
+    profesorId: string
+    titularTarjeta: string
+    numeroTarjeta: string
+    combustibleAntesPct: number
+    combustibleDespuesPct?: number
+    litrosRepostados: Decimal | DecimalJsLike | number | string
+    precioLitro: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo: number
+    rutaRecibo?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GastoCombustibleCreateOrConnectWithoutVehiculoInput = {
+    where: GastoCombustibleWhereUniqueInput
+    create: XOR<GastoCombustibleCreateWithoutVehiculoInput, GastoCombustibleUncheckedCreateWithoutVehiculoInput>
+  }
+
+  export type GastoCombustibleCreateManyVehiculoInputEnvelope = {
+    data: GastoCombustibleCreateManyVehiculoInput | GastoCombustibleCreateManyVehiculoInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ClasePracticaUpsertWithWhereUniqueWithoutVehiculoInput = {
     where: ClasePracticaWhereUniqueInput
     update: XOR<ClasePracticaUpdateWithoutVehiculoInput, ClasePracticaUncheckedUpdateWithoutVehiculoInput>
@@ -62133,6 +70051,22 @@ export namespace Prisma {
   export type ClasePracticaUpdateManyWithWhereWithoutVehiculoInput = {
     where: ClasePracticaScalarWhereInput
     data: XOR<ClasePracticaUpdateManyMutationInput, ClasePracticaUncheckedUpdateManyWithoutVehiculoInput>
+  }
+
+  export type GastoCombustibleUpsertWithWhereUniqueWithoutVehiculoInput = {
+    where: GastoCombustibleWhereUniqueInput
+    update: XOR<GastoCombustibleUpdateWithoutVehiculoInput, GastoCombustibleUncheckedUpdateWithoutVehiculoInput>
+    create: XOR<GastoCombustibleCreateWithoutVehiculoInput, GastoCombustibleUncheckedCreateWithoutVehiculoInput>
+  }
+
+  export type GastoCombustibleUpdateWithWhereUniqueWithoutVehiculoInput = {
+    where: GastoCombustibleWhereUniqueInput
+    data: XOR<GastoCombustibleUpdateWithoutVehiculoInput, GastoCombustibleUncheckedUpdateWithoutVehiculoInput>
+  }
+
+  export type GastoCombustibleUpdateManyWithWhereWithoutVehiculoInput = {
+    where: GastoCombustibleScalarWhereInput
+    data: XOR<GastoCombustibleUpdateManyMutationInput, GastoCombustibleUncheckedUpdateManyWithoutVehiculoInput>
   }
 
   export type AlumnoCreateWithoutClasesInput = {
@@ -62187,6 +70121,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
+    gastosCombustible?: GastoCombustibleCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
     horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
@@ -62200,6 +70135,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
+    gastosCombustible?: GastoCombustibleUncheckedCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
@@ -62215,8 +70151,11 @@ export namespace Prisma {
     marca?: string | null
     modelo?: string | null
     tipoPermiso: string
+    kmActuales?: number
+    combustibleActualPct?: number
     activo?: boolean
     imagenRuta?: string | null
+    gastosCombustible?: GastoCombustibleCreateNestedManyWithoutVehiculoInput
   }
 
   export type VehiculoUncheckedCreateWithoutClasesInput = {
@@ -62225,8 +70164,11 @@ export namespace Prisma {
     marca?: string | null
     modelo?: string | null
     tipoPermiso: string
+    kmActuales?: number
+    combustibleActualPct?: number
     activo?: boolean
     imagenRuta?: string | null
+    gastosCombustible?: GastoCombustibleUncheckedCreateNestedManyWithoutVehiculoInput
   }
 
   export type VehiculoCreateOrConnectWithoutClasesInput = {
@@ -62281,6 +70223,7 @@ export namespace Prisma {
     alumno: AlumnoCreateNestedOneWithoutPagosInput
     matricula?: MatriculaCreateNestedOneWithoutPagosInput
     compraBono?: CompraBonoCreateNestedOneWithoutPagosInput
+    solicitudesExamenPractico?: SolicitudExamenCreateNestedManyWithoutPagoGastoPracticoInput
   }
 
   export type PagoUncheckedCreateWithoutClasePracticaInput = {
@@ -62299,6 +70242,7 @@ export namespace Prisma {
     fechaPago?: Date | string | null
     numeroFacturaPago?: string | null
     observaciones?: string | null
+    solicitudesExamenPractico?: SolicitudExamenUncheckedCreateNestedManyWithoutPagoGastoPracticoInput
   }
 
   export type PagoCreateOrConnectWithoutClasePracticaInput = {
@@ -62457,6 +70401,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
+    gastosCombustible?: GastoCombustibleUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
     horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
@@ -62470,6 +70415,7 @@ export namespace Prisma {
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
+    gastosCombustible?: GastoCombustibleUncheckedUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
@@ -62491,8 +70437,11 @@ export namespace Prisma {
     marca?: NullableStringFieldUpdateOperationsInput | string | null
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     tipoPermiso?: StringFieldUpdateOperationsInput | string
+    kmActuales?: IntFieldUpdateOperationsInput | number
+    combustibleActualPct?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
     imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    gastosCombustible?: GastoCombustibleUpdateManyWithoutVehiculoNestedInput
   }
 
   export type VehiculoUncheckedUpdateWithoutClasesInput = {
@@ -62501,8 +70450,11 @@ export namespace Prisma {
     marca?: NullableStringFieldUpdateOperationsInput | string | null
     modelo?: NullableStringFieldUpdateOperationsInput | string | null
     tipoPermiso?: StringFieldUpdateOperationsInput | string
+    kmActuales?: IntFieldUpdateOperationsInput | number
+    combustibleActualPct?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
     imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    gastosCombustible?: GastoCombustibleUncheckedUpdateManyWithoutVehiculoNestedInput
   }
 
   export type CompraBonoUpsertWithoutClasesInput = {
@@ -62664,6 +70616,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    gastosCombustible?: GastoCombustibleCreateNestedManyWithoutProfesorInput
     horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
@@ -62677,6 +70630,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    gastosCombustible?: GastoCombustibleUncheckedCreateNestedManyWithoutProfesorInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
 
@@ -62828,6 +70782,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    gastosCombustible?: GastoCombustibleUpdateManyWithoutProfesorNestedInput
     horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
@@ -62841,6 +70796,7 @@ export namespace Prisma {
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    gastosCombustible?: GastoCombustibleUncheckedUpdateManyWithoutProfesorNestedInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
@@ -63522,6 +71478,7 @@ export namespace Prisma {
     alumno: AlumnoCreateNestedOneWithoutPagosInput
     compraBono?: CompraBonoCreateNestedOneWithoutPagosInput
     clasePractica?: ClasePracticaCreateNestedOneWithoutPagosInput
+    solicitudesExamenPractico?: SolicitudExamenCreateNestedManyWithoutPagoGastoPracticoInput
   }
 
   export type PagoUncheckedCreateWithoutMatriculaInput = {
@@ -63540,6 +71497,7 @@ export namespace Prisma {
     fechaPago?: Date | string | null
     numeroFacturaPago?: string | null
     observaciones?: string | null
+    solicitudesExamenPractico?: SolicitudExamenUncheckedCreateNestedManyWithoutPagoGastoPracticoInput
   }
 
   export type PagoCreateOrConnectWithoutMatriculaInput = {
@@ -63972,6 +71930,54 @@ export namespace Prisma {
     create: XOR<ClasePracticaCreateWithoutPagosInput, ClasePracticaUncheckedCreateWithoutPagosInput>
   }
 
+  export type SolicitudExamenCreateWithoutPagoGastoPracticoInput = {
+    id?: string
+    tipo: string
+    estado?: string
+    fechaSolicitud?: Date | string
+    fechaProgramada?: Date | string | null
+    erroresExamen?: number | null
+    aciertosExamen?: number | null
+    faltasLeves?: number | null
+    faltasDeficientes?: number | null
+    faltasEliminatorias?: number | null
+    faltasLevesDetalle?: SolicitudExamenCreatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenCreatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenCreatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: string | null
+    observaciones?: string | null
+    alumno: AlumnoCreateNestedOneWithoutSolicitudesExamenInput
+  }
+
+  export type SolicitudExamenUncheckedCreateWithoutPagoGastoPracticoInput = {
+    id?: string
+    alumnoId: string
+    tipo: string
+    estado?: string
+    fechaSolicitud?: Date | string
+    fechaProgramada?: Date | string | null
+    erroresExamen?: number | null
+    aciertosExamen?: number | null
+    faltasLeves?: number | null
+    faltasDeficientes?: number | null
+    faltasEliminatorias?: number | null
+    faltasLevesDetalle?: SolicitudExamenCreatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenCreatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenCreatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: string | null
+    observaciones?: string | null
+  }
+
+  export type SolicitudExamenCreateOrConnectWithoutPagoGastoPracticoInput = {
+    where: SolicitudExamenWhereUniqueInput
+    create: XOR<SolicitudExamenCreateWithoutPagoGastoPracticoInput, SolicitudExamenUncheckedCreateWithoutPagoGastoPracticoInput>
+  }
+
+  export type SolicitudExamenCreateManyPagoGastoPracticoInputEnvelope = {
+    data: SolicitudExamenCreateManyPagoGastoPracticoInput | SolicitudExamenCreateManyPagoGastoPracticoInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AlumnoUpsertWithoutPagosInput = {
     update: XOR<AlumnoUpdateWithoutPagosInput, AlumnoUncheckedUpdateWithoutPagosInput>
     create: XOR<AlumnoCreateWithoutPagosInput, AlumnoUncheckedCreateWithoutPagosInput>
@@ -64144,6 +72150,362 @@ export namespace Prisma {
     canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
     facturas?: FacturaUncheckedUpdateManyWithoutClasePracticaNestedInput
     hojaRuta?: HojaRutaUncheckedUpdateOneWithoutClasePracticaNestedInput
+  }
+
+  export type SolicitudExamenUpsertWithWhereUniqueWithoutPagoGastoPracticoInput = {
+    where: SolicitudExamenWhereUniqueInput
+    update: XOR<SolicitudExamenUpdateWithoutPagoGastoPracticoInput, SolicitudExamenUncheckedUpdateWithoutPagoGastoPracticoInput>
+    create: XOR<SolicitudExamenCreateWithoutPagoGastoPracticoInput, SolicitudExamenUncheckedCreateWithoutPagoGastoPracticoInput>
+  }
+
+  export type SolicitudExamenUpdateWithWhereUniqueWithoutPagoGastoPracticoInput = {
+    where: SolicitudExamenWhereUniqueInput
+    data: XOR<SolicitudExamenUpdateWithoutPagoGastoPracticoInput, SolicitudExamenUncheckedUpdateWithoutPagoGastoPracticoInput>
+  }
+
+  export type SolicitudExamenUpdateManyWithWhereWithoutPagoGastoPracticoInput = {
+    where: SolicitudExamenScalarWhereInput
+    data: XOR<SolicitudExamenUpdateManyMutationInput, SolicitudExamenUncheckedUpdateManyWithoutPagoGastoPracticoInput>
+  }
+
+  export type PracticalExamProcessSolicitudCreateWithoutBatchInput = {
+    id?: bigint | number
+    solicitudId: string
+    alumnoId: string
+    beforeEstado: string
+    beforeErrores?: number | null
+    beforeAciertos?: number | null
+    beforeFaltasLeves?: number | null
+    beforeFaltasDeficientes?: number | null
+    beforeFaltasEliminatorias?: number | null
+    beforeFaltasLevesDetalle?: PracticalExamProcessSolicitudCreatebeforeFaltasLevesDetalleInput | string[]
+    beforeFaltasDeficientesDetalle?: PracticalExamProcessSolicitudCreatebeforeFaltasDeficientesDetalleInput | string[]
+    beforeFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudCreatebeforeFaltasEliminatoriasDetalleInput | string[]
+    beforeMotivoNoApto?: string | null
+    afterEstado: string
+    afterErrores?: number | null
+    afterAciertos?: number | null
+    afterFaltasLeves: number
+    afterFaltasDeficientes: number
+    afterFaltasEliminatorias: number
+    afterFaltasLevesDetalle?: PracticalExamProcessSolicitudCreateafterFaltasLevesDetalleInput | string[]
+    afterFaltasDeficientesDetalle?: PracticalExamProcessSolicitudCreateafterFaltasDeficientesDetalleInput | string[]
+    afterFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudCreateafterFaltasEliminatoriasDetalleInput | string[]
+    afterMotivoNoApto?: string | null
+    createdExamenId?: string | null
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+  }
+
+  export type PracticalExamProcessSolicitudUncheckedCreateWithoutBatchInput = {
+    id?: bigint | number
+    solicitudId: string
+    alumnoId: string
+    beforeEstado: string
+    beforeErrores?: number | null
+    beforeAciertos?: number | null
+    beforeFaltasLeves?: number | null
+    beforeFaltasDeficientes?: number | null
+    beforeFaltasEliminatorias?: number | null
+    beforeFaltasLevesDetalle?: PracticalExamProcessSolicitudCreatebeforeFaltasLevesDetalleInput | string[]
+    beforeFaltasDeficientesDetalle?: PracticalExamProcessSolicitudCreatebeforeFaltasDeficientesDetalleInput | string[]
+    beforeFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudCreatebeforeFaltasEliminatoriasDetalleInput | string[]
+    beforeMotivoNoApto?: string | null
+    afterEstado: string
+    afterErrores?: number | null
+    afterAciertos?: number | null
+    afterFaltasLeves: number
+    afterFaltasDeficientes: number
+    afterFaltasEliminatorias: number
+    afterFaltasLevesDetalle?: PracticalExamProcessSolicitudCreateafterFaltasLevesDetalleInput | string[]
+    afterFaltasDeficientesDetalle?: PracticalExamProcessSolicitudCreateafterFaltasDeficientesDetalleInput | string[]
+    afterFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudCreateafterFaltasEliminatoriasDetalleInput | string[]
+    afterMotivoNoApto?: string | null
+    createdExamenId?: string | null
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+  }
+
+  export type PracticalExamProcessSolicitudCreateOrConnectWithoutBatchInput = {
+    where: PracticalExamProcessSolicitudWhereUniqueInput
+    create: XOR<PracticalExamProcessSolicitudCreateWithoutBatchInput, PracticalExamProcessSolicitudUncheckedCreateWithoutBatchInput>
+  }
+
+  export type PracticalExamProcessSolicitudCreateManyBatchInputEnvelope = {
+    data: PracticalExamProcessSolicitudCreateManyBatchInput | PracticalExamProcessSolicitudCreateManyBatchInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PracticalExamProcessPagoCreateWithoutBatchInput = {
+    id?: bigint | number
+    pagoId: string
+    alumnoId: string
+    beforeConvocatoriasConsumidas: number
+    afterConvocatoriasConsumidas: number
+    applied?: boolean
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+  }
+
+  export type PracticalExamProcessPagoUncheckedCreateWithoutBatchInput = {
+    id?: bigint | number
+    pagoId: string
+    alumnoId: string
+    beforeConvocatoriasConsumidas: number
+    afterConvocatoriasConsumidas: number
+    applied?: boolean
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+  }
+
+  export type PracticalExamProcessPagoCreateOrConnectWithoutBatchInput = {
+    where: PracticalExamProcessPagoWhereUniqueInput
+    create: XOR<PracticalExamProcessPagoCreateWithoutBatchInput, PracticalExamProcessPagoUncheckedCreateWithoutBatchInput>
+  }
+
+  export type PracticalExamProcessPagoCreateManyBatchInputEnvelope = {
+    data: PracticalExamProcessPagoCreateManyBatchInput | PracticalExamProcessPagoCreateManyBatchInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PracticalExamProcessSolicitudUpsertWithWhereUniqueWithoutBatchInput = {
+    where: PracticalExamProcessSolicitudWhereUniqueInput
+    update: XOR<PracticalExamProcessSolicitudUpdateWithoutBatchInput, PracticalExamProcessSolicitudUncheckedUpdateWithoutBatchInput>
+    create: XOR<PracticalExamProcessSolicitudCreateWithoutBatchInput, PracticalExamProcessSolicitudUncheckedCreateWithoutBatchInput>
+  }
+
+  export type PracticalExamProcessSolicitudUpdateWithWhereUniqueWithoutBatchInput = {
+    where: PracticalExamProcessSolicitudWhereUniqueInput
+    data: XOR<PracticalExamProcessSolicitudUpdateWithoutBatchInput, PracticalExamProcessSolicitudUncheckedUpdateWithoutBatchInput>
+  }
+
+  export type PracticalExamProcessSolicitudUpdateManyWithWhereWithoutBatchInput = {
+    where: PracticalExamProcessSolicitudScalarWhereInput
+    data: XOR<PracticalExamProcessSolicitudUpdateManyMutationInput, PracticalExamProcessSolicitudUncheckedUpdateManyWithoutBatchInput>
+  }
+
+  export type PracticalExamProcessSolicitudScalarWhereInput = {
+    AND?: PracticalExamProcessSolicitudScalarWhereInput | PracticalExamProcessSolicitudScalarWhereInput[]
+    OR?: PracticalExamProcessSolicitudScalarWhereInput[]
+    NOT?: PracticalExamProcessSolicitudScalarWhereInput | PracticalExamProcessSolicitudScalarWhereInput[]
+    id?: BigIntFilter<"PracticalExamProcessSolicitud"> | bigint | number
+    batchId?: StringFilter<"PracticalExamProcessSolicitud"> | string
+    solicitudId?: StringFilter<"PracticalExamProcessSolicitud"> | string
+    alumnoId?: StringFilter<"PracticalExamProcessSolicitud"> | string
+    beforeEstado?: StringFilter<"PracticalExamProcessSolicitud"> | string
+    beforeErrores?: IntNullableFilter<"PracticalExamProcessSolicitud"> | number | null
+    beforeAciertos?: IntNullableFilter<"PracticalExamProcessSolicitud"> | number | null
+    beforeFaltasLeves?: IntNullableFilter<"PracticalExamProcessSolicitud"> | number | null
+    beforeFaltasDeficientes?: IntNullableFilter<"PracticalExamProcessSolicitud"> | number | null
+    beforeFaltasEliminatorias?: IntNullableFilter<"PracticalExamProcessSolicitud"> | number | null
+    beforeFaltasLevesDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    beforeFaltasDeficientesDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    beforeFaltasEliminatoriasDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    beforeMotivoNoApto?: StringNullableFilter<"PracticalExamProcessSolicitud"> | string | null
+    afterEstado?: StringFilter<"PracticalExamProcessSolicitud"> | string
+    afterErrores?: IntNullableFilter<"PracticalExamProcessSolicitud"> | number | null
+    afterAciertos?: IntNullableFilter<"PracticalExamProcessSolicitud"> | number | null
+    afterFaltasLeves?: IntFilter<"PracticalExamProcessSolicitud"> | number
+    afterFaltasDeficientes?: IntFilter<"PracticalExamProcessSolicitud"> | number
+    afterFaltasEliminatorias?: IntFilter<"PracticalExamProcessSolicitud"> | number
+    afterFaltasLevesDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    afterFaltasDeficientesDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    afterFaltasEliminatoriasDetalle?: StringNullableListFilter<"PracticalExamProcessSolicitud">
+    afterMotivoNoApto?: StringNullableFilter<"PracticalExamProcessSolicitud"> | string | null
+    createdExamenId?: StringNullableFilter<"PracticalExamProcessSolicitud"> | string | null
+    revertedAt?: DateTimeNullableFilter<"PracticalExamProcessSolicitud"> | Date | string | null
+    conflictReason?: StringNullableFilter<"PracticalExamProcessSolicitud"> | string | null
+  }
+
+  export type PracticalExamProcessPagoUpsertWithWhereUniqueWithoutBatchInput = {
+    where: PracticalExamProcessPagoWhereUniqueInput
+    update: XOR<PracticalExamProcessPagoUpdateWithoutBatchInput, PracticalExamProcessPagoUncheckedUpdateWithoutBatchInput>
+    create: XOR<PracticalExamProcessPagoCreateWithoutBatchInput, PracticalExamProcessPagoUncheckedCreateWithoutBatchInput>
+  }
+
+  export type PracticalExamProcessPagoUpdateWithWhereUniqueWithoutBatchInput = {
+    where: PracticalExamProcessPagoWhereUniqueInput
+    data: XOR<PracticalExamProcessPagoUpdateWithoutBatchInput, PracticalExamProcessPagoUncheckedUpdateWithoutBatchInput>
+  }
+
+  export type PracticalExamProcessPagoUpdateManyWithWhereWithoutBatchInput = {
+    where: PracticalExamProcessPagoScalarWhereInput
+    data: XOR<PracticalExamProcessPagoUpdateManyMutationInput, PracticalExamProcessPagoUncheckedUpdateManyWithoutBatchInput>
+  }
+
+  export type PracticalExamProcessPagoScalarWhereInput = {
+    AND?: PracticalExamProcessPagoScalarWhereInput | PracticalExamProcessPagoScalarWhereInput[]
+    OR?: PracticalExamProcessPagoScalarWhereInput[]
+    NOT?: PracticalExamProcessPagoScalarWhereInput | PracticalExamProcessPagoScalarWhereInput[]
+    id?: BigIntFilter<"PracticalExamProcessPago"> | bigint | number
+    batchId?: StringFilter<"PracticalExamProcessPago"> | string
+    pagoId?: StringFilter<"PracticalExamProcessPago"> | string
+    alumnoId?: StringFilter<"PracticalExamProcessPago"> | string
+    beforeConvocatoriasConsumidas?: IntFilter<"PracticalExamProcessPago"> | number
+    afterConvocatoriasConsumidas?: IntFilter<"PracticalExamProcessPago"> | number
+    applied?: BoolFilter<"PracticalExamProcessPago"> | boolean
+    revertedAt?: DateTimeNullableFilter<"PracticalExamProcessPago"> | Date | string | null
+    conflictReason?: StringNullableFilter<"PracticalExamProcessPago"> | string | null
+  }
+
+  export type PracticalExamProcessBatchCreateWithoutSolicitudesInput = {
+    id: string
+    status: string
+    mode: string
+    targetDate: Date | string
+    seed?: string | null
+    operator?: string | null
+    reason?: string | null
+    dryRun?: boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    appliedAt?: Date | string | null
+    rolledBackAt?: Date | string | null
+    pagos?: PracticalExamProcessPagoCreateNestedManyWithoutBatchInput
+  }
+
+  export type PracticalExamProcessBatchUncheckedCreateWithoutSolicitudesInput = {
+    id: string
+    status: string
+    mode: string
+    targetDate: Date | string
+    seed?: string | null
+    operator?: string | null
+    reason?: string | null
+    dryRun?: boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    appliedAt?: Date | string | null
+    rolledBackAt?: Date | string | null
+    pagos?: PracticalExamProcessPagoUncheckedCreateNestedManyWithoutBatchInput
+  }
+
+  export type PracticalExamProcessBatchCreateOrConnectWithoutSolicitudesInput = {
+    where: PracticalExamProcessBatchWhereUniqueInput
+    create: XOR<PracticalExamProcessBatchCreateWithoutSolicitudesInput, PracticalExamProcessBatchUncheckedCreateWithoutSolicitudesInput>
+  }
+
+  export type PracticalExamProcessBatchUpsertWithoutSolicitudesInput = {
+    update: XOR<PracticalExamProcessBatchUpdateWithoutSolicitudesInput, PracticalExamProcessBatchUncheckedUpdateWithoutSolicitudesInput>
+    create: XOR<PracticalExamProcessBatchCreateWithoutSolicitudesInput, PracticalExamProcessBatchUncheckedCreateWithoutSolicitudesInput>
+    where?: PracticalExamProcessBatchWhereInput
+  }
+
+  export type PracticalExamProcessBatchUpdateToOneWithWhereWithoutSolicitudesInput = {
+    where?: PracticalExamProcessBatchWhereInput
+    data: XOR<PracticalExamProcessBatchUpdateWithoutSolicitudesInput, PracticalExamProcessBatchUncheckedUpdateWithoutSolicitudesInput>
+  }
+
+  export type PracticalExamProcessBatchUpdateWithoutSolicitudesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    targetDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seed?: NullableStringFieldUpdateOperationsInput | string | null
+    operator?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    dryRun?: BoolFieldUpdateOperationsInput | boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    appliedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rolledBackAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pagos?: PracticalExamProcessPagoUpdateManyWithoutBatchNestedInput
+  }
+
+  export type PracticalExamProcessBatchUncheckedUpdateWithoutSolicitudesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    targetDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seed?: NullableStringFieldUpdateOperationsInput | string | null
+    operator?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    dryRun?: BoolFieldUpdateOperationsInput | boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    appliedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rolledBackAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pagos?: PracticalExamProcessPagoUncheckedUpdateManyWithoutBatchNestedInput
+  }
+
+  export type PracticalExamProcessBatchCreateWithoutPagosInput = {
+    id: string
+    status: string
+    mode: string
+    targetDate: Date | string
+    seed?: string | null
+    operator?: string | null
+    reason?: string | null
+    dryRun?: boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    appliedAt?: Date | string | null
+    rolledBackAt?: Date | string | null
+    solicitudes?: PracticalExamProcessSolicitudCreateNestedManyWithoutBatchInput
+  }
+
+  export type PracticalExamProcessBatchUncheckedCreateWithoutPagosInput = {
+    id: string
+    status: string
+    mode: string
+    targetDate: Date | string
+    seed?: string | null
+    operator?: string | null
+    reason?: string | null
+    dryRun?: boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    appliedAt?: Date | string | null
+    rolledBackAt?: Date | string | null
+    solicitudes?: PracticalExamProcessSolicitudUncheckedCreateNestedManyWithoutBatchInput
+  }
+
+  export type PracticalExamProcessBatchCreateOrConnectWithoutPagosInput = {
+    where: PracticalExamProcessBatchWhereUniqueInput
+    create: XOR<PracticalExamProcessBatchCreateWithoutPagosInput, PracticalExamProcessBatchUncheckedCreateWithoutPagosInput>
+  }
+
+  export type PracticalExamProcessBatchUpsertWithoutPagosInput = {
+    update: XOR<PracticalExamProcessBatchUpdateWithoutPagosInput, PracticalExamProcessBatchUncheckedUpdateWithoutPagosInput>
+    create: XOR<PracticalExamProcessBatchCreateWithoutPagosInput, PracticalExamProcessBatchUncheckedCreateWithoutPagosInput>
+    where?: PracticalExamProcessBatchWhereInput
+  }
+
+  export type PracticalExamProcessBatchUpdateToOneWithWhereWithoutPagosInput = {
+    where?: PracticalExamProcessBatchWhereInput
+    data: XOR<PracticalExamProcessBatchUpdateWithoutPagosInput, PracticalExamProcessBatchUncheckedUpdateWithoutPagosInput>
+  }
+
+  export type PracticalExamProcessBatchUpdateWithoutPagosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    targetDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seed?: NullableStringFieldUpdateOperationsInput | string | null
+    operator?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    dryRun?: BoolFieldUpdateOperationsInput | boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    appliedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rolledBackAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    solicitudes?: PracticalExamProcessSolicitudUpdateManyWithoutBatchNestedInput
+  }
+
+  export type PracticalExamProcessBatchUncheckedUpdateWithoutPagosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    targetDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    seed?: NullableStringFieldUpdateOperationsInput | string | null
+    operator?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    dryRun?: BoolFieldUpdateOperationsInput | boolean
+    summary?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    appliedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rolledBackAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    solicitudes?: PracticalExamProcessSolicitudUncheckedUpdateManyWithoutBatchNestedInput
   }
 
   export type TheoreticalExamProcessSolicitudCreateWithoutBatchInput = {
@@ -64909,6 +73271,142 @@ export namespace Prisma {
     hojaRuta?: HojaRutaUncheckedUpdateOneWithoutClasePracticaNestedInput
   }
 
+  export type ProfesorCreateWithoutGastosCombustibleInput = {
+    licenciaConducir: string
+    telefono: string
+    activo?: boolean
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
+    clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
+    clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
+    horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
+    usuario: UsuarioCreateNestedOneWithoutProfesorInput
+  }
+
+  export type ProfesorUncheckedCreateWithoutGastosCombustibleInput = {
+    id: string
+    licenciaConducir: string
+    telefono: string
+    activo?: boolean
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
+    clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
+    horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
+  }
+
+  export type ProfesorCreateOrConnectWithoutGastosCombustibleInput = {
+    where: ProfesorWhereUniqueInput
+    create: XOR<ProfesorCreateWithoutGastosCombustibleInput, ProfesorUncheckedCreateWithoutGastosCombustibleInput>
+  }
+
+  export type VehiculoCreateWithoutGastosCombustibleInput = {
+    id?: string
+    matricula: string
+    marca?: string | null
+    modelo?: string | null
+    tipoPermiso: string
+    kmActuales?: number
+    combustibleActualPct?: number
+    activo?: boolean
+    imagenRuta?: string | null
+    clases?: ClasePracticaCreateNestedManyWithoutVehiculoInput
+  }
+
+  export type VehiculoUncheckedCreateWithoutGastosCombustibleInput = {
+    id?: string
+    matricula: string
+    marca?: string | null
+    modelo?: string | null
+    tipoPermiso: string
+    kmActuales?: number
+    combustibleActualPct?: number
+    activo?: boolean
+    imagenRuta?: string | null
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutVehiculoInput
+  }
+
+  export type VehiculoCreateOrConnectWithoutGastosCombustibleInput = {
+    where: VehiculoWhereUniqueInput
+    create: XOR<VehiculoCreateWithoutGastosCombustibleInput, VehiculoUncheckedCreateWithoutGastosCombustibleInput>
+  }
+
+  export type ProfesorUpsertWithoutGastosCombustibleInput = {
+    update: XOR<ProfesorUpdateWithoutGastosCombustibleInput, ProfesorUncheckedUpdateWithoutGastosCombustibleInput>
+    create: XOR<ProfesorCreateWithoutGastosCombustibleInput, ProfesorUncheckedCreateWithoutGastosCombustibleInput>
+    where?: ProfesorWhereInput
+  }
+
+  export type ProfesorUpdateToOneWithWhereWithoutGastosCombustibleInput = {
+    where?: ProfesorWhereInput
+    data: XOR<ProfesorUpdateWithoutGastosCombustibleInput, ProfesorUncheckedUpdateWithoutGastosCombustibleInput>
+  }
+
+  export type ProfesorUpdateWithoutGastosCombustibleInput = {
+    licenciaConducir?: StringFieldUpdateOperationsInput | string
+    telefono?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
+    clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
+    clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
+    horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
+    usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
+  }
+
+  export type ProfesorUncheckedUpdateWithoutGastosCombustibleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    licenciaConducir?: StringFieldUpdateOperationsInput | string
+    telefono?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
+    clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
+    clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
+    horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
+  }
+
+  export type VehiculoUpsertWithoutGastosCombustibleInput = {
+    update: XOR<VehiculoUpdateWithoutGastosCombustibleInput, VehiculoUncheckedUpdateWithoutGastosCombustibleInput>
+    create: XOR<VehiculoCreateWithoutGastosCombustibleInput, VehiculoUncheckedCreateWithoutGastosCombustibleInput>
+    where?: VehiculoWhereInput
+  }
+
+  export type VehiculoUpdateToOneWithWhereWithoutGastosCombustibleInput = {
+    where?: VehiculoWhereInput
+    data: XOR<VehiculoUpdateWithoutGastosCombustibleInput, VehiculoUncheckedUpdateWithoutGastosCombustibleInput>
+  }
+
+  export type VehiculoUpdateWithoutGastosCombustibleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matricula?: StringFieldUpdateOperationsInput | string
+    marca?: NullableStringFieldUpdateOperationsInput | string | null
+    modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoPermiso?: StringFieldUpdateOperationsInput | string
+    kmActuales?: IntFieldUpdateOperationsInput | number
+    combustibleActualPct?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    clases?: ClasePracticaUpdateManyWithoutVehiculoNestedInput
+  }
+
+  export type VehiculoUncheckedUpdateWithoutGastosCombustibleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matricula?: StringFieldUpdateOperationsInput | string
+    marca?: NullableStringFieldUpdateOperationsInput | string | null
+    modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoPermiso?: StringFieldUpdateOperationsInput | string
+    kmActuales?: IntFieldUpdateOperationsInput | number
+    combustibleActualPct?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    clases?: ClasePracticaUncheckedUpdateManyWithoutVehiculoNestedInput
+  }
+
   export type UsuarioCreateWithoutNotificacionesInput = {
     id?: string
     nombre: string
@@ -65103,6 +73601,23 @@ export namespace Prisma {
     canceladaConPenalizacion?: boolean
   }
 
+  export type GastoCombustibleCreateManyProfesorInput = {
+    id?: string
+    numeroFactura: string
+    vehiculoId: string
+    titularTarjeta: string
+    numeroTarjeta: string
+    combustibleAntesPct: number
+    combustibleDespuesPct?: number
+    litrosRepostados: Decimal | DecimalJsLike | number | string
+    precioLitro: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo: number
+    rutaRecibo?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type HojaRutaCreateManyProfesorInput = {
     id?: string
     clasePracticaId: string
@@ -65257,6 +73772,57 @@ export namespace Prisma {
     pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
     canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type GastoCombustibleUpdateWithoutProfesorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numeroFactura?: StringFieldUpdateOperationsInput | string
+    titularTarjeta?: StringFieldUpdateOperationsInput | string
+    numeroTarjeta?: StringFieldUpdateOperationsInput | string
+    combustibleAntesPct?: IntFieldUpdateOperationsInput | number
+    combustibleDespuesPct?: IntFieldUpdateOperationsInput | number
+    litrosRepostados?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioLitro?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo?: IntFieldUpdateOperationsInput | number
+    rutaRecibo?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vehiculo?: VehiculoUpdateOneRequiredWithoutGastosCombustibleNestedInput
+  }
+
+  export type GastoCombustibleUncheckedUpdateWithoutProfesorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numeroFactura?: StringFieldUpdateOperationsInput | string
+    vehiculoId?: StringFieldUpdateOperationsInput | string
+    titularTarjeta?: StringFieldUpdateOperationsInput | string
+    numeroTarjeta?: StringFieldUpdateOperationsInput | string
+    combustibleAntesPct?: IntFieldUpdateOperationsInput | number
+    combustibleDespuesPct?: IntFieldUpdateOperationsInput | number
+    litrosRepostados?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioLitro?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo?: IntFieldUpdateOperationsInput | number
+    rutaRecibo?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GastoCombustibleUncheckedUpdateManyWithoutProfesorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numeroFactura?: StringFieldUpdateOperationsInput | string
+    vehiculoId?: StringFieldUpdateOperationsInput | string
+    titularTarjeta?: StringFieldUpdateOperationsInput | string
+    numeroTarjeta?: StringFieldUpdateOperationsInput | string
+    combustibleAntesPct?: IntFieldUpdateOperationsInput | number
+    combustibleDespuesPct?: IntFieldUpdateOperationsInput | number
+    litrosRepostados?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioLitro?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo?: IntFieldUpdateOperationsInput | number
+    rutaRecibo?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type HojaRutaUpdateWithoutProfesorInput = {
@@ -65415,8 +73981,16 @@ export namespace Prisma {
     estado?: string
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
+    pagoGastoPracticoId?: string | null
     erroresExamen?: number | null
     aciertosExamen?: number | null
+    faltasLeves?: number | null
+    faltasDeficientes?: number | null
+    faltasEliminatorias?: number | null
+    faltasLevesDetalle?: SolicitudExamenCreatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenCreatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenCreatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: string | null
     observaciones?: string | null
   }
 
@@ -65639,6 +74213,7 @@ export namespace Prisma {
     matricula?: MatriculaUpdateOneWithoutPagosNestedInput
     compraBono?: CompraBonoUpdateOneWithoutPagosNestedInput
     clasePractica?: ClasePracticaUpdateOneWithoutPagosNestedInput
+    solicitudesExamenPractico?: SolicitudExamenUpdateManyWithoutPagoGastoPracticoNestedInput
   }
 
   export type PagoUncheckedUpdateWithoutAlumnoInput = {
@@ -65657,6 +74232,7 @@ export namespace Prisma {
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    solicitudesExamenPractico?: SolicitudExamenUncheckedUpdateManyWithoutPagoGastoPracticoNestedInput
   }
 
   export type PagoUncheckedUpdateManyWithoutAlumnoInput = {
@@ -65727,7 +74303,15 @@ export namespace Prisma {
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
     aciertosExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLeves?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasDeficientes?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasEliminatorias?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLevesDetalle?: SolicitudExamenUpdatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenUpdatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    pagoGastoPractico?: PagoUpdateOneWithoutSolicitudesExamenPracticoNestedInput
   }
 
   export type SolicitudExamenUncheckedUpdateWithoutAlumnoInput = {
@@ -65736,8 +74320,16 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pagoGastoPracticoId?: NullableStringFieldUpdateOperationsInput | string | null
     erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
     aciertosExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLeves?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasDeficientes?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasEliminatorias?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLevesDetalle?: SolicitudExamenUpdatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenUpdatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -65747,8 +74339,16 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pagoGastoPracticoId?: NullableStringFieldUpdateOperationsInput | string | null
     erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
     aciertosExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLeves?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasDeficientes?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasEliminatorias?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLevesDetalle?: SolicitudExamenUpdatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenUpdatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -66160,6 +74760,7 @@ export namespace Prisma {
     alumno?: AlumnoUpdateOneRequiredWithoutPagosNestedInput
     matricula?: MatriculaUpdateOneWithoutPagosNestedInput
     clasePractica?: ClasePracticaUpdateOneWithoutPagosNestedInput
+    solicitudesExamenPractico?: SolicitudExamenUpdateManyWithoutPagoGastoPracticoNestedInput
   }
 
   export type PagoUncheckedUpdateWithoutCompraBonoInput = {
@@ -66178,6 +74779,7 @@ export namespace Prisma {
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    solicitudesExamenPractico?: SolicitudExamenUncheckedUpdateManyWithoutPagoGastoPracticoNestedInput
   }
 
   export type PagoUncheckedUpdateManyWithoutCompraBonoInput = {
@@ -66305,6 +74907,23 @@ export namespace Prisma {
     canceladaConPenalizacion?: boolean
   }
 
+  export type GastoCombustibleCreateManyVehiculoInput = {
+    id?: string
+    numeroFactura: string
+    profesorId: string
+    titularTarjeta: string
+    numeroTarjeta: string
+    combustibleAntesPct: number
+    combustibleDespuesPct?: number
+    litrosRepostados: Decimal | DecimalJsLike | number | string
+    precioLitro: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo: number
+    rutaRecibo?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ClasePracticaUpdateWithoutVehiculoInput = {
     id?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66351,6 +74970,57 @@ export namespace Prisma {
     pagoLimiteAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     canceladaPor?: NullableStringFieldUpdateOperationsInput | string | null
     canceladaConPenalizacion?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type GastoCombustibleUpdateWithoutVehiculoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numeroFactura?: StringFieldUpdateOperationsInput | string
+    titularTarjeta?: StringFieldUpdateOperationsInput | string
+    numeroTarjeta?: StringFieldUpdateOperationsInput | string
+    combustibleAntesPct?: IntFieldUpdateOperationsInput | number
+    combustibleDespuesPct?: IntFieldUpdateOperationsInput | number
+    litrosRepostados?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioLitro?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo?: IntFieldUpdateOperationsInput | number
+    rutaRecibo?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    profesor?: ProfesorUpdateOneRequiredWithoutGastosCombustibleNestedInput
+  }
+
+  export type GastoCombustibleUncheckedUpdateWithoutVehiculoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numeroFactura?: StringFieldUpdateOperationsInput | string
+    profesorId?: StringFieldUpdateOperationsInput | string
+    titularTarjeta?: StringFieldUpdateOperationsInput | string
+    numeroTarjeta?: StringFieldUpdateOperationsInput | string
+    combustibleAntesPct?: IntFieldUpdateOperationsInput | number
+    combustibleDespuesPct?: IntFieldUpdateOperationsInput | number
+    litrosRepostados?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioLitro?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo?: IntFieldUpdateOperationsInput | number
+    rutaRecibo?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GastoCombustibleUncheckedUpdateManyWithoutVehiculoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numeroFactura?: StringFieldUpdateOperationsInput | string
+    profesorId?: StringFieldUpdateOperationsInput | string
+    titularTarjeta?: StringFieldUpdateOperationsInput | string
+    numeroTarjeta?: StringFieldUpdateOperationsInput | string
+    combustibleAntesPct?: IntFieldUpdateOperationsInput | number
+    combustibleDespuesPct?: IntFieldUpdateOperationsInput | number
+    litrosRepostados?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    precioLitro?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    kilometrosVehiculo?: IntFieldUpdateOperationsInput | number
+    rutaRecibo?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PagoCreateManyClasePracticaInput = {
@@ -66402,6 +75072,7 @@ export namespace Prisma {
     alumno?: AlumnoUpdateOneRequiredWithoutPagosNestedInput
     matricula?: MatriculaUpdateOneWithoutPagosNestedInput
     compraBono?: CompraBonoUpdateOneWithoutPagosNestedInput
+    solicitudesExamenPractico?: SolicitudExamenUpdateManyWithoutPagoGastoPracticoNestedInput
   }
 
   export type PagoUncheckedUpdateWithoutClasePracticaInput = {
@@ -66420,6 +75091,7 @@ export namespace Prisma {
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    solicitudesExamenPractico?: SolicitudExamenUncheckedUpdateManyWithoutPagoGastoPracticoNestedInput
   }
 
   export type PagoUncheckedUpdateManyWithoutClasePracticaInput = {
@@ -66833,6 +75505,7 @@ export namespace Prisma {
     alumno?: AlumnoUpdateOneRequiredWithoutPagosNestedInput
     compraBono?: CompraBonoUpdateOneWithoutPagosNestedInput
     clasePractica?: ClasePracticaUpdateOneWithoutPagosNestedInput
+    solicitudesExamenPractico?: SolicitudExamenUpdateManyWithoutPagoGastoPracticoNestedInput
   }
 
   export type PagoUncheckedUpdateWithoutMatriculaInput = {
@@ -66851,6 +75524,7 @@ export namespace Prisma {
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     numeroFacturaPago?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    solicitudesExamenPractico?: SolicitudExamenUncheckedUpdateManyWithoutPagoGastoPracticoNestedInput
   }
 
   export type PagoUncheckedUpdateManyWithoutMatriculaInput = {
@@ -66905,6 +75579,242 @@ export namespace Prisma {
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SolicitudExamenCreateManyPagoGastoPracticoInput = {
+    id?: string
+    alumnoId: string
+    tipo: string
+    estado?: string
+    fechaSolicitud?: Date | string
+    fechaProgramada?: Date | string | null
+    erroresExamen?: number | null
+    aciertosExamen?: number | null
+    faltasLeves?: number | null
+    faltasDeficientes?: number | null
+    faltasEliminatorias?: number | null
+    faltasLevesDetalle?: SolicitudExamenCreatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenCreatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenCreatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: string | null
+    observaciones?: string | null
+  }
+
+  export type SolicitudExamenUpdateWithoutPagoGastoPracticoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    aciertosExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLeves?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasDeficientes?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasEliminatorias?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLevesDetalle?: SolicitudExamenUpdatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenUpdatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    alumno?: AlumnoUpdateOneRequiredWithoutSolicitudesExamenNestedInput
+  }
+
+  export type SolicitudExamenUncheckedUpdateWithoutPagoGastoPracticoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    aciertosExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLeves?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasDeficientes?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasEliminatorias?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLevesDetalle?: SolicitudExamenUpdatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenUpdatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SolicitudExamenUncheckedUpdateManyWithoutPagoGastoPracticoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    aciertosExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLeves?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasDeficientes?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasEliminatorias?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLevesDetalle?: SolicitudExamenUpdatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenUpdatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PracticalExamProcessSolicitudCreateManyBatchInput = {
+    id?: bigint | number
+    solicitudId: string
+    alumnoId: string
+    beforeEstado: string
+    beforeErrores?: number | null
+    beforeAciertos?: number | null
+    beforeFaltasLeves?: number | null
+    beforeFaltasDeficientes?: number | null
+    beforeFaltasEliminatorias?: number | null
+    beforeFaltasLevesDetalle?: PracticalExamProcessSolicitudCreatebeforeFaltasLevesDetalleInput | string[]
+    beforeFaltasDeficientesDetalle?: PracticalExamProcessSolicitudCreatebeforeFaltasDeficientesDetalleInput | string[]
+    beforeFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudCreatebeforeFaltasEliminatoriasDetalleInput | string[]
+    beforeMotivoNoApto?: string | null
+    afterEstado: string
+    afterErrores?: number | null
+    afterAciertos?: number | null
+    afterFaltasLeves: number
+    afterFaltasDeficientes: number
+    afterFaltasEliminatorias: number
+    afterFaltasLevesDetalle?: PracticalExamProcessSolicitudCreateafterFaltasLevesDetalleInput | string[]
+    afterFaltasDeficientesDetalle?: PracticalExamProcessSolicitudCreateafterFaltasDeficientesDetalleInput | string[]
+    afterFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudCreateafterFaltasEliminatoriasDetalleInput | string[]
+    afterMotivoNoApto?: string | null
+    createdExamenId?: string | null
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+  }
+
+  export type PracticalExamProcessPagoCreateManyBatchInput = {
+    id?: bigint | number
+    pagoId: string
+    alumnoId: string
+    beforeConvocatoriasConsumidas: number
+    afterConvocatoriasConsumidas: number
+    applied?: boolean
+    revertedAt?: Date | string | null
+    conflictReason?: string | null
+  }
+
+  export type PracticalExamProcessSolicitudUpdateWithoutBatchInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    solicitudId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeEstado?: StringFieldUpdateOperationsInput | string
+    beforeErrores?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeAciertos?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasLeves?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasDeficientes?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasEliminatorias?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasLevesDetalle?: PracticalExamProcessSolicitudUpdatebeforeFaltasLevesDetalleInput | string[]
+    beforeFaltasDeficientesDetalle?: PracticalExamProcessSolicitudUpdatebeforeFaltasDeficientesDetalleInput | string[]
+    beforeFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudUpdatebeforeFaltasEliminatoriasDetalleInput | string[]
+    beforeMotivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
+    afterEstado?: StringFieldUpdateOperationsInput | string
+    afterErrores?: NullableIntFieldUpdateOperationsInput | number | null
+    afterAciertos?: NullableIntFieldUpdateOperationsInput | number | null
+    afterFaltasLeves?: IntFieldUpdateOperationsInput | number
+    afterFaltasDeficientes?: IntFieldUpdateOperationsInput | number
+    afterFaltasEliminatorias?: IntFieldUpdateOperationsInput | number
+    afterFaltasLevesDetalle?: PracticalExamProcessSolicitudUpdateafterFaltasLevesDetalleInput | string[]
+    afterFaltasDeficientesDetalle?: PracticalExamProcessSolicitudUpdateafterFaltasDeficientesDetalleInput | string[]
+    afterFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudUpdateafterFaltasEliminatoriasDetalleInput | string[]
+    afterMotivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
+    createdExamenId?: NullableStringFieldUpdateOperationsInput | string | null
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PracticalExamProcessSolicitudUncheckedUpdateWithoutBatchInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    solicitudId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeEstado?: StringFieldUpdateOperationsInput | string
+    beforeErrores?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeAciertos?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasLeves?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasDeficientes?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasEliminatorias?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasLevesDetalle?: PracticalExamProcessSolicitudUpdatebeforeFaltasLevesDetalleInput | string[]
+    beforeFaltasDeficientesDetalle?: PracticalExamProcessSolicitudUpdatebeforeFaltasDeficientesDetalleInput | string[]
+    beforeFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudUpdatebeforeFaltasEliminatoriasDetalleInput | string[]
+    beforeMotivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
+    afterEstado?: StringFieldUpdateOperationsInput | string
+    afterErrores?: NullableIntFieldUpdateOperationsInput | number | null
+    afterAciertos?: NullableIntFieldUpdateOperationsInput | number | null
+    afterFaltasLeves?: IntFieldUpdateOperationsInput | number
+    afterFaltasDeficientes?: IntFieldUpdateOperationsInput | number
+    afterFaltasEliminatorias?: IntFieldUpdateOperationsInput | number
+    afterFaltasLevesDetalle?: PracticalExamProcessSolicitudUpdateafterFaltasLevesDetalleInput | string[]
+    afterFaltasDeficientesDetalle?: PracticalExamProcessSolicitudUpdateafterFaltasDeficientesDetalleInput | string[]
+    afterFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudUpdateafterFaltasEliminatoriasDetalleInput | string[]
+    afterMotivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
+    createdExamenId?: NullableStringFieldUpdateOperationsInput | string | null
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PracticalExamProcessSolicitudUncheckedUpdateManyWithoutBatchInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    solicitudId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeEstado?: StringFieldUpdateOperationsInput | string
+    beforeErrores?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeAciertos?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasLeves?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasDeficientes?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasEliminatorias?: NullableIntFieldUpdateOperationsInput | number | null
+    beforeFaltasLevesDetalle?: PracticalExamProcessSolicitudUpdatebeforeFaltasLevesDetalleInput | string[]
+    beforeFaltasDeficientesDetalle?: PracticalExamProcessSolicitudUpdatebeforeFaltasDeficientesDetalleInput | string[]
+    beforeFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudUpdatebeforeFaltasEliminatoriasDetalleInput | string[]
+    beforeMotivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
+    afterEstado?: StringFieldUpdateOperationsInput | string
+    afterErrores?: NullableIntFieldUpdateOperationsInput | number | null
+    afterAciertos?: NullableIntFieldUpdateOperationsInput | number | null
+    afterFaltasLeves?: IntFieldUpdateOperationsInput | number
+    afterFaltasDeficientes?: IntFieldUpdateOperationsInput | number
+    afterFaltasEliminatorias?: IntFieldUpdateOperationsInput | number
+    afterFaltasLevesDetalle?: PracticalExamProcessSolicitudUpdateafterFaltasLevesDetalleInput | string[]
+    afterFaltasDeficientesDetalle?: PracticalExamProcessSolicitudUpdateafterFaltasDeficientesDetalleInput | string[]
+    afterFaltasEliminatoriasDetalle?: PracticalExamProcessSolicitudUpdateafterFaltasEliminatoriasDetalleInput | string[]
+    afterMotivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
+    createdExamenId?: NullableStringFieldUpdateOperationsInput | string | null
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PracticalExamProcessPagoUpdateWithoutBatchInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    pagoId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    afterConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    applied?: BoolFieldUpdateOperationsInput | boolean
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PracticalExamProcessPagoUncheckedUpdateWithoutBatchInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    pagoId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    afterConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    applied?: BoolFieldUpdateOperationsInput | boolean
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PracticalExamProcessPagoUncheckedUpdateManyWithoutBatchInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    pagoId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    beforeConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    afterConvocatoriasConsumidas?: IntFieldUpdateOperationsInput | number
+    applied?: BoolFieldUpdateOperationsInput | boolean
+    revertedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    conflictReason?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TheoreticalExamProcessSolicitudCreateManyBatchInput = {

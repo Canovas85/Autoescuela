@@ -406,4 +406,187 @@ describe("SolicitudesExamenService", () => {
     expect(result[1].convocatoriasRestantes).toBe(1);
     expect(result[1].profesorAsignado).toBe("Profesor Uno");
   });
+
+  it("debe generar pago de gasto practico pendiente al cumplir requisitos base", async () => {
+    const repositoryMock = {
+      findMatriculaPagada: vi.fn().mockResolvedValue({
+        id: "matricula-1",
+        alumnoId: "alumno-1",
+        licencia: "B",
+      }),
+      hasPsicotecnicoValidado: vi.fn().mockResolvedValue(true),
+      countHojasRutaRegistradas: vi.fn().mockResolvedValue(5),
+      countHojasRutaRegistradasConClase: vi.fn().mockResolvedValue(5),
+      findSolicitudPracticoActiva: vi.fn().mockResolvedValue(null),
+      findUltimoPagoTasaDGT: vi.fn().mockResolvedValue({
+        id: "pago-dgt-1",
+        convocatoriasIncluidas: 2,
+        convocatoriasConsumidas: 0,
+      }),
+      findUltimoNoAptoPractico: vi.fn().mockResolvedValue(null),
+      findPagoGastoPracticoPendiente: vi.fn().mockResolvedValue(null),
+      findPagoGastoPracticoPagadoReutilizable: vi.fn().mockResolvedValue(null),
+      findTarifaGastoExamenPracticoByPermiso: vi.fn().mockResolvedValue({
+        concepto: "Gastos examen practico",
+        precio: 75,
+      }),
+      createPagoGastoPracticoPendiente: vi.fn().mockResolvedValue({
+        id: "pago-practico-1",
+        estado: "PENDIENTE",
+      }),
+    };
+
+    const service = new SolicitudesExamenService(repositoryMock);
+    const result = await service.getPracticalEligibilityForStudent("alumno-1");
+
+    expect(result.checks.pagoGastoPracticoGenerado).toBe(true);
+    expect(result.checks.pagoGastoPracticoPagado).toBe(false);
+    expect(repositoryMock.createPagoGastoPracticoPendiente).toHaveBeenCalled();
+  });
+
+  it("debe crear solicitud practico cuando pago esta abonado", async () => {
+    const repositoryMock = {
+      findMatriculaPagada: vi.fn().mockResolvedValue({
+        id: "matricula-1",
+        alumnoId: "alumno-1",
+        licencia: "B",
+      }),
+      hasPsicotecnicoValidado: vi.fn().mockResolvedValue(true),
+      countHojasRutaRegistradas: vi.fn().mockResolvedValue(5),
+      countHojasRutaRegistradasConClase: vi.fn().mockResolvedValue(5),
+      findSolicitudPracticoActiva: vi.fn().mockResolvedValue(null),
+      findUltimoPagoTasaDGT: vi.fn().mockResolvedValue({
+        id: "pago-dgt-1",
+        convocatoriasIncluidas: 2,
+        convocatoriasConsumidas: 0,
+      }),
+      findUltimoNoAptoPractico: vi.fn().mockResolvedValue(null),
+      findPagoGastoPracticoPendiente: vi.fn().mockResolvedValue(null),
+      findPagoGastoPracticoPagadoReutilizable: vi.fn().mockResolvedValue({
+        id: "pago-practico-1",
+        estado: "PAGADO",
+      }),
+      findConvocatoriaPracticoByFecha: vi.fn().mockResolvedValue({
+        id: "conv-pr-1",
+      }),
+      create: vi.fn().mockResolvedValue({
+        id: "sol-pr-1",
+        tipo: "PRACTICO",
+        estado: "SOLICITADO",
+      }),
+    };
+
+    const service = new SolicitudesExamenService(repositoryMock);
+
+    const result = await service.createPracticalRequestForStudent("alumno-1", {
+      fechaProgramada: "2026-09-30",
+    });
+
+    expect(result.estado).toBe("SOLICITADO");
+    expect(repositoryMock.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        tipo: "PRACTICO",
+        pagoGastoPracticoId: "pago-practico-1",
+      }),
+    );
+  });
+
+  it("debe procesar resultados practicos con faltas y consumir convocatoria en no apto", async () => {
+    const repositoryMock = {
+      findSolicitudesPracticoPendientesResultado: vi.fn().mockResolvedValue([
+        {
+          id: "sol-pr-1",
+          alumnoId: "alumno-1",
+          fechaProgramada: new Date("2026-09-10T10:00:00.000Z"),
+          fechaSolicitud: new Date("2026-09-01T10:00:00.000Z"),
+        },
+      ]),
+      updateResultadoSolicitudPracticoIfPending: vi
+        .fn()
+        .mockResolvedValue(true),
+      createExamenResultadoPractico: vi.fn().mockResolvedValue({
+        id: "ex-pr-1",
+      }),
+      findMatriculaPagada: vi.fn().mockResolvedValue({
+        id: "mat-1",
+        licencia: "B",
+      }),
+      findUltimoPagoTasaDGT: vi.fn().mockResolvedValue({
+        id: "pago-dgt-1",
+        convocatoriasIncluidas: 2,
+        convocatoriasConsumidas: 0,
+      }),
+      incrementarConvocatoriasConsumidas: vi.fn().mockResolvedValue({
+        id: "pago-dgt-1",
+      }),
+    };
+
+    const service = new SolicitudesExamenService(repositoryMock);
+
+    const result = await service.processScheduledPracticalResults({
+      randomFn: () => 0.95,
+    });
+
+    expect(
+      repositoryMock.updateResultadoSolicitudPracticoIfPending,
+    ).toHaveBeenCalled();
+    expect(repositoryMock.createExamenResultadoPractico).toHaveBeenCalled();
+    expect(
+      repositoryMock.incrementarConvocatoriasConsumidas,
+    ).toHaveBeenCalledWith("pago-dgt-1");
+    expect(result.procesadas).toBe(1);
+    expect(result.noAptos).toBe(1);
+  });
+
+  it("debe evitar doble evaluacion practica del mismo alumno y fecha", async () => {
+    const repositoryMock = {
+      findSolicitudesPracticoPendientesResultado: vi.fn().mockResolvedValue([
+        {
+          id: "sol-pr-1",
+          alumnoId: "alumno-1",
+          fechaProgramada: new Date("2026-09-18T10:00:00.000Z"),
+          fechaSolicitud: new Date("2026-09-01T10:00:00.000Z"),
+        },
+        {
+          id: "sol-pr-2",
+          alumnoId: "alumno-1",
+          fechaProgramada: new Date("2026-09-18T12:00:00.000Z"),
+          fechaSolicitud: new Date("2026-09-01T11:00:00.000Z"),
+        },
+      ]),
+      updateResultadoSolicitudPracticoIfPending: vi
+        .fn()
+        .mockResolvedValue(true),
+      createExamenResultadoPractico: vi.fn().mockResolvedValue({ id: "ex-1" }),
+      findMatriculaPagada: vi.fn().mockResolvedValue({
+        id: "mat-1",
+        licencia: "B",
+      }),
+      findUltimoPagoTasaDGT: vi.fn().mockResolvedValue({
+        id: "pago-dgt-1",
+        convocatoriasIncluidas: 2,
+        convocatoriasConsumidas: 0,
+      }),
+      incrementarConvocatoriasConsumidas: vi.fn(),
+    };
+
+    const service = new SolicitudesExamenService(repositoryMock);
+
+    const result = await service.processScheduledPracticalResults({
+      randomFn: () => 0.1,
+    });
+
+    expect(result.procesadas).toBe(1);
+    expect(repositoryMock.createExamenResultadoPractico).toHaveBeenCalledTimes(
+      1,
+    );
+    expect(
+      repositoryMock.updateResultadoSolicitudPracticoIfPending,
+    ).toHaveBeenCalledWith(
+      "sol-pr-2",
+      expect.objectContaining({
+        estado: "CANCELADO",
+      }),
+    );
+  });
 });

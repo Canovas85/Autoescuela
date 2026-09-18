@@ -174,6 +174,14 @@ const isClassCancelled = (clase) => {
     .startsWith("CANCELADA");
 };
 
+const isClassCompleted = (clase) => {
+  const estado = String(clase?.estado || "")
+    .trim()
+    .toUpperCase();
+
+  return ["COMPLETADA", "REALIZADA", "FINALIZADA"].includes(estado);
+};
+
 const deriveRoadmapStatus = (clase, now) => {
   if (isClassCancelled(clase)) {
     return ROADMAP_STATUS.CANCELADA;
@@ -206,6 +214,9 @@ const mapFault = (falta) => ({
 const mapClassRoadmap = (clase, now) => {
   const status = deriveRoadmapStatus(clase, now);
   const hoja = clase.hojaRuta;
+  const kilometrosVehiculoActuales = clase.vehiculo?.kmActuales ?? null;
+  const combustibleVehiculoActual =
+    clase.vehiculo?.combustibleActualPct ?? null;
 
   return {
     id: hoja?.id || null,
@@ -229,10 +240,11 @@ const mapClassRoadmap = (clase, now) => {
       matricula: clase.vehiculo?.matricula || "",
     },
     observacionesProfesor: hoja?.observacionesProfesor || "",
-    kilometrosInicio: hoja?.kilometrosInicio ?? null,
-    kilometrosFin: hoja?.kilometrosFin ?? null,
-    combustibleInicioPct: hoja?.combustibleInicioPct ?? null,
-    combustibleFinPct: hoja?.combustibleFinPct ?? null,
+    kilometrosInicio: hoja?.kilometrosInicio ?? kilometrosVehiculoActuales,
+    kilometrosFin: hoja?.kilometrosFin ?? kilometrosVehiculoActuales,
+    combustibleInicioPct:
+      hoja?.combustibleInicioPct ?? combustibleVehiculoActual,
+    combustibleFinPct: hoja?.combustibleFinPct ?? combustibleVehiculoActual,
     faltas: (hoja?.faltas || []).map(mapFault),
     resumenFaltas: {
       leves: (hoja?.faltas || []).filter((item) => item.tipo === "LEVE").length,
@@ -478,6 +490,16 @@ export class HojasRutaService {
 
     const normalized = normalizeEditablePayload(payload);
 
+    if (normalized.kilometrosFin === null) {
+      throw new Error(
+        "Los kilómetros actuales son obligatorios para finalizar",
+      );
+    }
+
+    if (normalized.combustibleFinPct === null) {
+      throw new Error("El combustible actual es obligatorio para finalizar");
+    }
+
     const roadmap = await this.repository.upsertRoadmapByClass(clase, {
       estado: ROADMAP_STATUS.REGISTRADA,
       observacionesProfesor: normalized.observacionesProfesor || null,
@@ -492,6 +514,25 @@ export class HojasRutaService {
       roadmap.id,
       normalized.faltasNormalizadas,
     );
+
+    await this.repository.updateVehicleTelemetry(clase.vehiculoId, {
+      kmActuales: normalized.kilometrosFin,
+      combustibleActualPct: normalized.combustibleFinPct,
+    });
+
+    const alreadyCompleted = isClassCompleted(clase);
+
+    if (!alreadyCompleted) {
+      await this.repository.markClassAsCompleted(clase.id);
+    }
+
+    if (
+      !alreadyCompleted &&
+      clase.metodoPago === "BONO" &&
+      clase.compraBonoId
+    ) {
+      await this.repository.consumeBonoClassIfAvailable(clase.compraBonoId);
+    }
 
     const refreshed = await this.repository.findClassById(claseId);
 

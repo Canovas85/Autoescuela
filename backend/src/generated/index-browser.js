@@ -294,8 +294,16 @@ exports.Prisma.SolicitudExamenScalarFieldEnum = {
   estado: 'estado',
   fechaSolicitud: 'fechaSolicitud',
   fechaProgramada: 'fechaProgramada',
+  pagoGastoPracticoId: 'pagoGastoPracticoId',
   erroresExamen: 'erroresExamen',
   aciertosExamen: 'aciertosExamen',
+  faltasLeves: 'faltasLeves',
+  faltasDeficientes: 'faltasDeficientes',
+  faltasEliminatorias: 'faltasEliminatorias',
+  faltasLevesDetalle: 'faltasLevesDetalle',
+  faltasDeficientesDetalle: 'faltasDeficientesDetalle',
+  faltasEliminatoriasDetalle: 'faltasEliminatoriasDetalle',
+  motivoNoApto: 'motivoNoApto',
   observaciones: 'observaciones'
 };
 
@@ -315,6 +323,8 @@ exports.Prisma.VehiculoScalarFieldEnum = {
   marca: 'marca',
   modelo: 'modelo',
   tipoPermiso: 'tipoPermiso',
+  kmActuales: 'kmActuales',
+  combustibleActualPct: 'combustibleActualPct',
   activo: 'activo',
   imagenRuta: 'imagenRuta'
 };
@@ -466,6 +476,63 @@ exports.Prisma.PagoScalarFieldEnum = {
   observaciones: 'observaciones'
 };
 
+exports.Prisma.PracticalExamProcessBatchScalarFieldEnum = {
+  id: 'id',
+  status: 'status',
+  mode: 'mode',
+  targetDate: 'targetDate',
+  seed: 'seed',
+  operator: 'operator',
+  reason: 'reason',
+  dryRun: 'dryRun',
+  summary: 'summary',
+  createdAt: 'createdAt',
+  appliedAt: 'appliedAt',
+  rolledBackAt: 'rolledBackAt'
+};
+
+exports.Prisma.PracticalExamProcessSolicitudScalarFieldEnum = {
+  id: 'id',
+  batchId: 'batchId',
+  solicitudId: 'solicitudId',
+  alumnoId: 'alumnoId',
+  beforeEstado: 'beforeEstado',
+  beforeErrores: 'beforeErrores',
+  beforeAciertos: 'beforeAciertos',
+  beforeFaltasLeves: 'beforeFaltasLeves',
+  beforeFaltasDeficientes: 'beforeFaltasDeficientes',
+  beforeFaltasEliminatorias: 'beforeFaltasEliminatorias',
+  beforeFaltasLevesDetalle: 'beforeFaltasLevesDetalle',
+  beforeFaltasDeficientesDetalle: 'beforeFaltasDeficientesDetalle',
+  beforeFaltasEliminatoriasDetalle: 'beforeFaltasEliminatoriasDetalle',
+  beforeMotivoNoApto: 'beforeMotivoNoApto',
+  afterEstado: 'afterEstado',
+  afterErrores: 'afterErrores',
+  afterAciertos: 'afterAciertos',
+  afterFaltasLeves: 'afterFaltasLeves',
+  afterFaltasDeficientes: 'afterFaltasDeficientes',
+  afterFaltasEliminatorias: 'afterFaltasEliminatorias',
+  afterFaltasLevesDetalle: 'afterFaltasLevesDetalle',
+  afterFaltasDeficientesDetalle: 'afterFaltasDeficientesDetalle',
+  afterFaltasEliminatoriasDetalle: 'afterFaltasEliminatoriasDetalle',
+  afterMotivoNoApto: 'afterMotivoNoApto',
+  createdExamenId: 'createdExamenId',
+  revertedAt: 'revertedAt',
+  conflictReason: 'conflictReason'
+};
+
+exports.Prisma.PracticalExamProcessPagoScalarFieldEnum = {
+  id: 'id',
+  batchId: 'batchId',
+  pagoId: 'pagoId',
+  alumnoId: 'alumnoId',
+  beforeConvocatoriasConsumidas: 'beforeConvocatoriasConsumidas',
+  afterConvocatoriasConsumidas: 'afterConvocatoriasConsumidas',
+  applied: 'applied',
+  revertedAt: 'revertedAt',
+  conflictReason: 'conflictReason'
+};
+
 exports.Prisma.TheoreticalExamProcessBatchScalarFieldEnum = {
   id: 'id',
   status: 'status',
@@ -535,6 +602,24 @@ exports.Prisma.FacturaScalarFieldEnum = {
   estado: 'estado',
   fechaEmision: 'fechaEmision',
   fechaPago: 'fechaPago'
+};
+
+exports.Prisma.GastoCombustibleScalarFieldEnum = {
+  id: 'id',
+  numeroFactura: 'numeroFactura',
+  profesorId: 'profesorId',
+  vehiculoId: 'vehiculoId',
+  titularTarjeta: 'titularTarjeta',
+  numeroTarjeta: 'numeroTarjeta',
+  combustibleAntesPct: 'combustibleAntesPct',
+  combustibleDespuesPct: 'combustibleDespuesPct',
+  litrosRepostados: 'litrosRepostados',
+  precioLitro: 'precioLitro',
+  total: 'total',
+  kilometrosVehiculo: 'kilometrosVehiculo',
+  rutaRecibo: 'rutaRecibo',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.NotificacionScalarFieldEnum = {
@@ -622,11 +707,15 @@ exports.Prisma.ModelName = {
   TarifaMatricula: 'TarifaMatricula',
   Matricula: 'Matricula',
   Pago: 'Pago',
+  PracticalExamProcessBatch: 'PracticalExamProcessBatch',
+  PracticalExamProcessSolicitud: 'PracticalExamProcessSolicitud',
+  PracticalExamProcessPago: 'PracticalExamProcessPago',
   TheoreticalExamProcessBatch: 'TheoreticalExamProcessBatch',
   TheoreticalExamProcessSolicitud: 'TheoreticalExamProcessSolicitud',
   TheoreticalExamProcessPago: 'TheoreticalExamProcessPago',
   MatriculaConcepto: 'MatriculaConcepto',
   Factura: 'Factura',
+  GastoCombustible: 'GastoCombustible',
   Notificacion: 'Notificacion'
 };
 

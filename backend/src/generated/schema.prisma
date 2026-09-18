@@ -53,6 +53,7 @@ model Profesor {
   alumnosAsignados  Alumno[]
   clasesDirecto     ClaseDirecto[]
   clases            ClasePractica[]
+  gastosCombustible GastoCombustible[]
   hojasRuta         HojaRuta[]
   horarioBloques    ProfesorHorarioBloque[]
   usuario           Usuario                 @relation(fields: [id], references: [id], onDelete: Cascade)
@@ -279,20 +280,30 @@ model CompraBono {
 }
 
 model SolicitudExamen {
-  id              String    @id @default(uuid())
-  alumnoId        String
-  tipo            String
-  estado          String    @default("PENDIENTE")
-  fechaSolicitud  DateTime  @default(now())
-  fechaProgramada DateTime?
-  erroresExamen   Int?
-  aciertosExamen  Int?
-  observaciones   String?
-  alumno          Alumno    @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  id                         String    @id @default(uuid())
+  alumnoId                   String
+  tipo                       String
+  estado                     String    @default("PENDIENTE")
+  fechaSolicitud             DateTime  @default(now())
+  fechaProgramada            DateTime?
+  pagoGastoPracticoId        String?
+  erroresExamen              Int?
+  aciertosExamen             Int?
+  faltasLeves                Int?
+  faltasDeficientes          Int?
+  faltasEliminatorias        Int?
+  faltasLevesDetalle         String[]  @default([])
+  faltasDeficientesDetalle   String[]  @default([])
+  faltasEliminatoriasDetalle String[]  @default([])
+  motivoNoApto               String?
+  observaciones              String?
+  alumno                     Alumno    @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  pagoGastoPractico          Pago?     @relation(fields: [pagoGastoPracticoId], references: [id], onDelete: SetNull)
 
   @@index([alumnoId])
   @@index([tipo])
   @@index([estado])
+  @@index([pagoGastoPracticoId])
   @@map("solicitudes_examen")
 }
 
@@ -314,14 +325,17 @@ model ConvocatoriaExamen {
 }
 
 model Vehiculo {
-  id          String          @id @default(uuid())
-  matricula   String          @unique
-  marca       String?
-  modelo      String?
-  tipoPermiso String
-  activo      Boolean         @default(true)
-  imagenRuta  String?
-  clases      ClasePractica[]
+  id                   String             @id @default(uuid())
+  matricula            String             @unique
+  marca                String?
+  modelo               String?
+  tipoPermiso          String
+  kmActuales           Int                @default(0)
+  combustibleActualPct Int                @default(100)
+  activo               Boolean            @default(true)
+  imagenRuta           String?
+  clases               ClasePractica[]
+  gastosCombustible    GastoCombustible[]
 
   @@map("vehiculos")
 }
@@ -531,26 +545,27 @@ model Matricula {
 }
 
 model Pago {
-  id                      String         @id @default(uuid())
-  alumnoId                String
-  matriculaId             String?
-  compraBonoId            String?
-  clasePracticaId         String?
-  tipo                    String
-  concepto                String
-  permiso                 String
-  importe                 Decimal        @db.Decimal(10, 2)
-  estado                  String         @default("PENDIENTE")
-  convocatoriasIncluidas  Int            @default(2)
-  convocatoriasConsumidas Int            @default(0)
-  fechaCreacion           DateTime       @default(now())
-  fechaPago               DateTime?
-  numeroFacturaPago       String?
-  observaciones           String?
-  alumno                  Alumno         @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
-  matricula               Matricula?     @relation(fields: [matriculaId], references: [id], onDelete: SetNull)
-  compraBono              CompraBono?    @relation(fields: [compraBonoId], references: [id], onDelete: SetNull)
-  clasePractica           ClasePractica? @relation(fields: [clasePracticaId], references: [id], onDelete: SetNull)
+  id                        String            @id @default(uuid())
+  alumnoId                  String
+  matriculaId               String?
+  compraBonoId              String?
+  clasePracticaId           String?
+  tipo                      String
+  concepto                  String
+  permiso                   String
+  importe                   Decimal           @db.Decimal(10, 2)
+  estado                    String            @default("PENDIENTE")
+  convocatoriasIncluidas    Int               @default(2)
+  convocatoriasConsumidas   Int               @default(0)
+  fechaCreacion             DateTime          @default(now())
+  fechaPago                 DateTime?
+  numeroFacturaPago         String?
+  observaciones             String?
+  alumno                    Alumno            @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  matricula                 Matricula?        @relation(fields: [matriculaId], references: [id], onDelete: SetNull)
+  compraBono                CompraBono?       @relation(fields: [compraBonoId], references: [id], onDelete: SetNull)
+  clasePractica             ClasePractica?    @relation(fields: [clasePracticaId], references: [id], onDelete: SetNull)
+  solicitudesExamenPractico SolicitudExamen[]
 
   @@index([alumnoId])
   @@index([matriculaId])
@@ -561,6 +576,81 @@ model Pago {
   @@index([permiso])
   @@index([fechaCreacion])
   @@map("pagos")
+}
+
+model PracticalExamProcessBatch {
+  id           String                          @id
+  status       String
+  mode         String
+  targetDate   DateTime                        @db.Date
+  seed         String?
+  operator     String?
+  reason       String?
+  dryRun       Boolean                         @default(false)
+  summary      Json                            @default("{}")
+  createdAt    DateTime                        @default(now())
+  appliedAt    DateTime?
+  rolledBackAt DateTime?
+  solicitudes  PracticalExamProcessSolicitud[]
+  pagos        PracticalExamProcessPago[]
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("practical_exam_process_batches")
+}
+
+model PracticalExamProcessSolicitud {
+  id                               BigInt                    @id @default(autoincrement())
+  batchId                          String
+  solicitudId                      String
+  alumnoId                         String
+  beforeEstado                     String
+  beforeErrores                    Int?
+  beforeAciertos                   Int?
+  beforeFaltasLeves                Int?
+  beforeFaltasDeficientes          Int?
+  beforeFaltasEliminatorias        Int?
+  beforeFaltasLevesDetalle         String[]
+  beforeFaltasDeficientesDetalle   String[]
+  beforeFaltasEliminatoriasDetalle String[]
+  beforeMotivoNoApto               String?
+  afterEstado                      String
+  afterErrores                     Int?
+  afterAciertos                    Int?
+  afterFaltasLeves                 Int
+  afterFaltasDeficientes           Int
+  afterFaltasEliminatorias         Int
+  afterFaltasLevesDetalle          String[]
+  afterFaltasDeficientesDetalle    String[]
+  afterFaltasEliminatoriasDetalle  String[]
+  afterMotivoNoApto                String?
+  createdExamenId                  String?
+  revertedAt                       DateTime?
+  conflictReason                   String?
+  batch                            PracticalExamProcessBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+
+  @@unique([batchId, solicitudId])
+  @@index([batchId])
+  @@index([solicitudId])
+  @@map("practical_exam_process_solicitudes")
+}
+
+model PracticalExamProcessPago {
+  id                            BigInt                    @id @default(autoincrement())
+  batchId                       String
+  pagoId                        String
+  alumnoId                      String
+  beforeConvocatoriasConsumidas Int
+  afterConvocatoriasConsumidas  Int
+  applied                       Boolean                   @default(true)
+  revertedAt                    DateTime?
+  conflictReason                String?
+  batch                         PracticalExamProcessBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+
+  @@unique([batchId, pagoId])
+  @@index([batchId])
+  @@index([pagoId])
+  @@map("practical_exam_process_pagos")
 }
 
 model TheoreticalExamProcessBatch {
@@ -668,6 +758,31 @@ model Factura {
   @@index([estado])
   @@index([fechaEmision])
   @@map("facturas")
+}
+
+model GastoCombustible {
+  id                    String   @id @default(uuid())
+  numeroFactura         String   @unique
+  profesorId            String
+  vehiculoId            String
+  titularTarjeta        String
+  numeroTarjeta         String
+  combustibleAntesPct   Int
+  combustibleDespuesPct Int      @default(100)
+  litrosRepostados      Decimal  @db.Decimal(10, 2)
+  precioLitro           Decimal  @db.Decimal(10, 2)
+  total                 Decimal  @db.Decimal(10, 2)
+  kilometrosVehiculo    Int
+  rutaRecibo            String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  profesor              Profesor @relation(fields: [profesorId], references: [id], onDelete: Restrict)
+  vehiculo              Vehiculo @relation(fields: [vehiculoId], references: [id], onDelete: Restrict)
+
+  @@index([profesorId])
+  @@index([vehiculoId])
+  @@index([createdAt])
+  @@map("gastos_combustible")
 }
 
 model Notificacion {

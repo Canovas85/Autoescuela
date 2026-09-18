@@ -7,6 +7,7 @@ const ESTADOS_VALIDOS = [
   "SUSPENDIDO",
   "APTO",
   "NO_APTO",
+  "NO_PRESENTADO",
   "CANCELADO",
 ];
 
@@ -24,6 +25,50 @@ const DEFAULT_TASA_DGT_CONFIG = {
 const TIPOS_EVALUACION_VALIDOS = ["TEORICO", "PRACTICO"];
 const ESTADOS_FINALES_EVALUACION = ["APROBADO", "SUSPENSO"];
 const TOTAL_PREGUNTAS_EXAMEN_TEORICO = 30;
+const MAX_HORAS_CANCELACION = 24;
+const HOJAS_RUTA_REQUERIDAS_PRACTICO = 5;
+
+const CLASES_POST_NO_APTO_PRACTICO = {
+  A: 3,
+  A1: 3,
+  A2: 3,
+  A3: 3,
+  B: 5,
+  C: 2,
+  D: 2,
+};
+
+const FALTAS_CATALOGO_PRACTICO = {
+  leves: [
+    "Uso tardío del intermitente",
+    "Posicionamiento mejorable en carril",
+    "Distancia de seguridad ajustada",
+    "Reducción de velocidad mejorable",
+    "Observación lateral incompleta",
+    "Anticipación mejorable en cruce",
+    "Control de embrague mejorable",
+    "Corrección leve de trayectoria",
+    "Señalización tardía en maniobra",
+    "Entrada amplia en giro",
+    "Alineación mejorable al estacionar",
+    "Control de velocidad irregular",
+  ],
+  deficientes: [
+    "Incorporación con observación insuficiente",
+    "Prioridad no respetada sin riesgo extremo",
+    "Velocidad inadecuada en tramo crítico",
+    "Maniobra con control insuficiente",
+    "Distancia de seguridad claramente insuficiente",
+    "Frenada tardía ante señalización",
+  ],
+  eliminatorias: [
+    "No respetar semáforo en rojo",
+    "No ceder el paso con riesgo",
+    "Invadir carril contrario con peligro",
+    "No detenerse en stop obligatorio",
+    "Intervención del examinador por seguridad",
+  ],
+};
 
 const normalizarTexto = (valor) =>
   typeof valor === "string" ? valor.trim() : "";
@@ -68,7 +113,7 @@ const normalizarEstadoEvaluacion = (estado) => {
     return "APROBADO";
   }
 
-  if (["SUSPENSO", "SUSPENDIDO", "NO_APTO"].includes(value)) {
+  if (["SUSPENSO", "SUSPENDIDO", "NO_APTO", "NO_PRESENTADO"].includes(value)) {
     return "SUSPENSO";
   }
 
@@ -83,6 +128,159 @@ const calcularAciertosTeorico = (erroresExamen) => {
   }
 
   return Math.max(TOTAL_PREGUNTAS_EXAMEN_TEORICO - errores, 0);
+};
+
+const horasHasta = (fecha) => {
+  if (!fecha) {
+    return 0;
+  }
+
+  const diffMs = new Date(fecha).getTime() - Date.now();
+  return diffMs / (1000 * 60 * 60);
+};
+
+const getClasesPostNoAptoRequeridas = (licencia) =>
+  CLASES_POST_NO_APTO_PRACTICO[normalizarLicenciaObjetivo(licencia)] ||
+  CLASES_POST_NO_APTO_PRACTICO.B;
+
+const shouldBeNoAptoPractico = ({
+  faltasLeves,
+  faltasDeficientes,
+  faltasEliminatorias,
+}) =>
+  faltasEliminatorias >= 1 ||
+  faltasDeficientes >= 2 ||
+  (faltasDeficientes === 1 && faltasLeves >= 5) ||
+  faltasLeves >= 10;
+
+const getMotivoNoAptoPractico = ({
+  faltasLeves,
+  faltasDeficientes,
+  faltasEliminatorias,
+}) => {
+  if (faltasEliminatorias >= 1) {
+    return "ELIMINATORIA";
+  }
+
+  if (faltasDeficientes >= 2) {
+    return "DOBLE_DEFICIENTE";
+  }
+
+  if (faltasDeficientes === 1 && faltasLeves >= 5) {
+    return "DEFICIENTE_MAS_LEVES";
+  }
+
+  if (faltasLeves >= 10) {
+    return "LEVES";
+  }
+
+  return null;
+};
+
+const randomIntBetween = (randomFn, min, max) =>
+  Math.floor(randomFn() * (max - min + 1)) + min;
+
+const getDateKey = (value) => {
+  const date = new Date(value || Date.now());
+  return date.toISOString().slice(0, 10);
+};
+
+const pickFaultDetails = (randomFn, catalog, count, prefix) => {
+  if (!Number.isInteger(count) || count <= 0) {
+    return [];
+  }
+
+  const pool = [...catalog];
+  const picked = [];
+
+  for (let index = 0; index < count; index += 1) {
+    if (pool.length > 0) {
+      const pickIndex = randomIntBetween(randomFn, 0, pool.length - 1);
+      picked.push(pool.splice(pickIndex, 1)[0]);
+    } else {
+      picked.push(`${prefix} ${index + 1}`);
+    }
+  }
+
+  return picked;
+};
+
+const enrichFaltasWithDetail = (randomFn, faltas) => ({
+  ...faltas,
+  faltasLevesDetalle: pickFaultDetails(
+    randomFn,
+    FALTAS_CATALOGO_PRACTICO.leves,
+    faltas.faltasLeves,
+    "Falta leve",
+  ),
+  faltasDeficientesDetalle: pickFaultDetails(
+    randomFn,
+    FALTAS_CATALOGO_PRACTICO.deficientes,
+    faltas.faltasDeficientes,
+    "Falta deficiente",
+  ),
+  faltasEliminatoriasDetalle: pickFaultDetails(
+    randomFn,
+    FALTAS_CATALOGO_PRACTICO.eliminatorias,
+    faltas.faltasEliminatorias,
+    "Falta eliminatoria",
+  ),
+});
+
+const generarFaltasApto = (randomFn) => {
+  const templates = [
+    {
+      faltasLeves: randomIntBetween(randomFn, 0, 4),
+      faltasDeficientes: 0,
+      faltasEliminatorias: 0,
+    },
+    {
+      faltasLeves: randomIntBetween(randomFn, 0, 3),
+      faltasDeficientes: 1,
+      faltasEliminatorias: 0,
+    },
+    {
+      faltasLeves: randomIntBetween(randomFn, 0, 8),
+      faltasDeficientes: 0,
+      faltasEliminatorias: 0,
+    },
+  ];
+
+  return templates[randomIntBetween(randomFn, 0, templates.length - 1)];
+};
+
+const generarFaltasNoApto = (randomFn) => {
+  const scenario = randomIntBetween(randomFn, 1, 4);
+
+  if (scenario === 1) {
+    return {
+      faltasLeves: randomIntBetween(randomFn, 0, 4),
+      faltasDeficientes: 0,
+      faltasEliminatorias: 1,
+    };
+  }
+
+  if (scenario === 2) {
+    return {
+      faltasLeves: randomIntBetween(randomFn, 0, 3),
+      faltasDeficientes: 2,
+      faltasEliminatorias: 0,
+    };
+  }
+
+  if (scenario === 3) {
+    return {
+      faltasLeves: randomIntBetween(randomFn, 5, 8),
+      faltasDeficientes: 1,
+      faltasEliminatorias: 0,
+    };
+  }
+
+  return {
+    faltasLeves: randomIntBetween(randomFn, 10, 12),
+    faltasDeficientes: 0,
+    faltasEliminatorias: 0,
+  };
 };
 
 export class SolicitudesExamenService {
@@ -380,6 +578,377 @@ export class SolicitudesExamenService {
     };
   }
 
+  async ensurePracticalExamExpensePayment(matriculaPagada) {
+    if (!matriculaPagada) {
+      return null;
+    }
+
+    const alumnoId = matriculaPagada.alumnoId;
+    const licenciaObjetivo = normalizarLicenciaObjetivo(
+      matriculaPagada.licencia,
+    );
+
+    const existingPending =
+      await this.repository.findPagoGastoPracticoPendiente(
+        alumnoId,
+        licenciaObjetivo,
+      );
+
+    if (existingPending) {
+      return existingPending;
+    }
+
+    const reusablePaid =
+      await this.repository.findPagoGastoPracticoPagadoReutilizable(
+        alumnoId,
+        licenciaObjetivo,
+      );
+
+    if (reusablePaid) {
+      return reusablePaid;
+    }
+
+    const tarifa =
+      await this.repository.findTarifaGastoExamenPracticoByPermiso(
+        licenciaObjetivo,
+      );
+
+    if (!tarifa) {
+      throw new Error(
+        "No existe tarifa activa de gasto de examen práctico para tu licencia.",
+      );
+    }
+
+    return this.repository.createPagoGastoPracticoPendiente({
+      alumnoId,
+      matriculaId: matriculaPagada.id,
+      permiso: licenciaObjetivo,
+      importe: tarifa.precio,
+      concepto: tarifa.concepto,
+    });
+  }
+
+  async getPracticalEligibilityForStudent(alumnoId) {
+    const bloqueos = [];
+    const checks = {
+      matriculaPagada: false,
+      psicotecnicoValidado: false,
+      tasaPagada: false,
+      convocatoriasDisponibles: false,
+      hojasRutaMinimas: false,
+      hojasRutaConsistentes: false,
+      pagoGastoPracticoGenerado: false,
+      pagoGastoPracticoPagado: false,
+      clasesPostNoAptoCompletadas: true,
+      solicitudActiva: false,
+      cancelacion24hValida: true,
+    };
+
+    const matriculaPagada = await this.repository.findMatriculaPagada(alumnoId);
+
+    if (!matriculaPagada) {
+      bloqueos.push(
+        "Debes tener la matricula en estado PAGADA antes de solicitar convocatoria de examen práctico.",
+      );
+    } else {
+      checks.matriculaPagada = true;
+    }
+
+    const psicotecnicoValidado =
+      await this.repository.hasPsicotecnicoValidado(alumnoId);
+
+    if (!psicotecnicoValidado) {
+      bloqueos.push(
+        "Debes subir y validar el CERTIFICADO_PSICOTECNICO antes de solicitar convocatoria.",
+      );
+    } else {
+      checks.psicotecnicoValidado = true;
+    }
+
+    const licenciaObjetivo = normalizarLicenciaObjetivo(
+      matriculaPagada?.licencia,
+    );
+
+    const [hojasRegistradas, hojasConClase] = await Promise.all([
+      this.repository.countHojasRutaRegistradas(alumnoId),
+      this.repository.countHojasRutaRegistradasConClase(alumnoId),
+    ]);
+
+    if (hojasRegistradas >= HOJAS_RUTA_REQUERIDAS_PRACTICO) {
+      checks.hojasRutaMinimas = true;
+    } else {
+      bloqueos.push(
+        `Debes tener al menos ${HOJAS_RUTA_REQUERIDAS_PRACTICO} hojas de ruta en estado REGISTRADA para solicitar examen práctico.`,
+      );
+    }
+
+    if (hojasConClase === hojasRegistradas) {
+      checks.hojasRutaConsistentes = true;
+    } else {
+      bloqueos.push(
+        "Se detectó una incidencia entre hojas de ruta y clases prácticas. Contacta con administración.",
+      );
+    }
+
+    const solicitudActiva =
+      await this.repository.findSolicitudPracticoActiva(alumnoId);
+    const horasRestantesSolicitudActiva = solicitudActiva?.fechaProgramada
+      ? horasHasta(solicitudActiva.fechaProgramada)
+      : null;
+
+    if (solicitudActiva) {
+      checks.solicitudActiva = true;
+    }
+
+    let convocatoriasIncluidas = 0;
+    let convocatoriasConsumidas = 0;
+    let convocatoriasDisponibles = 0;
+
+    if (matriculaPagada) {
+      const pagoTasa = await this.repository.findUltimoPagoTasaDGT(
+        alumnoId,
+        licenciaObjetivo,
+        this.tasaDgtConfig.conceptoPattern,
+      );
+
+      if (!pagoTasa) {
+        bloqueos.push("Debes tener pagada la Tasa DGT (Tasa 2.1).");
+      } else {
+        checks.tasaPagada = true;
+        convocatoriasIncluidas = Number(pagoTasa.convocatoriasIncluidas || 2);
+        convocatoriasConsumidas = Number(pagoTasa.convocatoriasConsumidas || 0);
+        convocatoriasDisponibles = Math.max(
+          convocatoriasIncluidas - convocatoriasConsumidas,
+          0,
+        );
+
+        if (convocatoriasDisponibles <= 0) {
+          bloqueos.push(
+            "No tienes convocatorias disponibles. Debes pagar una nueva Tasa DGT (Tasa 2.1).",
+          );
+        } else {
+          checks.convocatoriasDisponibles = true;
+        }
+      }
+    }
+
+    const ultimoNoApto =
+      await this.repository.findUltimoNoAptoPractico(alumnoId);
+    let clasesPostNoAptoRequeridas = 0;
+    let clasesPostNoAptoCompletadas = 0;
+
+    if (ultimoNoApto?.fechaProgramada) {
+      clasesPostNoAptoRequeridas =
+        getClasesPostNoAptoRequeridas(licenciaObjetivo);
+      clasesPostNoAptoCompletadas =
+        await this.repository.countClasesCompletadasDesdeFecha(
+          alumnoId,
+          ultimoNoApto.fechaProgramada,
+        );
+
+      if (clasesPostNoAptoCompletadas < clasesPostNoAptoRequeridas) {
+        checks.clasesPostNoAptoCompletadas = false;
+        bloqueos.push(
+          `Tras un NO_APTO práctico debes completar ${clasesPostNoAptoRequeridas} clases prácticas antes de pedir nueva fecha.`,
+        );
+      }
+    }
+
+    let pagoGastoPractico = null;
+    let canPickDate = false;
+
+    if (
+      checks.matriculaPagada &&
+      checks.psicotecnicoValidado &&
+      checks.hojasRutaMinimas &&
+      checks.hojasRutaConsistentes
+    ) {
+      pagoGastoPractico =
+        await this.ensurePracticalExamExpensePayment(matriculaPagada);
+
+      if (pagoGastoPractico) {
+        checks.pagoGastoPracticoGenerado = true;
+      }
+
+      if (pagoGastoPractico?.estado === "PAGADO") {
+        checks.pagoGastoPracticoPagado = true;
+      }
+    }
+
+    const puedeMoverFechaSinCancelar =
+      solicitudActiva &&
+      (pagoGastoPractico?.estado !== "PAGADO" ||
+        Number(horasRestantesSolicitudActiva || 0) > MAX_HORAS_CANCELACION);
+
+    if (
+      solicitudActiva &&
+      !puedeMoverFechaSinCancelar &&
+      pagoGastoPractico?.estado === "PAGADO"
+    ) {
+      checks.cancelacion24hValida = false;
+      bloqueos.push(
+        "Ya tienes una solicitud práctica activa y estás dentro de las 24 horas previas. No puedes cambiar la fecha.",
+      );
+    }
+
+    if (!checks.pagoGastoPracticoPagado) {
+      bloqueos.push(
+        "Debes abonar el pago de gastos de examen práctico para poder confirmar la fecha.",
+      );
+    }
+
+    canPickDate =
+      checks.matriculaPagada &&
+      checks.psicotecnicoValidado &&
+      checks.hojasRutaMinimas &&
+      checks.hojasRutaConsistentes &&
+      checks.tasaPagada &&
+      checks.convocatoriasDisponibles &&
+      checks.clasesPostNoAptoCompletadas &&
+      (!solicitudActiva || puedeMoverFechaSinCancelar);
+
+    const canRequest = canPickDate && checks.pagoGastoPracticoPagado;
+
+    return {
+      alumnoId,
+      licenciaObjetivo,
+      canPickDate,
+      canRequest,
+      bloqueos,
+      checks,
+      solicitudActiva,
+      horasRestantesSolicitudActiva,
+      puedeMoverFechaSinCancelar,
+      pagoGastoPractico,
+      hojasRuta: {
+        requeridas: HOJAS_RUTA_REQUERIDAS_PRACTICO,
+        registradas: hojasRegistradas,
+        registradasConClase: hojasConClase,
+      },
+      postNoApto: {
+        clasesRequeridas: clasesPostNoAptoRequeridas,
+        clasesCompletadas: clasesPostNoAptoCompletadas,
+      },
+      tasa: {
+        convocatoriasIncluidas,
+        convocatoriasConsumidas,
+        convocatoriasDisponibles,
+      },
+    };
+  }
+
+  async getPracticalCalendarForStudent(alumnoId) {
+    const eligibility = await this.getPracticalEligibilityForStudent(alumnoId);
+
+    if (!eligibility.canPickDate) {
+      return {
+        eligibility,
+        fechas: [],
+      };
+    }
+
+    const fechas = await this.repository.findConvocatoriasPracticoDisponibles(
+      eligibility.licenciaObjetivo,
+      inicioDelDia(),
+    );
+
+    return {
+      eligibility,
+      fechas,
+    };
+  }
+
+  async createPracticalRequestForStudent(alumnoId, data = {}) {
+    const eligibility = await this.getPracticalEligibilityForStudent(alumnoId);
+
+    if (!eligibility.canPickDate) {
+      throw new Error(eligibility.bloqueos[0] || "No cumples requisitos");
+    }
+
+    if (!eligibility.checks.pagoGastoPracticoPagado) {
+      throw new Error(
+        "Debes pagar los gastos de examen práctico antes de confirmar la solicitud.",
+      );
+    }
+
+    const fechaProgramada = data.fechaProgramada
+      ? new Date(data.fechaProgramada)
+      : null;
+
+    if (!fechaProgramada || Number.isNaN(fechaProgramada.getTime())) {
+      throw new Error("Debes seleccionar una fecha válida de convocatoria.");
+    }
+
+    const convocatoria = await this.repository.findConvocatoriaPracticoByFecha(
+      eligibility.licenciaObjetivo,
+      fechaProgramada,
+    );
+
+    if (!convocatoria) {
+      throw new Error(
+        "La fecha seleccionada no pertenece al calendario activo de convocatorias DGT.",
+      );
+    }
+
+    if (eligibility.solicitudActiva) {
+      if (!eligibility.puedeMoverFechaSinCancelar) {
+        throw new Error(
+          "Debes cancelar la solicitud actual con más de 24h de antelación para cambiar de fecha.",
+        );
+      }
+
+      return this.repository.update(eligibility.solicitudActiva.id, {
+        fechaProgramada,
+        estado: "SOLICITADO",
+        observaciones: normalizarTexto(data.observaciones) || null,
+      });
+    }
+
+    return this.repository.create({
+      alumnoId,
+      tipo: "PRACTICO",
+      estado: "SOLICITADO",
+      fechaSolicitud: new Date(),
+      fechaProgramada,
+      erroresExamen: null,
+      aciertosExamen: null,
+      faltasLeves: null,
+      faltasDeficientes: null,
+      faltasEliminatorias: null,
+      motivoNoApto: null,
+      pagoGastoPracticoId: eligibility.pagoGastoPractico?.id || null,
+      observaciones: normalizarTexto(data.observaciones) || null,
+    });
+  }
+
+  async cancelPracticalRequestForStudent(alumnoId, solicitudId) {
+    const solicitud = await this.repository.findSolicitudByIdForStudent(
+      solicitudId,
+      alumnoId,
+    );
+
+    if (!solicitud || solicitud.tipo !== "PRACTICO") {
+      throw new Error("Solicitud práctica no encontrada");
+    }
+
+    if (!["SOLICITADO", "PROGRAMADO", "PENDIENTE"].includes(solicitud.estado)) {
+      throw new Error("Solo puedes cancelar solicitudes prácticas activas.");
+    }
+
+    const horasRestantes = horasHasta(solicitud.fechaProgramada);
+
+    if (horasRestantes <= MAX_HORAS_CANCELACION) {
+      throw new Error(
+        "No puedes cancelar la convocatoria práctica dentro de las 24 horas previas.",
+      );
+    }
+
+    return this.repository.update(solicitud.id, {
+      estado: "CANCELADO",
+      observaciones: "Cancelado por alumno con más de 24h de antelación",
+    });
+  }
+
   async createTheoreticalRequestForStudent(alumnoId, data = {}) {
     const eligibility =
       await this.getTheoreticalEligibilityForStudent(alumnoId);
@@ -431,7 +1000,7 @@ export class SolicitudesExamenService {
       this.repository.findEvaluacionExamenesByTipo(tipoNormalizado),
     ]);
 
-    const merged = [
+    const mergedAll = [
       ...solicitudes.map((solicitud) => {
         const estadoEvaluacion = normalizarEstadoEvaluacion(solicitud.estado);
         const licencia = solicitud.alumno?.tipoLicenciaObjetivo || "-";
@@ -453,6 +1022,34 @@ export class SolicitudesExamenService {
             tipoNormalizado === "TEORICO"
               ? (toNumberOrNull(solicitud.aciertosExamen) ??
                 calcularAciertosTeorico(solicitud.erroresExamen))
+              : null,
+          faltasLeves:
+            tipoNormalizado === "PRACTICO"
+              ? toNumberOrNull(solicitud.faltasLeves)
+              : null,
+          faltasDeficientes:
+            tipoNormalizado === "PRACTICO"
+              ? toNumberOrNull(solicitud.faltasDeficientes)
+              : null,
+          faltasEliminatorias:
+            tipoNormalizado === "PRACTICO"
+              ? toNumberOrNull(solicitud.faltasEliminatorias)
+              : null,
+          faltasLevesDetalle:
+            tipoNormalizado === "PRACTICO"
+              ? solicitud.faltasLevesDetalle || []
+              : [],
+          faltasDeficientesDetalle:
+            tipoNormalizado === "PRACTICO"
+              ? solicitud.faltasDeficientesDetalle || []
+              : [],
+          faltasEliminatoriasDetalle:
+            tipoNormalizado === "PRACTICO"
+              ? solicitud.faltasEliminatoriasDetalle || []
+              : [],
+          motivoNoApto:
+            tipoNormalizado === "PRACTICO"
+              ? solicitud.motivoNoApto || null
               : null,
           observaciones: solicitud.observaciones || null,
           profesorAsignado:
@@ -478,12 +1075,24 @@ export class SolicitudesExamenService {
           resultado: estadoEvaluacion,
           erroresExamen: null,
           aciertosExamen: null,
+          faltasLeves: null,
+          faltasDeficientes: null,
+          faltasEliminatorias: null,
+          faltasLevesDetalle: [],
+          faltasDeficientesDetalle: [],
+          faltasEliminatoriasDetalle: [],
+          motivoNoApto: null,
           observaciones: null,
           profesorAsignado:
             examen.alumno?.profesorAsignado?.usuario?.nombre || "Sin asignar",
         };
       }),
     ];
+
+    const merged =
+      tipoNormalizado === "PRACTICO"
+        ? mergedAll.filter((item) => item.source === "SOLICITUD")
+        : mergedAll;
 
     merged.sort((a, b) => {
       const dateA =
@@ -641,6 +1250,142 @@ export class SolicitudesExamenService {
       noAptos,
       aciertosTotales,
       erroresTotales,
+      fechaEjecucion: new Date(),
+    };
+  }
+
+  async processScheduledPracticalResults({
+    today = new Date(),
+    randomFn = Math.random,
+  } = {}) {
+    const solicitudesPendientesRaw =
+      await this.repository.findSolicitudesPracticoPendientesResultado(
+        finDelDia(today),
+      );
+
+    const seenPerDay = new Set();
+    const solicitudesPendientes = [];
+    const solicitudesDuplicadas = [];
+
+    for (const solicitud of solicitudesPendientesRaw) {
+      const key = `${solicitud.alumnoId}|${getDateKey(
+        solicitud.fechaProgramada || solicitud.fechaSolicitud,
+      )}`;
+
+      if (seenPerDay.has(key)) {
+        solicitudesDuplicadas.push(solicitud);
+        continue;
+      }
+
+      seenPerDay.add(key);
+      solicitudesPendientes.push(solicitud);
+    }
+
+    for (const duplicada of solicitudesDuplicadas) {
+      await this.repository.updateResultadoSolicitudPracticoIfPending(
+        duplicada.id,
+        {
+          estado: "CANCELADO",
+          observaciones:
+            "Cancelada automáticamente por duplicidad de solicitud práctica en la misma fecha.",
+        },
+      );
+    }
+
+    let procesadas = 0;
+    let aptos = 0;
+    let noAptos = 0;
+    let faltasLevesTotales = 0;
+    let faltasDeficientesTotales = 0;
+    let faltasEliminatoriasTotales = 0;
+
+    for (const solicitud of solicitudesPendientes) {
+      const isAptoTarget = randomFn() < 0.6;
+      const faltasBase = isAptoTarget
+        ? generarFaltasApto(randomFn)
+        : generarFaltasNoApto(randomFn);
+      const faltas = enrichFaltasWithDetail(randomFn, faltasBase);
+      const noApto = shouldBeNoAptoPractico(faltas);
+      const estado = noApto ? "NO_APTO" : "APTO";
+      const motivoNoApto = noApto ? getMotivoNoAptoPractico(faltas) : null;
+
+      const updated =
+        await this.repository.updateResultadoSolicitudPracticoIfPending(
+          solicitud.id,
+          {
+            estado,
+            faltasLeves: faltas.faltasLeves,
+            faltasDeficientes: faltas.faltasDeficientes,
+            faltasEliminatorias: faltas.faltasEliminatorias,
+            faltasLevesDetalle: faltas.faltasLevesDetalle,
+            faltasDeficientesDetalle: faltas.faltasDeficientesDetalle,
+            faltasEliminatoriasDetalle: faltas.faltasEliminatoriasDetalle,
+            motivoNoApto,
+            erroresExamen: null,
+            aciertosExamen: null,
+          },
+        );
+
+      if (!updated) {
+        continue;
+      }
+
+      await this.repository.createExamenResultadoPractico({
+        alumnoId: solicitud.alumnoId,
+        fecha: solicitud.fechaProgramada || new Date(),
+        estado,
+      });
+
+      faltasLevesTotales += faltas.faltasLeves;
+      faltasDeficientesTotales += faltas.faltasDeficientes;
+      faltasEliminatoriasTotales += faltas.faltasEliminatorias;
+
+      procesadas += 1;
+
+      if (estado === "APTO") {
+        aptos += 1;
+        continue;
+      }
+
+      noAptos += 1;
+
+      const matriculaPagada = await this.repository.findMatriculaPagada(
+        solicitud.alumnoId,
+      );
+
+      if (!matriculaPagada) {
+        continue;
+      }
+
+      const licenciaObjetivo = normalizarLicenciaObjetivo(
+        matriculaPagada.licencia,
+      );
+
+      const pagoTasa = await this.repository.findUltimoPagoTasaDGT(
+        solicitud.alumnoId,
+        licenciaObjetivo,
+        this.tasaDgtConfig.conceptoPattern,
+      );
+
+      if (!pagoTasa) {
+        continue;
+      }
+
+      const incluidas = Number(pagoTasa.convocatoriasIncluidas || 0);
+      const consumidas = Number(pagoTasa.convocatoriasConsumidas || 0);
+
+      if (consumidas < incluidas) {
+        await this.repository.incrementarConvocatoriasConsumidas(pagoTasa.id);
+      }
+    }
+
+    return {
+      procesadas,
+      aptos,
+      noAptos,
+      faltasLevesTotales,
+      faltasDeficientesTotales,
+      faltasEliminatoriasTotales,
       fechaEjecucion: new Date(),
     };
   }
