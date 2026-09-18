@@ -160,7 +160,7 @@ const menus = {
         //   icon: <QuizIcon fontSize="small" />,
         // },
         {
-          label: "Test DGT",
+          label: "Preguntas Test DGT",
           path: "/test-dgt",
           icon: <QuizIcon fontSize="small" />,
         },
