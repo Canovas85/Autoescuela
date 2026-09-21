@@ -23,16 +23,25 @@ export class EmailService {
       </div>
     `;
 
+    await this.sendEmail({ to, subject, html });
+  }
+
+  async sendEmail({ to, subject, html, attachments = [] }) {
     if (this.provider === "resend") {
-      await this.sendWithResend({ to, subject, html });
+      await this.sendWithResend({ to, subject, html, attachments });
       return;
     }
 
     // Fallback local/dev: deja trazabilidad sin dependencia de proveedor.
-    console.log("[EMAIL:console]", { to, subject, activationUrl, expiresAt });
+    console.log("[EMAIL:console]", {
+      to,
+      subject,
+      htmlPreview: String(html || "").slice(0, 180),
+      attachments: attachments.map((item) => item.filename),
+    });
   }
 
-  async sendWithResend({ to, subject, html }) {
+  async sendWithResend({ to, subject, html, attachments = [] }) {
     if (!this.resendApiKey) {
       throw new Error("RESEND_API_KEY no configurada");
     }
@@ -48,6 +57,7 @@ export class EmailService {
         to: [to],
         subject,
         html,
+        attachments,
       }),
     });
 

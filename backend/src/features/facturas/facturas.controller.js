@@ -14,4 +14,26 @@ export class FacturasController {
 
     return res.status(200).json(facturas);
   }
+
+  async getPreview(req, res) {
+    const preview = await this.service.getPreview(req.params.id);
+    return res.status(200).json(preview);
+  }
+
+  async getPdf(req, res) {
+    const { buffer, fileName } = await this.service.getPdf(req.params.id);
+
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", `attachment; filename="${fileName}"`);
+
+    return res.status(200).send(buffer);
+  }
+
+  async sendDuplicate(req, res) {
+    const result = await this.service.sendDuplicate(
+      req.params.id,
+      req.body?.email,
+    );
+    return res.status(200).json(result);
+  }
 }

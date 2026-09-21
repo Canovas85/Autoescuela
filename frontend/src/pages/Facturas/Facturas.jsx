@@ -1,11 +1,43 @@
 import { useEffect, useState } from "react";
-import { Alert, Box, Chip, Snackbar, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Paper,
+  Snackbar,
+  Stack,
+  TextField,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import SendIcon from "@mui/icons-material/Send";
+import DownloadIcon from "@mui/icons-material/Download";
 
 import { facturasService } from "../../services/facturasService";
+import { LicenseChip } from "../../components/common/LicenseChip";
+
+const formatDate = (value) =>
+  value ? new Date(value).toLocaleDateString("es-ES") : "-";
+
+const formatCurrency = (value) => `${Number(value || 0).toFixed(2)} EUR`;
 
 export default function Facturas() {
   const [rows, setRows] = useState([]);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [sendOpen, setSendOpen] = useState(false);
+  const [loadingPreview, setLoadingPreview] = useState(false);
+  const [selectedFactura, setSelectedFactura] = useState(null);
+  const [sendFacturaId, setSendFacturaId] = useState(null);
+  const [sendEmail, setSendEmail] = useState("");
+  const [sending, setSending] = useState(false);
   const [notification, setNotification] = useState({
     open: false,
     message: "",
@@ -30,6 +62,81 @@ export default function Facturas() {
     loadFacturas();
   }, []);
 
+  const handleOpenPreview = async (row) => {
+    setLoadingPreview(true);
+    setPreviewOpen(true);
+
+    try {
+      const preview = await facturasService.getPreview(row.id);
+      setSelectedFactura(preview);
+    } catch (error) {
+      console.error(error);
+      setSelectedFactura(null);
+      setPreviewOpen(false);
+      setNotification({
+        open: true,
+        message:
+          error.response?.data?.message || "No se pudo cargar la factura",
+        severity: "error",
+      });
+    } finally {
+      setLoadingPreview(false);
+    }
+  };
+
+  const handleDownloadPdf = async (facturaId) => {
+    try {
+      const { blob, fileName } = await facturasService.downloadPdf(facturaId);
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error(error);
+      setNotification({
+        open: true,
+        message: error.response?.data?.message || "No se pudo descargar el PDF",
+        severity: "error",
+      });
+    }
+  };
+
+  const handleOpenSend = (row) => {
+    setSendFacturaId(row.id);
+    setSendEmail(row.alumno?.usuario?.email || "");
+    setSendOpen(true);
+  };
+
+  const handleSendDuplicate = async () => {
+    setSending(true);
+
+    try {
+      await facturasService.sendDuplicate(sendFacturaId, sendEmail);
+      setSendOpen(false);
+      setNotification({
+        open: true,
+        message: "Duplicado enviado correctamente",
+        severity: "success",
+      });
+    } catch (error) {
+      console.error(error);
+      setNotification({
+        open: true,
+        message:
+          error.response?.data?.message ||
+          "No se pudo enviar el duplicado de factura",
+        severity: "error",
+      });
+    } finally {
+      setSending(false);
+    }
+  };
+
   const columns = [
     {
       field: "numero",
@@ -51,19 +158,19 @@ export default function Facturas() {
       field: "baseImponible",
       headerName: "Base",
       flex: 0.7,
-      valueFormatter: (value) => `${value} EUR`,
+      valueFormatter: (value) => formatCurrency(value),
     },
     {
       field: "descuento",
       headerName: "Descuento",
       flex: 0.8,
-      valueFormatter: (value) => `${value} EUR`,
+      valueFormatter: (value) => formatCurrency(value),
     },
     {
       field: "total",
       headerName: "Total",
       flex: 0.8,
-      valueFormatter: (value) => `${value} EUR`,
+      valueFormatter: (value) => formatCurrency(value),
     },
     {
       field: "estado",
@@ -87,10 +194,35 @@ export default function Facturas() {
       field: "fechaEmision",
       headerName: "Emisión",
       flex: 1,
-      valueGetter: (_, row) =>
-        row.fechaEmision
-          ? new Date(row.fechaEmision).toLocaleDateString("es-ES")
-          : "-",
+      valueGetter: (_, row) => formatDate(row.fechaEmision),
+    },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      width: 130,
+      sortable: false,
+      renderCell: (params) => (
+        <Stack direction="row" spacing={0.25}>
+          <Tooltip title="Ver factura" arrow>
+            <IconButton
+              color="primary"
+              size="small"
+              onClick={() => handleOpenPreview(params.row)}
+            >
+              <VisibilityIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Enviar duplicado" arrow>
+            <IconButton
+              color="secondary"
+              size="small"
+              onClick={() => handleOpenSend(params.row)}
+            >
+              <SendIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Stack>
+      ),
     },
   ];
 
@@ -113,6 +245,176 @@ export default function Facturas() {
           }}
         />
       </Box>
+
+      <Dialog
+        open={previewOpen}
+        onClose={() => setPreviewOpen(false)}
+        fullWidth
+        maxWidth="md"
+      >
+        <DialogTitle>Vista previa de factura</DialogTitle>
+        <DialogContent>
+          {loadingPreview ? (
+            <Typography>Cargando factura...</Typography>
+          ) : selectedFactura ? (
+            <Paper
+              variant="outlined"
+              sx={{ p: 3, borderRadius: 2, backgroundColor: "#f8fafc" }}
+            >
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="flex-start"
+                sx={{ mb: 2 }}
+              >
+                <Box>
+                  <Typography variant="h6" fontWeight={800}>
+                    AUTOESCUELA EGUZKILORE
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Factura oficial
+                  </Typography>
+                </Box>
+                <Box sx={{ textAlign: "right" }}>
+                  <Typography variant="h6" fontWeight={700}>
+                    {selectedFactura.numero}
+                  </Typography>
+                  <Typography variant="body2">
+                    Emisión: {formatDate(selectedFactura.fechaEmision)}
+                  </Typography>
+                  <Typography variant="body2">
+                    Estado: {selectedFactura.estado}
+                  </Typography>
+                </Box>
+              </Stack>
+
+              <Stack direction="row" spacing={3} sx={{ mb: 2 }}>
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="subtitle2" fontWeight={700}>
+                    Emisor
+                  </Typography>
+                  <Typography variant="body2">
+                    Autoescuela Eguzkilore
+                  </Typography>
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="subtitle2" fontWeight={700}>
+                    Receptor
+                  </Typography>
+                  <Typography variant="body2">
+                    {selectedFactura.alumno?.nombre || "-"}
+                  </Typography>
+                  <Typography variant="body2">
+                    {selectedFactura.alumno?.email || "-"}
+                  </Typography>
+                  <Typography variant="body2">
+                    DNI: {selectedFactura.alumno?.dni || "-"}
+                  </Typography>
+                </Box>
+              </Stack>
+
+              <Box
+                sx={{
+                  border: "1px solid #dbeafe",
+                  borderRadius: 1,
+                  overflow: "hidden",
+                  mb: 2,
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: "2fr 1fr 1fr 1fr",
+                    backgroundColor: "#eff6ff",
+                    px: 1.5,
+                    py: 1,
+                    fontWeight: 700,
+                  }}
+                >
+                  <Typography variant="body2">Concepto</Typography>
+                  <Typography variant="body2">Base</Typography>
+                  <Typography variant="body2">Descuento</Typography>
+                  <Typography variant="body2">Total</Typography>
+                </Box>
+
+                <Box
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: "2fr 1fr 1fr 1fr",
+                    px: 1.5,
+                    py: 1.2,
+                    borderTop: "1px solid #dbeafe",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography variant="body2">
+                    {selectedFactura.concepto}
+                  </Typography>
+                  <Typography variant="body2">
+                    {formatCurrency(selectedFactura.baseImponible)}
+                  </Typography>
+                  <Typography variant="body2">
+                    {formatCurrency(selectedFactura.descuento)}
+                  </Typography>
+                  <Typography variant="body2" fontWeight={700}>
+                    {formatCurrency(selectedFactura.total)}
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Stack direction="row" spacing={1} alignItems="center">
+                <Typography variant="body2" fontWeight={700}>
+                  Licencia:
+                </Typography>
+                <LicenseChip value={selectedFactura.licencia} />
+              </Stack>
+            </Paper>
+          ) : (
+            <Alert severity="warning">No hay datos para mostrar</Alert>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setPreviewOpen(false)}>Cerrar</Button>
+          <Button
+            variant="contained"
+            startIcon={<DownloadIcon />}
+            disabled={!selectedFactura}
+            onClick={() => handleDownloadPdf(selectedFactura.id)}
+          >
+            Descargar PDF
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={sendOpen}
+        onClose={() => setSendOpen(false)}
+        fullWidth
+        maxWidth="xs"
+      >
+        <DialogTitle>Enviar duplicado de factura</DialogTitle>
+        <DialogContent sx={{ pt: "12px !important" }}>
+          <TextField
+            fullWidth
+            type="email"
+            label="Email destino"
+            value={sendEmail}
+            onChange={(event) => setSendEmail(event.target.value)}
+            placeholder="cliente@email.com"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setSendOpen(false)}>Cancelar</Button>
+          <Button
+            variant="contained"
+            startIcon={<SendIcon />}
+            onClick={handleSendDuplicate}
+            disabled={sending}
+          >
+            {sending ? "Enviando..." : "Enviar duplicado"}
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <Snackbar
         open={notification.open}

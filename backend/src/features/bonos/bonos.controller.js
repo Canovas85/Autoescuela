@@ -13,13 +13,21 @@ export class BonosController {
   }
 
   async getAll(req, res) {
-    const bonos = await this.service.getAll();
-    return res.status(200).json(bonos);
+    try {
+      const bonos = await this.service.getAll(req.query || {});
+      return res.status(200).json(bonos);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
   }
 
   async getActivos(req, res) {
-    const bonos = await this.service.getActivos();
-    return res.status(200).json(bonos);
+    try {
+      const bonos = await this.service.getActivos(req.user?.id);
+      return res.status(200).json(bonos);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
   }
 
   async getById(req, res) {

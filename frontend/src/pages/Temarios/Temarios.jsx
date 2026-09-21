@@ -29,6 +29,7 @@ import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el compon
 import VisibilityIcon from "@mui/icons-material/Visibility"; // Manteniendo el icono de ojo original
 
 import { temariosService } from "../../services/temariosService";
+import { LicenseChipList } from "../../components/common/LicenseChip";
 import TemarioHero from "./TemarioHero";
 
 const LICENCIAS = ["B", "A1", "A2", "A", "C", "D", "E"];
@@ -229,7 +230,7 @@ export default function Temarios() {
       flex: 1,
       renderCell: (params) => {
         const licencias = toLicenciasArray(params.row.tipoLicenciaObjetivo);
-        return licencias.length > 0 ? licencias.join(", ") : "-";
+        return <LicenseChipList values={licencias} />;
       },
     },
     { field: "orden", headerName: "Orden", flex: 0.6 },

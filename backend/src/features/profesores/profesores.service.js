@@ -226,7 +226,151 @@ export class ProfesoresService {
   }
 
   async deactivate(id) {
+    if (
+      typeof this.repository.findById !== "function" ||
+      typeof this.repository.findAssignedAlumnos !== "function"
+    ) {
+      return this.repository.deactivate(id);
+    }
+
+    const impacto = await this.getDeactivationImpact(id);
+
+    if ((impacto.alumnos || []).length > 0) {
+      throw new Error(
+        "No se puede desactivar el profesor sin reasignar previamente todos sus alumnos",
+      );
+    }
+
     return this.repository.deactivate(id);
+  }
+
+  async getDeactivationImpact(id) {
+    const profesor = await this.repository.findById(id);
+
+    if (!profesor) {
+      throw new Error("Profesor no encontrado");
+    }
+
+    const alumnosAsignados = await this.repository.findAssignedAlumnos(id);
+
+    const impacto = await Promise.all(
+      alumnosAsignados.map(async (alumno) => {
+        const licencia = String(alumno.tipoLicenciaObjetivo || "")
+          .trim()
+          .toUpperCase();
+        const opciones = licencia
+          ? await this.repository.findActiveProfesoresByLicenciaExcluding(
+              licencia,
+              id,
+            )
+          : [];
+
+        return {
+          alumnoId: alumno.id,
+          alumnoNombre: alumno.usuario?.nombre || "Alumno",
+          licencia,
+          opciones: opciones.map((item) => ({
+            id: item.id,
+            nombre: item.usuario?.nombre || "Profesor",
+            permisosLicencias: item.permisosLicencias || [],
+          })),
+        };
+      }),
+    );
+
+    const now = new Date();
+    const clasesAfectadas = alumnosAsignados.length
+      ? await this.repository.findFutureOrCurrentClassesForProfesor(
+          id,
+          alumnosAsignados.map((item) => item.id),
+          now,
+        )
+      : [];
+
+    return {
+      profesor: {
+        id: profesor.id,
+        nombre: profesor.usuario?.nombre || "Profesor",
+      },
+      alumnos: impacto,
+      clasesFuturas: clasesAfectadas.map((clase) => ({
+        id: clase.id,
+        fecha: clase.fecha,
+        estado: clase.estado,
+        alumnoId: clase.alumnoId,
+        alumnoNombre: clase.alumno?.usuario?.nombre || "Alumno",
+      })),
+    };
+  }
+
+  async deactivateWithReassignment(id, reassignmentRows, changedById = null) {
+    const profesor = await this.repository.findById(id);
+
+    if (!profesor) {
+      throw new Error("Profesor no encontrado");
+    }
+
+    if (profesor.activo === false) {
+      throw new Error("El profesor ya está desactivado");
+    }
+
+    const alumnosAsignados = await this.repository.findAssignedAlumnos(id);
+
+    if (!alumnosAsignados.length) {
+      return this.repository.deactivate(id);
+    }
+
+    if (!Array.isArray(reassignmentRows) || reassignmentRows.length === 0) {
+      throw new Error(
+        "Debes reasignar todos los alumnos antes de desactivar al profesor",
+      );
+    }
+
+    const assignmentMap = new Map(
+      reassignmentRows.map((row) => [
+        String(row.alumnoId),
+        String(row.nuevoProfesorId),
+      ]),
+    );
+
+    for (const alumno of alumnosAsignados) {
+      const nuevoProfesorId = assignmentMap.get(String(alumno.id));
+
+      if (!nuevoProfesorId) {
+        throw new Error(
+          `Falta reasignar el alumno ${alumno.usuario?.nombre || alumno.id}`,
+        );
+      }
+
+      const licenciaAlumno = String(alumno.tipoLicenciaObjetivo || "")
+        .trim()
+        .toUpperCase();
+      const candidatos =
+        await this.repository.findActiveProfesoresByLicenciaExcluding(
+          licenciaAlumno,
+          id,
+        );
+
+      const candidato = candidatos.find((item) => item.id === nuevoProfesorId);
+
+      if (!candidato) {
+        throw new Error(
+          `El nuevo profesor del alumno ${alumno.usuario?.nombre || alumno.id} no está activo o no es compatible con su licencia`,
+        );
+      }
+    }
+
+    const normalizedAssignments = alumnosAsignados.map((alumno) => ({
+      alumnoId: alumno.id,
+      nuevoProfesorId: assignmentMap.get(String(alumno.id)),
+    }));
+
+    return this.repository.deactivateWithReassignments({
+      profesorId: id,
+      assignments: normalizedAssignments,
+      changedById,
+      changedAt: new Date(),
+    });
   }
 
   async activate(id) {

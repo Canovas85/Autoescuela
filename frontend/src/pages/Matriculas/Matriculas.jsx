@@ -27,6 +27,7 @@ import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 
 import { matriculasService } from "../../services/matriculasService";
+import { LicenseChip } from "../../components/common/LicenseChip";
 
 const emptyForm = {
   nombre: "",
@@ -259,6 +260,7 @@ export default function Matriculas() {
       field: "licencia",
       headerName: "Licencia",
       flex: 0.7,
+      renderCell: (params) => <LicenseChip value={params.value} />,
     },
 
     {

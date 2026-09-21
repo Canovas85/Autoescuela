@@ -18,6 +18,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
+import { LicenseChipList } from "../../components/common/LicenseChip";
 
 import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
 
@@ -216,14 +217,105 @@ export default function Profesores() {
   const handleDeactivate = async (row) => {
     const nombreProfesor = row?.usuario?.nombre || "este profesor";
 
-    setConfirmDialog({
-      open: true,
-      action: "deactivate",
-      profesorId: row.id,
-      profesorNombre: nombreProfesor,
-      title: "Confirmar desactivación",
-      message: `Vas a desactivar a ${nombreProfesor} en la plataforma Autoescuela Eguzkilore. No podrá operar hasta su reactivación. ¿Deseas continuar?`,
+    try {
+      const impacto = await profesoresService.getDeactivationImpact(row.id);
+
+      if (!impacto?.alumnos?.length) {
+        setConfirmDialog({
+          open: true,
+          action: "deactivate",
+          profesorId: row.id,
+          profesorNombre: nombreProfesor,
+          title: "Confirmar desactivación",
+          message: `Vas a desactivar a ${nombreProfesor} en la plataforma Autoescuela Eguzkilore. No podrá operar hasta su reactivación. ¿Deseas continuar?`,
+        });
+        return;
+      }
+
+      const reasignacionesIniciales = {};
+      impacto.alumnos.forEach((item) => {
+        reasignacionesIniciales[item.alumnoId] = "";
+      });
+
+      setReasignacionesProfesor(reasignacionesIniciales);
+      setDeactivationModal({
+        open: true,
+        loading: false,
+        profesor: impacto.profesor,
+        alumnos: impacto.alumnos,
+      });
+    } catch (error) {
+      setNotification({
+        open: true,
+        message:
+          error.response?.data?.message ||
+          "No se pudo cargar el impacto de desactivación del profesor",
+        severity: "error",
+      });
+    }
+  };
+
+  const closeDeactivationModal = () => {
+    setDeactivationModal({
+      open: false,
+      loading: false,
+      profesor: null,
+      alumnos: [],
     });
+    setReasignacionesProfesor({});
+  };
+
+  const handleConfirmDeactivateWithReassignment = async () => {
+    if (!deactivationModal.profesor?.id) {
+      return;
+    }
+
+    const reasignaciones = [];
+
+    for (const alumno of deactivationModal.alumnos) {
+      const nuevoProfesorId = reasignacionesProfesor[alumno.alumnoId];
+
+      if (!nuevoProfesorId) {
+        setNotification({
+          open: true,
+          message:
+            "Debes seleccionar un nuevo profesor para todos los alumnos asignados",
+          severity: "error",
+        });
+        return;
+      }
+
+      reasignaciones.push({
+        alumnoId: alumno.alumnoId,
+        nuevoProfesorId,
+      });
+    }
+
+    try {
+      setDeactivationModal((prev) => ({ ...prev, loading: true }));
+      await profesoresService.deactivateWithReassignment(
+        deactivationModal.profesor.id,
+        reasignaciones,
+      );
+      await loadProfesores();
+      closeDeactivationModal();
+      setNotification({
+        open: true,
+        message:
+          "Profesor desactivado correctamente con reasignación obligatoria de alumnos y clases futuras",
+        severity: "success",
+      });
+    } catch (error) {
+      setNotification({
+        open: true,
+        message:
+          error.response?.data?.message ||
+          "No se pudo completar la desactivación con reasignación",
+        severity: "error",
+      });
+    } finally {
+      setDeactivationModal((prev) => ({ ...prev, loading: false }));
+    }
   };
 
   const handleActivate = async (row) => {
@@ -333,10 +425,16 @@ export default function Profesores() {
       field: "permisosLicencias",
       headerName: "Permisos",
       flex: 1.2,
-      valueGetter: (_, row) =>
-        Array.isArray(row.permisosLicencias) && row.permisosLicencias.length > 0
-          ? row.permisosLicencias.join(", ")
-          : row.licenciaConducir || "",
+      renderCell: (params) => (
+        <LicenseChipList
+          values={
+            Array.isArray(params.row.permisosLicencias) &&
+            params.row.permisosLicencias.length > 0
+              ? params.row.permisosLicencias
+              : [params.row.licenciaConducir]
+          }
+        />
+      ),
     },
 
     {
@@ -448,6 +546,14 @@ export default function Profesores() {
     message: "",
     severity: "success",
   });
+
+  const [deactivationModal, setDeactivationModal] = useState({
+    open: false,
+    loading: false,
+    profesor: null,
+    alumnos: [],
+  });
+  const [reasignacionesProfesor, setReasignacionesProfesor] = useState({});
 
   const handleEdit = (row) => {
     setEditingId(row.id);
@@ -866,6 +972,83 @@ export default function Profesores() {
             onClick={handleConfirmAction}
           >
             Confirmar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={deactivationModal.open}
+        onClose={deactivationModal.loading ? () => {} : closeDeactivationModal}
+        fullWidth
+        maxWidth="md"
+      >
+        <DialogTitle>
+          Reasignación obligatoria para desactivar profesor
+        </DialogTitle>
+        <DialogContent sx={{ display: "grid", gap: 2, pt: 1 }}>
+          <DialogContentText>
+            Debes reasignar todos los alumnos asignados antes de desactivar al
+            profesor {deactivationModal.profesor?.nombre || ""}. Al guardar, la
+            reasignación también se aplicará a sus clases prácticas futuras.
+          </DialogContentText>
+
+          {deactivationModal.alumnos.map((alumno) => (
+            <Box
+              key={alumno.alumnoId}
+              sx={{
+                border: "1px solid",
+                borderColor: "divider",
+                borderRadius: 1,
+                p: 2,
+                display: "grid",
+                gap: 1,
+              }}
+            >
+              <Typography variant="body2" fontWeight={700}>
+                {alumno.alumnoNombre} | Licencia {alumno.licencia}
+              </Typography>
+
+              <FormControl fullWidth size="small">
+                <Select
+                  value={reasignacionesProfesor[alumno.alumnoId] || ""}
+                  displayEmpty
+                  onChange={(event) =>
+                    setReasignacionesProfesor((prev) => ({
+                      ...prev,
+                      [alumno.alumnoId]: event.target.value,
+                    }))
+                  }
+                >
+                  <MenuItem value="">
+                    <em>Seleccionar profesor compatible</em>
+                  </MenuItem>
+                  {alumno.opciones.map((opcion) => (
+                    <MenuItem key={opcion.id} value={opcion.id}>
+                      {opcion.nombre} (
+                      {(opcion.permisosLicencias || []).join(", ")})
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          ))}
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={closeDeactivationModal}
+            disabled={deactivationModal.loading}
+          >
+            Cancelar
+          </Button>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={handleConfirmDeactivateWithReassignment}
+            disabled={deactivationModal.loading}
+          >
+            {deactivationModal.loading
+              ? "Guardando..."
+              : "Guardar y desactivar"}
           </Button>
         </DialogActions>
       </Dialog>

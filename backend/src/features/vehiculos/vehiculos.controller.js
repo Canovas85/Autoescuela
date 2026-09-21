@@ -32,9 +32,35 @@ export class VehiculosController {
   }
 
   async deactivate(req, res) {
-    const vehiculo = await this.service.deactivate(req.params.id);
+    try {
+      const vehiculo = await this.service.deactivate(req.params.id);
+      return res.status(200).json(vehiculo);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  }
 
-    return res.status(200).json(vehiculo);
+  async getDeactivationImpact(req, res) {
+    try {
+      const result = await this.service.getDeactivationImpact(req.params.id);
+
+      return res.status(200).json(result);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  }
+
+  async deactivateWithReassignment(req, res) {
+    try {
+      const vehiculo = await this.service.deactivateWithReassignment(
+        req.params.id,
+        req.body?.reasignaciones || [],
+      );
+
+      return res.status(200).json(vehiculo);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
   }
 
   async activate(req, res) {

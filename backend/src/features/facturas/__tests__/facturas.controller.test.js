@@ -44,4 +44,53 @@ describe("FacturasController", () => {
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith(facturas);
   });
+
+  it("debe devolver preview de factura con HTTP 200", async () => {
+    const preview = { id: "fac-1", numero: "F-0001" };
+
+    const serviceMock = {
+      getPreview: vi.fn().mockResolvedValue(preview),
+    };
+
+    const controller = new FacturasController(serviceMock);
+    const req = { params: { id: "fac-1" } };
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    };
+
+    await controller.getPreview(req, res);
+
+    expect(serviceMock.getPreview).toHaveBeenCalledWith("fac-1");
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(preview);
+  });
+
+  it("debe enviar duplicado de factura con HTTP 200", async () => {
+    const serviceMock = {
+      sendDuplicate: vi
+        .fn()
+        .mockResolvedValue({
+          message: "Duplicado de factura enviado correctamente",
+        }),
+    };
+
+    const controller = new FacturasController(serviceMock);
+    const req = {
+      params: { id: "fac-1" },
+      body: { email: "destino@demo.com" },
+    };
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    };
+
+    await controller.sendDuplicate(req, res);
+
+    expect(serviceMock.sendDuplicate).toHaveBeenCalledWith(
+      "fac-1",
+      "destino@demo.com",
+    );
+    expect(res.status).toHaveBeenCalledWith(200);
+  });
 });

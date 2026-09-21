@@ -74,6 +74,18 @@ export class MatriculasRepository {
         },
       });
 
+      const matriculaConPromocion =
+        typeof this.prisma.matricula.findUnique === "function"
+          ? await this.prisma.matricula.findUnique({
+              where: {
+                id: matricula.id,
+              },
+              include: {
+                promocion: true,
+              },
+            })
+          : null;
+
       const existente = await this.prisma.pago.findFirst({
         where: {
           matriculaId: id,
@@ -114,6 +126,58 @@ export class MatriculasRepository {
         });
       }
 
+      if (matriculaConPromocion?.promocion?.incluyePagoExamenGratis) {
+        await this.prisma.pago.create({
+          data: {
+            alumnoId: matricula.alumnoId,
+            matriculaId: matricula.id,
+            tipo: "PROMOCION_PAGO_EXAMEN_GRATIS",
+            concepto: "Pago de examen práctico incluido en promoción",
+            permiso: matricula.licencia,
+            importe: 0,
+            estado: "PAGADO",
+            fechaPago: new Date(),
+            convocatoriasIncluidas: 0,
+            convocatoriasConsumidas: 0,
+          },
+        });
+      }
+
+      if ((matriculaConPromocion?.promocion?.clasesGratisIncluidas || 0) > 0) {
+        const licenciaBono =
+          matriculaConPromocion.promocion.licenciaClasesGratis ||
+          matricula.licencia;
+
+        const bonoPromo = await this.prisma.bono.create({
+          data: {
+            nombre: `Bono promoción ${matriculaConPromocion.promocion.nombre}`,
+            descripcion: "Bono gratuito generado automáticamente por promoción",
+            licencia: licenciaBono,
+            clasesIncluidas:
+              matriculaConPromocion.promocion.clasesGratisIncluidas,
+            precio: 0,
+            validezDias: 180,
+            activo: true,
+            esInterno: true,
+          },
+        });
+
+        await this.prisma.compraBono.create({
+          data: {
+            alumnoId: matricula.alumnoId,
+            bonoId: bonoPromo.id,
+            matriculaOrigenId: matricula.id,
+            origenPromocionId: matriculaConPromocion.promocion.id,
+            clasesCompradas:
+              matriculaConPromocion.promocion.clasesGratisIncluidas,
+            clasesConsumidas: 0,
+            pagado: true,
+            fechaCompra: new Date(),
+            fechaValidezHasta: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000),
+          },
+        });
+      }
+
       return matricula;
     }
 
@@ -129,6 +193,18 @@ export class MatriculasRepository {
           fechaPago,
         },
       });
+
+      const matriculaConPromocion =
+        typeof tx.matricula.findUnique === "function"
+          ? await tx.matricula.findUnique({
+              where: {
+                id: matricula.id,
+              },
+              include: {
+                promocion: true,
+              },
+            })
+          : null;
 
       await tx.factura.updateMany({
         where: {
@@ -178,6 +254,86 @@ export class MatriculasRepository {
             convocatoriasConsumidas: 0,
           },
         });
+      }
+
+      const pagoPromocionExamenExistente = await tx.pago.findFirst({
+        where: {
+          matriculaId: id,
+          tipo: "PROMOCION_PAGO_EXAMEN_GRATIS",
+        },
+      });
+
+      if (
+        matriculaConPromocion?.promocion?.incluyePagoExamenGratis &&
+        !pagoPromocionExamenExistente
+      ) {
+        await tx.pago.create({
+          data: {
+            alumnoId: matricula.alumnoId,
+            matriculaId: matricula.id,
+            tipo: "PROMOCION_PAGO_EXAMEN_GRATIS",
+            concepto: "Pago de examen práctico incluido en promoción",
+            permiso: matricula.licencia,
+            importe: 0,
+            estado: "PAGADO",
+            fechaPago,
+            convocatoriasIncluidas: 0,
+            convocatoriasConsumidas: 0,
+          },
+        });
+      }
+
+      const clasesGratis = Number(
+        matriculaConPromocion?.promocion?.clasesGratisIncluidas || 0,
+      );
+
+      if (clasesGratis > 0) {
+        const compraPromoExistente = await tx.compraBono.findFirst({
+          where: {
+            alumnoId: matricula.alumnoId,
+            matriculaOrigenId: matricula.id,
+            origenPromocionId: matriculaConPromocion?.promocion?.id || null,
+          },
+        });
+
+        if (!compraPromoExistente) {
+          const licenciaBono =
+            matriculaConPromocion?.promocion?.licenciaClasesGratis ||
+            matricula.licencia;
+
+          const bonoPromo = await tx.bono.create({
+            data: {
+              nombre: `Bono promoción ${matriculaConPromocion?.promocion?.nombre || "alumno"}`,
+              descripcion:
+                "Bono gratuito generado automáticamente por promoción",
+              licencia: licenciaBono,
+              clasesIncluidas: clasesGratis,
+              precio: 0,
+              validezDias: 180,
+              activo: true,
+              esInterno: true,
+            },
+          });
+
+          const fechaCompra = new Date();
+          const fechaValidezHasta = new Date(
+            fechaCompra.getTime() + 180 * 24 * 60 * 60 * 1000,
+          );
+
+          await tx.compraBono.create({
+            data: {
+              alumnoId: matricula.alumnoId,
+              bonoId: bonoPromo.id,
+              matriculaOrigenId: matricula.id,
+              origenPromocionId: matriculaConPromocion?.promocion?.id || null,
+              clasesCompradas: clasesGratis,
+              clasesConsumidas: 0,
+              pagado: true,
+              fechaCompra,
+              fechaValidezHasta,
+            },
+          });
+        }
       }
 
       return matricula;
@@ -252,6 +408,47 @@ export class MatriculasRepository {
       orderBy: {
         fechaCreacion: "desc",
       },
+    });
+  }
+
+  async updatePendingEnrollmentAndFactura({
+    matriculaId,
+    licencia,
+    precioBase,
+    precioFinal,
+    promocionId,
+    conceptoFactura,
+    descuento,
+  }) {
+    return this.prisma.$transaction(async (tx) => {
+      const matricula = await tx.matricula.update({
+        where: {
+          id: matriculaId,
+        },
+        data: {
+          licencia,
+          precioBase,
+          precioFinal,
+          promocionId: promocionId || null,
+        },
+      });
+
+      await tx.factura.updateMany({
+        where: {
+          matriculaId,
+          estado: {
+            in: ["EMITIDA", "PENDIENTE"],
+          },
+        },
+        data: {
+          concepto: conceptoFactura,
+          baseImponible: precioBase,
+          descuento,
+          total: precioFinal,
+        },
+      });
+
+      return matricula;
     });
   }
 

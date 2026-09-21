@@ -1,8 +1,15 @@
 import { api } from "./api";
 
 export const bonosService = {
-  async getAll() {
-    const response = await api.get("/bonos");
+  async getAll(filters = {}) {
+    const params = new URLSearchParams();
+
+    if (filters.licencia) {
+      params.append("licencia", filters.licencia);
+    }
+
+    const query = params.toString();
+    const response = await api.get(`/bonos${query ? `?${query}` : ""}`);
     return response.data;
   },
 

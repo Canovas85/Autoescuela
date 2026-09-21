@@ -406,14 +406,33 @@ export class AlumnosService {
       ...data,
     };
 
+    const licenciaNuevaRaw = data.tipoLicenciaObjetivo ?? data.tipoLicencia;
+    const licenciaNuevaNormalizada = licenciaNuevaRaw
+      ? String(licenciaNuevaRaw).trim().toUpperCase()
+      : null;
+
+    if (
+      licenciaNuevaNormalizada &&
+      !LICENCIAS_PERMITIDAS.includes(licenciaNuevaNormalizada)
+    ) {
+      throw new Error(
+        "La licencia objetivo debe ser una de las permitidas: B, A1, A2, A, C, D, E",
+      );
+    }
+
     if (matricula && matricula.estado === "PAGADA") {
-      const licenciaNueva = data.tipoLicenciaObjetivo ?? data.tipoLicencia;
+      const licenciaNueva = licenciaNuevaNormalizada;
 
       if (licenciaNueva && licenciaNueva !== matricula.licencia) {
         throw new Error(
           "No se puede modificar la licencia porque la matrícula ya ha sido abonada.",
         );
       }
+    }
+
+    if (licenciaNuevaNormalizada) {
+      payload.tipoLicenciaObjetivo = licenciaNuevaNormalizada;
+      delete payload.tipoLicencia;
     }
 
     if (Object.prototype.hasOwnProperty.call(data, "profesorAsignadoId")) {
@@ -474,6 +493,73 @@ export class AlumnosService {
       delete payload.password;
     } else {
       delete payload.password;
+    }
+
+    if (
+      this.matriculasRepository &&
+      matricula &&
+      matricula.estado === "PENDIENTE" &&
+      licenciaNuevaNormalizada &&
+      licenciaNuevaNormalizada !== matricula.licencia
+    ) {
+      const dniActual = alumnoActual.usuario?.dni || data.dni;
+      const fechaNacimientoActual =
+        data.fechaNacimiento ?? alumnoActual.fechaNacimiento;
+      const promociones = await this.getEligiblePromotionsForEnrollment({
+        tipoLicenciaObjetivo: licenciaNuevaNormalizada,
+        fechaNacimiento: fechaNacimientoActual,
+        dni: dniActual,
+        esEstudiante: parseBoolean(data.esEstudiante, false),
+      });
+
+      let promocionSeleccionada = null;
+
+      if (data.promocionId) {
+        promocionSeleccionada = promociones.find(
+          (promocion) => promocion.id === data.promocionId,
+        );
+
+        if (!promocionSeleccionada) {
+          throw new Error(
+            "La promoción seleccionada no es válida para la nueva licencia.",
+          );
+        }
+      } else if (promociones.length === 1) {
+        promocionSeleccionada = promociones[0];
+      }
+
+      const tarifa = await this.matriculasRepository.findTarifaByLicencia(
+        licenciaNuevaNormalizada,
+      );
+
+      if (!tarifa) {
+        throw new Error(
+          `No existe tarifa configurada para la licencia ${licenciaNuevaNormalizada}`,
+        );
+      }
+
+      const precioBase = tarifa.precio;
+      const precioFinal = promocionSeleccionada
+        ? promocionSeleccionada.precioPromocional
+        : tarifa.precio;
+
+      const baseNumerica = Number(precioBase);
+      const finalNumerico = Number(precioFinal);
+
+      await this.matriculasRepository.updatePendingEnrollmentAndFactura({
+        matriculaId: matricula.id,
+        licencia: licenciaNuevaNormalizada,
+        precioBase,
+        precioFinal,
+        promocionId: promocionSeleccionada?.id || null,
+        conceptoFactura: promocionSeleccionada
+          ? `Matricula licencia ${licenciaNuevaNormalizada} - ${promocionSeleccionada.nombre}`
+          : `Matricula licencia ${licenciaNuevaNormalizada}`,
+        descuento:
+          baseNumerica > finalNumerico
+            ? Number((baseNumerica - finalNumerico).toFixed(2))
+            : 0,
+      });
     }
 
     return this.repository.update(id, payload);

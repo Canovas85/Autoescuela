@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { profesorPortalService } from "../../services/profesorPortalService";
+import { LicenseChip } from "../../components/common/LicenseChip";
 
 const formatDateTime = (value) => {
   if (!value) {
@@ -97,6 +98,7 @@ export default function ProfesorAlumnos() {
       field: "tipoLicenciaObjetivo",
       headerName: "Licencia",
       width: 110,
+      renderCell: (params) => <LicenseChip value={params.value} />,
     },
     {
       field: "matriculaEstado",
@@ -197,12 +199,16 @@ export default function ProfesorAlumnos() {
               <CircularProgress />
             </Box>
           ) : (
-            <Stack spacing={2} sx={{ mt: 1 }}>
+            <Stack spacing={2}>
               <Box>
-                <Typography variant="subtitle2" color="text.secondary">
+                <Typography
+                  fontWeight={700}
+                  color="text.secondary"
+                  gutterBottom
+                >
                   Datos personales
                 </Typography>
-                <Typography fontWeight={700}>
+                <Typography variant="subtitle2">
                   Nombre: {detail?.perfil?.nombre}
                 </Typography>
                 <Typography variant="body2">
@@ -235,7 +241,7 @@ export default function ProfesorAlumnos() {
 
               <Box>
                 <Typography
-                  variant="subtitle2"
+                  fontWeight={700}
                   color="text.secondary"
                   gutterBottom
                 >
@@ -251,7 +257,7 @@ export default function ProfesorAlumnos() {
 
               <Box>
                 <Typography
-                  variant="subtitle2"
+                  fontWeight={700}
                   color="text.secondary"
                   gutterBottom
                 >
@@ -277,7 +283,7 @@ export default function ProfesorAlumnos() {
 
               <Box>
                 <Typography
-                  variant="subtitle2"
+                  fontWeight={700}
                   color="text.secondary"
                   gutterBottom
                 >
@@ -292,7 +298,7 @@ export default function ProfesorAlumnos() {
 
               <Box>
                 <Typography
-                  variant="subtitle2"
+                  fontWeight={700}
                   color="text.secondary"
                   gutterBottom
                 >
@@ -319,7 +325,7 @@ export default function ProfesorAlumnos() {
 
               <Box>
                 <Typography
-                  variant="subtitle2"
+                  fontWeight={700}
                   color="text.secondary"
                   gutterBottom
                 >

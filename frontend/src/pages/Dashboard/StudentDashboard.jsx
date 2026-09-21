@@ -404,7 +404,7 @@ export default function StudentDashboard({ data }) {
               }}
             />
             <Chip
-              label={`${teoria.testsTotales} tests de apoyo realizados`}
+              label={`${teoria.testsTotales} tests de práctica`}
               size="small"
               sx={{
                 backgroundColor: "rgba(255,255,255,0.16)",

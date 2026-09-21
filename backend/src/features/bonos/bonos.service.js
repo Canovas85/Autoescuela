@@ -1,6 +1,13 @@
 const normalizarTexto = (valor) =>
   typeof valor === "string" ? valor.trim() : "";
 
+const LICENCIAS_VALIDAS = ["B", "A1", "A2", "A", "C", "D", "E"];
+
+const normalizarLicencia = (valor) =>
+  String(valor || "")
+    .trim()
+    .toUpperCase();
+
 export class BonosService {
   constructor(repository) {
     this.repository = repository;
@@ -32,9 +39,24 @@ export class BonosService {
 
     const precioNormalizado = Number(precio.toFixed(2));
 
+    let licencia = null;
+
+    if (
+      data.licencia !== undefined &&
+      data.licencia !== null &&
+      String(data.licencia).trim() !== ""
+    ) {
+      licencia = normalizarLicencia(data.licencia);
+
+      if (!LICENCIAS_VALIDAS.includes(licencia)) {
+        throw new Error("La licencia del bono no es válida");
+      }
+    }
+
     return {
       nombre,
       descripcion: normalizarTexto(data.descripcion) || null,
+      ...(licencia ? { licencia } : {}),
       clasesIncluidas,
       precio: precioNormalizado,
       validezDias,
@@ -46,12 +68,38 @@ export class BonosService {
     return this.repository.create(this.validarPayload(data));
   }
 
-  async getAll() {
-    return this.repository.findAll();
+  async getAll(filters = {}) {
+    const licencia = filters.licencia
+      ? normalizarLicencia(filters.licencia)
+      : undefined;
+
+    if (licencia && !LICENCIAS_VALIDAS.includes(licencia)) {
+      throw new Error("La licencia del filtro no es válida");
+    }
+
+    return this.repository.findAll({
+      licencia,
+    });
   }
 
-  async getActivos() {
-    return this.repository.findActivos();
+  async getActivos(alumnoId) {
+    if (typeof this.repository.findAlumnoById !== "function") {
+      return this.repository.findActivos();
+    }
+
+    const alumno = await this.repository.findAlumnoById(alumnoId);
+
+    if (!alumno) {
+      throw new Error("Alumno no encontrado");
+    }
+
+    const licenciaNormalizada = normalizarLicencia(alumno.tipoLicenciaObjetivo);
+
+    if (!LICENCIAS_VALIDAS.includes(licenciaNormalizada)) {
+      throw new Error("La licencia del alumno no es válida");
+    }
+
+    return this.repository.findActivos(licenciaNormalizada);
   }
 
   async getById(id) {
@@ -91,6 +139,15 @@ export class BonosService {
 
     if (!bono) {
       throw new Error("Bono no disponible para compra");
+    }
+
+    const licenciaAlumno = normalizarLicencia(alumno.tipoLicenciaObjetivo);
+    const licenciaBono = normalizarLicencia(bono.licencia || licenciaAlumno);
+
+    if (licenciaAlumno !== licenciaBono) {
+      throw new Error(
+        "El bono seleccionado no corresponde a la licencia que está cursando el alumno",
+      );
     }
 
     return this.repository.createCompraPendiente({

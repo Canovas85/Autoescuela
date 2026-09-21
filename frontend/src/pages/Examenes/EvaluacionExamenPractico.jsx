@@ -22,6 +22,7 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 
 import { evaluacionExamenesService } from "../../services/evaluacionExamenesService";
+import { LicenseChip } from "../../components/common/LicenseChip";
 
 const formatDate = (value) => {
   if (!value) return "-";
@@ -90,6 +91,7 @@ export default function EvaluacionExamenPractico() {
         field: "permisoLicencia",
         headerName: "Permiso/Licencia",
         flex: 0.9,
+        renderCell: (params) => <LicenseChip value={params.value} />,
       },
       {
         field: "estado",

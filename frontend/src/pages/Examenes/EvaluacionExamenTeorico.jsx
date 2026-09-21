@@ -15,6 +15,7 @@ import {
 import { DataGrid } from "@mui/x-data-grid";
 
 import { evaluacionExamenesService } from "../../services/evaluacionExamenesService";
+import { LicenseChip } from "../../components/common/LicenseChip";
 
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
@@ -94,6 +95,7 @@ export default function EvaluacionExamenTeorico() {
         field: "permisoLicencia",
         headerName: "Permiso/Licencia",
         flex: 0.9,
+        renderCell: (params) => <LicenseChip value={params.value} />,
       },
       {
         field: "estado",

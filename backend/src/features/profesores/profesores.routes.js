@@ -206,6 +206,20 @@ router.delete(
   controller.deactivate.bind(controller),
 );
 
+router.get(
+  "/:id/deactivation-impact",
+  authenticate,
+  authorize("ADMIN"),
+  controller.getDeactivationImpact.bind(controller),
+);
+
+router.post(
+  "/:id/deactivate-with-reassignment",
+  authenticate,
+  authorize("ADMIN"),
+  controller.deactivateWithReassignment.bind(controller),
+);
+
 router.patch(
   "/:id/activar",
   authenticate,

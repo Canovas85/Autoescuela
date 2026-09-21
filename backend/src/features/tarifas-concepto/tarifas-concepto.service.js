@@ -119,11 +119,22 @@ export class TarifasConceptoService {
     const permiso = filters.permiso
       ? String(filters.permiso).trim().toUpperCase()
       : undefined;
+    const tipo = filters.tipo
+      ? String(filters.tipo).trim().toUpperCase()
+      : undefined;
 
     const where = {};
 
     if (permiso) {
       where.permiso = permiso;
+    }
+
+    if (tipo) {
+      if (!TIPOS_VALIDOS.includes(tipo)) {
+        throw new Error("El tipo de precio del filtro no es válido");
+      }
+
+      where.tipo = tipo;
     }
 
     if (filters.activa !== undefined) {

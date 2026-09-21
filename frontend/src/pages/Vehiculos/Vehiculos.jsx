@@ -9,7 +9,9 @@ import {
   DialogContent,
   DialogTitle,
   DialogContentText,
+  FormControl,
   IconButton,
+  InputLabel,
   MenuItem,
   Paper,
   Select,
@@ -28,6 +30,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import UndoIcon from "@mui/icons-material/Undo";
 import { vehiculosService } from "../../services/vehiculosService";
+import { LicenseChip } from "../../components/common/LicenseChip";
 
 import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
 
@@ -68,7 +71,7 @@ export default function Vehiculos() {
   const [openDetail, setOpenDetail] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [selectedVehiculo, setSelectedVehiculo] = useState(null);
-  const [search, setSearch] = useState("");
+  const [permisoFiltro, setPermisoFiltro] = useState("all");
 
   const [exportAnchor, setExportAnchor] = useState(null);
 
@@ -99,6 +102,16 @@ export default function Vehiculos() {
     title: "",
     message: "",
   });
+
+  const [deactivateModal, setDeactivateModal] = useState({
+    open: false,
+    loading: false,
+    vehiculo: null,
+    clasesAfectadas: [],
+  });
+  const [reasignacionesDeactivacion, setReasignacionesDeactivacion] = useState(
+    {},
+  );
 
   const buildImageSrc = (ruta) => {
     if (!ruta) {
@@ -139,21 +152,12 @@ export default function Vehiculos() {
   }, [previewImage]);
 
   const filteredRows = useMemo(() => {
-    if (!search.trim()) {
+    if (!permisoFiltro || permisoFiltro === "all") {
       return rows;
     }
 
-    const texto = search.trim().toLowerCase();
-
-    return rows.filter((row) => {
-      return (
-        row.matricula?.toLowerCase().includes(texto) ||
-        row.marca?.toLowerCase().includes(texto) ||
-        row.modelo?.toLowerCase().includes(texto) ||
-        row.tipoPermiso?.toLowerCase().includes(texto)
-      );
-    });
-  }, [rows, search]);
+    return rows.filter((row) => row.tipoPermiso === permisoFiltro);
+  }, [rows, permisoFiltro]);
 
   const resetForm = () => {
     setNuevoVehiculo({
@@ -337,14 +341,141 @@ export default function Vehiculos() {
   };
 
   const handleDeactivate = async (row) => {
-    setConfirmDialog({
-      open: true,
-      action: "deactivate",
-      vehiculoId: row.id,
-      matricula: row.matricula,
-      title: "Confirmar desactivación",
-      message: `Vas a desactivar el vehículo ${row.matricula} en la plataforma Autoescuela Eguzkilore. No podrá ser utilizado hasta su reactivación. ¿Deseas continuar?`,
+    try {
+      const impacto = await vehiculosService.getDeactivationImpact(row.id);
+
+      if (!impacto?.clasesAfectadas?.length) {
+        setConfirmDialog({
+          open: true,
+          action: "deactivate",
+          vehiculoId: row.id,
+          matricula: row.matricula,
+          title: "Confirmar desactivación",
+          message: `Vas a desactivar el vehículo ${row.matricula} en la plataforma Autoescuela Eguzkilore. No podrá ser utilizado hasta su reactivación. ¿Deseas continuar?`,
+        });
+        return;
+      }
+
+      const valoresIniciales = {};
+      impacto.clasesAfectadas.forEach((item) => {
+        valoresIniciales[item.claseId] = {
+          nuevoVehiculoId: "",
+          kmActualesNuevoVehiculo: "",
+          combustibleActualPctNuevoVehiculo: "",
+          enCurso: Boolean(item.enCurso),
+        };
+      });
+
+      setReasignacionesDeactivacion(valoresIniciales);
+      setDeactivateModal({
+        open: true,
+        loading: false,
+        vehiculo: impacto.vehiculo,
+        clasesAfectadas: impacto.clasesAfectadas,
+      });
+    } catch (error) {
+      setNotification({
+        open: true,
+        message:
+          error.response?.data?.message ||
+          "No se pudo cargar el impacto de desactivación del vehículo",
+        severity: "error",
+      });
+    }
+  };
+
+  const closeDeactivateModal = () => {
+    setDeactivateModal({
+      open: false,
+      loading: false,
+      vehiculo: null,
+      clasesAfectadas: [],
     });
+    setReasignacionesDeactivacion({});
+  };
+
+  const handleConfirmDeactivateWithReassignment = async () => {
+    if (!deactivateModal.vehiculo?.id) {
+      return;
+    }
+
+    const reasignaciones = [];
+
+    for (const clase of deactivateModal.clasesAfectadas) {
+      const item = reasignacionesDeactivacion[clase.claseId] || {};
+
+      if (!item.nuevoVehiculoId) {
+        setNotification({
+          open: true,
+          message: "Debes reasignar todas las clases antes de desactivar",
+          severity: "error",
+        });
+        return;
+      }
+
+      if (clase.enCurso) {
+        const km = Number(item.kmActualesNuevoVehiculo);
+        const combustible = Number(item.combustibleActualPctNuevoVehiculo);
+
+        if (!Number.isInteger(km) || km < 0) {
+          setNotification({
+            open: true,
+            message:
+              "Debes informar un kilometraje válido para todas las clases en curso",
+            severity: "error",
+          });
+          return;
+        }
+
+        if (
+          !Number.isInteger(combustible) ||
+          combustible < 0 ||
+          combustible > 100
+        ) {
+          setNotification({
+            open: true,
+            message:
+              "Debes informar un combustible válido (0-100) para todas las clases en curso",
+            severity: "error",
+          });
+          return;
+        }
+      }
+
+      reasignaciones.push({
+        claseId: clase.claseId,
+        nuevoVehiculoId: item.nuevoVehiculoId,
+        kmActualesNuevoVehiculo: item.kmActualesNuevoVehiculo,
+        combustibleActualPctNuevoVehiculo:
+          item.combustibleActualPctNuevoVehiculo,
+      });
+    }
+
+    try {
+      setDeactivateModal((prev) => ({ ...prev, loading: true }));
+      await vehiculosService.deactivateWithReassignment(
+        deactivateModal.vehiculo.id,
+        reasignaciones,
+      );
+      await loadVehiculos();
+      closeDeactivateModal();
+      setNotification({
+        open: true,
+        message:
+          "Vehículo desactivado correctamente con reasignación de clases obligatoria",
+        severity: "success",
+      });
+    } catch (error) {
+      setNotification({
+        open: true,
+        message:
+          error.response?.data?.message ||
+          "No se pudo completar la desactivación con reasignación",
+        severity: "error",
+      });
+    } finally {
+      setDeactivateModal((prev) => ({ ...prev, loading: false }));
+    }
   };
 
   const handleActivate = async (row) => {
@@ -434,7 +565,12 @@ export default function Vehiculos() {
     { field: "matricula", headerName: "Matrícula", flex: 1 },
     { field: "marca", headerName: "Marca", flex: 1 },
     { field: "modelo", headerName: "Modelo", flex: 1 },
-    { field: "tipoPermiso", headerName: "Permiso", flex: 0.7 },
+    {
+      field: "tipoPermiso",
+      headerName: "Permiso",
+      flex: 0.7,
+      renderCell: (params) => <LicenseChip value={params.value} />,
+    },
 
     {
       field: "activo",
@@ -544,14 +680,21 @@ export default function Vehiculos() {
           Nuevo Vehículo
         </Button>
 
-        <TextField
-          size="small"
-          label="Buscar vehículo"
-          placeholder="Matrícula, marca, modelo o permiso"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          sx={{ width: 340, mt: 0.5 }}
-        />
+        <FormControl size="small" sx={{ minWidth: 220, mt: 0.5 }}>
+          <InputLabel>Permiso</InputLabel>
+          <Select
+            label="Permiso"
+            value={permisoFiltro}
+            onChange={(event) => setPermisoFiltro(event.target.value)}
+          >
+            <MenuItem value="all">Todos</MenuItem>
+            {PERMISOS.map((permiso) => (
+              <MenuItem key={permiso} value={permiso}>
+                {permiso}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
         <Button
           variant="outlined"
@@ -982,6 +1125,132 @@ export default function Vehiculos() {
             onClick={handleConfirmAction}
           >
             Confirmar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={deactivateModal.open}
+        onClose={deactivateModal.loading ? () => {} : closeDeactivateModal}
+        fullWidth
+        maxWidth="md"
+      >
+        <DialogTitle>
+          Reasignación obligatoria para desactivar vehículo
+        </DialogTitle>
+        <DialogContent sx={{ display: "grid", gap: 2, pt: 1 }}>
+          <DialogContentText>
+            Debes reasignar todas las clases futuras/en curso antes de finalizar
+            la desactivación del vehículo
+            {` ${deactivateModal.vehiculo?.matricula || ""}`}. Para clases en
+            curso también debes informar kilometraje y combustible del vehículo
+            de reemplazo.
+          </DialogContentText>
+
+          {deactivateModal.clasesAfectadas.map((clase) => {
+            const item = reasignacionesDeactivacion[clase.claseId] || {};
+
+            return (
+              <Box
+                key={clase.claseId}
+                sx={{
+                  border: "1px solid",
+                  borderColor: "divider",
+                  borderRadius: 1,
+                  p: 2,
+                  display: "grid",
+                  gap: 1.5,
+                }}
+              >
+                <Typography variant="body2" fontWeight={700}>
+                  Clase {new Date(clase.fecha).toLocaleString("es-ES")} |
+                  Alumno: {clase.alumnoNombre} | Permiso: {clase.permiso}
+                  {clase.enCurso ? " | EN CURSO" : ""}
+                </Typography>
+
+                <FormControl fullWidth size="small">
+                  <InputLabel>Nuevo vehículo</InputLabel>
+                  <Select
+                    label="Nuevo vehículo"
+                    value={item.nuevoVehiculoId || ""}
+                    onChange={(event) =>
+                      setReasignacionesDeactivacion((prev) => ({
+                        ...prev,
+                        [clase.claseId]: {
+                          ...prev[clase.claseId],
+                          nuevoVehiculoId: event.target.value,
+                        },
+                      }))
+                    }
+                  >
+                    {clase.opciones.map((opcion) => (
+                      <MenuItem key={opcion.id} value={opcion.id}>
+                        {opcion.matricula} - {opcion.marca || ""}{" "}
+                        {opcion.modelo || ""}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                {clase.enCurso ? (
+                  <Box
+                    sx={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 1fr",
+                      gap: 1.5,
+                    }}
+                  >
+                    <TextField
+                      size="small"
+                      label="Km nuevo vehículo"
+                      type="number"
+                      value={item.kmActualesNuevoVehiculo || ""}
+                      onChange={(event) =>
+                        setReasignacionesDeactivacion((prev) => ({
+                          ...prev,
+                          [clase.claseId]: {
+                            ...prev[clase.claseId],
+                            kmActualesNuevoVehiculo: event.target.value,
+                          },
+                        }))
+                      }
+                    />
+                    <TextField
+                      size="small"
+                      label="Combustible nuevo vehículo (%)"
+                      type="number"
+                      value={item.combustibleActualPctNuevoVehiculo || ""}
+                      onChange={(event) =>
+                        setReasignacionesDeactivacion((prev) => ({
+                          ...prev,
+                          [clase.claseId]: {
+                            ...prev[clase.claseId],
+                            combustibleActualPctNuevoVehiculo:
+                              event.target.value,
+                          },
+                        }))
+                      }
+                    />
+                  </Box>
+                ) : null}
+              </Box>
+            );
+          })}
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={closeDeactivateModal}
+            disabled={deactivateModal.loading}
+          >
+            Cancelar
+          </Button>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={handleConfirmDeactivateWithReassignment}
+            disabled={deactivateModal.loading}
+          >
+            {deactivateModal.loading ? "Guardando..." : "Guardar y desactivar"}
           </Button>
         </DialogActions>
       </Dialog>

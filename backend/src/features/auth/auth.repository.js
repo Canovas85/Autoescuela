@@ -8,6 +8,18 @@ export class AuthRepository {
       where: {
         email,
       },
+      include: {
+        alumno: {
+          select: {
+            activo: true,
+          },
+        },
+        profesor: {
+          select: {
+            activo: true,
+          },
+        },
+      },
     });
   }
 
@@ -47,6 +59,28 @@ export class AuthRepository {
       data: {
         passwordHash,
         requiereCambioPassword: false,
+      },
+    });
+  }
+
+  async findUserStatusById(id) {
+    return this.prisma.usuario.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        id: true,
+        rol: true,
+        alumno: {
+          select: {
+            activo: true,
+          },
+        },
+        profesor: {
+          select: {
+            activo: true,
+          },
+        },
       },
     });
   }

@@ -26,6 +26,21 @@ export const vehiculosService = {
     return response.data;
   },
 
+  getDeactivationImpact: async (id) => {
+    const response = await api.get(`/vehiculos/${id}/deactivation-impact`);
+    return response.data;
+  },
+
+  deactivateWithReassignment: async (id, reasignaciones) => {
+    const response = await api.post(
+      `/vehiculos/${id}/deactivate-with-reassignment`,
+      {
+        reasignaciones,
+      },
+    );
+    return response.data;
+  },
+
   activate: async (id) => {
     const response = await api.patch(`/vehiculos/${id}/activar`);
     return response.data;

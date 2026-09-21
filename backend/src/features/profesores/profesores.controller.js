@@ -32,9 +32,35 @@ export class ProfesoresController {
   }
 
   async deactivate(req, res) {
-    const profesor = await this.service.deactivate(req.params.id);
+    try {
+      const profesor = await this.service.deactivate(req.params.id);
+      return res.status(200).json(profesor);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  }
 
-    return res.status(200).json(profesor);
+  async getDeactivationImpact(req, res) {
+    try {
+      const result = await this.service.getDeactivationImpact(req.params.id);
+      return res.status(200).json(result);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  }
+
+  async deactivateWithReassignment(req, res) {
+    try {
+      const profesor = await this.service.deactivateWithReassignment(
+        req.params.id,
+        req.body?.reasignaciones || [],
+        req.user?.id || null,
+      );
+
+      return res.status(200).json(profesor);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
   }
 
   async activate(req, res) {

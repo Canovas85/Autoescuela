@@ -30,17 +30,19 @@ export class AuthService {
   async login(email, password) {
     const user = await this.repository.findUserByEmail(email);
 
-    console.log("EMAIL RECIBIDO:", email);
-
-    console.log("USER:", user);
-
     if (!user) {
       throw new Error("Credenciales inválidas");
     }
 
-    const validPassword = await bcrypt.compare(password, user.passwordHash);
+    if (user.rol === "ALUMNO" && user.alumno?.activo === false) {
+      throw new Error("Usuario desactivado. Contacte con administración");
+    }
 
-    console.log("PASSWORD VALIDA:", validPassword);
+    if (user.rol === "PROFESOR" && user.profesor?.activo === false) {
+      throw new Error("Usuario desactivado. Contacte con administración");
+    }
+
+    const validPassword = await bcrypt.compare(password, user.passwordHash);
 
     if (!validPassword) {
       throw new Error("Credenciales inválidas");
@@ -75,6 +77,23 @@ export class AuthService {
   async changePasswordFirstLogin(userId, newPassword, confirmPassword) {
     if (!userId) {
       throw new Error("Usuario no autenticado");
+    }
+
+    const userStatus = await this.repository.findUserStatusById(userId);
+
+    if (!userStatus) {
+      throw new Error("Usuario no encontrado");
+    }
+
+    if (userStatus.rol === "ALUMNO" && userStatus.alumno?.activo === false) {
+      throw new Error("Usuario desactivado. Contacte con administración");
+    }
+
+    if (
+      userStatus.rol === "PROFESOR" &&
+      userStatus.profesor?.activo === false
+    ) {
+      throw new Error("Usuario desactivado. Contacte con administración");
     }
 
     this.validarPasswordNueva(newPassword);

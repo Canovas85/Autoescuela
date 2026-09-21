@@ -27,6 +27,7 @@ import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 
 import { tarifasMatriculaService } from "../../services/tarifasMatriculaService";
+import { LicenseChip } from "../../components/common/LicenseChip";
 import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
 
 const LICENCIAS = ["B", "A1", "A2", "A", "C", "D", "E"];
@@ -214,6 +215,7 @@ export default function TarifasMatricula() {
       field: "licencia",
       headerName: "Licencia",
       flex: 1,
+      renderCell: (params) => <LicenseChip value={params.value} />,
     },
 
     {

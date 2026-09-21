@@ -33,10 +33,14 @@ import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
 import { bonosService } from "../../services/bonosService";
+import { LicenseChip } from "../../components/common/LicenseChip";
+
+const LICENCIAS = ["B", "A1", "A2", "A", "C", "D", "E"];
 
 const emptyForm = {
   nombre: "",
   descripcion: "",
+  licencia: "B",
   clasesIncluidas: 10,
   precio: "",
   validezDias: 90,
@@ -148,6 +152,7 @@ export default function Bonos() {
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(emptyForm);
+  const [licenciaFiltro, setLicenciaFiltro] = useState("all");
   const [notification, setNotification] = useState({
     open: false,
     message: "",
@@ -182,7 +187,9 @@ export default function Bonos() {
       setLoading(true);
       const data =
         role === "ADMIN"
-          ? await bonosService.getAll()
+          ? await bonosService.getAll({
+              licencia: licenciaFiltro === "all" ? undefined : licenciaFiltro,
+            })
           : await bonosService.getAvailable();
       setRows(data);
     } catch (error) {
@@ -202,7 +209,7 @@ export default function Bonos() {
 
   useEffect(() => {
     loadBonos();
-  }, [role]);
+  }, [role, licenciaFiltro]);
 
   const filteredRows = useMemo(() => rows, [rows]);
 
@@ -221,6 +228,7 @@ export default function Bonos() {
     setForm({
       nombre: row.nombre || "",
       descripcion: row.descripcion || "",
+      licencia: row.licencia || "B",
       clasesIncluidas: row.clasesIncluidas ?? 10,
       precio: row.precio ?? "",
       validezDias: row.validezDias ?? 90,
@@ -368,6 +376,12 @@ export default function Bonos() {
 
   const columns = [
     { field: "nombre", headerName: "Nombre", flex: 1.1 },
+    {
+      field: "licencia",
+      headerName: "Licencia",
+      flex: 0.6,
+      renderCell: (params) => <LicenseChip value={params.value} />,
+    },
     { field: "clasesIncluidas", headerName: "Clases", flex: 0.6 },
     {
       field: "precio",
@@ -466,13 +480,31 @@ export default function Bonos() {
         </Typography>
 
         {role === "ADMIN" ? (
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            onClick={handleOpenCreate}
-          >
-            Nuevo bono
-          </Button>
+          <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+            <FormControl size="small" sx={{ minWidth: 180 }}>
+              <InputLabel>Licencia</InputLabel>
+              <Select
+                label="Licencia"
+                value={licenciaFiltro}
+                onChange={(event) => setLicenciaFiltro(event.target.value)}
+              >
+                <MenuItem value="all">Todas</MenuItem>
+                {LICENCIAS.map((licencia) => (
+                  <MenuItem key={licencia} value={licencia}>
+                    {licencia}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              onClick={handleOpenCreate}
+            >
+              Nuevo bono
+            </Button>
+          </Box>
         ) : null}
       </Box>
 
@@ -522,6 +554,22 @@ export default function Bonos() {
               setForm((prev) => ({ ...prev, descripcion: event.target.value }))
             }
           />
+          <FormControl fullWidth>
+            <InputLabel>Licencia</InputLabel>
+            <Select
+              label="Licencia"
+              value={form.licencia}
+              onChange={(event) =>
+                setForm((prev) => ({ ...prev, licencia: event.target.value }))
+              }
+            >
+              {LICENCIAS.map((licencia) => (
+                <MenuItem key={licencia} value={licencia}>
+                  {licencia}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <TextField
             label="Clases incluidas"
             type="number"

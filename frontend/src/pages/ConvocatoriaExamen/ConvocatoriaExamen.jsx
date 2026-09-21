@@ -27,6 +27,8 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import { convocatoriasTeoricoService } from "../../services/convocatoriasTeoricoService";
 import Tooltip from "@mui/material/Tooltip";
+import { LicenseChip } from "../../components/common/LicenseChip";
+import { ExamTypeChip } from "../../components/common/ExamTypeChip";
 
 const WEEK_DAYS = ["L", "M", "X", "J", "V", "S", "D"];
 
@@ -312,18 +314,13 @@ export default function ConvocatoriaExamen() {
         field: "licencia",
         headerName: "Licencia",
         width: 130,
+        renderCell: (params) => <LicenseChip value={params.value} />,
       },
       {
         field: "tipoExamen",
         headerName: "Tipo",
         width: 150,
-        renderCell: (params) => (
-          <Chip
-            size="small"
-            color={params.value === "PRACTICO" ? "secondary" : "primary"}
-            label={params.value}
-          />
-        ),
+        renderCell: (params) => <ExamTypeChip value={params.value} />,
       },
       {
         field: "activo",
@@ -387,11 +384,13 @@ export default function ConvocatoriaExamen() {
       field: "licencia",
       headerName: "Licencia",
       width: 120,
+      renderCell: (params) => <LicenseChip value={params.value} />,
     },
     {
       field: "tipoExamen",
       headerName: "Tipo examen",
       width: 150,
+      renderCell: (params) => <ExamTypeChip value={params.value} />,
     },
     {
       field: "estado",
@@ -600,8 +599,20 @@ export default function ConvocatoriaExamen() {
                           px: 0.75,
                         }}
                       >
-                        {item.tipoExamen} {item.licencia} (
-                        {item.totalAlumnos || 0})
+                        <Stack
+                          direction="row"
+                          spacing={0.5}
+                          alignItems="center"
+                        >
+                          <ExamTypeChip value={item.tipoExamen} size="small" />
+                          <LicenseChip value={item.licencia} size="small" />
+                          <Typography
+                            variant="caption"
+                            sx={{ fontWeight: 700 }}
+                          >
+                            ({item.totalAlumnos || 0})
+                          </Typography>
+                        </Stack>
                       </Button>
                     ))}
                   </Stack>

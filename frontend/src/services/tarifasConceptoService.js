@@ -8,6 +8,10 @@ export const tarifasConceptoService = {
       params.append("permiso", filters.permiso);
     }
 
+    if (filters.tipo) {
+      params.append("tipo", filters.tipo);
+    }
+
     if (filters.activa !== undefined) {
       params.append("activa", String(filters.activa));
     }

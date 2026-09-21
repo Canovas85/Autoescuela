@@ -51,6 +51,8 @@ model Profesor {
   activo            Boolean         @default(true)
   permisosLicencias String[]        @default([])
   alumnosAsignados  Alumno[]
+  historialComoAnterior AlumnoProfesorHistorial[] @relation("HistorialProfesorAnterior")
+  historialComoNuevo    AlumnoProfesorHistorial[] @relation("HistorialProfesorNuevo")
   clasesDirecto     ClaseDirecto[]
   clases            ClasePractica[]
   gastosCombustible GastoCombustible[]
@@ -96,6 +98,7 @@ model Alumno {
   examenesDGT               ExamenDGTAlumno[]
   documentosAlumno          DocumentoAlumno[]
   hojasRuta                 HojaRuta[]
+  historialProfesores       AlumnoProfesorHistorial[]
 
   @@map("alumnos")
 }
@@ -249,11 +252,15 @@ model Bono {
   id              String       @id @default(uuid())
   nombre          String
   descripcion     String?
+  licencia        String       @default("B")
   clasesIncluidas Int
   precio          Decimal      @default(0) @db.Decimal(10, 2)
   validezDias     Int          @default(90)
   activo          Boolean      @default(true)
+  esInterno       Boolean      @default(false)
   compras         CompraBono[]
+
+  @@index([licencia])
 
   @@map("bonos")
 }
@@ -262,6 +269,8 @@ model CompraBono {
   id                String   @id @default(uuid())
   alumnoId          String
   bonoId            String
+  matriculaOrigenId String?
+  origenPromocionId String?
   clasesCompradas   Int
   clasesConsumidas  Int      @default(0)
   pagado            Boolean  @default(false)
@@ -275,6 +284,8 @@ model CompraBono {
 
   @@index([alumnoId])
   @@index([bonoId])
+  @@index([matriculaOrigenId])
+  @@index([origenPromocionId])
   @@index([fechaCompra])
   @@map("compras_bonos")
 }
@@ -462,9 +473,31 @@ model Promocion {
   edadMinima               Int?
   edadMaxima               Int?
   requiereFidelidad        Boolean     @default(false)
+  incluyePagoExamenGratis  Boolean     @default(false)
+  clasesGratisIncluidas    Int         @default(0)
+  licenciaClasesGratis     String?
   matriculas               Matricula[]
 
   @@map("promociones")
+}
+
+model AlumnoProfesorHistorial {
+  id                String   @id @default(uuid())
+  alumnoId           String
+  profesorAnteriorId String
+  profesorNuevoId    String
+  changedById        String?
+  changedAt          DateTime @default(now())
+  motivo             String?
+  alumno             Alumno   @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  profesorAnterior   Profesor @relation("HistorialProfesorAnterior", fields: [profesorAnteriorId], references: [id], onDelete: Restrict)
+  profesorNuevo      Profesor @relation("HistorialProfesorNuevo", fields: [profesorNuevoId], references: [id], onDelete: Restrict)
+
+  @@index([alumnoId])
+  @@index([profesorAnteriorId])
+  @@index([profesorNuevoId])
+  @@index([changedAt])
+  @@map("alumnos_profesor_historial")
 }
 
 enum TipoPrecio {

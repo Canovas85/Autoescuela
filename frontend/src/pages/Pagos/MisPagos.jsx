@@ -4,6 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 
 import { pagosService } from "../../services/pagosService";
+import { LicenseChip } from "../../components/common/LicenseChip";
 
 const formatDate = (value) => {
   if (!value) {
@@ -68,6 +69,7 @@ export default function MisPagos() {
       field: "permiso",
       headerName: "Permiso",
       flex: 0.6,
+      renderCell: (params) => <LicenseChip value={params.value} />,
     },
     {
       field: "importe",

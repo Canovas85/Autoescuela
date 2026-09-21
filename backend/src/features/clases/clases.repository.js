@@ -99,6 +99,22 @@ export class ClasesRepository {
     });
   }
 
+  async findProfesorById(id) {
+    return this.prisma.profesor.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
+
+  async findVehiculoById(id) {
+    return this.prisma.vehiculo.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
+
   async findStudentBookingProfile(alumnoId) {
     return this.prisma.alumno.findUnique({
       where: {
@@ -354,7 +370,7 @@ export class ClasesRepository {
     });
   }
 
-  async getApplicableBonos(alumnoId, now) {
+  async getApplicableBonos(alumnoId, now, licencia = null) {
     return this.prisma.compraBono.findMany({
       where: {
         alumnoId,
@@ -362,6 +378,13 @@ export class ClasesRepository {
         fechaValidezHasta: {
           gte: now,
         },
+        ...(licencia
+          ? {
+              bono: {
+                licencia,
+              },
+            }
+          : {}),
       },
       include: {
         bono: true,

@@ -44,6 +44,7 @@ import { exportAlumnosPdf } from "../../utils/exportAlumnosPdf";
 
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
+import { LicenseChip } from "../../components/common/LicenseChip";
 
 import {
   Dialog,
@@ -371,7 +372,6 @@ export default function Alumnos() {
 
       if (editingId) {
         delete payload.esEstudiante;
-        delete payload.promocionId;
         payload.profesorAsignadoId = payload.profesorAsignadoId || null;
       } else {
         delete payload.profesorAsignadoId;
@@ -544,6 +544,9 @@ export default function Alumnos() {
       field: "tipoLicenciaObjetivo",
       headerName: "Licencia",
       flex: 1,
+      renderCell: (params) => (
+        <LicenseChip value={params.row.tipoLicenciaObjetivo} />
+      ),
     },
 
     {
@@ -573,9 +576,32 @@ export default function Alumnos() {
       field: "profesorAsignado",
       headerName: "Profesor",
       flex: 1,
+      renderCell: (params) => {
+        const matriculaPagada = obtenerEstadoMatricula(params.row) === "PAGADA";
+        const sinProfesor = !params.row.profesorAsignado?.usuario?.nombre;
+        const pendienteAsignar = matriculaPagada && sinProfesor;
 
-      valueGetter: (_, row) =>
-        row.profesorAsignado?.usuario?.nombre || "Sin asignar",
+        return (
+          <Box
+            sx={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              px: 1,
+              backgroundColor: pendienteAsignar ? "#fff8d6" : "transparent",
+              borderRadius: 1,
+            }}
+          >
+            <Typography
+              variant="body2"
+              sx={{ fontWeight: pendienteAsignar ? 700 : 400 }}
+            >
+              {params.row.profesorAsignado?.usuario?.nombre || "Sin asignar"}
+            </Typography>
+          </Box>
+        );
+      },
     },
     {
       field: "telefono",
@@ -788,10 +814,6 @@ export default function Alumnos() {
   };
 
   const cargarPromocionesElegibles = async () => {
-    if (editingId) {
-      return;
-    }
-
     const licencia = newAlumno.tipoLicencia?.trim();
     const dni = limpiarDni(newAlumno.dni);
     const fechaNacimiento = newAlumno.fechaNacimiento?.trim();
@@ -1347,6 +1369,54 @@ export default function Alumnos() {
                   >
                     Promoción asociada a la matrícula
                   </Typography>
+
+                  {!puedeAsignarProfesor && (
+                    <Box sx={{ display: "grid", gap: 1.5, mb: 2 }}>
+                      <Alert severity="info">
+                        La matrícula está pendiente. Si cambias la licencia,
+                        puedes recalcular promociones antes de guardar.
+                      </Alert>
+                      <Button
+                        variant="outlined"
+                        onClick={cargarPromocionesElegibles}
+                        disabled={loadingPromociones}
+                      >
+                        {loadingPromociones
+                          ? "Comprobando promociones..."
+                          : "Recalcular promociones para la licencia"}
+                      </Button>
+
+                      {promocionesElegibles.length > 0 ? (
+                        <TextField
+                          select
+                          fullWidth
+                          size="small"
+                          label="Promoción a aplicar (opcional)"
+                          value={newAlumno.promocionId || ""}
+                          onChange={(event) =>
+                            setNewAlumno((prev) => ({
+                              ...prev,
+                              promocionId: event.target.value,
+                            }))
+                          }
+                          helperText="Si no eliges ninguna, se guardará la matrícula sin promoción"
+                        >
+                          <MenuItem value="">Sin promoción</MenuItem>
+                          {promocionesElegibles.map((promocion) => (
+                            <MenuItem key={promocion.id} value={promocion.id}>
+                              {promocion.nombre} - {promocion.precioPromocional}{" "}
+                              EUR
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                      ) : (
+                        <Typography variant="caption" color="text.secondary">
+                          No hay promociones elegibles para la licencia
+                          seleccionada.
+                        </Typography>
+                      )}
+                    </Box>
+                  )}
 
                   {promocionMatricula ? (
                     <>

@@ -31,6 +31,7 @@ import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
 
 import { tarifasConceptoService } from "../../services/tarifasConceptoService";
+import { LicenseChip } from "../../components/common/LicenseChip";
 
 const PERMISOS = ["A", "A1", "A2", "B", "C", "D", "E"];
 const TIPOS = ["FIJO", "VARIABLE", "POR_CLASE", "POR_EXAMEN"];
@@ -50,6 +51,7 @@ export default function TarifasConcepto() {
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(emptyForm);
   const [permisoFiltro, setPermisoFiltro] = useState("all");
+  const [tipoFiltro, setTipoFiltro] = useState("all");
   const [notification, setNotification] = useState({
     open: false,
     message: "",
@@ -67,6 +69,7 @@ export default function TarifasConcepto() {
     try {
       const data = await tarifasConceptoService.getAll({
         permiso: permisoFiltro === "all" ? undefined : permisoFiltro,
+        tipo: tipoFiltro === "all" ? undefined : tipoFiltro,
       });
       setRows(data);
     } catch (error) {
@@ -81,7 +84,7 @@ export default function TarifasConcepto() {
 
   useEffect(() => {
     loadTarifas();
-  }, [permisoFiltro]);
+  }, [permisoFiltro, tipoFiltro]);
 
   const filteredRows = useMemo(() => rows, [rows]);
 
@@ -230,6 +233,7 @@ export default function TarifasConcepto() {
       field: "permiso",
       headerName: "Permiso",
       flex: 1,
+      renderCell: (params) => <LicenseChip value={params.value} />,
     },
     {
       field: "concepto",
@@ -325,6 +329,22 @@ export default function TarifasConcepto() {
               {PERMISOS.map((permiso) => (
                 <MenuItem key={permiso} value={permiso}>
                   {permiso}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <FormControl size="small" sx={{ minWidth: 180 }}>
+            <InputLabel>Tipo</InputLabel>
+            <Select
+              label="Tipo"
+              value={tipoFiltro}
+              onChange={(event) => setTipoFiltro(event.target.value)}
+            >
+              <MenuItem value="all">Todos</MenuItem>
+              {TIPOS.map((tipo) => (
+                <MenuItem key={tipo} value={tipo}>
+                  {tipo}
                 </MenuItem>
               ))}
             </Select>

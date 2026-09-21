@@ -3,6 +3,7 @@ import { Alert, Box, Chip, Snackbar, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
 import { pagosService } from "../../services/pagosService";
+import { LicenseChip } from "../../components/common/LicenseChip";
 
 const formatDate = (value) => {
   if (!value) {
@@ -58,6 +59,7 @@ export default function Pagos() {
       field: "permiso",
       headerName: "Permiso",
       flex: 0.6,
+      renderCell: (params) => <LicenseChip value={params.value} />,
     },
     {
       field: "importe",

@@ -433,7 +433,11 @@ export class ClasesService {
     }
 
     const now = new Date();
-    const bonos = await this.repository.getApplicableBonos(alumnoId, now);
+    const bonos = await this.repository.getApplicableBonos(
+      alumnoId,
+      now,
+      eligibility.permiso,
+    );
     base.pago.bonosDisponibles = (bonos || [])
       .filter((bono) => bono.clasesConsumidas < bono.clasesCompradas)
       .map((bono) => ({
@@ -576,6 +580,7 @@ export class ClasesService {
       const bonos = await this.repository.getApplicableBonos(
         alumnoId,
         new Date(),
+        eligibility.permiso,
       );
       const candidatos = bonos.filter(
         (bono) => bono.clasesConsumidas < bono.clasesCompradas,
@@ -668,6 +673,7 @@ export class ClasesService {
       const bonos = await this.repository.getApplicableBonos(
         clase.alumnoId,
         new Date(),
+        clase.vehiculo?.tipoPermiso || "B",
       );
       const disponibles = bonos.filter(
         (bono) => bono.clasesConsumidas < bono.clasesCompradas,
@@ -933,6 +939,22 @@ export class ClasesService {
       throw new Error("La duración es obligatoria");
     }
 
+    if (typeof this.repository.findProfesorById === "function") {
+      const profesor = await this.repository.findProfesorById(data.profesorId);
+
+      if (!profesor || profesor.activo === false) {
+        throw new Error("El profesor seleccionado no existe o está inactivo");
+      }
+    }
+
+    if (typeof this.repository.findVehiculoById === "function") {
+      const vehiculo = await this.repository.findVehiculoById(data.vehiculoId);
+
+      if (!vehiculo || vehiculo.activo === false) {
+        throw new Error("El vehículo seleccionado no existe o está inactivo");
+      }
+    }
+
     const existingClass = await this.repository.findByProfesorAndFecha(
       data.profesorId,
       data.fecha,
@@ -981,6 +1003,35 @@ export class ClasesService {
   }
 
   async update(id, data) {
+    if (
+      typeof this.repository.findById === "function" &&
+      typeof this.repository.findProfesorById === "function" &&
+      typeof this.repository.findVehiculoById === "function"
+    ) {
+      const claseActual = await this.repository.findById(id);
+
+      if (!claseActual) {
+        throw new Error("Clase no encontrada");
+      }
+
+      const profesorIdObjetivo = data.profesorId || claseActual.profesorId;
+      const vehiculoIdObjetivo = data.vehiculoId || claseActual.vehiculoId;
+
+      const profesor =
+        await this.repository.findProfesorById(profesorIdObjetivo);
+
+      if (!profesor || profesor.activo === false) {
+        throw new Error("El profesor seleccionado no existe o está inactivo");
+      }
+
+      const vehiculo =
+        await this.repository.findVehiculoById(vehiculoIdObjetivo);
+
+      if (!vehiculo || vehiculo.activo === false) {
+        throw new Error("El vehículo seleccionado no existe o está inactivo");
+      }
+    }
+
     return this.repository.update(id, data);
   }
 

@@ -18,6 +18,7 @@ import {
 import { DataGrid } from "@mui/x-data-grid";
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 import { profesorPortalService } from "../../services/profesorPortalService";
+import { LicenseChip } from "../../components/common/LicenseChip";
 import { gastosCombustibleService } from "../../services/gastosCombustibleService";
 
 const TITULAR_TARJETA = "Autoescuela Eguzkilore";
@@ -117,9 +118,7 @@ export default function ProfesorVehiculos() {
       field: "tipoPermiso",
       headerName: "Permiso",
       width: 110,
-      renderCell: (params) => (
-        <Chip label={params.value || "-"} color="info" size="small" />
-      ),
+      renderCell: (params) => <LicenseChip value={params.value} />,
     },
     {
       field: "kmActuales",

@@ -33,6 +33,7 @@ import UndoIcon from "@mui/icons-material/Undo";
 import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
 
 import { preguntasDGTService } from "../../services/preguntasDGTService";
+import { LicenseChipList } from "../../components/common/LicenseChip";
 
 const LICENCIAS = ["B", "A1", "A2", "A", "C", "D", "E"];
 const TAMANO_MAXIMO_IMAGEN = 5 * 1024 * 1024;
@@ -453,7 +454,7 @@ export default function TestDGTAdmin() {
       field: "licencia",
       headerName: "Licencia",
       flex: 0.7,
-      renderCell: (params) => (params.row.licencia || []).join(", "),
+      renderCell: (params) => <LicenseChipList values={params.row.licencia} />,
     },
     {
       field: "respuestas",

@@ -78,4 +78,46 @@ describe("FacturasRepository", () => {
 
     expect(result).toEqual(facturas);
   });
+
+  it("debe obtener una factura por id con relaciones", async () => {
+    const factura = { id: "fac-1" };
+
+    const prismaMock = {
+      factura: {
+        findUnique: vi.fn().mockResolvedValue(factura),
+      },
+    };
+
+    const repository = new FacturasRepository(prismaMock);
+
+    const result = await repository.findById("fac-1");
+
+    expect(prismaMock.factura.findUnique).toHaveBeenCalledWith({
+      where: { id: "fac-1" },
+      include: {
+        alumno: {
+          include: {
+            usuario: true,
+          },
+        },
+        matricula: {
+          include: {
+            promocion: true,
+          },
+        },
+        compraBono: {
+          include: {
+            bono: true,
+          },
+        },
+        clasePractica: {
+          include: {
+            vehiculo: true,
+          },
+        },
+      },
+    });
+
+    expect(result).toEqual(factura);
+  });
 });

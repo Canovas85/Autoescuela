@@ -160,4 +160,145 @@ export class ProfesoresRepository {
       },
     });
   }
+
+  async findAssignedAlumnos(profesorId) {
+    return this.prisma.alumno.findMany({
+      where: {
+        profesorAsignadoId: profesorId,
+      },
+      include: {
+        usuario: {
+          select: {
+            id: true,
+            nombre: true,
+            email: true,
+          },
+        },
+      },
+      orderBy: {
+        usuario: {
+          nombre: "asc",
+        },
+      },
+    });
+  }
+
+  async findActiveProfesoresByLicenciaExcluding(licencia, excludeProfesorId) {
+    return this.prisma.profesor.findMany({
+      where: {
+        id: {
+          not: excludeProfesorId,
+        },
+        activo: true,
+        permisosLicencias: {
+          has: licencia,
+        },
+      },
+      include: {
+        usuario: {
+          select: {
+            id: true,
+            nombre: true,
+            email: true,
+          },
+        },
+      },
+      orderBy: {
+        usuario: {
+          nombre: "asc",
+        },
+      },
+    });
+  }
+
+  async findFutureOrCurrentClassesForProfesor(profesorId, alumnoIds, now) {
+    return this.prisma.clasePractica.findMany({
+      where: {
+        profesorId,
+        alumnoId: {
+          in: alumnoIds,
+        },
+        estado: {
+          in: ["PROGRAMADA", "CONFIRMADA"],
+        },
+        fecha: {
+          gte: now,
+        },
+      },
+      include: {
+        alumno: {
+          include: {
+            usuario: {
+              select: {
+                nombre: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        fecha: "asc",
+      },
+    });
+  }
+
+  async runTransaction(operation) {
+    return this.prisma.$transaction(operation);
+  }
+
+  async deactivateWithReassignments({
+    profesorId,
+    assignments,
+    changedById,
+    changedAt,
+  }) {
+    return this.prisma.$transaction(async (tx) => {
+      for (const item of assignments) {
+        await tx.alumno.update({
+          where: {
+            id: item.alumnoId,
+          },
+          data: {
+            profesorAsignadoId: item.nuevoProfesorId,
+          },
+        });
+
+        await tx.alumnoProfesorHistorial.create({
+          data: {
+            alumnoId: item.alumnoId,
+            profesorAnteriorId: profesorId,
+            profesorNuevoId: item.nuevoProfesorId,
+            changedById: changedById || null,
+            changedAt,
+            motivo: "DESACTIVACION_PROFESOR",
+          },
+        });
+
+        await tx.clasePractica.updateMany({
+          where: {
+            alumnoId: item.alumnoId,
+            profesorId,
+            estado: {
+              in: ["PROGRAMADA", "CONFIRMADA"],
+            },
+            fecha: {
+              gte: changedAt,
+            },
+          },
+          data: {
+            profesorId: item.nuevoProfesorId,
+          },
+        });
+      }
+
+      return tx.profesor.update({
+        where: {
+          id: profesorId,
+        },
+        data: {
+          activo: false,
+        },
+      });
+    });
+  }
 }

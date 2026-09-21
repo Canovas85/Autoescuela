@@ -30,6 +30,7 @@ import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
 
 import { promocionesService } from "../../services/promocionesService";
+import { LicenseChipList } from "../../components/common/LicenseChip";
 import { tarifasMatriculaService } from "../../services/tarifasMatriculaService";
 
 const LICENCIAS = ["B", "A1", "A2", "A", "C", "D", "E"];
@@ -51,6 +52,10 @@ const emptyForm = {
   requiereFidelidad: false,
   edadMinima: "",
   edadMaxima: "",
+  incluyePagoExamenGratis: false,
+  incluirClasesGratis: false,
+  clasesGratisIncluidas: "",
+  licenciaClasesGratis: "B",
 };
 
 export default function Promociones() {
@@ -264,6 +269,17 @@ export default function Promociones() {
       imagenRuta: row.imagenRuta || "",
       requiereCarnetEstudiante: Boolean(row.requiereCarnetEstudiante),
       requiereFidelidad: Boolean(row.requiereFidelidad),
+      incluyePagoExamenGratis: Boolean(row.incluyePagoExamenGratis),
+      incluirClasesGratis: Number(row.clasesGratisIncluidas || 0) > 0,
+      clasesGratisIncluidas:
+        row.clasesGratisIncluidas === null ||
+        row.clasesGratisIncluidas === undefined
+          ? ""
+          : String(row.clasesGratisIncluidas),
+      licenciaClasesGratis:
+        row.licenciaClasesGratis ||
+        (row.licenciasAplicables && row.licenciasAplicables[0]) ||
+        "B",
       edadMinima:
         row.edadMinima === null || row.edadMinima === undefined
           ? ""
@@ -362,10 +378,32 @@ export default function Promociones() {
 
   const handleSave = async () => {
     try {
+      if (
+        form.incluirClasesGratis &&
+        (!Number.isInteger(Number(form.clasesGratisIncluidas)) ||
+          Number(form.clasesGratisIncluidas) <= 0)
+      ) {
+        setNotification({
+          open: true,
+          message:
+            "Si activas clases gratis, debes indicar un número entero mayor que 0",
+          severity: "error",
+        });
+        return;
+      }
+
       const payload = {
         ...form,
         precioOriginal: Number(form.precioOriginal),
         precioPromocional: Number(form.precioPromocional),
+        incluyePagoExamenGratis: Boolean(form.incluyePagoExamenGratis),
+        incluirClasesGratis: Boolean(form.incluirClasesGratis),
+        clasesGratisIncluidas: form.incluirClasesGratis
+          ? Number(form.clasesGratisIncluidas)
+          : 0,
+        licenciaClasesGratis: form.incluirClasesGratis
+          ? form.licenciaClasesGratis || licenciaSeleccionada || "B"
+          : null,
         edadMinima:
           form.edadMinima === "" || form.edadMinima === null
             ? null
@@ -428,6 +466,16 @@ export default function Promociones() {
           reglas.push("Fidelidad");
         }
 
+        if (row.incluyePagoExamenGratis) {
+          reglas.push("Pago examen gratis");
+        }
+
+        if (Number(row.clasesGratisIncluidas || 0) > 0) {
+          reglas.push(
+            `${row.clasesGratisIncluidas} clases gratis (${row.licenciaClasesGratis || "-"})`,
+          );
+        }
+
         if (row.edadMinima !== null && row.edadMinima !== undefined) {
           reglas.push(`Edad mínima ${row.edadMinima}`);
         }
@@ -479,24 +527,7 @@ export default function Promociones() {
       flex: 1.3,
 
       renderCell: (params) => (
-        <Box
-          sx={{
-            display: "flex",
-            gap: 0.5,
-            flexWrap: "wrap",
-            alignItems: "center",
-            height: "100%",
-          }}
-        >
-          {(params.row.licenciasAplicables || []).map((licencia) => (
-            <Chip
-              key={licencia}
-              label={licencia}
-              size="small"
-              color="primary"
-            />
-          ))}
-        </Box>
+        <LicenseChipList values={params.row.licenciasAplicables} />
       ),
     },
 
@@ -764,6 +795,90 @@ export default function Promociones() {
                 }
                 label="Requiere fidelidad (licencia aprobada previa)"
               />
+
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={Boolean(form.incluyePagoExamenGratis)}
+                    onChange={(event) =>
+                      setForm((prev) => ({
+                        ...prev,
+                        incluyePagoExamenGratis: event.target.checked,
+                      }))
+                    }
+                  />
+                }
+                label="Incluye pago gratuito de examen (tipo POR_EXAMEN)"
+              />
+
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={Boolean(form.incluirClasesGratis)}
+                    onChange={(event) =>
+                      setForm((prev) => ({
+                        ...prev,
+                        incluirClasesGratis: event.target.checked,
+                        clasesGratisIncluidas: event.target.checked
+                          ? prev.clasesGratisIncluidas
+                          : "",
+                        licenciaClasesGratis: event.target.checked
+                          ? prev.licenciaClasesGratis ||
+                            licenciaSeleccionada ||
+                            "B"
+                          : prev.licenciaClasesGratis,
+                      }))
+                    }
+                  />
+                }
+                label="Incluir clases prácticas gratis"
+              />
+
+              {form.incluirClasesGratis ? (
+                <Box
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 2,
+                  }}
+                >
+                  <TextField
+                    label="Número de clases gratis"
+                    type="number"
+                    fullWidth
+                    value={form.clasesGratisIncluidas}
+                    onChange={(event) =>
+                      setForm((prev) => ({
+                        ...prev,
+                        clasesGratisIncluidas: event.target.value,
+                      }))
+                    }
+                    inputProps={{ min: 1, step: 1 }}
+                  />
+
+                  <FormControl fullWidth>
+                    <InputLabel>Licencia clases gratis</InputLabel>
+                    <Select
+                      label="Licencia clases gratis"
+                      value={
+                        form.licenciaClasesGratis || licenciaSeleccionada || "B"
+                      }
+                      onChange={(event) =>
+                        setForm((prev) => ({
+                          ...prev,
+                          licenciaClasesGratis: event.target.value,
+                        }))
+                      }
+                    >
+                      {LICENCIAS.map((licencia) => (
+                        <MenuItem key={licencia} value={licencia}>
+                          {licencia}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Box>
+              ) : null}
 
               <Box
                 sx={{

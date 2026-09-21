@@ -30,4 +30,19 @@ export const profesoresService = {
     const response = await api.delete(`/profesores/${id}`);
     return response.data;
   },
+
+  getDeactivationImpact: async (id) => {
+    const response = await api.get(`/profesores/${id}/deactivation-impact`);
+    return response.data;
+  },
+
+  deactivateWithReassignment: async (id, reasignaciones) => {
+    const response = await api.post(
+      `/profesores/${id}/deactivate-with-reassignment`,
+      {
+        reasignaciones,
+      },
+    );
+    return response.data;
+  },
 };

@@ -38,13 +38,13 @@ import { api } from "../../services/api";
 function AdminDashboardView({ metrics }) {
   const cards = [
     {
-      title: "Alumnos Activos",
+      title: "Matriculas Pagadas",
       value: metrics.activeStudents ?? 0,
       icon: <PeopleIcon />,
       color: "#2563eb",
     },
     {
-      title: "Matrículas Activas",
+      title: "Usuarios Registrados",
       value: metrics.activeEnrollments ?? 0,
       icon: <AppRegistrationIcon />,
       color: "#7c3aed",
@@ -138,7 +138,7 @@ function AdminDashboardView({ metrics }) {
                   <Typography color="text.secondary">
                     Profesor más activo
                   </Typography>
-                  <Typography variant="h5" fontWeight="bold" sx={{ mt: 0.5 }}>
+                  <Typography variant="h6" fontWeight="bold" sx={{ mt: 0.5 }}>
                     {metrics.topProfesorByClasses?.nombre ?? "Sin datos"}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
@@ -168,7 +168,7 @@ function AdminDashboardView({ metrics }) {
                   <Typography color="text.secondary">
                     Profesor con más horas
                   </Typography>
-                  <Typography variant="h5" fontWeight="bold" sx={{ mt: 0.5 }}>
+                  <Typography variant="h6" fontWeight="bold" sx={{ mt: 0.5 }}>
                     {metrics.topProfesorByHours?.nombre ?? "Sin datos"}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">

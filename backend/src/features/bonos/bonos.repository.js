@@ -15,8 +15,17 @@ export class BonosRepository {
     });
   }
 
-  async findAll() {
+  async findAll(filters = {}) {
+    const where = {
+      esInterno: false,
+    };
+
+    if (filters.licencia) {
+      where.licencia = filters.licencia;
+    }
+
     return this.prisma.bono.findMany({
+      where,
       orderBy: [{ activo: "desc" }, { nombre: "asc" }],
     });
   }
@@ -29,10 +38,16 @@ export class BonosRepository {
     });
   }
 
-  async findActivos() {
+  async findActivos(licencia = null) {
     return this.prisma.bono.findMany({
       where: {
         activo: true,
+        esInterno: false,
+        ...(licencia
+          ? {
+              licencia,
+            }
+          : {}),
       },
       orderBy: {
         nombre: "asc",
@@ -45,6 +60,7 @@ export class BonosRepository {
       where: {
         id,
         activo: true,
+        esInterno: false,
       },
     });
   }
