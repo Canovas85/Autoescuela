@@ -8,6 +8,21 @@ Objetivo:
 - acelerar revisiones funcionales y tecnicas
 - detectar huecos de implementacion o reglas futuras
 
+## Estado de trazabilidad (2026-09-21)
+
+Version documental: `v2026.09.21`
+
+Situacion actual:
+
+- Existe cobertura amplia de reglas BR en autenticacion, alumnos, profesores, vehiculos, clases, examenes, temarios, bonos y solicitudes.
+- Se identifican reglas en estado parcial o futuro especialmente en permisos avanzados, auditoria y bloques economicos de negocio ampliado.
+
+Pendientes de control:
+
+- Anadir columna de estado explicito por regla (`Implementado`, `Parcial`, `Futuro`) para facilitar auditoria de avance.
+- Referenciar de forma sistematica los tests (unitarios/integracion) asociados a cada BR critica.
+- Revisar en cada iteracion que toda nueva migracion y endpoint relevante quede trazado en este indice.
+
 ---
 
 ## Referencias base

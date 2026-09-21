@@ -12,6 +12,21 @@ Aplica a permisos A1, A2, A, B, C, D y E.
 
 Sin nueva Tasa DGT 2.1 pagada no se tramita nueva solicitud.
 
+## Seguimiento operativo (2026-09-21)
+
+Version documental: `v2026.09.21`
+
+Avance:
+
+- El proyecto ya incorpora componentes de renovacion en procesos teoricos/practicos y reglas por licencia en la capa de datos y scripts operativos.
+- El protocolo sigue vigente como guia de ejecucion administrativa y control manual de casos.
+
+Pendiente por completar:
+
+- Integrar checklist del protocolo en flujo asistido dentro de interfaz para reducir dependencia de control manual.
+- Registrar de forma estandarizada evidencia de cada revision (fecha, operador, bloqueo, desbloqueo) en un historico consultable.
+- Conectar los bloqueos de renovacion con notificaciones automáticas al alumno y al equipo interno.
+
 ## Procedimiento operativo
 
 1. Identificar alumno y permiso objetivo.

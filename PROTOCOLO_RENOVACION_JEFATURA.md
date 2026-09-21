@@ -33,6 +33,21 @@ Se considera completa cuando se cumplen simultaneamente:
 - D: 21 dias, 5 clases
 - E: 14 dias, 3 clases
 
+## Seguimiento de control (2026-09-21)
+
+Version documental: `v2026.09.21`
+
+Avance:
+
+- El repositorio ya contiene base tecnica para renovaciones y procesamiento por lotes en examenes teoricos/practicos.
+- El criterio de autorizacion de jefatura se mantiene alineado con la regla de renovacion completa.
+
+Pendientes:
+
+- Convertir este protocolo en reglas de decision asistidas por sistema con trazabilidad por caso.
+- Medir de forma periodica el impacto real por licencia (aprobados, reincidencia, tiempos de espera) con cuadro de mando especifico.
+- Definir mecanismo formal de excepciones con evidencia obligatoria y validacion dual cuando aplique.
+
 ## Seguimiento mensual de calidad
 
 1. Renovaciones gestionadas por licencia.

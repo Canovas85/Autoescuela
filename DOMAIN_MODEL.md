@@ -6,6 +6,23 @@ Versión revisada del modelo de dominio alineada con el sistema real implementad
 
 Este documento describe el dominio que realmente existe en el proyecto actual, y deja además marcadas las extensiones futuras que se planean incorporar más adelante.
 
+## Bitacora de dominio (2026-09-21)
+
+Version documental: `v2026.09.21`
+
+Estado actual confirmado:
+
+- El dominio operativo principal ya integra identidad, academia, operativa diaria y bloques administrativos.
+- Las migraciones recientes muestran evolucion activa en notificaciones, agenda de profesor, proceso teorico/practico y metricas de vehiculo.
+- El modelo mantiene coherencia entre entidades centrales (Usuario, Alumno, Profesor, Vehiculo, ClasePractica, Examen) y modulos de apoyo (Temario, Bono, SolicitudExamen, Factura, Pago).
+
+Pendientes de evolucion del dominio:
+
+- Formalizar modelo de permisos granulares y auditoria transversal.
+- Endurecer invariantes de negocio sobre agenda, disponibilidad y carga docente diaria.
+- Consolidar estados de ciclo de vida para flujos economicos y de renovacion con trazabilidad completa.
+- Preparar la transicion del dominio de autoescuela unica hacia posible escenario multi-autoescuela sin romper contratos actuales.
+
 ---
 
 # 1. Contexto del negocio actual

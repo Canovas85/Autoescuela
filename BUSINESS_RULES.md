@@ -8,6 +8,28 @@ Este documento recoge las reglas que el sistema ya soporta de forma real en back
 
 Trazabilidad cruzada disponible en `BR_TRACEABILITY_INDEX.md`, con correspondencia de cada regla BR hacia especificacion funcional y modelo de dominio.
 
+## Bitacora de reglas (2026-09-21)
+
+Version documental: `v2026.09.21`
+
+Reglas con base implementada y verificable en codigo:
+
+- Autenticacion, primer acceso y control base por rol.
+- Integridad principal de alumnos, profesores, vehiculos, clases y examenes.
+- Reglas operativas de temarios, bonos y solicitudes de examen.
+- Componentes de renovacion y proceso teorico/practico soportados por scripts y migraciones recientes.
+
+Reglas que requieren consolidacion o ampliacion:
+
+- Permisos finos por accion y entidad (mas alla del control por rol principal).
+- Reglas avanzadas de planificacion docente (descansos, limites de horas y conflictos).
+- Criterios funcionales cerrados para roles administrativo y soporte en todos los flujos.
+- Criterios de validacion end-to-end para pagos/facturacion y su impacto bloqueante en operaciones academicas.
+
+Nota de control:
+
+- Este corte documenta el estado actual para seguimiento de versiones y comparativas posteriores.
+
 ---
 
 # 1. Alcance actual del negocio

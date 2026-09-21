@@ -6,6 +6,23 @@ Versión revisada de la especificación funcional alineada con la implementació
 
 Este documento describe lo que el sistema realmente cubre hoy y marca con claridad qué funcionalidades están todavía pendientes como evolución del producto.
 
+## Bitacora de avance (2026-09-21)
+
+Version documental: `v2026.09.21`
+
+Estado consolidado observado en implementacion:
+
+- La cobertura funcional principal ya incluye operativa diaria de autoescuela en backend y frontend (alumnos, profesores, vehiculos, clases, examenes, temarios, bonos, promociones y matriculas).
+- Existen modulos de soporte operativo en produccion de codigo para pagos, facturas, notificaciones, convocatorias y hojas de ruta.
+- El portal de profesor y el dashboard de alumno estan presentes y evolucionando.
+
+Bloques que deben completarse para cierre funcional:
+
+- Definir y aplicar permisos granulares en toda la experiencia de usuario.
+- Endurecer reglas avanzadas de agenda y reservas de clases practicas.
+- Completar funcionalidades teoricas y de evaluacion avanzada en una vista unificada de progreso.
+- Revisar y actualizar casos de uso pendientes en secciones marcadas como futuras para evitar divergencia entre especificacion y codigo.
+
 ---
 
 # 1. Alcance actual del sistema

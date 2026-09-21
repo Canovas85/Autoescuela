@@ -10,6 +10,33 @@ El proyecto está concebido como una solución centralizada para gestionar alumn
 
 ---
 
+## Actualizacion de estado (2026-09-21)
+
+Version documental: `v2026.09.21`
+
+Resumen de avance observado en codigo y base de datos:
+
+- Backend con modulos activos para alumnos, profesores, vehiculos, clases, examenes, temarios, bonos, promociones, matriculas, pagos, facturas, notificaciones, hojas de ruta y convocatorias.
+- Frontend con paginas y servicios operativos para los modulos anteriores, incluyendo portales de profesor y alumno.
+- Persistencia con Prisma + PostgreSQL y migraciones continuas hasta septiembre de 2026.
+- Flujo de autenticacion con cambio obligatorio de contrasena en primer acceso ya incorporado.
+
+Pendientes principales para cierre de alcance:
+
+- Completar el modelo de permisos granulares por accion y entidad.
+- Consolidar roles administrativos adicionales (administrativo y soporte) en UI y autorizacion de backend.
+- Cerrar reglas avanzadas de agenda y disponibilidad (solapamientos, descansos, carga maxima).
+- Formalizar cobertura de pruebas automatizadas por cada modulo funcional y reglas criticas.
+- Completar trazabilidad BR -> funcional -> pruebas en los casos marcados como futuros o parciales.
+
+Control de versiones documental:
+
+| Fecha      | Version     | Alcance                                                                  |
+| ---------- | ----------- | ------------------------------------------------------------------------ |
+| 2026-09-21 | v2026.09.21 | Corte de estado actual del proyecto y registro de pendientes de producto |
+
+---
+
 ## 📋 Índice
 
 - [Descripción](#-descripción)
