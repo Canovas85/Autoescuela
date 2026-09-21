@@ -315,6 +315,10 @@ export default function TarifasConcepto() {
           <Typography variant="h4" fontWeight="bold">
             Tarifas por permisos
           </Typography>
+          <Typography color="text.secondary">
+            Establece y revisa las tasas correspondientes a la formación y
+            gestión específica de cada tipo de carné de conducir.
+          </Typography>
         </Box>
 
         <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>

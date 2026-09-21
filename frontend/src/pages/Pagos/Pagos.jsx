@@ -99,6 +99,10 @@ export default function Pagos() {
       <Typography variant="h4" mb={2} fontWeight="bold">
         Pagos
       </Typography>
+      <Typography color="text.secondary" sx={{ mb: 2 }}>
+        Realiza el seguimiento de la tesorería, el registro de cobros, las
+        cuotas pendientes y el estado financiero de las matrículas.
+      </Typography>
 
       <Box sx={{ height: 700 }}>
         <DataGrid

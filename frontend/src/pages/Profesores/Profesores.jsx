@@ -610,6 +610,10 @@ export default function Profesores() {
       <Typography variant="h4" fontWeight="bold" mb={4}>
         Gestión de Profesores
       </Typography>
+      <Typography color="text.secondary" sx={{ mb: 2 }}>
+        Organiza los datos del personal docente, sus horarios de disponibilidad
+        y las clases asignadas.
+      </Typography>
       <Box
         sx={{
           display: "flex",

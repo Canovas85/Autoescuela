@@ -38,7 +38,7 @@ import { api } from "../../services/api";
 function AdminDashboardView({ metrics }) {
   const cards = [
     {
-      title: "Matriculas Pagadas",
+      title: "Alumnos Activos",
       value: metrics.activeStudents ?? 0,
       icon: <PeopleIcon />,
       color: "#2563eb",

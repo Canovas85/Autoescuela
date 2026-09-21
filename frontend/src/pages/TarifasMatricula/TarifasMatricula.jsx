@@ -285,6 +285,10 @@ export default function TarifasMatricula() {
           <Typography variant="h4" fontWeight="bold">
             Tarifas de Matrícula
           </Typography>
+          <Typography color="text.secondary">
+            Configura y consulta los precios base aplicados al alta inicial y
+            los servicios generales de inscripción.
+          </Typography>
         </Box>
         <Button
           variant="contained"

@@ -424,7 +424,7 @@ export default function ConvocatoriaExamen() {
           </Typography>
 
           <Typography color="text.secondary">
-            Gestiona convocatorias teóricas y prácticas, y consulta la agenda
+            Gestiona convocatorias teóricas y prácticas. Consulta la agenda
             mensual con alumnos confirmados.
           </Typography>
         </Box>

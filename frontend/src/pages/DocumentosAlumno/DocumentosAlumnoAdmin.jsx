@@ -202,8 +202,10 @@ export default function DocumentosAlumnoAdmin() {
 
   return (
     <Box>
-      <Typography variant="h4" sx={{ mb: 2 }}>
-        Documentos de alumnos
+      <Typography variant="h4">Documentos de alumnos</Typography>
+      <Typography color="text.secondary" sx={{ mb: 2 }}>
+        Almacena y verifica los expedientes, certificados médicos, psicotécnicos
+        y documentación oficial de cada estudiante.
       </Typography>
 
       {rows.length === 0 ? (

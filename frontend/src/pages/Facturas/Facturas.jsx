@@ -232,6 +232,10 @@ export default function Facturas() {
         Facturas
       </Typography>
 
+      <Typography color="text.secondary" sx={{ mb: 2 }}>
+        Gestión administrativa de facturas y estado de pago.
+      </Typography>
+
       <Box sx={{ height: 700 }}>
         <DataGrid
           rows={rows}

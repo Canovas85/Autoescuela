@@ -667,6 +667,10 @@ export default function Vehiculos() {
       <Typography variant="h4" fontWeight="bold" mb={4}>
         Gestión de Vehículos
       </Typography>
+      <Typography color="text.secondary" sx={{ mb: 2 }}>
+        Controla la flota de la autoescuela, el estado de los automóviles, las
+        revisiones periódicas de la ITV y el mantenimiento.
+      </Typography>
 
       <Box sx={{ display: "flex", gap: 2, mb: 3, flexWrap: "wrap" }}>
         <Button

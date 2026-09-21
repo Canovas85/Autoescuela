@@ -1450,6 +1450,10 @@ export default function HojasRuta() {
         <Typography variant="h4" fontWeight={800}>
           Hojas de Ruta por Profesor
         </Typography>
+        <Typography color="text.secondary" sx={{ mb: 2 }}>
+          Revisa la planificación diaria y el seguimiento de las clases
+          prácticas asignadas a cada instructor.
+        </Typography>
 
         <Card>
           <CardContent>

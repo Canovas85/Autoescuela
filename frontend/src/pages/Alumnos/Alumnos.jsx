@@ -872,6 +872,10 @@ export default function Alumnos() {
       <Typography variant="h4" fontWeight="bold" mb={4}>
         Gestión de Alumnos
       </Typography>
+      <Typography color="text.secondary" sx={{ mb: 2 }}>
+        Administra los perfiles, el estado de las matrículas y el progreso en
+        los permisos de conducir de cada estudiante.
+      </Typography>
       <Box
         sx={{
           display: "flex",

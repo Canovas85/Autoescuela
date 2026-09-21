@@ -537,8 +537,8 @@ export default function TestDGTAdmin() {
             Banco de preguntas DGT
           </Typography>
           <Typography color="text.secondary">
-            Crea, edita y gestiona la activación de preguntas para los exámenes
-            DGT.
+            Consulta y actualiza el repositorio oficial de test y preguntas para
+            la preparación del examen teórico.
           </Typography>
         </Box>
 

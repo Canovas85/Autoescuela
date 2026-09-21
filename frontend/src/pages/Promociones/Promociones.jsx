@@ -615,6 +615,11 @@ export default function Promociones() {
       >
         <Box>
           <Typography variant="h4">Promociones</Typography>
+
+          <Typography color="text.secondary">
+            Gestiona los descuentos temporales, campañas especiales y ofertas
+            vigentes de la autoescuela.
+          </Typography>
         </Box>
         <Button
           variant="contained"
