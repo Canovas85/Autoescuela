@@ -3,58 +3,26 @@ import { useEffect, useMemo, useState } from "react";
 import {
   Alert,
   Box,
-  Button,
   Chip,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
   IconButton,
-  DialogTitle,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   Snackbar,
-  TextField,
   Typography,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import AddIcon from "@mui/icons-material/Add";
-import ToggleOffIcon from "@mui/icons-material/ToggleOff";
-import ToggleOnIcon from "@mui/icons-material/ToggleOn";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
+import Tooltip from "@mui/material/Tooltip";
 
 import { matriculasService } from "../../services/matriculasService";
 import { LicenseChip } from "../../components/common/LicenseChip";
 
-const emptyForm = {
-  nombre: "",
-  descripcion: "",
-  clasesIncluidas: 10,
-  validezDias: 90,
-  activo: true,
-};
-
 export default function Matriculas() {
   const [rows, setRows] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [editingId, setEditingId] = useState(null);
-  const [form, setForm] = useState(emptyForm);
+  const [activeStates, setActiveStates] = useState([]);
   const [notification, setNotification] = useState({
     open: false,
     message: "",
     severity: "success",
-  });
-
-  const [confirmDialog, setConfirmDialog] = useState({
-    open: false,
-    action: null,
-    matriculaId: null,
-    nombreMatricula: "",
-    title: "",
-    message: "",
   });
 
   const loadMatriculas = async () => {
@@ -66,141 +34,39 @@ export default function Matriculas() {
     loadMatriculas();
   }, []);
 
-  const filteredRows = useMemo(() => rows, [rows]);
-
-  const resetForm = () => {
-    setForm(emptyForm);
-    setEditingId(null);
-  };
-
-  const handleOpenCreate = () => {
-    resetForm();
-    setOpen(true);
-  };
-
-  const handleEdit = (row) => {
-    setEditingId(row.id);
-    setForm({
-      nombre: row.nombre || "",
-      descripcion: row.descripcion || "",
-      clasesIncluidas: row.clasesIncluidas ?? 10,
-      validezDias: row.validezDias ?? 90,
-      activo: Boolean(row.activo),
-    });
-    setOpen(true);
-  };
-
-  const handleDelete = (row) => {
-    setConfirmDialog({
-      open: true,
-      action: "delete",
-      matriculaId: row.id,
-      nombreMatricula: row.nombre,
-      title: "Confirmar eliminación",
-      message: `Vas a eliminar definitivamente la matrícula "${row.nombre}" de Autoescuela Eguzkilore. Toda la información asociada será eliminada de forma permanente. Esta acción no podrá deshacerse. ¿Deseas continuar?`,
-    });
-  };
-
-  const handleToggleActivo = (row) => {
-    setConfirmDialog({
-      open: true,
-      action: row.activo ? "deactivate" : "activate",
-      matriculaId: row.id,
-      nombreMatricula: row.nombre,
-      title: row.activo ? "Confirmar desactivación" : "Confirmar activación",
-      message: row.activo
-        ? `Vas a desactivar la matrícula "${row.nombre}" en Autoescuela Eguzkilore. No podrá utilizarse hasta su reactivación. ¿Deseas continuar?`
-        : `Vas a reactivar la matrícula "${row.nombre}" en Autoescuela Eguzkilore. Volverá a estar disponible de inmediato. ¿Deseas continuar?`,
-    });
-  };
-
-  const closeConfirmDialog = () => {
-    setConfirmDialog({
-      open: false,
-      action: null,
-      matriculaId: null,
-      nombreMatricula: "",
-      title: "",
-      message: "",
-    });
-  };
-
-  const handleConfirmAction = async () => {
-    if (!confirmDialog.matriculaId || !confirmDialog.action) {
-      closeConfirmDialog();
-      return;
+  const filteredRows = useMemo(() => {
+    if (activeStates.length === 0) {
+      return rows;
     }
 
-    try {
-      if (confirmDialog.action === "delete") {
-        await matriculasService.delete(confirmDialog.matriculaId);
-      }
+    return rows.filter((row) => activeStates.includes(row.estado));
+  }, [rows, activeStates]);
 
-      if (confirmDialog.action === "deactivate") {
-        await matriculasService.deactivate(confirmDialog.matriculaId);
-      }
-
-      if (confirmDialog.action === "activate") {
-        await matriculasService.activate(confirmDialog.matriculaId);
-      }
-
-      await loadMatriculas();
-
-      setNotification({
-        open: true,
-        message:
-          confirmDialog.action === "delete"
-            ? "Matrícula eliminada correctamente"
-            : confirmDialog.action === "deactivate"
-              ? "Matrícula desactivada correctamente"
-              : "Matrícula activada correctamente",
-        severity: "success",
-      });
-    } catch (error) {
-      console.error(error);
-
-      setNotification({
-        open: true,
-        message: error.response?.data?.message || "Error procesando la acción",
-        severity: "error",
-      });
-    } finally {
-      closeConfirmDialog();
-    }
+  const toggleStateChip = (state) => {
+    setActiveStates((prev) =>
+      prev.includes(state)
+        ? prev.filter((item) => item !== state)
+        : [...prev, state],
+    );
   };
 
-  const handleSave = async () => {
-    try {
-      const payload = {
-        ...form,
-        clasesIncluidas: Number(form.clasesIncluidas),
-        validezDias: Number(form.validezDias),
-      };
-
-      if (editingId) {
-        await matriculasService.update(editingId, payload);
-      } else {
-        await matriculasService.create(payload);
-      }
-
-      await loadMatriculas();
-      setOpen(false);
-      resetForm();
-      setNotification({
-        open: true,
-        message: editingId
-          ? "Matrícula actualizada correctamente"
-          : "Matrícula creada correctamente",
-        severity: "success",
-      });
-    } catch (error) {
-      console.error(error);
-      setNotification({
-        open: true,
-        message: error.response?.data?.message || "Error guardando matrícula",
-        severity: "error",
-      });
+  const getBaseAmount = (row) => {
+    if (
+      row.promocion?.precioOriginal !== undefined &&
+      row.promocion?.precioOriginal !== null
+    ) {
+      return Number(row.promocion.precioOriginal);
     }
+
+    return Number(row.precioBase || 0);
+  };
+
+  const getDiscountAmount = (row) => {
+    const base = getBaseAmount(row);
+    const final = Number(row.precioFinal || 0);
+    const discount = base - final;
+
+    return discount > 0 ? Number(discount.toFixed(2)) : 0;
   };
 
   const handlePagar = async (row) => {
@@ -267,7 +133,8 @@ export default function Matriculas() {
       field: "precioBase",
       headerName: "Precio Base",
       flex: 0.8,
-      valueFormatter: (value) => `${value} €`,
+      valueGetter: (_, row) => getBaseAmount(row),
+      valueFormatter: (value) => `${Number(value || 0).toFixed(2)} €`,
     },
     {
       field: "precioFinal",
@@ -283,7 +150,7 @@ export default function Matriculas() {
                 : "text.primary"
             }
           >
-            {params.row.precioFinal} €
+            {Number(params.row.precioFinal || 0).toFixed(2)} €
           </Typography>
         </div>
       ),
@@ -310,18 +177,8 @@ export default function Matriculas() {
       field: "descuento",
       headerName: "Descuento",
       flex: 0.8,
-
-      valueGetter: (_, row) => {
-        const base = Number(row.precioBase);
-
-        const final = Number(row.precioFinal);
-
-        if (!base || !final) {
-          return "0%";
-        }
-
-        return `${Math.round(((base - final) / base) * 100)}%`;
-      },
+      valueGetter: (_, row) => getDiscountAmount(row),
+      valueFormatter: (value) => `${Number(value || 0).toFixed(2)} €`,
     },
 
     {
@@ -367,27 +224,25 @@ export default function Matriculas() {
             gap: 1,
           }}
         >
-          {params.row.estado === "PENDIENTE" && (
-            <>
-              <Button
-                size="small"
-                color="success"
-                variant="contained"
-                onClick={() => handlePagar(params.row)}
-              >
-                Pagar
-              </Button>
+          <Tooltip title="Pagar matrícula" arrow>
+            <IconButton
+              color="success"
+              size="small"
+              onClick={() => handlePagar(params.row)}
+            >
+              <CheckCircleIcon />
+            </IconButton>
+          </Tooltip>
 
-              <Button
-                size="small"
-                color="error"
-                variant="contained"
-                onClick={() => handleAnular(params.row)}
-              >
-                Anular
-              </Button>
-            </>
-          )}
+          <Tooltip title="Anular matrícula" arrow>
+            <IconButton
+              color="error"
+              size="small"
+              onClick={() => handleAnular(params.row)}
+            >
+              <CancelIcon />
+            </IconButton>
+          </Tooltip>
         </Box>
       ),
     },
@@ -424,24 +279,30 @@ export default function Matriculas() {
           }}
         >
           <Chip
-            color="warning"
+            color={activeStates.includes("PENDIENTE") ? "primary" : "warning"}
+            variant={activeStates.includes("PENDIENTE") ? "filled" : "outlined"}
             label={`Pendientes: ${
               rows.filter((m) => m.estado === "PENDIENTE").length
             }`}
+            onClick={() => toggleStateChip("PENDIENTE")}
           />
 
           <Chip
-            color="success"
+            color={activeStates.includes("PAGADA") ? "primary" : "success"}
+            variant={activeStates.includes("PAGADA") ? "filled" : "outlined"}
             label={`Pagadas: ${
               rows.filter((m) => m.estado === "PAGADA").length
             }`}
+            onClick={() => toggleStateChip("PAGADA")}
           />
 
           <Chip
-            color="error"
+            color={activeStates.includes("ANULADA") ? "primary" : "error"}
+            variant={activeStates.includes("ANULADA") ? "filled" : "outlined"}
             label={`Anuladas: ${
               rows.filter((m) => m.estado === "ANULADA").length
             }`}
+            onClick={() => toggleStateChip("ANULADA")}
           />
         </Box>
         <DataGrid
@@ -452,7 +313,7 @@ export default function Matriculas() {
           pageSizeOptions={[10, 25, 50]}
           initialState={{
             pagination: { paginationModel: { pageSize: 10, page: 0 } },
-            sorting: { sortModel: [{ field: "alumno", sort: "asc" }] },
+            sorting: { sortModel: [{ field: "createdAt", sort: "desc" }] },
           }}
         />
       </Box>

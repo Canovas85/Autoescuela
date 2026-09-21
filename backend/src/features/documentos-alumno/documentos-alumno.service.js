@@ -17,8 +17,9 @@ const normalizarString = (valor) =>
   typeof valor === "string" ? valor.trim() : "";
 
 export class DocumentosAlumnoService {
-  constructor(repository) {
+  constructor(repository, notificacionesRepository = null) {
     this.repository = repository;
+    this.notificacionesRepository = notificacionesRepository;
   }
 
   validarTipo(tipo) {
@@ -56,8 +57,8 @@ export class DocumentosAlumnoService {
     return this.repository.findByAlumnoId(alumnoId);
   }
 
-  async getAllAdmin() {
-    return this.repository.findAllAdmin();
+  async getAllAdmin(filters = {}) {
+    return this.repository.findAllAdmin(filters);
   }
 
   async create(alumnoId, data = {}, files = []) {
@@ -70,12 +71,27 @@ export class DocumentosAlumnoService {
 
     const archivos = this.normalizarArchivos(files);
 
-    return this.repository.createWithFiles({
+    const documento = await this.repository.createWithFiles({
       alumnoId,
       tipo,
       observaciones,
       archivos,
     });
+
+    if (this.notificacionesRepository) {
+      await this.notificacionesRepository.createForRole("ADMIN", {
+        tipo: "DOCUMENTO_PENDIENTE_VALIDACION",
+        titulo: "Documento pendiente de validar",
+        mensaje: `Nuevo documento ${tipo} pendiente de validar para ${documento.alumno?.usuario?.nombre || "alumno"}`,
+        metadata: {
+          documentoId: documento.id,
+          alumnoId,
+          route: "/documentos-alumno-admin",
+        },
+      });
+    }
+
+    return documento;
   }
 
   async update(id, alumnoId, data = {}, files = []) {

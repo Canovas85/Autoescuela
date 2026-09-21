@@ -8,12 +8,14 @@ import { authorize } from "../../shared/middleware/role.middleware.js";
 import { MatriculasRepository } from "./matriculas.repository.js";
 import { MatriculasService } from "./matriculas.service.js";
 import { MatriculasController } from "./matriculas.controller.js";
+import { NotificacionesRepository } from "../notificaciones/notificaciones.repository.js";
 
 const router = Router();
 
 const repository = new MatriculasRepository(prisma);
+const notificacionesRepository = new NotificacionesRepository(prisma);
 
-const service = new MatriculasService(repository);
+const service = new MatriculasService(repository, notificacionesRepository);
 
 const controller = new MatriculasController(service);
 

@@ -537,9 +537,119 @@ export class DashboardRepository {
     });
   }
   async getTotalExamenesPendientes() {
-    return this.prisma.examen.count({
+    return this.prisma.solicitudExamen.count({
       where: {
-        estado: "PROGRAMADO",
+        estado: {
+          notIn: ["APTO", "NO_APTO"],
+        },
+      },
+    });
+  }
+
+  async getMatriculasPagadasHistorico() {
+    return this.prisma.matricula.count({
+      where: {
+        estado: "PAGADA",
+      },
+    });
+  }
+
+  async getMatriculasPendientesHistorico() {
+    return this.prisma.matricula.count({
+      where: {
+        estado: "PENDIENTE",
+      },
+    });
+  }
+
+  getCurrentMonthRange() {
+    const now = new Date();
+    const start = new Date(now.getFullYear(), now.getMonth(), 1);
+    const end = new Date(
+      now.getFullYear(),
+      now.getMonth() + 1,
+      0,
+      23,
+      59,
+      59,
+      999,
+    );
+
+    return { start, end };
+  }
+
+  async getMatriculasPagadasMes() {
+    const { start, end } = this.getCurrentMonthRange();
+
+    return this.prisma.matricula.count({
+      where: {
+        estado: "PAGADA",
+        fechaPago: {
+          gte: start,
+          lte: end,
+        },
+      },
+    });
+  }
+
+  async getMatriculasPendientesMes() {
+    const { start, end } = this.getCurrentMonthRange();
+
+    return this.prisma.matricula.count({
+      where: {
+        estado: "PENDIENTE",
+        fechaCreacion: {
+          gte: start,
+          lte: end,
+        },
+      },
+    });
+  }
+
+  async getAprobadosTeoricoHistorico() {
+    return this.prisma.solicitudExamen.count({
+      where: {
+        tipo: "TEORICO",
+        estado: "APTO",
+      },
+    });
+  }
+
+  async getAprobadosPracticoHistorico() {
+    return this.prisma.solicitudExamen.count({
+      where: {
+        tipo: "PRACTICO",
+        estado: "APTO",
+      },
+    });
+  }
+
+  async getAprobadosTeoricoMes() {
+    const { start, end } = this.getCurrentMonthRange();
+
+    return this.prisma.solicitudExamen.count({
+      where: {
+        tipo: "TEORICO",
+        estado: "APTO",
+        fechaProgramada: {
+          gte: start,
+          lte: end,
+        },
+      },
+    });
+  }
+
+  async getAprobadosPracticoMes() {
+    const { start, end } = this.getCurrentMonthRange();
+
+    return this.prisma.solicitudExamen.count({
+      where: {
+        tipo: "PRACTICO",
+        estado: "APTO",
+        fechaProgramada: {
+          gte: start,
+          lte: end,
+        },
       },
     });
   }
@@ -754,17 +864,28 @@ export class DashboardRepository {
 
   async getProfessorRanking() {
     const profesores = await this.prisma.profesor.findMany({
-      include: {
+      select: {
         usuario: {
           select: {
             nombre: true,
           },
         },
-        clases: {
+        alumnosAsignados: {
           select: {
             id: true,
+            solicitudesExamen: {
+              where: {
+                estado: {
+                  in: ["APTO", "NO_APTO"],
+                },
+              },
+              select: {
+                estado: true,
+              },
+            },
           },
         },
+        permisosLicencias: true,
       },
     });
 

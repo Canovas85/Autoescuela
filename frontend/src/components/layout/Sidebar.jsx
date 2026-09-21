@@ -184,12 +184,7 @@ const menus = {
       icon: <FactCheckIcon />,
       children: [
         {
-          label: "Exámen Teórico",
-          path: "/examenes-teoricos",
-          icon: <QuizIcon fontSize="small" />,
-        },
-        {
-          label: "Exámen Práctico",
+          label: "Exámenes",
           path: "/examenes",
           icon: <QuizIcon fontSize="small" />,
         },
@@ -466,6 +461,26 @@ export default function Sidebar({ navigate, location }) {
         "notificaciones:updated",
         onNotificationsUpdated,
       );
+    };
+  }, []);
+
+  useEffect(() => {
+    const stream = notificacionesService.createStream();
+
+    if (!stream) {
+      return undefined;
+    }
+
+    const onRealtime = () => {
+      loadUnreadNotifications();
+    };
+
+    stream.addEventListener("notification:created", onRealtime);
+    stream.addEventListener("notification:updated", onRealtime);
+    stream.addEventListener("notification:bulk-updated", onRealtime);
+
+    return () => {
+      stream.close();
     };
   }, []);
 

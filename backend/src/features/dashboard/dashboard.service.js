@@ -494,6 +494,20 @@ export class DashboardService {
 
       pendingExams: await this.repository.getTotalExamenesPendientes(),
 
+      matriculasPagadasMes: await this.repository.getMatriculasPagadasMes(),
+      matriculasPagadasHistorico:
+        await this.repository.getMatriculasPagadasHistorico(),
+      matriculasPendientesMes:
+        await this.repository.getMatriculasPendientesMes(),
+      matriculasPendientesHistorico:
+        await this.repository.getMatriculasPendientesHistorico(),
+      aprobadosTeoricoMes: await this.repository.getAprobadosTeoricoMes(),
+      aprobadosTeoricoHistorico:
+        await this.repository.getAprobadosTeoricoHistorico(),
+      aprobadosPracticoMes: await this.repository.getAprobadosPracticoMes(),
+      aprobadosPracticoHistorico:
+        await this.repository.getAprobadosPracticoHistorico(),
+
       examsThisMonth: await this.repository.getExamenesEsteMes(),
 
       successRate: await this.getTasaExito(),
@@ -1096,7 +1110,7 @@ export class DashboardService {
   async getTopStudentsRanking() {
     const alumnos = await this.repository.getTopStudentsDGT();
 
-    return alumnos
+    const ranked = alumnos
       .map((alumno) => {
         const examenes = alumno.examenesDGT || [];
 
@@ -1107,25 +1121,94 @@ export class DashboardService {
 
         return {
           nombre: alumno.usuario?.nombre,
+          licencia: alumno.tipoLicenciaObjetivo || "-",
           totalTests: examenes.length,
+          aprobados,
           porcentaje,
         };
       })
       .filter((a) => a.totalTests > 0)
-      .sort((a, b) => b.porcentaje - a.porcentaje)
-      .slice(0, 5);
+      .sort((a, b) => {
+        if (b.porcentaje !== a.porcentaje) {
+          return b.porcentaje - a.porcentaje;
+        }
+
+        return b.totalTests - a.totalTests;
+      });
+
+    if (ranked.length <= 5) {
+      return ranked;
+    }
+
+    const fifth = ranked[4];
+
+    const extended = ranked.slice(0, 5);
+
+    for (let index = 5; index < ranked.length; index += 1) {
+      const current = ranked[index];
+
+      if (current.porcentaje !== fifth.porcentaje) {
+        break;
+      }
+
+      extended.push(current);
+    }
+
+    return extended;
   }
 
   async getProfessorRanking() {
     const profesores = await this.repository.getProfessorRanking();
 
-    return profesores
-      .map((profesor) => ({
-        nombre: profesor.usuario?.nombre ?? "Profesor",
-        totalClases: profesor.clases?.length ?? 0,
-      }))
-      .sort((a, b) => b.totalClases - a.totalClases)
-      .slice(0, 5);
+    const ranked = profesores
+      .map((profesor) => {
+        const resultados = (profesor.alumnosAsignados || []).flatMap(
+          (alumno) => alumno.solicitudesExamen || [],
+        );
+
+        const presentados = resultados.length;
+        const aprobados = resultados.filter(
+          (resultado) => resultado.estado === "APTO",
+        ).length;
+        const porcentaje =
+          presentados === 0 ? 0 : (aprobados / presentados) * 100;
+
+        return {
+          nombre: profesor.usuario?.nombre ?? "Profesor",
+          licencia: profesor.permisosLicencias?.[0] || "-",
+          totalTests: presentados,
+          aprobados,
+          porcentaje,
+        };
+      })
+      .filter((profesor) => profesor.totalTests > 0)
+      .sort((a, b) => {
+        if (b.porcentaje !== a.porcentaje) {
+          return b.porcentaje - a.porcentaje;
+        }
+
+        return b.totalTests - a.totalTests;
+      });
+
+    if (ranked.length <= 5) {
+      return ranked;
+    }
+
+    const fifth = ranked[4];
+
+    const extended = ranked.slice(0, 5);
+
+    for (let index = 5; index < ranked.length; index += 1) {
+      const current = ranked[index];
+
+      if (current.porcentaje !== fifth.porcentaje) {
+        break;
+      }
+
+      extended.push(current);
+    }
+
+    return extended;
   }
 
   async getDgtEvolution() {

@@ -3,6 +3,10 @@ export class EmailService {
     this.provider = options.provider || process.env.EMAIL_PROVIDER || "console";
     this.from =
       options.from || process.env.EMAIL_FROM || "no-reply@autoescuela.local";
+    this.fallbackFrom =
+      options.fallbackFrom ||
+      process.env.EMAIL_FALLBACK_FROM ||
+      "onboarding@resend.dev";
     this.resendApiKey = options.resendApiKey || process.env.RESEND_API_KEY;
   }
 
@@ -46,24 +50,38 @@ export class EmailService {
       throw new Error("RESEND_API_KEY no configurada");
     }
 
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${this.resendApiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: this.from,
-        to: [to],
-        subject,
-        html,
-        attachments,
-      }),
-    });
+    const trySend = async (fromAddress) => {
+      const response = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${this.resendApiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: fromAddress,
+          to: [to],
+          subject,
+          html,
+          attachments,
+        }),
+      });
 
-    if (!response.ok) {
+      if (response.ok) {
+        return;
+      }
+
       const body = await response.text();
+      const domainNotVerified = body
+        .toLowerCase()
+        .includes("domain is not verified");
+
+      if (domainNotVerified && fromAddress !== this.fallbackFrom) {
+        return trySend(this.fallbackFrom);
+      }
+
       throw new Error(`Error enviando email con Resend: ${body}`);
-    }
+    };
+
+    await trySend(this.from);
   }
 }

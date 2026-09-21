@@ -172,8 +172,8 @@ export class PromocionesService {
     return this.repository.create(payload);
   }
 
-  async getAll() {
-    return this.repository.findAll();
+  async getAll(filters = {}) {
+    return this.repository.findAll(filters);
   }
 
   async getById(id) {

@@ -14,7 +14,7 @@ export class DocumentosAlumnoController {
 
   async getAllAdmin(req, res) {
     try {
-      const documentos = await this.service.getAllAdmin();
+      const documentos = await this.service.getAllAdmin(req.query || {});
       return res.status(200).json(documentos);
     } catch (error) {
       return res.status(400).json({ message: error.message });

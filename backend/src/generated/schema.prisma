@@ -45,18 +45,20 @@ model ActivacionCuenta {
 }
 
 model Profesor {
-  id                String                  @id
-  licenciaConducir  String
-  telefono          String
-  activo            Boolean                 @default(true)
-  permisosLicencias String[]                @default([])
-  alumnosAsignados  Alumno[]
-  clasesDirecto     ClaseDirecto[]
-  clases            ClasePractica[]
-  gastosCombustible GastoCombustible[]
-  hojasRuta         HojaRuta[]
-  horarioBloques    ProfesorHorarioBloque[]
-  usuario           Usuario                 @relation(fields: [id], references: [id], onDelete: Cascade)
+  id                    String                    @id
+  licenciaConducir      String
+  telefono              String
+  activo                Boolean                   @default(true)
+  permisosLicencias     String[]                  @default([])
+  alumnosAsignados      Alumno[]
+  historialComoAnterior AlumnoProfesorHistorial[] @relation("HistorialProfesorAnterior")
+  historialComoNuevo    AlumnoProfesorHistorial[] @relation("HistorialProfesorNuevo")
+  clasesDirecto         ClaseDirecto[]
+  clases                ClasePractica[]
+  gastosCombustible     GastoCombustible[]
+  hojasRuta             HojaRuta[]
+  horarioBloques        ProfesorHorarioBloque[]
+  usuario               Usuario                   @relation(fields: [id], references: [id], onDelete: Cascade)
 
   @@map("profesores")
 }
@@ -76,14 +78,14 @@ model ProfesorHorarioBloque {
 }
 
 model Alumno {
-  id                        String            @id
+  id                        String                    @id
   tipoLicenciaObjetivo      String
-  horasPracticasCompletadas Int               @default(0)
+  horasPracticasCompletadas Int                       @default(0)
   profesorAsignadoId        String?
-  activo                    Boolean           @default(true)
+  activo                    Boolean                   @default(true)
   fechaNacimiento           DateTime?
-  usuario                   Usuario           @relation(fields: [id], references: [id], onDelete: Cascade)
-  profesorAsignado          Profesor?         @relation(fields: [profesorAsignadoId], references: [id])
+  usuario                   Usuario                   @relation(fields: [id], references: [id], onDelete: Cascade)
+  profesorAsignado          Profesor?                 @relation(fields: [profesorAsignadoId], references: [id])
   clases                    ClasePractica[]
   bonosComprados            CompraBono[]
   examenes                  Examen[]
@@ -96,6 +98,7 @@ model Alumno {
   examenesDGT               ExamenDGTAlumno[]
   documentosAlumno          DocumentoAlumno[]
   hojasRuta                 HojaRuta[]
+  historialProfesores       AlumnoProfesorHistorial[]
 
   @@map("alumnos")
 }
@@ -249,12 +252,15 @@ model Bono {
   id              String       @id @default(uuid())
   nombre          String
   descripcion     String?
+  licencia        String       @default("B")
   clasesIncluidas Int
   precio          Decimal      @default(0) @db.Decimal(10, 2)
   validezDias     Int          @default(90)
   activo          Boolean      @default(true)
+  esInterno       Boolean      @default(false)
   compras         CompraBono[]
 
+  @@index([licencia])
   @@map("bonos")
 }
 
@@ -262,6 +268,8 @@ model CompraBono {
   id                String          @id @default(uuid())
   alumnoId          String
   bonoId            String
+  matriculaOrigenId String?
+  origenPromocionId String?
   clasesCompradas   Int
   clasesConsumidas  Int             @default(0)
   pagado            Boolean         @default(false)
@@ -275,6 +283,8 @@ model CompraBono {
 
   @@index([alumnoId])
   @@index([bonoId])
+  @@index([matriculaOrigenId])
+  @@index([origenPromocionId])
   @@index([fechaCompra])
   @@map("compras_bonos")
 }
@@ -462,9 +472,31 @@ model Promocion {
   edadMinima               Int?
   edadMaxima               Int?
   requiereFidelidad        Boolean     @default(false)
+  incluyePagoExamenGratis  Boolean     @default(false)
+  clasesGratisIncluidas    Int         @default(0)
+  licenciaClasesGratis     String?
   matriculas               Matricula[]
 
   @@map("promociones")
+}
+
+model AlumnoProfesorHistorial {
+  id                 String   @id @default(uuid())
+  alumnoId           String
+  profesorAnteriorId String
+  profesorNuevoId    String
+  changedById        String?
+  changedAt          DateTime @default(now())
+  motivo             String?
+  alumno             Alumno   @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  profesorAnterior   Profesor @relation("HistorialProfesorAnterior", fields: [profesorAnteriorId], references: [id], onDelete: Restrict)
+  profesorNuevo      Profesor @relation("HistorialProfesorNuevo", fields: [profesorNuevoId], references: [id], onDelete: Restrict)
+
+  @@index([alumnoId])
+  @@index([profesorAnteriorId])
+  @@index([profesorNuevoId])
+  @@index([changedAt])
+  @@map("alumnos_profesor_historial")
 }
 
 enum TipoPrecio {
@@ -786,20 +818,23 @@ model GastoCombustible {
 }
 
 model Notificacion {
-  id        String    @id @default(uuid())
-  usuarioId String
-  tipo      String
-  titulo    String
-  mensaje   String
-  metadata  Json?
-  leida     Boolean   @default(false)
-  createdAt DateTime  @default(now())
-  readAt    DateTime?
-  usuario   Usuario   @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  id         String    @id @default(uuid())
+  usuarioId  String
+  tipo       String
+  titulo     String
+  mensaje    String
+  metadata   Json?
+  leida      Boolean   @default(false)
+  archivada  Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  readAt     DateTime?
+  archivedAt DateTime?
+  usuario    Usuario   @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
 
   @@index([usuarioId])
   @@index([tipo])
   @@index([leida])
+  @@index([archivada])
   @@index([createdAt])
   @@map("notificaciones")
 }

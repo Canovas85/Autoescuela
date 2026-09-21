@@ -6,11 +6,16 @@ import { GastosCombustibleRepository } from "./gastos-combustible.repository.js"
 import { GastosCombustibleService } from "./gastos-combustible.service.js";
 import { GastosCombustibleController } from "./gastos-combustible.controller.js";
 import { uploadGastoCombustibleRecibo } from "./gastos-combustible.upload.js";
+import { NotificacionesRepository } from "../notificaciones/notificaciones.repository.js";
 
 const router = Router();
 
 const repository = new GastosCombustibleRepository(prisma);
-const service = new GastosCombustibleService(repository);
+const notificacionesRepository = new NotificacionesRepository(prisma);
+const service = new GastosCombustibleService(
+  repository,
+  notificacionesRepository,
+);
 const controller = new GastosCombustibleController(service);
 
 router.get(

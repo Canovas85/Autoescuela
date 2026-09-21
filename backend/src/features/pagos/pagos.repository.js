@@ -1,3 +1,5 @@
+import { pushNotificationCreated } from "../../shared/realtime/notificaciones.realtime.js";
+
 export class PagosRepository {
   constructor(prisma) {
     this.prisma = prisma;
@@ -197,8 +199,12 @@ export class PagosRepository {
   }
 
   async createNotification(data) {
-    return this.prisma.notificacion.create({
+    const created = await this.prisma.notificacion.create({
       data,
     });
+
+    pushNotificationCreated(created);
+
+    return created;
   }
 }

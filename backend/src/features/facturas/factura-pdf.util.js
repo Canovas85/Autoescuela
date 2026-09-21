@@ -1,103 +1,106 @@
-const EURO = "EUR";
+import PDFDocument from "pdfkit";
 
-const sanitizePdfText = (value) =>
-  String(value ?? "")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/\\/g, "\\\\")
-    .replace(/\(/g, "\\(")
-    .replace(/\)/g, "\\)");
+const formatCurrency = (value) => `${Number(value || 0).toFixed(2)} EUR`;
 
-const formatNumber = (value) => {
-  const numeric = Number(value || 0);
-  return Number.isFinite(numeric) ? numeric.toFixed(2) : "0.00";
-};
-
-const formatCurrency = (value) => `${formatNumber(value)} ${EURO}`;
-
-const formatDate = (value) => {
-  if (!value) return "-";
-  return new Date(value).toLocaleDateString("es-ES");
-};
-
-const buildPdfDocument = (lines) => {
-  let contentStream = "";
-
-  lines.forEach((line) => {
-    const safeText = sanitizePdfText(line.text);
-    contentStream += `BT /F1 ${line.size} Tf ${line.x} ${line.y} Td (${safeText}) Tj ET\n`;
-  });
-
-  const streamLength = Buffer.byteLength(contentStream, "utf8");
-
-  const objects = [
-    "<< /Type /Catalog /Pages 2 0 R >>",
-    "<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
-    "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>",
-    "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
-    `<< /Length ${streamLength} >>\nstream\n${contentStream}endstream`,
-  ];
-
-  let pdf = "%PDF-1.4\n";
-  const offsets = [0];
-
-  objects.forEach((objectText, index) => {
-    offsets.push(Buffer.byteLength(pdf, "utf8"));
-    pdf += `${index + 1} 0 obj\n${objectText}\nendobj\n`;
-  });
-
-  const xrefOffset = Buffer.byteLength(pdf, "utf8");
-
-  pdf += `xref\n0 ${objects.length + 1}\n`;
-  pdf += "0000000000 65535 f \n";
-
-  offsets.slice(1).forEach((offset) => {
-    pdf += `${String(offset).padStart(10, "0")} 00000 n \n`;
-  });
-
-  pdf += "trailer\n";
-  pdf += `<< /Size ${objects.length + 1} /Root 1 0 R >>\n`;
-  pdf += "startxref\n";
-  pdf += `${xrefOffset}\n`;
-  pdf += "%%EOF";
-
-  return Buffer.from(pdf, "utf8");
-};
+const formatDate = (value) =>
+  value ? new Date(value).toLocaleDateString("es-ES") : "-";
 
 export const buildFacturaPdfBuffer = (factura) => {
-  const lines = [];
-  let y = 805;
-
-  const addLine = (text, options = {}) => {
-    lines.push({
-      text,
-      x: options.x ?? 40,
-      y,
-      size: options.size ?? 11,
+  return new Promise((resolve, reject) => {
+    const doc = new PDFDocument({
+      size: "A4",
+      margin: 40,
     });
-    y -= options.gap ?? 16;
-  };
 
-  addLine("AUTOESCUELA EGUZKILORE", { size: 16, gap: 20 });
-  addLine("FACTURA", { size: 14, gap: 20 });
+    const buffers = [];
 
-  addLine(`Numero: ${factura.numero}`);
-  addLine(`Fecha emision: ${formatDate(factura.fechaEmision)}`);
-  addLine(`Estado: ${factura.estado}`);
-  addLine(`Alumno: ${factura.alumno.nombre}`);
-  addLine(`Email: ${factura.alumno.email || "-"}`);
-  addLine(`DNI: ${factura.alumno.dni || "-"}`);
-  addLine(`Telefono: ${factura.alumno.telefono || "-"}`);
-  addLine(`Licencia: ${factura.licencia || "-"}`, { gap: 22 });
+    doc.on("data", (chunk) => buffers.push(chunk));
+    doc.on("end", () => resolve(Buffer.concat(buffers)));
+    doc.on("error", reject);
 
-  addLine("Detalle economico", { size: 13, gap: 18 });
-  addLine(`Concepto: ${factura.concepto}`);
-  addLine(`Base imponible: ${formatCurrency(factura.baseImponible)}`);
-  addLine(`Descuento: ${formatCurrency(factura.descuento)}`);
-  addLine(`Total: ${formatCurrency(factura.total)}`, { size: 12, gap: 22 });
+    doc.rect(40, 40, 515, 60).fill("#f8fafc");
+    doc
+      .fillColor("#0f172a")
+      .fontSize(18)
+      .text("AUTOESCUELA EGUZKILORE", 55, 58);
+    doc.fontSize(11).fillColor("#475569").text("Factura oficial", 55, 82);
 
-  addLine("Informacion adicional", { size: 13, gap: 18 });
-  addLine(`Fecha pago: ${formatDate(factura.fechaPago)}`);
+    doc
+      .fontSize(12)
+      .fillColor("#0f172a")
+      .text(factura.numero, 390, 58, { width: 150, align: "right" })
+      .fontSize(10)
+      .fillColor("#475569")
+      .text(`Emisión: ${formatDate(factura.fechaEmision)}`, 390, 76, {
+        width: 150,
+        align: "right",
+      })
+      .text(`Estado: ${factura.estado}`, 390, 92, {
+        width: 150,
+        align: "right",
+      });
 
-  return buildPdfDocument(lines);
+    doc.rect(40, 120, 250, 90).stroke("#dbeafe");
+    doc.rect(305, 120, 250, 90).stroke("#dbeafe");
+
+    doc.fontSize(11).fillColor("#1e293b").text("Emisor", 50, 130);
+    doc
+      .fontSize(10)
+      .fillColor("#334155")
+      .text("Autoescuela Eguzkilore", 50, 148);
+
+    doc.fontSize(11).fillColor("#1e293b").text("Receptor", 315, 130);
+    doc
+      .fontSize(10)
+      .fillColor("#334155")
+      .text(factura.alumno?.nombre || "-", 315, 148)
+      .text(factura.alumno?.email || "-", 315, 164)
+      .text(`DNI: ${factura.alumno?.dni || "-"}`, 315, 180);
+
+    doc.rect(40, 230, 515, 30).fill("#eff6ff");
+    doc
+      .fillColor("#0f172a")
+      .fontSize(10)
+      .text("Concepto", 50, 240)
+      .text("Base", 280, 240, { width: 70, align: "right" })
+      .text("Descuento", 360, 240, { width: 90, align: "right" })
+      .text("Total", 465, 240, { width: 80, align: "right" });
+
+    doc.rect(40, 260, 515, 42).stroke("#dbeafe");
+    doc
+      .fillColor("#0f172a")
+      .fontSize(10)
+      .text(factura.concepto || "-", 50, 274, { width: 220 })
+      .text(formatCurrency(factura.baseImponible), 280, 274, {
+        width: 70,
+        align: "right",
+      })
+      .text(formatCurrency(factura.descuento), 360, 274, {
+        width: 90,
+        align: "right",
+      })
+      .font("Helvetica-Bold")
+      .text(formatCurrency(factura.total), 465, 274, {
+        width: 80,
+        align: "right",
+      })
+      .font("Helvetica");
+
+    doc
+      .fontSize(10)
+      .fillColor("#0f172a")
+      .text(`Licencia: ${factura.licencia || "-"}`, 50, 325)
+      .text(`Fecha pago: ${formatDate(factura.fechaPago)}`, 50, 342)
+      .fillColor("#64748b")
+      .text(
+        "Este documento es un duplicado de factura emitido por Autoescuela Eguzkilore.",
+        50,
+        390,
+        {
+          width: 490,
+        },
+      );
+
+    doc.end();
+  });
 };

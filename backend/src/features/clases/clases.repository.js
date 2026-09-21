@@ -1,3 +1,5 @@
+import { pushNotificationCreated } from "../../shared/realtime/notificaciones.realtime.js";
+
 export class ClasesRepository {
   constructor(prisma) {
     this.prisma = prisma;
@@ -558,9 +560,13 @@ export class ClasesRepository {
   }
 
   async createNotification(data) {
-    return this.prisma.notificacion.create({
+    const created = await this.prisma.notificacion.create({
       data,
     });
+
+    pushNotificationCreated(created);
+
+    return created;
   }
 
   async getProfessorClassRequests(profesorId) {

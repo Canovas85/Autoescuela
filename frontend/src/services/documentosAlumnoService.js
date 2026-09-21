@@ -6,8 +6,10 @@ export const documentosAlumnoService = {
     return response.data;
   },
 
-  getAllAdmin: async () => {
-    const response = await api.get("/documentos-alumno/admin");
+  getAllAdmin: async (params = {}) => {
+    const response = await api.get("/documentos-alumno/admin", {
+      params,
+    });
     return response.data;
   },
 

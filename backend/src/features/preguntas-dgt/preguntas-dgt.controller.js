@@ -16,7 +16,7 @@ export class PreguntasDGTController {
   }
 
   async getAll(req, res) {
-    const preguntas = await this.service.getAll();
+    const preguntas = await this.service.getAll(req.query || {});
 
     return res.status(200).json(preguntas);
   }

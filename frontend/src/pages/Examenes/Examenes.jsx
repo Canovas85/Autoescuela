@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-
 import {
   Alert,
   Box,
@@ -8,89 +7,71 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
-  IconButton,
   FormControl,
   InputLabel,
   MenuItem,
+  Paper,
   Select,
   Snackbar,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 import { DataGrid } from "@mui/x-data-grid";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import AddIcon from "@mui/icons-material/Add";
 
-import { examenesService } from "../../services/examenesService";
-import { alumnosService } from "../../services/alumnosService";
-
-const TIPOS = ["TEORICO", "PRACTICO"];
-const ESTADOS = [
-  "PENDIENTE",
-  "PROGRAMADO",
-  "APROBADO",
-  "SUSPENDIDO",
-  "CANCELADO",
-];
-
-const emptyForm = {
-  alumnoId: "",
-  tipo: "TEORICO",
-  fecha: new Date().toISOString().slice(0, 10),
-  estado: "PROGRAMADO",
-  observaciones: "",
-};
+import { evaluacionExamenesService } from "../../services/evaluacionExamenesService";
+import { LicenseChip } from "../../components/common/LicenseChip";
 
 const formatDate = (value) => {
-  if (!value) return "Sin fecha";
+  if (!value) return "-";
 
   return new Intl.DateTimeFormat("es-ES", {
     day: "2-digit",
-    month: "short",
+    month: "2-digit",
     year: "numeric",
   }).format(new Date(value));
 };
 
+const stateToColor = (estado) => {
+  if (estado === "APTO" || estado === "APROBADO") return "success";
+  if (estado === "NO_APTO" || estado === "SUSPENSO") return "error";
+  if (estado === "CANCELADO") return "default";
+  return "warning";
+};
+
 export default function Examenes() {
   const [rows, setRows] = useState([]);
-  const [alumnos, setAlumnos] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [editingId, setEditingId] = useState(null);
-  const [form, setForm] = useState(emptyForm);
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [openDetail, setOpenDetail] = useState(false);
   const [notification, setNotification] = useState({
     open: false,
     message: "",
     severity: "success",
   });
-  const [selectedExam, setSelectedExam] = useState(null);
-  const [openDetail, setOpenDetail] = useState(false);
 
-  const [confirmDialog, setConfirmDialog] = useState({
-    open: false,
-    action: null,
-    examenId: null,
-    alumnoNombre: "",
-    title: "",
-    message: "",
-  });
+  const [fechaDesde, setFechaDesde] = useState("");
+  const [fechaHasta, setFechaHasta] = useState("");
+  const [licenciaFiltro, setLicenciaFiltro] = useState("TODAS");
+  const [estadoFiltro, setEstadoFiltro] = useState("TODOS");
 
   const loadData = async () => {
     try {
-      const [examenes, alumnosData] = await Promise.all([
-        examenesService.getAll(),
-        alumnosService.getAll(),
+      const [teorico, practico] = await Promise.all([
+        evaluacionExamenesService.getTeorico(),
+        evaluacionExamenesService.getPractico(),
       ]);
 
-      setRows(examenes);
-      setAlumnos(alumnosData);
+      setRows([...(teorico || []), ...(practico || [])]);
     } catch (error) {
-      console.error(error);
       setNotification({
         open: true,
-        message: "No se pudieron cargar los exámenes",
+        message:
+          error.response?.data?.message ||
+          "No se pudo cargar la información de exámenes",
         severity: "error",
       });
     }
@@ -100,224 +81,195 @@ export default function Examenes() {
     loadData();
   }, []);
 
-  const filteredRows = useMemo(() => rows, [rows]);
+  const licencias = useMemo(() => {
+    const values = new Set();
 
-  const resetForm = () => {
-    setForm(emptyForm);
-    setEditingId(null);
-  };
-
-  const handleOpenCreate = () => {
-    resetForm();
-    setOpen(true);
-  };
-
-  const handleEdit = (row) => {
-    setEditingId(row.id);
-    setForm({
-      alumnoId: row.alumnoId || row.alumno?.id || "",
-      tipo: row.tipo || "TEORICO",
-      fecha: row.fecha
-        ? new Date(row.fecha).toISOString().slice(0, 10)
-        : new Date().toISOString().slice(0, 10),
-      estado: row.estado || "PROGRAMADO",
-      observaciones: row.observaciones || "",
+    rows.forEach((row) => {
+      if (row.permisoLicencia) {
+        values.add(row.permisoLicencia);
+      }
     });
-    setOpen(true);
-  };
 
-  const handleDelete = (row) => {
-    const nombreAlumno = row.alumno?.usuario?.nombre || "este alumno";
+    return Array.from(values).sort();
+  }, [rows]);
 
-    setConfirmDialog({
-      open: true,
-      action: "delete",
-      examenId: row.id,
-      alumnoNombre: nombreAlumno,
-      title: "Confirmar eliminación",
-      message: `Vas a eliminar definitivamente el examen asociado a ${nombreAlumno}. Toda la información relacionada con el examen será eliminada de forma permanente. Esta acción no podrá deshacerse. ¿Deseas continuar?`,
+  const estados = useMemo(() => {
+    const values = new Set();
+
+    rows.forEach((row) => {
+      if (row.estado) {
+        values.add(row.estado);
+      }
     });
-  };
 
-  const closeConfirmDialog = () => {
-    setConfirmDialog({
-      open: false,
-      action: null,
-      examenId: null,
-      alumnoNombre: "",
-      title: "",
-      message: "",
-    });
-  };
+    return Array.from(values).sort();
+  }, [rows]);
 
-  const handleConfirmAction = async () => {
-    try {
-      await examenesService.delete(confirmDialog.examenId);
+  const filteredRows = useMemo(() => {
+    return rows.filter((row) => {
+      const convocatoria = row.fechaConvocatoria
+        ? new Date(row.fechaConvocatoria)
+        : null;
 
-      await loadData();
-
-      setNotification({
-        open: true,
-        message: "Examen eliminado correctamente",
-        severity: "success",
-      });
-    } catch (error) {
-      console.error(error);
-
-      setNotification({
-        open: true,
-        message: error.response?.data?.message || "Error eliminando examen",
-        severity: "error",
-      });
-    } finally {
-      closeConfirmDialog();
-    }
-  };
-
-  const handleSave = async () => {
-    try {
-      const alumnoSeleccionado = alumnos.find(
-        (alumno) => alumno.id === form.alumnoId,
-      );
-
-      const payload = {
-        ...form,
-        licenciaObjetivo: alumnoSeleccionado?.tipoLicenciaObjetivo || "B",
-        observaciones: form.observaciones || null,
-      };
-
-      if (editingId) {
-        await examenesService.update(editingId, payload);
-      } else {
-        await examenesService.create(payload);
+      if (fechaDesde && convocatoria && convocatoria < new Date(fechaDesde)) {
+        return false;
       }
 
-      await loadData();
-      setOpen(false);
-      resetForm();
-      setNotification({
-        open: true,
-        message: editingId
-          ? "Examen actualizado correctamente"
-          : "Examen creado correctamente",
-        severity: "success",
-      });
-    } catch (error) {
-      console.error(error);
-      setNotification({
-        open: true,
-        message: error.response?.data?.message || "Error guardando examen",
-        severity: "error",
-      });
-    }
-  };
+      if (fechaHasta && convocatoria) {
+        const end = new Date(fechaHasta);
+        end.setHours(23, 59, 59, 999);
 
-  const handleOpenDetail = (row) => {
-    setSelectedExam(row);
-    setOpenDetail(true);
-  };
+        if (convocatoria > end) {
+          return false;
+        }
+      }
 
-  const handleCloseDetail = () => {
-    setOpenDetail(false);
-    setSelectedExam(null);
-  };
+      if (
+        licenciaFiltro !== "TODAS" &&
+        row.permisoLicencia !== licenciaFiltro
+      ) {
+        return false;
+      }
 
-  const columns = [
-    {
-      field: "alumno",
-      headerName: "Alumno",
-      flex: 1.3,
-      valueGetter: (_, row) => row.alumno?.usuario?.nombre || "Sin alumno",
-    },
-    { field: "tipo", headerName: "Tipo", flex: 0.7 },
-    {
-      field: "fecha",
-      headerName: "Fecha",
-      flex: 0.8,
-      valueGetter: (_, row) => formatDate(row.fecha),
-    },
-    {
-      field: "estado",
-      headerName: "Estado",
-      flex: 0.9,
-      renderCell: (params) => (
-        <Chip
-          label={params.row.estado}
-          size="small"
-          color={
-            params.row.estado === "APROBADO"
-              ? "success"
-              : params.row.estado === "SUSPENDIDO"
-                ? "error"
-                : "default"
-          }
-        />
-      ),
-    },
-    {
-      field: "observaciones",
-      headerName: "Observaciones",
-      flex: 1.2,
-      renderCell: (params) => (
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            height: "100%",
-            width: "100%",
-          }}
-        >
-          <Typography variant="body2" noWrap>
-            {params.row.observaciones || "Sin observaciones"}
-          </Typography>
-        </Box>
-      ),
-    },
-    {
-      field: "acciones",
-      headerName: "Acciones",
-      width: 140,
-      sortable: false,
-      renderCell: (params) => (
-        <Box sx={{ display: "flex", gap: 1 }}>
-          <IconButton color="primary" onClick={() => handleEdit(params.row)}>
-            <EditIcon />
-          </IconButton>
+      if (estadoFiltro !== "TODOS" && row.estado !== estadoFiltro) {
+        return false;
+      }
 
-          <IconButton color="error" onClick={() => handleDelete(params.row)}>
-            <DeleteIcon />
-          </IconButton>
-        </Box>
-      ),
-    },
-  ];
+      return true;
+    });
+  }, [rows, fechaDesde, fechaHasta, licenciaFiltro, estadoFiltro]);
+
+  const columns = useMemo(
+    () => [
+      {
+        field: "alumnoNombre",
+        headerName: "Alumno",
+        flex: 1.2,
+      },
+      {
+        field: "fechaSolicitud",
+        headerName: "Fecha solicitud",
+        flex: 0.95,
+        valueGetter: (_, row) => formatDate(row.fechaSolicitud),
+      },
+      {
+        field: "fechaConvocatoria",
+        headerName: "Fecha convocatoria",
+        flex: 1,
+        valueGetter: (_, row) => formatDate(row.fechaConvocatoria),
+      },
+      {
+        field: "permisoLicencia",
+        headerName: "Permiso/Licencia",
+        flex: 0.95,
+        renderCell: (params) => <LicenseChip value={params.value} />,
+      },
+      {
+        field: "estado",
+        headerName: "Estado/Resultado",
+        flex: 1,
+        renderCell: (params) => (
+          <Chip
+            size="small"
+            color={stateToColor(params.row.estado)}
+            label={params.row.estado}
+          />
+        ),
+      },
+      {
+        field: "acciones",
+        headerName: "Acciones",
+        width: 120,
+        sortable: false,
+        renderCell: (params) => (
+          <Box
+            sx={{ width: "100%", display: "flex", justifyContent: "center" }}
+          >
+            <Tooltip title="Ver detalle" arrow>
+              <IconButton
+                color="primary"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setSelectedRow(params.row);
+                  setOpenDetail(true);
+                }}
+              >
+                <VisibilityIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        ),
+      },
+    ],
+    [],
+  );
 
   return (
     <Box>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          mb: 2,
-        }}
-      >
-        <Box>
-          <Typography variant="h4" fontWeight="bold">
-            Exámenes
-          </Typography>
-          <Typography color="text.secondary">
-            Gestión de convocatorias y resultados de exámenes.
-          </Typography>
-        </Box>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={handleOpenCreate}
-        >
-          Nuevo examen
-        </Button>
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="h4" fontWeight="bold">
+          Exámenes
+        </Typography>
+        <Typography color="text.secondary">
+          Vista unificada de exámenes teóricos y prácticos.
+        </Typography>
       </Box>
+
+      <Stack
+        direction={{ xs: "column", md: "row" }}
+        spacing={1.5}
+        sx={{ mb: 2 }}
+      >
+        <TextField
+          size="small"
+          label="Convocatoria desde"
+          type="date"
+          InputLabelProps={{ shrink: true }}
+          value={fechaDesde}
+          onChange={(event) => setFechaDesde(event.target.value)}
+        />
+
+        <TextField
+          size="small"
+          label="Convocatoria hasta"
+          type="date"
+          InputLabelProps={{ shrink: true }}
+          value={fechaHasta}
+          onChange={(event) => setFechaHasta(event.target.value)}
+        />
+
+        <FormControl size="small" sx={{ minWidth: 220 }}>
+          <InputLabel>Licencia</InputLabel>
+          <Select
+            label="Licencia"
+            value={licenciaFiltro}
+            onChange={(event) => setLicenciaFiltro(event.target.value)}
+          >
+            <MenuItem value="TODAS">Todas</MenuItem>
+            {licencias.map((licencia) => (
+              <MenuItem key={licencia} value={licencia}>
+                {licencia}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <FormControl size="small" sx={{ minWidth: 220 }}>
+          <InputLabel>Estado/Resultado</InputLabel>
+          <Select
+            label="Estado/Resultado"
+            value={estadoFiltro}
+            onChange={(event) => setEstadoFiltro(event.target.value)}
+          >
+            <MenuItem value="TODOS">Todos</MenuItem>
+            {estados.map((estado) => (
+              <MenuItem key={estado} value={estado}>
+                {estado}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Stack>
 
       <Box sx={{ height: 700 }}>
         <DataGrid
@@ -325,173 +277,181 @@ export default function Examenes() {
           columns={columns}
           getRowId={(row) => row.id}
           disableRowSelectionOnClick
-          onRowClick={(params) => handleOpenDetail(params.row)}
+          onRowClick={(params) => {
+            setSelectedRow(params.row);
+            setOpenDetail(true);
+          }}
           pageSizeOptions={[10, 25, 50]}
           initialState={{
             pagination: { paginationModel: { pageSize: 10, page: 0 } },
-            sorting: { sortModel: [{ field: "fecha", sort: "asc" }] },
+            sorting: {
+              sortModel: [{ field: "fechaConvocatoria", sort: "desc" }],
+            },
           }}
         />
       </Box>
 
       <Dialog
         open={openDetail}
-        onClose={handleCloseDetail}
+        onClose={() => setOpenDetail(false)}
         fullWidth
-        maxWidth="sm"
+        maxWidth="md"
       >
         <DialogTitle>Detalle de examen</DialogTitle>
-        <DialogContent sx={{ display: "grid", gap: 1, pt: 1 }}>
-          <Typography>
-            <strong>Alumno:</strong>{" "}
-            {selectedExam?.alumno?.usuario?.nombre || "-"}
-          </Typography>
-          <Typography>
-            <strong>Tipo:</strong> {selectedExam?.tipo || "-"}
-          </Typography>
-          <Typography>
-            <strong>Estado:</strong> {selectedExam?.estado || "-"}
-          </Typography>
-          <Typography>
-            <strong>Fecha:</strong> {formatDate(selectedExam?.fecha)}
-          </Typography>
-          <Typography>
-            <strong>Observaciones:</strong> {selectedExam?.observaciones || "-"}
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDetail}>Cerrar</Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
-        fullWidth
-        maxWidth="sm"
-      >
-        <DialogTitle>
-          {editingId ? "Editar examen" : "Nuevo examen"}
-        </DialogTitle>
-        <DialogContent sx={{ pt: 1, display: "grid", gap: 2 }}>
-          <FormControl fullWidth>
-            <InputLabel>Alumno</InputLabel>
-            <Select
-              label="Alumno"
-              value={form.alumnoId}
-              onChange={(event) =>
-                setForm((prev) => ({ ...prev, alumnoId: event.target.value }))
-              }
-            >
-              {alumnos.map((alumno) => (
-                <MenuItem key={alumno.id} value={alumno.id}>
-                  {alumno.usuario?.nombre || alumno.id}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <FormControl fullWidth>
-            <InputLabel>Tipo</InputLabel>
-            <Select
-              label="Tipo"
-              value={form.tipo}
-              onChange={(event) =>
-                setForm((prev) => ({ ...prev, tipo: event.target.value }))
-              }
-            >
-              {TIPOS.map((tipo) => (
-                <MenuItem key={tipo} value={tipo}>
-                  {tipo}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <TextField
-            label="Fecha"
-            type="date"
-            fullWidth
-            InputLabelProps={{ shrink: true }}
-            value={form.fecha}
-            onChange={(event) =>
-              setForm((prev) => ({ ...prev, fecha: event.target.value }))
-            }
-          />
-
-          <FormControl fullWidth>
-            <InputLabel>Estado</InputLabel>
-            <Select
-              label="Estado"
-              value={form.estado}
-              onChange={(event) =>
-                setForm((prev) => ({ ...prev, estado: event.target.value }))
-              }
-            >
-              {ESTADOS.map((estado) => (
-                <MenuItem key={estado} value={estado}>
-                  {estado}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <TextField
-            label="Observaciones"
-            fullWidth
-            multiline
-            minRows={3}
-            value={form.observaciones}
-            onChange={(event) =>
-              setForm((prev) => ({
-                ...prev,
-                observaciones: event.target.value,
-              }))
-            }
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpen(false)}>Cancelar</Button>
-          <Button variant="contained" onClick={handleSave}>
-            Guardar
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog
-        open={confirmDialog.open}
-        onClose={closeConfirmDialog}
-        fullWidth
-        maxWidth="xs"
-      >
-        <DialogTitle>{confirmDialog.title}</DialogTitle>
-
         <DialogContent>
-          <DialogContentText>{confirmDialog.message}</DialogContentText>
+          {!selectedRow ? null : (
+            <Stack spacing={2} sx={{ pt: 1 }}>
+              <Paper variant="outlined" sx={{ p: 2 }}>
+                <Typography variant="subtitle2" color="text.secondary">
+                  Información general
+                </Typography>
+                <Stack
+                  direction={{ xs: "column", md: "row" }}
+                  spacing={2}
+                  sx={{ mt: 1 }}
+                >
+                  <Box sx={{ flex: 1 }}>
+                    <Typography variant="body2" color="text.secondary">
+                      Alumno
+                    </Typography>
+                    <Typography fontWeight={700}>
+                      {selectedRow.alumnoNombre || "-"}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ flex: 1 }}>
+                    <Typography variant="body2" color="text.secondary">
+                      Permiso/Licencia
+                    </Typography>
+                    <LicenseChip value={selectedRow.permisoLicencia} />
+                  </Box>
+                  <Box sx={{ flex: 1 }}>
+                    <Typography variant="body2" color="text.secondary">
+                      Tipo
+                    </Typography>
+                    <Chip size="small" label={selectedRow.tipo || "-"} />
+                  </Box>
+                </Stack>
+              </Paper>
+
+              <Paper variant="outlined" sx={{ p: 2 }}>
+                <Typography variant="subtitle2" color="text.secondary">
+                  Convocatoria y resultado
+                </Typography>
+                <Stack
+                  direction={{ xs: "column", md: "row" }}
+                  spacing={2}
+                  sx={{ mt: 1 }}
+                >
+                  <Box sx={{ flex: 1 }}>
+                    <Typography variant="body2" color="text.secondary">
+                      Fecha solicitud
+                    </Typography>
+                    <Typography>
+                      {formatDate(selectedRow.fechaSolicitud)}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ flex: 1 }}>
+                    <Typography variant="body2" color="text.secondary">
+                      Fecha convocatoria
+                    </Typography>
+                    <Typography>
+                      {formatDate(selectedRow.fechaConvocatoria)}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ flex: 1 }}>
+                    <Typography variant="body2" color="text.secondary">
+                      Estado/Resultado
+                    </Typography>
+                    <Chip
+                      size="small"
+                      label={selectedRow.estado || "-"}
+                      color={stateToColor(selectedRow.estado)}
+                    />
+                  </Box>
+                </Stack>
+              </Paper>
+
+              <Paper variant="outlined" sx={{ p: 2 }}>
+                <Typography variant="subtitle2" color="text.secondary">
+                  Datos del examen
+                </Typography>
+                <Stack
+                  direction={{ xs: "column", md: "row" }}
+                  spacing={2}
+                  sx={{ mt: 1 }}
+                >
+                  <Typography variant="body2">
+                    <strong>Número de convocatoria:</strong>{" "}
+                    {selectedRow.numeroIntento ?? "-"}
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Convocatorias restantes:</strong>{" "}
+                    {selectedRow.convocatoriasRestantes ?? "-"}
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Profesor:</strong>{" "}
+                    {selectedRow.profesorAsignado || "Sin asignar"}
+                  </Typography>
+                </Stack>
+
+                <Stack
+                  direction={{ xs: "column", md: "row" }}
+                  spacing={2}
+                  sx={{ mt: 1 }}
+                >
+                  <Chip
+                    size="small"
+                    label={`Aciertos: ${selectedRow.aciertosExamen ?? "-"}`}
+                  />
+                  <Chip
+                    size="small"
+                    label={`Errores: ${selectedRow.erroresExamen ?? "-"}`}
+                  />
+                  <Chip
+                    size="small"
+                    label={`Leves: ${selectedRow.faltasLeves ?? "-"}`}
+                  />
+                  <Chip
+                    size="small"
+                    label={`Deficientes: ${selectedRow.faltasDeficientes ?? "-"}`}
+                  />
+                  <Chip
+                    size="small"
+                    label={`Eliminatorias: ${selectedRow.faltasEliminatorias ?? "-"}`}
+                  />
+                </Stack>
+              </Paper>
+
+              <Paper variant="outlined" sx={{ p: 2 }}>
+                <Typography variant="subtitle2" color="text.secondary">
+                  Observaciones
+                </Typography>
+                <Typography sx={{ mt: 1 }}>
+                  {selectedRow.observaciones || "Sin observaciones"}
+                </Typography>
+                {selectedRow.motivoNoApto ? (
+                  <Typography sx={{ mt: 1 }}>
+                    <strong>Motivo no apto:</strong> {selectedRow.motivoNoApto}
+                  </Typography>
+                ) : null}
+              </Paper>
+            </Stack>
+          )}
         </DialogContent>
-
         <DialogActions>
-          <Button onClick={closeConfirmDialog}>Cancelar</Button>
-
-          <Button
-            variant="contained"
-            color="error"
-            onClick={handleConfirmAction}
-          >
-            Confirmar
-          </Button>
+          <Button onClick={() => setOpenDetail(false)}>Cerrar</Button>
         </DialogActions>
       </Dialog>
 
       <Snackbar
         open={notification.open}
-        autoHideDuration={3500}
+        autoHideDuration={4000}
         onClose={() => setNotification((prev) => ({ ...prev, open: false }))}
       >
         <Alert
           severity={notification.severity}
-          variant="filled"
           onClose={() => setNotification((prev) => ({ ...prev, open: false }))}
+          sx={{ width: "100%" }}
         >
           {notification.message}
         </Alert>

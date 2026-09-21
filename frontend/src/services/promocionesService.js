@@ -27,8 +27,8 @@ const buildFormData = (promocion, imagenFile, eliminarImagen) => {
 };
 
 export const promocionesService = {
-  async getAll() {
-    const response = await api.get("/promociones");
+  async getAll(params = {}) {
+    const response = await api.get("/promociones", { params });
     return response.data;
   },
 

@@ -201,8 +201,8 @@ export class PreguntasDGTService {
     });
   }
 
-  async getAll() {
-    return this.repository.findAll();
+  async getAll(filters = {}) {
+    return this.repository.findAll(filters);
   }
 
   async getById(id) {

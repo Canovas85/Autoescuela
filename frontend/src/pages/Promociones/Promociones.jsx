@@ -61,6 +61,7 @@ const emptyForm = {
 export default function Promociones() {
   const [rows, setRows] = useState([]);
   const [tarifasMatricula, setTarifasMatricula] = useState([]);
+  const [licenciaFiltro, setLicenciaFiltro] = useState("all");
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(emptyForm);
@@ -87,7 +88,9 @@ export default function Promociones() {
 
   const loadPromociones = async () => {
     try {
-      const data = await promocionesService.getAll();
+      const data = await promocionesService.getAll({
+        licencia: licenciaFiltro === "all" ? undefined : licenciaFiltro,
+      });
       setRows(data);
     } catch (error) {
       console.error(error);
@@ -111,6 +114,9 @@ export default function Promociones() {
 
   useEffect(() => {
     loadPromociones();
+  }, [licenciaFiltro]);
+
+  useEffect(() => {
     loadTarifasMatricula();
   }, []);
 
@@ -628,6 +634,24 @@ export default function Promociones() {
         >
           Nueva promoción
         </Button>
+      </Box>
+
+      <Box sx={{ mb: 2 }}>
+        <FormControl size="small" sx={{ minWidth: 240 }}>
+          <InputLabel>Filtrar por licencia</InputLabel>
+          <Select
+            label="Filtrar por licencia"
+            value={licenciaFiltro}
+            onChange={(event) => setLicenciaFiltro(event.target.value)}
+          >
+            <MenuItem value="all">Todas</MenuItem>
+            {LICENCIAS.map((licencia) => (
+              <MenuItem key={licencia} value={licencia}>
+                Permiso {licencia}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </Box>
 
       <Box sx={{ height: 700 }}>

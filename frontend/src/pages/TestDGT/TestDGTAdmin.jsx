@@ -63,7 +63,7 @@ const normalizeRows = (rows = []) => {
 
 export default function TestDGTAdmin() {
   const [rows, setRows] = useState([]);
-  const [search, setSearch] = useState("");
+  const [licenciaFiltro, setLicenciaFiltro] = useState("all");
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(createEmptyForm());
@@ -87,7 +87,9 @@ export default function TestDGTAdmin() {
 
   const loadPreguntas = async () => {
     try {
-      const data = await preguntasDGTService.getAll();
+      const data = await preguntasDGTService.getAll({
+        licencia: licenciaFiltro === "all" ? undefined : licenciaFiltro,
+      });
       setRows(normalizeRows(data));
     } catch (error) {
       console.error(error);
@@ -101,22 +103,9 @@ export default function TestDGTAdmin() {
 
   useEffect(() => {
     loadPreguntas();
-  }, []);
+  }, [licenciaFiltro]);
 
-  const filteredRows = useMemo(() => {
-    if (!search.trim()) {
-      return rows;
-    }
-
-    const text = search.trim().toLowerCase();
-
-    return rows.filter((row) => {
-      const enunciado = row.enunciado?.toLowerCase() || "";
-      const licencias = (row.licencia || []).join(" ").toLowerCase();
-
-      return enunciado.includes(text) || licencias.includes(text);
-    });
-  }, [rows, search]);
+  const filteredRows = useMemo(() => rows, [rows]);
 
   const resetForm = () => {
     setForm(createEmptyForm());
@@ -543,12 +532,19 @@ export default function TestDGTAdmin() {
         </Box>
 
         <Stack direction="row" spacing={1.5}>
-          <TextField
-            size="small"
-            label="Buscar"
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-          />
+          <FormControl size="small" sx={{ minWidth: 220 }}>
+            <Select
+              value={licenciaFiltro}
+              onChange={(event) => setLicenciaFiltro(event.target.value)}
+            >
+              <MenuItem value="all">Todas las licencias</MenuItem>
+              {LICENCIAS.map((licencia) => (
+                <MenuItem key={licencia} value={licencia}>
+                  Permiso {licencia}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
           <Button
             variant="contained"

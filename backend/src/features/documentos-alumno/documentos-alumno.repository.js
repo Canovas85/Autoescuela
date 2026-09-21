@@ -18,11 +18,56 @@ export class DocumentosAlumnoRepository {
     });
   }
 
-  async findAllAdmin() {
+  async findAllAdmin(filters = {}) {
+    const search = String(filters.search || "").trim();
+    const tipo = String(filters.tipo || "")
+      .trim()
+      .toUpperCase();
+    const estado = String(filters.estado || "")
+      .trim()
+      .toUpperCase();
+
+    const where = {
+      activo: true,
+    };
+
+    if (search) {
+      where.alumno = {
+        usuario: {
+          OR: [
+            {
+              nombre: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+            {
+              email: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+            {
+              dni: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+          ],
+        },
+      };
+    }
+
+    if (tipo && tipo !== "TODOS") {
+      where.tipo = tipo;
+    }
+
+    if (estado && estado !== "TODOS") {
+      where.estado = estado;
+    }
+
     return this.prisma.documentoAlumno.findMany({
-      where: {
-        activo: true,
-      },
+      where,
       include: {
         alumno: {
           include: {
@@ -69,6 +114,11 @@ export class DocumentosAlumnoRepository {
       },
       include: {
         archivos: true,
+        alumno: {
+          include: {
+            usuario: true,
+          },
+        },
       },
     });
   }

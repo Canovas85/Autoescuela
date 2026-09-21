@@ -31,6 +31,7 @@ const formatCurrency = (value) => `${Number(value || 0).toFixed(2)} EUR`;
 
 export default function Facturas() {
   const [rows, setRows] = useState([]);
+  const [activeStates, setActiveStates] = useState([]);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [sendOpen, setSendOpen] = useState(false);
   const [loadingPreview, setLoadingPreview] = useState(false);
@@ -61,6 +62,52 @@ export default function Facturas() {
   useEffect(() => {
     loadFacturas();
   }, []);
+
+  const normalizeEstado = (estado) => {
+    if (estado === "EMITIDA") {
+      return "PENDIENTE";
+    }
+
+    return estado;
+  };
+
+  const toggleStateChip = (state) => {
+    setActiveStates((prev) =>
+      prev.includes(state)
+        ? prev.filter((item) => item !== state)
+        : [...prev, state],
+    );
+  };
+
+  const getBaseAmount = (row) => {
+    if (
+      row.matricula?.promocion?.precioOriginal !== undefined &&
+      row.matricula?.promocion?.precioOriginal !== null
+    ) {
+      return Number(row.matricula.promocion.precioOriginal);
+    }
+
+    return Number(row.baseImponible || 0);
+  };
+
+  const getDiscountAmount = (row) => {
+    if (row.matricula) {
+      const base = getBaseAmount(row);
+      const final = Number(row.total || 0);
+      const discount = base - final;
+      return discount > 0 ? Number(discount.toFixed(2)) : 0;
+    }
+
+    return Number(row.descuento || 0);
+  };
+
+  const filteredRows = rows.filter((row) => {
+    if (activeStates.length === 0) {
+      return true;
+    }
+
+    return activeStates.includes(normalizeEstado(row.estado));
+  });
 
   const handleOpenPreview = async (row) => {
     setLoadingPreview(true);
@@ -158,12 +205,14 @@ export default function Facturas() {
       field: "baseImponible",
       headerName: "Base",
       flex: 0.7,
+      valueGetter: (_, row) => getBaseAmount(row),
       valueFormatter: (value) => formatCurrency(value),
     },
     {
       field: "descuento",
       headerName: "Descuento",
       flex: 0.8,
+      valueGetter: (_, row) => getDiscountAmount(row),
       valueFormatter: (value) => formatCurrency(value),
     },
     {
@@ -179,11 +228,11 @@ export default function Facturas() {
       renderCell: (params) => (
         <Chip
           size="small"
-          label={params.row.estado}
+          label={normalizeEstado(params.row.estado)}
           color={
-            params.row.estado === "PAGADA"
+            normalizeEstado(params.row.estado) === "PAGADA"
               ? "success"
-              : params.row.estado === "ANULADA"
+              : normalizeEstado(params.row.estado) === "ANULADA"
                 ? "error"
                 : "warning"
           }
@@ -236,9 +285,45 @@ export default function Facturas() {
         Gestión administrativa de facturas y estado de pago.
       </Typography>
 
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+          mb: 2,
+          flexWrap: "wrap",
+        }}
+      >
+        <Chip
+          color={activeStates.includes("PENDIENTE") ? "primary" : "warning"}
+          variant={activeStates.includes("PENDIENTE") ? "filled" : "outlined"}
+          label={`Pendientes: ${
+            rows.filter((f) => normalizeEstado(f.estado) === "PENDIENTE").length
+          }`}
+          onClick={() => toggleStateChip("PENDIENTE")}
+        />
+
+        <Chip
+          color={activeStates.includes("PAGADA") ? "primary" : "success"}
+          variant={activeStates.includes("PAGADA") ? "filled" : "outlined"}
+          label={`Pagadas: ${
+            rows.filter((f) => normalizeEstado(f.estado) === "PAGADA").length
+          }`}
+          onClick={() => toggleStateChip("PAGADA")}
+        />
+
+        <Chip
+          color={activeStates.includes("ANULADA") ? "primary" : "error"}
+          variant={activeStates.includes("ANULADA") ? "filled" : "outlined"}
+          label={`Anuladas: ${
+            rows.filter((f) => normalizeEstado(f.estado) === "ANULADA").length
+          }`}
+          onClick={() => toggleStateChip("ANULADA")}
+        />
+      </Box>
+
       <Box sx={{ height: 700 }}>
         <DataGrid
-          rows={rows}
+          rows={filteredRows}
           columns={columns}
           getRowId={(row) => row.id}
           disableRowSelectionOnClick

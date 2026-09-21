@@ -7,11 +7,13 @@ import { authorize } from "../../shared/middleware/role.middleware.js";
 import { PagosRepository } from "./pagos.repository.js";
 import { PagosService } from "./pagos.service.js";
 import { PagosController } from "./pagos.controller.js";
+import { NotificacionesRepository } from "../notificaciones/notificaciones.repository.js";
 
 const router = Router();
 
 const repository = new PagosRepository(prisma);
-const service = new PagosService(repository);
+const notificacionesRepository = new NotificacionesRepository(prisma);
+const service = new PagosService(repository, notificacionesRepository);
 const controller = new PagosController(service);
 
 router.get(

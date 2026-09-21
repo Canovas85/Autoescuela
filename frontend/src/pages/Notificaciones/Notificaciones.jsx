@@ -9,6 +9,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 import { notificacionesService } from "../../services/notificacionesService";
 
@@ -33,17 +34,19 @@ const formatDate = (value) =>
   });
 
 export default function Notificaciones() {
+  const navigate = useNavigate();
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [onlyUnread, setOnlyUnread] = useState(false);
+  const [includeArchived, setIncludeArchived] = useState(false);
   const [error, setError] = useState("");
 
-  const loadData = async (unread = onlyUnread) => {
+  const loadData = async (unread = onlyUnread, archived = includeArchived) => {
     setLoading(true);
     setError("");
 
     try {
-      const data = await notificacionesService.getMine(unread);
+      const data = await notificacionesService.getMine(unread, archived);
       setRows(data || []);
     } catch (loadError) {
       setError(
@@ -56,8 +59,29 @@ export default function Notificaciones() {
   };
 
   useEffect(() => {
-    loadData(onlyUnread);
-  }, [onlyUnread]);
+    loadData(onlyUnread, includeArchived);
+  }, [onlyUnread, includeArchived]);
+
+  useEffect(() => {
+    const stream = notificacionesService.createStream();
+
+    if (!stream) {
+      return undefined;
+    }
+
+    const onRealtime = () => {
+      loadData(onlyUnread, includeArchived);
+      notifyUnreadChanged();
+    };
+
+    stream.addEventListener("notification:created", onRealtime);
+    stream.addEventListener("notification:updated", onRealtime);
+    stream.addEventListener("notification:bulk-updated", onRealtime);
+
+    return () => {
+      stream.close();
+    };
+  }, [onlyUnread, includeArchived]);
 
   const markOneAsRead = async (id) => {
     try {
@@ -81,6 +105,33 @@ export default function Notificaciones() {
         markError.response?.data?.message || "No se pudieron marcar todas",
       );
     }
+  };
+
+  const archiveToggle = async (item) => {
+    try {
+      if (item.archivada) {
+        await notificacionesService.unarchive(item.id);
+      } else {
+        await notificacionesService.archive(item.id);
+      }
+      await loadData(onlyUnread, includeArchived);
+      notifyUnreadChanged();
+    } catch (archiveError) {
+      setError(
+        archiveError.response?.data?.message ||
+          "No se pudo actualizar el archivado",
+      );
+    }
+  };
+
+  const goToSource = (item) => {
+    const route = item?.metadata?.route;
+
+    if (!route || typeof route !== "string") {
+      return;
+    }
+
+    navigate(route);
   };
 
   if (loading) {
@@ -113,6 +164,12 @@ export default function Notificaciones() {
           >
             {onlyUnread ? "Mostrando no leídas" : "Filtrar no leídas"}
           </Button>
+          <Button
+            variant={includeArchived ? "contained" : "outlined"}
+            onClick={() => setIncludeArchived((prev) => !prev)}
+          >
+            {includeArchived ? "Incluye archivadas" : "Sin archivadas"}
+          </Button>
           <Button variant="contained" onClick={markAll}>
             Marcar todo leído
           </Button>
@@ -135,7 +192,11 @@ export default function Notificaciones() {
             <Card
               key={item.id}
               sx={{
-                border: item.leida ? "1px solid #e2e8f0" : "2px solid #2563eb",
+                border: item.archivada
+                  ? "1px dashed #cbd5e1"
+                  : item.leida
+                    ? "1px solid #e2e8f0"
+                    : "2px solid #2563eb",
               }}
             >
               <CardContent>
@@ -158,6 +219,11 @@ export default function Notificaciones() {
                     <Chip
                       label={item.leida ? "Leída" : "Nueva"}
                       color={item.leida ? "default" : "primary"}
+                      size="small"
+                    />
+                    <Chip
+                      label={item.archivada ? "Archivada" : "Activa"}
+                      color={item.archivada ? "default" : "success"}
                       size="small"
                     />
                   </Stack>
@@ -188,6 +254,16 @@ export default function Notificaciones() {
                       Marcar como leída
                     </Button>
                   ) : null}
+                  <Stack direction="row" spacing={1}>
+                    {item?.metadata?.route ? (
+                      <Button size="small" onClick={() => goToSource(item)}>
+                        Ir al origen
+                      </Button>
+                    ) : null}
+                    <Button size="small" onClick={() => archiveToggle(item)}>
+                      {item.archivada ? "Desarchivar" : "Archivar"}
+                    </Button>
+                  </Stack>
                 </Stack>
               </CardContent>
             </Card>

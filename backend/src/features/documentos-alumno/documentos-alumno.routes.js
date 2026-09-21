@@ -8,11 +8,16 @@ import { DocumentosAlumnoRepository } from "./documentos-alumno.repository.js";
 import { DocumentosAlumnoService } from "./documentos-alumno.service.js";
 import { DocumentosAlumnoController } from "./documentos-alumno.controller.js";
 import { uploadDocumentosAlumno } from "./documentos-alumno.upload.js";
+import { NotificacionesRepository } from "../notificaciones/notificaciones.repository.js";
 
 const router = Router();
 
 const repository = new DocumentosAlumnoRepository(prisma);
-const service = new DocumentosAlumnoService(repository);
+const notificacionesRepository = new NotificacionesRepository(prisma);
+const service = new DocumentosAlumnoService(
+  repository,
+  notificacionesRepository,
+);
 const controller = new DocumentosAlumnoController(service);
 
 router.get(

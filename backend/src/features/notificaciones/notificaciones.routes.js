@@ -14,6 +14,8 @@ const repository = new NotificacionesRepository(prisma);
 const service = new NotificacionesService(repository);
 const controller = new NotificacionesController(service);
 
+router.get("/stream", controller.stream.bind(controller));
+
 router.get(
   "/mine",
   authenticate,
@@ -33,6 +35,20 @@ router.patch(
   authenticate,
   authorize("ADMIN", "PROFESOR", "ALUMNO"),
   controller.markMineAsRead.bind(controller),
+);
+
+router.patch(
+  "/:id/archive",
+  authenticate,
+  authorize("ADMIN", "PROFESOR", "ALUMNO"),
+  controller.archiveMine.bind(controller),
+);
+
+router.patch(
+  "/:id/unarchive",
+  authenticate,
+  authorize("ADMIN", "PROFESOR", "ALUMNO"),
+  controller.unarchiveMine.bind(controller),
 );
 
 export default router;

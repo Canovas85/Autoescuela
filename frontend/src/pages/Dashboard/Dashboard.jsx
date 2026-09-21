@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
   Box,
@@ -9,6 +9,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  IconButton,
   Typography,
 } from "@mui/material";
 
@@ -23,6 +24,8 @@ import SchoolIcon from "@mui/icons-material/School";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import PeopleIcon from "@mui/icons-material/People";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import DGTChart from "../../components/dashboard/DGTChart";
 import DGTSummaryChart from "../../components/dashboard/DGTSummaryChart";
@@ -32,22 +35,37 @@ import { jwtDecode } from "jwt-decode";
 import SuccessChart from "../../components/dashboard/SuccessChart";
 import StudentDashboard from "./StudentDashboard";
 import ProfessorDashboard from "./ProfessorDashboard";
+import { LicenseChip } from "../../components/common/LicenseChip";
 
 import { api } from "../../services/api";
 
 function AdminDashboardView({ metrics }) {
+  const studentsRef = useRef(null);
+  const professorsRef = useRef(null);
+
+  const scrollRanking = (ref, direction) => {
+    if (!ref.current) {
+      return;
+    }
+
+    ref.current.scrollBy({
+      left: direction === "left" ? -360 : 360,
+      behavior: "smooth",
+    });
+  };
+
   const cards = [
-    {
-      title: "Alumnos Activos",
-      value: metrics.activeStudents ?? 0,
-      icon: <PeopleIcon />,
-      color: "#2563eb",
-    },
     {
       title: "Usuarios Registrados",
       value: metrics.activeEnrollments ?? 0,
       icon: <AppRegistrationIcon />,
       color: "#7c3aed",
+    },
+    {
+      title: "Alumnos Activos",
+      value: metrics.activeStudents ?? 0,
+      icon: <PeopleIcon />,
+      color: "#2563eb",
     },
     {
       title: "Clases Programadas",
@@ -63,9 +81,33 @@ function AdminDashboardView({ metrics }) {
     },
     {
       title: "Tasa de Éxito",
-      value: `${metrics.successRate.toFixed(1)}%`,
+      value: `${Number(metrics.successRate || 0).toFixed(1)}%`,
       icon: <TrendingUpIcon />,
       color: "#16a34a",
+    },
+    {
+      title: "Matrículas Pagadas",
+      value: `Mes: ${metrics.matriculasPagadasMes ?? 0} | Histórico: ${metrics.matriculasPagadasHistorico ?? 0}`,
+      icon: <AssignmentIcon />,
+      color: "#15803d",
+    },
+    {
+      title: "Matrículas Pendientes",
+      value: `Mes: ${metrics.matriculasPendientesMes ?? 0} | Histórico: ${metrics.matriculasPendientesHistorico ?? 0}`,
+      icon: <AccessTimeFilledIcon />,
+      color: "#b45309",
+    },
+    {
+      title: "Alumnos Teórico APTO",
+      value: `Mes: ${metrics.aprobadosTeoricoMes ?? 0} | Histórico: ${metrics.aprobadosTeoricoHistorico ?? 0}`,
+      icon: <SchoolIcon />,
+      color: "#0369a1",
+    },
+    {
+      title: "Alumnos Práctico APTO",
+      value: `Mes: ${metrics.aprobadosPracticoMes ?? 0} | Histórico: ${metrics.aprobadosPracticoHistorico ?? 0}`,
+      icon: <EmojiEventsIcon />,
+      color: "#7c2d12",
     },
   ];
 
@@ -90,10 +132,10 @@ function AdminDashboardView({ metrics }) {
                     width: 190,
                   }}
                 >
-                  <Box>
+                  <Box sx={{ maxWidth: 170 }}>
                     <Typography color="text.secondary">{card.title}</Typography>
 
-                    <Typography variant="h4" fontWeight="bold">
+                    <Typography variant="h6" fontWeight="bold">
                       {card.value}
                     </Typography>
                   </Box>
@@ -346,46 +388,132 @@ function AdminDashboardView({ metrics }) {
       <Box sx={{ height: 20 }} />
 
       <Grid container spacing={3}>
-        <Grid xs={12} md={6}>
+        <Grid xs={12}>
           <Card>
             <CardContent>
-              <Typography variant="h6" fontWeight="bold">
-                Top 5 Alumnos DGT
-              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography variant="h6" fontWeight="bold">
+                  Top 5 Alumnos DGT (tasa de aprobado)
+                </Typography>
+                <Box>
+                  <IconButton
+                    size="small"
+                    onClick={() => scrollRanking(studentsRef, "left")}
+                  >
+                    <ArrowBackIosNewIcon fontSize="small" />
+                  </IconButton>
+                  <IconButton
+                    size="small"
+                    onClick={() => scrollRanking(studentsRef, "right")}
+                  >
+                    <ArrowForwardIosIcon fontSize="small" />
+                  </IconButton>
+                </Box>
+              </Box>
 
-              <List>
-                {metrics.topStudents?.map((student, index) => (
-                  <ListItem key={index}>
-                    <ListItemText
-                      primary={`${index + 1}. ${student.nombre}`}
-                      secondary={`${student.porcentaje.toFixed(
-                        1,
-                      )}% aprobados · ${student.totalTests} tests`}
-                    />
-                  </ListItem>
+              <Box
+                ref={studentsRef}
+                sx={{
+                  display: "flex",
+                  gap: 2,
+                  overflowX: "auto",
+                  pb: 1,
+                  mt: 1,
+                }}
+              >
+                {(metrics.topStudents || []).map((student, index) => (
+                  <Card key={`${student.nombre}-${index}`} variant="outlined">
+                    <CardContent sx={{ minWidth: 240 }}>
+                      <Typography
+                        fontWeight={800}
+                      >{`${index + 1}. ${student.nombre}`}</Typography>
+                      <Box sx={{ mt: 1, mb: 1 }}>
+                        <LicenseChip value={student.licencia} />
+                      </Box>
+                      <Typography variant="body2" color="text.secondary">
+                        Tasa: {Number(student.porcentaje || 0).toFixed(1)}%
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Aprobados: {student.aprobados ?? 0}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Presentados: {student.totalTests ?? 0}
+                      </Typography>
+                    </CardContent>
+                  </Card>
                 ))}
-              </List>
+              </Box>
             </CardContent>
           </Card>
         </Grid>
 
-        <Grid xs={12} md={6}>
+        <Grid xs={12}>
           <Card>
             <CardContent>
-              <Typography variant="h6" fontWeight="bold">
-                Top Profesores
-              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography variant="h6" fontWeight="bold">
+                  Top 5 Profesores (tasa de aprobado)
+                </Typography>
+                <Box>
+                  <IconButton
+                    size="small"
+                    onClick={() => scrollRanking(professorsRef, "left")}
+                  >
+                    <ArrowBackIosNewIcon fontSize="small" />
+                  </IconButton>
+                  <IconButton
+                    size="small"
+                    onClick={() => scrollRanking(professorsRef, "right")}
+                  >
+                    <ArrowForwardIosIcon fontSize="small" />
+                  </IconButton>
+                </Box>
+              </Box>
 
-              <List>
-                {metrics.topProfessors?.map((profesor, index) => (
-                  <ListItem key={index}>
-                    <ListItemText
-                      primary={`${index + 1}. ${profesor.nombre}`}
-                      secondary={`${profesor.totalClases} clases impartidas`}
-                    />
-                  </ListItem>
+              <Box
+                ref={professorsRef}
+                sx={{
+                  display: "flex",
+                  gap: 2,
+                  overflowX: "auto",
+                  pb: 1,
+                  mt: 1,
+                }}
+              >
+                {(metrics.topProfessors || []).map((profesor, index) => (
+                  <Card key={`${profesor.nombre}-${index}`} variant="outlined">
+                    <CardContent sx={{ minWidth: 240 }}>
+                      <Typography
+                        fontWeight={800}
+                      >{`${index + 1}. ${profesor.nombre}`}</Typography>
+                      <Box sx={{ mt: 1, mb: 1 }}>
+                        <LicenseChip value={profesor.licencia} />
+                      </Box>
+                      <Typography variant="body2" color="text.secondary">
+                        Tasa: {Number(profesor.porcentaje || 0).toFixed(1)}%
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Aprobados: {profesor.aprobados ?? 0}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Presentados: {profesor.totalTests ?? 0}
+                      </Typography>
+                    </CardContent>
+                  </Card>
                 ))}
-              </List>
+              </Box>
             </CardContent>
           </Card>
         </Grid>
@@ -492,22 +620,24 @@ function AdminDashboardView({ metrics }) {
 export default function Dashboard() {
   const [metrics, setMetrics] = useState(null);
   const [role, setRole] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const loadDashboard = async () => {
       try {
         const token = localStorage.getItem("token");
+        let decoded = null;
 
         if (token) {
           try {
-            const decodedToken = jwtDecode(token);
-            setRole(decodedToken?.rol ?? "ALUMNO");
+            decoded = jwtDecode(token);
           } catch (error) {
-            setRole("ALUMNO");
+            decoded = null;
           }
         }
 
-        const decoded = token ? jwtDecode(token) : null;
+        setRole(decoded?.rol ?? "ALUMNO");
 
         const endpoint =
           decoded?.rol === "ALUMNO"
@@ -521,14 +651,28 @@ export default function Dashboard() {
         setMetrics(response.data);
       } catch (error) {
         console.error(error);
+        setErrorMessage(
+          error?.response?.data?.message ||
+            "No se pudo cargar la información del dashboard.",
+        );
+      } finally {
+        setLoading(false);
       }
     };
 
     loadDashboard();
   }, []);
 
-  if (!metrics) {
+  if (loading) {
     return <p>Cargando dashboard...</p>;
+  }
+
+  if (errorMessage) {
+    return <p>{errorMessage}</p>;
+  }
+
+  if (!metrics) {
+    return <p>No hay datos de dashboard disponibles.</p>;
   }
 
   if (role === "PROFESOR") {

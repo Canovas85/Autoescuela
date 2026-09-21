@@ -11,9 +11,18 @@ export class NotificacionesService {
     return String(value).trim().toLowerCase() === "true";
   }
 
-  async getMine(usuarioId, soloNoLeidasRaw) {
+  parseIncluirArchivadas(value) {
+    if (value === undefined || value === null) {
+      return false;
+    }
+
+    return String(value).trim().toLowerCase() === "true";
+  }
+
+  async getMine(usuarioId, soloNoLeidasRaw, incluirArchivadasRaw) {
     const soloNoLeidas = this.parseSoloNoLeidas(soloNoLeidasRaw);
-    return this.repository.findMine(usuarioId, soloNoLeidas);
+    const incluirArchivadas = this.parseIncluirArchivadas(incluirArchivadasRaw);
+    return this.repository.findMine(usuarioId, soloNoLeidas, incluirArchivadas);
   }
 
   async markMineAsRead(notificacionId, usuarioId) {
@@ -39,5 +48,39 @@ export class NotificacionesService {
     return {
       updated: result.count || 0,
     };
+  }
+
+  async archiveMine(notificacionId, usuarioId) {
+    const existing = await this.repository.findMineById(
+      notificacionId,
+      usuarioId,
+    );
+
+    if (!existing) {
+      throw new Error("Notificación no encontrada");
+    }
+
+    if (existing.archivada) {
+      return existing;
+    }
+
+    return this.repository.archive(notificacionId);
+  }
+
+  async unarchiveMine(notificacionId, usuarioId) {
+    const existing = await this.repository.findMineById(
+      notificacionId,
+      usuarioId,
+    );
+
+    if (!existing) {
+      throw new Error("Notificación no encontrada");
+    }
+
+    if (!existing.archivada) {
+      return existing;
+    }
+
+    return this.repository.unarchive(notificacionId);
   }
 }

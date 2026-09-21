@@ -12,8 +12,20 @@ export class PreguntasDGTRepository {
     });
   }
 
-  async findAll() {
+  async findAll(filters = {}) {
+    const licencia = String(filters.licencia || "")
+      .trim()
+      .toUpperCase();
+
     return this.prisma.preguntaDGT.findMany({
+      where:
+        licencia && licencia !== "ALL"
+          ? {
+              licencia: {
+                has: licencia,
+              },
+            }
+          : undefined,
       include: {
         respuestas: true,
       },

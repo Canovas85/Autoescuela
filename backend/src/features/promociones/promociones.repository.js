@@ -9,8 +9,20 @@ export class PromocionesRepository {
     });
   }
 
-  async findAll() {
+  async findAll(filters = {}) {
+    const licencia = String(filters.licencia || "")
+      .trim()
+      .toUpperCase();
+
     return this.prisma.promocion.findMany({
+      where:
+        licencia && licencia !== "ALL"
+          ? {
+              licenciasAplicables: {
+                has: licencia,
+              },
+            }
+          : undefined,
       orderBy: [{ activa: "desc" }, { nombre: "asc" }],
     });
   }

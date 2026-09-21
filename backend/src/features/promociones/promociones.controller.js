@@ -18,7 +18,7 @@ export class PromocionesController {
   }
 
   async getAll(req, res) {
-    const promociones = await this.service.getAll();
+    const promociones = await this.service.getAll(req.query || {});
 
     return res.status(200).json(promociones);
   }

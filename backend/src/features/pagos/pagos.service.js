@@ -1,6 +1,7 @@
 export class PagosService {
-  constructor(repository) {
+  constructor(repository, notificacionesRepository = null) {
     this.repository = repository;
+    this.notificacionesRepository = notificacionesRepository;
   }
 
   async getAll() {
@@ -62,6 +63,23 @@ export class PagosService {
         metadata: {
           pagoId: paid.id,
           numeroFactura: paid.numeroFacturaPago,
+        },
+      });
+    }
+
+    if (
+      this.notificacionesRepository &&
+      paid.compraBonoId &&
+      paid.compraBono?.bono
+    ) {
+      await this.notificacionesRepository.createForRole("ADMIN", {
+        tipo: "BONO_COMPRADO",
+        titulo: "Bono comprado",
+        mensaje: `Se ha comprado el bono ${paid.compraBono.bono.nombre || "de clases"}`,
+        metadata: {
+          pagoId: paid.id,
+          compraBonoId: paid.compraBonoId,
+          route: "/bonos",
         },
       });
     }

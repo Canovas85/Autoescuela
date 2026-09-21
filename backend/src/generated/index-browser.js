@@ -270,16 +270,20 @@ exports.Prisma.BonoScalarFieldEnum = {
   id: 'id',
   nombre: 'nombre',
   descripcion: 'descripcion',
+  licencia: 'licencia',
   clasesIncluidas: 'clasesIncluidas',
   precio: 'precio',
   validezDias: 'validezDias',
-  activo: 'activo'
+  activo: 'activo',
+  esInterno: 'esInterno'
 };
 
 exports.Prisma.CompraBonoScalarFieldEnum = {
   id: 'id',
   alumnoId: 'alumnoId',
   bonoId: 'bonoId',
+  matriculaOrigenId: 'matriculaOrigenId',
+  origenPromocionId: 'origenPromocionId',
   clasesCompradas: 'clasesCompradas',
   clasesConsumidas: 'clasesConsumidas',
   pagado: 'pagado',
@@ -408,7 +412,20 @@ exports.Prisma.PromocionScalarFieldEnum = {
   requiereCarnetEstudiante: 'requiereCarnetEstudiante',
   edadMinima: 'edadMinima',
   edadMaxima: 'edadMaxima',
-  requiereFidelidad: 'requiereFidelidad'
+  requiereFidelidad: 'requiereFidelidad',
+  incluyePagoExamenGratis: 'incluyePagoExamenGratis',
+  clasesGratisIncluidas: 'clasesGratisIncluidas',
+  licenciaClasesGratis: 'licenciaClasesGratis'
+};
+
+exports.Prisma.AlumnoProfesorHistorialScalarFieldEnum = {
+  id: 'id',
+  alumnoId: 'alumnoId',
+  profesorAnteriorId: 'profesorAnteriorId',
+  profesorNuevoId: 'profesorNuevoId',
+  changedById: 'changedById',
+  changedAt: 'changedAt',
+  motivo: 'motivo'
 };
 
 exports.Prisma.TarifaConceptoScalarFieldEnum = {
@@ -630,8 +647,10 @@ exports.Prisma.NotificacionScalarFieldEnum = {
   mensaje: 'mensaje',
   metadata: 'metadata',
   leida: 'leida',
+  archivada: 'archivada',
   createdAt: 'createdAt',
-  readAt: 'readAt'
+  readAt: 'readAt',
+  archivedAt: 'archivedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -702,6 +721,7 @@ exports.Prisma.ModelName = {
   HojaRutaFaltaCatalogo: 'HojaRutaFaltaCatalogo',
   Examen: 'Examen',
   Promocion: 'Promocion',
+  AlumnoProfesorHistorial: 'AlumnoProfesorHistorial',
   TarifaConcepto: 'TarifaConcepto',
   TarifaConceptoHistorial: 'TarifaConceptoHistorial',
   TarifaMatricula: 'TarifaMatricula',

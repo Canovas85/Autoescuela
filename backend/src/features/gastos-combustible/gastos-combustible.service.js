@@ -52,8 +52,9 @@ const mapGasto = (gasto) => ({
 });
 
 export class GastosCombustibleService {
-  constructor(repository) {
+  constructor(repository, notificacionesRepository = null) {
     this.repository = repository;
+    this.notificacionesRepository = notificacionesRepository;
   }
 
   async getAll() {
@@ -114,6 +115,19 @@ export class GastosCombustibleService {
         ? `/api/uploads/gastos-combustible/${reciboFile.filename}`
         : null,
     });
+
+    if (this.notificacionesRepository) {
+      await this.notificacionesRepository.createForRole("ADMIN", {
+        tipo: "GASTO_COMBUSTIBLE_REGISTRADO",
+        titulo: "Gasto de combustible registrado",
+        mensaje: `Se ha registrado un gasto de combustible para el vehículo ${vehiculo.matricula}`,
+        metadata: {
+          gastoCombustibleId: gasto.id,
+          vehiculoId: vehiculo.id,
+          route: "/gastos",
+        },
+      });
+    }
 
     return {
       message: "Repostaje registrado correctamente",

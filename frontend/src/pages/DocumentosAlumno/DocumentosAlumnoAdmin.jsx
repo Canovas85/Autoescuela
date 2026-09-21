@@ -4,9 +4,13 @@ import {
   Box,
   Chip,
   IconButton,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
   Snackbar,
   Stack,
-  Button,
   Link,
   Typography,
 } from "@mui/material";
@@ -17,10 +21,21 @@ import { documentosAlumnoService } from "../../services/documentosAlumnoService"
 import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
 
 const ESTADOS = {
+  TODOS: "Todos",
   PENDIENTE_VALIDACION: "Pendiente de validar",
   VALIDADO: "Validado",
   RECHAZADO: "Rechazado",
 };
+
+const TIPOS_DOCUMENTO = [
+  "TODOS",
+  "DNI",
+  "CERTIFICADO_PSICOTECNICO",
+  "FOTOGRAFIA",
+  "PERMISO_RESIDENCIA",
+  "JUSTIFICANTE",
+  "OTRO",
+];
 
 const buildFileUrl = (ruta) => {
   if (!ruta) return "";
@@ -29,15 +44,26 @@ const buildFileUrl = (ruta) => {
 
 export default function DocumentosAlumnoAdmin() {
   const [rows, setRows] = useState([]);
+  const [searchAlumno, setSearchAlumno] = useState("");
+  const [tipoFiltro, setTipoFiltro] = useState("TODOS");
+  const [estadoFiltro, setEstadoFiltro] = useState("TODOS");
   const [notification, setNotification] = useState({
     open: false,
     message: "",
     severity: "success",
   });
 
-  const loadDocuments = async () => {
+  const loadDocuments = async (
+    search = searchAlumno,
+    tipo = tipoFiltro,
+    estado = estadoFiltro,
+  ) => {
     try {
-      const data = await documentosAlumnoService.getAllAdmin();
+      const data = await documentosAlumnoService.getAllAdmin({
+        search,
+        tipo,
+        estado,
+      });
       setRows(data);
     } catch (error) {
       console.error(error);
@@ -51,7 +77,7 @@ export default function DocumentosAlumnoAdmin() {
 
   useEffect(() => {
     loadDocuments();
-  }, []);
+  }, [searchAlumno, tipoFiltro, estadoFiltro]);
 
   const handleValidate = async (id) => {
     try {
@@ -207,6 +233,51 @@ export default function DocumentosAlumnoAdmin() {
         Almacena y verifica los expedientes, certificados médicos, psicotécnicos
         y documentación oficial de cada estudiante.
       </Typography>
+
+      <Stack
+        direction={{ xs: "column", md: "row" }}
+        spacing={1.5}
+        sx={{ mb: 2 }}
+      >
+        <TextField
+          size="small"
+          label="Buscar alumno"
+          placeholder="Nombre, DNI o email"
+          value={searchAlumno}
+          onChange={(event) => setSearchAlumno(event.target.value)}
+          sx={{ minWidth: 280 }}
+        />
+
+        <FormControl size="small" sx={{ minWidth: 220 }}>
+          <InputLabel>Tipo</InputLabel>
+          <Select
+            label="Tipo"
+            value={tipoFiltro}
+            onChange={(event) => setTipoFiltro(event.target.value)}
+          >
+            {TIPOS_DOCUMENTO.map((tipo) => (
+              <MenuItem key={tipo} value={tipo}>
+                {tipo}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <FormControl size="small" sx={{ minWidth: 220 }}>
+          <InputLabel>Estado</InputLabel>
+          <Select
+            label="Estado"
+            value={estadoFiltro}
+            onChange={(event) => setEstadoFiltro(event.target.value)}
+          >
+            {Object.keys(ESTADOS).map((estado) => (
+              <MenuItem key={estado} value={estado}>
+                {ESTADOS[estado]}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Stack>
 
       {rows.length === 0 ? (
         <Alert severity="info">No hay documentos pendientes de validar.</Alert>

@@ -826,13 +826,16 @@ model Notificacion {
   mensaje   String
   metadata  Json?
   leida     Boolean  @default(false)
+  archivada Boolean  @default(false)
   createdAt DateTime @default(now())
   readAt    DateTime?
+  archivedAt DateTime?
   usuario   Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
 
   @@index([usuarioId])
   @@index([tipo])
   @@index([leida])
+  @@index([archivada])
   @@index([createdAt])
   @@map("notificaciones")
 }

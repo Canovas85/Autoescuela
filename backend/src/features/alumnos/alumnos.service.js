@@ -92,11 +92,13 @@ export class AlumnosService {
     accountActivationService = null,
     matriculasRepository = null,
     promocionesRepository = null,
+    notificacionesRepository = null,
   ) {
     this.repository = repository;
     this.accountActivationService = accountActivationService;
     this.matriculasRepository = matriculasRepository;
     this.promocionesRepository = promocionesRepository;
+    this.notificacionesRepository = notificacionesRepository;
   }
 
   async create(data, context = {}) {
@@ -210,7 +212,9 @@ export class AlumnosService {
         );
       }
 
-      const precioBase = tarifa.precio;
+      const precioBase = promocionSeleccionada
+        ? promocionSeleccionada.precioOriginal
+        : tarifa.precio;
 
       const precioFinal = promocionSeleccionada
         ? promocionSeleccionada.precioPromocional
@@ -406,6 +410,8 @@ export class AlumnosService {
       ...data,
     };
 
+    const profesorAnterior = alumnoActual.profesorAsignadoId || null;
+
     const licenciaNuevaRaw = data.tipoLicenciaObjetivo ?? data.tipoLicencia;
     const licenciaNuevaNormalizada = licenciaNuevaRaw
       ? String(licenciaNuevaRaw).trim().toUpperCase()
@@ -538,7 +544,9 @@ export class AlumnosService {
         );
       }
 
-      const precioBase = tarifa.precio;
+      const precioBase = promocionSeleccionada
+        ? promocionSeleccionada.precioOriginal
+        : tarifa.precio;
       const precioFinal = promocionSeleccionada
         ? promocionSeleccionada.precioPromocional
         : tarifa.precio;
@@ -562,7 +570,32 @@ export class AlumnosService {
       });
     }
 
-    return this.repository.update(id, payload);
+    const updatedAlumno = await this.repository.update(id, payload);
+
+    const matriculaActualizada = this.matriculasRepository
+      ? await this.matriculasRepository.findActiveByAlumnoId(id)
+      : null;
+
+    const profesorNuevo = updatedAlumno.profesorAsignadoId || null;
+
+    if (
+      this.notificacionesRepository &&
+      profesorAnterior &&
+      !profesorNuevo &&
+      matriculaActualizada?.estado === "PAGADA"
+    ) {
+      await this.notificacionesRepository.createForRole("ADMIN", {
+        tipo: "PROFESOR_PENDIENTE_ASIGNACION",
+        titulo: "Profesor pendiente de asignar",
+        mensaje: `El alumno ${updatedAlumno?.usuario?.nombre || "alumno"} tiene matrícula pagada y actualmente no tiene profesor asignado`,
+        metadata: {
+          alumnoId: updatedAlumno.id,
+          route: "/alumnos",
+        },
+      });
+    }
+
+    return updatedAlumno;
   }
 
   async getEligibleProfesoresForAlumno(alumnoId) {
