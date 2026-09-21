@@ -31,6 +31,12 @@ export class AlumnosController {
     return res.status(200).json(alumno);
   }
 
+  async getExtendedSummary(req, res) {
+    const summary = await this.service.getExtendedSummary(req.params.id);
+
+    return res.status(200).json(summary);
+  }
+
   async update(req, res) {
     try {
       const alumno = await this.service.update(req.params.id, req.body);

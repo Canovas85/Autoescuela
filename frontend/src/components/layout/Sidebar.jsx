@@ -103,6 +103,7 @@ const menus = {
           label: "Solicitud Examen",
           path: "/solicitudes-examen-practico",
           icon: <EditDocumentIcon fontSize="small" />,
+          disabled: true,
         },
         {
           label: "Otros Usuarios",

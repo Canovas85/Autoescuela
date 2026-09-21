@@ -395,6 +395,106 @@ export class AlumnosService {
     return alumno;
   }
 
+  async getExtendedSummary(id) {
+    const alumno = await this.repository.findExtendedSummaryById(id);
+
+    if (!alumno) {
+      throw new Error("Alumno no encontrado");
+    }
+
+    const matriculaActual = alumno.matriculas?.[0] || null;
+    const pagos = Array.isArray(alumno.pagos) ? alumno.pagos : [];
+    const solicitudes = Array.isArray(alumno.solicitudesExamen)
+      ? alumno.solicitudesExamen
+      : [];
+    const bonos = Array.isArray(alumno.bonos) ? alumno.bonos : [];
+
+    const pagoTasaDgt = pagos.find((pago) => pago.tipo === "TASA_DGT_21");
+    const pagoPractico = pagos.find(
+      (pago) => pago.tipo === "EXAMEN_PRACTICO_GASTOS",
+    );
+    const pagoPracticoPromo = pagos.find(
+      (pago) => pago.tipo === "PROMOCION_PAGO_EXAMEN_GRATIS",
+    );
+
+    const teoricos = solicitudes.filter(
+      (solicitud) => solicitud.tipo === "TEORICO",
+    );
+    const practicos = solicitudes.filter(
+      (solicitud) => solicitud.tipo === "PRACTICO",
+    );
+    const teoricoMasReciente = teoricos[0] || null;
+    const practicoMasReciente = practicos[0] || null;
+
+    const tienePromo = Boolean(matriculaActual?.promocion);
+    const tieneBono = bonos.some((bono) => {
+      const disponibles =
+        Number(bono.clasesCompradas || 0) - Number(bono.clasesConsumidas || 0);
+      return disponibles > 0;
+    });
+
+    return {
+      id: alumno.id,
+      nombreCompleto: alumno.usuario?.nombre || "",
+      matricula: {
+        estado: matriculaActual?.estado || "PENDIENTE",
+        pagada: matriculaActual?.estado === "PAGADA",
+      },
+      pagos: {
+        tasaDgtPagada: pagoTasaDgt?.estado === "PAGADO",
+        pagoExamenPracticoPagado:
+          pagoPractico?.estado === "PAGADO" ||
+          pagoPracticoPromo?.estado === "PAGADO",
+      },
+      documentacion: {
+        psicotecnicoEntregado: (alumno.documentos || []).length > 0,
+      },
+      vidas: {
+        restantes: pagoTasaDgt
+          ? Math.max(
+              Number(pagoTasaDgt.convocatoriasIncluidas || 0) -
+                Number(pagoTasaDgt.convocatoriasConsumidas || 0),
+              0,
+            )
+          : 0,
+      },
+      examenTeorico: teoricoMasReciente
+        ? {
+            presentado: ["APTO", "NO_APTO", "SUSPENDIDO"].includes(
+              teoricoMasReciente.estado,
+            ),
+            apto: teoricoMasReciente.estado === "APTO",
+            aciertos: teoricoMasReciente.aciertosExamen,
+            fallos: teoricoMasReciente.erroresExamen,
+          }
+        : null,
+      examenPractico: practicoMasReciente
+        ? {
+            presentado: ["APTO", "NO_APTO", "SUSPENDIDO"].includes(
+              practicoMasReciente.estado,
+            ),
+            apto: practicoMasReciente.estado === "APTO",
+            leves: practicoMasReciente.faltasLeves,
+            deficientes: practicoMasReciente.faltasDeficientes,
+            eliminatorias: practicoMasReciente.faltasEliminatorias,
+          }
+        : null,
+      promocionesMatricula: {
+        tiene: tienePromo,
+      },
+      bonoClases: {
+        tiene: tieneBono,
+      },
+      resumenActividad: {
+        pagosRegistrados: pagos.length,
+        solicitudesExamen: solicitudes.length,
+        clasesReservadas: Array.isArray(alumno.clases)
+          ? alumno.clases.length
+          : 0,
+      },
+    };
+  }
+
   async update(id, data) {
     const alumnoActual = await this.repository.findById(id);
 

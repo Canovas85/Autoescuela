@@ -25,6 +25,7 @@ import { DataGrid } from "@mui/x-data-grid";
 
 import { evaluacionExamenesService } from "../../services/evaluacionExamenesService";
 import { LicenseChip } from "../../components/common/LicenseChip";
+import { ExamTypeChip } from "../../components/common/ExamTypeChip";
 
 const formatDate = (value) => {
   if (!value) return "-";
@@ -57,6 +58,7 @@ export default function Examenes() {
   const [fechaHasta, setFechaHasta] = useState("");
   const [licenciaFiltro, setLicenciaFiltro] = useState("TODAS");
   const [estadoFiltro, setEstadoFiltro] = useState("TODOS");
+  const [tipoFiltro, setTipoFiltro] = useState("TODOS");
 
   const loadData = async () => {
     try {
@@ -105,6 +107,18 @@ export default function Examenes() {
     return Array.from(values).sort();
   }, [rows]);
 
+  const tipos = useMemo(() => {
+    const values = new Set();
+
+    rows.forEach((row) => {
+      if (row.tipo) {
+        values.add(row.tipo);
+      }
+    });
+
+    return Array.from(values).sort();
+  }, [rows]);
+
   const filteredRows = useMemo(() => {
     return rows.filter((row) => {
       const convocatoria = row.fechaConvocatoria
@@ -135,9 +149,13 @@ export default function Examenes() {
         return false;
       }
 
+      if (tipoFiltro !== "TODOS" && row.tipo !== tipoFiltro) {
+        return false;
+      }
+
       return true;
     });
-  }, [rows, fechaDesde, fechaHasta, licenciaFiltro, estadoFiltro]);
+  }, [rows, fechaDesde, fechaHasta, licenciaFiltro, estadoFiltro, tipoFiltro]);
 
   const columns = useMemo(
     () => [
@@ -163,6 +181,12 @@ export default function Examenes() {
         headerName: "Permiso/Licencia",
         flex: 0.95,
         renderCell: (params) => <LicenseChip value={params.value} />,
+      },
+      {
+        field: "tipo",
+        headerName: "Tipo",
+        flex: 0.75,
+        renderCell: (params) => <ExamTypeChip value={params.value} />,
       },
       {
         field: "estado",
@@ -227,6 +251,35 @@ export default function Examenes() {
           InputLabelProps={{ shrink: true }}
           value={fechaDesde}
           onChange={(event) => setFechaDesde(event.target.value)}
+          sx={{
+            minWidth: 210,
+            // 1. Fuerza a la etiqueta a estar SIEMPRE en color azul
+            "& .MuiInputLabel-root": {
+              color: "rgb(0, 0, 0) !important",
+            },
+            // 2. Fuerza al borde/muesca exterior a estar SIEMPRE en color azul
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#1976d2 !important",
+              borderWidth: "1px",
+            },
+            // 3. Mantiene el color azul si pasas el ratón por encima (Hover)
+            "& :hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#1976d2 !important",
+            },
+            // 4. CONTROL DINÁMICO DEL FORMATO dd/mm/aaaa:
+            // Oculto por defecto si no hay fecha informada
+            "& input::-webkit-datetime-edit": {
+              color: fechaDesde ? "inherit" : "transparent",
+            },
+            // Se muestra en color gris cuando el campo recibe el foco (haces clic dentro)
+            "& .MuiInputBase-root.Mui-focused input::-webkit-datetime-edit": {
+              color: fechaDesde ? "inherit" : "rgba(0, 0, 0, 0.42)",
+            },
+            // 5. Ajuste de espaciado interno
+            "& .MuiInputBase-input": {
+              pt: 1.5,
+            },
+          }}
         />
 
         <TextField
@@ -236,6 +289,35 @@ export default function Examenes() {
           InputLabelProps={{ shrink: true }}
           value={fechaHasta}
           onChange={(event) => setFechaHasta(event.target.value)}
+          sx={{
+            minWidth: 210,
+            // 1. Fuerza a la etiqueta a estar SIEMPRE en color azul
+            "& .MuiInputLabel-root": {
+              color: "rgb(0, 0, 0) !important",
+            },
+            // 2. Fuerza al borde/muesca exterior a estar SIEMPRE en color azul
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#1976d2 !important",
+              borderWidth: "1px",
+            },
+            // 3. Mantiene el color azul si pasas el ratón por encima (Hover)
+            "& :hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#1976d2 !important",
+            },
+            // 4. CONTROL DINÁMICO DEL FORMATO dd/mm/aaaa:
+            // Oculto por defecto si no hay fecha informada
+            "& input::-webkit-datetime-edit": {
+              color: fechaHasta ? "inherit" : "transparent",
+            },
+            // Se muestra en color gris cuando el campo recibe el foco (haces clic dentro)
+            "& .MuiInputBase-root.Mui-focused input::-webkit-datetime-edit": {
+              color: fechaHasta ? "inherit" : "rgba(0, 0, 0, 0.42)",
+            },
+            // 5. Ajuste de espaciado interno
+            "& .MuiInputBase-input": {
+              pt: 1.5,
+            },
+          }}
         />
 
         <FormControl size="small" sx={{ minWidth: 220 }}>
@@ -265,6 +347,22 @@ export default function Examenes() {
             {estados.map((estado) => (
               <MenuItem key={estado} value={estado}>
                 {estado}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <FormControl size="small" sx={{ minWidth: 220 }}>
+          <InputLabel>Tipo</InputLabel>
+          <Select
+            label="Tipo"
+            value={tipoFiltro}
+            onChange={(event) => setTipoFiltro(event.target.value)}
+          >
+            <MenuItem value="TODOS">Todos</MenuItem>
+            {tipos.map((tipo) => (
+              <MenuItem key={tipo} value={tipo}>
+                {tipo}
               </MenuItem>
             ))}
           </Select>
@@ -394,32 +492,41 @@ export default function Examenes() {
                   </Typography>
                 </Stack>
 
-                <Stack
-                  direction={{ xs: "column", md: "row" }}
-                  spacing={2}
-                  sx={{ mt: 1 }}
-                >
-                  <Chip
-                    size="small"
-                    label={`Aciertos: ${selectedRow.aciertosExamen ?? "-"}`}
-                  />
-                  <Chip
-                    size="small"
-                    label={`Errores: ${selectedRow.erroresExamen ?? "-"}`}
-                  />
-                  <Chip
-                    size="small"
-                    label={`Leves: ${selectedRow.faltasLeves ?? "-"}`}
-                  />
-                  <Chip
-                    size="small"
-                    label={`Deficientes: ${selectedRow.faltasDeficientes ?? "-"}`}
-                  />
-                  <Chip
-                    size="small"
-                    label={`Eliminatorias: ${selectedRow.faltasEliminatorias ?? "-"}`}
-                  />
-                </Stack>
+                {selectedRow.tipo === "PRACTICO" ? (
+                  <Stack
+                    direction={{ xs: "column", md: "row" }}
+                    spacing={2}
+                    sx={{ mt: 1 }}
+                  >
+                    <Chip
+                      size="small"
+                      label={`Leves: ${selectedRow.faltasLeves ?? "-"}`}
+                    />
+                    <Chip
+                      size="small"
+                      label={`Deficientes: ${selectedRow.faltasDeficientes ?? "-"}`}
+                    />
+                    <Chip
+                      size="small"
+                      label={`Eliminatorias: ${selectedRow.faltasEliminatorias ?? "-"}`}
+                    />
+                  </Stack>
+                ) : (
+                  <Stack
+                    direction={{ xs: "column", md: "row" }}
+                    spacing={2}
+                    sx={{ mt: 1 }}
+                  >
+                    <Chip
+                      size="small"
+                      label={`Aciertos: ${selectedRow.aciertosExamen ?? "-"}`}
+                    />
+                    <Chip
+                      size="small"
+                      label={`Fallos: ${selectedRow.erroresExamen ?? "-"}`}
+                    />
+                  </Stack>
+                )}
               </Paper>
 
               <Paper variant="outlined" sx={{ p: 2 }}>

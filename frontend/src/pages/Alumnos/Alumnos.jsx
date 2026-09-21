@@ -54,6 +54,7 @@ import {
   DialogContentText,
   TextField,
   Checkbox,
+  Link,
 } from "@mui/material";
 
 const LICENCIAS_OPCIONES = [
@@ -675,6 +676,8 @@ export default function Alumnos() {
   const [openDetail, setOpenDetail] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [selectedAlumno, setSelectedAlumno] = useState(null);
+  const [extendedSummary, setExtendedSummary] = useState(null);
+  const [showExtendedSummary, setShowExtendedSummary] = useState(false);
   const [promocionMatricula, setPromocionMatricula] = useState(null);
 
   const [newAlumno, setNewAlumno] = useState({
@@ -800,6 +803,8 @@ export default function Alumnos() {
 
       setSelectedAlumno(detalle);
       setPromocionMatricula(detalle?.matriculas?.[0]?.promocion || null);
+      setExtendedSummary(null);
+      setShowExtendedSummary(false);
     } catch (error) {
       console.error(error);
 
@@ -1695,6 +1700,118 @@ export default function Alumnos() {
                   sx={readOnlyFieldSx}
                   fullWidth
                 />
+
+                <Link
+                  component="button"
+                  variant="body2"
+                  onClick={async () => {
+                    if (!selectedAlumno?.id) {
+                      return;
+                    }
+
+                    if (!extendedSummary) {
+                      const resumen = await alumnosService.getExtendedSummary(
+                        selectedAlumno.id,
+                      );
+                      setExtendedSummary(resumen);
+                    }
+
+                    setShowExtendedSummary((prev) => !prev);
+                  }}
+                  sx={{ alignSelf: "flex-start", mt: -0.5 }}
+                >
+                  Ver resumen académico y pagos
+                </Link>
+
+                {showExtendedSummary && extendedSummary ? (
+                  <Box
+                    sx={{
+                      p: 1.5,
+                      border: "1px solid",
+                      borderColor: "divider",
+                      borderRadius: 2,
+                      backgroundColor: "background.paper",
+                      display: "grid",
+                      gap: 0.75,
+                    }}
+                  >
+                    <Typography variant="subtitle2" fontWeight={700}>
+                      {extendedSummary.nombreCompleto}
+                    </Typography>
+                    <Typography variant="body2">
+                      Matrícula:{" "}
+                      {extendedSummary.matricula?.pagada
+                        ? "Pagada"
+                        : "No pagada"}
+                    </Typography>
+                    <Typography variant="body2">
+                      Tasa DGT:{" "}
+                      {extendedSummary.pagos?.tasaDgtPagada
+                        ? "Pagada"
+                        : "No pagada"}
+                    </Typography>
+                    <Typography variant="body2">
+                      Pago examen práctico:{" "}
+                      {extendedSummary.pagos?.pagoExamenPracticoPagado
+                        ? "Pagado"
+                        : "No pagado"}
+                    </Typography>
+                    <Typography variant="body2">
+                      Psicotécnico:{" "}
+                      {extendedSummary.documentacion?.psicotecnicoEntregado
+                        ? "Entregado"
+                        : "No entregado"}
+                    </Typography>
+                    <Typography variant="body2">
+                      Vidas restantes: {extendedSummary.vidas?.restantes ?? 0}
+                    </Typography>
+                    <Typography variant="body2">
+                      Examen teórico:{" "}
+                      {extendedSummary.examenTeorico?.presentado
+                        ? extendedSummary.examenTeorico?.apto
+                          ? "APTO"
+                          : "NO APTO"
+                        : "No presentado"}
+                    </Typography>
+                    <Typography variant="body2">
+                      Fallos/Aciertos teórico:{" "}
+                      {extendedSummary.examenTeorico?.fallos ?? "-"} /{" "}
+                      {extendedSummary.examenTeorico?.aciertos ?? "-"}
+                    </Typography>
+                    <Typography variant="body2">
+                      Examen práctico:{" "}
+                      {extendedSummary.examenPractico?.presentado
+                        ? extendedSummary.examenPractico?.apto
+                          ? "APTO"
+                          : "NO APTO"
+                        : "No presentado"}
+                    </Typography>
+                    <Typography variant="body2">
+                      Faltas práctico (L/D/E):{" "}
+                      {extendedSummary.examenPractico?.leves ?? "-"} /{" "}
+                      {extendedSummary.examenPractico?.deficientes ?? "-"} /{" "}
+                      {extendedSummary.examenPractico?.eliminatorias ?? "-"}
+                    </Typography>
+                    <Typography variant="body2">
+                      Promoción matrícula:{" "}
+                      {extendedSummary.promocionesMatricula?.tiene
+                        ? "Tiene"
+                        : "No tiene"}
+                    </Typography>
+                    <Typography variant="body2">
+                      Bono de clases:{" "}
+                      {extendedSummary.bonoClases?.tiene ? "Tiene" : "No tiene"}
+                    </Typography>
+                    <Typography variant="body2">
+                      Resumen actividad: pagos{" "}
+                      {extendedSummary.resumenActividad?.pagosRegistrados ?? 0}{" "}
+                      · solicitudes{" "}
+                      {extendedSummary.resumenActividad?.solicitudesExamen ?? 0}{" "}
+                      · clases{" "}
+                      {extendedSummary.resumenActividad?.clasesReservadas ?? 0}
+                    </Typography>
+                  </Box>
+                ) : null}
               </Box>
               <Box>
                 <Typography

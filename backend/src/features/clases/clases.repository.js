@@ -262,9 +262,14 @@ export class ClasesRepository {
     return this.prisma.clasePractica.findMany({
       where: {
         alumnoId,
-        estado: "CONFIRMADA",
-        fecha: {
-          gte: new Date(),
+        estado: {
+          in: [
+            "CONFIRMADA",
+            "PROGRAMADA",
+            "COMPLETADA",
+            "REALIZADA",
+            "FINALIZADA",
+          ],
         },
       },
       include: {
@@ -278,6 +283,11 @@ export class ClasesRepository {
           },
         },
         vehiculo: true,
+        hojaRuta: {
+          select: {
+            id: true,
+          },
+        },
       },
       orderBy: {
         fecha: "asc",

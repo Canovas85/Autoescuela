@@ -103,6 +103,8 @@ const DEFAULT_FORM = {
   activo: true,
 };
 
+const LICENCIAS_APP = ["AM", "A1", "A2", "A", "B", "C", "D", "E"];
+
 export default function ConvocatoriaExamen() {
   const [rows, setRows] = useState([]);
   const [agendaRows, setAgendaRows] = useState([]);
@@ -637,14 +639,45 @@ export default function ConvocatoriaExamen() {
         <DialogContent sx={{ pt: "12px !important" }}>
           <Stack spacing={2}>
             <TextField
+              size="small"
               type="date"
               label="Fecha"
               value={form.fecha}
               onChange={(event) =>
                 setForm((prev) => ({ ...prev, fecha: event.target.value }))
               }
-              InputLabelProps={{ shrink: false }}
+              InputLabelProps={{ shrink: true }}
               fullWidth
+              sx={{
+                minWidth: 210,
+                // 1. Fuerza a la etiqueta a estar SIEMPRE en color azul
+                "& .MuiInputLabel-root": {
+                  color: "rgb(0, 0, 0) !important",
+                },
+                // 2. Fuerza al borde/muesca exterior a estar SIEMPRE en color azul
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#1976d2 !important",
+                  borderWidth: "1px",
+                },
+                // 3. Mantiene el color azul si pasas el ratón por encima (Hover)
+                "& :hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#1976d2 !important",
+                },
+                // 4. CONTROL DINÁMICO DEL FORMATO dd/mm/aaaa:
+                // Oculto por defecto si no hay fecha informada
+                "& input::-webkit-datetime-edit": {
+                  color: form.fecha ? "inherit" : "transparent",
+                },
+                // Se muestra en color gris cuando el campo recibe el foco (haces clic dentro)
+                "& .MuiInputBase-root.Mui-focused input::-webkit-datetime-edit":
+                  {
+                    color: form.fecha ? "inherit" : "rgba(0, 0, 0, 0.42)",
+                  },
+                // 5. Ajuste de espaciado interno
+                "& .MuiInputBase-input": {
+                  pt: 1.5,
+                },
+              }}
             />
 
             <TextField
@@ -656,11 +689,11 @@ export default function ConvocatoriaExamen() {
               }
               fullWidth
             >
-              <MenuItem value="B">B</MenuItem>
-              <MenuItem value="A">A</MenuItem>
-              <MenuItem value="AM">AM</MenuItem>
-              <MenuItem value="C">C</MenuItem>
-              <MenuItem value="D">D</MenuItem>
+              {LICENCIAS_APP.map((licencia) => (
+                <MenuItem key={licencia} value={licencia}>
+                  {licencia}
+                </MenuItem>
+              ))}
             </TextField>
 
             <TextField

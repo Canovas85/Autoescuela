@@ -153,6 +153,13 @@ router.get(
 );
 
 router.get(
+  "/:id/resumen-extendido",
+  authenticate,
+  authorize("ADMIN"),
+  controller.getExtendedSummary.bind(controller),
+);
+
+router.get(
   "/:id",
   authenticate,
   authorize("ADMIN"),

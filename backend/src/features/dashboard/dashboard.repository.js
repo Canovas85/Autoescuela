@@ -506,7 +506,9 @@ export class DashboardRepository {
     return this.prisma.clasePractica.findMany({
       where: {
         vehiculoId,
-        estado: "PROGRAMADA",
+        estado: {
+          in: ["PROGRAMADA", "CONFIRMADA"],
+        },
         fecha: {
           gte: new Date(),
         },
@@ -660,6 +662,28 @@ export class DashboardRepository {
       },
     });
   }
+
+  async getPendingClassConfirmations() {
+    return this.prisma.clasePractica.count({
+      where: {
+        estado: "PROGRAMADA",
+      },
+    });
+  }
+
+  async getPendingClassHours() {
+    const aggregate = await this.prisma.clasePractica.aggregate({
+      where: {
+        estado: "PROGRAMADA",
+      },
+      _sum: {
+        duracion: true,
+      },
+    });
+
+    return Number(aggregate?._sum?.duracion || 0) / 60;
+  }
+
   async getTotalClasesCanceladas() {
     return this.prisma.clasePractica.count({
       where: {

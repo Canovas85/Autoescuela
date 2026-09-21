@@ -426,14 +426,24 @@ export default function Profesores() {
       headerName: "Permisos",
       flex: 1.2,
       renderCell: (params) => (
-        <LicenseChipList
-          values={
-            Array.isArray(params.row.permisosLicencias) &&
-            params.row.permisosLicencias.length > 0
-              ? params.row.permisosLicencias
-              : [params.row.licenciaConducir]
-          }
-        />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-end", // Empuja los chips al fondo de la celda
+            height: "100%", // Usa todo el alto disponible de la fila
+            pb: 1.5, // Padding bottom opcional (8px) para separar del borde
+          }}
+        >
+          <LicenseChipList
+            values={
+              Array.isArray(params.row.permisosLicencias) &&
+              params.row.permisosLicencias.length > 0
+                ? params.row.permisosLicencias
+                : [params.row.licenciaConducir]
+            }
+          />
+        </Box>
       ),
     },
 

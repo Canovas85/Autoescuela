@@ -492,6 +492,11 @@ export class DashboardService {
 
       scheduledClasses: await this.repository.getTotalClasesProgramadas(),
 
+      pendingClassConfirmations:
+        await this.repository.getPendingClassConfirmations(),
+
+      pendingClassHours: await this.repository.getPendingClassHours(),
+
       pendingExams: await this.repository.getTotalExamenesPendientes(),
 
       matriculasPagadasMes: await this.repository.getMatriculasPagadasMes(),

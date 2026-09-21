@@ -381,10 +381,17 @@ export class HojasRutaService {
       (item) => item.estado !== ROADMAP_STATUS.PENDIENTE,
     );
 
-    const historyFiltered =
+    const pendingFiltered =
       statusFilter === "TODAS" || statusFilter === ROADMAP_STATUS.PENDIENTE
+        ? pending
+        : [];
+
+    const historyFiltered =
+      statusFilter === "TODAS"
         ? historyBase
-        : historyBase.filter((item) => item.estado === statusFilter);
+        : statusFilter === ROADMAP_STATUS.PENDIENTE
+          ? []
+          : historyBase.filter((item) => item.estado === statusFilter);
 
     const start = (page - 1) * pageSize;
     const pagedHistory = historyFiltered.slice(start, start + pageSize);
@@ -404,7 +411,7 @@ export class HojasRutaService {
           (item) => item.estado === ROADMAP_STATUS.CANCELADA,
         ).length,
       },
-      pendientes: pending,
+      pendientes: pendingFiltered,
       historial: pagedHistory,
       pagination: buildPagination(historyFiltered.length, page, pageSize),
     };

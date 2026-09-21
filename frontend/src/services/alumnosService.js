@@ -18,6 +18,11 @@ export const alumnosService = {
     return response.data;
   },
 
+  getExtendedSummary: async (id) => {
+    const response = await api.get(`/alumnos/${id}/resumen-extendido`);
+    return response.data;
+  },
+
   async create(data) {
     const token = localStorage.getItem("token");
 

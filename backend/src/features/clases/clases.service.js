@@ -207,6 +207,7 @@ export class ClasesService {
             tipoPermiso: clase.vehiculo.tipoPermiso,
           }
         : null,
+      hojaRutaId: clase.hojaRuta?.id || null,
     };
   }
 
@@ -912,6 +913,18 @@ export class ClasesService {
 
   async getProfessorRequests(profesorId) {
     await this.markOverdueUnpaidClassesForProfessor(profesorId);
+
+    const existingRows =
+      await this.repository.getProfessorClassRequests(profesorId);
+    const now = new Date();
+
+    for (const row of existingRows) {
+      if (row.estado === "PROGRAMADA" && new Date(row.fecha) < now) {
+        await this.repository.updateClassById(row.id, {
+          estado: "CONFIRMADA",
+        });
+      }
+    }
 
     const rows = await this.repository.getProfessorClassRequests(profesorId);
 

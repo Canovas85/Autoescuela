@@ -13,6 +13,7 @@ import {
   Select,
   Stack,
   Typography,
+  Link,
 } from "@mui/material";
 import EventBusyIcon from "@mui/icons-material/EventBusy";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
@@ -21,6 +22,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 
 import { clasesPracticasPortalService } from "../../services/clasesPracticasPortalService";
+import { useNavigate } from "react-router-dom";
 
 const DAYS = [
   "Lunes",
@@ -90,6 +92,7 @@ const combineDateAndHour = (weekStart, dayIndex, hourText) => {
 };
 
 export default function ReservarClase() {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [weekOffset, setWeekOffset] = useState(0);
@@ -148,6 +151,13 @@ export default function ReservarClase() {
 
   const days = context?.calendarioSemana?.dias || [];
   const currentDay = days[selectedDay] || null;
+
+  const realizadas = useMemo(() => {
+    const now = new Date();
+    return (context?.proximasClases || []).filter(
+      (item) => new Date(item.fecha) < now,
+    );
+  }, [context?.proximasClases]);
 
   const selectedDate = useMemo(() => {
     if (!context?.calendarioSemana?.inicio || !selectedHour) {
@@ -550,24 +560,57 @@ export default function ReservarClase() {
                     No tienes clases confirmadas próximas.
                   </Typography>
                 ) : (
-                  <Stack sx={{ mt: 1 }} spacing={1}>
-                    {context.proximasClases.map((item) => (
-                      <Card key={item.id} variant="outlined">
-                        <CardContent>
-                          <Typography fontWeight={700}>
+                  <Box sx={{ mt: 1, overflowX: "auto" }}>
+                    <Box sx={{ minWidth: 840 }}>
+                      <Box
+                        sx={{
+                          display: "grid",
+                          gridTemplateColumns: "2fr 1.4fr 1.6fr 1fr",
+                          gap: 1,
+                          px: 1,
+                          py: 0.5,
+                          borderBottom: "1px solid #e2e8f0",
+                        }}
+                      >
+                        <Typography variant="caption" fontWeight={700}>
+                          Fecha
+                        </Typography>
+                        <Typography variant="caption" fontWeight={700}>
+                          Profesor
+                        </Typography>
+                        <Typography variant="caption" fontWeight={700}>
+                          Vehículo
+                        </Typography>
+                        <Typography variant="caption" fontWeight={700}>
+                          Estado
+                        </Typography>
+                      </Box>
+                      {(context?.proximasClases || []).map((item) => (
+                        <Box
+                          key={item.id}
+                          sx={{
+                            display: "grid",
+                            gridTemplateColumns: "2fr 1.4fr 1.6fr 1fr",
+                            gap: 1,
+                            px: 1,
+                            py: 1,
+                            borderBottom: "1px solid #f1f5f9",
+                          }}
+                        >
+                          <Typography variant="body2" fontWeight={600}>
                             {formatDate(item.fecha)}
                           </Typography>
                           <Typography variant="body2">
-                            Profesor: {item.profesor?.nombre}
+                            {item.profesor?.nombre}
                           </Typography>
                           <Typography variant="body2">
-                            Vehículo: {item.vehiculo?.marca}{" "}
-                            {item.vehiculo?.modelo}
+                            {item.vehiculo?.marca} {item.vehiculo?.modelo}
                           </Typography>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </Stack>
+                          <Typography variant="body2">{item.estado}</Typography>
+                        </Box>
+                      ))}
+                    </Box>
+                  </Box>
                 )}
               </Paper>
             </Grid>
@@ -582,30 +625,121 @@ export default function ReservarClase() {
                     No tienes solicitudes pendientes.
                   </Typography>
                 ) : (
-                  <Stack sx={{ mt: 1 }} spacing={1}>
-                    {context.solicitudesPendientes.map((item) => (
-                      <Card key={item.id} variant="outlined">
-                        <CardContent>
-                          <Typography fontWeight={700}>
+                  <Box sx={{ mt: 1, overflowX: "auto" }}>
+                    <Box sx={{ minWidth: 900 }}>
+                      <Box
+                        sx={{
+                          display: "grid",
+                          gridTemplateColumns: "2fr 1.4fr 1.6fr 1fr 1fr",
+                          gap: 1,
+                          px: 1,
+                          py: 0.5,
+                          borderBottom: "1px solid #e2e8f0",
+                        }}
+                      >
+                        <Typography variant="caption" fontWeight={700}>
+                          Fecha
+                        </Typography>
+                        <Typography variant="caption" fontWeight={700}>
+                          Profesor
+                        </Typography>
+                        <Typography variant="caption" fontWeight={700}>
+                          Vehículo
+                        </Typography>
+                        <Typography variant="caption" fontWeight={700}>
+                          Estado
+                        </Typography>
+                        <Typography variant="caption" fontWeight={700}>
+                          Acción
+                        </Typography>
+                      </Box>
+                      {context.solicitudesPendientes.map((item) => (
+                        <Box
+                          key={item.id}
+                          sx={{
+                            display: "grid",
+                            gridTemplateColumns: "2fr 1.4fr 1.6fr 1fr 1fr",
+                            gap: 1,
+                            px: 1,
+                            py: 1,
+                            borderBottom: "1px solid #f1f5f9",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Typography variant="body2" fontWeight={600}>
                             {formatDate(item.fecha)}
                           </Typography>
                           <Typography variant="body2">
-                            Profesor: {item.profesor?.nombre}
+                            {item.profesor?.nombre}
                           </Typography>
                           <Typography variant="body2">
-                            Vehículo: {item.vehiculo?.marca}{" "}
-                            {item.vehiculo?.modelo}
+                            {item.vehiculo?.marca} {item.vehiculo?.modelo}
                           </Typography>
+                          <Typography variant="body2">{item.estado}</Typography>
                           <Button
                             color="error"
                             size="small"
-                            sx={{ mt: 1 }}
                             onClick={() => cancelarSolicitud(item.id)}
                           >
-                            Cancelar solicitud
+                            Cancelar
                           </Button>
-                        </CardContent>
-                      </Card>
+                        </Box>
+                      ))}
+                    </Box>
+                  </Box>
+                )}
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Paper sx={{ p: 2, border: "1px solid #e2e8f0" }}>
+                <Typography variant="h6" fontWeight={800}>
+                  Clases efectuadas
+                </Typography>
+                {realizadas.length === 0 ? (
+                  <Typography color="text.secondary" sx={{ mt: 1 }}>
+                    No hay clases efectuadas todavía.
+                  </Typography>
+                ) : (
+                  <Stack spacing={1} sx={{ mt: 1 }}>
+                    {realizadas.map((item) => (
+                      <Box
+                        key={`done-${item.id}`}
+                        sx={{
+                          display: "grid",
+                          gridTemplateColumns: {
+                            xs: "1fr",
+                            md: "2fr 1.3fr 1.3fr 1fr",
+                          },
+                          gap: 1,
+                          p: 1,
+                          border: "1px solid #e2e8f0",
+                          borderRadius: 1.5,
+                        }}
+                      >
+                        <Typography variant="body2" fontWeight={600}>
+                          {formatDate(item.fecha)}
+                        </Typography>
+                        <Typography variant="body2">
+                          Profesor: {item.profesor?.nombre || "-"}
+                        </Typography>
+                        <Typography variant="body2">
+                          Vehículo: {item.vehiculo?.matricula || "-"}
+                        </Typography>
+                        {item.hojaRutaId ? (
+                          <Link
+                            component="button"
+                            variant="body2"
+                            onClick={() => navigate("/hojas-ruta")}
+                          >
+                            Ver hoja de ruta
+                          </Link>
+                        ) : (
+                          <Typography variant="body2" color="text.secondary">
+                            Sin hoja de ruta
+                          </Typography>
+                        )}
+                      </Box>
                     ))}
                   </Stack>
                 )}

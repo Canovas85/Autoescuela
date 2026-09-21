@@ -217,34 +217,46 @@ export default function Matriculas() {
       width: 180,
       sortable: false,
 
-      renderCell: (params) => (
-        <Box
-          sx={{
-            display: "flex",
-            gap: 1,
-          }}
-        >
-          <Tooltip title="Pagar matrícula" arrow>
-            <IconButton
-              color="success"
-              size="small"
-              onClick={() => handlePagar(params.row)}
-            >
-              <CheckCircleIcon />
-            </IconButton>
-          </Tooltip>
+      renderCell: (params) =>
+        (() => {
+          const disabled =
+            params.row.estado === "PAGADA" || params.row.estado === "ANULADA";
 
-          <Tooltip title="Anular matrícula" arrow>
-            <IconButton
-              color="error"
-              size="small"
-              onClick={() => handleAnular(params.row)}
+          return (
+            <Box
+              sx={{
+                display: "flex",
+                gap: 1,
+              }}
             >
-              <CancelIcon />
-            </IconButton>
-          </Tooltip>
-        </Box>
-      ),
+              <Tooltip title="Pagar matrícula" arrow>
+                <span>
+                  <IconButton
+                    color="success"
+                    size="small"
+                    onClick={() => handlePagar(params.row)}
+                    disabled={disabled}
+                  >
+                    <CheckCircleIcon />
+                  </IconButton>
+                </span>
+              </Tooltip>
+
+              <Tooltip title="Anular matrícula" arrow>
+                <span>
+                  <IconButton
+                    color="error"
+                    size="small"
+                    onClick={() => handleAnular(params.row)}
+                    disabled={disabled}
+                  >
+                    <CancelIcon />
+                  </IconButton>
+                </span>
+              </Tooltip>
+            </Box>
+          );
+        })(),
     },
   ];
 

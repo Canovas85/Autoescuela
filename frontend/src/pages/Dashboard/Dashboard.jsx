@@ -5,10 +5,6 @@ import {
   Card,
   CardContent,
   Grid,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   IconButton,
   Typography,
 } from "@mui/material";
@@ -19,9 +15,7 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import SchoolIcon from "@mui/icons-material/School";
-import EventNoteIcon from "@mui/icons-material/EventNote";
 import PeopleIcon from "@mui/icons-material/People";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
@@ -87,27 +81,51 @@ function AdminDashboardView({ metrics }) {
     },
     {
       title: "Matrículas Pagadas",
-      value: `Mes: ${metrics.matriculasPagadasMes ?? 0} | Histórico: ${metrics.matriculasPagadasHistorico ?? 0}`,
+      value: (
+        <Typography variant="body2" fontWeight={700} sx={{ fontSize: 12 }}>
+          Mes: {metrics.matriculasPagadasMes ?? 0} | Histórico:{" "}
+          {metrics.matriculasPagadasHistorico ?? 0}
+        </Typography>
+      ),
       icon: <AssignmentIcon />,
       color: "#15803d",
+      wide: true,
     },
     {
       title: "Matrículas Pendientes",
-      value: `Mes: ${metrics.matriculasPendientesMes ?? 0} | Histórico: ${metrics.matriculasPendientesHistorico ?? 0}`,
+      value: (
+        <Typography variant="body2" fontWeight={700} sx={{ fontSize: 12 }}>
+          Mes: {metrics.matriculasPendientesMes ?? 0} | Histórico:{" "}
+          {metrics.matriculasPendientesHistorico ?? 0}
+        </Typography>
+      ),
       icon: <AccessTimeFilledIcon />,
       color: "#b45309",
+      wide: true,
     },
     {
       title: "Alumnos Teórico APTO",
-      value: `Mes: ${metrics.aprobadosTeoricoMes ?? 0} | Histórico: ${metrics.aprobadosTeoricoHistorico ?? 0}`,
+      value: (
+        <Typography variant="body2" fontWeight={700} sx={{ fontSize: 12 }}>
+          Mes: {metrics.aprobadosTeoricoMes ?? 0} | Histórico:{" "}
+          {metrics.aprobadosTeoricoHistorico ?? 0}
+        </Typography>
+      ),
       icon: <SchoolIcon />,
       color: "#0369a1",
+      wide: true,
     },
     {
       title: "Alumnos Práctico APTO",
-      value: `Mes: ${metrics.aprobadosPracticoMes ?? 0} | Histórico: ${metrics.aprobadosPracticoHistorico ?? 0}`,
+      value: (
+        <Typography variant="body2" fontWeight={700} sx={{ fontSize: 12 }}>
+          Mes: {metrics.aprobadosPracticoMes ?? 0} | Histórico:{" "}
+          {metrics.aprobadosPracticoHistorico ?? 0}
+        </Typography>
+      ),
       icon: <EmojiEventsIcon />,
       color: "#7c2d12",
+      wide: true,
     },
   ];
 
@@ -121,7 +139,13 @@ function AdminDashboardView({ metrics }) {
 
       <Grid container spacing={3}>
         {cards.map((card) => (
-          <Grid xs={12} sm={6} md={4} lg={2.4} key={card.title}>
+          <Grid
+            xs={12}
+            sm={6}
+            md={card.wide ? 6 : 4}
+            lg={card.wide ? 3 : 2.4}
+            key={card.title}
+          >
             <Card>
               <CardContent>
                 <Box
@@ -135,9 +159,13 @@ function AdminDashboardView({ metrics }) {
                   <Box sx={{ maxWidth: 170 }}>
                     <Typography color="text.secondary">{card.title}</Typography>
 
-                    <Typography variant="h6" fontWeight="bold">
-                      {card.value}
-                    </Typography>
+                    {typeof card.value === "string" ? (
+                      <Typography variant="h6" fontWeight="bold">
+                        {card.value}
+                      </Typography>
+                    ) : (
+                      card.value
+                    )}
                   </Box>
 
                   <Box
@@ -178,14 +206,13 @@ function AdminDashboardView({ metrics }) {
               >
                 <Box>
                   <Typography color="text.secondary">
-                    Profesor más activo
+                    Clases pendientes de confirmar
                   </Typography>
                   <Typography variant="h6" fontWeight="bold" sx={{ mt: 0.5 }}>
-                    {metrics.topProfesorByClasses?.nombre ?? "Sin datos"}
+                    {metrics.pendingClassConfirmations ?? 0}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    {metrics.topProfesorByClasses?.totalClases ?? 0} clases
-                    impartidas
+                    solicitudes programadas
                   </Typography>
                 </Box>
               </Box>
@@ -208,13 +235,13 @@ function AdminDashboardView({ metrics }) {
               >
                 <Box>
                   <Typography color="text.secondary">
-                    Profesor con más horas
+                    Horas pendientes de confirmar
                   </Typography>
                   <Typography variant="h6" fontWeight="bold" sx={{ mt: 0.5 }}>
-                    {metrics.topProfesorByHours?.nombre ?? "Sin datos"}
+                    {Number(metrics.pendingClassHours || 0).toFixed(1)} h
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    {metrics.topProfesorByHours?.horas ?? 0} horas impartidas
+                    total de clases programadas
                   </Typography>
                 </Box>
               </Box>
@@ -560,59 +587,6 @@ function AdminDashboardView({ metrics }) {
           </Card>
         </Box>
       </Grid>
-
-      <Box sx={{ height: 40, mt: 4 }} />
-      <Typography variant="h5" fontWeight="bold">
-        Actividad reciente
-      </Typography>
-
-      <Box sx={{ height: 20 }} />
-
-      <Card>
-        <List sx={{ py: 2 }}>
-          <ListItem sx={{ py: 1.5 }}>
-            <ListItemIcon>
-              <PersonAddIcon
-                sx={{
-                  color: "#16a34a",
-                }}
-              />
-            </ListItemIcon>
-
-            <ListItemText
-              primary="Nuevo alumno registrado"
-              secondary="Hace 2 horas"
-            />
-          </ListItem>
-
-          <ListItem sx={{ py: 1.5 }}>
-            <ListItemIcon>
-              <SchoolIcon
-                sx={{
-                  color: "#2563eb",
-                }}
-              />
-            </ListItemIcon>
-
-            <ListItemText
-              primary="Clase práctica creada"
-              secondary="Hace 4 horas"
-            />
-          </ListItem>
-
-          <ListItem sx={{ py: 1.5 }}>
-            <ListItemIcon>
-              <EventNoteIcon
-                sx={{
-                  color: "#f97316",
-                }}
-              />
-            </ListItemIcon>
-
-            <ListItemText primary="Examen programado" secondary="Hace 1 día" />
-          </ListItem>
-        </List>
-      </Card>
     </Box>
   );
 }

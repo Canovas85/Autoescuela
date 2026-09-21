@@ -443,7 +443,19 @@ export default function TestDGTAdmin() {
       field: "licencia",
       headerName: "Licencia",
       flex: 0.7,
-      renderCell: (params) => <LicenseChipList values={params.row.licencia} />,
+      renderCell: (params) => (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-end", // Empuja los chips al fondo de la celda
+            height: "100%", // Usa todo el alto disponible de la fila
+            pb: 1.5, // Padding bottom opcional (8px) para separar del borde
+          }}
+        >
+          <LicenseChipList values={params.row.licencia} />
+        </Box>
+      ),
     },
     {
       field: "respuestas",

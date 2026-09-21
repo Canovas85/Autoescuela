@@ -254,6 +254,71 @@ export default function StudentDashboard({ data }) {
   };
 
   const dgtUltimoResultado = dgtMetrics.ultimoResultado;
+  const latestTheoryRequest = [...(examenes?.teoricos || [])].sort(
+    (a, b) =>
+      new Date(b.fechaProgramada || b.fechaSolicitud || 0).getTime() -
+      new Date(a.fechaProgramada || a.fechaSolicitud || 0).getTime(),
+  )[0];
+
+  const latestPracticalRequest = [...(examenes?.practicos || [])].sort(
+    (a, b) =>
+      new Date(b.fechaProgramada || b.fechaSolicitud || 0).getTime() -
+      new Date(a.fechaProgramada || a.fechaSolicitud || 0).getTime(),
+  )[0];
+
+  const completedRoadmaps = (reservas || []).filter((reserva) => {
+    const estado = String(reserva.estado || "").toUpperCase();
+    return ["COMPLETADA", "REALIZADA", "FINALIZADA", "REGISTRADA"].includes(
+      estado,
+    );
+  }).length;
+
+  const hasPracticalRequest = [
+    "SOLICITADO",
+    "PROGRAMADO",
+    "PENDIENTE",
+  ].includes(String(latestPracticalRequest?.estado || "").toUpperCase());
+
+  const getStudentProgressChip = () => {
+    const practicalStatus = String(
+      latestPracticalRequest?.estado || "",
+    ).toUpperCase();
+    const theoryStatus = String(
+      latestTheoryRequest?.estado || "",
+    ).toUpperCase();
+
+    if (practicalStatus === "APTO") {
+      return { label: "Licencia aprobada", ok: true };
+    }
+
+    if (["NO_APTO", "SUSPENDIDO"].includes(practicalStatus)) {
+      return { label: "Práctico suspenso", ok: false };
+    }
+
+    if (hasPracticalRequest) {
+      return { label: "Pendiente de examen práctico", ok: false };
+    }
+
+    if (theoryStatus === "APTO" && completedRoadmaps > 0) {
+      return { label: "Preparándose para el práctico", ok: true };
+    }
+
+    if (["NO_APTO", "SUSPENDIDO"].includes(theoryStatus)) {
+      return { label: "Teórico suspenso", ok: false };
+    }
+
+    if (theoryStatus === "APTO") {
+      return { label: "Teórico aprobado", ok: true };
+    }
+
+    if (["SOLICITADO", "PROGRAMADO", "PENDIENTE"].includes(theoryStatus)) {
+      return { label: "Pendiente de examen teórico", ok: false };
+    }
+
+    return { label: "Estudiando teórico", ok: false };
+  };
+
+  const progressChip = getStudentProgressChip();
   const dgtRachaTexto =
     dgtMetrics.rachaActual?.tipo === "APROBADOS"
       ? `${dgtMetrics.rachaActual.cantidad} aprobados seguidos`
@@ -389,17 +454,11 @@ export default function StudentDashboard({ data }) {
 
           <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
             <Chip
-              label={
-                resumen.preparadoParaTeorico
-                  ? "Preparado para examen"
-                  : "Aún no preparado"
-              }
+              label={progressChip.label}
               size="small"
               sx={{
-                backgroundColor: resumen.preparadoParaTeorico
-                  ? "#dcfce7"
-                  : "#fef3c7",
-                color: resumen.preparadoParaTeorico ? "#166534" : "#92400e",
+                backgroundColor: progressChip.ok ? "#dcfce7" : "#fef3c7",
+                color: progressChip.ok ? "#166534" : "#92400e",
                 fontWeight: 700,
               }}
             />

@@ -1088,6 +1088,7 @@ export default function HojasRuta() {
                   size="small"
                   type="date"
                   InputLabelProps={{ shrink: true }}
+                  sx={{ minWidth: 180 }}
                   value={searchParams.get("dateFrom") || ""}
                   onChange={(event) => setParam("dateFrom", event.target.value)}
                 />
@@ -1096,6 +1097,7 @@ export default function HojasRuta() {
                   size="small"
                   type="date"
                   InputLabelProps={{ shrink: true }}
+                  sx={{ minWidth: 180 }}
                   value={searchParams.get("dateTo") || ""}
                   onChange={(event) => setParam("dateTo", event.target.value)}
                 />
@@ -1457,17 +1459,6 @@ export default function HojasRuta() {
 
         <Card>
           <CardContent>
-            <TextField
-              fullWidth
-              label="Buscar profesor"
-              value={searchParams.get("search") || ""}
-              onChange={(event) => setParam("search", event.target.value)}
-            />
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent>
             <DataGrid
               rows={adminRows}
               columns={[
@@ -1542,6 +1533,7 @@ export default function HojasRuta() {
                 label="Desde"
                 type="date"
                 InputLabelProps={{ shrink: true }}
+                sx={{ minWidth: 180 }}
                 value={searchParams.get("dateFrom") || ""}
                 onChange={(event) => setParam("dateFrom", event.target.value)}
               />
@@ -1549,6 +1541,7 @@ export default function HojasRuta() {
                 label="Hasta"
                 type="date"
                 InputLabelProps={{ shrink: true }}
+                sx={{ minWidth: 180 }}
                 value={searchParams.get("dateTo") || ""}
                 onChange={(event) => setParam("dateTo", event.target.value)}
               />

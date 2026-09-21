@@ -49,7 +49,11 @@ const DAY_NAME_BY_ID = DAYS.reduce((acc, day) => {
 
 const DEFAULT_START_MINUTES = 8 * 60;
 const DEFAULT_END_MINUTES = 16 * 60;
-const HOUR_HEIGHT = 72;
+const HOUR_HEIGHT = 230;
+const EVENT_CARD_BOTTOM_BUFFER = 150;
+const TIME_GUTTER_WIDTH = 98;
+const TIME_GUTTER_HEIGHT = 98;
+const DAY_COLUMN_MIN_WIDTH = 210;
 
 const STUDENT_PALETTE = [
   {
@@ -366,6 +370,7 @@ export default function ProfesorAgenda() {
 
   const timelineHeight =
     ((minuteRange.endMinutes - minuteRange.startMinutes) / 60) * HOUR_HEIGHT;
+  const dayColumnHeight = timelineHeight + EVENT_CARD_BOTTOM_BUFFER;
 
   const footerSummary = useMemo(() => {
     const clases = agenda?.clases || [];
@@ -576,11 +581,11 @@ export default function ProfesorAgenda() {
           <Typography color="text.secondary">Cargando agenda...</Typography>
         ) : (
           <Box sx={{ overflowX: "auto" }}>
-            <Box sx={{ minWidth: 1180 }}>
+            <Box sx={{ minWidth: 1600 }}>
               <Box
                 sx={{
                   display: "grid",
-                  gridTemplateColumns: "74px repeat(7, minmax(150px, 1fr))",
+                  gridTemplateColumns: `${TIME_GUTTER_WIDTH}px repeat(7, minmax(${DAY_COLUMN_MIN_WIDTH}px, 1fr))`,
                   borderTop: "1px solid #e3ebf6",
                   borderLeft: "1px solid #e3ebf6",
                   borderRight: "1px solid #e3ebf6",
@@ -617,7 +622,7 @@ export default function ProfesorAgenda() {
               <Box
                 sx={{
                   display: "grid",
-                  gridTemplateColumns: "74px repeat(7, minmax(150px, 1fr))",
+                  gridTemplateColumns: `${TIME_GUTTER_WIDTH}px repeat(7, minmax(${DAY_COLUMN_MIN_WIDTH}px, 1fr))`,
                   borderLeft: "1px solid #e3ebf6",
                   borderRight: "1px solid #e3ebf6",
                   borderBottom: "1px solid #e3ebf6",
@@ -629,7 +634,7 @@ export default function ProfesorAgenda() {
                 <Box
                   sx={{
                     position: "relative",
-                    height: timelineHeight,
+                    height: dayColumnHeight,
                     bgcolor: "#fbfdff",
                   }}
                 >
@@ -645,9 +650,9 @@ export default function ProfesorAgenda() {
                           top,
                           marginTop: 4,
                           left: 10,
-                          right: 0,
+                          right: 8,
                           borderTop: "0px solid #edf2fa",
-                          pr: 1,
+                          pr: 1.25,
                         }}
                       >
                         <Typography
@@ -677,7 +682,7 @@ export default function ProfesorAgenda() {
                       key={day.id}
                       sx={{
                         position: "relative",
-                        height: timelineHeight,
+                        height: dayColumnHeight,
                         borderLeft: "1px solid #e3ebf6",
                         bgcolor: "#fff",
                       }}
@@ -747,7 +752,7 @@ export default function ProfesorAgenda() {
                         const isProgramada = clase.estado === "PROGRAMADA";
                         const height = Math.max(
                           (duration / 60) * HOUR_HEIGHT,
-                          isProgramada ? 126 : 112,
+                          isProgramada ? 176 : 154,
                         );
                         const color = getColorByStudent(
                           clase.alumno?.id,
@@ -762,7 +767,7 @@ export default function ProfesorAgenda() {
                               top,
                               left: 7,
                               right: 7,
-                              minHeight: 114,
+                              minHeight: 154,
                               height,
                               p: 1,
                               borderRadius: 2,

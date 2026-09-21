@@ -93,6 +93,89 @@ export class AlumnosRepository {
     });
   }
 
+  async findExtendedSummaryById(id) {
+    const alumno = await this.prisma.alumno.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        usuario: true,
+        matriculas: {
+          include: {
+            promocion: true,
+          },
+          orderBy: {
+            fechaCreacion: "desc",
+          },
+        },
+        solicitudesExamen: {
+          orderBy: {
+            fechaSolicitud: "desc",
+          },
+          include: {
+            pagoGastoPractico: true,
+          },
+        },
+        clases: {
+          orderBy: {
+            fecha: "desc",
+          },
+          include: {
+            profesor: {
+              include: {
+                usuario: true,
+              },
+            },
+            vehiculo: true,
+          },
+        },
+      },
+    });
+
+    if (!alumno) {
+      return null;
+    }
+
+    const [pagos, documentos, bonos] = await Promise.all([
+      this.prisma.pago.findMany({
+        where: {
+          alumnoId: id,
+        },
+        orderBy: {
+          fechaCreacion: "desc",
+        },
+      }),
+      this.prisma.documentoAlumno.findMany({
+        where: {
+          alumnoId: id,
+          tipo: "CERTIFICADO_PSICOTECNICO",
+          activo: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
+      this.prisma.compraBono.findMany({
+        where: {
+          alumnoId: id,
+        },
+        include: {
+          bono: true,
+        },
+        orderBy: {
+          fechaCompra: "desc",
+        },
+      }),
+    ]);
+
+    return {
+      ...alumno,
+      pagos,
+      documentos,
+      bonos,
+    };
+  }
+
   async update(id, data) {
     await this.prisma.usuario.update({
       where: {

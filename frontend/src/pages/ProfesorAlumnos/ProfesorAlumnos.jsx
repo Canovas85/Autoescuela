@@ -123,6 +123,7 @@ export default function ProfesorAlumnos() {
     setOpenDetail(true);
     setLoadingDetail(true);
     setDetail(null);
+    setError("");
 
     try {
       const response = await profesorPortalService.getStudentDetail(row.id);

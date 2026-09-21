@@ -33,6 +33,7 @@ import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
 import { bonosService } from "../../services/bonosService";
+import { api } from "../../services/api";
 import { LicenseChip } from "../../components/common/LicenseChip";
 
 const LICENCIAS = ["B", "A1", "A2", "A", "C", "D", "E"];
@@ -150,6 +151,7 @@ export default function Bonos() {
   const [loading, setLoading] = useState(false);
   const [role, setRole] = useState(null);
   const [open, setOpen] = useState(false);
+  const [myBonos, setMyBonos] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(emptyForm);
   const [licenciaFiltro, setLicenciaFiltro] = useState("all");
@@ -192,6 +194,14 @@ export default function Bonos() {
             })
           : await bonosService.getAvailable();
       setRows(data);
+
+      if (role !== "ADMIN") {
+        const pagos = await api.get("/pagos/mine");
+        const bonosActivos = (pagos.data || []).filter((pago) =>
+          Boolean(pago.compraBono),
+        );
+        setMyBonos(bonosActivos);
+      }
     } catch (error) {
       console.error(error);
       setNotification({
@@ -504,6 +514,50 @@ export default function Bonos() {
             >
               Nuevo bono
             </Button>
+          </Box>
+        ) : null}
+
+        {role !== "ADMIN" && myBonos.length > 0 ? (
+          <Box
+            sx={{
+              mb: 2,
+              p: 2,
+              border: "1px solid",
+              borderColor: "divider",
+              borderRadius: 2,
+            }}
+          >
+            <Typography variant="h6" fontWeight={800} sx={{ mb: 1 }}>
+              Bono(s) que ya tienes
+            </Typography>
+            <Grid container spacing={1}>
+              {myBonos.map((item) => {
+                const disponibles = Math.max(
+                  Number(item.compraBono?.clasesCompradas || 0) -
+                    Number(item.compraBono?.clasesConsumidas || 0),
+                  0,
+                );
+
+                return (
+                  <Grid item xs={12} md={6} key={`my-bono-${item.id}`}>
+                    <Box
+                      sx={{
+                        p: 1.5,
+                        border: "1px solid #e2e8f0",
+                        borderRadius: 1.5,
+                      }}
+                    >
+                      <Typography fontWeight={700}>
+                        {item.compraBono?.bono?.nombre || "Bono"}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Clases disponibles: {disponibles}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                );
+              })}
+            </Grid>
           </Box>
         ) : null}
       </Box>

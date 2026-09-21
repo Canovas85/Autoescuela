@@ -241,7 +241,9 @@ export class SolicitudesExamenRepository {
       where: {
         alumnoId,
         permiso,
-        tipo: "EXAMEN_PRACTICO_GASTOS",
+        tipo: {
+          in: ["EXAMEN_PRACTICO_GASTOS", "PROMOCION_PAGO_EXAMEN_GRATIS"],
+        },
         estado: "PAGADO",
         solicitudesExamenPractico: {
           none: {

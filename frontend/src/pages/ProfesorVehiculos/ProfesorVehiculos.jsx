@@ -246,6 +246,14 @@ export default function ProfesorVehiculos() {
     }
   };
 
+  const reservasPendientes = (detail?.reservas || []).filter(
+    (reserva) => reserva.estado === "PROGRAMADA",
+  );
+
+  const reservasConfirmadas = (detail?.reservas || []).filter(
+    (reserva) => reserva.estado === "CONFIRMADA",
+  );
+
   return (
     <Box>
       <Typography variant="h4" fontWeight="bold" mb={3}>
@@ -341,12 +349,12 @@ export default function ProfesorVehiculos() {
                   color="text.secondary"
                   gutterBottom
                 >
-                  Clases reservadas
+                  Clases reservadas (pendientes de confirmar)
                 </Typography>
 
-                {detail?.reservas?.length ? (
+                {reservasPendientes.length ? (
                   <Stack spacing={1}>
-                    {detail.reservas.map((reserva) => (
+                    {reservasPendientes.map((reserva) => (
                       <Box
                         key={reserva.id}
                         sx={{
@@ -380,7 +388,57 @@ export default function ProfesorVehiculos() {
                   </Stack>
                 ) : (
                   <Typography variant="body2">
-                    No hay clases reservadas para este vehículo.
+                    No hay clases pendientes en este vehículo.
+                  </Typography>
+                )}
+              </Box>
+
+              <Box>
+                <Typography
+                  variant="subtitle2"
+                  color="text.secondary"
+                  gutterBottom
+                >
+                  Clases confirmadas
+                </Typography>
+
+                {reservasConfirmadas.length ? (
+                  <Stack spacing={1}>
+                    {reservasConfirmadas.map((reserva) => (
+                      <Box
+                        key={reserva.id}
+                        sx={{
+                          p: 1.5,
+                          borderRadius: 2,
+                          border: "1px solid #e2e8f0",
+                        }}
+                      >
+                        <Typography variant="body2" fontWeight={700}>
+                          {formatDateTime(reserva.fecha)} ({reserva.duracion}{" "}
+                          min)
+                        </Typography>
+                        <Typography variant="body2">
+                          Alumno: {reserva.alumno?.nombre || "Alumno"}
+                        </Typography>
+                        <Typography variant="body2">
+                          Profesor: {reserva.profesorNombre || "Profesor"}
+                        </Typography>
+                        <Chip
+                          sx={{ mt: 1 }}
+                          size="small"
+                          label={
+                            reserva.esMiClase
+                              ? "La imparto yo"
+                              : "La imparte otro profesor"
+                          }
+                          color={reserva.esMiClase ? "success" : "default"}
+                        />
+                      </Box>
+                    ))}
+                  </Stack>
+                ) : (
+                  <Typography variant="body2">
+                    No hay clases confirmadas para este vehículo.
                   </Typography>
                 )}
               </Box>
