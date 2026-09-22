@@ -3,18 +3,35 @@ import {
   Alert,
   Box,
   Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Paper,
   Snackbar,
+  Stack,
   Typography,
   IconButton,
   Tooltip,
-} from "@mui/material"; // 1. Importamos IconButton y Tooltip
+  Button,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf"; // 2. Importamos el icono de PDF (o PrintIcon si prefieres)
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DownloadIcon from "@mui/icons-material/Download";
+import { LicenseChip } from "../../components/common/LicenseChip";
 
 import { facturasService } from "../../services/facturasService";
 
+const formatDate = (value) =>
+  value ? new Date(value).toLocaleDateString("es-ES") : "-";
+
+const formatCurrency = (value) => `${Number(value || 0).toFixed(2)} EUR`;
+
 export default function MisFacturas() {
   const [rows, setRows] = useState([]);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [loadingPreview, setLoadingPreview] = useState(false);
+  const [selectedFactura, setSelectedFactura] = useState(null);
   const [notification, setNotification] = useState({
     open: false,
     message: "",
@@ -39,25 +56,45 @@ export default function MisFacturas() {
     loadFacturas();
   }, []);
 
-  // 3. Función para manejar la acción de imprimir/ver PDF
-  const handlePrint = async (row) => {
+  const handleOpenPreview = async (row) => {
+    setLoadingPreview(true);
+    setPreviewOpen(true);
+
     try {
-      // Opción A: Si tu backend ya te devuelve una URL directa al archivo PDF listo:
-      // window.open(row.urlPdf, "_blank");
+      const preview = await facturasService.getPreview(row.id);
+      setSelectedFactura(preview);
+    } catch (error) {
+      console.error(error);
+      setSelectedFactura(null);
+      setPreviewOpen(false);
+      setNotification({
+        open: true,
+        message:
+          error.response?.data?.message || "No se pudo cargar la factura",
+        severity: "error",
+      });
+    } finally {
+      setLoadingPreview(false);
+    }
+  };
 
-      // Opción B: Si tienes un servicio intermedio que descarga el blob del archivo:
-      // const blob = await facturasService.getBlobPdf(row.id);
-      // const url = window.URL.createObjectURL(blob);
-      // window.open(url, "_blank");
+  const handleDownloadPdf = async (facturaId) => {
+    try {
+      const { blob, fileName } = await facturasService.downloadPdf(facturaId);
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
 
-      // Ejemplo temporal para verificar que lee bien la fila:
-      console.log("Imprimiendo factura:", row.numero);
-      alert(`Abriendo PDF de la factura: ${row.numero}`);
+      link.href = url;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error(error);
       setNotification({
         open: true,
-        message: "No se pudo generar el PDF de la factura",
+        message: error.response?.data?.message || "No se pudo descargar el PDF",
         severity: "error",
       });
     }
@@ -78,7 +115,7 @@ export default function MisFacturas() {
       field: "total",
       headerName: "Total",
       flex: 0.8,
-      valueFormatter: (value) => `${value} EUR`,
+      valueFormatter: (value) => formatCurrency(value),
     },
     {
       field: "estado",
@@ -102,27 +139,37 @@ export default function MisFacturas() {
       field: "fechaEmision",
       headerName: "Emisión",
       flex: 1,
-      valueGetter: (_, row) =>
-        row.fechaEmision
-          ? new Date(row.fechaEmision).toLocaleDateString("es-ES")
-          : "-",
+      valueGetter: (_, row) => formatDate(row.fechaEmision),
     },
     {
       field: "acciones",
       headerName: "Acciones",
-      flex: 0.6,
-      sortable: false, // Desactivamos ordenación para esta columna
-      filterable: false, // Desactivamos filtros para esta columna
-      disableColumnMenu: true, // Ocultamos el menú de cabecera de la columna
+      width: 130,
+      sortable: false,
+      filterable: false,
+      disableColumnMenu: true,
       renderCell: (params) => (
-        <Tooltip title="Ver PDF / Imprimir">
-          <IconButton
-            color="primary"
-            onClick={() => handlePrint(params.row)} // Pasamos toda la información de la fila
-          >
-            <PictureAsPdfIcon />
-          </IconButton>
-        </Tooltip>
+        <Stack direction="row" spacing={0.25}>
+          <Tooltip title="Vista previa" arrow>
+            <IconButton
+              color="primary"
+              size="small"
+              onClick={() => handleOpenPreview(params.row)}
+            >
+              <VisibilityIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title="Descargar PDF" arrow>
+            <IconButton
+              color="success"
+              size="small"
+              onClick={() => handleDownloadPdf(params.row.id)}
+            >
+              <DownloadIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Stack>
       ),
     },
   ];
@@ -146,6 +193,146 @@ export default function MisFacturas() {
           }}
         />
       </Box>
+
+      <Dialog
+        open={previewOpen}
+        onClose={() => setPreviewOpen(false)}
+        fullWidth
+        maxWidth="md"
+      >
+        <DialogTitle>Vista previa de factura</DialogTitle>
+        <DialogContent>
+          {loadingPreview ? (
+            <Typography>Cargando factura...</Typography>
+          ) : selectedFactura ? (
+            <Paper
+              variant="outlined"
+              sx={{ p: 3, borderRadius: 2, backgroundColor: "#f8fafc" }}
+            >
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="flex-start"
+                sx={{ mb: 2 }}
+              >
+                <Box>
+                  <Typography variant="h6" fontWeight={800}>
+                    AUTOESCUELA EGUZKILORE
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Factura oficial
+                  </Typography>
+                </Box>
+                <Box sx={{ textAlign: "right" }}>
+                  <Typography variant="h6" fontWeight={700}>
+                    {selectedFactura.numero}
+                  </Typography>
+                  <Typography variant="body2">
+                    Emisión: {formatDate(selectedFactura.fechaEmision)}
+                  </Typography>
+                  <Typography variant="body2">
+                    Estado: {selectedFactura.estado}
+                  </Typography>
+                </Box>
+              </Stack>
+
+              <Stack direction="row" spacing={3} sx={{ mb: 2 }}>
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="subtitle2" fontWeight={700}>
+                    Emisor
+                  </Typography>
+                  <Typography variant="body2">
+                    Autoescuela Eguzkilore
+                  </Typography>
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="subtitle2" fontWeight={700}>
+                    Receptor
+                  </Typography>
+                  <Typography variant="body2">
+                    {selectedFactura.alumno?.nombre || "-"}
+                  </Typography>
+                  <Typography variant="body2">
+                    {selectedFactura.alumno?.email || "-"}
+                  </Typography>
+                  <Typography variant="body2">
+                    DNI: {selectedFactura.alumno?.dni || "-"}
+                  </Typography>
+                </Box>
+              </Stack>
+
+              <Box
+                sx={{
+                  border: "1px solid #dbeafe",
+                  borderRadius: 1,
+                  overflow: "hidden",
+                  mb: 2,
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: "2fr 1fr 1fr 1fr",
+                    backgroundColor: "#eff6ff",
+                    px: 1.5,
+                    py: 1,
+                    fontWeight: 700,
+                  }}
+                >
+                  <Typography variant="body2">Concepto</Typography>
+                  <Typography variant="body2">Base</Typography>
+                  <Typography variant="body2">Descuento</Typography>
+                  <Typography variant="body2">Total</Typography>
+                </Box>
+
+                <Box
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: "2fr 1fr 1fr 1fr",
+                    px: 1.5,
+                    py: 1.2,
+                    borderTop: "1px solid #dbeafe",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography variant="body2">
+                    {selectedFactura.concepto}
+                  </Typography>
+                  <Typography variant="body2">
+                    {formatCurrency(selectedFactura.baseImponible)}
+                  </Typography>
+                  <Typography variant="body2">
+                    {formatCurrency(selectedFactura.descuento)}
+                  </Typography>
+                  <Typography variant="body2" fontWeight={700}>
+                    {formatCurrency(selectedFactura.total)}
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Stack direction="row" spacing={1} alignItems="center">
+                <Typography variant="body2" fontWeight={700}>
+                  Licencia:
+                </Typography>
+                <LicenseChip value={selectedFactura.licencia} />
+              </Stack>
+            </Paper>
+          ) : (
+            <Alert severity="warning">No hay datos para mostrar</Alert>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setPreviewOpen(false)}>Cerrar</Button>
+          <Button
+            variant="contained"
+            startIcon={<DownloadIcon />}
+            disabled={!selectedFactura}
+            onClick={() => handleDownloadPdf(selectedFactura.id)}
+          >
+            Descargar PDF
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <Snackbar
         open={notification.open}

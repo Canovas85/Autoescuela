@@ -549,6 +549,19 @@ describe("DashboardService", () => {
           tipoPermiso: "B",
         },
       ]),
+      getProfessorTodayConfirmedClasses: vi.fn().mockResolvedValue(2),
+      getProfessorRoadmapTrackingClasses: vi.fn().mockResolvedValue([
+        {
+          id: "clase-1",
+          fecha: new Date(Date.now() - 3600 * 1000),
+          hojaRuta: null,
+        },
+        {
+          id: "clase-2",
+          fecha: new Date(Date.now() - 7200 * 1000),
+          hojaRuta: { id: "hr-1", estado: "EN_CURSO" },
+        },
+      ]),
     };
 
     const service = new DashboardService(repositoryMock);
@@ -565,9 +578,18 @@ describe("DashboardService", () => {
       "B",
       "A2",
     ]);
+    expect(
+      repositoryMock.getProfessorTodayConfirmedClasses,
+    ).toHaveBeenCalledOnce();
+    expect(
+      repositoryMock.getProfessorRoadmapTrackingClasses,
+    ).toHaveBeenCalledOnce();
     expect(result.resumen.alumnosAsignados).toBe(1);
     expect(result.resumen.alumnosMatriculaPagada).toBe(1);
     expect(result.resumen.vehiculosDisponibles).toBe(1);
+    expect(result.resumen.clasesConfirmadasHoy).toBe(2);
+    expect(result.resumen.hojasRutaPendientes).toBe(1);
+    expect(result.resumen.hojasRutaEnCurso).toBe(1);
   });
 
   it("debe devolver el detalle de un alumno asignado a profesor", async () => {

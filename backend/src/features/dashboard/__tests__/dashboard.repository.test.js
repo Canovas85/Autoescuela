@@ -606,7 +606,9 @@ describe("DashboardRepository", () => {
       where: {
         profesorId: "profesor-1",
         estado: {
-          in: ["PROGRAMADA", "CONFIRMADA"],
+          not: {
+            startsWith: "CANCELADA",
+          },
         },
         fecha: {
           gte: startDate,
@@ -629,6 +631,12 @@ describe("DashboardRepository", () => {
             marca: true,
             modelo: true,
             tipoPermiso: true,
+          },
+        },
+        hojaRuta: {
+          select: {
+            id: true,
+            estado: true,
           },
         },
       },

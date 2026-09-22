@@ -409,6 +409,7 @@ export default function Alumnos() {
       setPromocionesElegibles([]);
       setProfesoresElegibles([]);
       setPuedeAsignarProfesor(false);
+      setResumenPromocionOculto(false);
 
       setFieldTouched({
         dni: false,
@@ -679,6 +680,7 @@ export default function Alumnos() {
   const [extendedSummary, setExtendedSummary] = useState(null);
   const [showExtendedSummary, setShowExtendedSummary] = useState(false);
   const [promocionMatricula, setPromocionMatricula] = useState(null);
+  const [resumenPromocionOculto, setResumenPromocionOculto] = useState(false);
 
   const [newAlumno, setNewAlumno] = useState({
     nombre: "",
@@ -740,6 +742,7 @@ export default function Alumnos() {
     setPromocionesElegibles([]);
     setProfesoresElegibles([]);
     setPuedeAsignarProfesor(matriculaPagada);
+    setResumenPromocionOculto(false);
 
     setFieldTouched({
       dni: false,
@@ -830,6 +833,11 @@ export default function Alumnos() {
 
     setLoadingPromociones(true);
 
+    if (editingId && !puedeAsignarProfesor) {
+      setResumenPromocionOculto(true);
+      setPromocionMatricula(null);
+    }
+
     try {
       const promociones = await alumnosService.getEligiblePromotions({
         tipoLicenciaObjetivo: licencia,
@@ -895,6 +903,7 @@ export default function Alumnos() {
           onClick={() => {
             setEditingId(null);
             setPromocionMatricula(null);
+            setResumenPromocionOculto(false);
 
             setNewAlumno({
               nombre: "",
@@ -1427,7 +1436,13 @@ export default function Alumnos() {
                     </Box>
                   )}
 
-                  {promocionMatricula ? (
+                  {resumenPromocionOculto ? (
+                    <Alert severity="info">
+                      La promoción anterior ha sido ocultada temporalmente.
+                      Selecciona una nueva promoción (o deja sin promoción) y
+                      pulsa Actualizar para guardar los cambios.
+                    </Alert>
+                  ) : promocionMatricula ? (
                     <>
                       <TextField
                         fullWidth

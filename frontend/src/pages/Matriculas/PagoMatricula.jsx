@@ -16,6 +16,7 @@ import {
 
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 import { matriculasService } from "../../services/matriculasService";
 import { pagosService } from "../../services/pagosService";
@@ -108,6 +109,51 @@ export default function PagoMatricula() {
 
     loadData();
   }, [esPagoPendiente, pagoId]);
+
+  useEffect(() => {
+    if (titular.trim()) {
+      return;
+    }
+
+    const nombreDesdePago = pagoPendiente?.alumno?.usuario?.nombre;
+    const nombreDesdeMatricula = matricula?.alumno?.usuario?.nombre;
+
+    let nombreDesdeToken = "";
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        nombreDesdeToken = decoded?.nombre || "";
+      } catch {
+        nombreDesdeToken = "";
+      }
+    }
+
+    const nombreSugerido =
+      nombreDesdePago || nombreDesdeMatricula || nombreDesdeToken;
+
+    if (nombreSugerido) {
+      setTitular(nombreSugerido);
+    }
+  }, [matricula, pagoPendiente, titular]);
+
+  const formatNumeroTarjeta = (value) =>
+    value
+      .replace(/\D/g, "")
+      .slice(0, 16)
+      .replace(/(.{4})/g, "$1 ")
+      .trim();
+
+  const formatCaducidad = (value) => {
+    const numeric = value.replace(/\D/g, "").slice(0, 4);
+
+    if (numeric.length <= 2) {
+      return numeric;
+    }
+
+    return `${numeric.slice(0, 2)}/${numeric.slice(2)}`;
+  };
 
   const handlePagar = async () => {
     if (!validarFormulario()) {
@@ -285,12 +331,12 @@ export default function PagoMatricula() {
           <TextField
             fullWidth
             label="Número de tarjeta"
-            value={numeroTarjeta}
+            value={formatNumeroTarjeta(numeroTarjeta)}
             inputProps={{
-              maxLength: 16,
+              maxLength: 19,
             }}
             onChange={(e) =>
-              setNumeroTarjeta(e.target.value.replace(/\D/g, ""))
+              setNumeroTarjeta(e.target.value.replace(/\D/g, "").slice(0, 16))
             }
             error={Boolean(errores.numeroTarjeta)}
             helperText={errores.numeroTarjeta}
@@ -308,7 +354,11 @@ export default function PagoMatricula() {
             <TextField
               label="Caducidad"
               value={caducidad}
-              onChange={(e) => setCaducidad(e.target.value)}
+              onChange={(e) => setCaducidad(formatCaducidad(e.target.value))}
+              inputProps={{
+                maxLength: 5,
+              }}
+              placeholder="MM/AA"
               error={Boolean(errores.caducidad)}
               helperText={errores.caducidad}
             />
@@ -319,7 +369,9 @@ export default function PagoMatricula() {
               inputProps={{
                 maxLength: 3,
               }}
-              onChange={(e) => setCvv(e.target.value.replace(/\D/g, ""))}
+              onChange={(e) =>
+                setCvv(e.target.value.replace(/\D/g, "").slice(0, 3))
+              }
               error={Boolean(errores.cvv)}
               helperText={errores.cvv}
             />

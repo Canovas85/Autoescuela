@@ -28,6 +28,11 @@ export const bonosService = {
     return response.data;
   },
 
+  async getMine() {
+    const response = await api.get("/dashboard/student");
+    return response.data?.bonos || [];
+  },
+
   async create(data) {
     const response = await api.post("/bonos", data);
     return response.data;

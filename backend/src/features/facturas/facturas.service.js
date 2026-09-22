@@ -24,8 +24,29 @@ export class FacturasService {
     return this.toPreviewModel(factura);
   }
 
+  async getPreviewMine(facturaId, alumnoId) {
+    const factura = await this.repository.findByIdAndAlumnoId(
+      facturaId,
+      alumnoId,
+    );
+
+    if (!factura) {
+      throw new Error("Factura no encontrada");
+    }
+
+    return this.toPreviewModel(factura);
+  }
+
   async getPdf(facturaId) {
     const preview = await this.getPreview(facturaId);
+    const buffer = await buildFacturaPdfBuffer(preview);
+    const fileName = `Factura_${preview.numero}.pdf`;
+
+    return { buffer, fileName };
+  }
+
+  async getPdfMine(facturaId, alumnoId) {
+    const preview = await this.getPreviewMine(facturaId, alumnoId);
     const buffer = await buildFacturaPdfBuffer(preview);
     const fileName = `Factura_${preview.numero}.pdf`;
 

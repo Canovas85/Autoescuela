@@ -133,7 +133,7 @@ export default function Promociones() {
   const precioOriginalDesdeTarifa = Boolean(tarifaLicenciaSeleccionada);
 
   useEffect(() => {
-    if (!open || !tarifaLicenciaSeleccionada) {
+    if (!open || editingId || !tarifaLicenciaSeleccionada) {
       return;
     }
 
@@ -149,7 +149,7 @@ export default function Promociones() {
         precioOriginal: precioTarifa,
       };
     });
-  }, [open, tarifaLicenciaSeleccionada]);
+  }, [open, editingId, tarifaLicenciaSeleccionada]);
 
   const filteredRows = useMemo(() => rows, [rows]);
 

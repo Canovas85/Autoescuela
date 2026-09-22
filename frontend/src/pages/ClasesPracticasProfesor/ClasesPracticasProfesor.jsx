@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Alert,
   Box,
@@ -6,10 +6,14 @@ import {
   Card,
   CardContent,
   Chip,
-  Grid,
+  IconButton,
   Stack,
   Typography,
 } from "@mui/material";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import RouteIcon from "@mui/icons-material/Route";
+import { useNavigate } from "react-router-dom";
 
 import { clasesPracticasPortalService } from "../../services/clasesPracticasPortalService";
 
@@ -30,6 +34,10 @@ const colorByState = (state) => {
 };
 
 export default function ClasesPracticasProfesor() {
+  const navigate = useNavigate();
+  const pendingRef = useRef(null);
+  const confirmedRef = useRef(null);
+
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -94,6 +102,17 @@ export default function ClasesPracticasProfesor() {
     }
   };
 
+  const scrollRow = (ref, direction) => {
+    if (!ref.current) {
+      return;
+    }
+
+    ref.current.scrollBy({
+      left: direction === "left" ? -360 : 360,
+      behavior: "smooth",
+    });
+  };
+
   if (loading) {
     return <Typography>Cargando clases prácticas...</Typography>;
   }
@@ -112,117 +131,171 @@ export default function ClasesPracticasProfesor() {
       {error ? <Alert severity="error">{error}</Alert> : null}
       {success ? <Alert severity="success">{success}</Alert> : null}
 
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6" fontWeight={800}>
-                Solicitudes pendientes
-              </Typography>
-              <Stack spacing={1} sx={{ mt: 1.5 }}>
-                {pendientes.length === 0 ? (
-                  <Typography color="text.secondary">
-                    No hay solicitudes pendientes.
-                  </Typography>
-                ) : (
-                  pendientes.map((item) => (
-                    <Card key={item.id} variant="outlined">
-                      <CardContent>
-                        <Typography fontWeight={700}>
-                          {formatDate(item.fecha)}
-                        </Typography>
-                        <Typography variant="body2">
-                          Alumno: {item.alumno?.nombre}
-                        </Typography>
-                        <Typography variant="body2">
-                          Vehículo: {item.vehiculo?.marca}{" "}
-                          {item.vehiculo?.modelo}
-                        </Typography>
-                        <Typography variant="body2">
-                          Pago: {item.metodoPago}
-                        </Typography>
-                        <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
-                          <Button
-                            size="small"
-                            variant="contained"
-                            color="success"
-                            onClick={() => confirm(item.id)}
-                          >
-                            Confirmar
-                          </Button>
-                          <Button
-                            size="small"
-                            variant="outlined"
-                            color="error"
-                            onClick={() => cancel(item.id)}
-                          >
-                            Cancelar
-                          </Button>
-                        </Stack>
-                      </CardContent>
-                    </Card>
-                  ))
-                )}
-              </Stack>
-            </CardContent>
-          </Card>
-        </Grid>
+      <Card>
+        <CardContent>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Typography variant="h6" fontWeight={800}>
+              Solicitudes pendientes
+            </Typography>
+            <Box>
+              <IconButton
+                size="small"
+                onClick={() => scrollRow(pendingRef, "left")}
+              >
+                <ArrowBackIosNewIcon fontSize="small" />
+              </IconButton>
+              <IconButton
+                size="small"
+                onClick={() => scrollRow(pendingRef, "right")}
+              >
+                <ArrowForwardIosIcon fontSize="small" />
+              </IconButton>
+            </Box>
+          </Stack>
 
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6" fontWeight={800}>
-                Próximas confirmadas
-              </Typography>
-              <Stack spacing={1} sx={{ mt: 1.5 }}>
-                {confirmadas.length === 0 ? (
-                  <Typography color="text.secondary">
-                    No hay clases confirmadas.
-                  </Typography>
-                ) : (
-                  confirmadas.map((item) => (
-                    <Card key={item.id} variant="outlined">
-                      <CardContent>
-                        <Stack
-                          direction="row"
-                          justifyContent="space-between"
-                          alignItems="center"
-                        >
-                          <Typography fontWeight={700}>
-                            {formatDate(item.fecha)}
-                          </Typography>
-                          <Chip
-                            label={item.estado}
-                            color={colorByState(item.estado)}
-                            size="small"
-                          />
-                        </Stack>
-                        <Typography variant="body2">
-                          Alumno: {item.alumno?.nombre}
-                        </Typography>
-                        <Typography variant="body2">
-                          Vehículo: {item.vehiculo?.matricula}
-                        </Typography>
-                        <Typography variant="body2">
-                          Pago: {item.metodoPago}
-                        </Typography>
-                        <Button
-                          size="small"
-                          color="error"
-                          sx={{ mt: 1 }}
-                          onClick={() => cancel(item.id)}
-                        >
-                          Cancelar clase
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ))
-                )}
-              </Stack>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+          {pendientes.length === 0 ? (
+            <Typography color="text.secondary" sx={{ mt: 1.5 }}>
+              No hay solicitudes pendientes.
+            </Typography>
+          ) : (
+            <Box
+              ref={pendingRef}
+              sx={{
+                display: "flex",
+                gap: 2,
+                overflowX: "auto",
+                mt: 1.5,
+                pb: 1,
+              }}
+            >
+              {pendientes.map((item) => (
+                <Card key={item.id} variant="outlined">
+                  <CardContent sx={{ minWidth: 300 }}>
+                    <Typography fontWeight={700} sx={{ mb: 1 }}>
+                      {formatDate(item.fecha)}
+                    </Typography>
+                    <Typography variant="body2">
+                      Alumno: {item.alumno?.nombre}
+                    </Typography>
+                    <Typography variant="body2">
+                      Vehículo: {item.vehiculo?.marca} {item.vehiculo?.modelo}
+                    </Typography>
+                    <Typography variant="body2">
+                      Pago: {item.metodoPago}
+                    </Typography>
+                    <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
+                      <Button
+                        size="small"
+                        variant="contained"
+                        color="success"
+                        onClick={() => confirm(item.id)}
+                      >
+                        Confirmar
+                      </Button>
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        color="error"
+                        onClick={() => cancel(item.id)}
+                      >
+                        Cancelar
+                      </Button>
+                    </Stack>
+                  </CardContent>
+                </Card>
+              ))}
+            </Box>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Typography variant="h6" fontWeight={800}>
+              Próximas confirmadas
+            </Typography>
+            <Box>
+              <IconButton
+                size="small"
+                onClick={() => scrollRow(confirmedRef, "left")}
+              >
+                <ArrowBackIosNewIcon fontSize="small" />
+              </IconButton>
+              <IconButton
+                size="small"
+                onClick={() => scrollRow(confirmedRef, "right")}
+              >
+                <ArrowForwardIosIcon fontSize="small" />
+              </IconButton>
+            </Box>
+          </Stack>
+
+          {confirmadas.length === 0 ? (
+            <Typography color="text.secondary" sx={{ mt: 1.5 }}>
+              No hay clases confirmadas.
+            </Typography>
+          ) : (
+            <Box
+              ref={confirmedRef}
+              sx={{
+                display: "flex",
+                gap: 2,
+                overflowX: "auto",
+                mt: 1.5,
+                pb: 1,
+              }}
+            >
+              {confirmadas.map((item) => (
+                <Card key={item.id} variant="outlined">
+                  <CardContent sx={{ minWidth: 300 }}>
+                    <Stack
+                      direction="row"
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                      <Typography fontWeight={700} sx={{ mb: 1 }}>
+                        {formatDate(item.fecha)}
+                      </Typography>
+                      <Chip
+                        sx={{ ml: 5 }}
+                        label={item.estado}
+                        color={colorByState(item.estado)}
+                        size="small"
+                      />
+                    </Stack>
+                    <Typography variant="body2">
+                      Alumno: {item.alumno?.nombre}
+                    </Typography>
+                    <Typography variant="body2">
+                      Vehículo: {item.vehiculo?.matricula}
+                    </Typography>
+                    <Typography variant="body2">
+                      Pago: {item.metodoPago}
+                    </Typography>
+                    <Button
+                      size="small"
+                      color="error"
+                      sx={{ mt: 1 }}
+                      onClick={() => cancel(item.id)}
+                    >
+                      Cancelar clase
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </Box>
+          )}
+        </CardContent>
+      </Card>
 
       <Card>
         <CardContent>
@@ -240,12 +313,38 @@ export default function ClasesPracticasProfesor() {
                   <CardContent sx={{ py: 1.5 }}>
                     <Stack
                       direction="row"
-                      justifyContent="space-between"
+                      justifyContent="flex-start" // Alinea todos los elementos de izquierda a derecha
                       alignItems="center"
                     >
-                      <Typography>
-                        {formatDate(item.fecha)} · {item.alumno?.nombre}
+                      {/* 1. BOTÓN DE RUTA */}
+                      <IconButton
+                        size="small"
+                        color="primary"
+                        onClick={() =>
+                          navigate(
+                            `/hojas-ruta?claseId=${encodeURIComponent(item.id)}`,
+                          )
+                        }
+                        sx={{ mr: "24px" }} // 5 espacios de separación aproximados (24px)
+                      >
+                        <RouteIcon fontSize="small" />
+                      </IconButton>
+
+                      {/* 2. FECHA */}
+                      <Typography sx={{ mr: "20px" }}>
+                        {" "}
+                        {/* 4 espacios de separación aproximados (20px) */}
+                        {formatDate(item.fecha)}
                       </Typography>
+
+                      {/* 3. NOMBRE DEL ALUMNO */}
+                      <Typography sx={{ mr: "24px" }}>
+                        {" "}
+                        {/* 5 espacios de separación aproximados (24px) */}·{" "}
+                        {item.alumno?.nombre}
+                      </Typography>
+
+                      {/* 4. ESTADO (CHIP) */}
                       <Chip
                         label={item.estado}
                         color={colorByState(item.estado)}

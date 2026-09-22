@@ -104,7 +104,7 @@ function AdminDashboardView({ metrics }) {
       wide: true,
     },
     {
-      title: "Alumnos Teórico APTO",
+      title: "Teórico APTO",
       value: (
         <Typography variant="body2" fontWeight={700} sx={{ fontSize: 12 }}>
           Mes: {metrics.aprobadosTeoricoMes ?? 0} | Histórico:{" "}
@@ -116,7 +116,7 @@ function AdminDashboardView({ metrics }) {
       wide: true,
     },
     {
-      title: "Alumnos Práctico APTO",
+      title: "Práctico APTO",
       value: (
         <Typography variant="body2" fontWeight={700} sx={{ fontSize: 12 }}>
           Mes: {metrics.aprobadosPracticoMes ?? 0} | Histórico:{" "}
@@ -206,7 +206,7 @@ function AdminDashboardView({ metrics }) {
               >
                 <Box>
                   <Typography color="text.secondary">
-                    Clases pendientes de confirmar
+                    Clases sin confirmar
                   </Typography>
                   <Typography variant="h6" fontWeight="bold" sx={{ mt: 0.5 }}>
                     {metrics.pendingClassConfirmations ?? 0}
@@ -235,7 +235,7 @@ function AdminDashboardView({ metrics }) {
               >
                 <Box>
                   <Typography color="text.secondary">
-                    Horas pendientes de confirmar
+                    Horas sin confirmar
                   </Typography>
                   <Typography variant="h6" fontWeight="bold" sx={{ mt: 0.5 }}>
                     {Number(metrics.pendingClassHours || 0).toFixed(1)} h
@@ -264,10 +264,13 @@ function AdminDashboardView({ metrics }) {
               >
                 <Box>
                   <Typography color="text.secondary">
-                    Exámenes Programados
+                    Numero de Alumnos
                   </Typography>
                   <Typography variant="h4" fontWeight="bold">
                     {metrics.pendingExams ?? 0}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    con Exámenes Programados
                   </Typography>
                 </Box>
               </Box>

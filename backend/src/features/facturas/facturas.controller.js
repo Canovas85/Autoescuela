@@ -16,12 +16,18 @@ export class FacturasController {
   }
 
   async getPreview(req, res) {
-    const preview = await this.service.getPreview(req.params.id);
+    const preview =
+      req.user?.rol === "ALUMNO"
+        ? await this.service.getPreviewMine(req.params.id, req.user.id)
+        : await this.service.getPreview(req.params.id);
     return res.status(200).json(preview);
   }
 
   async getPdf(req, res) {
-    const { buffer, fileName } = await this.service.getPdf(req.params.id);
+    const { buffer, fileName } =
+      req.user?.rol === "ALUMNO"
+        ? await this.service.getPdfMine(req.params.id, req.user.id)
+        : await this.service.getPdf(req.params.id);
 
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Disposition", `attachment; filename="${fileName}"`);

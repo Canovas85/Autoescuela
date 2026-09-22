@@ -310,7 +310,9 @@ export class DashboardRepository {
       where: {
         profesorId: userId,
         estado: {
-          in: ["PROGRAMADA", "CONFIRMADA"],
+          not: {
+            startsWith: "CANCELADA",
+          },
         },
         fecha: {
           gte: startDate,
@@ -335,9 +337,54 @@ export class DashboardRepository {
             tipoPermiso: true,
           },
         },
+        hojaRuta: {
+          select: {
+            id: true,
+            estado: true,
+          },
+        },
       },
       orderBy: {
         fecha: "asc",
+      },
+    });
+  }
+
+  async getProfessorTodayConfirmedClasses(userId, startDate, endDate) {
+    return this.prisma.clasePractica.count({
+      where: {
+        profesorId: userId,
+        estado: "CONFIRMADA",
+        fecha: {
+          gte: startDate,
+          lte: endDate,
+        },
+      },
+    });
+  }
+
+  async getProfessorRoadmapTrackingClasses(userId, untilDate) {
+    return this.prisma.clasePractica.findMany({
+      where: {
+        profesorId: userId,
+        estado: {
+          not: {
+            startsWith: "CANCELADA",
+          },
+        },
+        fecha: {
+          lte: untilDate,
+        },
+      },
+      select: {
+        id: true,
+        fecha: true,
+        hojaRuta: {
+          select: {
+            id: true,
+            estado: true,
+          },
+        },
       },
     });
   }
@@ -401,6 +448,38 @@ export class DashboardRepository {
           },
           take: 1,
         },
+        solicitudesExamen: {
+          select: {
+            id: true,
+            tipo: true,
+            estado: true,
+            fechaSolicitud: true,
+            fechaProgramada: true,
+            erroresExamen: true,
+            aciertosExamen: true,
+            faltasLeves: true,
+            faltasDeficientes: true,
+            faltasEliminatorias: true,
+            motivoNoApto: true,
+          },
+          orderBy: {
+            fechaSolicitud: "desc",
+          },
+        },
+        clases: {
+          select: {
+            id: true,
+            fecha: true,
+            estado: true,
+            duracion: true,
+            hojaRuta: {
+              select: {
+                id: true,
+                estado: true,
+              },
+            },
+          },
+        },
       },
       orderBy: {
         usuario: {
@@ -443,6 +522,27 @@ export class DashboardRepository {
             fecha: "desc",
           },
         },
+        examenesDGT: {
+          select: {
+            id: true,
+            aprobado: true,
+            fecha: true,
+          },
+          orderBy: {
+            fecha: "desc",
+          },
+        },
+        solicitudesExamen: {
+          select: {
+            tipo: true,
+            estado: true,
+            fechaSolicitud: true,
+            fechaProgramada: true,
+          },
+          orderBy: {
+            fechaSolicitud: "desc",
+          },
+        },
         clases: {
           include: {
             vehiculo: {
@@ -459,6 +559,12 @@ export class DashboardRepository {
                     nombre: true,
                   },
                 },
+              },
+            },
+            hojaRuta: {
+              select: {
+                id: true,
+                estado: true,
               },
             },
           },

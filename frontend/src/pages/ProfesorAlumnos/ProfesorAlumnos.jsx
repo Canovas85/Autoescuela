@@ -2,19 +2,23 @@ import { useEffect, useMemo, useState } from "react";
 import {
   Alert,
   Box,
+  Button,
   Chip,
   CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  Button,
+  Grid,
   Paper,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
+
 import { profesorPortalService } from "../../services/profesorPortalService";
 import { LicenseChip } from "../../components/common/LicenseChip";
 
@@ -35,6 +39,45 @@ const formatDateTime = (value) => {
     hour: "2-digit",
     minute: "2-digit",
   });
+};
+
+const getProgressChipSx = (ok) => ({
+  backgroundColor: ok ? "#dcfce7" : "#fef3c7",
+  color: ok ? "#166534" : "#92400e",
+  border: `1px solid ${ok ? "#86efac" : "#fcd34d"}`,
+  fontWeight: 700,
+});
+
+const formatExamDate = (value) => {
+  if (!value) {
+    return "-";
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "-";
+  }
+
+  return date.toLocaleDateString("es-ES");
+};
+
+const examStateMeta = (estado) => {
+  const normalized = String(estado || "").toUpperCase();
+
+  if (["APTO", "APROBADO"].includes(normalized)) {
+    return {
+      label: "APTO",
+      color: "success",
+      icon: <CheckCircleIcon fontSize="small" />,
+    };
+  }
+
+  return {
+    label: "NO APTO",
+    color: "error",
+    icon: <CancelIcon fontSize="small" />,
+  };
 };
 
 export default function ProfesorAlumnos() {
@@ -101,21 +144,28 @@ export default function ProfesorAlumnos() {
       renderCell: (params) => <LicenseChip value={params.value} />,
     },
     {
-      field: "matriculaEstado",
-      headerName: "Matrícula",
-      width: 130,
+      field: "estadoAlumno",
+      headerName: "Estado",
+      width: 240,
       renderCell: (params) => (
         <Chip
-          label={params.value || "PENDIENTE"}
-          color={params.value === "PAGADA" ? "success" : "warning"}
+          label={params.value?.label || "Estudiando teórico"}
+          sx={getProgressChipSx(Boolean(params.value?.ok))}
           size="small"
         />
       ),
     },
     {
-      field: "horasPracticasCompletadas",
-      headerName: "Horas prácticas",
-      width: 140,
+      field: "clasesRealizadas",
+      headerName: "Clases realizadas",
+      width: 150,
+      valueGetter: (_, row) => row.clasesRealizadas ?? 0,
+    },
+    {
+      field: "horasPracticasTexto",
+      headerName: "Horas práctica",
+      width: 150,
+      valueGetter: (_, row) => row.horasPracticasTexto || "0h 00min",
     },
   ];
 
@@ -145,8 +195,7 @@ export default function ProfesorAlumnos() {
       </Typography>
 
       <Typography color="text.secondary" sx={{ mb: 2 }}>
-        Selecciona un alumno para ver su evolución, áreas de refuerzo y estado
-        de preparación para examen.
+        Selecciona un alumno para ver su evolución teórica y práctica.
       </Typography>
 
       {error && (
@@ -190,81 +239,216 @@ export default function ProfesorAlumnos() {
         open={openDetail}
         onClose={() => setOpenDetail(false)}
         fullWidth
-        maxWidth="md"
+        maxWidth="lg"
       >
         <DialogTitle>Detalle del alumno</DialogTitle>
 
         <DialogContent>
           {loadingDetail ? (
-            <Box sx={{ display: "flex", justifyContent: "center", py: 5 }}>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                py: 5,
+              }}
+            >
               <CircularProgress />
             </Box>
           ) : (
             <Stack spacing={2}>
-              <Box>
-                <Typography
-                  fontWeight={700}
-                  color="text.secondary"
-                  gutterBottom
+              <Paper variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    justifyContent: "space-between",
+                    mb: 1,
+                  }}
                 >
-                  Datos personales
-                </Typography>
-                <Typography variant="subtitle2">
-                  Nombre: {detail?.perfil?.nombre}
-                </Typography>
-                <Typography variant="body2">
-                  Email: {detail?.perfil?.email}
-                </Typography>
-                <Typography variant="body2">
-                  Teléfono: {detail?.perfil?.telefono || "-"}
-                </Typography>
-                <Typography variant="body2">
-                  DNI: {detail?.perfil?.dni || "-"}
-                </Typography>
-              </Box>
+                  <Typography fontWeight={800}>Datos personales</Typography>
+                  <LicenseChip value={detail?.perfil?.tipoLicenciaObjetivo} />
+                </Box>
 
-              <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-                <Chip
-                  label={`Matrícula ${detail?.perfil?.matriculaEstado || "PENDIENTE"}`}
-                  color={
-                    detail?.perfil?.matriculaEstado === "PAGADA"
-                      ? "success"
-                      : "warning"
-                  }
-                  size="small"
-                />
-                <Chip
-                  label={`Licencia ${detail?.perfil?.tipoLicenciaObjetivo || "-"}`}
-                  color="primary"
-                  size="small"
-                />
-              </Box>
+                <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                  <Chip
+                    color="primary"
+                    label={`Nombre: ${detail?.perfil?.nombre || "-"}`}
+                  />
+                  <Chip
+                    color="info"
+                    label={`Email: ${detail?.perfil?.email || "-"}`}
+                  />
+                  <Chip
+                    color="warning"
+                    label={`Teléfono: ${detail?.perfil?.telefono || "-"}`}
+                  />
+                  <Chip
+                    color="secondary"
+                    label={`DNI: ${detail?.perfil?.dni || "-"}`}
+                  />
+                </Stack>
 
-              <Box>
-                <Typography
-                  fontWeight={700}
-                  color="text.secondary"
-                  gutterBottom
-                >
-                  Tests de práctica
-                </Typography>
-                <Typography variant="body2">
-                  Total: {detail?.tests?.total ?? 0} | Aprobados:{" "}
-                  {detail?.tests?.aprobados ?? 0} | Suspendidos:{" "}
-                  {detail?.tests?.suspendidos ?? 0} | Éxito:{" "}
-                  {Number(detail?.tests?.porcentajeAprobado || 0).toFixed(1)}%
-                </Typography>
-              </Box>
+                <Stack direction="row" spacing={1} sx={{ mt: 1.25 }}>
+                  <Chip
+                    size="small"
+                    label={detail?.estadoAlumno?.label || "Estudiando teórico"}
+                    sx={getProgressChipSx(Boolean(detail?.estadoAlumno?.ok))}
+                  />
+                </Stack>
+              </Paper>
 
-              <Box>
-                <Typography
-                  fontWeight={700}
-                  color="text.secondary"
-                  gutterBottom
-                >
-                  Áreas de refuerzo
-                </Typography>
-                {detail?.areasRefuerzo?.length ? (
+              <Grid container spacing={2}>
+                {/* PRIMERA COLUMNA: Test práctica (Ocupa 6 de 12 columnas) */}
+                <Grid item xs={6}>
+                  <Paper
+                    variant="outlined"
+                    sx={{
+                      p: 3,
+                      borderRadius: 2,
+                      width: "550px",
+                      height: "300px",
+                    }} // width: "100%" asegura que llene la columna
+                  >
+                    <Typography fontWeight={800} sx={{ mb: 1 }}>
+                      Test práctica
+                    </Typography>
+
+                    <Stack spacing={1.5}>
+                      <Box
+                        sx={{
+                          p: 1.25,
+                          borderRadius: 2,
+                          backgroundColor: "#f8fafc",
+                        }}
+                      >
+                        <Typography variant="subtitle2" fontWeight={700}>
+                          Tests internos
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Total: {detail?.tests?.total ?? 0} | Aprobados:{" "}
+                          {detail?.tests?.aprobados ?? 0} | Suspendidos:{" "}
+                          {detail?.tests?.suspendidos ?? 0}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Éxito:{" "}
+                          {Number(
+                            detail?.tests?.porcentajeAprobado || 0,
+                          ).toFixed(1)}
+                          %
+                        </Typography>
+                      </Box>
+
+                      <Box
+                        sx={{
+                          p: 1.25,
+                          borderRadius: 2,
+                          backgroundColor: "#f0f9ff",
+                        }}
+                      >
+                        <Typography variant="subtitle2" fontWeight={700}>
+                          Exámenes DGT
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Total: {detail?.dgt?.total ?? 0} | Aprobados:{" "}
+                          {detail?.dgt?.aprobados ?? 0} | Suspendidos:{" "}
+                          {detail?.dgt?.suspendidos ?? 0}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Éxito:{" "}
+                          {Number(detail?.dgt?.porcentajeAprobado || 0).toFixed(
+                            1,
+                          )}
+                          %
+                        </Typography>
+                      </Box>
+                    </Stack>
+                  </Paper>
+                </Grid>
+
+                {/* SEGUNDA COLUMNA: Exámenes teóricos (Ocupa 6 de 12 columnas) */}
+                <Grid item xs={6}>
+                  <Paper
+                    variant="outlined"
+                    sx={{
+                      p: 2,
+                      borderRadius: 2,
+                      width: "550px",
+                      height: "300px",
+                    }} // width: "100%" asegura que llene la columna
+                  >
+                    <Typography fontWeight={800} sx={{ mb: 1 }}>
+                      Exámenes teóricos
+                    </Typography>
+
+                    {detail?.examenes?.teoricos?.length ? (
+                      <Stack spacing={1}>
+                        {detail.examenes.teoricos.map((examen) => {
+                          const state = examStateMeta(examen.estado);
+
+                          return (
+                            <Box
+                              key={examen.id}
+                              sx={{
+                                p: 1.25,
+                                borderRadius: 2,
+                                border: "1px solid #e2e8f0",
+                                backgroundColor: "#ffffff",
+                              }}
+                            >
+                              <Stack
+                                direction="row"
+                                justifyContent="space-between"
+                                alignItems="center"
+                                sx={{ mb: 0.5 }}
+                              >
+                                <Typography
+                                  variant="subtitle2"
+                                  fontWeight={700}
+                                  sx={{ mr: 2 }}
+                                >
+                                  Fecha:{" "}
+                                  {formatExamDate(
+                                    examen.fechaProgramada ||
+                                      examen.fechaSolicitud,
+                                  )}
+                                </Typography>
+                                <Chip
+                                  icon={state.icon}
+                                  size="small"
+                                  color={state.color}
+                                  label={state.label}
+                                />
+                              </Stack>
+                              <Typography
+                                variant="body2"
+                                color="text.secondary"
+                              >
+                                Aciertos: {examen.aciertosExamen ?? "-"} |
+                                Fallos: {examen.fallosExamen ?? "-"}
+                              </Typography>
+                            </Box>
+                          );
+                        })}
+                      </Stack>
+                    ) : (
+                      <Typography variant="body2" color="text.secondary">
+                        El alumno no se ha presentado al examen teórico.
+                      </Typography>
+                    )}
+                  </Paper>
+                </Grid>
+              </Grid>
+
+              {detail?.areasRefuerzo?.length ? (
+                <Paper variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
+                  <Typography
+                    fontWeight={700}
+                    color="text.secondary"
+                    gutterBottom
+                  >
+                    Áreas de refuerzo
+                  </Typography>
                   <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
                     {detail.areasRefuerzo.map((area) => (
                       <Chip
@@ -275,29 +459,107 @@ export default function ProfesorAlumnos() {
                       />
                     ))}
                   </Stack>
-                ) : (
-                  <Typography variant="body2">
-                    Sin áreas críticas actualmente.
-                  </Typography>
-                )}
-              </Box>
+                </Paper>
+              ) : null}
 
-              <Box>
-                <Typography
-                  fontWeight={700}
-                  color="text.secondary"
-                  gutterBottom
-                >
-                  Práctica
-                </Typography>
-                <Typography variant="body2">
-                  Clases realizadas: {detail?.practica?.clasesRealizadas ?? 0} |
-                  Horas completadas:{" "}
-                  {detail?.perfil?.horasPracticasCompletadas ?? 0}
-                </Typography>
-              </Box>
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={6}>
+                  <Paper
+                    variant="outlined"
+                    sx={{ p: 2, borderRadius: 2, width: "550px" }}
+                  >
+                    <Typography
+                      fontWeight={700}
+                      color="text.secondary"
+                      gutterBottom
+                    >
+                      Práctica
+                    </Typography>
+                    <Typography variant="body2">
+                      Clases realizadas:{" "}
+                      {detail?.practica?.clasesRealizadas ?? 0} | Clases
+                      reservadas: {detail?.practica?.clasesReservadas ?? 0} |
+                      Horas completadas:{" "}
+                      {detail?.practica?.horasCompletadasTexto || "0h 00min"}
+                    </Typography>
+                  </Paper>
+                </Grid>
 
-              <Box>
+                <Grid item xs={12} md={6}>
+                  <Paper
+                    variant="outlined"
+                    sx={{ p: 2, borderRadius: 2, width: "550px" }}
+                  >
+                    <Typography
+                      fontWeight={700}
+                      color="text.secondary"
+                      gutterBottom
+                    >
+                      Exámenes prácticos
+                    </Typography>
+
+                    {detail?.examenes?.practicos?.length ? (
+                      <Stack spacing={1}>
+                        {detail.examenes.practicos.map((examen) => {
+                          const state = examStateMeta(examen.estado);
+
+                          return (
+                            <Box
+                              key={examen.id}
+                              sx={{
+                                p: 1.25,
+                                borderRadius: 2,
+                                border: "1px solid #e2e8f0",
+                                backgroundColor: "#ffffff",
+                              }}
+                            >
+                              <Stack
+                                direction="row"
+                                justifyContent="space-between"
+                                alignItems="center"
+                                sx={{ mb: 0.5 }}
+                              >
+                                <Typography
+                                  variant="subtitle2"
+                                  fontWeight={700}
+                                >
+                                  Fecha:{" "}
+                                  {formatExamDate(
+                                    examen.fechaProgramada ||
+                                      examen.fechaSolicitud,
+                                  )}
+                                </Typography>
+                                <Chip
+                                  icon={state.icon}
+                                  size="small"
+                                  color={state.color}
+                                  label={state.label}
+                                />
+                              </Stack>
+
+                              <Typography
+                                variant="body2"
+                                color="text.secondary"
+                              >
+                                Faltas leves: {examen.faltasLeves ?? "-"} |
+                                Deficientes: {examen.faltasDeficientes ?? "-"} |
+                                Eliminatorias:{" "}
+                                {examen.faltasEliminatorias ?? "-"}
+                              </Typography>
+                            </Box>
+                          );
+                        })}
+                      </Stack>
+                    ) : (
+                      <Typography variant="body2" color="text.secondary">
+                        El alumno no se ha presentado al examen práctico.
+                      </Typography>
+                    )}
+                  </Paper>
+                </Grid>
+              </Grid>
+
+              <Paper variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
                 <Typography
                   fontWeight={700}
                   color="text.secondary"
@@ -309,11 +571,11 @@ export default function ProfesorAlumnos() {
                   <Stack spacing={1}>
                     {detail.practica.proximasClases.map((clase) => (
                       <Typography key={clase.id} variant="body2">
-                        Fecha:{formatDateTime(clase.fecha)} | Duración:{" "}
+                        Fecha: {formatDateTime(clase.fecha)} | Duración:{" "}
                         {clase.duracion} min | Vehículo:{" "}
                         {clase.vehiculo?.marca || "Sin vehículo"}{" "}
-                        {clase.vehiculo?.modelo || "Sin vehículo"}{" "}
-                        {clase.vehiculo?.matricula || "Sin matrícula"}
+                        {clase.vehiculo?.modelo || ""}{" "}
+                        {clase.vehiculo?.matricula || ""}
                       </Typography>
                     ))}
                   </Stack>
@@ -322,50 +584,7 @@ export default function ProfesorAlumnos() {
                     No tiene clases programadas.
                   </Typography>
                 )}
-              </Box>
-
-              <Box>
-                <Typography
-                  fontWeight={700}
-                  color="text.secondary"
-                  gutterBottom
-                >
-                  Estado general
-                </Typography>
-                <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                  <Chip
-                    label={detail?.evaluacion?.estadoGeneral || "EN_PROGRESO"}
-                    color="info"
-                    size="small"
-                  />
-                  <Chip
-                    label={
-                      detail?.evaluacion?.preparadoParaTeorico
-                        ? "Listo para teórico"
-                        : "Aún no listo para teórico"
-                    }
-                    color={
-                      detail?.evaluacion?.preparadoParaTeorico
-                        ? "success"
-                        : "default"
-                    }
-                    size="small"
-                  />
-                  <Chip
-                    label={
-                      detail?.evaluacion?.preparadoParaPractico
-                        ? "Listo para práctico"
-                        : "Aún no listo para práctico"
-                    }
-                    color={
-                      detail?.evaluacion?.preparadoParaPractico
-                        ? "success"
-                        : "default"
-                    }
-                    size="small"
-                  />
-                </Stack>
-              </Box>
+              </Paper>
             </Stack>
           )}
         </DialogContent>

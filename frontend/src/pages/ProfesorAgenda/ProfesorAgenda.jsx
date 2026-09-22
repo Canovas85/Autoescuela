@@ -218,6 +218,32 @@ const formatHoursSummary = (minutes) => {
   return `${hours}h ${String(remainder).padStart(2, "0")}min`;
 };
 
+const getAgendaStatusChipConfig = (status) => {
+  const normalized = String(status || "").toUpperCase();
+
+  if (normalized === "REGISTRADA") {
+    return { label: "REGISTRADA", color: "success" };
+  }
+
+  if (normalized === "PENDIENTE_REGISTRO") {
+    return { label: "PENDIENTE REGISTRO", color: "warning" };
+  }
+
+  if (normalized === "EN_CURSO") {
+    return { label: "EN CURSO", color: "info" };
+  }
+
+  if (normalized === "CONFIRMADA") {
+    return { label: "CONFIRMADA", color: "primary" };
+  }
+
+  if (normalized === "PROGRAMADA") {
+    return { label: "PROGRAMADA", color: "default" };
+  }
+
+  return { label: normalized || "SIN ESTADO", color: "default" };
+};
+
 export default function ProfesorAgenda() {
   const [weekOffset, setWeekOffset] = useState(0);
   const [agenda, setAgenda] = useState(null);
@@ -227,6 +253,7 @@ export default function ProfesorAgenda() {
   const [savingClassId, setSavingClassId] = useState("");
   const [openScheduleModal, setOpenScheduleModal] = useState(false);
   const [viewMenuAnchor, setViewMenuAnchor] = useState(null);
+  const [showOnlyToday, setShowOnlyToday] = useState(false);
 
   const [scheduleBlocks, setScheduleBlocks] = useState([]);
   const [newBlock, setNewBlock] = useState({
@@ -515,7 +542,10 @@ export default function ProfesorAgenda() {
           >
             <IconButton
               sx={{ border: "1px solid #dbe5f2", borderRadius: 2 }}
-              onClick={() => setWeekOffset((prev) => prev - 1)}
+              onClick={() => {
+                setWeekOffset((prev) => prev - 1);
+                setShowOnlyToday(false);
+              }}
             >
               <NavigateBeforeIcon />
             </IconButton>
@@ -529,25 +559,35 @@ export default function ProfesorAgenda() {
 
             <IconButton
               sx={{ border: "1px solid #dbe5f2", borderRadius: 2 }}
-              onClick={() => setWeekOffset((prev) => prev + 1)}
+              onClick={() => {
+                setWeekOffset((prev) => prev + 1);
+                setShowOnlyToday(false);
+              }}
             >
               <NavigateNextIcon />
             </IconButton>
           </Box>
 
           <Stack direction="row" spacing={1}>
-            <Button variant="outlined" onClick={() => setWeekOffset(0)}>
+            <Button
+              variant={showOnlyToday ? "contained" : "outlined"}
+              onClick={() => {
+                setWeekOffset(0);
+                setShowOnlyToday(true);
+              }}
+            >
               Hoy
             </Button>
 
             <Button
-              variant="contained"
+              variant={showOnlyToday ? "outlined" : "contained"}
+              onClick={() => setShowOnlyToday(false)}
               sx={{
-                backgroundColor: "#2f80ed",
+                backgroundColor: showOnlyToday ? "transparent" : "#2f80ed",
                 textTransform: "none",
                 boxShadow: "none",
                 "&:hover": {
-                  backgroundColor: "#1d6fe0",
+                  backgroundColor: showOnlyToday ? "transparent" : "#1d6fe0",
                   boxShadow: "none",
                 },
               }}
@@ -674,8 +714,24 @@ export default function ProfesorAgenda() {
 
                 {weekDays.map((day) => {
                   const dayClasses = classesByDay.get(day.id) || [];
+                  const now = new Date();
+                  const todayDayId = now.getDay() === 0 ? 7 : now.getDay();
+
+                  const visibleDayClasses = showOnlyToday
+                    ? day.id === todayDayId
+                      ? dayClasses.filter((clase) => {
+                          const classDate = new Date(clase.fecha);
+                          return (
+                            classDate.getFullYear() === now.getFullYear() &&
+                            classDate.getMonth() === now.getMonth() &&
+                            classDate.getDate() === now.getDate()
+                          );
+                        })
+                      : []
+                    : dayClasses;
+
                   const isSundayWithoutClasses =
-                    day.id === 7 && dayClasses.length === 0;
+                    day.id === 7 && visibleDayClasses.length === 0;
 
                   return (
                     <Box
@@ -732,7 +788,7 @@ export default function ProfesorAgenda() {
                         </Stack>
                       )}
 
-                      {dayClasses.map((clase) => {
+                      {visibleDayClasses.map((clase) => {
                         const date = new Date(clase.fecha);
                         const startMinute =
                           date.getHours() * 60 + date.getMinutes();
@@ -839,16 +895,20 @@ export default function ProfesorAgenda() {
                               sx={{ mt: 0.55, flexWrap: "wrap" }}
                               useFlexGap
                             >
-                              <Chip
-                                size="small"
-                                label={clase.estado}
-                                color={
-                                  clase.estado === "CONFIRMADA"
-                                    ? "success"
-                                    : "primary"
-                                }
-                                sx={{ height: 20, fontSize: 10 }}
-                              />
+                              {(() => {
+                                const statusConfig = getAgendaStatusChipConfig(
+                                  clase.estadoAgenda || clase.estado,
+                                );
+
+                                return (
+                                  <Chip
+                                    size="small"
+                                    label={statusConfig.label}
+                                    color={statusConfig.color}
+                                    sx={{ height: 20, fontSize: 10 }}
+                                  />
+                                );
+                              })()}
                             </Stack>
 
                             {isProgramada && (

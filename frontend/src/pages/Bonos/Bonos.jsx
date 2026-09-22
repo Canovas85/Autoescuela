@@ -33,7 +33,6 @@ import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
 import { bonosService } from "../../services/bonosService";
-import { api } from "../../services/api";
 import { LicenseChip } from "../../components/common/LicenseChip";
 
 const LICENCIAS = ["B", "A1", "A2", "A", "C", "D", "E"];
@@ -51,6 +50,43 @@ const emptyForm = {
 function formatPrice(value) {
   return `${Number(value || 0).toFixed(2)} EUR`;
 }
+
+function formatDate(value) {
+  return value ? new Date(value).toLocaleDateString("es-ES") : "-";
+}
+
+const getOwnedBonoStyle = (estado) => {
+  if (estado === "AGOTADO") {
+    return {
+      background: "linear-gradient(145deg, #f3f4f6 0%, #e5e7eb 100%)",
+      borderColor: "#d1d5db",
+    };
+  }
+
+  if (estado === "CADUCADO") {
+    return {
+      background: "linear-gradient(145deg, #fef2f2 0%, #fee2e2 100%)",
+      borderColor: "#fecaca",
+    };
+  }
+
+  return {
+    background: "linear-gradient(145deg, #eff6ff 0%, #dbeafe 100%)",
+    borderColor: "#93c5fd",
+  };
+};
+
+const getOwnedBonoChip = (item) => {
+  const compradas = Number(item.clasesCompradas || 0);
+  const consumidas = Number(item.clasesConsumidas || 0);
+  const disponibles = Math.max(compradas - consumidas, 0);
+
+  if (disponibles <= 0 || item.estado === "AGOTADO") {
+    return { label: "GASTADO", color: "default" };
+  }
+
+  return { label: "COMPRADO", color: "success" };
+};
 
 function StudentBonosView({ rows, loading, onBuy }) {
   if (loading) {
@@ -196,11 +232,8 @@ export default function Bonos() {
       setRows(data);
 
       if (role !== "ADMIN") {
-        const pagos = await api.get("/pagos/mine");
-        const bonosActivos = (pagos.data || []).filter((pago) =>
-          Boolean(pago.compraBono),
-        );
-        setMyBonos(bonosActivos);
+        const bonosAlumno = await bonosService.getMine();
+        setMyBonos(Array.isArray(bonosAlumno) ? bonosAlumno : []);
       }
     } catch (error) {
       console.error(error);
@@ -516,50 +549,6 @@ export default function Bonos() {
             </Button>
           </Box>
         ) : null}
-
-        {role !== "ADMIN" && myBonos.length > 0 ? (
-          <Box
-            sx={{
-              mb: 2,
-              p: 2,
-              border: "1px solid",
-              borderColor: "divider",
-              borderRadius: 2,
-            }}
-          >
-            <Typography variant="h6" fontWeight={800} sx={{ mb: 1 }}>
-              Bono(s) que ya tienes
-            </Typography>
-            <Grid container spacing={1}>
-              {myBonos.map((item) => {
-                const disponibles = Math.max(
-                  Number(item.compraBono?.clasesCompradas || 0) -
-                    Number(item.compraBono?.clasesConsumidas || 0),
-                  0,
-                );
-
-                return (
-                  <Grid item xs={12} md={6} key={`my-bono-${item.id}`}>
-                    <Box
-                      sx={{
-                        p: 1.5,
-                        border: "1px solid #e2e8f0",
-                        borderRadius: 1.5,
-                      }}
-                    >
-                      <Typography fontWeight={700}>
-                        {item.compraBono?.bono?.nombre || "Bono"}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Clases disponibles: {disponibles}
-                      </Typography>
-                    </Box>
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </Box>
-        ) : null}
       </Box>
 
       {role === "ADMIN" ? (
@@ -578,7 +567,82 @@ export default function Bonos() {
           />
         </Box>
       ) : (
-        <StudentBonosView rows={rows} loading={loading} onBuy={handleBuy} />
+        <Box sx={{ display: "grid", gap: 2 }}>
+          <StudentBonosView rows={rows} loading={loading} onBuy={handleBuy} />
+
+          {myBonos.length > 0 ? (
+            <Box
+              sx={{
+                p: 2,
+                border: "1px solid",
+                borderColor: "divider",
+                borderRadius: 2,
+              }}
+            >
+              <Typography variant="h6" fontWeight={800} sx={{ mb: 1 }}>
+                Bono(s) que ya tienes
+              </Typography>
+              <Grid container spacing={1.5}>
+                {myBonos.map((item) => {
+                  const disponibles = Math.max(
+                    Number(item.clasesCompradas || 0) -
+                      Number(item.clasesConsumidas || 0),
+                    0,
+                  );
+                  const bonoStyle = getOwnedBonoStyle(item.estado);
+                  const chip = getOwnedBonoChip(item);
+
+                  return (
+                    <Grid item xs={12} md={6} key={`my-bono-${item.id}`}>
+                      <Card
+                        variant="outlined"
+                        sx={{
+                          borderRadius: 2,
+                          borderColor: bonoStyle.borderColor,
+                          background: bonoStyle.background,
+                        }}
+                      >
+                        <CardContent sx={{ display: "grid", gap: 1 }}>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              gap: 1,
+                            }}
+                          >
+                            <Typography fontWeight={800}>
+                              {item.nombre || "Bono"}
+                            </Typography>
+                            <Chip
+                              size="small"
+                              label={chip.label}
+                              color={chip.color}
+                            />
+                          </Box>
+
+                          <Typography variant="body2" color="text.secondary">
+                            {item.descripcion || "Bono de clases practicas"}
+                          </Typography>
+
+                          <Typography variant="body2" fontWeight={700}>
+                            {item.clasesCompradas} compradas |{" "}
+                            {item.clasesConsumidas} consumidas | {disponibles}{" "}
+                            disponibles
+                          </Typography>
+
+                          <Typography variant="caption" color="text.secondary">
+                            Válido hasta: {formatDate(item.fechaValidezHasta)}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Box>
+          ) : null}
+        </Box>
       )}
 
       <Dialog

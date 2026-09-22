@@ -78,4 +78,35 @@ export class FacturasRepository {
       },
     });
   }
+
+  async findByIdAndAlumnoId(id, alumnoId) {
+    return this.prisma.factura.findFirst({
+      where: {
+        id,
+        alumnoId,
+      },
+      include: {
+        alumno: {
+          include: {
+            usuario: true,
+          },
+        },
+        matricula: {
+          include: {
+            promocion: true,
+          },
+        },
+        compraBono: {
+          include: {
+            bono: true,
+          },
+        },
+        clasePractica: {
+          include: {
+            vehiculo: true,
+          },
+        },
+      },
+    });
+  }
 }

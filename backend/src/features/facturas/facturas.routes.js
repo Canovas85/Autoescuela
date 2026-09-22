@@ -34,14 +34,14 @@ router.get(
 router.get(
   "/:id/preview",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ALUMNO"),
   controller.getPreview.bind(controller),
 );
 
 router.get(
   "/:id/pdf",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ALUMNO"),
   controller.getPdf.bind(controller),
 );
 
