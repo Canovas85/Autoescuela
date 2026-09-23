@@ -11,6 +11,11 @@ export const profesoresService = {
     return response.data;
   },
 
+  getOverview: async (id, params = {}) => {
+    const response = await api.get(`/profesores/${id}/overview`, { params });
+    return response.data;
+  },
+
   create: async (data) => {
     const response = await api.post("/profesores", data);
     return response.data;

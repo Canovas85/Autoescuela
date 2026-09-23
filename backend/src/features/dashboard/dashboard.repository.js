@@ -576,6 +576,135 @@ export class DashboardRepository {
     });
   }
 
+  async findProfessorAssignedStudentActivityById(profesorId, alumnoId) {
+    return this.prisma.alumno.findFirst({
+      where: {
+        id: alumnoId,
+        profesorAsignadoId: profesorId,
+      },
+      select: {
+        id: true,
+        usuario: {
+          select: {
+            nombre: true,
+            fechaCreacion: true,
+          },
+        },
+        matriculas: {
+          select: {
+            id: true,
+            licencia: true,
+            estado: true,
+            fechaCreacion: true,
+            fechaPago: true,
+          },
+          orderBy: {
+            fechaCreacion: "desc",
+          },
+        },
+        pagos: {
+          select: {
+            id: true,
+            tipo: true,
+            concepto: true,
+            permiso: true,
+            estado: true,
+            importe: true,
+            fechaCreacion: true,
+            fechaPago: true,
+            convocatoriasIncluidas: true,
+            convocatoriasConsumidas: true,
+          },
+          orderBy: {
+            fechaCreacion: "desc",
+          },
+        },
+        bonosComprados: {
+          select: {
+            id: true,
+            pagado: true,
+            clasesCompradas: true,
+            clasesConsumidas: true,
+            fechaCompra: true,
+            fechaValidezHasta: true,
+            bono: {
+              select: {
+                nombre: true,
+                licencia: true,
+                clasesIncluidas: true,
+              },
+            },
+          },
+          orderBy: {
+            fechaCompra: "desc",
+          },
+        },
+        clases: {
+          select: {
+            id: true,
+            fecha: true,
+            duracion: true,
+            estado: true,
+            vehiculo: {
+              select: {
+                matricula: true,
+                tipoPermiso: true,
+              },
+            },
+            hojaRuta: {
+              select: {
+                estado: true,
+              },
+            },
+          },
+          orderBy: {
+            fecha: "desc",
+          },
+        },
+        solicitudesExamen: {
+          select: {
+            id: true,
+            tipo: true,
+            estado: true,
+            fechaSolicitud: true,
+            fechaProgramada: true,
+          },
+          orderBy: {
+            fechaSolicitud: "desc",
+          },
+        },
+        testsPractica: {
+          select: {
+            id: true,
+            fecha: true,
+            resultado: true,
+            temario: {
+              select: {
+                titulo: true,
+              },
+            },
+          },
+          orderBy: {
+            fecha: "desc",
+          },
+        },
+        examenesDGT: {
+          select: {
+            id: true,
+            fecha: true,
+            licencia: true,
+            aprobado: true,
+            aciertos: true,
+            fallos: true,
+          },
+          orderBy: {
+            fecha: "desc",
+          },
+        },
+      },
+    });
+  }
+
   async getProfessorAvailableVehicles(permisosLicencias) {
     if (!Array.isArray(permisosLicencias) || permisosLicencias.length === 0) {
       return [];

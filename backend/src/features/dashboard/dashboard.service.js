@@ -633,6 +633,229 @@ export class DashboardService {
     return { label: "Estudiando teórico", ok: false };
   }
 
+  isCompletedPracticalClass(clase) {
+    const estadoClase = String(clase?.estado || "").toUpperCase();
+    const estadoHoja = String(clase?.hojaRuta?.estado || "").toUpperCase();
+
+    return (
+      ["REALIZADA", "COMPLETADA", "FINALIZADA", "REGISTRADA"].includes(
+        estadoClase,
+      ) || estadoHoja === "REGISTRADA"
+    );
+  }
+
+  buildProfessorStudentHistory(actividad = null) {
+    if (!actividad) {
+      return [];
+    }
+
+    const rows = [];
+
+    const pushEvent = ({ id, fecha, accion, categoria, resumen, detalle }) => {
+      const parsedDate = new Date(fecha || 0);
+
+      if (Number.isNaN(parsedDate.getTime())) {
+        return;
+      }
+
+      rows.push({
+        id,
+        fecha: parsedDate.toISOString(),
+        accion,
+        categoria,
+        resumen,
+        detalle: detalle || null,
+      });
+    };
+
+    pushEvent({
+      id: `registro-${actividad.id}`,
+      fecha: actividad.usuario?.fechaCreacion,
+      accion: "Registro en la autoescuela",
+      categoria: "ALTA",
+      resumen: "Alta inicial del alumno en el sistema",
+      detalle: {
+        alumno: actividad.usuario?.nombre || "Alumno",
+      },
+    });
+
+    for (const matricula of actividad.matriculas || []) {
+      pushEvent({
+        id: `matricula-creada-${matricula.id}`,
+        fecha: matricula.fechaCreacion,
+        accion: "Matrícula creada",
+        categoria: "MATRICULA",
+        resumen: `Licencia ${matricula.licencia || "-"}`,
+        detalle: {
+          estado: matricula.estado,
+          licencia: matricula.licencia,
+        },
+      });
+
+      if (
+        matricula.fechaPago ||
+        String(matricula.estado || "").toUpperCase() === "PAGADA"
+      ) {
+        pushEvent({
+          id: `matricula-pagada-${matricula.id}`,
+          fecha: matricula.fechaPago || matricula.fechaCreacion,
+          accion: "Pago de matrícula",
+          categoria: "MATRICULA",
+          resumen: `Matrícula pagada (${matricula.licencia || "-"})`,
+          detalle: {
+            estado: matricula.estado,
+            licencia: matricula.licencia,
+          },
+        });
+      }
+    }
+
+    for (const pago of actividad.pagos || []) {
+      if (String(pago?.estado || "").toUpperCase() !== "PAGADO") {
+        continue;
+      }
+
+      const pagoTipo = String(pago?.tipo || "").toUpperCase();
+      const accion =
+        pagoTipo === "TASA_DGT_21"
+          ? "Pago de tasa DGT"
+          : pagoTipo === "MATRICULA"
+            ? "Pago de matrícula"
+            : "Pago registrado";
+
+      pushEvent({
+        id: `pago-${pago.id}`,
+        fecha: pago.fechaPago || pago.fechaCreacion,
+        accion,
+        categoria: "PAGO",
+        resumen: `${pago.concepto || "Sin concepto"} (${Number(pago.importe || 0).toFixed(2)} EUR)`,
+        detalle: {
+          tipo: pago.tipo,
+          concepto: pago.concepto,
+          permiso: pago.permiso,
+          importe: Number(pago.importe || 0),
+          convocatoriasIncluidas: pago.convocatoriasIncluidas,
+          convocatoriasConsumidas: pago.convocatoriasConsumidas,
+        },
+      });
+    }
+
+    for (const compra of actividad.bonosComprados || []) {
+      const clasesRestantes = Math.max(
+        Number(compra?.clasesCompradas || 0) -
+          Number(compra?.clasesConsumidas || 0),
+        0,
+      );
+
+      pushEvent({
+        id: `bono-${compra.id}`,
+        fecha: compra.fechaCompra,
+        accion: "Compra de bono",
+        categoria: "BONO",
+        resumen: `${compra.bono?.nombre || "Bono"} | Restantes: ${clasesRestantes}`,
+        detalle: {
+          nombreBono: compra.bono?.nombre || "Bono",
+          licencia: compra.bono?.licencia || "-",
+          pagado: Boolean(compra.pagado),
+          clasesCompradas: Number(compra.clasesCompradas || 0),
+          clasesConsumidas: Number(compra.clasesConsumidas || 0),
+          clasesRestantes,
+          fechaValidezHasta: compra.fechaValidezHasta,
+        },
+      });
+    }
+
+    for (const clase of actividad.clases || []) {
+      if (!this.isCompletedPracticalClass(clase)) {
+        continue;
+      }
+
+      pushEvent({
+        id: `clase-${clase.id}`,
+        fecha: clase.fecha,
+        accion: "Clase práctica realizada",
+        categoria: "PRACTICA",
+        resumen: `${Number(clase.duracion || 0)} min | Vehículo ${clase.vehiculo?.matricula || "-"}`,
+        detalle: {
+          duracion: Number(clase.duracion || 0),
+          estado: clase.estado,
+          matriculaVehiculo: clase.vehiculo?.matricula || "-",
+          licenciaVehiculo: clase.vehiculo?.tipoPermiso || "-",
+        },
+      });
+    }
+
+    for (const test of actividad.testsPractica || []) {
+      if (String(test?.resultado || "").toUpperCase() !== "APROBADO") {
+        continue;
+      }
+
+      pushEvent({
+        id: `test-aprobado-${test.id}`,
+        fecha: test.fecha,
+        accion: "Test teórico aprobado",
+        categoria: "TEORIA",
+        resumen: test.temario?.titulo || "Test de teoría",
+        detalle: {
+          resultado: test.resultado,
+          temario: test.temario?.titulo || null,
+        },
+      });
+    }
+
+    for (const solicitud of actividad.solicitudesExamen || []) {
+      const estado = String(solicitud?.estado || "").toUpperCase();
+      const tipo = String(solicitud?.tipo || "").toUpperCase();
+
+      if (
+        !["APTO", "NO_APTO", "SUSPENDIDO", "SUSPENSO", "APROBADO"].includes(
+          estado,
+        )
+      ) {
+        continue;
+      }
+
+      const esAprobado = ["APTO", "APROBADO"].includes(estado);
+      const tipoLabel = tipo === "PRACTICO" ? "práctico" : "teórico";
+
+      pushEvent({
+        id: `solicitud-${solicitud.id}`,
+        fecha: solicitud.fechaProgramada || solicitud.fechaSolicitud,
+        accion: `Examen ${tipoLabel} ${esAprobado ? "aprobado" : "no apto"}`,
+        categoria: "EXAMEN",
+        resumen: `Resultado ${estado}`,
+        detalle: {
+          tipo,
+          estado,
+          fechaSolicitud: solicitud.fechaSolicitud,
+          fechaProgramada: solicitud.fechaProgramada,
+        },
+      });
+    }
+
+    for (const examenDgt of actividad.examenesDGT || []) {
+      if (!examenDgt.aprobado) {
+        continue;
+      }
+
+      pushEvent({
+        id: `dgt-aprobado-${examenDgt.id}`,
+        fecha: examenDgt.fecha,
+        accion: "Test DGT aprobado",
+        categoria: "DGT",
+        resumen: `Licencia ${examenDgt.licencia || "-"} | Aciertos ${examenDgt.aciertos}/${Number(examenDgt.aciertos || 0) + Number(examenDgt.fallos || 0)}`,
+        detalle: {
+          licencia: examenDgt.licencia,
+          aciertos: examenDgt.aciertos,
+          fallos: examenDgt.fallos,
+          aprobado: Boolean(examenDgt.aprobado),
+        },
+      });
+    }
+
+    return rows.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+  }
+
   buildProfessorStudentSummary(alumno) {
     const matriculaActual = alumno.matriculas?.[0] ?? null;
     const clases = Array.isArray(alumno.clases) ? alumno.clases : [];
@@ -791,12 +1014,15 @@ export class DashboardService {
   }
 
   async getProfessorStudentDetail(userId, alumnoId) {
-    const alumno = await this.repository.findProfessorAssignedStudentById(
-      userId,
-      alumnoId,
-    );
+    const [alumno, actividad] = await Promise.all([
+      this.repository.findProfessorAssignedStudentById(userId, alumnoId),
+      this.repository.findProfessorAssignedStudentActivityById(
+        userId,
+        alumnoId,
+      ),
+    ]);
 
-    if (!alumno) {
+    if (!alumno || !actividad) {
       throw new Error("Alumno no encontrado o no asignado a este profesor");
     }
 
@@ -975,6 +1201,34 @@ export class DashboardService {
       )
       .map(mapExamResult);
 
+    const now = new Date();
+    const bonosActivos = (actividad.bonosComprados || []).filter((compra) => {
+      if (!compra?.pagado) {
+        return false;
+      }
+
+      const fechaValidezHasta = new Date(compra?.fechaValidezHasta || 0);
+
+      if (
+        Number.isNaN(fechaValidezHasta.getTime()) ||
+        fechaValidezHasta < now
+      ) {
+        return false;
+      }
+
+      const clasesRestantes =
+        Number(compra?.clasesCompradas || 0) -
+        Number(compra?.clasesConsumidas || 0);
+
+      return clasesRestantes > 0;
+    });
+
+    const bonoActivoCompra = bonosActivos.sort(
+      (a, b) => new Date(a.fechaValidezHasta) - new Date(b.fechaValidezHasta),
+    )[0];
+
+    const historialEstado = this.buildProfessorStudentHistory(actividad);
+
     return {
       perfil: {
         id: alumno.id,
@@ -1008,12 +1262,27 @@ export class DashboardService {
         proximasClases,
         minutosCompletados: minutosPracticas,
         horasCompletadasTexto: this.formatMinutesAsHours(minutosPracticas),
+        bonoActivo: bonoActivoCompra
+          ? {
+              id: bonoActivoCompra.id,
+              nombre: bonoActivoCompra.bono?.nombre || "Bono",
+              licencia: bonoActivoCompra.bono?.licencia || "-",
+              clasesBono: Number(bonoActivoCompra.clasesCompradas || 0),
+              clasesRestantes: Math.max(
+                Number(bonoActivoCompra.clasesCompradas || 0) -
+                  Number(bonoActivoCompra.clasesConsumidas || 0),
+                0,
+              ),
+              fechaValidezHasta: bonoActivoCompra.fechaValidezHasta,
+            }
+          : null,
       },
       evaluacion: {
         estadoGeneral,
         preparadoParaTeorico,
         preparadoParaPractico,
       },
+      historialEstado,
       examenes: {
         teoricos: examenesTeoricos,
         practicos: examenesPracticos,

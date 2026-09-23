@@ -4,15 +4,23 @@ import {
   Box,
   Button,
   Chip,
+  FormControl,
+  InputLabel,
   Link,
+  Menu,
+  MenuItem,
+  Select,
   Snackbar,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
+import DownloadIcon from "@mui/icons-material/Download";
 import { DataGrid } from "@mui/x-data-grid";
 import { jwtDecode } from "jwt-decode";
 import { gastosCombustibleService } from "../../services/gastosCombustibleService";
+import { exportGastosExcel } from "../../utils/exportGastosExcel";
+import { exportGastosPdf } from "../../utils/exportGastosPdf";
 
 const formatDateTime = (value) => {
   if (!value) {
@@ -52,6 +60,9 @@ export default function Gastos() {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [licenciaFiltro, setLicenciaFiltro] = useState("TODAS");
+  const [conceptoFiltro, setConceptoFiltro] = useState("TODOS");
+  const [exportAnchorEl, setExportAnchorEl] = useState(null);
   const [notification, setNotification] = useState({
     open: false,
     message: "",
@@ -86,22 +97,57 @@ export default function Gastos() {
   }, []);
 
   const filteredRows = useMemo(() => {
-    if (!search.trim()) {
-      return rows;
-    }
-
     const q = search.trim().toLowerCase();
 
     return rows.filter((row) => {
+      const licencia = row.vehiculo?.tipoPermiso || "-";
+
+      if (licenciaFiltro !== "TODAS" && licencia !== licenciaFiltro) {
+        return false;
+      }
+
+      if (conceptoFiltro !== "TODOS" && conceptoFiltro !== "COMBUSTIBLE") {
+        return false;
+      }
+
+      if (!q) {
+        return true;
+      }
+
       return (
         row.numeroFactura?.toLowerCase().includes(q) ||
         row.vehiculo?.matricula?.toLowerCase().includes(q) ||
         row.vehiculo?.marca?.toLowerCase().includes(q) ||
         row.vehiculo?.modelo?.toLowerCase().includes(q) ||
-        row.profesor?.nombre?.toLowerCase().includes(q)
+        row.profesor?.nombre?.toLowerCase().includes(q) ||
+        row.alumno?.nombre?.toLowerCase().includes(q)
       );
     });
-  }, [rows, search]);
+  }, [rows, search, licenciaFiltro, conceptoFiltro]);
+
+  const licencias = useMemo(() => {
+    const values = new Set();
+
+    rows.forEach((row) => {
+      if (row.vehiculo?.tipoPermiso) {
+        values.add(row.vehiculo.tipoPermiso);
+      }
+    });
+
+    return Array.from(values).sort();
+  }, [rows]);
+
+  const exportMenuOpen = Boolean(exportAnchorEl);
+
+  const handleExportExcel = () => {
+    exportGastosExcel(filteredRows);
+    setExportAnchorEl(null);
+  };
+
+  const handleExportPdf = () => {
+    exportGastosPdf(filteredRows);
+    setExportAnchorEl(null);
+  };
 
   const columns = [
     {
@@ -191,26 +237,89 @@ export default function Gastos() {
 
   return (
     <Box>
-      <Typography variant="h4" fontWeight={700} mb={2}>
-        Gastos
-      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
+          gap: 2,
+          mb: 2,
+          flexWrap: "wrap",
+        }}
+      >
+        <Box>
+          <Typography variant="h4" fontWeight={700} mb={2}>
+            Gastos
+          </Typography>
 
-      <Typography color="text.secondary" sx={{ mb: 2 }}>
-        Registro de gastos de combustible realizados por profesores.
-      </Typography>
+          <Typography color="text.secondary">
+            Registro de gastos de combustible realizados por profesores.
+          </Typography>
+        </Box>
 
-      <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ mb: 2 }}>
-        <TextField
-          size="small"
-          label="Buscar"
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-          sx={{ width: { xs: "100%", sm: 360 } }}
-        />
-        <Button variant="outlined" onClick={loadData}>
-          Recargar
-        </Button>
-      </Stack>
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          spacing={1.25}
+          alignItems={{ xs: "stretch", md: "center" }}
+        >
+          <TextField
+            size="small"
+            label="Buscar alumno"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            sx={{ width: { xs: "100%", md: 260 } }}
+          />
+
+          <FormControl size="small" sx={{ minWidth: 140 }}>
+            <InputLabel>Licencia</InputLabel>
+            <Select
+              label="Licencia"
+              value={licenciaFiltro}
+              onChange={(event) => setLicenciaFiltro(event.target.value)}
+            >
+              <MenuItem value="TODAS">Todas</MenuItem>
+              {licencias.map((licencia) => (
+                <MenuItem key={licencia} value={licencia}>
+                  {licencia}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <FormControl size="small" sx={{ minWidth: 150 }}>
+            <InputLabel>Concepto</InputLabel>
+            <Select
+              label="Concepto"
+              value={conceptoFiltro}
+              onChange={(event) => setConceptoFiltro(event.target.value)}
+            >
+              <MenuItem value="TODOS">Todos</MenuItem>
+              <MenuItem value="COMBUSTIBLE">Combustible</MenuItem>
+            </Select>
+          </FormControl>
+
+          <Button variant="outlined" onClick={loadData}>
+            Recargar
+          </Button>
+
+          <Button
+            variant="contained"
+            startIcon={<DownloadIcon />}
+            onClick={(event) => setExportAnchorEl(event.currentTarget)}
+          >
+            Exportar
+          </Button>
+
+          <Menu
+            anchorEl={exportAnchorEl}
+            open={exportMenuOpen}
+            onClose={() => setExportAnchorEl(null)}
+          >
+            <MenuItem onClick={handleExportExcel}>Exportar a Excel</MenuItem>
+            <MenuItem onClick={handleExportPdf}>Exportar a PDF</MenuItem>
+          </Menu>
+        </Stack>
+      </Box>
 
       <Box sx={{ height: 700 }}>
         <DataGrid

@@ -99,12 +99,7 @@ const menus = {
           path: "/convocatorias-examen",
           icon: <CalendarMonthIcon fontSize="small" />,
         },
-        {
-          label: "Solicitud Examen",
-          path: "/solicitudes-examen-practico",
-          icon: <EditDocumentIcon fontSize="small" />,
-          disabled: true,
-        },
+
         {
           label: "Otros Usuarios",
           path: "/otros-usuarios",

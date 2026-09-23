@@ -10,6 +10,7 @@ import {
   DialogTitle,
   FormControl,
   InputLabel,
+  Menu,
   MenuItem,
   Paper,
   Select,
@@ -23,9 +24,12 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { DataGrid } from "@mui/x-data-grid";
 
+import DownloadIcon from "@mui/icons-material/Download";
 import { evaluacionExamenesService } from "../../services/evaluacionExamenesService";
 import { LicenseChip } from "../../components/common/LicenseChip";
 import { ExamTypeChip } from "../../components/common/ExamTypeChip";
+import { exportExamenesExcel } from "../../utils/exportExamenesExcel";
+import { exportExamenesPdf } from "../../utils/exportExamenesPdf";
 
 const formatDate = (value) => {
   if (!value) return "-";
@@ -57,6 +61,7 @@ export default function Examenes() {
   const [fechaDesde, setFechaDesde] = useState("");
   const [fechaHasta, setFechaHasta] = useState("");
   const [licenciaFiltro, setLicenciaFiltro] = useState("TODAS");
+  const [exportAnchorEl, setExportAnchorEl] = useState(null);
   const [estadoFiltro, setEstadoFiltro] = useState("TODOS");
   const [tipoFiltro, setTipoFiltro] = useState("TODOS");
 
@@ -228,15 +233,56 @@ export default function Examenes() {
     [],
   );
 
+  const exportMenuOpen = Boolean(exportAnchorEl);
+
+  const handleExportExcel = () => {
+    exportExamenesExcel(filteredRows);
+    setExportAnchorEl(null);
+  };
+
+  const handleExportPdf = () => {
+    exportExamenesPdf(filteredRows);
+    setExportAnchorEl(null);
+  };
+
   return (
     <Box>
-      <Box sx={{ mb: 2 }}>
-        <Typography variant="h4" fontWeight="bold">
-          Exámenes
-        </Typography>
-        <Typography color="text.secondary">
-          Vista unificada de exámenes teóricos y prácticos.
-        </Typography>
+      <Box
+        sx={{
+          mb: 2,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 2,
+          flexWrap: "wrap",
+        }}
+      >
+        <Box>
+          <Typography variant="h4" fontWeight="bold">
+            Exámenes
+          </Typography>
+          <Typography color="text.secondary">
+            Vista unificada de exámenes teóricos y prácticos.
+          </Typography>
+        </Box>
+
+        <Box>
+          <Button
+            variant="contained"
+            startIcon={<DownloadIcon />}
+            onClick={(event) => setExportAnchorEl(event.currentTarget)}
+          >
+            Exportar
+          </Button>
+          <Menu
+            anchorEl={exportAnchorEl}
+            open={exportMenuOpen}
+            onClose={() => setExportAnchorEl(null)}
+          >
+            <MenuItem onClick={handleExportExcel}>Exportar a Excel</MenuItem>
+            <MenuItem onClick={handleExportPdf}>Exportar a PDF</MenuItem>
+          </Menu>
+        </Box>
       </Box>
 
       <Stack

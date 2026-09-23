@@ -15,6 +15,7 @@ import {
   IconButton,
   InputLabel,
   ListItemText,
+  Menu,
   MenuItem,
   Select,
   Snackbar,
@@ -24,6 +25,7 @@ import {
 import { DataGrid } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import DownloadIcon from "@mui/icons-material/Download";
 import EditIcon from "@mui/icons-material/Edit";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
@@ -32,6 +34,8 @@ import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el compon
 
 import { tarifasConceptoService } from "../../services/tarifasConceptoService";
 import { LicenseChip } from "../../components/common/LicenseChip";
+import { exportTarifasConceptoExcel } from "../../utils/exportTarifasConceptoExcel";
+import { exportTarifasConceptoPdf } from "../../utils/exportTarifasConceptoPdf";
 
 const PERMISOS = ["A", "A1", "A2", "B", "C", "D", "E"];
 const TIPOS = ["FIJO", "VARIABLE", "POR_CLASE", "POR_EXAMEN"];
@@ -52,6 +56,8 @@ export default function TarifasConcepto() {
   const [form, setForm] = useState(emptyForm);
   const [permisoFiltro, setPermisoFiltro] = useState("all");
   const [tipoFiltro, setTipoFiltro] = useState("all");
+  const [estadoFiltro, setEstadoFiltro] = useState("all");
+  const [exportAnchorEl, setExportAnchorEl] = useState(null);
   const [notification, setNotification] = useState({
     open: false,
     message: "",
@@ -70,6 +76,7 @@ export default function TarifasConcepto() {
       const data = await tarifasConceptoService.getAll({
         permiso: permisoFiltro === "all" ? undefined : permisoFiltro,
         tipo: tipoFiltro === "all" ? undefined : tipoFiltro,
+        activa: estadoFiltro === "all" ? undefined : estadoFiltro === "activos",
       });
       setRows(data);
     } catch (error) {
@@ -84,7 +91,7 @@ export default function TarifasConcepto() {
 
   useEffect(() => {
     loadTarifas();
-  }, [permisoFiltro, tipoFiltro]);
+  }, [permisoFiltro, tipoFiltro, estadoFiltro]);
 
   const filteredRows = useMemo(() => rows, [rows]);
 
@@ -301,6 +308,18 @@ export default function TarifasConcepto() {
     },
   ];
 
+  const exportMenuOpen = Boolean(exportAnchorEl);
+
+  const handleExportExcel = () => {
+    exportTarifasConceptoExcel(filteredRows);
+    setExportAnchorEl(null);
+  };
+
+  const handleExportPdf = () => {
+    exportTarifasConceptoPdf(filteredRows);
+    setExportAnchorEl(null);
+  };
+
   return (
     <Box>
       <Box
@@ -354,6 +373,19 @@ export default function TarifasConcepto() {
             </Select>
           </FormControl>
 
+          <FormControl size="small" sx={{ minWidth: 180 }}>
+            <InputLabel>Estado</InputLabel>
+            <Select
+              label="Estado"
+              value={estadoFiltro}
+              onChange={(event) => setEstadoFiltro(event.target.value)}
+            >
+              <MenuItem value="all">Todos</MenuItem>
+              <MenuItem value="activos">Activos</MenuItem>
+              <MenuItem value="inactivos">Inactivos</MenuItem>
+            </Select>
+          </FormControl>
+
           <Button
             variant="contained"
             startIcon={<AddIcon />}
@@ -361,6 +393,23 @@ export default function TarifasConcepto() {
           >
             Nuevo precio
           </Button>
+
+          <Button
+            variant="contained"
+            startIcon={<DownloadIcon />}
+            onClick={(event) => setExportAnchorEl(event.currentTarget)}
+          >
+            Exportar
+          </Button>
+
+          <Menu
+            anchorEl={exportAnchorEl}
+            open={exportMenuOpen}
+            onClose={() => setExportAnchorEl(null)}
+          >
+            <MenuItem onClick={handleExportExcel}>Exportar a Excel</MenuItem>
+            <MenuItem onClick={handleExportPdf}>Exportar a PDF</MenuItem>
+          </Menu>
         </Box>
       </Box>
 

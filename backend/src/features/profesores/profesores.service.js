@@ -141,6 +141,199 @@ export class ProfesoresService {
     return this.repository.findById(id);
   }
 
+  parseWeekOffset(weekOffset) {
+    const parsed = Number.parseInt(weekOffset ?? "0", 10);
+
+    if (Number.isNaN(parsed)) {
+      return 0;
+    }
+
+    return parsed;
+  }
+
+  getWeekBounds(weekOffset = 0) {
+    const now = new Date();
+    const weekStart = new Date(now);
+
+    weekStart.setHours(0, 0, 0, 0);
+
+    const dayIndex = weekStart.getDay();
+    const distanceFromMonday = (dayIndex + 6) % 7;
+
+    weekStart.setDate(
+      weekStart.getDate() - distanceFromMonday + Number(weekOffset || 0) * 7,
+    );
+
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekEnd.getDate() + 6);
+    weekEnd.setHours(23, 59, 59, 999);
+
+    return {
+      weekStart,
+      weekEnd,
+    };
+  }
+
+  getMonthBounds() {
+    const now = new Date();
+    const monthStart = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      1,
+      0,
+      0,
+      0,
+      0,
+    );
+    const monthEnd = new Date(
+      now.getFullYear(),
+      now.getMonth() + 1,
+      0,
+      23,
+      59,
+      59,
+      999,
+    );
+
+    return {
+      monthStart,
+      monthEnd,
+    };
+  }
+
+  isClassDone(clase) {
+    const classStatus = String(clase?.estado || "").toUpperCase();
+    const roadmapStatus = String(clase?.hojaRuta?.estado || "").toUpperCase();
+
+    return (
+      ["REALIZADA", "COMPLETADA", "FINALIZADA", "REGISTRADA"].includes(
+        classStatus,
+      ) || roadmapStatus === "REGISTRADA"
+    );
+  }
+
+  deriveAgendaStatus(clase, now = new Date()) {
+    const roadmapStatus = String(clase?.hojaRuta?.estado || "").toUpperCase();
+
+    if (roadmapStatus === "REGISTRADA") {
+      return "REGISTRADA";
+    }
+
+    if (clase?.hojaRuta?.id) {
+      return "EN_CURSO";
+    }
+
+    const classDate = new Date(clase?.fecha);
+    if (!Number.isNaN(classDate.getTime()) && classDate <= now) {
+      return "PENDIENTE_REGISTRO";
+    }
+
+    return clase?.estado || "PROGRAMADA";
+  }
+
+  mapAgendaClass(clase, now = new Date()) {
+    return {
+      id: clase.id,
+      fecha: clase.fecha,
+      duracion: clase.duracion,
+      estado: clase.estado,
+      estadoAgenda: this.deriveAgendaStatus(clase, now),
+      alumno: {
+        id: clase.alumnoId,
+        nombre: clase.alumno?.usuario?.nombre || "Alumno",
+      },
+      vehiculo: clase.vehiculo
+        ? {
+            matricula: clase.vehiculo.matricula,
+            marca: clase.vehiculo.marca,
+            modelo: clase.vehiculo.modelo,
+            tipoPermiso: clase.vehiculo.tipoPermiso,
+          }
+        : null,
+    };
+  }
+
+  async getOverview(id, options = {}) {
+    const profesor = await this.repository.findById(id);
+
+    if (!profesor) {
+      throw new Error("Profesor no encontrado");
+    }
+
+    const weekOffset = this.parseWeekOffset(options.weekOffset);
+    const { weekStart, weekEnd } = this.getWeekBounds(weekOffset);
+    const { monthStart, monthEnd } = this.getMonthBounds();
+
+    const [assignedStudents, monthClasses] = await Promise.all([
+      this.repository.findAssignedAlumnosLite(id),
+      this.repository.findProfesorClassesBetween(id, monthStart, monthEnd),
+    ]);
+
+    const alumnos = (assignedStudents || []).map((alumno) => ({
+      id: alumno.id,
+      nombre: alumno.usuario?.nombre || "Alumno",
+      licencia: alumno.tipoLicenciaObjetivo || "-",
+    }));
+
+    const selectedAlumnoIdRaw = options.alumnoId || alumnos[0]?.id || null;
+    const selectedAlumnoId = selectedAlumnoIdRaw
+      ? String(selectedAlumnoIdRaw)
+      : null;
+
+    const selectedAlumno = selectedAlumnoId
+      ? alumnos.find((alumno) => alumno.id === selectedAlumnoId)
+      : null;
+
+    if (selectedAlumnoId && !selectedAlumno) {
+      throw new Error(
+        "El alumno seleccionado no está asignado a este profesor",
+      );
+    }
+
+    const studentWeekClasses = selectedAlumno
+      ? await this.repository.findProfesorStudentClassesBetween(
+          id,
+          selectedAlumno.id,
+          weekStart,
+          weekEnd,
+        )
+      : [];
+
+    const now = new Date();
+
+    const programadasMes = (monthClasses || []).filter((clase) => {
+      const status = String(clase?.estado || "").toUpperCase();
+      return status !== "CANCELADA";
+    }).length;
+
+    const realizadasMes = (monthClasses || []).filter((clase) =>
+      this.isClassDone(clase),
+    ).length;
+
+    return {
+      profesor: {
+        id: profesor.id,
+        nombre: profesor.usuario?.nombre || "Profesor",
+      },
+      alumnos,
+      resumenMes: {
+        programadas: programadasMes,
+        realizadas: realizadasMes,
+      },
+      agendaAlumno: {
+        alumnoSeleccionadoId: selectedAlumno?.id || null,
+        semana: {
+          offset: weekOffset,
+          inicio: weekStart,
+          fin: weekEnd,
+        },
+        clases: (studentWeekClasses || []).map((clase) =>
+          this.mapAgendaClass(clase, now),
+        ),
+      },
+    };
+  }
+
   async update(id, data) {
     const payload = {};
 

@@ -114,6 +114,13 @@ router.get(
  */
 
 router.get(
+  "/:id/overview",
+  authenticate,
+  authorize("ADMIN"),
+  controller.getOverview.bind(controller),
+);
+
+router.get(
   "/:id",
   authenticate,
   authorize("ADMIN"),

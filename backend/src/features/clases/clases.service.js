@@ -90,9 +90,226 @@ const getDayIndexMondayBased = (date) => {
   return getMadridDateParts(date).dayIndex;
 };
 
+const INDIVIDUAL_CLASS_TARIFF_FALLBACK = 35;
+const PAYMENT_24H_NOTIFICATION_MARK = "[NOTIFICADO_PAGO_24H]";
+
 export class ClasesService {
   constructor(repository) {
     this.repository = repository;
+  }
+
+  generateClassInvoiceNumber(attempt = 0) {
+    const timestamp = Date.now();
+    const suffixBase = Math.floor(Math.random() * 10000) + attempt;
+    const suffix = suffixBase.toString().padStart(4, "0");
+
+    return `FAC-CLASE-${timestamp}-${suffix}`;
+  }
+
+  async ensureInvoicesForPerformedIndividualClasses(alumnoId) {
+    if (
+      typeof this.repository.findPerformedIndividualClassesWithoutInvoice !==
+        "function" ||
+      typeof this.repository.createClassInvoice !== "function"
+    ) {
+      return;
+    }
+
+    const now = new Date();
+    const classesWithoutInvoice =
+      await this.repository.findPerformedIndividualClassesWithoutInvoice(
+        alumnoId,
+        now,
+      );
+
+    for (const clase of classesWithoutInvoice) {
+      const existing =
+        typeof this.repository.findFacturaByClassId === "function"
+          ? await this.repository.findFacturaByClassId(clase.id)
+          : null;
+
+      if (existing) {
+        continue;
+      }
+
+      const pago = await this.repository.findPaymentByClassId(clase.id);
+      const permiso = String(clase?.vehiculo?.tipoPermiso || "B")
+        .trim()
+        .toUpperCase();
+      const tarifa = await this.repository.getTarifaClasePorPermiso(permiso);
+
+      const baseImporte = Number(
+        pago?.importe ?? tarifa?.precio ?? INDIVIDUAL_CLASS_TARIFF_FALLBACK,
+      );
+
+      const concepto =
+        pago?.concepto ||
+        `Clase práctica ${new Date(clase.fecha).toLocaleDateString("es-ES")} ${new Date(clase.fecha).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}`;
+
+      if (!pago) {
+        await this.repository.createPendingPaymentForClass({
+          alumnoId: clase.alumnoId,
+          clasePracticaId: clase.id,
+          tipo: "CLASE_PRACTICA",
+          concepto,
+          permiso,
+          importe: baseImporte,
+          estado: "PENDIENTE",
+          convocatoriasIncluidas: 0,
+          convocatoriasConsumidas: 0,
+          observaciones:
+            "Pago pendiente generado automáticamente para clase efectuada",
+        });
+      }
+
+      const invoiceState = pago?.estado === "PAGADO" ? "PAGADA" : "EMITIDA";
+      const invoicePaymentDate =
+        pago?.estado === "PAGADO" ? pago?.fechaPago || new Date() : null;
+
+      let attempt = 0;
+
+      while (attempt < 3) {
+        const numero =
+          pago?.numeroFacturaPago || this.generateClassInvoiceNumber(attempt);
+
+        try {
+          await this.repository.createClassInvoice({
+            numero,
+            alumnoId: clase.alumnoId,
+            clasePracticaId: clase.id,
+            concepto,
+            baseImponible: baseImporte,
+            descuento: 0,
+            total: baseImporte,
+            estado: invoiceState,
+            fechaPago: invoicePaymentDate,
+          });
+
+          break;
+        } catch (error) {
+          if (
+            error?.code !== "P2002" ||
+            attempt === 2 ||
+            pago?.numeroFacturaPago
+          ) {
+            throw error;
+          }
+
+          attempt += 1;
+        }
+      }
+    }
+
+    if (
+      typeof this.repository
+        .findPerformedInvoicedIndividualClassesWithoutPayment === "function"
+    ) {
+      const invoicedWithoutPayment =
+        await this.repository.findPerformedInvoicedIndividualClassesWithoutPayment(
+          alumnoId,
+          now,
+        );
+
+      for (const clase of invoicedWithoutPayment) {
+        const existingPayment = await this.repository.findPaymentByClassId(
+          clase.id,
+        );
+
+        if (existingPayment) {
+          continue;
+        }
+
+        const permiso = String(clase?.vehiculo?.tipoPermiso || "B")
+          .trim()
+          .toUpperCase();
+        const tarifa = await this.repository.getTarifaClasePorPermiso(permiso);
+        const factura = clase.facturas?.[0] || null;
+
+        const importe = Number(
+          factura?.total ?? tarifa?.precio ?? INDIVIDUAL_CLASS_TARIFF_FALLBACK,
+        );
+        const concepto =
+          factura?.concepto ||
+          `Clase práctica ${new Date(clase.fecha).toLocaleDateString("es-ES")} ${new Date(clase.fecha).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}`;
+
+        await this.repository.createPendingPaymentForClass({
+          alumnoId: clase.alumnoId,
+          clasePracticaId: clase.id,
+          tipo: "CLASE_PRACTICA",
+          concepto,
+          permiso,
+          importe,
+          estado: "PENDIENTE",
+          convocatoriasIncluidas: 0,
+          convocatoriasConsumidas: 0,
+          observaciones:
+            "Pago pendiente generado automáticamente para clase con factura emitida",
+        });
+      }
+    }
+  }
+
+  async notifyPendingPaymentsDue24h() {
+    const now = new Date();
+
+    if (typeof this.repository.findAll !== "function") {
+      return {
+        notified: 0,
+      };
+    }
+
+    const pagos = await this.repository.findAll();
+
+    const candidates = (pagos || []).filter((pago) => {
+      if (pago.estado !== "PENDIENTE" || pago.tipo !== "CLASE_PRACTICA") {
+        return false;
+      }
+
+      if (!pago.clasePracticaId || !pago.clasePractica?.pagoLimiteAt) {
+        return false;
+      }
+
+      const limitDate = new Date(pago.clasePractica.pagoLimiteAt);
+
+      if (Number.isNaN(limitDate.getTime()) || limitDate > now) {
+        return false;
+      }
+
+      if (new Date(pago.clasePractica.fecha) <= now) {
+        return false;
+      }
+
+      const notes = String(pago.observaciones || "");
+      return !notes.includes(PAYMENT_24H_NOTIFICATION_MARK);
+    });
+
+    for (const pago of candidates) {
+      const classDate = new Date(pago.clasePractica?.fecha);
+
+      await this.createNotification(
+        pago.alumnoId,
+        "PAGO_PENDIENTE",
+        "Pago pendiente de clase práctica",
+        `Debes pagar la clase del ${classDate.toLocaleDateString("es-ES")} a las ${classDate.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}`,
+        {
+          pagoId: pago.id,
+          claseId: pago.clasePracticaId,
+        },
+      );
+
+      const previousNotes = String(pago.observaciones || "").trim();
+      const nextNotes = previousNotes
+        ? `${previousNotes} ${PAYMENT_24H_NOTIFICATION_MARK}`
+        : PAYMENT_24H_NOTIFICATION_MARK;
+
+      await this.repository.updatePaymentById(pago.id, {
+        observaciones: nextNotes,
+      });
+    }
+
+    return {
+      notified: candidates.length,
+    };
   }
 
   async createNotification(usuarioId, tipo, titulo, mensaje, metadata = null) {
@@ -384,6 +601,7 @@ export class ClasesService {
 
   async getStudentBookingContext(alumnoId, weekOffset) {
     await this.markOverdueUnpaidClassesForStudent(alumnoId);
+    await this.ensureInvoicesForPerformedIndividualClasses(alumnoId);
 
     const eligibility = await this.buildStudentEligibility(alumnoId);
 
@@ -757,17 +975,6 @@ export class ClasesService {
           claseId: clase.id,
         },
       ),
-      clase.metodoPago === "INDIVIDUAL"
-        ? this.createNotification(
-            clase.alumnoId,
-            "PAGO_PENDIENTE",
-            "Pago pendiente de clase práctica",
-            "Debes pagar la clase al menos 24 horas antes del inicio",
-            {
-              claseId: clase.id,
-            },
-          )
-        : Promise.resolve(),
     ]);
 
     return this.mapClaseBasica(updated);
@@ -844,66 +1051,47 @@ export class ClasesService {
     const now = new Date();
     const classDate = new Date(clase.fecha);
     const diffHours = (classDate.getTime() - now.getTime()) / (1000 * 60 * 60);
-    const conPenalizacion = clase.estado === "CONFIRMADA" && diffHours <= 24;
+
+    if (diffHours <= 24) {
+      throw new Error(
+        "Solo puedes cancelar clases PROGRAMADA o CONFIRMADA con más de 24 horas de antelación",
+      );
+    }
 
     const pago = await this.repository.findPaymentByClassId(clase.id);
 
-    if (clase.metodoPago === "INDIVIDUAL") {
-      if (!conPenalizacion && pago?.estado === "PENDIENTE") {
-        await this.repository.updatePaymentById(pago.id, {
-          estado: "CANCELADO",
-          observaciones: "Cancelación sin penalización por el alumno",
-        });
-      }
-
-      if (conPenalizacion && !pago) {
-        const tarifa = await this.repository.getTarifaClasePorPermiso("B");
-        await this.repository.createPendingPaymentForClass({
-          alumnoId,
-          clasePracticaId: clase.id,
-          tipo: "CLASE_PRACTICA",
-          concepto: `Penalización cancelación tardía clase ${classDate.toLocaleDateString("es-ES")}`,
-          permiso: "B",
-          importe: Number(tarifa?.precio ?? 35),
-          estado: "PENDIENTE",
-          convocatoriasIncluidas: 0,
-          convocatoriasConsumidas: 0,
-          observaciones: "Cobro por cancelación tardía (menos de 24h)",
-        });
-      }
+    if (clase.metodoPago === "INDIVIDUAL" && pago?.estado === "PENDIENTE") {
+      await this.repository.updatePaymentById(pago.id, {
+        estado: "CANCELADO",
+        observaciones: "Cancelación por el alumno con más de 24h",
+      });
     }
 
     const updated = await this.repository.updateClassById(clase.id, {
-      estado: conPenalizacion
-        ? "CANCELADA_CON_PENALIZACION"
-        : "CANCELADA_ALUMNO",
+      estado: "CANCELADA_ALUMNO",
       canceladaPor: "ALUMNO",
-      canceladaConPenalizacion: conPenalizacion,
+      canceladaConPenalizacion: false,
     });
 
     await Promise.all([
       this.createNotification(
         alumnoId,
         "CLASE_CANCELADA",
-        conPenalizacion
-          ? "Clase cancelada con penalización"
-          : "Clase cancelada sin penalización",
-        conPenalizacion
-          ? "Has cancelado con menos de 24h y se aplica penalización"
-          : "Has cancelado la clase con más de 24h sin penalización",
+        "Clase cancelada",
+        "Has cancelado la clase con más de 24h de antelación",
         {
           claseId: clase.id,
-          penalizacion: conPenalizacion,
+          penalizacion: false,
         },
       ),
       this.createNotification(
         clase.profesorId,
         "CLASE_CANCELADA",
         "Clase cancelada por el alumno",
-        `El alumno ha cancelado la clase ${conPenalizacion ? "con" : "sin"} penalización`,
+        "El alumno ha cancelado la clase con más de 24h de antelación",
         {
           claseId: clase.id,
-          penalizacion: conPenalizacion,
+          penalizacion: false,
         },
       ),
     ]);

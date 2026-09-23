@@ -10,17 +10,26 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
+  IconButton,
+  Menu,
+  MenuItem,
   Paper,
   Stack,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
+import DownloadIcon from "@mui/icons-material/Download";
+import HistoryIcon from "@mui/icons-material/History";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 import { profesorPortalService } from "../../services/profesorPortalService";
 import { LicenseChip } from "../../components/common/LicenseChip";
+import { exportProfesorAlumnosExcel } from "../../utils/exportProfesorAlumnosExcel";
+import { exportProfesorAlumnosPdf } from "../../utils/exportProfesorAlumnosPdf";
 
 const formatDateTime = (value) => {
   if (!value) {
@@ -89,6 +98,11 @@ export default function ProfesorAlumnos() {
   const [openDetail, setOpenDetail] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [detail, setDetail] = useState(null);
+  const [exportAnchorEl, setExportAnchorEl] = useState(null);
+  const [openHistory, setOpenHistory] = useState(false);
+  const [selectedHistoryEvent, setSelectedHistoryEvent] = useState(null);
+
+  const exportMenuOpen = Boolean(exportAnchorEl);
 
   const loadStudents = async () => {
     setLoading(true);
@@ -188,6 +202,72 @@ export default function ProfesorAlumnos() {
     }
   };
 
+  const handleExportExcel = () => {
+    exportProfesorAlumnosExcel(filteredRows);
+    setExportAnchorEl(null);
+  };
+
+  const handleExportPdf = () => {
+    exportProfesorAlumnosPdf(filteredRows);
+    setExportAnchorEl(null);
+  };
+
+  const historyRows = useMemo(
+    () =>
+      Array.isArray(detail?.historialEstado) ? detail.historialEstado : [],
+    [detail],
+  );
+
+  const historyColumns = useMemo(
+    () => [
+      {
+        field: "fecha",
+        headerName: "Fecha",
+        flex: 1.1,
+        valueGetter: (_, row) => formatDateTime(row.fecha),
+      },
+      {
+        field: "accion",
+        headerName: "Acción",
+        flex: 1.6,
+      },
+      {
+        field: "categoria",
+        headerName: "Categoría",
+        flex: 0.9,
+        renderCell: (params) => (
+          <Chip size="small" label={params.value || "-"} />
+        ),
+      },
+      {
+        field: "resumen",
+        headerName: "Resumen",
+        flex: 1.8,
+      },
+      {
+        field: "detalle",
+        headerName: "Detalle",
+        width: 90,
+        sortable: false,
+        renderCell: (params) => (
+          <Tooltip title="Ver detalle" arrow>
+            <IconButton
+              size="small"
+              color="primary"
+              onClick={(event) => {
+                event.stopPropagation();
+                setSelectedHistoryEvent(params.row);
+              }}
+            >
+              <VisibilityIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        ),
+      },
+    ],
+    [],
+  );
+
   return (
     <Box>
       <Typography variant="h4" fontWeight="bold" mb={3}>
@@ -216,6 +296,23 @@ export default function ProfesorAlumnos() {
         <Button variant="outlined" onClick={loadStudents}>
           Recargar
         </Button>
+
+        <Button
+          variant="contained"
+          startIcon={<DownloadIcon />}
+          onClick={(event) => setExportAnchorEl(event.currentTarget)}
+        >
+          Exportar
+        </Button>
+
+        <Menu
+          anchorEl={exportAnchorEl}
+          open={exportMenuOpen}
+          onClose={() => setExportAnchorEl(null)}
+        >
+          <MenuItem onClick={handleExportExcel}>Exportar a Excel</MenuItem>
+          <MenuItem onClick={handleExportPdf}>Exportar a PDF</MenuItem>
+        </Menu>
       </Stack>
 
       <Paper sx={{ p: 2, height: 700 }}>
@@ -241,7 +338,39 @@ export default function ProfesorAlumnos() {
         fullWidth
         maxWidth="lg"
       >
-        <DialogTitle>Detalle del alumno</DialogTitle>
+        <DialogTitle>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 2,
+            }}
+          >
+            <Typography variant="h6" fontWeight={700}>
+              Detalle del alumno
+            </Typography>
+
+            <Stack direction="row" spacing={1} alignItems="center">
+              <Button
+                size="small"
+                variant="outlined"
+                startIcon={<HistoryIcon fontSize="small" />}
+                onClick={() => setOpenHistory(true)}
+                disabled={loadingDetail}
+              >
+                Historial de estado
+              </Button>
+              <Chip
+                size="small"
+                label={detail?.estadoAlumno?.label || "Estudiando teórico"}
+                sx={getProgressChipSx(Boolean(detail?.estadoAlumno?.ok))}
+              />
+
+              <LicenseChip value={detail?.perfil?.tipoLicenciaObjetivo} />
+            </Stack>
+          </Box>
+        </DialogTitle>
 
         <DialogContent>
           {loadingDetail ? (
@@ -267,7 +396,6 @@ export default function ProfesorAlumnos() {
                   }}
                 >
                   <Typography fontWeight={800}>Datos personales</Typography>
-                  <LicenseChip value={detail?.perfil?.tipoLicenciaObjetivo} />
                 </Box>
 
                 <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
@@ -286,14 +414,6 @@ export default function ProfesorAlumnos() {
                   <Chip
                     color="secondary"
                     label={`DNI: ${detail?.perfil?.dni || "-"}`}
-                  />
-                </Stack>
-
-                <Stack direction="row" spacing={1} sx={{ mt: 1.25 }}>
-                  <Chip
-                    size="small"
-                    label={detail?.estadoAlumno?.label || "Estudiando teórico"}
-                    sx={getProgressChipSx(Boolean(detail?.estadoAlumno?.ok))}
                   />
                 </Stack>
               </Paper>
@@ -405,7 +525,7 @@ export default function ProfesorAlumnos() {
                                 <Typography
                                   variant="subtitle2"
                                   fontWeight={700}
-                                  sx={{ mr: 2 }}
+                                  sx={{ mr: 35 }}
                                 >
                                   Fecha:{" "}
                                   {formatExamDate(
@@ -475,6 +595,11 @@ export default function ProfesorAlumnos() {
                     >
                       Práctica
                     </Typography>
+                    <Typography variant="body2" sx={{ mb: 0.75 }}>
+                      {detail?.practica?.bonoActivo
+                        ? `Bono activo: ${detail.practica.bonoActivo.nombre} | Clases bono: ${detail.practica.bonoActivo.clasesBono} | Clases restantes: ${detail.practica.bonoActivo.clasesRestantes}`
+                        : "Bono activo: No"}
+                    </Typography>
                     <Typography variant="body2">
                       Clases realizadas:{" "}
                       {detail?.practica?.clasesRealizadas ?? 0} | Clases
@@ -522,6 +647,7 @@ export default function ProfesorAlumnos() {
                                 <Typography
                                   variant="subtitle2"
                                   fontWeight={700}
+                                  sx={{ mr: 35 }}
                                 >
                                   Fecha:{" "}
                                   {formatExamDate(
@@ -591,6 +717,89 @@ export default function ProfesorAlumnos() {
 
         <DialogActions>
           <Button onClick={() => setOpenDetail(false)}>Cerrar</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={openHistory}
+        onClose={() => {
+          setOpenHistory(false);
+          setSelectedHistoryEvent(null);
+        }}
+        fullWidth
+        maxWidth="lg"
+      >
+        <DialogTitle>Historial de estado</DialogTitle>
+        <DialogContent>
+          <Box sx={{ height: 520, mt: 1 }}>
+            <DataGrid
+              rows={historyRows}
+              columns={historyColumns}
+              getRowId={(row) => row.id}
+              disableRowSelectionOnClick
+              pageSizeOptions={[10, 25, 50]}
+              initialState={{
+                pagination: { paginationModel: { pageSize: 10, page: 0 } },
+                sorting: { sortModel: [{ field: "fecha", sort: "desc" }] },
+              }}
+              localeText={{ noRowsLabel: "No hay acciones registradas" }}
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              setOpenHistory(false);
+              setSelectedHistoryEvent(null);
+            }}
+          >
+            Cerrar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={Boolean(selectedHistoryEvent)}
+        onClose={() => setSelectedHistoryEvent(null)}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>Detalle de acción</DialogTitle>
+        <DialogContent>
+          <Stack spacing={1} sx={{ mt: 0.5 }}>
+            <Typography variant="body2">
+              <strong>Fecha:</strong>{" "}
+              {formatDateTime(selectedHistoryEvent?.fecha)}
+            </Typography>
+            <Typography variant="body2">
+              <strong>Acción:</strong> {selectedHistoryEvent?.accion || "-"}
+            </Typography>
+            <Typography variant="body2">
+              <strong>Categoría:</strong>{" "}
+              {selectedHistoryEvent?.categoria || "-"}
+            </Typography>
+            <Typography variant="body2">
+              <strong>Resumen:</strong> {selectedHistoryEvent?.resumen || "-"}
+            </Typography>
+            <Paper variant="outlined" sx={{ p: 1.5, borderRadius: 1.5 }}>
+              <Typography variant="subtitle2" sx={{ mb: 1 }}>
+                Datos adicionales
+              </Typography>
+              <pre
+                style={{
+                  margin: 0,
+                  whiteSpace: "pre-wrap",
+                  wordBreak: "break-word",
+                  fontSize: 12,
+                }}
+              >
+                {JSON.stringify(selectedHistoryEvent?.detalle || {}, null, 2)}
+              </pre>
+            </Paper>
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setSelectedHistoryEvent(null)}>Cerrar</Button>
         </DialogActions>
       </Dialog>
     </Box>

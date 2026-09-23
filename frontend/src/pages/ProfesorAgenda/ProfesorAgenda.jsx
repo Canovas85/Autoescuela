@@ -31,6 +31,14 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import PersonIcon from "@mui/icons-material/Person";
 import { profesorPortalService } from "../../services/profesorPortalService";
+import {
+  addDaysToDateKey,
+  dateFromKeyAtNoon,
+  extractDateKey,
+  formatDateValue,
+  getWeekDayIdFromValue,
+  toDateKeyFromDate,
+} from "../../utils/calendarDate";
 
 const DAYS = [
   { id: 1, short: "Lun", label: "Lunes" },
@@ -84,59 +92,21 @@ const STUDENT_PALETTE = [
 ];
 
 const formatDate = (value) => {
-  if (!value) {
-    return "";
-  }
-
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return "";
-  }
-
-  return date.toLocaleDateString("es-ES", {
-    timeZone: "UTC",
-    day: "numeric",
-    month: "numeric",
-    year: "numeric",
-  });
+  return (
+    formatDateValue(value, {
+      day: "numeric",
+      month: "numeric",
+      year: "numeric",
+    }) || ""
+  );
 };
 
 const formatDayMonth = (value) => {
-  if (!value) {
-    return "";
-  }
-
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return "";
-  }
-
-  return date.toLocaleDateString("es-ES", {
-    timeZone: "UTC",
-    day: "numeric",
-    month: "short",
-  });
-};
-
-const addDaysToUtcDate = (value, days) => {
-  if (!value) {
-    return null;
-  }
-
-  const base = new Date(value);
-
-  return new Date(
-    Date.UTC(
-      base.getUTCFullYear(),
-      base.getUTCMonth(),
-      base.getUTCDate() + days,
-      12,
-      0,
-      0,
-      0,
-    ),
+  return (
+    formatDateValue(value, {
+      day: "numeric",
+      month: "short",
+    }) || ""
   );
 };
 
@@ -163,19 +133,7 @@ const formatWeekLabel = (week) => {
 };
 
 const dateToDayId = (value) => {
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return 1;
-  }
-
-  const day = date.getDay();
-  if (Number.isNaN(date.getTime())) {
-    return 1;
-  }
-
-  const utcDay = date.getUTCDay();
-  return utcDay === 0 ? 7 : utcDay;
+  return getWeekDayIdFromValue(value);
 };
 
 const timeToMinutes = (time) => {
@@ -294,9 +252,9 @@ export default function ProfesorAgenda() {
   }, [weekOffset]);
 
   const weekDays = useMemo(() => {
-    const weekStart = agenda?.semana?.inicio;
+    const weekStartKey = extractDateKey(agenda?.semana?.inicio);
 
-    if (!weekStart) {
+    if (!weekStartKey) {
       return DAYS.map((day) => ({
         ...day,
         date: null,
@@ -304,7 +262,8 @@ export default function ProfesorAgenda() {
     }
 
     return DAYS.map((day, index) => {
-      const date = addDaysToUtcDate(weekStart, index);
+      const dayKey = addDaysToDateKey(weekStartKey, index);
+      const date = dateFromKeyAtNoon(dayKey);
 
       return {
         ...day,
@@ -720,12 +679,14 @@ export default function ProfesorAgenda() {
                   const visibleDayClasses = showOnlyToday
                     ? day.id === todayDayId
                       ? dayClasses.filter((clase) => {
-                          const classDate = new Date(clase.fecha);
-                          return (
-                            classDate.getFullYear() === now.getFullYear() &&
-                            classDate.getMonth() === now.getMonth() &&
-                            classDate.getDate() === now.getDate()
-                          );
+                          const classDateKey = extractDateKey(clase.fecha);
+                          const todayDateKey = toDateKeyFromDate(now);
+
+                          if (!classDateKey) {
+                            return false;
+                          }
+
+                          return classDateKey === todayDateKey;
                         })
                       : []
                     : dayClasses;

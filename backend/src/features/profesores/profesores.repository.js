@@ -183,6 +183,102 @@ export class ProfesoresRepository {
     });
   }
 
+  async findAssignedAlumnosLite(profesorId) {
+    return this.prisma.alumno.findMany({
+      where: {
+        profesorAsignadoId: profesorId,
+        activo: true,
+      },
+      select: {
+        id: true,
+        tipoLicenciaObjetivo: true,
+        usuario: {
+          select: {
+            nombre: true,
+          },
+        },
+      },
+      orderBy: {
+        usuario: {
+          nombre: "asc",
+        },
+      },
+    });
+  }
+
+  async findProfesorClassesBetween(profesorId, startDate, endDate) {
+    return this.prisma.clasePractica.findMany({
+      where: {
+        profesorId,
+        fecha: {
+          gte: startDate,
+          lte: endDate,
+        },
+      },
+      select: {
+        id: true,
+        fecha: true,
+        estado: true,
+        duracion: true,
+        hojaRuta: {
+          select: {
+            id: true,
+            estado: true,
+          },
+        },
+      },
+      orderBy: {
+        fecha: "asc",
+      },
+    });
+  }
+
+  async findProfesorStudentClassesBetween(
+    profesorId,
+    alumnoId,
+    startDate,
+    endDate,
+  ) {
+    return this.prisma.clasePractica.findMany({
+      where: {
+        profesorId,
+        alumnoId,
+        fecha: {
+          gte: startDate,
+          lte: endDate,
+        },
+      },
+      include: {
+        alumno: {
+          include: {
+            usuario: {
+              select: {
+                nombre: true,
+              },
+            },
+          },
+        },
+        vehiculo: {
+          select: {
+            matricula: true,
+            marca: true,
+            modelo: true,
+            tipoPermiso: true,
+          },
+        },
+        hojaRuta: {
+          select: {
+            id: true,
+            estado: true,
+          },
+        },
+      },
+      orderBy: {
+        fecha: "asc",
+      },
+    });
+  }
+
   async findActiveProfesoresByLicenciaExcluding(licencia, excludeProfesorId) {
     return this.prisma.profesor.findMany({
       where: {

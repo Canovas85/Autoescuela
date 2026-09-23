@@ -20,9 +20,18 @@ import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
+import PersonIcon from "@mui/icons-material/Person";
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 
 import { clasesPracticasPortalService } from "../../services/clasesPracticasPortalService";
 import { useNavigate } from "react-router-dom";
+import {
+  addDaysToDateKey,
+  dateFromKeyAtNoon,
+  extractDateKey,
+  formatDateValue,
+  getWeekDayIdFromValue,
+} from "../../utils/calendarDate";
 
 const DAYS = [
   "Lunes",
@@ -44,31 +53,49 @@ const DAY_NAME_BY_ID = {
   7: "Domingo",
 };
 
-const formatDateOnlyUtc = (value) => {
-  if (!value) return "-";
+const STUDENT_AGENDA_PALETTE = [
+  {
+    bg: "#e9f2ff",
+    border: "#9cc6ff",
+    title: "#1e3a8a",
+  },
+  {
+    bg: "#fff3e6",
+    border: "#ffd39f",
+    title: "#92400e",
+  },
+  {
+    bg: "#e8f9f1",
+    border: "#98e4be",
+    title: "#166534",
+  },
+  {
+    bg: "#f1ecff",
+    border: "#c5b2ff",
+    title: "#5b21b6",
+  },
+  {
+    bg: "#e8f7fb",
+    border: "#93dff0",
+    title: "#0f4f66",
+  },
+];
 
-  return new Date(value).toLocaleDateString("es-ES", {
-    timeZone: "UTC",
+const COMPLETED_CLASS_STATES = [
+  "COMPLETADA",
+  "REALIZADA",
+  "FINALIZADA",
+  "REGISTRADA",
+];
+
+const formatDateOnly = (value) => {
+  const text = formatDateValue(value, {
     day: "numeric",
     month: "numeric",
     year: "numeric",
   });
-};
 
-const addDaysToUtcDate = (value, days) => {
-  const start = new Date(value);
-
-  return new Date(
-    Date.UTC(
-      start.getUTCFullYear(),
-      start.getUTCMonth(),
-      start.getUTCDate() + days,
-      12,
-      0,
-      0,
-      0,
-    ),
-  );
+  return text || "-";
 };
 
 const formatDate = (value) => {
@@ -82,13 +109,123 @@ const formatDate = (value) => {
   });
 };
 
+const formatHour = (value) => {
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "--:--";
+  }
+
+  return date.toLocaleTimeString("es-ES", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+};
+
+const formatHourRange = (value, duracion = 45) => {
+  const startDate = new Date(value);
+
+  if (Number.isNaN(startDate.getTime())) {
+    return "--:-- - --:--";
+  }
+
+  const endDate = new Date(startDate);
+  endDate.setMinutes(endDate.getMinutes() + (Number(duracion) || 45));
+
+  return `${formatHour(startDate)} - ${formatHour(endDate)}`;
+};
+
+const getAgendaStatusChipConfig = (status) => {
+  const normalized = String(status || "").toUpperCase();
+
+  if (normalized === "REGISTRADA") {
+    return { label: "REGISTRADA", color: "success" };
+  }
+
+  if (normalized === "PENDIENTE_REGISTRO") {
+    return { label: "PENDIENTE REGISTRO", color: "warning" };
+  }
+
+  if (normalized === "EN_CURSO") {
+    return { label: "EN CURSO", color: "info" };
+  }
+
+  if (normalized === "COMPLETADA") {
+    return { label: "COMPLETADA", color: "success" };
+  }
+
+  if (normalized === "CONFIRMADA") {
+    return { label: "CONFIRMADA", color: "primary" };
+  }
+
+  if (normalized === "PROGRAMADA") {
+    return { label: "PROGRAMADA", color: "default" };
+  }
+
+  return { label: normalized || "SIN ESTADO", color: "default" };
+};
+
+const getAgendaItemTypeChip = (type) => {
+  if (type === "REALIZADA") {
+    return { label: "EFECTUADA", color: "success" };
+  }
+
+  if (type === "SOLICITUD") {
+    return { label: "SOLICITUD", color: "warning" };
+  }
+
+  return { label: "PROXIMA", color: "info" };
+};
+
+const getColorByAgendaItem = (item) => {
+  const seed = String(item?.profesor?.id || item?.profesor?.nombre || item?.id);
+  let hash = 0;
+
+  for (let i = 0; i < seed.length; i += 1) {
+    hash = (hash << 5) - hash + seed.charCodeAt(i);
+    hash |= 0;
+  }
+
+  const index = Math.abs(hash) % STUDENT_AGENDA_PALETTE.length;
+  return STUDENT_AGENDA_PALETTE[index];
+};
+
+const isCompletedWithRoadmap = (item) => {
+  const status = String(item?.estado || "").toUpperCase();
+  return COMPLETED_CLASS_STATES.includes(status) && Boolean(item?.hojaRutaId);
+};
+
 const combineDateAndHour = (weekStart, dayIndex, hourText) => {
-  const date = addDaysToUtcDate(weekStart, dayIndex);
+  const weekStartKey = extractDateKey(weekStart);
+  const dayKey = addDaysToDateKey(weekStartKey, dayIndex);
+  const date = dateFromKeyAtNoon(dayKey);
+
+  if (!date) {
+    return null;
+  }
 
   const [hh, mm] = hourText.split(":").map(Number);
   date.setHours(hh, mm, 0, 0);
 
   return date;
+};
+
+const canStudentCancelClass = (clase) => {
+  const status = String(clase?.estado || "").toUpperCase();
+
+  if (!["PROGRAMADA", "CONFIRMADA"].includes(status)) {
+    return false;
+  }
+
+  const classDate = new Date(clase?.fecha);
+
+  if (Number.isNaN(classDate.getTime())) {
+    return false;
+  }
+
+  const diffMs = classDate.getTime() - Date.now();
+  return diffMs > 24 * 60 * 60 * 1000;
 };
 
 export default function ReservarClase() {
@@ -152,12 +289,76 @@ export default function ReservarClase() {
   const days = context?.calendarioSemana?.dias || [];
   const currentDay = days[selectedDay] || null;
 
-  const realizadas = useMemo(() => {
+  const agendaWeekDays = useMemo(() => {
+    const weekStartKey = extractDateKey(context?.calendarioSemana?.inicio);
+
+    if (!weekStartKey) {
+      return Object.entries(DAY_NAME_BY_ID).map(([id, label]) => ({
+        id: Number(id),
+        label,
+        date: null,
+      }));
+    }
+
+    return Object.entries(DAY_NAME_BY_ID).map(([id, label]) => {
+      const dayOffset = Number(id) - 1;
+      const date = dateFromKeyAtNoon(addDaysToDateKey(weekStartKey, dayOffset));
+
+      return {
+        id: Number(id),
+        label,
+        date,
+      };
+    });
+  }, [context?.calendarioSemana?.inicio]);
+
+  const agendaByDay = useMemo(() => {
+    const map = new Map();
+    agendaWeekDays.forEach((day) => map.set(day.id, []));
+
+    const classesMap = new Map();
     const now = new Date();
-    return (context?.proximasClases || []).filter(
-      (item) => new Date(item.fecha) < now,
-    );
-  }, [context?.proximasClases]);
+
+    (context?.solicitudesPendientes || []).forEach((item) => {
+      classesMap.set(item.id, {
+        ...item,
+        agendaType: "SOLICITUD",
+      });
+    });
+
+    (context?.proximasClases || []).forEach((item) => {
+      const classDate = new Date(item.fecha);
+      classesMap.set(item.id, {
+        ...item,
+        agendaType: classDate < now ? "REALIZADA" : "PROXIMA",
+      });
+    });
+
+    for (const item of classesMap.values()) {
+      const classDate = new Date(item.fecha);
+
+      if (Number.isNaN(classDate.getTime())) {
+        continue;
+      }
+
+      const dayId = getWeekDayIdFromValue(classDate);
+
+      if (!map.has(dayId)) {
+        continue;
+      }
+
+      map.get(dayId).push(item);
+    }
+
+    for (const day of agendaWeekDays) {
+      const sorted = (map.get(day.id) || []).sort(
+        (a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime(),
+      );
+      map.set(day.id, sorted);
+    }
+
+    return map;
+  }, [agendaWeekDays, context?.proximasClases, context?.solicitudesPendientes]);
 
   const selectedDate = useMemo(() => {
     if (!context?.calendarioSemana?.inicio || !selectedHour) {
@@ -346,8 +547,8 @@ export default function ReservarClase() {
                       fontWeight={700}
                       sx={{ textAlign: "center", whiteSpace: "nowrap" }}
                     >
-                      {formatDateOnlyUtc(context?.calendarioSemana?.inicio)} -{" "}
-                      {formatDateOnlyUtc(context?.calendarioSemana?.fin)}
+                      {formatDateOnly(context?.calendarioSemana?.inicio)} -{" "}
+                      {formatDateOnly(context?.calendarioSemana?.fin)}
                     </Typography>
 
                     <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -391,9 +592,11 @@ export default function ReservarClase() {
                               variant="caption"
                               color="text.secondary"
                             >
-                              {formatDateOnlyUtc(
-                                addDaysToUtcDate(
-                                  context?.calendarioSemana?.inicio,
+                              {formatDateOnly(
+                                addDaysToDateKey(
+                                  extractDateKey(
+                                    context?.calendarioSemana?.inicio,
+                                  ),
                                   day.diaSemana - 1,
                                 ),
                               )}
@@ -549,203 +752,212 @@ export default function ReservarClase() {
             </Paper>
           )}
 
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-              <Paper sx={{ p: 2, border: "1px solid #e2e8f0" }}>
+          <Paper sx={{ p: 2, border: "1px solid #e2e8f0" }}>
+            <Stack
+              direction={{ xs: "column", md: "row" }}
+              justifyContent="space-between"
+              alignItems={{ xs: "flex-start", md: "center" }}
+              spacing={1}
+            >
+              <Box>
                 <Typography variant="h6" fontWeight={800}>
-                  Mis próximas clases
+                  Agenda de mis clases
                 </Typography>
-                {(context?.proximasClases || []).length === 0 ? (
-                  <Typography color="text.secondary" sx={{ mt: 1 }}>
-                    No tienes clases confirmadas próximas.
-                  </Typography>
-                ) : (
-                  <Box sx={{ mt: 1, overflowX: "auto" }}>
-                    <Box sx={{ minWidth: 840 }}>
-                      <Box
-                        sx={{
-                          display: "grid",
-                          gridTemplateColumns: "2fr 1.4fr 1.6fr 1fr",
-                          gap: 1,
-                          px: 1,
-                          py: 0.5,
-                          borderBottom: "1px solid #e2e8f0",
-                        }}
-                      >
-                        <Typography variant="caption" fontWeight={700}>
-                          Fecha
-                        </Typography>
-                        <Typography variant="caption" fontWeight={700}>
-                          Profesor
-                        </Typography>
-                        <Typography variant="caption" fontWeight={700}>
-                          Vehículo
-                        </Typography>
-                        <Typography variant="caption" fontWeight={700}>
-                          Estado
-                        </Typography>
-                      </Box>
-                      {(context?.proximasClases || []).map((item) => (
-                        <Box
-                          key={item.id}
-                          sx={{
-                            display: "grid",
-                            gridTemplateColumns: "2fr 1.4fr 1.6fr 1fr",
-                            gap: 1,
-                            px: 1,
-                            py: 1,
-                            borderBottom: "1px solid #f1f5f9",
-                          }}
-                        >
-                          <Typography variant="body2" fontWeight={600}>
-                            {formatDate(item.fecha)}
-                          </Typography>
-                          <Typography variant="body2">
-                            {item.profesor?.nombre}
-                          </Typography>
-                          <Typography variant="body2">
-                            {item.vehiculo?.marca} {item.vehiculo?.modelo}
-                          </Typography>
-                          <Typography variant="body2">{item.estado}</Typography>
-                        </Box>
-                      ))}
-                    </Box>
-                  </Box>
-                )}
-              </Paper>
-            </Grid>
+                <Typography variant="body2" color="text.secondary">
+                  Vista semanal con próximas clases, solicitudes y clases
+                  efectuadas.
+                </Typography>
+              </Box>
 
-            <Grid item xs={12} md={6}>
-              <Paper sx={{ p: 2, border: "1px solid #e2e8f0" }}>
-                <Typography variant="h6" fontWeight={800}>
-                  Solicitudes pendientes
-                </Typography>
-                {(context?.solicitudesPendientes || []).length === 0 ? (
-                  <Typography color="text.secondary" sx={{ mt: 1 }}>
-                    No tienes solicitudes pendientes.
-                  </Typography>
-                ) : (
-                  <Box sx={{ mt: 1, overflowX: "auto" }}>
-                    <Box sx={{ minWidth: 900 }}>
-                      <Box
-                        sx={{
-                          display: "grid",
-                          gridTemplateColumns: "2fr 1.4fr 1.6fr 1fr 1fr",
-                          gap: 1,
-                          px: 1,
-                          py: 0.5,
-                          borderBottom: "1px solid #e2e8f0",
-                        }}
-                      >
-                        <Typography variant="caption" fontWeight={700}>
-                          Fecha
-                        </Typography>
-                        <Typography variant="caption" fontWeight={700}>
-                          Profesor
-                        </Typography>
-                        <Typography variant="caption" fontWeight={700}>
-                          Vehículo
-                        </Typography>
-                        <Typography variant="caption" fontWeight={700}>
-                          Estado
-                        </Typography>
-                        <Typography variant="caption" fontWeight={700}>
-                          Acción
-                        </Typography>
-                      </Box>
-                      {context.solicitudesPendientes.map((item) => (
-                        <Box
-                          key={item.id}
-                          sx={{
-                            display: "grid",
-                            gridTemplateColumns: "2fr 1.4fr 1.6fr 1fr 1fr",
-                            gap: 1,
-                            px: 1,
-                            py: 1,
-                            borderBottom: "1px solid #f1f5f9",
-                            alignItems: "center",
-                          }}
-                        >
-                          <Typography variant="body2" fontWeight={600}>
-                            {formatDate(item.fecha)}
-                          </Typography>
-                          <Typography variant="body2">
-                            {item.profesor?.nombre}
-                          </Typography>
-                          <Typography variant="body2">
-                            {item.vehiculo?.marca} {item.vehiculo?.modelo}
-                          </Typography>
-                          <Typography variant="body2">{item.estado}</Typography>
-                          <Button
-                            color="error"
-                            size="small"
-                            onClick={() => cancelarSolicitud(item.id)}
-                          >
-                            Cancelar
-                          </Button>
-                        </Box>
-                      ))}
-                    </Box>
-                  </Box>
-                )}
-              </Paper>
-            </Grid>
+              <Stack direction="row" spacing={0.8} useFlexGap flexWrap="wrap">
+                <Chip size="small" label="Próxima" color="info" />
+                <Chip size="small" label="Solicitud" color="warning" />
+                <Chip size="small" label="Efectuada" color="success" />
+              </Stack>
+            </Stack>
 
-            <Grid item xs={12}>
-              <Paper sx={{ p: 2, border: "1px solid #e2e8f0" }}>
-                <Typography variant="h6" fontWeight={800}>
-                  Clases efectuadas
-                </Typography>
-                {realizadas.length === 0 ? (
-                  <Typography color="text.secondary" sx={{ mt: 1 }}>
-                    No hay clases efectuadas todavía.
-                  </Typography>
-                ) : (
-                  <Stack spacing={1} sx={{ mt: 1 }}>
-                    {realizadas.map((item) => (
-                      <Box
-                        key={`done-${item.id}`}
-                        sx={{
-                          display: "grid",
-                          gridTemplateColumns: {
-                            xs: "1fr",
-                            md: "2fr 1.3fr 1.3fr 1fr",
-                          },
-                          gap: 1,
-                          p: 1,
-                          border: "1px solid #e2e8f0",
-                          borderRadius: 1.5,
-                        }}
-                      >
-                        <Typography variant="body2" fontWeight={600}>
-                          {formatDate(item.fecha)}
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: {
+                  xs: "1fr",
+                  md: "repeat(7, minmax(0, 1fr))",
+                },
+                gap: 1,
+                mt: 1.5,
+              }}
+            >
+              {agendaWeekDays.map((day) => {
+                const dayClasses = agendaByDay.get(day.id) || [];
+
+                return (
+                  <Box
+                    key={day.id}
+                    sx={{
+                      border: "1px solid #e2e8f0",
+                      borderRadius: 1,
+                      p: 1,
+                      minHeight: 220,
+                      backgroundColor: "#f8fafc",
+                    }}
+                  >
+                    <Typography fontWeight={700} variant="body2">
+                      {day.label}
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                      sx={{ display: "block", mb: 1 }}
+                    >
+                      {formatDateOnly(day.date)}
+                    </Typography>
+
+                    <Stack spacing={0.8}>
+                      {dayClasses.length ? (
+                        dayClasses.map((item) => {
+                          const color = getColorByAgendaItem(item);
+                          const typeChip = getAgendaItemTypeChip(
+                            item.agendaType,
+                          );
+                          const statusChip = getAgendaStatusChipConfig(
+                            item.estado,
+                          );
+
+                          return (
+                            <Box
+                              key={item.id}
+                              sx={{
+                                border: "1px solid",
+                                borderColor: color.border,
+                                borderRadius: 1.5,
+                                p: 0.9,
+                                bgcolor: color.bg,
+                              }}
+                            >
+                              <Typography
+                                variant="caption"
+                                fontWeight={700}
+                                sx={{ color: color.title }}
+                              >
+                                {formatHourRange(item.fecha, item.duracion)}
+                              </Typography>
+
+                              <Stack
+                                direction="row"
+                                spacing={0.5}
+                                alignItems="center"
+                                sx={{ mt: 0.3 }}
+                              >
+                                <PersonIcon
+                                  sx={{
+                                    fontSize: 14,
+                                    color: color.title,
+                                  }}
+                                />
+                                <Typography
+                                  variant="caption"
+                                  fontWeight={700}
+                                  sx={{ color: color.title }}
+                                >
+                                  {item.profesor?.nombre || "Profesor"}
+                                </Typography>
+                              </Stack>
+
+                              <Stack
+                                direction="row"
+                                spacing={0.5}
+                                alignItems="center"
+                                sx={{ mt: 0.2 }}
+                              >
+                                <DirectionsCarIcon
+                                  sx={{ fontSize: 13, color: "text.secondary" }}
+                                />
+                                <Typography
+                                  variant="caption"
+                                  color="text.secondary"
+                                >
+                                  {item.vehiculo?.marca || "Vehiculo"}{" "}
+                                  {item.vehiculo?.modelo || ""}
+                                </Typography>
+                              </Stack>
+
+                              <Stack
+                                direction="row"
+                                spacing={0.5}
+                                sx={{ mt: 0.5 }}
+                              >
+                                <Chip
+                                  size="small"
+                                  color={typeChip.color}
+                                  label={typeChip.label}
+                                  sx={{ height: 20, fontSize: 10 }}
+                                />
+                                <Chip
+                                  size="small"
+                                  color={statusChip.color}
+                                  label={statusChip.label}
+                                  sx={{ height: 20, fontSize: 10 }}
+                                />
+                              </Stack>
+
+                              <Stack sx={{ mt: 0.6 }}>
+                                {canStudentCancelClass(item) ? (
+                                  <Button
+                                    color="error"
+                                    size="small"
+                                    onClick={() => cancelarSolicitud(item.id)}
+                                    sx={{
+                                      px: 0,
+                                      justifyContent: "flex-start",
+                                      minWidth: "auto",
+                                    }}
+                                  >
+                                    Cancelar
+                                  </Button>
+                                ) : null}
+
+                                {isCompletedWithRoadmap(item) ? (
+                                  <Link
+                                    component="button"
+                                    variant="caption"
+                                    onClick={() =>
+                                      navigate(
+                                        `/hojas-ruta?roadmapId=${item.hojaRutaId}`,
+                                      )
+                                    }
+                                    sx={{ textAlign: "left" }}
+                                  >
+                                    Ver hoja de ruta
+                                  </Link>
+                                ) : null}
+
+                                {!canStudentCancelClass(item) &&
+                                !isCompletedWithRoadmap(item) &&
+                                ["PROGRAMADA", "CONFIRMADA"].includes(
+                                  String(item?.estado || "").toUpperCase(),
+                                ) ? (
+                                  <Typography
+                                    variant="caption"
+                                    color="text.secondary"
+                                  >
+                                    Menos de 24h
+                                  </Typography>
+                                ) : null}
+                              </Stack>
+                            </Box>
+                          );
+                        })
+                      ) : (
+                        <Typography variant="caption" color="text.secondary">
+                          Sin clases
                         </Typography>
-                        <Typography variant="body2">
-                          Profesor: {item.profesor?.nombre || "-"}
-                        </Typography>
-                        <Typography variant="body2">
-                          Vehículo: {item.vehiculo?.matricula || "-"}
-                        </Typography>
-                        {item.hojaRutaId ? (
-                          <Link
-                            component="button"
-                            variant="body2"
-                            onClick={() => navigate("/hojas-ruta")}
-                          >
-                            Ver hoja de ruta
-                          </Link>
-                        ) : (
-                          <Typography variant="body2" color="text.secondary">
-                            Sin hoja de ruta
-                          </Typography>
-                        )}
-                      </Box>
-                    ))}
-                  </Stack>
-                )}
-              </Paper>
-            </Grid>
-          </Grid>
+                      )}
+                    </Stack>
+                  </Box>
+                );
+              })}
+            </Box>
+          </Paper>
         </>
       ) : null}
     </Box>

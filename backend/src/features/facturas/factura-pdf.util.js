@@ -7,6 +7,10 @@ const formatDate = (value) =>
 
 export const buildFacturaPdfBuffer = (factura) => {
   return new Promise((resolve, reject) => {
+    const rawNumero = String(factura?.numero || "-");
+    const numeroMostrado =
+      rawNumero.length > 28 ? `${rawNumero.slice(0, 28)}...` : rawNumero;
+
     const doc = new PDFDocument({
       size: "A4",
       margin: 40,
@@ -18,7 +22,7 @@ export const buildFacturaPdfBuffer = (factura) => {
     doc.on("end", () => resolve(Buffer.concat(buffers)));
     doc.on("error", reject);
 
-    doc.rect(40, 40, 515, 60).fill("#f8fafc");
+    doc.rect(40, 40, 515, 76).fill("#f8fafc");
     doc
       .fillColor("#0f172a")
       .fontSize(18)
@@ -26,16 +30,19 @@ export const buildFacturaPdfBuffer = (factura) => {
     doc.fontSize(11).fillColor("#475569").text("Factura oficial", 55, 82);
 
     doc
-      .fontSize(12)
-      .fillColor("#0f172a")
-      .text(factura.numero, 390, 58, { width: 150, align: "right" })
       .fontSize(10)
       .fillColor("#475569")
-      .text(`Emisión: ${formatDate(factura.fechaEmision)}`, 390, 76, {
+      .text("Nº Factura", 390, 56, { width: 150, align: "right" })
+      .fontSize(11)
+      .fillColor("#0f172a")
+      .text(numeroMostrado, 390, 70, { width: 150, align: "right" })
+      .fontSize(10)
+      .fillColor("#475569")
+      .text(`Emisión: ${formatDate(factura.fechaEmision)}`, 390, 86, {
         width: 150,
         align: "right",
       })
-      .text(`Estado: ${factura.estado}`, 390, 92, {
+      .text(`Estado: ${factura.estado}`, 390, 100, {
         width: 150,
         align: "right",
       });

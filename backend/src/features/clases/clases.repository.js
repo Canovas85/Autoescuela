@@ -554,6 +554,102 @@ export class ClasesRepository {
     });
   }
 
+  async findFacturaByClassId(classId) {
+    return this.prisma.factura.findFirst({
+      where: {
+        clasePracticaId: classId,
+      },
+      orderBy: {
+        fechaEmision: "desc",
+      },
+    });
+  }
+
+  async findPerformedIndividualClassesWithoutInvoice(alumnoId, now) {
+    return this.prisma.clasePractica.findMany({
+      where: {
+        alumnoId,
+        metodoPago: "INDIVIDUAL",
+        compraBonoId: null,
+        estado: {
+          in: [
+            "PROGRAMADA",
+            "CONFIRMADA",
+            "COMPLETADA",
+            "REALIZADA",
+            "FINALIZADA",
+          ],
+        },
+        fecha: {
+          lte: now,
+        },
+        facturas: {
+          none: {},
+        },
+      },
+      include: {
+        vehiculo: {
+          select: {
+            tipoPermiso: true,
+          },
+        },
+      },
+      orderBy: {
+        fecha: "asc",
+      },
+    });
+  }
+
+  async findPerformedInvoicedIndividualClassesWithoutPayment(alumnoId, now) {
+    return this.prisma.clasePractica.findMany({
+      where: {
+        alumnoId,
+        metodoPago: "INDIVIDUAL",
+        compraBonoId: null,
+        estado: {
+          in: [
+            "PROGRAMADA",
+            "CONFIRMADA",
+            "COMPLETADA",
+            "REALIZADA",
+            "FINALIZADA",
+          ],
+        },
+        fecha: {
+          lte: now,
+        },
+        facturas: {
+          some: {},
+        },
+        pagos: {
+          none: {},
+        },
+      },
+      include: {
+        vehiculo: {
+          select: {
+            tipoPermiso: true,
+          },
+        },
+        facturas: {
+          orderBy: {
+            fechaEmision: "desc",
+          },
+          take: 1,
+        },
+      },
+      orderBy: {
+        fecha: "asc",
+      },
+    });
+  }
+
+  async createClassInvoice(data) {
+    return this.prisma.factura.create({
+      data,
+    });
+  }
+
   async createPendingPaymentForClass(data) {
     return this.prisma.pago.create({
       data,
