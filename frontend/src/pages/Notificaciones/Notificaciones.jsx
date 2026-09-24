@@ -202,20 +202,16 @@ export default function Notificaciones() {
               <CardContent>
                 <Stack
                   direction="row"
-                  justifyContent="space-between"
-                  spacing={3}
                   alignItems="center"
-                  sx={{ mb: 0.7 }}
+                  spacing={2} // Un pequeño espacio de seguridad entre el texto y los chips
+                  sx={{ mb: 0.7, width: "100%" }}
                 >
-                  <Typography fontWeight={800} sx={{ mb: 1 }}>
-                    {item.titulo}{" "}
-                  </Typography>
-                  <Stack direction="row" spacing={3} alignItems="center">
-                    <Chip
-                      label={item.tipo}
-                      color={colorByType(item.tipo)}
-                      size="small"
-                    />
+                  {/* El flexGrow: 1 hace que este contenedor ocupe todo el espacio libre restante, empujando los chips a la derecha */}
+                  <Box sx={{ flexGrow: 1 }}>
+                    <Typography fontWeight={800}>{item.titulo}</Typography>
+                  </Box>
+
+                  <Stack direction="row" spacing={1} alignItems="center">
                     <Chip
                       label={item.leida ? "Leída" : "Nueva"}
                       color={item.leida ? "default" : "primary"}
@@ -235,31 +231,34 @@ export default function Notificaciones() {
 
                 <Stack
                   direction="row"
-                  justifyContent="space-between"
                   alignItems="center"
+                  spacing={2}
+                  sx={{ width: "100%", mt: 2 }} // Forzamos el ancho completo del contenedor
                 >
-                  <Typography
-                    variant="caption"
-                    color="text.secondary"
-                    sx={{ mt: 2 }}
-                  >
-                    {formatDate(item.createdAt)}
-                  </Typography>
-                  {!item.leida ? (
-                    <Button
-                      size="small"
-                      onClick={() => markOneAsRead(item.id)}
-                      sx={{ ml: 5, mt: 0.3 }}
-                    >
-                      Marcar como leída
-                    </Button>
-                  ) : null}
-                  <Stack direction="row" spacing={1}>
+                  {/* El flexGrow: 1 en este Box expande el espacio y empuja todo lo que esté después hacia la derecha */}
+                  <Box sx={{ flexGrow: 1 }}>
+                    <Typography color="text.secondary">
+                      {formatDate(item.createdAt)}
+                    </Typography>
+                  </Box>
+
+                  {/* Contenedor de botones alineados perfectamente a la derecha */}
+                  <Stack direction="row" spacing={1} alignItems="center">
+                    {!item.leida ? (
+                      <Button
+                        size="small"
+                        onClick={() => markOneAsRead(item.id)}
+                      >
+                        Marcar como leída
+                      </Button>
+                    ) : null}
+
                     {item?.metadata?.route ? (
                       <Button size="small" onClick={() => goToSource(item)}>
                         Ir al origen
                       </Button>
                     ) : null}
+
                     <Button size="small" onClick={() => archiveToggle(item)}>
                       {item.archivada ? "Desarchivar" : "Archivar"}
                     </Button>

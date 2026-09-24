@@ -3,26 +3,11 @@ import {
   NUMERO_TARJETA_AUTOESCUELA,
   TITULAR_TARJETA_AUTOESCUELA,
 } from "../../shared/utils/vehiculo-combustible.js";
+import { generateFacturaNumber } from "../../shared/utils/factura-number.js";
 
 const COMBUSTIBLE_UMBRAL_REPOSTAJE = 20;
 
 const toMoney = (value) => Number(value).toFixed(2);
-const pad2 = (value) => String(value).padStart(2, "0");
-
-const buildFacturaNumber = () => {
-  const now = new Date();
-  const yyyy = now.getFullYear();
-  const mm = pad2(now.getMonth() + 1);
-  const dd = pad2(now.getDate());
-  const hh = pad2(now.getHours());
-  const min = pad2(now.getMinutes());
-  const ss = pad2(now.getSeconds());
-  const suffix = Math.floor(Math.random() * 10000)
-    .toString()
-    .padStart(4, "0");
-
-  return `GAS-${yyyy}${mm}${dd}-${hh}${min}${ss}-${suffix}`;
-};
 
 const mapGasto = (gasto) => ({
   id: gasto.id,
@@ -103,7 +88,7 @@ export class GastosCombustibleService {
     const gasto = await this.repository.createGastoAndRefuelVehiculo({
       profesorId,
       vehiculoId: vehiculo.id,
-      numeroFactura: buildFacturaNumber(),
+      numeroFactura: generateFacturaNumber(),
       titularTarjeta: TITULAR_TARJETA_AUTOESCUELA,
       numeroTarjeta: NUMERO_TARJETA_AUTOESCUELA,
       combustibleAntesPct: vehiculo.combustibleActualPct,

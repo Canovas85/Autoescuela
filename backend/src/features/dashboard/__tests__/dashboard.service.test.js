@@ -470,7 +470,7 @@ describe("DashboardService", () => {
             permiso: "B",
             fechaCreacion: new Date("2026-08-01T10:00:00.000Z"),
             fechaPago: new Date("2026-08-02T10:00:00.000Z"),
-            numeroFacturaPago: "FAC-PAGO-123",
+            numeroFacturaPago: "FAC-123",
             convocatoriasIncluidas: 2,
             convocatoriasConsumidas: 1,
           },

@@ -20,7 +20,7 @@ describe("GastosCombustibleService", () => {
       }),
       createGastoAndRefuelVehiculo: vi.fn().mockResolvedValue({
         id: "gasto-1",
-        numeroFactura: "GAS-20260918-0001",
+        numeroFactura: "FAC-202609180001",
         titularTarjeta: "Autoescuela Eguzkilore",
         numeroTarjeta: "5102 1234 4321 5015",
         combustibleAntesPct: 10,
@@ -105,7 +105,7 @@ describe("GastosCombustibleService", () => {
       findMine: vi.fn().mockResolvedValue([
         {
           id: "gasto-1",
-          numeroFactura: "GAS-20260918-0001",
+          numeroFactura: "FAC-202609180001",
           titularTarjeta: "Autoescuela Eguzkilore",
           numeroTarjeta: "5102 1234 4321 5015",
           combustibleAntesPct: 12,
@@ -140,7 +140,7 @@ describe("GastosCombustibleService", () => {
 
     expect(repositoryMock.findMine).toHaveBeenCalledWith("profesor-1");
     expect(result).toHaveLength(1);
-    expect(result[0].numeroFactura).toBe("GAS-20260918-0001");
+    expect(result[0].numeroFactura).toBe("FAC-202609180001");
     expect(result[0].vehiculo.matricula).toBe("1234ABC");
   });
 });

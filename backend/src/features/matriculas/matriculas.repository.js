@@ -1,4 +1,5 @@
 import { tasaDgtConfig } from "../../config/tasa-dgt.config.js";
+import { generateFacturaNumber } from "../../shared/utils/factura-number.js";
 
 export class MatriculasRepository {
   constructor(prisma) {
@@ -6,11 +7,7 @@ export class MatriculasRepository {
   }
 
   generarNumeroFactura(attempt = 0) {
-    const timestamp = Date.now();
-    const suffixBase = Math.floor(Math.random() * 10000) + attempt;
-    const suffix = suffixBase.toString().padStart(4, "0");
-
-    return `FAC-${timestamp}-${suffix}`;
+    return generateFacturaNumber(attempt);
   }
 
   async create(data) {

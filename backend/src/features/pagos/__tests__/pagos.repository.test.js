@@ -102,7 +102,7 @@ describe("PagosRepository", () => {
       data: {
         estado: "PAGADO",
         fechaPago,
-        numeroFacturaPago: expect.stringMatching(/^FAC-PAGO-/),
+        numeroFacturaPago: expect.stringMatching(/^FAC-[0-9]+$/),
       },
       include: {
         compraBono: {
@@ -115,7 +115,7 @@ describe("PagosRepository", () => {
 
     expect(txMock.factura.create).toHaveBeenCalledWith({
       data: {
-        numero: expect.stringMatching(/^FAC-PAGO-/),
+        numero: expect.stringMatching(/^FAC-[0-9]+$/),
         alumnoId: "alumno-1",
         matriculaId: "matricula-1",
         concepto: "Tasa DGT (Tasa 2.1)",
@@ -211,7 +211,7 @@ describe("PagosRepository", () => {
 
     expect(txMock.factura.create).toHaveBeenCalledWith({
       data: {
-        numero: expect.stringMatching(/^FAC-PAGO-/),
+        numero: expect.stringMatching(/^FAC-[0-9]+$/),
         alumnoId: "alumno-1",
         compraBonoId: "compra-1",
         concepto: "Compra bono: Pack 10",

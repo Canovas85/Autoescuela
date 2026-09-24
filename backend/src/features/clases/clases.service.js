@@ -1,3 +1,5 @@
+import { generateFacturaNumber } from "../../shared/utils/factura-number.js";
+
 const DURACION_CLASE_MINUTOS = 45;
 const CONVOCATORIAS_POR_DEFECTO = 2;
 const ESTADOS_OCUPADOS = ["PROGRAMADA", "CONFIRMADA"];
@@ -99,11 +101,7 @@ export class ClasesService {
   }
 
   generateClassInvoiceNumber(attempt = 0) {
-    const timestamp = Date.now();
-    const suffixBase = Math.floor(Math.random() * 10000) + attempt;
-    const suffix = suffixBase.toString().padStart(4, "0");
-
-    return `FAC-CLASE-${timestamp}-${suffix}`;
+    return generateFacturaNumber(attempt);
   }
 
   async ensureInvoicesForPerformedIndividualClasses(alumnoId) {

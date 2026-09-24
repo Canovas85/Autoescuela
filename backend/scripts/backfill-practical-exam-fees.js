@@ -1,6 +1,7 @@
 import "dotenv/config";
 
 import prisma from "../src/config/prisma.js";
+import { generateFacturaNumber } from "../src/shared/utils/factura-number.js";
 
 const HOJAS_RUTA_REQUERIDAS = 5;
 
@@ -9,12 +10,8 @@ const normalizarLicencia = (valor) =>
     .trim()
     .toUpperCase() || "B";
 
-const generarNumeroFacturaPago = (attempt = 0) => {
-  const timestamp = Date.now();
-  const suffixBase = Math.floor(Math.random() * 10000) + attempt;
-  const suffix = suffixBase.toString().padStart(4, "0");
-  return `FAC-PAGO-${timestamp}-${suffix}`;
-};
+const generarNumeroFacturaPago = (attempt = 0) =>
+  generateFacturaNumber(attempt);
 
 const findTarifaPractica = (tx, permiso) =>
   tx.tarifaConcepto.findFirst({
