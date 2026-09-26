@@ -33,6 +33,23 @@ const colorByState = (state) => {
   return "default";
 };
 
+const canProfessorCancelClass = (clase) => {
+  const status = String(clase?.estado || "").toUpperCase();
+
+  if (!["PROGRAMADA", "CONFIRMADA"].includes(status)) {
+    return false;
+  }
+
+  const classDate = new Date(clase?.fecha);
+
+  if (Number.isNaN(classDate.getTime())) {
+    return false;
+  }
+
+  const diffMs = classDate.getTime() - Date.now();
+  return diffMs > 24 * 60 * 60 * 1000;
+};
+
 export default function ClasesPracticasProfesor() {
   const navigate = useNavigate();
   const pendingRef = useRef(null);
@@ -196,14 +213,16 @@ export default function ClasesPracticasProfesor() {
                       >
                         Confirmar
                       </Button>
-                      <Button
-                        size="small"
-                        variant="outlined"
-                        color="error"
-                        onClick={() => cancel(item.id)}
-                      >
-                        Cancelar
-                      </Button>
+                      {canProfessorCancelClass(item) ? (
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          color="error"
+                          onClick={() => cancel(item.id)}
+                        >
+                          Cancelar
+                        </Button>
+                      ) : null}
                     </Stack>
                   </CardContent>
                 </Card>
@@ -281,14 +300,16 @@ export default function ClasesPracticasProfesor() {
                     <Typography variant="body2">
                       Pago: {item.metodoPago}
                     </Typography>
-                    <Button
-                      size="small"
-                      color="error"
-                      sx={{ mt: 1 }}
-                      onClick={() => cancel(item.id)}
-                    >
-                      Cancelar clase
-                    </Button>
+                    {canProfessorCancelClass(item) ? (
+                      <Button
+                        size="small"
+                        color="error"
+                        sx={{ mt: 1 }}
+                        onClick={() => cancel(item.id)}
+                      >
+                        Cancelar clase
+                      </Button>
+                    ) : null}
                   </CardContent>
                 </Card>
               ))}

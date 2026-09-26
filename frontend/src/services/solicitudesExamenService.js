@@ -53,6 +53,13 @@ export const solicitudesExamenService = {
     return response.data;
   },
 
+  async cancelTheoreticalRequest(id) {
+    const response = await api.patch(
+      `/solicitudes-examen/mine/teorico/solicitudes/${id}/cancelar`,
+    );
+    return response.data;
+  },
+
   async getPracticalEligibility() {
     const response = await api.get(
       "/solicitudes-examen/mine/practico/eligibilidad",

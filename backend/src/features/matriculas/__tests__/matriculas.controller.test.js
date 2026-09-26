@@ -183,7 +183,10 @@ describe("MatriculasController", () => {
     };
 
     const controller = new MatriculasController(serviceMock);
-    const req = { params: { id: "matricula-1" } };
+    const req = {
+      user: { id: "admin-1", rol: "ADMIN" },
+      params: { id: "matricula-1" },
+    };
     const res = {
       status: vi.fn().mockReturnThis(),
       json: vi.fn(),
@@ -191,9 +194,36 @@ describe("MatriculasController", () => {
 
     await controller.pagar(req, res);
 
-    expect(serviceMock.pagar).toHaveBeenCalledWith("matricula-1");
+    expect(serviceMock.pagar).toHaveBeenCalledWith(req.user, "matricula-1");
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith(matriculaPagada);
+  });
+
+  it("debe devolver 403 si el usuario no puede pagar la matrícula", async () => {
+    const serviceMock = {
+      pagar: vi
+        .fn()
+        .mockRejectedValue(
+          new Error("No tienes permisos para pagar esta matrícula"),
+        ),
+    };
+
+    const controller = new MatriculasController(serviceMock);
+    const req = {
+      user: { id: "alumno-2", rol: "ALUMNO" },
+      params: { id: "matricula-1" },
+    };
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    };
+
+    await controller.pagar(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(403);
+    expect(res.json).toHaveBeenCalledWith({
+      message: "No tienes permisos para pagar esta matrícula",
+    });
   });
 
   it("debe anular una matrícula con HTTP 200", async () => {

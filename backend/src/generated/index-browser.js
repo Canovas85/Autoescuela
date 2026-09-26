@@ -168,6 +168,8 @@ exports.Prisma.AlumnoScalarFieldEnum = {
   horasPracticasCompletadas: 'horasPracticasCompletadas',
   profesorAsignadoId: 'profesorAsignadoId',
   activo: 'activo',
+  estadoExpediente: 'estadoExpediente',
+  licenciaObtenidaAt: 'licenciaObtenidaAt',
   fechaNacimiento: 'fechaNacimiento'
 };
 

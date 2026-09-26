@@ -60,6 +60,75 @@ export class ConvocatoriasExamenRepository {
     });
   }
 
+  async findDeleteImpactByConvocatoria(id) {
+    const convocatoria = await this.prisma.convocatoriaExamen.findUnique({
+      where: { id },
+    });
+
+    if (!convocatoria) {
+      return null;
+    }
+
+    const inicio = new Date(convocatoria.fecha);
+    inicio.setHours(0, 0, 0, 0);
+
+    const fin = new Date(convocatoria.fecha);
+    fin.setHours(23, 59, 59, 999);
+
+    const solicitudes = await this.prisma.solicitudExamen.findMany({
+      where: {
+        tipo: convocatoria.tipoExamen,
+        estado: {
+          in: ["SOLICITADO", "PROGRAMADO"],
+        },
+        fechaProgramada: {
+          gte: inicio,
+          lte: fin,
+        },
+        alumno: {
+          tipoLicenciaObjetivo: convocatoria.licencia,
+        },
+      },
+      include: {
+        alumno: {
+          include: {
+            usuario: {
+              select: {
+                id: true,
+                nombre: true,
+                email: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: [{ fechaProgramada: "asc" }, { fechaSolicitud: "asc" }],
+    });
+
+    return {
+      convocatoria,
+      solicitudes,
+    };
+  }
+
+  async cancelSolicitudesByIds(ids = [], observaciones = null) {
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return { count: 0 };
+    }
+
+    return this.prisma.solicitudExamen.updateMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+      data: {
+        estado: "CANCELADO",
+        observaciones,
+      },
+    });
+  }
+
   async findAgendaWithConfirmedStudents({
     tipoExamen,
     licencia,

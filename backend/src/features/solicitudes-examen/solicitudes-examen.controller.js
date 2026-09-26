@@ -102,6 +102,19 @@ export class SolicitudesExamenController {
     }
   }
 
+  async cancelTheoreticalRequest(req, res) {
+    try {
+      const solicitud = await this.service.cancelTheoreticalRequestForStudent(
+        req.user.id,
+        req.params.id,
+      );
+
+      return res.status(200).json(solicitud);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  }
+
   async getById(req, res) {
     try {
       const solicitud = await this.service.getById(req.params.id);

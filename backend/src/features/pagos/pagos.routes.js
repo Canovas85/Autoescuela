@@ -8,12 +8,24 @@ import { PagosRepository } from "./pagos.repository.js";
 import { PagosService } from "./pagos.service.js";
 import { PagosController } from "./pagos.controller.js";
 import { NotificacionesRepository } from "../notificaciones/notificaciones.repository.js";
+import { SolicitudesExamenRepository } from "../solicitudes-examen/solicitudes-examen.repository.js";
+import { SolicitudesExamenService } from "../solicitudes-examen/solicitudes-examen.service.js";
+import { tasaDgtConfig } from "../../config/tasa-dgt.config.js";
 
 const router = Router();
 
 const repository = new PagosRepository(prisma);
 const notificacionesRepository = new NotificacionesRepository(prisma);
-const service = new PagosService(repository, notificacionesRepository);
+const solicitudesExamenRepository = new SolicitudesExamenRepository(prisma);
+const solicitudesExamenService = new SolicitudesExamenService(
+  solicitudesExamenRepository,
+  tasaDgtConfig,
+);
+const service = new PagosService(
+  repository,
+  notificacionesRepository,
+  solicitudesExamenService,
+);
 const controller = new PagosController(service);
 
 router.get(

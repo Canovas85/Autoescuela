@@ -31,7 +31,6 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import QuizIcon from "@mui/icons-material/Quiz";
 import ArticleIcon from "@mui/icons-material/Article";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
-import PaymentIcon from "@mui/icons-material/Payment";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import GroupIcon from "@mui/icons-material/Group";
 import AssignmentIcon from "@mui/icons-material/Assignment";
@@ -192,12 +191,7 @@ const menus = {
       icon: <AssessmentIcon />,
       children: [
         {
-          label: "Matriculas",
-          path: "/matricula",
-          icon: <LocalOfferIcon fontSize="small" />,
-        },
-        {
-          label: "Facturas",
+          label: "Ingresos y facturas",
           path: "/facturas",
           icon: <ReceiptLongIcon fontSize="small" />,
         },
@@ -205,11 +199,6 @@ const menus = {
           label: "Gastos",
           path: "/gastos",
           icon: <ReceiptIcon fontSize="small" />,
-        },
-        {
-          label: "Pagos",
-          path: "/pagos",
-          icon: <PaymentIcon fontSize="small" />,
         },
         {
           label: "Informes",

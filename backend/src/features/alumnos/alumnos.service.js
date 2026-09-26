@@ -64,6 +64,125 @@ const normalizarDni = (valor) => {
   return /^\d{8}[A-Za-z]$/.test(dni) ? dni.toUpperCase() : null;
 };
 
+const normalizarTelefono = (valor) => {
+  if (valor === null || valor === undefined || valor === "") {
+    return null;
+  }
+
+  const telefono = String(valor).trim();
+  if (!telefono) {
+    return null;
+  }
+
+  return /^\d{9}$/.test(telefono) ? telefono : null;
+};
+
+const toExamEstadoLabel = (estado) => {
+  const normalized = String(estado || "").toUpperCase();
+
+  if (normalized === "APTO") {
+    return "Aprobado (apto)";
+  }
+
+  if (["NO_APTO", "SUSPENDIDO"].includes(normalized)) {
+    return "Suspenso (no apto)";
+  }
+
+  return "No presentado";
+};
+
+const isFinalExamState = (estado) =>
+  [
+    "APTO",
+    "NO_APTO",
+    "APROBADO",
+    "SUSPENDIDO",
+    "SUSPENSO",
+    "NO_PRESENTADO",
+  ].includes(String(estado || "").toUpperCase());
+
+const calculatePercentage = (ok, total) => {
+  if (!total) {
+    return 0;
+  }
+
+  return Number(((ok / total) * 100).toFixed(1));
+};
+
+const formatMinutesAsHours = (minutes) => {
+  const safeMinutes = Number.isFinite(minutes) ? Math.max(minutes, 0) : 0;
+  const hours = Math.floor(safeMinutes / 60);
+  const remainder = safeMinutes % 60;
+  return `${hours}h ${String(remainder).padStart(2, "0")}min`;
+};
+
+const getComparableExamDate = (examRequest) => {
+  const dateValue = examRequest?.fechaProgramada || examRequest?.fechaSolicitud;
+  const date = new Date(dateValue || 0);
+
+  if (Number.isNaN(date.getTime())) {
+    return 0;
+  }
+
+  return date.getTime();
+};
+
+const getAcademicPhaseFromRequests = (solicitudesExamen = [], clases = []) => {
+  const latestTheoryRequest = [...(solicitudesExamen || [])]
+    .filter((request) => request?.tipo === "TEORICO")
+    .sort((a, b) => getComparableExamDate(b) - getComparableExamDate(a))[0];
+
+  const latestPracticalRequest = [...(solicitudesExamen || [])]
+    .filter((request) => request?.tipo === "PRACTICO")
+    .sort((a, b) => getComparableExamDate(b) - getComparableExamDate(a))[0];
+
+  const completedRoadmaps = (clases || []).filter((clase) => {
+    const estadoClase = String(clase?.estado || "").toUpperCase();
+    const estadoHoja = String(clase?.hojaRuta?.estado || "").toUpperCase();
+
+    return (
+      ["COMPLETADA", "REALIZADA", "FINALIZADA", "REGISTRADA"].includes(
+        estadoClase,
+      ) || estadoHoja === "REGISTRADA"
+    );
+  }).length;
+
+  const practicalStatus = String(
+    latestPracticalRequest?.estado || "",
+  ).toUpperCase();
+  const theoryStatus = String(latestTheoryRequest?.estado || "").toUpperCase();
+
+  if (practicalStatus === "APTO") {
+    return "Licencia aprobada";
+  }
+
+  if (["NO_APTO", "SUSPENDIDO", "SUSPENSO"].includes(practicalStatus)) {
+    return "Práctico suspenso";
+  }
+
+  if (["SOLICITADO", "PROGRAMADO", "PENDIENTE"].includes(practicalStatus)) {
+    return "Pendiente de examen práctico";
+  }
+
+  if (theoryStatus === "APTO" && completedRoadmaps > 0) {
+    return "Preparándose para el práctico";
+  }
+
+  if (["NO_APTO", "SUSPENDIDO", "SUSPENSO"].includes(theoryStatus)) {
+    return "Teórico suspenso";
+  }
+
+  if (theoryStatus === "APTO") {
+    return "Teórico aprobado";
+  }
+
+  if (["SOLICITADO", "PROGRAMADO", "PENDIENTE"].includes(theoryStatus)) {
+    return "Pendiente de examen teórico";
+  }
+
+  return "En formación";
+};
+
 const calcularEdad = (fechaNacimiento) => {
   if (
     !(fechaNacimiento instanceof Date) ||
@@ -140,6 +259,11 @@ export class AlumnosService {
       throw new Error("El teléfono es obligatorio");
     }
 
+    const telefono = normalizarTelefono(data.telefono);
+    if (!telefono) {
+      throw new Error("El teléfono debe contener exactamente 9 dígitos");
+    }
+
     const existingUser = await this.repository.findByEmail(data.email);
 
     if (existingUser) {
@@ -193,7 +317,7 @@ export class AlumnosService {
       nombre,
       dni,
       fechaNacimiento,
-      telefono: String(data.telefono).trim(),
+      telefono,
       tipoLicenciaObjetivo: licenciaNormalizada,
       passwordHash,
       rol: "ALUMNO",
@@ -212,13 +336,10 @@ export class AlumnosService {
         );
       }
 
-      const precioBase = promocionSeleccionada
-        ? promocionSeleccionada.precioOriginal
-        : tarifa.precio;
+      const precioBase = promocionSeleccionada?.precioOriginal ?? tarifa.precio;
 
-      const precioFinal = promocionSeleccionada
-        ? promocionSeleccionada.precioPromocional
-        : tarifa.precio;
+      const precioFinal =
+        promocionSeleccionada?.precioPromocional ?? tarifa.precio;
 
       const matriculaPayload = {
         alumnoId: alumno.id,
@@ -382,7 +503,37 @@ export class AlumnosService {
   }
 
   async getAll() {
-    return this.repository.findAll();
+    const rows = await this.repository.findAll();
+
+    return (rows || []).map((alumno) => {
+      const clases = Array.isArray(alumno?.clases) ? alumno.clases : [];
+
+      const clasesRealizadasRows = clases.filter((clase) => {
+        const estadoClase = String(clase?.estado || "").toUpperCase();
+        const estadoHoja = String(clase?.hojaRuta?.estado || "").toUpperCase();
+
+        return (
+          ["REALIZADA", "COMPLETADA", "FINALIZADA", "REGISTRADA"].includes(
+            estadoClase,
+          ) || estadoHoja === "REGISTRADA"
+        );
+      });
+
+      const minutosPracticas = clasesRealizadasRows.reduce(
+        (acc, clase) => acc + (Number(clase?.duracion) || 45),
+        0,
+      );
+
+      return {
+        ...alumno,
+        horasPracticasCompletadas: Number((minutosPracticas / 60).toFixed(2)),
+        horasPracticasCompletadasTexto: formatMinutesAsHours(minutosPracticas),
+        faseActual: getAcademicPhaseFromRequests(
+          alumno?.solicitudesExamen || [],
+          clases,
+        ),
+      };
+    });
   }
 
   async getById(id) {
@@ -408,6 +559,12 @@ export class AlumnosService {
       ? alumno.solicitudesExamen
       : [];
     const bonos = Array.isArray(alumno.bonos) ? alumno.bonos : [];
+    const testsTemario = Array.isArray(alumno.testsTemario)
+      ? alumno.testsTemario
+      : [];
+    const examenesDgt = Array.isArray(alumno.examenesDgt)
+      ? alumno.examenesDgt
+      : [];
 
     const pagoTasaDgt = pagos.find((pago) => pago.tipo === "TASA_DGT_21");
     const pagoPractico = pagos.find(
@@ -426,64 +583,219 @@ export class AlumnosService {
     const teoricoMasReciente = teoricos[0] || null;
     const practicoMasReciente = practicos[0] || null;
 
-    const tienePromo = Boolean(matriculaActual?.promocion);
-    const tieneBono = bonos.some((bono) => {
-      const disponibles =
-        Number(bono.clasesCompradas || 0) - Number(bono.clasesConsumidas || 0);
-      return disponibles > 0;
+    const mapExamHistory = (solicitud) => ({
+      id: solicitud.id,
+      estado: toExamEstadoLabel(solicitud?.estado),
+      estadoRaw: String(solicitud?.estado || "").toUpperCase(),
+      fecha: solicitud?.fechaProgramada || solicitud?.fechaSolicitud || null,
+      aciertos: solicitud?.aciertosExamen ?? null,
+      fallos: solicitud?.erroresExamen ?? null,
+      leves: solicitud?.faltasLeves ?? null,
+      deficientes: solicitud?.faltasDeficientes ?? null,
+      eliminatorias: solicitud?.faltasEliminatorias ?? null,
     });
+
+    const teoricoHistorial = teoricos
+      .filter((solicitud) => isFinalExamState(solicitud?.estado))
+      .map(mapExamHistory)
+      .sort((a, b) => new Date(b.fecha || 0) - new Date(a.fecha || 0));
+
+    const practicoHistorial = practicos
+      .filter((solicitud) => isFinalExamState(solicitud?.estado))
+      .map(mapExamHistory)
+      .sort((a, b) => new Date(b.fecha || 0) - new Date(a.fecha || 0));
+
+    const tienePromo = Boolean(matriculaActual?.promocion);
+    const bonosDetallados = bonos.map((bono) => {
+      const clasesCompradas = Number(bono.clasesCompradas || 0);
+      const clasesConsumidas = Number(bono.clasesConsumidas || 0);
+      const clasesDisponibles = Math.max(clasesCompradas - clasesConsumidas, 0);
+
+      return {
+        id: bono.id,
+        nombre: bono.bono?.nombre || "Bono",
+        fechaCaducidad: bono.fechaValidezHasta || null,
+        pagado: Boolean(bono.pagado),
+        clasesCompradas,
+        clasesConsumidas,
+        clasesDisponibles,
+      };
+    });
+
+    const bonoPrincipal =
+      bonosDetallados.find(
+        (bono) => bono.pagado && bono.clasesDisponibles > 0,
+      ) ||
+      bonosDetallados[0] ||
+      null;
+
+    const testsTemarioAprobados = testsTemario.filter(
+      (test) => test.resultado === "APROBADO",
+    ).length;
+    const testsTemarioSuspendidos = testsTemario.filter(
+      (test) => test.resultado === "SUSPENDIDO",
+    ).length;
+    const testsTemarioTotales = testsTemario.length;
+
+    const dgtAprobados = examenesDgt.filter(
+      (test) => test.aprobado === true,
+    ).length;
+    const dgtSuspendidos = examenesDgt.filter(
+      (test) => test.aprobado === false,
+    ).length;
+    const dgtTotales = examenesDgt.length;
+
+    let estadoAcademico = {
+      codigo: "EN_FORMACION",
+      label: "En formación",
+    };
+
+    const estadoExpediente = String(
+      alumno.estadoExpediente || "",
+    ).toUpperCase();
+
+    if (
+      estadoExpediente === "LICENCIA_OBTENIDA" ||
+      practicoMasReciente?.estado === "APTO"
+    ) {
+      estadoAcademico = {
+        codigo: "LICENCIA_OBTENIDA",
+        label: "Licencia obtenida",
+      };
+    } else if (
+      ["NO_APTO", "SUSPENDIDO", "NO_PRESENTADO"].includes(
+        practicoMasReciente?.estado,
+      )
+    ) {
+      estadoAcademico = {
+        codigo: "PRACTICO_SUSPENSO",
+        label: "Práctico suspenso",
+      };
+    } else if (teoricoMasReciente?.estado === "APTO") {
+      estadoAcademico = {
+        codigo: "TEORICO_APROBADO",
+        label: "Teórico aprobado",
+      };
+    } else if (
+      ["NO_APTO", "SUSPENDIDO", "NO_PRESENTADO"].includes(
+        teoricoMasReciente?.estado,
+      )
+    ) {
+      estadoAcademico = {
+        codigo: "TEORICO_SUSPENSO",
+        label: "Teórico suspenso",
+      };
+    }
+
+    const fechaInicioCobertura =
+      pagoTasaDgt?.fechaPago || pagoTasaDgt?.fechaCreacion || null;
+
+    const consumidasReales = fechaInicioCobertura
+      ? teoricoHistorial.filter((item) => {
+          const fecha = new Date(item.fecha || 0);
+          return (
+            ["NO_APTO", "SUSPENDIDO", "NO_PRESENTADO"].includes(
+              item.estadoRaw,
+            ) && fecha >= new Date(fechaInicioCobertura)
+          );
+        }).length +
+        practicoHistorial.filter((item) => {
+          const fecha = new Date(item.fecha || 0);
+          return (
+            ["NO_APTO", "SUSPENDIDO", "NO_PRESENTADO"].includes(
+              item.estadoRaw,
+            ) && fecha >= new Date(fechaInicioCobertura)
+          );
+        }).length
+      : 0;
+
+    const convocatoriasIncluidas = Number(
+      pagoTasaDgt?.convocatoriasIncluidas || 0,
+    );
+    const consumidasPago = Number(pagoTasaDgt?.convocatoriasConsumidas || 0);
+    const convocatoriasConsumidas = Math.min(
+      Math.max(Math.max(consumidasPago, consumidasReales), 0),
+      convocatoriasIncluidas,
+    );
+
+    const vidasRestantes = pagoTasaDgt
+      ? Math.max(convocatoriasIncluidas - convocatoriasConsumidas, 0)
+      : 0;
+
+    const tasaDgtEstado = !pagoTasaDgt
+      ? "NO_PAGADA"
+      : vidasRestantes <= 0
+        ? "PENDIENTE_RENOVACION"
+        : "PAGADA";
 
     return {
       id: alumno.id,
       nombreCompleto: alumno.usuario?.nombre || "",
+      estadoAcademico,
       matricula: {
         estado: matriculaActual?.estado || "PENDIENTE",
         pagada: matriculaActual?.estado === "PAGADA",
       },
+      testsTemario: {
+        realizados: testsTemarioTotales,
+        aprobados: testsTemarioAprobados,
+        suspendidos: testsTemarioSuspendidos,
+        porcentajeAprobados: calculatePercentage(
+          testsTemarioAprobados,
+          testsTemarioTotales,
+        ),
+      },
+      testsDgt: {
+        realizados: dgtTotales,
+        aprobados: dgtAprobados,
+        suspendidos: dgtSuspendidos,
+        porcentajeAprobados: calculatePercentage(dgtAprobados, dgtTotales),
+      },
       pagos: {
         tasaDgtPagada: pagoTasaDgt?.estado === "PAGADO",
+        tasaDgtEstado,
         pagoExamenPracticoPagado:
           pagoPractico?.estado === "PAGADO" ||
           pagoPracticoPromo?.estado === "PAGADO",
+        matriculaPagada: matriculaActual?.estado === "PAGADA",
+        promocionMatricula: {
+          tiene: Boolean(matriculaActual?.promocion),
+          nombre: matriculaActual?.promocion?.nombre || null,
+          precioOriginal: matriculaActual?.promocion?.precioOriginal || null,
+          precioPromocional:
+            matriculaActual?.promocion?.precioPromocional || null,
+        },
       },
       documentacion: {
         psicotecnicoEntregado: (alumno.documentos || []).length > 0,
       },
       vidas: {
-        restantes: pagoTasaDgt
-          ? Math.max(
-              Number(pagoTasaDgt.convocatoriasIncluidas || 0) -
-                Number(pagoTasaDgt.convocatoriasConsumidas || 0),
-              0,
-            )
-          : 0,
+        restantes: vidasRestantes,
+        requiereNuevoPago: Boolean(pagoTasaDgt) && vidasRestantes <= 0,
       },
-      examenTeorico: teoricoMasReciente
-        ? {
-            presentado: ["APTO", "NO_APTO", "SUSPENDIDO"].includes(
-              teoricoMasReciente.estado,
-            ),
-            apto: teoricoMasReciente.estado === "APTO",
-            aciertos: teoricoMasReciente.aciertosExamen,
-            fallos: teoricoMasReciente.erroresExamen,
-          }
-        : null,
-      examenPractico: practicoMasReciente
-        ? {
-            presentado: ["APTO", "NO_APTO", "SUSPENDIDO"].includes(
-              practicoMasReciente.estado,
-            ),
-            apto: practicoMasReciente.estado === "APTO",
-            leves: practicoMasReciente.faltasLeves,
-            deficientes: practicoMasReciente.faltasDeficientes,
-            eliminatorias: practicoMasReciente.faltasEliminatorias,
-          }
-        : null,
+      examenTeorico: {
+        estado: toExamEstadoLabel(teoricoMasReciente?.estado),
+        presentado: Boolean(teoricoMasReciente),
+        aciertos: teoricoMasReciente?.aciertosExamen ?? null,
+        fallos: teoricoMasReciente?.erroresExamen ?? null,
+      },
+      examenTeoricoHistorial: teoricoHistorial,
+      examenPractico: {
+        estado: toExamEstadoLabel(practicoMasReciente?.estado),
+        presentado: Boolean(practicoMasReciente),
+        leves: practicoMasReciente?.faltasLeves ?? null,
+        deficientes: practicoMasReciente?.faltasDeficientes ?? null,
+        eliminatorias: practicoMasReciente?.faltasEliminatorias ?? null,
+      },
+      examenPracticoHistorial: practicoHistorial,
       promocionesMatricula: {
         tiene: tienePromo,
+        nombre: matriculaActual?.promocion?.nombre || null,
       },
       bonoClases: {
-        tiene: tieneBono,
+        tiene: bonosDetallados.length > 0,
+        detalle: bonoPrincipal,
+        historial: bonosDetallados,
       },
       resumenActividad: {
         pagosRegistrados: pagos.length,
@@ -509,6 +821,16 @@ export class AlumnosService {
     const payload = {
       ...data,
     };
+
+    if (Object.prototype.hasOwnProperty.call(data, "telefono")) {
+      const telefono = normalizarTelefono(data.telefono);
+
+      if (!telefono) {
+        throw new Error("El teléfono debe contener exactamente 9 dígitos");
+      }
+
+      payload.telefono = telefono;
+    }
 
     const profesorAnterior = alumnoActual.profesorAsignadoId || null;
 
@@ -644,12 +966,9 @@ export class AlumnosService {
         );
       }
 
-      const precioBase = promocionSeleccionada
-        ? promocionSeleccionada.precioOriginal
-        : tarifa.precio;
-      const precioFinal = promocionSeleccionada
-        ? promocionSeleccionada.precioPromocional
-        : tarifa.precio;
+      const precioBase = promocionSeleccionada?.precioOriginal ?? tarifa.precio;
+      const precioFinal =
+        promocionSeleccionada?.precioPromocional ?? tarifa.precio;
 
       const baseNumerica = Number(precioBase);
       const finalNumerico = Number(precioFinal);
@@ -672,11 +991,24 @@ export class AlumnosService {
 
     const updatedAlumno = await this.repository.update(id, payload);
 
+    const profesorNuevo = updatedAlumno.profesorAsignadoId || null;
+
+    if (
+      profesorNuevo &&
+      profesorAnterior &&
+      profesorNuevo !== profesorAnterior &&
+      typeof this.repository.findFutureScheduledClassesByAlumno === "function"
+    ) {
+      updatedAlumno.reasignacionClases =
+        await this.reassignOrCancelFutureClassesByProfessorChange(
+          updatedAlumno,
+          profesorNuevo,
+        );
+    }
+
     const matriculaActualizada = this.matriculasRepository
       ? await this.matriculasRepository.findActiveByAlumnoId(id)
       : null;
-
-    const profesorNuevo = updatedAlumno.profesorAsignadoId || null;
 
     if (
       this.notificacionesRepository &&
@@ -696,6 +1028,63 @@ export class AlumnosService {
     }
 
     return updatedAlumno;
+  }
+
+  async reassignOrCancelFutureClassesByProfessorChange(
+    alumno,
+    profesorNuevoId,
+  ) {
+    const now = new Date();
+    const futuras = await this.repository.findFutureScheduledClassesByAlumno(
+      alumno.id,
+      now,
+    );
+
+    const resumen = {
+      totalFuturas: (futuras || []).length,
+      reasignadas: 0,
+      canceladas: 0,
+    };
+
+    for (const clase of futuras || []) {
+      const ocupado = await this.repository.findProfessorOccupiedAtDate(
+        profesorNuevoId,
+        clase.fecha,
+        clase.id,
+      );
+
+      if (!ocupado) {
+        await this.repository.reassignClassProfessor(clase.id, profesorNuevoId);
+        resumen.reasignadas += 1;
+        continue;
+      }
+
+      const motivo =
+        "Clase cancelada por cambio de profesor: conflicto de disponibilidad del nuevo profesor";
+
+      await this.repository.cancelClassByAdmin(clase.id, motivo);
+      await this.repository.cancelPendingClassPayment(clase.id, motivo);
+      await this.repository.revertConsumedBonusClass(clase.compraBonoId);
+
+      if (this.notificacionesRepository?.create) {
+        await this.notificacionesRepository.create({
+          usuarioId: alumno.id,
+          tipo: "CLASE_CANCELADA",
+          titulo: "Clase cancelada por reasignación de profesor",
+          mensaje:
+            "Se canceló una clase futura por conflicto horario tras cambiar tu profesor. Reserva una nueva clase desde tu área personal.",
+          metadata: {
+            alumnoId: alumno.id,
+            claseId: clase.id,
+            route: "/clases-practicas-alumno",
+          },
+        });
+      }
+
+      resumen.canceladas += 1;
+    }
+
+    return resumen;
   }
 
   async getEligibleProfesoresForAlumno(alumnoId) {

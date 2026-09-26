@@ -322,4 +322,94 @@ export class HojasRutaRepository {
       },
     });
   }
+
+  async findPerformedClassesWithoutRegisteredRoadmapByProfessorAndStudent(
+    profesorId,
+    alumnoId,
+    now,
+  ) {
+    return this.prisma.clasePractica.findMany({
+      where: {
+        profesorId,
+        alumnoId,
+        fecha: {
+          lte: now,
+        },
+        estado: {
+          not: {
+            startsWith: "CANCELADA",
+          },
+        },
+        OR: [
+          {
+            hojaRuta: {
+              is: null,
+            },
+          },
+          {
+            hojaRuta: {
+              is: {
+                estado: {
+                  not: "REGISTRADA",
+                },
+              },
+            },
+          },
+        ],
+      },
+      include: {
+        vehiculo: true,
+      },
+      orderBy: {
+        fecha: "desc",
+      },
+    });
+  }
+
+  async findStudentPerformedClassesWithoutRegisteredRoadmap(alumnoId, now) {
+    return this.prisma.clasePractica.findMany({
+      where: {
+        alumnoId,
+        fecha: {
+          lte: now,
+        },
+        estado: {
+          not: {
+            startsWith: "CANCELADA",
+          },
+        },
+        OR: [
+          {
+            hojaRuta: {
+              is: null,
+            },
+          },
+          {
+            hojaRuta: {
+              is: {
+                estado: {
+                  not: "REGISTRADA",
+                },
+              },
+            },
+          },
+        ],
+      },
+      include: {
+        profesor: {
+          include: {
+            usuario: {
+              select: {
+                nombre: true,
+              },
+            },
+          },
+        },
+        vehiculo: true,
+      },
+      orderBy: {
+        fecha: "desc",
+      },
+    });
+  }
 }

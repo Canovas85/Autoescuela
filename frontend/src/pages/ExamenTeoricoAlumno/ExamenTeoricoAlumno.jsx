@@ -55,6 +55,22 @@ const formatDate = (value) => {
   return `${day}/${month}/${year}`;
 };
 
+const canCancelTheoreticalRequest = (row) => {
+  const estado = String(row?.estado || "").toUpperCase();
+  if (!["SOLICITADO", "PROGRAMADO", "PENDIENTE"].includes(estado)) {
+    return false;
+  }
+
+  const fecha = new Date(row?.fechaProgramada || 0);
+  if (Number.isNaN(fecha.getTime())) {
+    return false;
+  }
+
+  const horasRestantes = (fecha.getTime() - Date.now()) / (1000 * 60 * 60);
+
+  return horasRestantes > 24;
+};
+
 const buildMonthGrid = (viewDate) => {
   const year = viewDate.getFullYear();
   const month = viewDate.getMonth();
@@ -154,7 +170,7 @@ export default function ExamenTeoricoAlumno() {
         const color =
           params.value === "APTO"
             ? "success"
-            : params.value === "NO_APTO"
+            : ["NO_APTO", "NO_PRESENTADO"].includes(params.value)
               ? "error"
               : "warning";
         return <Chip size="small" label={params.value} color={color} />;
@@ -220,6 +236,33 @@ export default function ExamenTeoricoAlumno() {
     setSelectedExam(null);
   };
 
+  const handleCancelRequest = async () => {
+    if (!selectedExam?.id) {
+      return;
+    }
+
+    try {
+      await solicitudesExamenService.cancelTheoreticalRequest(selectedExam.id);
+
+      setNotification({
+        open: true,
+        message: "Solicitud teórica cancelada correctamente",
+        severity: "success",
+      });
+
+      handleCloseExamModal();
+      await loadData();
+    } catch (error) {
+      setNotification({
+        open: true,
+        message:
+          error.response?.data?.message ||
+          "No se pudo cancelar la convocatoria teórica",
+        severity: "error",
+      });
+    }
+  };
+
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
@@ -271,7 +314,7 @@ export default function ExamenTeoricoAlumno() {
               color={eligibility.checks?.tasaPagada ? "success" : "warning"}
             />
             <Chip
-              label={`Intentos disponibles: ${eligibility.tasa?.convocatoriasDisponibles ?? 0}`}
+              label={`Vidas restantes: ${eligibility.tasa?.convocatoriasDisponibles ?? 0}`}
               color={
                 eligibility.checks?.convocatoriasDisponibles
                   ? "success"
@@ -507,6 +550,13 @@ export default function ExamenTeoricoAlumno() {
           </Typography>
         </DialogContent>
         <DialogActions>
+          <Button
+            color="warning"
+            onClick={handleCancelRequest}
+            disabled={!canCancelTheoreticalRequest(selectedExam)}
+          >
+            Cancelar convocatoria
+          </Button>
           <Button onClick={handleCloseExamModal}>Cerrar</Button>
         </DialogActions>
       </Dialog>

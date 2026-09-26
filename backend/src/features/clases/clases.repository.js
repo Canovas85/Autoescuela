@@ -161,17 +161,26 @@ export class ClasesRepository {
     });
   }
 
-  async countTheoreticalFailsSince(alumnoId, fechaDesde) {
+  async countExamFailsSince(alumnoId, fechaDesde) {
     return this.prisma.solicitudExamen.count({
       where: {
         alumnoId,
-        tipo: "TEORICO",
         estado: {
-          in: ["NO_APTO", "SUSPENDIDO", "SUSPENSO"],
+          in: ["NO_APTO", "SUSPENDIDO", "NO_PRESENTADO"],
         },
-        fechaProgramada: {
-          gte: fechaDesde,
-        },
+        OR: [
+          {
+            fechaProgramada: {
+              gte: fechaDesde,
+            },
+          },
+          {
+            fechaProgramada: null,
+            fechaSolicitud: {
+              gte: fechaDesde,
+            },
+          },
+        ],
       },
     });
   }
@@ -531,9 +540,12 @@ export class ClasesRepository {
   }
 
   async incrementBonoClass(compraBonoId) {
-    return this.prisma.compraBono.update({
+    return this.prisma.compraBono.updateMany({
       where: {
         id: compraBonoId,
+        clasesConsumidas: {
+          gt: 0,
+        },
       },
       data: {
         clasesConsumidas: {
@@ -752,6 +764,46 @@ export class ClasesRepository {
             },
           },
         },
+      },
+    });
+  }
+
+  async getStudentPastConfirmedBonusClasses(alumnoId, now) {
+    return this.prisma.clasePractica.findMany({
+      where: {
+        alumnoId,
+        estado: "CONFIRMADA",
+        metodoPago: "BONO",
+        compraBonoId: {
+          not: null,
+        },
+        fecha: {
+          lt: now,
+        },
+      },
+      select: {
+        id: true,
+        compraBonoId: true,
+      },
+    });
+  }
+
+  async getProfessorPastConfirmedBonusClasses(profesorId, now) {
+    return this.prisma.clasePractica.findMany({
+      where: {
+        profesorId,
+        estado: "CONFIRMADA",
+        metodoPago: "BONO",
+        compraBonoId: {
+          not: null,
+        },
+        fecha: {
+          lt: now,
+        },
+      },
+      select: {
+        id: true,
+        compraBonoId: true,
       },
     });
   }

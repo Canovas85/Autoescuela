@@ -37,7 +37,7 @@ export default function Notificaciones() {
   const navigate = useNavigate();
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [onlyUnread, setOnlyUnread] = useState(false);
+  const [onlyUnread, setOnlyUnread] = useState(true);
   const [includeArchived, setIncludeArchived] = useState(false);
   const [error, setError] = useState("");
 

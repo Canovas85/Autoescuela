@@ -29,11 +29,9 @@ import TarifasConcepto from "../pages/TarifasConcepto/TarifasConcepto";
 import ClasesDirecto from "../pages/ClasesDirecto/ClasesDirecto";
 import ClaseDirectoDetalle from "../pages/ClasesDirecto/ClaseDirectoDetalle";
 import ClasesDirectoAdmin from "../pages/ClasesDirectoAdmin/ClasesDirectoAdmin";
-import Matriculas from "../pages/Matriculas/Matriculas";
 import PagoMatricula from "../pages/Matriculas/PagoMatricula";
-import Facturas from "../pages/Facturas/Facturas";
+import IngresosFacturas from "../pages/Facturas/IngresosFacturas";
 import MisFacturas from "../pages/Facturas/MisFacturas";
-import Pagos from "../pages/Pagos/Pagos";
 import MisPagos from "../pages/Pagos/MisPagos";
 import ProfesorAlumnos from "../pages/ProfesorAlumnos/ProfesorAlumnos";
 import ProfesorVehiculos from "../pages/ProfesorVehiculos/ProfesorVehiculos";
@@ -122,8 +120,6 @@ export default function AppRouter() {
 
               <Route path="/bonos" element={<Bonos />} />
 
-              <Route path="/matricula" element={<Matriculas />} />
-
               <Route path="/pago-matricula" element={<PagoMatricula />} />
 
               <Route path="/tarifas-matricula" element={<TarifasMatricula />} />
@@ -148,9 +144,8 @@ export default function AppRouter() {
 
               <Route path="/examenes" element={<Examenes />} />
 
-              <Route path="/facturas" element={<Facturas />} />
+              <Route path="/facturas" element={<IngresosFacturas />} />
               <Route path="/gastos" element={<Gastos />} />
-              <Route path="/pagos" element={<Pagos />} />
               <Route path="/mis-facturas" element={<MisFacturas />} />
               <Route path="/mis-pagos" element={<MisPagos />} />
               <Route path="/mis-documentos" element={<DocumentosAlumno />} />

@@ -21,6 +21,11 @@ export const convocatoriasTeoricoService = {
     return response.data;
   },
 
+  async getDeleteImpact(id) {
+    const response = await api.get(`/convocatorias-examen/${id}/delete-impact`);
+    return response.data;
+  },
+
   async getAgenda(params) {
     const response = await api.get("/convocatorias-examen/agenda", { params });
     return response.data;

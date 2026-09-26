@@ -91,6 +91,8 @@ export class DashboardRepository {
           select: {
             tipoLicenciaObjetivo: true,
             horasPracticasCompletadas: true,
+            estadoExpediente: true,
+            licenciaObtenidaAt: true,
             matriculas: {
               orderBy: {
                 fechaCreacion: "desc",
@@ -213,13 +215,25 @@ export class DashboardRepository {
   }
 
   async countStudentExamSuspensosFromDate(userId, fechaDesde) {
-    return this.prisma.examen.count({
+    return this.prisma.solicitudExamen.count({
       where: {
         alumnoId: userId,
-        estado: "SUSPENDIDO",
-        fecha: {
-          gte: fechaDesde,
+        estado: {
+          in: ["NO_APTO", "SUSPENDIDO", "NO_PRESENTADO"],
         },
+        OR: [
+          {
+            fechaProgramada: {
+              gte: fechaDesde,
+            },
+          },
+          {
+            fechaProgramada: null,
+            fechaSolicitud: {
+              gte: fechaDesde,
+            },
+          },
+        ],
       },
     });
   }
@@ -255,6 +269,87 @@ export class DashboardRepository {
       examenesDGT,
       pagosDgt,
     };
+  }
+
+  async syncPastConfirmedBonusClassesForAlumno(alumnoId, now) {
+    if (!alumnoId) {
+      return;
+    }
+
+    const rows = await this.prisma.clasePractica.findMany({
+      where: {
+        alumnoId,
+        estado: "CONFIRMADA",
+        metodoPago: "BONO",
+        compraBonoId: {
+          not: null,
+        },
+        fecha: {
+          lt: now,
+        },
+      },
+      select: {
+        id: true,
+        compraBonoId: true,
+      },
+    });
+
+    for (const row of rows) {
+      await this.prisma.$transaction(async (tx) => {
+        const compra = await tx.compraBono.findUnique({
+          where: {
+            id: row.compraBonoId,
+          },
+          select: {
+            clasesCompradas: true,
+            clasesConsumidas: true,
+          },
+        });
+
+        if (
+          compra &&
+          Number(compra.clasesConsumidas || 0) <
+            Number(compra.clasesCompradas || 0)
+        ) {
+          await tx.compraBono.update({
+            where: {
+              id: row.compraBonoId,
+            },
+            data: {
+              clasesConsumidas: {
+                increment: 1,
+              },
+            },
+          });
+        }
+
+        await tx.clasePractica.update({
+          where: {
+            id: row.id,
+          },
+          data: {
+            estado: "REALIZADA",
+          },
+        });
+      });
+    }
+  }
+
+  async syncPastConfirmedBonusClassesForUser(userId, now) {
+    const alumno = await this.prisma.alumno.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!alumno) {
+      return;
+    }
+
+    await this.syncPastConfirmedBonusClassesForAlumno(alumno.id, now);
   }
 
   async getProfessorProfile(userId) {
@@ -534,10 +629,17 @@ export class DashboardRepository {
         },
         solicitudesExamen: {
           select: {
+            id: true,
             tipo: true,
             estado: true,
             fechaSolicitud: true,
             fechaProgramada: true,
+            erroresExamen: true,
+            aciertosExamen: true,
+            faltasLeves: true,
+            faltasDeficientes: true,
+            faltasEliminatorias: true,
+            motivoNoApto: true,
           },
           orderBy: {
             fechaSolicitud: "desc",
@@ -668,6 +770,12 @@ export class DashboardRepository {
             estado: true,
             fechaSolicitud: true,
             fechaProgramada: true,
+            erroresExamen: true,
+            aciertosExamen: true,
+            faltasLeves: true,
+            faltasDeficientes: true,
+            faltasEliminatorias: true,
+            motivoNoApto: true,
           },
           orderBy: {
             fechaSolicitud: "desc",

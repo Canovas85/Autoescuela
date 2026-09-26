@@ -50,35 +50,97 @@ export class SolicitudesExamenRepository {
     });
   }
 
-  async countSuspensosDesdeFecha(alumnoId, fechaDesde) {
-    return this.prisma.examen.count({
+  async findPagoTasaDGTPendiente(alumnoId, licenciaObjetivo, conceptoPattern) {
+    return this.prisma.pago.findFirst({
       where: {
         alumnoId,
-        estado: "SUSPENDIDO",
-        fecha: {
-          gte: fechaDesde,
+        tipo: "TASA_DGT_21",
+        permiso: licenciaObjetivo,
+        estado: "PENDIENTE",
+        concepto: {
+          contains: conceptoPattern,
+          mode: "insensitive",
         },
+      },
+      orderBy: [{ fechaCreacion: "desc" }],
+    });
+  }
+
+  async findTarifaTasaDgtByPermiso(permiso, conceptoPattern) {
+    return this.prisma.tarifaConcepto.findFirst({
+      where: {
+        permiso,
+        activa: true,
+        concepto: {
+          contains: conceptoPattern,
+          mode: "insensitive",
+        },
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
+  }
+
+  async countSuspensosDesdeFecha(alumnoId, fechaDesde) {
+    return this.prisma.solicitudExamen.count({
+      where: {
+        alumnoId,
+        estado: {
+          in: ["NO_APTO", "SUSPENDIDO", "NO_PRESENTADO"],
+        },
+        OR: [
+          {
+            fechaProgramada: {
+              gte: fechaDesde,
+            },
+          },
+          {
+            fechaProgramada: null,
+            fechaSolicitud: {
+              gte: fechaDesde,
+            },
+          },
+        ],
       },
     });
   }
 
   async findSuspensosDesdeFecha(alumnoId, fechaDesde) {
-    return this.prisma.examen.findMany({
+    const rows = await this.prisma.solicitudExamen.findMany({
       where: {
         alumnoId,
-        estado: "SUSPENDIDO",
-        fecha: {
-          gte: fechaDesde,
+        estado: {
+          in: ["NO_APTO", "SUSPENDIDO", "NO_PRESENTADO"],
         },
+        OR: [
+          {
+            fechaProgramada: {
+              gte: fechaDesde,
+            },
+          },
+          {
+            fechaProgramada: null,
+            fechaSolicitud: {
+              gte: fechaDesde,
+            },
+          },
+        ],
       },
       orderBy: {
-        fecha: "asc",
+        fechaProgramada: "asc",
       },
       select: {
         id: true,
-        fecha: true,
+        fechaProgramada: true,
+        fechaSolicitud: true,
       },
     });
+
+    return rows.map((item) => ({
+      id: item.id,
+      fecha: item.fechaProgramada || item.fechaSolicitud,
+    }));
   }
 
   async countClasesCompletadasDesdeFecha(alumnoId, fechaDesde) {
@@ -123,6 +185,20 @@ export class SolicitudesExamenRepository {
     });
   }
 
+  async hasTheoreticalApto(alumnoId) {
+    const total = await this.prisma.solicitudExamen.count({
+      where: {
+        alumnoId,
+        tipo: "TEORICO",
+        estado: {
+          in: ["APTO", "APROBADO"],
+        },
+      },
+    });
+
+    return total > 0;
+  }
+
   async countHojasRutaRegistradas(alumnoId) {
     return this.prisma.hojaRuta.count({
       where: {
@@ -137,6 +213,21 @@ export class SolicitudesExamenRepository {
       where: {
         alumnoId,
         estado: "REGISTRADA",
+        clasePractica: {
+          is: {},
+        },
+      },
+    });
+  }
+
+  async countHojasRutaRegistradasConClaseDesdeFecha(alumnoId, fechaDesde) {
+    return this.prisma.hojaRuta.count({
+      where: {
+        alumnoId,
+        estado: "REGISTRADA",
+        createdAt: {
+          gte: fechaDesde,
+        },
         clasePractica: {
           is: {},
         },
@@ -234,6 +325,73 @@ export class SolicitudesExamenRepository {
     });
   }
 
+  async findPagosGastoPracticoActivos(alumnoId, permiso) {
+    return this.prisma.pago.findMany({
+      where: {
+        alumnoId,
+        permiso,
+        tipo: "EXAMEN_PRACTICO_GASTOS",
+        estado: {
+          in: ["PENDIENTE", "PAGADO"],
+        },
+      },
+      include: {
+        solicitudesExamenPractico: {
+          select: {
+            id: true,
+            estado: true,
+          },
+        },
+      },
+      orderBy: [{ fechaCreacion: "desc" }],
+    });
+  }
+
+  async cancelPagoAndFacturaIfPending(pagoId, motivo) {
+    const pago = await this.prisma.pago.findUnique({
+      where: {
+        id: pagoId,
+      },
+      select: {
+        id: true,
+        estado: true,
+        numeroFacturaPago: true,
+      },
+    });
+
+    if (!pago || pago.estado !== "PENDIENTE") {
+      return null;
+    }
+
+    return this.prisma.$transaction(async (tx) => {
+      await tx.pago.update({
+        where: {
+          id: pagoId,
+        },
+        data: {
+          estado: "CANCELADO",
+          observaciones: motivo,
+        },
+      });
+
+      if (pago.numeroFacturaPago) {
+        await tx.factura.updateMany({
+          where: {
+            numero: pago.numeroFacturaPago,
+            estado: {
+              in: ["EMITIDA", "PENDIENTE"],
+            },
+          },
+          data: {
+            estado: "ANULADA",
+          },
+        });
+      }
+
+      return true;
+    });
+  }
+
   async findPagoGastoPracticoPagadoReutilizable(alumnoId, permiso) {
     return this.prisma.pago.findFirst({
       where: {
@@ -244,12 +402,7 @@ export class SolicitudesExamenRepository {
         },
         estado: "PAGADO",
         solicitudesExamenPractico: {
-          none: {
-            tipo: "PRACTICO",
-            estado: {
-              in: ["APTO", "NO_APTO", "NO_PRESENTADO"],
-            },
-          },
+          none: {},
         },
       },
       orderBy: [{ fechaPago: "desc" }, { fechaCreacion: "desc" }],
@@ -264,6 +417,20 @@ export class SolicitudesExamenRepository {
     concepto,
   }) {
     if (typeof this.prisma.$transaction !== "function") {
+      const existente = await this.prisma.pago.findFirst({
+        where: {
+          alumnoId,
+          permiso,
+          tipo: "EXAMEN_PRACTICO_GASTOS",
+          estado: "PENDIENTE",
+        },
+        orderBy: [{ fechaCreacion: "desc" }],
+      });
+
+      if (existente) {
+        return existente;
+      }
+
       const numeroFactura = this.generarNumeroFacturaPago();
 
       const pago = await this.prisma.pago.create({
@@ -298,6 +465,20 @@ export class SolicitudesExamenRepository {
     }
 
     return this.prisma.$transaction(async (tx) => {
+      const existente = await tx.pago.findFirst({
+        where: {
+          alumnoId,
+          permiso,
+          tipo: "EXAMEN_PRACTICO_GASTOS",
+          estado: "PENDIENTE",
+        },
+        orderBy: [{ fechaCreacion: "desc" }],
+      });
+
+      if (existente) {
+        return existente;
+      }
+
       let attempt = 0;
 
       while (attempt < 3) {
@@ -316,6 +497,128 @@ export class SolicitudesExamenRepository {
               convocatoriasIncluidas: 0,
               convocatoriasConsumidas: 0,
               numeroFacturaPago: numeroFactura,
+            },
+          });
+
+          await tx.factura.create({
+            data: {
+              numero: numeroFactura,
+              alumnoId,
+              matriculaId,
+              concepto,
+              baseImponible: importe,
+              descuento: 0,
+              total: importe,
+              estado: "EMITIDA",
+            },
+          });
+
+          return pago;
+        } catch (error) {
+          if (error?.code !== "P2002" || attempt === 2) {
+            throw error;
+          }
+
+          attempt += 1;
+        }
+      }
+
+      return null;
+    });
+  }
+
+  async createPagoTasaDgtPendiente({
+    alumnoId,
+    matriculaId,
+    permiso,
+    importe,
+    concepto,
+    convocatoriasIncluidas,
+    observaciones,
+  }) {
+    if (typeof this.prisma.$transaction !== "function") {
+      const existente = await this.prisma.pago.findFirst({
+        where: {
+          alumnoId,
+          permiso,
+          tipo: "TASA_DGT_21",
+          estado: "PENDIENTE",
+        },
+        orderBy: [{ fechaCreacion: "desc" }],
+      });
+
+      if (existente) {
+        return existente;
+      }
+
+      const numeroFactura = this.generarNumeroFacturaPago();
+
+      const pago = await this.prisma.pago.create({
+        data: {
+          alumnoId,
+          matriculaId,
+          tipo: "TASA_DGT_21",
+          concepto,
+          permiso,
+          importe,
+          estado: "PENDIENTE",
+          convocatoriasIncluidas,
+          convocatoriasConsumidas: 0,
+          numeroFacturaPago: numeroFactura,
+          observaciones: observaciones || null,
+        },
+      });
+
+      await this.prisma.factura.create({
+        data: {
+          numero: numeroFactura,
+          alumnoId,
+          matriculaId,
+          concepto,
+          baseImponible: importe,
+          descuento: 0,
+          total: importe,
+          estado: "EMITIDA",
+        },
+      });
+
+      return pago;
+    }
+
+    return this.prisma.$transaction(async (tx) => {
+      const existente = await tx.pago.findFirst({
+        where: {
+          alumnoId,
+          permiso,
+          tipo: "TASA_DGT_21",
+          estado: "PENDIENTE",
+        },
+        orderBy: [{ fechaCreacion: "desc" }],
+      });
+
+      if (existente) {
+        return existente;
+      }
+
+      let attempt = 0;
+
+      while (attempt < 3) {
+        const numeroFactura = this.generarNumeroFacturaPago(attempt);
+
+        try {
+          const pago = await tx.pago.create({
+            data: {
+              alumnoId,
+              matriculaId,
+              tipo: "TASA_DGT_21",
+              concepto,
+              permiso,
+              importe,
+              estado: "PENDIENTE",
+              convocatoriasIncluidas,
+              convocatoriasConsumidas: 0,
+              numeroFacturaPago: numeroFactura,
+              observaciones: observaciones || null,
             },
           });
 
@@ -503,6 +806,23 @@ export class SolicitudesExamenRepository {
         id,
         alumnoId,
       },
+    });
+  }
+
+  async findSolicitudById(id) {
+    return this.prisma.solicitudExamen.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
+
+  async updateAlumnoEstadoExpediente(alumnoId, data) {
+    return this.prisma.alumno.update({
+      where: {
+        id: alumnoId,
+      },
+      data,
     });
   }
 

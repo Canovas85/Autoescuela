@@ -343,18 +343,19 @@ export class ClasesService {
       ? await this.repository.findLatestDgtPaid(alumnoId, permiso)
       : null;
 
-    const fechaInicioVidas =
-      pagoDgt?.fechaPago || pagoDgt?.fechaCreacion || new Date();
-
     const vidasIncluidas = Number(
       pagoDgt?.convocatoriasIncluidas || CONVOCATORIAS_POR_DEFECTO,
     );
-    const vidasGastadas = pagoDgt
-      ? await this.repository.countTheoreticalFailsSince(
-          alumnoId,
-          fechaInicioVidas,
-        )
+    const fechaInicioVidas =
+      pagoDgt?.fechaPago || pagoDgt?.fechaCreacion || new Date();
+    const vidasGastadasReales = pagoDgt
+      ? await this.repository.countExamFailsSince(alumnoId, fechaInicioVidas)
       : 0;
+    const vidasGastadasPago = Number(pagoDgt?.convocatoriasConsumidas || 0);
+    const vidasGastadas = Math.min(
+      Math.max(Math.max(vidasGastadasPago, vidasGastadasReales), 0),
+      vidasIncluidas,
+    );
     const vidasDisponibles = pagoDgt
       ? Math.max(vidasIncluidas - vidasGastadas, 0)
       : 0;
@@ -426,6 +427,61 @@ export class ClasesService {
     };
   }
 
+  async syncPastConfirmedBonusClassesForStudent(alumnoId, now = new Date()) {
+    if (
+      typeof this.repository.getStudentPastConfirmedBonusClasses !==
+        "function" ||
+      typeof this.repository.decrementBonoClass !== "function" ||
+      typeof this.repository.updateClassById !== "function"
+    ) {
+      return;
+    }
+
+    const rows = await this.repository.getStudentPastConfirmedBonusClasses(
+      alumnoId,
+      now,
+    );
+
+    for (const row of rows) {
+      if (row?.compraBonoId) {
+        await this.repository.decrementBonoClass(row.compraBonoId);
+      }
+
+      await this.repository.updateClassById(row.id, {
+        estado: "REALIZADA",
+      });
+    }
+  }
+
+  async syncPastConfirmedBonusClassesForProfessor(
+    profesorId,
+    now = new Date(),
+  ) {
+    if (
+      typeof this.repository.getProfessorPastConfirmedBonusClasses !==
+        "function" ||
+      typeof this.repository.decrementBonoClass !== "function" ||
+      typeof this.repository.updateClassById !== "function"
+    ) {
+      return;
+    }
+
+    const rows = await this.repository.getProfessorPastConfirmedBonusClasses(
+      profesorId,
+      now,
+    );
+
+    for (const row of rows) {
+      if (row?.compraBonoId) {
+        await this.repository.decrementBonoClass(row.compraBonoId);
+      }
+
+      await this.repository.updateClassById(row.id, {
+        estado: "REALIZADA",
+      });
+    }
+  }
+
   async markOverdueUnpaidClassesForStudent(alumnoId) {
     const now = new Date();
     const overdue =
@@ -448,6 +504,8 @@ export class ClasesService {
         });
       }
     }
+
+    await this.syncPastConfirmedBonusClassesForStudent(alumnoId, now);
   }
 
   async markOverdueUnpaidClassesForProfessor(profesorId) {
@@ -483,6 +541,8 @@ export class ClasesService {
         },
       );
     }
+
+    await this.syncPastConfirmedBonusClassesForProfessor(profesorId, now);
   }
 
   buildWeekAvailability(horarioRows, clasesSemana) {
@@ -718,6 +778,8 @@ export class ClasesService {
   }
 
   async createStudentRequest(alumnoId, payload) {
+    await this.markOverdueUnpaidClassesForStudent(alumnoId);
+
     const eligibility = await this.buildStudentEligibility(alumnoId);
 
     if (!eligibility.puedeReservar) {
@@ -920,11 +982,14 @@ export class ClasesService {
         const pagoLimiteAt = new Date(
           new Date(clase.fecha).getTime() - 24 * 60 * 60 * 1000,
         );
-        const concepto = `Clase práctica ${new Date(clase.fecha).toLocaleDateString("es-ES")} ${new Date(clase.fecha).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}`;
 
         const tarifa = await this.repository.getTarifaClasePorPermiso(
           clase.vehiculo?.tipoPermiso || "B",
         );
+
+        const concepto =
+          tarifa?.concepto ||
+          `Clase práctica ${new Date(clase.fecha).toLocaleDateString("es-ES")} ${new Date(clase.fecha).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}`;
 
         const importe = Number(tarifa?.precio ?? 35);
 
@@ -991,6 +1056,16 @@ export class ClasesService {
     if (!["PROGRAMADA", "CONFIRMADA"].includes(clase.estado)) {
       throw new Error(
         "Solo se pueden cancelar clases en estado PROGRAMADA o CONFIRMADA",
+      );
+    }
+
+    const now = new Date();
+    const classDate = new Date(clase.fecha);
+    const diffHours = (classDate.getTime() - now.getTime()) / (1000 * 60 * 60);
+
+    if (diffHours <= 24) {
+      throw new Error(
+        "Solo se pueden cancelar clases con más de 24 horas de antelación",
       );
     }
 
@@ -1235,6 +1310,36 @@ export class ClasesService {
   }
 
   async cancel(id) {
+    const clase =
+      typeof this.repository.findById === "function"
+        ? await this.repository.findById(id)
+        : null;
+
+    if (!clase) {
+      throw new Error("Clase no encontrada");
+    }
+
+    if (typeof this.repository.updateClassById === "function") {
+      const pago = await this.repository.findPaymentByClassId?.(id);
+
+      if (pago?.estado === "PENDIENTE") {
+        await this.repository.updatePaymentById?.(pago.id, {
+          estado: "CANCELADO",
+          observaciones: "Clase cancelada por administración",
+        });
+      }
+
+      if (clase.compraBonoId) {
+        await this.repository.incrementBonoClass?.(clase.compraBonoId);
+      }
+
+      return this.repository.updateClassById(id, {
+        estado: "CANCELADA_ADMIN",
+        canceladaPor: "ADMIN",
+        canceladaConPenalizacion: false,
+      });
+    }
+
     return this.repository.cancel(id);
   }
 }

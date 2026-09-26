@@ -157,6 +157,9 @@ export default function ExamenPracticoAlumno() {
 
   const canPickDate = Boolean(eligibility?.canPickDate);
   const canRequest = Boolean(eligibility?.canRequest);
+  const practicalApproved = (myRequests || []).some(
+    (item) => String(item?.estado || "").toUpperCase() === "APTO",
+  );
 
   const handleRequest = async () => {
     if (!selectedDate) {
@@ -341,7 +344,7 @@ export default function ExamenPracticoAlumno() {
               }
             />
             <Chip
-              label={`Convocatorias DGT: ${eligibility.tasa?.convocatoriasDisponibles ?? 0}`}
+              label={`Vidas restantes: ${eligibility.tasa?.convocatoriasDisponibles ?? 0}`}
               color={
                 eligibility.checks?.convocatoriasDisponibles
                   ? "success"
@@ -360,13 +363,31 @@ export default function ExamenPracticoAlumno() {
 
           {!eligibility.checks?.pagoGastoPracticoPagado &&
             eligibility.pagoGastoPractico?.id && (
-              <Alert severity="info" sx={{ mb: 1.5 }}>
-                Tienes un pago pendiente de gastos de examen práctico. Debes
-                abonarlo antes de confirmar la fecha.
-                <Box sx={{ mt: 1 }}>
+              <Alert
+                severity="info"
+                sx={{
+                  mb: 1.5,
+                  alignItems: "center", // Centra verticalmente el icono, el texto y la acción
+                  width: "100%",
+                  "& .MuiAlert-message": {
+                    width: "100%",
+                    padding: 0, // Elimina espaciados internos que puedan desalinear el texto
+                  },
+                  "& .MuiAlert-icon": {
+                    opacity: 1, // Asegura que el icono mantenga buena visibilidad
+                    marginRight: 1, // Controla la separación entre el icono y el texto
+                  },
+                  "& .MuiAlert-action": {
+                    padding: 0,
+                    marginLeft: "auto", // Asegura empujar el botón al extremo derecho
+                    paddingLeft: 2, // Añade separación para que el texto no toque el botón
+                  },
+                }}
+                action={
                   <Button
                     size="small"
                     variant="contained"
+                    sx={{ whiteSpace: "nowrap" }} // Evita que el texto del botón se rompa en dos líneas
                     onClick={() =>
                       navigate(
                         `/pago-matricula?pagoId=${eligibility.pagoGastoPractico.id}`,
@@ -375,7 +396,10 @@ export default function ExamenPracticoAlumno() {
                   >
                     Ir al pago
                   </Button>
-                </Box>
+                }
+              >
+                Tienes un pago pendiente de gastos de examen práctico. Debes
+                abonarlo antes de confirmar la fecha.
               </Alert>
             )}
 
@@ -393,112 +417,140 @@ export default function ExamenPracticoAlumno() {
         </Paper>
       )}
 
-      <Paper sx={{ p: 2.5, mb: 3, border: "1px solid #e2e8f0" }}>
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          justifyContent="space-between"
-          alignItems={{ xs: "flex-start", sm: "center" }}
-          spacing={1}
-          sx={{ mb: 2 }}
-        >
-          <Typography variant="h6">Calendario de convocatorias DGT</Typography>
-          <Stack direction="row" spacing={1}>
-            <Button
-              size="small"
-              variant="outlined"
-              onClick={() => {
-                const prev = new Date(viewDate);
-                prev.setMonth(prev.getMonth() - 1);
-                setViewDate(prev);
-              }}
-            >
-              Mes anterior
-            </Button>
-            <Button
-              size="small"
-              variant="outlined"
-              onClick={() => {
-                const next = new Date(viewDate);
-                next.setMonth(next.getMonth() + 1);
-                setViewDate(next);
-              }}
-            >
-              Mes siguiente
-            </Button>
-          </Stack>
-        </Stack>
-
-        <Typography variant="subtitle1" sx={{ mb: 1.5, fontWeight: 600 }}>
-          {viewDate.toLocaleDateString("es-ES", {
-            month: "long",
-            year: "numeric",
-          })}
-        </Typography>
-
-        <Box
+      {practicalApproved ? (
+        <Paper
           sx={{
-            display: "grid",
-            gridTemplateColumns: "repeat(7, minmax(0, 1fr))",
-            gap: 1,
+            p: 2.5,
+            mb: 3,
+            border: "1px solid #bbf7d0",
+            backgroundColor: "#f0fdf4",
           }}
         >
-          {WEEK_DAYS.map((label) => (
-            <Box
-              key={label}
-              sx={{
-                textAlign: "center",
-                fontWeight: 700,
-                color: "text.secondary",
-              }}
-            >
-              {label}
-            </Box>
-          ))}
-
-          {monthGrid.map((cell, index) => {
-            if (!cell) {
-              return <Box key={`empty-${index}`} sx={{ height: 44 }} />;
-            }
-
-            const key = toLocalDateKey(cell);
-            const isAvailable = availableDateSet.has(key);
-            const isSelected = selectedDate === key;
-
-            return (
-              <Button
-                key={key}
-                variant={isSelected ? "contained" : "outlined"}
-                color={isAvailable ? "primary" : "inherit"}
-                disabled={!isAvailable || !canPickDate || loading}
-                onClick={() => setSelectedDate(key)}
-                sx={{ minWidth: 0, height: 44 }}
-              >
-                {cell.getDate()}
-              </Button>
-            );
-          })}
-        </Box>
-
-        <Divider sx={{ my: 2 }} />
-
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          spacing={1}
-          alignItems={{ xs: "stretch", sm: "center" }}
-        >
-          <Typography variant="body2" color="text.secondary" sx={{ flex: 1 }}>
-            Fecha seleccionada:{" "}
-            {selectedDate ? formatDate(selectedDate) : "ninguna"}
-          </Typography>
-          <Button
-            variant="contained"
-            onClick={handleRequest}
-            disabled={!canRequest || loading}
+          <Typography
+            variant="h6"
+            sx={{ mb: 1, color: "#166534", fontWeight: 700 }}
           >
-            Solicitar convocatoria
-          </Button>
-        </Stack>
-      </Paper>
+            Enhorabuena, has aprobado el examen práctico
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Ya tienes la licencia de conducir correspondiente a tu permiso. En
+            breve recibirás tu carnet físico. Como conductor novel, mantén una
+            conducción preventiva, respeta distancias de seguridad y continúa
+            practicando maniobras en entornos conocidos.
+          </Typography>
+        </Paper>
+      ) : null}
+
+      {!practicalApproved ? (
+        <Paper sx={{ p: 2.5, mb: 3, border: "1px solid #e2e8f0" }}>
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            justifyContent="space-between"
+            alignItems={{ xs: "flex-start", sm: "center" }}
+            spacing={1}
+            sx={{ mb: 2 }}
+          >
+            <Typography variant="h6">
+              Calendario de convocatorias DGT
+            </Typography>
+            <Stack direction="row" spacing={1}>
+              <Button
+                size="small"
+                variant="outlined"
+                onClick={() => {
+                  const prev = new Date(viewDate);
+                  prev.setMonth(prev.getMonth() - 1);
+                  setViewDate(prev);
+                }}
+              >
+                Mes anterior
+              </Button>
+              <Button
+                size="small"
+                variant="outlined"
+                onClick={() => {
+                  const next = new Date(viewDate);
+                  next.setMonth(next.getMonth() + 1);
+                  setViewDate(next);
+                }}
+              >
+                Mes siguiente
+              </Button>
+            </Stack>
+          </Stack>
+
+          <Typography variant="subtitle1" sx={{ mb: 1.5, fontWeight: 600 }}>
+            {viewDate.toLocaleDateString("es-ES", {
+              month: "long",
+              year: "numeric",
+            })}
+          </Typography>
+
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "repeat(7, minmax(0, 1fr))",
+              gap: 1,
+            }}
+          >
+            {WEEK_DAYS.map((label) => (
+              <Box
+                key={label}
+                sx={{
+                  textAlign: "center",
+                  fontWeight: 700,
+                  color: "text.secondary",
+                }}
+              >
+                {label}
+              </Box>
+            ))}
+
+            {monthGrid.map((cell, index) => {
+              if (!cell) {
+                return <Box key={`empty-${index}`} sx={{ height: 44 }} />;
+              }
+
+              const key = toLocalDateKey(cell);
+              const isAvailable = availableDateSet.has(key);
+              const isSelected = selectedDate === key;
+
+              return (
+                <Button
+                  key={key}
+                  variant={isSelected ? "contained" : "outlined"}
+                  color={isAvailable ? "primary" : "inherit"}
+                  disabled={!isAvailable || !canPickDate || loading}
+                  onClick={() => setSelectedDate(key)}
+                  sx={{ minWidth: 0, height: 44 }}
+                >
+                  {cell.getDate()}
+                </Button>
+              );
+            })}
+          </Box>
+
+          <Divider sx={{ my: 2 }} />
+
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={1}
+            alignItems={{ xs: "stretch", sm: "center" }}
+          >
+            <Typography variant="body2" color="text.secondary" sx={{ flex: 1 }}>
+              Fecha seleccionada:{" "}
+              {selectedDate ? formatDate(selectedDate) : "ninguna"}
+            </Typography>
+            <Button
+              variant="contained"
+              onClick={handleRequest}
+              disabled={!canRequest || loading}
+            >
+              Solicitar convocatoria
+            </Button>
+          </Stack>
+        </Paper>
+      ) : null}
 
       <Paper sx={{ p: 2.5, border: "1px solid #e2e8f0" }}>
         <Typography variant="h6" sx={{ mb: 1.5 }}>

@@ -495,9 +495,15 @@ export default function Login() {
               onChange={(e) =>
                 setRegisterForm({
                   ...registerForm,
-                  telefono: e.target.value,
+                  telefono: e.target.value.replace(/\D/g, "").slice(0, 9),
                 })
               }
+              helperText="Formato España: 9 dígitos"
+              inputProps={{
+                maxLength: 9,
+                inputMode: "numeric",
+                pattern: "[0-9]*",
+              }}
             />
 
             <TextField

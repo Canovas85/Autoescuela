@@ -25,6 +25,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import DownloadIcon from "@mui/icons-material/Download";
 import HistoryIcon from "@mui/icons-material/History";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
 import { profesorPortalService } from "../../services/profesorPortalService";
 import { LicenseChip } from "../../components/common/LicenseChip";
@@ -87,6 +88,61 @@ const examStateMeta = (estado) => {
     color: "error",
     icon: <CancelIcon fontSize="small" />,
   };
+};
+
+const isLicenseObtainedLabel = (estadoAlumno) =>
+  String(estadoAlumno?.codigo || "").toUpperCase() === "LICENCIA_OBTENIDA" ||
+  String(estadoAlumno?.label || "")
+    .toLowerCase()
+    .includes("licencia obtenida");
+
+const formatHistoryFieldValue = (value) => {
+  if (value === null || value === undefined || value === "") {
+    return "-";
+  }
+
+  if (typeof value === "boolean") {
+    return value ? "Sí" : "No";
+  }
+
+  if (value instanceof Date) {
+    return formatDateTime(value.toISOString());
+  }
+
+  if (typeof value === "string") {
+    const parsed = new Date(value);
+    if (!Number.isNaN(parsed.getTime()) && value.includes("-")) {
+      return formatDateTime(value);
+    }
+    return value;
+  }
+
+  if (typeof value === "number") {
+    return String(value);
+  }
+
+  return JSON.stringify(value);
+};
+
+const HISTORY_DETAIL_LABELS = {
+  tipo: "Tipo",
+  concepto: "Concepto",
+  permiso: "Permiso",
+  importe: "Importe",
+  convocatoriasIncluidas: "Convocatorias incluidas",
+  convocatoriasConsumidas: "Convocatorias consumidas",
+  estado: "Estado",
+  fechaSolicitud: "Fecha solicitud",
+  fechaProgramada: "Fecha programada",
+  erroresExamen: "Errores",
+  aciertosExamen: "Aciertos",
+  faltasLeves: "Faltas leves",
+  faltasDeficientes: "Faltas deficientes",
+  faltasEliminatorias: "Faltas eliminatorias",
+  motivoNoApto: "Motivo no apto",
+  duracion: "Duración (min)",
+  matriculaVehiculo: "Matrícula vehículo",
+  licenciaVehiculo: "Licencia vehículo",
 };
 
 export default function ProfesorAlumnos() {
@@ -250,10 +306,18 @@ export default function ProfesorAlumnos() {
         width: 90,
         sortable: false,
         renderCell: (params) => (
-          <Tooltip title="Ver detalle" arrow>
+          <Tooltip
+            title={
+              params.row?.detalleHabilitado
+                ? "Ver detalle"
+                : "Detalle disponible solo para pagos, convocatoria DGT y clases con hoja de ruta registrada"
+            }
+            arrow
+          >
             <IconButton
               size="small"
               color="primary"
+              disabled={!params.row?.detalleHabilitado}
               onClick={(event) => {
                 event.stopPropagation();
                 setSelectedHistoryEvent(params.row);
@@ -352,20 +416,49 @@ export default function ProfesorAlumnos() {
             </Typography>
 
             <Stack direction="row" spacing={1} alignItems="center">
-              <Button
-                size="small"
-                variant="outlined"
-                startIcon={<HistoryIcon fontSize="small" />}
-                onClick={() => setOpenHistory(true)}
-                disabled={loadingDetail}
-              >
-                Historial de estado
-              </Button>
               <Chip
                 size="small"
                 label={detail?.estadoAlumno?.label || "Estudiando teórico"}
                 sx={getProgressChipSx(Boolean(detail?.estadoAlumno?.ok))}
               />
+
+              {isLicenseObtainedLabel(detail?.estadoAlumno) && (
+                <Box
+                  sx={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 0.75,
+                    px: 1,
+                    py: 0.25,
+                    borderRadius: 999,
+                    bgcolor: "#fffbeb",
+                    border: "1px solid #facc15",
+                  }}
+                >
+                  <EmojiEventsIcon sx={{ color: "#ca8a04", fontSize: 16 }} />
+                  <Typography
+                    variant="caption"
+                    sx={{ color: "#854d0e", fontWeight: 800 }}
+                  >
+                    Medalla de oro
+                  </Typography>
+                  <Box
+                    sx={{
+                      width: 20,
+                      height: 20,
+                      borderRadius: "50%",
+                      display: "grid",
+                      placeItems: "center",
+                      color: "#064e3b",
+                      bgcolor: "#d1fae5",
+                      border: "1px solid #34d399",
+                      fontWeight: 900,
+                    }}
+                  >
+                    L
+                  </Box>
+                </Box>
+              )}
 
               <LicenseChip value={detail?.perfil?.tipoLicenciaObjetivo} />
             </Stack>
@@ -400,21 +493,36 @@ export default function ProfesorAlumnos() {
 
                 <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
                   <Chip
-                    color="primary"
+                    sx={{ mt: 1 }}
+                    color="success"
                     label={`Nombre: ${detail?.perfil?.nombre || "-"}`}
                   />
                   <Chip
+                    sx={{ mt: 1 }}
                     color="info"
                     label={`Email: ${detail?.perfil?.email || "-"}`}
                   />
                   <Chip
+                    sx={{ mt: 1 }}
                     color="warning"
                     label={`Teléfono: ${detail?.perfil?.telefono || "-"}`}
                   />
                   <Chip
-                    color="secondary"
+                    sx={{ mt: 1 }}
+                    color="inherit"
                     label={`DNI: ${detail?.perfil?.dni || "-"}`}
                   />
+                  <Box sx={{ flex: 1, textAlign: "right" }}>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      startIcon={<HistoryIcon fontSize="small" />}
+                      onClick={() => setOpenHistory(true)}
+                      disabled={loadingDetail}
+                    >
+                      Historial de estado
+                    </Button>
+                  </Box>
                 </Stack>
               </Paper>
 
@@ -740,7 +848,7 @@ export default function ProfesorAlumnos() {
               pageSizeOptions={[10, 25, 50]}
               initialState={{
                 pagination: { paginationModel: { pageSize: 10, page: 0 } },
-                sorting: { sortModel: [{ field: "fecha", sort: "desc" }] },
+                sorting: { sortModel: [{ field: "fecha", sort: "asc" }] },
               }}
               localeText={{ noRowsLabel: "No hay acciones registradas" }}
             />
@@ -782,19 +890,42 @@ export default function ProfesorAlumnos() {
               <strong>Resumen:</strong> {selectedHistoryEvent?.resumen || "-"}
             </Typography>
             <Paper variant="outlined" sx={{ p: 1.5, borderRadius: 1.5 }}>
-              <Typography variant="subtitle2" sx={{ mb: 1 }}>
+              <Typography variant="subtitle2" sx={{ mb: 1.25 }}>
                 Datos adicionales
               </Typography>
-              <pre
-                style={{
-                  margin: 0,
-                  whiteSpace: "pre-wrap",
-                  wordBreak: "break-word",
-                  fontSize: 12,
-                }}
-              >
-                {JSON.stringify(selectedHistoryEvent?.detalle || {}, null, 2)}
-              </pre>
+              <Stack spacing={0.8}>
+                {Object.entries(selectedHistoryEvent?.detalle || {}).length ? (
+                  Object.entries(selectedHistoryEvent?.detalle || {}).map(
+                    ([key, value]) => (
+                      <Box
+                        key={key}
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          gap: 2,
+                          borderBottom: "1px dashed #e2e8f0",
+                          py: 0.6,
+                        }}
+                      >
+                        <Typography variant="body2" color="text.secondary">
+                          {HISTORY_DETAIL_LABELS[key] || key}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          fontWeight={700}
+                          sx={{ textAlign: "right" }}
+                        >
+                          {formatHistoryFieldValue(value)}
+                        </Typography>
+                      </Box>
+                    ),
+                  )
+                ) : (
+                  <Typography variant="body2" color="text.secondary">
+                    Sin datos adicionales.
+                  </Typography>
+                )}
+              </Stack>
             </Paper>
           </Stack>
         </DialogContent>

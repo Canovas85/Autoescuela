@@ -214,6 +214,28 @@ describe("ProfesoresService", () => {
     expect(repositoryMock.create).not.toHaveBeenCalled();
   });
 
+  it("debe lanzar un error cuando el teléfono no tiene 9 dígitos", async () => {
+    const repositoryMock = {
+      findByEmail: vi.fn().mockResolvedValue(null),
+      create: vi.fn(),
+    };
+
+    const service = new ProfesoresService(repositoryMock);
+
+    await expect(
+      service.create({
+        nombre: "Juan Pérez",
+        email: "juan@autodrive.com",
+        password: "Password123",
+        dni: "12345678Z",
+        permisosLicencias: ["B"],
+        telefono: "60012ABCD",
+      }),
+    ).rejects.toThrow("El teléfono debe contener exactamente 9 dígitos");
+
+    expect(repositoryMock.create).not.toHaveBeenCalled();
+  });
+
   it("debe crear siempre el profesor como activo aunque se envíe activo false", async () => {
     const repositoryMock = {
       findByEmail: vi.fn().mockResolvedValue(null),

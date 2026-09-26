@@ -5,6 +5,8 @@ const ROADMAP_STATUS = {
   CANCELADA: "CANCELADA",
 };
 
+const COMBUSTIBLE_UMBRAL_REPOSTAJE = 20;
+
 const FAULT_TYPES = ["LEVE", "DEFICIENTE", "ELIMINATORIA"];
 
 const STATUS_FILTERS = [
@@ -302,6 +304,10 @@ const buildPagination = (total, page, pageSize) => {
   };
 };
 
+const hasLowFuel = (clase) =>
+  Number(clase?.vehiculo?.combustibleActualPct ?? 0) <
+  COMBUSTIBLE_UMBRAL_REPOSTAJE;
+
 export class HojasRutaService {
   constructor(repository) {
     this.repository = repository;
@@ -377,6 +383,21 @@ export class HojasRutaService {
       (item) => item.estado === ROADMAP_STATUS.PENDIENTE,
     );
 
+    const alertasRepostaje = pending
+      .filter(
+        (item) =>
+          Number(item?.combustibleInicioPct ?? 100) <
+          COMBUSTIBLE_UMBRAL_REPOSTAJE,
+      )
+      .map((item) => ({
+        claseId: item.claseId,
+        alumnoNombre: item.alumno?.nombre || "Alumno",
+        vehiculoMatricula: item.vehiculo?.matricula || "-",
+        combustibleActualPct: Number(item?.combustibleInicioPct ?? 0),
+        mensaje:
+          "Vehículo con combustible bajo. Debes repostar antes de completar la hoja de ruta.",
+      }));
+
     const historyBase = mapped.filter(
       (item) => item.estado !== ROADMAP_STATUS.PENDIENTE,
     );
@@ -412,6 +433,7 @@ export class HojasRutaService {
         ).length,
       },
       pendientes: pendingFiltered,
+      alertasRepostaje,
       historial: pagedHistory,
       pagination: buildPagination(historyFiltered.length, page, pageSize),
     };
@@ -429,6 +451,10 @@ export class HojasRutaService {
     return {
       ...mapped,
       editable: !isClassCancelled(clase),
+      requiereRepostaje: hasLowFuel(clase),
+      bloqueoRepostajeMensaje: hasLowFuel(clase)
+        ? "El vehículo tiene menos del 20% de combustible. Debes repostar antes de guardar o finalizar la hoja de ruta."
+        : null,
     };
   }
 
@@ -448,6 +474,12 @@ export class HojasRutaService {
     if (new Date(clase.fecha) > new Date()) {
       throw new Error(
         "La hoja de ruta solo puede iniciarse cuando la clase ha comenzado",
+      );
+    }
+
+    if (hasLowFuel(clase)) {
+      throw new Error(
+        "El vehículo tiene menos del 20% de combustible. Debes repostar antes de guardar la hoja de ruta.",
       );
     }
 
@@ -492,6 +524,12 @@ export class HojasRutaService {
     if (new Date(clase.fecha) > new Date()) {
       throw new Error(
         "La hoja de ruta solo puede finalizarse tras la fecha de clase",
+      );
+    }
+
+    if (hasLowFuel(clase)) {
+      throw new Error(
+        "El vehículo tiene menos del 20% de combustible. Debes repostar antes de finalizar la hoja de ruta.",
       );
     }
 
@@ -661,6 +699,12 @@ export class HojasRutaService {
         profesorId,
         alumnoId,
       );
+    const pendingRows =
+      await this.repository.findPerformedClassesWithoutRegisteredRoadmapByProfessorAndStudent(
+        profesorId,
+        alumnoId,
+        new Date(),
+      );
 
     const mapped = rows.map((row) => ({
       id: row.id,
@@ -684,11 +728,37 @@ export class HojasRutaService {
       updatedAt: row.updatedAt,
     }));
 
+    const pendingMapped = pendingRows.map((clase) => ({
+      id: `PENDIENTE-${clase.id}`,
+      claseId: clase.id,
+      fecha: clase.fecha,
+      duracion: clase.duracion,
+      estado: ROADMAP_STATUS.PENDIENTE,
+      sinDatos: true,
+      vehiculo: clase.vehiculo
+        ? {
+            marca: clase.vehiculo.marca,
+            modelo: clase.vehiculo.modelo,
+            matricula: clase.vehiculo.matricula,
+          }
+        : null,
+      faltasResumen: {
+        leves: 0,
+        deficientes: 0,
+        eliminatorias: 0,
+      },
+      updatedAt: clase.fecha,
+    }));
+
+    const allRows = [...mapped, ...pendingMapped].sort(
+      (a, b) => new Date(b.fecha || 0) - new Date(a.fecha || 0),
+    );
+
     const start = (page - 1) * pageSize;
 
     return {
-      rows: mapped.slice(start, start + pageSize),
-      pagination: buildPagination(mapped.length, page, pageSize),
+      rows: allRows.slice(start, start + pageSize),
+      pagination: buildPagination(allRows.length, page, pageSize),
     };
   }
 
@@ -740,6 +810,11 @@ export class HojasRutaService {
       .toLowerCase();
 
     const rows = await this.repository.findStudentRegisteredRoadmaps(alumnoId);
+    const pendingRows =
+      await this.repository.findStudentPerformedClassesWithoutRegisteredRoadmap(
+        alumnoId,
+        new Date(),
+      );
 
     const dateFrom = toStartOfDay(query?.dateFrom);
     const dateTo = toEndOfDay(query?.dateTo);
@@ -776,6 +851,8 @@ export class HojasRutaService {
       claseId: row.clasePracticaId,
       fecha: row.clasePractica?.fecha,
       duracion: row.clasePractica?.duracion,
+      estado: ROADMAP_STATUS.REGISTRADA,
+      sinDatos: false,
       profesorNombre:
         row.clasePractica?.profesor?.usuario?.nombre || "Profesor",
       vehiculo: row.clasePractica?.vehiculo
@@ -791,11 +868,58 @@ export class HojasRutaService {
       updatedAt: row.updatedAt,
     }));
 
+    const pendingFiltered = pendingRows.filter((row) => {
+      const classDate = row?.fecha ? new Date(row.fecha) : null;
+
+      if (dateFrom && classDate && classDate < dateFrom) {
+        return false;
+      }
+
+      if (dateTo && classDate && classDate > dateTo) {
+        return false;
+      }
+
+      if (!search) {
+        return true;
+      }
+
+      const profesorNombre =
+        row?.profesor?.usuario?.nombre?.toLowerCase() || "";
+      const vehiculoMatricula = row?.vehiculo?.matricula?.toLowerCase() || "";
+
+      return (
+        profesorNombre.includes(search) || vehiculoMatricula.includes(search)
+      );
+    });
+
+    const pendingMapped = pendingFiltered.map((row) => ({
+      id: `PENDIENTE-${row.id}`,
+      claseId: row.id,
+      fecha: row.fecha,
+      duracion: row.duracion,
+      estado: ROADMAP_STATUS.PENDIENTE,
+      sinDatos: true,
+      profesorNombre: row?.profesor?.usuario?.nombre || "Profesor",
+      vehiculo: row?.vehiculo
+        ? `${row.vehiculo.marca || ""} ${row.vehiculo.modelo || ""} ${row.vehiculo.matricula || ""}`.trim()
+        : "-",
+      faltasResumen: {
+        leves: 0,
+        deficientes: 0,
+        eliminatorias: 0,
+      },
+      updatedAt: row.fecha,
+    }));
+
+    const allRows = [...mapped, ...pendingMapped].sort(
+      (a, b) => new Date(b.fecha || 0) - new Date(a.fecha || 0),
+    );
+
     const start = (page - 1) * pageSize;
 
     return {
-      rows: mapped.slice(start, start + pageSize),
-      pagination: buildPagination(mapped.length, page, pageSize),
+      rows: allRows.slice(start, start + pageSize),
+      pagination: buildPagination(allRows.length, page, pageSize),
     };
   }
 

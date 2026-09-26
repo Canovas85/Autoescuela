@@ -238,6 +238,17 @@ export class DashboardService {
   }
 
   async getStudentDashboard(userId) {
+    try {
+      await this.repository.syncPastConfirmedBonusClassesForUser?.(
+        userId,
+        new Date(),
+      );
+    } catch (error) {
+      if (!(error instanceof TypeError)) {
+        throw error;
+      }
+    }
+
     const dashboard = await this.repository.getStudentDashboard(userId);
 
     if (!dashboard.profile || !dashboard.profile.alumno) {
@@ -359,9 +370,23 @@ export class DashboardService {
     let convocatoriasDisponibles = 0;
 
     if (ultimoPagoDgtPagado) {
-      convocatoriasConsumidas = Number(
+      const fechaInicioCobertura =
+        ultimoPagoDgtPagado.fechaPago ||
+        ultimoPagoDgtPagado.fechaCreacion ||
+        new Date();
+
+      const consumidasPago = Number(
         ultimoPagoDgtPagado.convocatoriasConsumidas || 0,
       );
+      const consumidasReales =
+        typeof this.repository.countStudentExamSuspensosFromDate === "function"
+          ? await this.repository.countStudentExamSuspensosFromDate(
+              userId,
+              fechaInicioCobertura,
+            )
+          : 0;
+
+      convocatoriasConsumidas = Math.max(consumidasPago, consumidasReales);
       convocatoriasConsumidas = Math.min(
         Math.max(convocatoriasConsumidas, 0),
         convocatoriasIncluidas,
@@ -565,7 +590,11 @@ export class DashboardService {
     return date.getTime();
   }
 
-  getStudentProgressStatus(solicitudesExamen = [], clases = []) {
+  getStudentProgressStatus(
+    solicitudesExamen = [],
+    clases = [],
+    estadoExpediente = null,
+  ) {
     const latestTheoryRequest = [...(solicitudesExamen || [])]
       .filter((request) => request?.tipo === "TEORICO")
       .sort(
@@ -602,11 +631,20 @@ export class DashboardService {
       "PENDIENTE",
     ].includes(practicalStatus);
 
-    if (practicalStatus === "APTO") {
-      return { label: "Licencia aprobada", ok: true };
+    const expedienteNormalizado = String(estadoExpediente || "").toUpperCase();
+
+    if (
+      expedienteNormalizado === "LICENCIA_OBTENIDA" ||
+      practicalStatus === "APTO"
+    ) {
+      return {
+        label: "Licencia obtenida",
+        ok: true,
+        codigo: "LICENCIA_OBTENIDA",
+      };
     }
 
-    if (["NO_APTO", "SUSPENDIDO"].includes(practicalStatus)) {
+    if (["NO_APTO", "SUSPENDIDO", "NO_PRESENTADO"].includes(practicalStatus)) {
       return { label: "Práctico suspenso", ok: false };
     }
 
@@ -618,7 +656,7 @@ export class DashboardService {
       return { label: "Preparándose para el práctico", ok: true };
     }
 
-    if (["NO_APTO", "SUSPENDIDO"].includes(theoryStatus)) {
+    if (["NO_APTO", "SUSPENDIDO", "NO_PRESENTADO"].includes(theoryStatus)) {
       return { label: "Teórico suspenso", ok: false };
     }
 
@@ -651,7 +689,15 @@ export class DashboardService {
 
     const rows = [];
 
-    const pushEvent = ({ id, fecha, accion, categoria, resumen, detalle }) => {
+    const pushEvent = ({
+      id,
+      fecha,
+      accion,
+      categoria,
+      resumen,
+      detalle,
+      detalleHabilitado = false,
+    }) => {
       const parsedDate = new Date(fecha || 0);
 
       if (Number.isNaN(parsedDate.getTime())) {
@@ -665,6 +711,7 @@ export class DashboardService {
         categoria,
         resumen,
         detalle: detalle || null,
+        detalleHabilitado: Boolean(detalleHabilitado),
       });
     };
 
@@ -729,6 +776,7 @@ export class DashboardService {
         accion,
         categoria: "PAGO",
         resumen: `${pago.concepto || "Sin concepto"} (${Number(pago.importe || 0).toFixed(2)} EUR)`,
+        detalleHabilitado: true,
         detalle: {
           tipo: pago.tipo,
           concepto: pago.concepto,
@@ -776,6 +824,8 @@ export class DashboardService {
         accion: "Clase práctica realizada",
         categoria: "PRACTICA",
         resumen: `${Number(clase.duracion || 0)} min | Vehículo ${clase.vehiculo?.matricula || "-"}`,
+        detalleHabilitado:
+          String(clase?.hojaRuta?.estado || "").toUpperCase() === "REGISTRADA",
         detalle: {
           duracion: Number(clase.duracion || 0),
           estado: clase.estado,
@@ -824,9 +874,36 @@ export class DashboardService {
         accion: `Examen ${tipoLabel} ${esAprobado ? "aprobado" : "no apto"}`,
         categoria: "EXAMEN",
         resumen: `Resultado ${estado}`,
+        detalleHabilitado: true,
         detalle: {
           tipo,
           estado,
+          erroresExamen:
+            solicitud?.erroresExamen === null ||
+            solicitud?.erroresExamen === undefined
+              ? null
+              : Number(solicitud.erroresExamen),
+          aciertosExamen:
+            solicitud?.aciertosExamen === null ||
+            solicitud?.aciertosExamen === undefined
+              ? null
+              : Number(solicitud.aciertosExamen),
+          faltasLeves:
+            solicitud?.faltasLeves === null ||
+            solicitud?.faltasLeves === undefined
+              ? null
+              : Number(solicitud.faltasLeves),
+          faltasDeficientes:
+            solicitud?.faltasDeficientes === null ||
+            solicitud?.faltasDeficientes === undefined
+              ? null
+              : Number(solicitud.faltasDeficientes),
+          faltasEliminatorias:
+            solicitud?.faltasEliminatorias === null ||
+            solicitud?.faltasEliminatorias === undefined
+              ? null
+              : Number(solicitud.faltasEliminatorias),
+          motivoNoApto: solicitud?.motivoNoApto || null,
           fechaSolicitud: solicitud.fechaSolicitud,
           fechaProgramada: solicitud.fechaProgramada,
         },
@@ -853,7 +930,7 @@ export class DashboardService {
       });
     }
 
-    return rows.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+    return rows.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
   }
 
   buildProfessorStudentSummary(alumno) {
@@ -893,6 +970,7 @@ export class DashboardService {
     const estadoAlumno = this.getStudentProgressStatus(
       alumno.solicitudesExamen,
       clases,
+      alumno.estadoExpediente,
     );
 
     return {
@@ -1014,6 +1092,17 @@ export class DashboardService {
   }
 
   async getProfessorStudentDetail(userId, alumnoId) {
+    try {
+      await this.repository.syncPastConfirmedBonusClassesForAlumno?.(
+        alumnoId,
+        new Date(),
+      );
+    } catch (error) {
+      if (!(error instanceof TypeError)) {
+        throw error;
+      }
+    }
+
     const [alumno, actividad] = await Promise.all([
       this.repository.findProfessorAssignedStudentById(userId, alumnoId),
       this.repository.findProfessorAssignedStudentActivityById(
@@ -1110,6 +1199,7 @@ export class DashboardService {
     const estadoAlumno = this.getStudentProgressStatus(
       alumno.solicitudesExamen,
       clases,
+      alumno.estadoExpediente,
     );
 
     const preparadoParaTeorico = testsTotales >= 10 && porcentajeAprobado >= 80;
@@ -1143,6 +1233,21 @@ export class DashboardService {
     const isPresentedExam = (solicitud) =>
       estadosPresentado.includes(toUpper(solicitud?.estado));
 
+    const sameLocalDay = (a, b) => {
+      const da = new Date(a || 0);
+      const db = new Date(b || 0);
+
+      if (Number.isNaN(da.getTime()) || Number.isNaN(db.getTime())) {
+        return false;
+      }
+
+      return (
+        da.getFullYear() === db.getFullYear() &&
+        da.getMonth() === db.getMonth() &&
+        da.getDate() === db.getDate()
+      );
+    };
+
     const mapExamResult = (solicitud) => {
       const errores =
         solicitud?.erroresExamen === null ||
@@ -1161,13 +1266,32 @@ export class DashboardService {
             ? Math.max(30 - errores, 0)
             : null;
 
+      const fechaReferencia =
+        solicitud?.fechaProgramada || solicitud?.fechaSolicitud || null;
+
+      const dgtMatch = examenesDGT.find((item) =>
+        sameLocalDay(item?.fecha, fechaReferencia),
+      );
+
+      const aciertosDgt =
+        dgtMatch?.aciertos === null || dgtMatch?.aciertos === undefined
+          ? null
+          : Number(dgtMatch.aciertos);
+      const fallosDgt =
+        dgtMatch?.fallos === null || dgtMatch?.fallos === undefined
+          ? null
+          : Number(dgtMatch.fallos);
+
+      const aciertosFinal = aciertos !== null ? aciertos : aciertosDgt;
+      const fallosFinal = errores !== null ? errores : fallosDgt;
+
       return {
         id: solicitud?.id,
         estado: toUpper(solicitud?.estado),
         fechaSolicitud: solicitud?.fechaSolicitud,
         fechaProgramada: solicitud?.fechaProgramada,
-        aciertosExamen: aciertos,
-        fallosExamen: errores,
+        aciertosExamen: aciertosFinal,
+        fallosExamen: fallosFinal,
         faltasLeves:
           solicitud?.faltasLeves === null ||
           solicitud?.faltasLeves === undefined
@@ -1200,6 +1324,21 @@ export class DashboardService {
           toUpper(solicitud?.tipo) === "PRACTICO" && isPresentedExam(solicitud),
       )
       .map(mapExamResult);
+
+    const proximoTeoricoPendiente = solicitudesExamen
+      .filter(
+        (solicitud) =>
+          toUpper(solicitud?.tipo) === "TEORICO" &&
+          ["SOLICITADO", "PROGRAMADO", "PENDIENTE"].includes(
+            toUpper(solicitud?.estado),
+          ) &&
+          solicitud?.fechaProgramada,
+      )
+      .sort(
+        (a, b) =>
+          new Date(a.fechaProgramada || 0).getTime() -
+          new Date(b.fechaProgramada || 0).getTime(),
+      )[0];
 
     const now = new Date();
     const bonosActivos = (actividad.bonosComprados || []).filter((compra) => {
@@ -1288,6 +1427,13 @@ export class DashboardService {
         practicos: examenesPracticos,
         ultimoTeorico: examenesTeoricos[0] || null,
         ultimoPractico: examenesPracticos[0] || null,
+        proximoTeoricoPendiente: proximoTeoricoPendiente
+          ? {
+              id: proximoTeoricoPendiente.id,
+              estado: toUpper(proximoTeoricoPendiente.estado),
+              fechaProgramada: proximoTeoricoPendiente.fechaProgramada,
+            }
+          : null,
       },
     };
   }

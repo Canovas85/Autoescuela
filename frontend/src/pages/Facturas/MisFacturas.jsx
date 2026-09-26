@@ -223,7 +223,7 @@ export default function MisFacturas() {
                     Factura oficial
                   </Typography>
                 </Box>
-                <Box sx={{ textAlign: "right" }}>
+                <Box sx={{ flex: 1, textAlign: "right" }}>
                   <Typography variant="h6" fontWeight={700}>
                     {selectedFactura.numero}
                   </Typography>

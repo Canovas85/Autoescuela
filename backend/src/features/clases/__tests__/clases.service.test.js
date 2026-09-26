@@ -424,6 +424,18 @@ describe("ClasesService", () => {
       findPerformedInvoicedIndividualClassesWithoutPayment: vi
         .fn()
         .mockResolvedValue([]),
+      findStudentBookingProfile: vi.fn().mockResolvedValue({
+        id: "alumno-1",
+        tipoLicenciaObjetivo: "B",
+        matriculas: [{ estado: "PAGADA", licencia: "B" }],
+      }),
+      findLatestDgtPaid: vi.fn().mockResolvedValue({
+        convocatoriasIncluidas: 2,
+        fechaPago: new Date("2026-09-01T10:00:00.000Z"),
+      }),
+      countExamFailsSince: vi.fn().mockResolvedValue(0),
+      hasTheoreticalApto: vi.fn().mockResolvedValue(true),
+      findFutureTheoreticalRequest: vi.fn().mockResolvedValue(null),
     };
 
     const service = new ClasesService(repositoryMock);

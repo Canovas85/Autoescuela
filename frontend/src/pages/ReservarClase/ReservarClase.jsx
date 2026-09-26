@@ -196,6 +196,11 @@ const isCompletedWithRoadmap = (item) => {
   return COMPLETED_CLASS_STATES.includes(status) && Boolean(item?.hojaRutaId);
 };
 
+const isCompletedWithoutRoadmap = (item) => {
+  const status = String(item?.estado || "").toUpperCase();
+  return COMPLETED_CLASS_STATES.includes(status) && !item?.hojaRutaId;
+};
+
 const combineDateAndHour = (weekStart, dayIndex, hourText) => {
   const weekStartKey = extractDateKey(weekStart);
   const dayKey = addDaysToDateKey(weekStartKey, dayIndex);
@@ -929,6 +934,16 @@ export default function ReservarClase() {
                                   >
                                     Ver hoja de ruta
                                   </Link>
+                                ) : null}
+
+                                {isCompletedWithoutRoadmap(item) ? (
+                                  <Typography
+                                    variant="caption"
+                                    color="warning.main"
+                                  >
+                                    Hoja de ruta pendiente de completar por el
+                                    profesor.
+                                  </Typography>
                                 ) : null}
 
                                 {!canStudentCancelClass(item) &&

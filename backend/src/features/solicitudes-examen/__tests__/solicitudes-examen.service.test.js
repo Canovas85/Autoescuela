@@ -209,10 +209,18 @@ describe("SolicitudesExamenService", () => {
   it("debe actualizar una solicitud", async () => {
     const solicitudActualizada = {
       id: "solicitud-1",
+      alumnoId: "alumno-1",
       tipo: "PRACTICO",
+      estado: "PROGRAMADO",
     };
 
     const repositoryMock = {
+      findSolicitudById: vi.fn().mockResolvedValue({
+        id: "solicitud-1",
+        alumnoId: "alumno-1",
+        estado: "SOLICITADO",
+        tipo: "PRACTICO",
+      }),
       update: vi.fn().mockResolvedValue(solicitudActualizada),
     };
 
@@ -237,6 +245,99 @@ describe("SolicitudesExamenService", () => {
       observaciones: null,
     });
     expect(result).toEqual(solicitudActualizada);
+  });
+
+  it("debe cancelar solicitud teórica de alumno con más de 24h", async () => {
+    const fechaProgramada = new Date(Date.now() + 48 * 60 * 60 * 1000);
+    const repositoryMock = {
+      findSolicitudByIdForStudent: vi.fn().mockResolvedValue({
+        id: "solicitud-1",
+        alumnoId: "alumno-1",
+        tipo: "TEORICO",
+        estado: "SOLICITADO",
+        fechaProgramada,
+      }),
+      update: vi
+        .fn()
+        .mockResolvedValue({ id: "solicitud-1", estado: "CANCELADO" }),
+    };
+
+    const service = new SolicitudesExamenService(repositoryMock);
+
+    const result = await service.cancelTheoreticalRequestForStudent(
+      "alumno-1",
+      "solicitud-1",
+    );
+
+    expect(repositoryMock.update).toHaveBeenCalledWith("solicitud-1", {
+      estado: "CANCELADO",
+      observaciones: "Cancelado por alumno con más de 24h de antelación",
+    });
+    expect(result.estado).toBe("CANCELADO");
+  });
+
+  it("debe bloquear cancelación teórica dentro de las 24h", async () => {
+    const repositoryMock = {
+      findSolicitudByIdForStudent: vi.fn().mockResolvedValue({
+        id: "solicitud-1",
+        alumnoId: "alumno-1",
+        tipo: "TEORICO",
+        estado: "PROGRAMADO",
+        fechaProgramada: new Date(Date.now() + 3 * 60 * 60 * 1000),
+      }),
+      update: vi.fn(),
+    };
+
+    const service = new SolicitudesExamenService(repositoryMock);
+
+    await expect(
+      service.cancelTheoreticalRequestForStudent("alumno-1", "solicitud-1"),
+    ).rejects.toThrow(
+      "No puedes cancelar la convocatoria teórica dentro de las 24 horas previas.",
+    );
+
+    expect(repositoryMock.update).not.toHaveBeenCalled();
+  });
+
+  it("debe consumir convocatoria al pasar a NO_PRESENTADO en update manual", async () => {
+    const repositoryMock = {
+      findSolicitudById: vi.fn().mockResolvedValue({
+        id: "solicitud-1",
+        alumnoId: "alumno-1",
+        estado: "PROGRAMADO",
+        tipo: "TEORICO",
+      }),
+      update: vi.fn().mockResolvedValue({
+        id: "solicitud-1",
+        alumnoId: "alumno-1",
+        estado: "NO_PRESENTADO",
+        tipo: "TEORICO",
+      }),
+      findMatriculaPagada: vi.fn().mockResolvedValue({
+        id: "mat-1",
+        licencia: "B",
+      }),
+      findUltimoPagoTasaDGT: vi.fn().mockResolvedValue({
+        id: "pago-1",
+        convocatoriasIncluidas: 2,
+        convocatoriasConsumidas: 0,
+      }),
+      incrementarConvocatoriasConsumidas: vi
+        .fn()
+        .mockResolvedValue({ id: "pago-1" }),
+    };
+
+    const service = new SolicitudesExamenService(repositoryMock);
+
+    await service.update("solicitud-1", {
+      alumnoId: "alumno-1",
+      tipo: "TEORICO",
+      estado: "NO_PRESENTADO",
+    });
+
+    expect(
+      repositoryMock.incrementarConvocatoriasConsumidas,
+    ).toHaveBeenCalledWith("pago-1");
   });
 
   it("debe eliminar una solicitud", async () => {
@@ -265,6 +366,7 @@ describe("SolicitudesExamenService", () => {
         fechaPago: new Date("2026-09-01T10:00:00.000Z"),
         convocatoriasIncluidas: 2,
       }),
+      countSuspensosDesdeFecha: vi.fn().mockResolvedValue(1),
       countNoAptosTeoricoDesdeFecha: vi.fn().mockResolvedValue(1),
     };
 
@@ -291,6 +393,7 @@ describe("SolicitudesExamenService", () => {
         fechaPago: new Date("2026-09-01T10:00:00.000Z"),
         convocatoriasIncluidas: 2,
       }),
+      countSuspensosDesdeFecha: vi.fn().mockResolvedValue(0),
       countNoAptosTeoricoDesdeFecha: vi.fn().mockResolvedValue(0),
     };
 
@@ -489,6 +592,49 @@ describe("SolicitudesExamenService", () => {
         pagoGastoPracticoId: "pago-practico-1",
       }),
     );
+  });
+
+  it("debe generar pago pendiente de renovacion Tasa DGT al agotar vidas", async () => {
+    const repositoryMock = {
+      findMatriculaPagada: vi.fn().mockResolvedValue({
+        id: "matricula-1",
+        alumnoId: "alumno-1",
+        licencia: "B",
+      }),
+      hasPsicotecnicoValidado: vi.fn().mockResolvedValue(true),
+      countHojasRutaRegistradas: vi.fn().mockResolvedValue(5),
+      countHojasRutaRegistradasConClase: vi.fn().mockResolvedValue(5),
+      findSolicitudPracticoActiva: vi.fn().mockResolvedValue(null),
+      findUltimoPagoTasaDGT: vi.fn().mockResolvedValue({
+        id: "pago-dgt-1",
+        fechaPago: new Date("2026-09-01T10:00:00.000Z"),
+        convocatoriasIncluidas: 2,
+        convocatoriasConsumidas: 2,
+      }),
+      findPagoTasaDGTPendiente: vi.fn().mockResolvedValue(null),
+      findTarifaTasaDgtByPermiso: vi.fn().mockResolvedValue({
+        concepto: "Tasa DGT (Tasa 2.1)",
+        precio: 94.05,
+      }),
+      createPagoTasaDgtPendiente: vi.fn().mockResolvedValue({
+        id: "pago-tasa-pendiente-1",
+        estado: "PENDIENTE",
+      }),
+      findUltimoNoAptoPractico: vi.fn().mockResolvedValue(null),
+      findPagoGastoPracticoPendiente: vi.fn().mockResolvedValue(null),
+      findPagoGastoPracticoPagadoReutilizable: vi.fn().mockResolvedValue({
+        id: "pago-practico-1",
+        estado: "PAGADO",
+      }),
+      findPagosGastoPracticoActivos: vi.fn().mockResolvedValue([]),
+    };
+
+    const service = new SolicitudesExamenService(repositoryMock);
+    const result = await service.getPracticalEligibilityForStudent("alumno-1");
+
+    expect(result.tasa.convocatoriasDisponibles).toBe(0);
+    expect(result.canPickDate).toBe(false);
+    expect(repositoryMock.createPagoTasaDgtPendiente).toHaveBeenCalledOnce();
   });
 
   it("debe procesar resultados practicos con faltas y consumir convocatoria en no apto", async () => {

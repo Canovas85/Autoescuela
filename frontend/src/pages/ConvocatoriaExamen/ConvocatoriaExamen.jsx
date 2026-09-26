@@ -93,7 +93,7 @@ const buildMonthGrid = (viewDate) => {
 const getEstadoChipColor = (estado) => {
   if (estado === "APTO") return "success";
   if (estado === "NO_APTO") return "error";
-  return "info";
+  return "inherit";
 };
 
 const DEFAULT_FORM = {
@@ -114,6 +114,12 @@ export default function ConvocatoriaExamen() {
   const [selectedConvocatoria, setSelectedConvocatoria] = useState(null);
   const [selectedAgendaExam, setSelectedAgendaExam] = useState(null);
   const [openAgendaExamModal, setOpenAgendaExamModal] = useState(false);
+  const [deleteDialog, setDeleteDialog] = useState({
+    open: false,
+    loading: false,
+    row: null,
+    impact: null,
+  });
   const [form, setForm] = useState(DEFAULT_FORM);
   const [search, setSearch] = useState("");
   const [viewMode, setViewMode] = useState("TABLA");
@@ -224,7 +230,7 @@ export default function ConvocatoriaExamen() {
           : "Convocatoria creada correctamente",
       });
       handleClose();
-      await loadRows();
+      await Promise.all([loadRows(), loadAgenda()]);
     } catch (error) {
       setNotification({
         open: true,
@@ -236,15 +242,69 @@ export default function ConvocatoriaExamen() {
   };
 
   const handleDeactivate = async (row) => {
+    setDeleteDialog({
+      open: true,
+      loading: true,
+      row,
+      impact: null,
+    });
+
     try {
-      await convocatoriasTeoricoService.remove(row.id);
+      const impact = await convocatoriasTeoricoService.getDeleteImpact(row.id);
+
+      setDeleteDialog({
+        open: true,
+        loading: false,
+        row,
+        impact,
+      });
+    } catch (error) {
+      setDeleteDialog({
+        open: false,
+        loading: false,
+        row: null,
+        impact: null,
+      });
+
+      setNotification({
+        open: true,
+        severity: "error",
+        message:
+          error.response?.data?.message ||
+          "No se pudo cargar el impacto de la eliminación",
+      });
+    }
+  };
+
+  const closeDeleteDialog = () => {
+    setDeleteDialog({
+      open: false,
+      loading: false,
+      row: null,
+      impact: null,
+    });
+  };
+
+  const confirmDeactivate = async () => {
+    if (!deleteDialog?.row?.id) {
+      return;
+    }
+
+    setDeleteDialog((prev) => ({ ...prev, loading: true }));
+
+    try {
+      const response = await convocatoriasTeoricoService.remove(
+        deleteDialog.row.id,
+      );
       setNotification({
         open: true,
         severity: "success",
-        message: "Convocatoria desactivada correctamente",
+        message: response?.message || "Convocatoria desactivada correctamente",
       });
-      await loadRows();
+      closeDeleteDialog();
+      await Promise.all([loadRows(), loadAgenda()]);
     } catch (error) {
+      setDeleteDialog((prev) => ({ ...prev, loading: false }));
       setNotification({
         open: true,
         severity: "error",
@@ -263,6 +323,37 @@ export default function ConvocatoriaExamen() {
   const handleOpenAgendaExamModal = (row) => {
     setSelectedAgendaExam(row);
     setOpenAgendaExamModal(true);
+  };
+
+  const handleOpenTableConvocatoriaDetail = async (row) => {
+    try {
+      const date = new Date(row?.fecha);
+      const params = {
+        year: date.getFullYear(),
+        month: date.getMonth() + 1,
+        tipoExamen: row?.tipoExamen || undefined,
+      };
+
+      const data = await convocatoriasTeoricoService.getAgenda(params);
+      const convocatoria = (data?.convocatorias || []).find(
+        (item) => item.id === row.id,
+      );
+
+      handleOpenAgendaConvocatoria(
+        convocatoria || {
+          ...row,
+          alumnos: [],
+        },
+      );
+    } catch (error) {
+      setNotification({
+        open: true,
+        severity: "error",
+        message:
+          error.response?.data?.message ||
+          "No se pudo cargar el detalle de la convocatoria",
+      });
+    }
   };
 
   const handleCloseAgendaExamModal = () => {
@@ -485,6 +576,9 @@ export default function ConvocatoriaExamen() {
             columns={columns}
             getRowId={(row) => row.id}
             disableRowSelectionOnClick
+            onRowClick={(params) =>
+              handleOpenTableConvocatoriaDetail(params.row)
+            }
             pageSizeOptions={[10, 25, 50]}
             initialState={{
               pagination: {
@@ -632,6 +726,89 @@ export default function ConvocatoriaExamen() {
         </Box>
       )}
 
+      <Dialog
+        open={deleteDialog.open}
+        onClose={deleteDialog.loading ? () => {} : closeDeleteDialog}
+        fullWidth
+        maxWidth="md"
+      >
+        <DialogTitle>Confirmar eliminación de convocatoria</DialogTitle>
+        <DialogContent sx={{ pt: "12px !important" }}>
+          <Stack spacing={1.25}>
+            <Typography>
+              Vas a desactivar la convocatoria{" "}
+              <strong>
+                {deleteDialog?.impact?.convocatoria?.tipoExamen ||
+                  deleteDialog?.row?.tipoExamen ||
+                  "-"}
+              </strong>{" "}
+              de licencia{" "}
+              <strong>
+                {deleteDialog?.impact?.convocatoria?.licencia ||
+                  deleteDialog?.row?.licencia ||
+                  "-"}
+              </strong>{" "}
+              del día{" "}
+              <strong>
+                {formatDate(
+                  deleteDialog?.impact?.convocatoria?.fecha ||
+                    deleteDialog?.row?.fecha,
+                )}
+              </strong>
+              .
+            </Typography>
+
+            {deleteDialog.loading ? (
+              <Alert severity="info">Calculando alumnos afectados...</Alert>
+            ) : null}
+
+            {!deleteDialog.loading &&
+            (deleteDialog?.impact?.afectados?.length || 0) > 0 ? (
+              <>
+                <Alert severity="warning">
+                  Se cancelarán automáticamente las solicitudes SOLICITADO o
+                  PROGRAMADO asociadas a esta fecha y se notificará a cada
+                  alumno para solicitar una nueva convocatoria.
+                </Alert>
+                <Box sx={{ maxHeight: 220, overflowY: "auto" }}>
+                  <List dense>
+                    {deleteDialog.impact.afectados.map((item) => (
+                      <ListItem key={item.solicitudId} disableGutters>
+                        <ListItemText
+                          primary={`${item.alumnoNombre} (${item.alumnoEmail || "sin email"})`}
+                          secondary={`Estado solicitud: ${item.estado} | Programada: ${formatDate(item.fechaProgramada)}`}
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                </Box>
+              </>
+            ) : null}
+
+            {!deleteDialog.loading &&
+            (deleteDialog?.impact?.afectados?.length || 0) === 0 ? (
+              <Alert severity="info">
+                No hay solicitudes en estado SOLICITADO o PROGRAMADO para esta
+                convocatoria.
+              </Alert>
+            ) : null}
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeDeleteDialog} disabled={deleteDialog.loading}>
+            Cancelar
+          </Button>
+          <Button
+            onClick={confirmDeactivate}
+            variant="contained"
+            color="error"
+            disabled={deleteDialog.loading}
+          >
+            {deleteDialog.loading ? "Eliminando..." : "Confirmar eliminación"}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
         <DialogTitle>
           {editingId ? "Editar convocatoria" : "Nueva convocatoria"}
@@ -750,12 +927,12 @@ export default function ConvocatoriaExamen() {
             : "Convocatoria"}
         </DialogTitle>
         <DialogContent sx={{ pt: "12px !important" }}>
-          <Alert severity="info" sx={{ mb: 1.5 }}>
-            Estados incluidos:{" "}
-            {selectedConvocatoria?.estadosMostrados?.join(", ") ||
-              "SOLICITADO, PROGRAMADO"}
-            .
-          </Alert>
+          {/* <Alert severity="info" sx={{ mb: 1.5 }}>
+              Estados incluidos:{" "}
+                {selectedConvocatoria?.estadosMostrados?.join(", ") ||
+                "SOLICITADO, PROGRAMADO"}
+                .
+          </Alert> */}
 
           <Box sx={{ height: 420 }}>
             <DataGrid

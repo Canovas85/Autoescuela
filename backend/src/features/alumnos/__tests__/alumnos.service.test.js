@@ -183,6 +183,29 @@ describe("AlumnosService", () => {
 
     expect(repositoryMock.create).not.toHaveBeenCalled();
   });
+
+  it("debe lanzar un error cuando el teléfono no tiene 9 dígitos", async () => {
+    const repositoryMock = {
+      findByEmail: vi.fn().mockResolvedValue(null),
+      create: vi.fn(),
+    };
+
+    const service = new AlumnosService(repositoryMock);
+
+    await expect(
+      service.create({
+        nombre: "Pedro Sánchez",
+        email: "pedro@autodrive.com",
+        password: "Password123",
+        telefono: "60012ABCD",
+        dni: "12345678Z",
+        fechaNacimiento: "15/06/1998",
+        tipoLicencia: "B",
+      }),
+    ).rejects.toThrow("El teléfono debe contener exactamente 9 dígitos");
+
+    expect(repositoryMock.create).not.toHaveBeenCalled();
+  });
   it("debe aceptar la propiedad tipoLicenciaObjetivo en la creación", async () => {
     const alumnoCreado = {
       id: "alumno-id",

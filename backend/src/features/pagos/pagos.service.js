@@ -1,7 +1,12 @@
 export class PagosService {
-  constructor(repository, notificacionesRepository = null) {
+  constructor(
+    repository,
+    notificacionesRepository = null,
+    solicitudesExamenService = null,
+  ) {
     this.repository = repository;
     this.notificacionesRepository = notificacionesRepository;
+    this.solicitudesExamenService = solicitudesExamenService;
   }
 
   async getAll() {
@@ -9,6 +14,15 @@ export class PagosService {
   }
 
   async getMine(alumnoId) {
+    if (
+      this.solicitudesExamenService
+        ?.cleanupPracticalExpensePaymentDuplicatesForStudent
+    ) {
+      await this.solicitudesExamenService.cleanupPracticalExpensePaymentDuplicatesForStudent(
+        alumnoId,
+      );
+    }
+
     return this.repository.findByAlumnoId(alumnoId);
   }
 
@@ -27,6 +41,15 @@ export class PagosService {
   }
 
   async payMine(pagoId, alumnoId) {
+    if (
+      this.solicitudesExamenService
+        ?.cleanupPracticalExpensePaymentDuplicatesForStudent
+    ) {
+      await this.solicitudesExamenService.cleanupPracticalExpensePaymentDuplicatesForStudent(
+        alumnoId,
+      );
+    }
+
     const pago = await this.repository.findById(pagoId);
 
     if (!pago) {

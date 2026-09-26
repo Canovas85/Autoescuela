@@ -7,11 +7,16 @@ import { authorize } from "../../shared/middleware/role.middleware.js";
 import { ConvocatoriasExamenRepository } from "./convocatorias-examen.repository.js";
 import { ConvocatoriasExamenService } from "./convocatorias-examen.service.js";
 import { ConvocatoriasExamenController } from "./convocatorias-examen.controller.js";
+import { NotificacionesRepository } from "../notificaciones/notificaciones.repository.js";
 
 const router = Router();
 
 const repository = new ConvocatoriasExamenRepository(prisma);
-const service = new ConvocatoriasExamenService(repository);
+const notificacionesRepository = new NotificacionesRepository(prisma);
+const service = new ConvocatoriasExamenService(
+  repository,
+  notificacionesRepository,
+);
 const controller = new ConvocatoriasExamenController(service);
 
 router.post(
@@ -40,6 +45,13 @@ router.put(
   authenticate,
   authorize("ADMIN"),
   controller.update.bind(controller),
+);
+
+router.get(
+  "/:id/delete-impact",
+  authenticate,
+  authorize("ADMIN"),
+  controller.getDeleteImpact.bind(controller),
 );
 
 router.delete(

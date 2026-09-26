@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   Alert,
   Avatar,
@@ -64,6 +64,15 @@ const formatDate = (value) => {
   });
 };
 
+const formatTime = (value) => {
+  if (!value) return "-";
+
+  return new Date(value).toLocaleTimeString("es-ES", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
+
 const colorByStatus = (status) => {
   if (status === "REGISTRADA") return "success";
   if (status === "EN_CURSO") return "warning";
@@ -124,6 +133,7 @@ function RoadmapDetail({
   onBack,
   catalog,
   loading,
+  onGoRefuel,
 }) {
   const [faultDialogOpen, setFaultDialogOpen] = useState(false);
   const [faultDraft, setFaultDraft] = useState(initialFault);
@@ -198,6 +208,21 @@ function RoadmapDetail({
 
       <Card sx={{ ...statCardSx, width: 1018 }}>
         <CardContent>
+          {value?.requiereRepostaje && !readonly ? (
+            <Alert
+              severity="warning"
+              sx={{ mb: 2 }}
+              action={
+                <Button size="small" variant="contained" onClick={onGoRefuel}>
+                  Ir a pagos
+                </Button>
+              }
+            >
+              {value?.bloqueoRepostajeMensaje ||
+                "El vehículo tiene menos del 20% de combustible. Debes repostar antes de guardar o finalizar la hoja de ruta."}
+            </Alert>
+          ) : null}
+
           <Grid container spacing={2.25}>
             <Grid item xs={12} md={4}>
               <Stack direction="row" spacing={1.25} alignItems="center">
@@ -229,6 +254,17 @@ function RoadmapDetail({
                   <Typography color="text.secondary">Fecha</Typography>
                   <Typography fontWeight={700}>
                     {formatDate(value.fecha)}
+                  </Typography>
+                </Box>
+              </Stack>
+            </Grid>
+            <Grid item xs={12} md={2}>
+              <Stack direction="row" spacing={1.25} alignItems="center">
+                <AccessTimeIcon fontSize="small" />
+                <Box>
+                  <Typography color="text.secondary">Hora inicio</Typography>
+                  <Typography fontWeight={700}>
+                    {formatTime(value.fecha)}
                   </Typography>
                 </Box>
               </Stack>
@@ -707,7 +743,7 @@ function RoadmapDetail({
           <Button
             variant="outlined"
             onClick={onSaveDraft}
-            disabled={loading}
+            disabled={loading || Boolean(value?.requiereRepostaje)}
             sx={{ minWidth: 170 }}
           >
             Guardar borrador
@@ -715,7 +751,7 @@ function RoadmapDetail({
           <Button
             variant="contained"
             onClick={onFinalize}
-            disabled={loading}
+            disabled={loading || Boolean(value?.requiereRepostaje)}
             sx={{ minWidth: 170 }}
           >
             Finalizar clase
@@ -825,6 +861,7 @@ function RoadmapDetail({
 }
 
 export default function HojasRuta() {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const token = localStorage.getItem("token");
   const role = useMemo(() => {
@@ -1038,6 +1075,14 @@ export default function HojasRuta() {
         <Typography variant="h4" fontWeight={800}>
           Hojas de Ruta
         </Typography>
+
+        {(profData?.alertasRepostaje || []).length ? (
+          <Alert severity="warning">
+            Tienes {(profData?.alertasRepostaje || []).length} clase(s) con
+            vehículo por debajo del 20% de combustible. Reposta antes de guardar
+            o finalizar la hoja de ruta.
+          </Alert>
+        ) : null}
 
         <Card>
           <CardContent>
@@ -1309,6 +1354,7 @@ export default function HojasRuta() {
           onFinalize={() => {}}
           catalog={catalog}
           loading={loading}
+          onGoRefuel={() => navigate("/gastos")}
         />
       );
     }
@@ -1321,7 +1367,7 @@ export default function HojasRuta() {
               <ArrowBackIcon />
             </IconButton>
             <Typography variant="h4" fontWeight={800}>
-              Hojas registradas del alumno
+              Hojas de ruta del alumno
             </Typography>
           </Stack>
 
@@ -1358,17 +1404,41 @@ export default function HojasRuta() {
                         `${row.faltasResumen?.leves || 0} · ${row.faltasResumen?.deficientes || 0} · ${row.faltasResumen?.eliminatorias || 0}`,
                     },
                     {
+                      field: "estado",
+                      headerName: "Estado",
+                      flex: 0.9,
+                      renderCell: (params) =>
+                        params.row?.sinDatos ? (
+                          <Chip
+                            size="small"
+                            color="warning"
+                            label="Hoja sin datos"
+                          />
+                        ) : (
+                          <Chip
+                            size="small"
+                            color="success"
+                            label="Registrada"
+                          />
+                        ),
+                    },
+                    {
                       field: "acciones",
                       headerName: "",
                       flex: 0.6,
                       sortable: false,
-                      renderCell: (params) => (
-                        <Button
-                          onClick={() => setParam("roadmapId", params.row.id)}
-                        >
-                          Ver
-                        </Button>
-                      ),
+                      renderCell: (params) =>
+                        params.row?.sinDatos ? (
+                          <Typography variant="caption" color="warning.main">
+                            Pendiente de completar
+                          </Typography>
+                        ) : (
+                          <Button
+                            onClick={() => setParam("roadmapId", params.row.id)}
+                          >
+                            Ver
+                          </Button>
+                        ),
                     },
                   ]}
                   getRowId={(row) => row.id}
@@ -1511,6 +1581,7 @@ export default function HojasRuta() {
           onFinalize={() => {}}
           catalog={catalog}
           loading={loading}
+          onGoRefuel={() => navigate("/gastos")}
         />
       );
     }
@@ -1518,7 +1589,7 @@ export default function HojasRuta() {
     return (
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         <Typography variant="h4" fontWeight={800}>
-          Mis Hojas de Ruta Registradas
+          Mis Hojas de Ruta
         </Typography>
 
         <Card>
@@ -1570,17 +1641,37 @@ export default function HojasRuta() {
                     `${row.faltasResumen?.leves || 0} · ${row.faltasResumen?.deficientes || 0} · ${row.faltasResumen?.eliminatorias || 0}`,
                 },
                 {
+                  field: "estado",
+                  headerName: "Estado",
+                  flex: 0.9,
+                  renderCell: (params) =>
+                    params.row?.sinDatos ? (
+                      <Chip
+                        size="small"
+                        color="warning"
+                        label="Hoja sin datos"
+                      />
+                    ) : (
+                      <Chip size="small" color="success" label="Registrada" />
+                    ),
+                },
+                {
                   field: "acciones",
                   headerName: "",
                   flex: 0.5,
                   sortable: false,
-                  renderCell: (params) => (
-                    <Button
-                      onClick={() => setParam("roadmapId", params.row.id)}
-                    >
-                      Ver
-                    </Button>
-                  ),
+                  renderCell: (params) =>
+                    params.row?.sinDatos ? (
+                      <Typography variant="caption" color="warning.main">
+                        Pendiente de completar
+                      </Typography>
+                    ) : (
+                      <Button
+                        onClick={() => setParam("roadmapId", params.row.id)}
+                      >
+                        Ver
+                      </Button>
+                    ),
                 },
               ]}
               getRowId={(row) => row.id}
@@ -1622,6 +1713,7 @@ export default function HojasRuta() {
           onFinalize={finalizeClass}
           catalog={catalog}
           loading={loading}
+          onGoRefuel={() => navigate("/gastos")}
         />
       ) : null}
 

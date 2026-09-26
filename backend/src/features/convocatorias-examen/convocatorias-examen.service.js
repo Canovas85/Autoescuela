@@ -53,8 +53,9 @@ const inicioFinDiaUtc = (fecha) => {
 };
 
 export class ConvocatoriasExamenService {
-  constructor(repository) {
+  constructor(repository, notificacionesRepository = null) {
     this.repository = repository;
+    this.notificacionesRepository = notificacionesRepository;
   }
 
   validarPayload(data, { partial = false } = {}) {
@@ -172,8 +173,85 @@ export class ConvocatoriasExamenService {
     return this.repository.update(id, payload);
   }
 
+  mapAfectado(solicitud) {
+    return {
+      solicitudId: solicitud.id,
+      alumnoId: solicitud.alumnoId,
+      alumnoNombre: solicitud.alumno?.usuario?.nombre || "Alumno",
+      alumnoEmail: solicitud.alumno?.usuario?.email || "",
+      usuarioId: solicitud.alumno?.usuario?.id || null,
+      estado: solicitud.estado,
+      tipo: solicitud.tipo,
+      fechaProgramada: solicitud.fechaProgramada,
+    };
+  }
+
+  async getDeleteImpact(id) {
+    const impact = await this.repository.findDeleteImpactByConvocatoria(id);
+
+    if (!impact) {
+      throw new Error("Convocatoria no encontrada");
+    }
+
+    return {
+      convocatoria: impact.convocatoria,
+      afectados: (impact.solicitudes || []).map((item) =>
+        this.mapAfectado(item),
+      ),
+    };
+  }
+
   async delete(id) {
-    return this.repository.softDelete(id);
+    const impact = await this.repository.findDeleteImpactByConvocatoria(id);
+
+    if (!impact) {
+      throw new Error("Convocatoria no encontrada");
+    }
+
+    await this.repository.softDelete(id);
+
+    const solicitudes = impact.solicitudes || [];
+    const solicitudIds = solicitudes.map((item) => item.id);
+
+    await this.repository.cancelSolicitudesByIds(
+      solicitudIds,
+      "Convocatoria cancelada por administración. Debes solicitar una nueva fecha.",
+    );
+
+    if (
+      this.notificacionesRepository &&
+      typeof this.notificacionesRepository.createMany === "function"
+    ) {
+      const route = "/dashboard";
+      const notificaciones = solicitudes
+        .map((solicitud) => ({
+          usuarioId: solicitud.alumno?.usuario?.id || null,
+          tipo: "CONVOCATORIA_DGT_CANCELADA",
+          titulo: "Convocatoria DGT cancelada",
+          mensaje:
+            "Se ha eliminado tu convocatoria de examen. Debes solicitar una nueva fecha.",
+          metadata: {
+            route,
+            solicitudId: solicitud.id,
+            tipo: solicitud.tipo,
+            fechaProgramada: solicitud.fechaProgramada,
+          },
+        }))
+        .filter((item) => Boolean(item.usuarioId));
+
+      if (notificaciones.length > 0) {
+        await this.notificacionesRepository.createMany(notificaciones);
+      }
+    }
+
+    return {
+      message:
+        solicitudes.length > 0
+          ? `Convocatoria desactivada y ${solicitudes.length} solicitud(es) cancelada(s)`
+          : "Convocatoria desactivada correctamente",
+      convocatoria: impact.convocatoria,
+      afectados: solicitudes.map((item) => this.mapAfectado(item)),
+    };
   }
 
   async getAgenda(filters = {}) {

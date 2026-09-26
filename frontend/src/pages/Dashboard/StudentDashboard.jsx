@@ -607,7 +607,7 @@ export default function StudentDashboard({ data }) {
             <Grid item xs={12} sm={6} sx={{ width: 239 }}>
               <DashboardStatCard
                 icon={<VerifiedIcon />}
-                title="Convocatorias DGT"
+                title="Convocatorias Examen DGT"
                 value={dgtMetrics.tasa21?.convocatoriasDisponibles ?? 0}
                 subtitle={`${dgtMetrics.tasa21?.convocatoriasConsumidas ?? 0} consumidas de ${dgtMetrics.tasa21?.convocatoriasIncluidas ?? 0}`}
                 color="#0284c7"
@@ -1260,7 +1260,6 @@ export default function StudentDashboard({ data }) {
                 width: "100%",
                 border: "1px solid rgba(148, 163, 184, 0.18)",
                 boxShadow: "0 14px 32px rgba(15, 23, 42, 0.04)",
-                width: "860px",
               }}
             >
               <CardContent
@@ -1318,21 +1317,24 @@ export default function StudentDashboard({ data }) {
                                 },
                               }}
                             >
-                              <Box
-                                display="flex"
+                              <Stack
+                                direction="row"
+                                spacing={1}
+                                alignItems="center"
                                 justifyContent="space-between"
-                                gap={1}
                               >
-                                <Typography fontWeight={700}>
-                                  {formatDate(examen.fechaSolicitud)}
+                                <Typography fontWeight={700} noWrap>
+                                  Programado:{" "}
+                                  {formatDate(examen.fechaProgramada)}
                                 </Typography>
                                 {statusChip(examen.estado, examen.estado)}
-                              </Box>
+                              </Stack>
                               <Typography
                                 variant="body2"
                                 color="text.secondary"
+                                noWrap
                               >
-                                Programado: {formatDate(examen.fechaProgramada)}
+                                Solicitud: {formatDate(examen.fechaSolicitud)}
                               </Typography>
                               {examen.observaciones ? (
                                 <Typography
@@ -1393,21 +1395,24 @@ export default function StudentDashboard({ data }) {
                                 },
                               }}
                             >
-                              <Box
-                                display="flex"
+                              <Stack
+                                direction="row"
+                                spacing={1}
+                                alignItems="center"
                                 justifyContent="space-between"
-                                gap={1}
                               >
-                                <Typography fontWeight={700}>
-                                  {formatDate(examen.fechaSolicitud)}
+                                <Typography fontWeight={700} noWrap>
+                                  Programado:{" "}
+                                  {formatDate(examen.fechaProgramada)}
                                 </Typography>
                                 {statusChip(examen.estado, examen.estado)}
-                              </Box>
+                              </Stack>
                               <Typography
                                 variant="body2"
                                 color="text.secondary"
+                                noWrap
                               >
-                                Programado: {formatDate(examen.fechaProgramada)}
+                                Solicitud: {formatDate(examen.fechaSolicitud)}
                               </Typography>
                               {examen.observaciones ? (
                                 <Typography

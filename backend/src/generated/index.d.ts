@@ -10111,6 +10111,8 @@ export namespace Prisma {
     horasPracticasCompletadas: number | null
     profesorAsignadoId: string | null
     activo: boolean | null
+    estadoExpediente: string | null
+    licenciaObtenidaAt: Date | null
     fechaNacimiento: Date | null
   }
 
@@ -10120,6 +10122,8 @@ export namespace Prisma {
     horasPracticasCompletadas: number | null
     profesorAsignadoId: string | null
     activo: boolean | null
+    estadoExpediente: string | null
+    licenciaObtenidaAt: Date | null
     fechaNacimiento: Date | null
   }
 
@@ -10129,6 +10133,8 @@ export namespace Prisma {
     horasPracticasCompletadas: number
     profesorAsignadoId: number
     activo: number
+    estadoExpediente: number
+    licenciaObtenidaAt: number
     fechaNacimiento: number
     _all: number
   }
@@ -10148,6 +10154,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: true
     profesorAsignadoId?: true
     activo?: true
+    estadoExpediente?: true
+    licenciaObtenidaAt?: true
     fechaNacimiento?: true
   }
 
@@ -10157,6 +10165,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: true
     profesorAsignadoId?: true
     activo?: true
+    estadoExpediente?: true
+    licenciaObtenidaAt?: true
     fechaNacimiento?: true
   }
 
@@ -10166,6 +10176,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: true
     profesorAsignadoId?: true
     activo?: true
+    estadoExpediente?: true
+    licenciaObtenidaAt?: true
     fechaNacimiento?: true
     _all?: true
   }
@@ -10262,6 +10274,8 @@ export namespace Prisma {
     horasPracticasCompletadas: number
     profesorAsignadoId: string | null
     activo: boolean
+    estadoExpediente: string
+    licenciaObtenidaAt: Date | null
     fechaNacimiento: Date | null
     _count: AlumnoCountAggregateOutputType | null
     _avg: AlumnoAvgAggregateOutputType | null
@@ -10290,6 +10304,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: boolean
     profesorAsignadoId?: boolean
     activo?: boolean
+    estadoExpediente?: boolean
+    licenciaObtenidaAt?: boolean
     fechaNacimiento?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     profesorAsignado?: boolean | Alumno$profesorAsignadoArgs<ExtArgs>
@@ -10315,6 +10331,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: boolean
     profesorAsignadoId?: boolean
     activo?: boolean
+    estadoExpediente?: boolean
+    licenciaObtenidaAt?: boolean
     fechaNacimiento?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     profesorAsignado?: boolean | Alumno$profesorAsignadoArgs<ExtArgs>
@@ -10326,6 +10344,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: boolean
     profesorAsignadoId?: boolean
     activo?: boolean
+    estadoExpediente?: boolean
+    licenciaObtenidaAt?: boolean
     fechaNacimiento?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     profesorAsignado?: boolean | Alumno$profesorAsignadoArgs<ExtArgs>
@@ -10337,10 +10357,12 @@ export namespace Prisma {
     horasPracticasCompletadas?: boolean
     profesorAsignadoId?: boolean
     activo?: boolean
+    estadoExpediente?: boolean
+    licenciaObtenidaAt?: boolean
     fechaNacimiento?: boolean
   }
 
-  export type AlumnoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tipoLicenciaObjetivo" | "horasPracticasCompletadas" | "profesorAsignadoId" | "activo" | "fechaNacimiento", ExtArgs["result"]["alumno"]>
+  export type AlumnoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tipoLicenciaObjetivo" | "horasPracticasCompletadas" | "profesorAsignadoId" | "activo" | "estadoExpediente" | "licenciaObtenidaAt" | "fechaNacimiento", ExtArgs["result"]["alumno"]>
   export type AlumnoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     profesorAsignado?: boolean | Alumno$profesorAsignadoArgs<ExtArgs>
@@ -10393,6 +10415,8 @@ export namespace Prisma {
       horasPracticasCompletadas: number
       profesorAsignadoId: string | null
       activo: boolean
+      estadoExpediente: string
+      licenciaObtenidaAt: Date | null
       fechaNacimiento: Date | null
     }, ExtArgs["result"]["alumno"]>
     composites: {}
@@ -10837,6 +10861,8 @@ export namespace Prisma {
     readonly horasPracticasCompletadas: FieldRef<"Alumno", 'Int'>
     readonly profesorAsignadoId: FieldRef<"Alumno", 'String'>
     readonly activo: FieldRef<"Alumno", 'Boolean'>
+    readonly estadoExpediente: FieldRef<"Alumno", 'String'>
+    readonly licenciaObtenidaAt: FieldRef<"Alumno", 'DateTime'>
     readonly fechaNacimiento: FieldRef<"Alumno", 'DateTime'>
   }
     
@@ -54219,6 +54245,8 @@ export namespace Prisma {
     horasPracticasCompletadas: 'horasPracticasCompletadas',
     profesorAsignadoId: 'profesorAsignadoId',
     activo: 'activo',
+    estadoExpediente: 'estadoExpediente',
+    licenciaObtenidaAt: 'licenciaObtenidaAt',
     fechaNacimiento: 'fechaNacimiento'
   };
 
@@ -55315,6 +55343,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: IntFilter<"Alumno"> | number
     profesorAsignadoId?: StringNullableFilter<"Alumno"> | string | null
     activo?: BoolFilter<"Alumno"> | boolean
+    estadoExpediente?: StringFilter<"Alumno"> | string
+    licenciaObtenidaAt?: DateTimeNullableFilter<"Alumno"> | Date | string | null
     fechaNacimiento?: DateTimeNullableFilter<"Alumno"> | Date | string | null
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
     profesorAsignado?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
@@ -55339,6 +55369,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: SortOrder
     profesorAsignadoId?: SortOrderInput | SortOrder
     activo?: SortOrder
+    estadoExpediente?: SortOrder
+    licenciaObtenidaAt?: SortOrderInput | SortOrder
     fechaNacimiento?: SortOrderInput | SortOrder
     usuario?: UsuarioOrderByWithRelationInput
     profesorAsignado?: ProfesorOrderByWithRelationInput
@@ -55366,6 +55398,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: IntFilter<"Alumno"> | number
     profesorAsignadoId?: StringNullableFilter<"Alumno"> | string | null
     activo?: BoolFilter<"Alumno"> | boolean
+    estadoExpediente?: StringFilter<"Alumno"> | string
+    licenciaObtenidaAt?: DateTimeNullableFilter<"Alumno"> | Date | string | null
     fechaNacimiento?: DateTimeNullableFilter<"Alumno"> | Date | string | null
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
     profesorAsignado?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
@@ -55390,6 +55424,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: SortOrder
     profesorAsignadoId?: SortOrderInput | SortOrder
     activo?: SortOrder
+    estadoExpediente?: SortOrder
+    licenciaObtenidaAt?: SortOrderInput | SortOrder
     fechaNacimiento?: SortOrderInput | SortOrder
     _count?: AlumnoCountOrderByAggregateInput
     _avg?: AlumnoAvgOrderByAggregateInput
@@ -55407,6 +55443,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: IntWithAggregatesFilter<"Alumno"> | number
     profesorAsignadoId?: StringNullableWithAggregatesFilter<"Alumno"> | string | null
     activo?: BoolWithAggregatesFilter<"Alumno"> | boolean
+    estadoExpediente?: StringWithAggregatesFilter<"Alumno"> | string
+    licenciaObtenidaAt?: DateTimeNullableWithAggregatesFilter<"Alumno"> | Date | string | null
     fechaNacimiento?: DateTimeNullableWithAggregatesFilter<"Alumno"> | Date | string | null
   }
 
@@ -58866,6 +58904,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     horasPracticasCompletadas?: number
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
@@ -58890,6 +58930,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
@@ -58910,6 +58952,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
@@ -58934,6 +58978,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
@@ -58956,6 +59002,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
   }
 
@@ -58963,6 +59011,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -58972,6 +59022,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -62946,6 +62998,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: SortOrder
     profesorAsignadoId?: SortOrder
     activo?: SortOrder
+    estadoExpediente?: SortOrder
+    licenciaObtenidaAt?: SortOrder
     fechaNacimiento?: SortOrder
   }
 
@@ -62959,6 +63013,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: SortOrder
     profesorAsignadoId?: SortOrder
     activo?: SortOrder
+    estadoExpediente?: SortOrder
+    licenciaObtenidaAt?: SortOrder
     fechaNacimiento?: SortOrder
   }
 
@@ -62968,6 +63024,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: SortOrder
     profesorAsignadoId?: SortOrder
     activo?: SortOrder
+    estadoExpediente?: SortOrder
+    licenciaObtenidaAt?: SortOrder
     fechaNacimiento?: SortOrder
   }
 
@@ -68628,6 +68686,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     horasPracticasCompletadas?: number
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
     clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
@@ -68650,6 +68710,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
@@ -68784,6 +68846,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
     clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
@@ -68806,6 +68870,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
@@ -68943,6 +69009,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     horasPracticasCompletadas?: number
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     clases?: ClasePracticaCreateNestedManyWithoutAlumnoInput
@@ -68965,6 +69033,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     horasPracticasCompletadas?: number
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
@@ -69299,6 +69369,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: IntFilter<"Alumno"> | number
     profesorAsignadoId?: StringNullableFilter<"Alumno"> | string | null
     activo?: BoolFilter<"Alumno"> | boolean
+    estadoExpediente?: StringFilter<"Alumno"> | string
+    licenciaObtenidaAt?: DateTimeNullableFilter<"Alumno"> | Date | string | null
     fechaNacimiento?: DateTimeNullableFilter<"Alumno"> | Date | string | null
   }
 
@@ -70628,6 +70700,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     horasPracticasCompletadas?: number
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
@@ -70651,6 +70725,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
@@ -70716,6 +70792,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
@@ -70739,6 +70817,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
@@ -70934,6 +71014,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     horasPracticasCompletadas?: number
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
@@ -70957,6 +71039,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
@@ -71019,6 +71103,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
@@ -71042,6 +71128,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
@@ -71170,6 +71258,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     horasPracticasCompletadas?: number
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
@@ -71193,6 +71283,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
@@ -71255,6 +71347,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
@@ -71278,6 +71372,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
@@ -71441,6 +71537,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     horasPracticasCompletadas?: number
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
@@ -71464,6 +71562,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
@@ -71499,6 +71599,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
@@ -71522,6 +71624,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
@@ -71729,6 +71833,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     horasPracticasCompletadas?: number
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
@@ -71752,6 +71858,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
@@ -71864,6 +71972,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
@@ -71887,6 +71997,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
@@ -71941,6 +72053,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     horasPracticasCompletadas?: number
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
@@ -71964,6 +72078,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
@@ -72042,6 +72158,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
@@ -72065,6 +72183,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
@@ -72253,6 +72373,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     horasPracticasCompletadas?: number
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
@@ -72276,6 +72398,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
     examenes?: ExamenUncheckedCreateNestedManyWithoutAlumnoInput
@@ -72537,6 +72661,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
@@ -72560,6 +72686,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
     examenes?: ExamenUncheckedUpdateManyWithoutAlumnoNestedInput
@@ -72847,6 +72975,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     horasPracticasCompletadas?: number
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
@@ -72870,6 +73000,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
@@ -73025,6 +73157,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
@@ -73048,6 +73182,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
@@ -73289,6 +73425,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     horasPracticasCompletadas?: number
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
@@ -73312,6 +73450,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
@@ -73347,6 +73487,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
@@ -73370,6 +73512,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
@@ -73445,6 +73589,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     horasPracticasCompletadas?: number
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
@@ -73468,6 +73614,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
@@ -73573,6 +73721,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
@@ -73596,6 +73746,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
@@ -74016,6 +74168,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     horasPracticasCompletadas?: number
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
@@ -74039,6 +74193,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
@@ -74171,6 +74327,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
@@ -74194,6 +74352,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
@@ -74268,6 +74428,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     horasPracticasCompletadas?: number
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
@@ -74291,6 +74453,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
@@ -74483,6 +74647,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
@@ -74506,6 +74672,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
@@ -75447,6 +75615,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     horasPracticasCompletadas?: number
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     usuario: UsuarioCreateNestedOneWithoutAlumnoInput
     profesorAsignado?: ProfesorCreateNestedOneWithoutAlumnosAsignadosInput
@@ -75470,6 +75640,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: number
     profesorAsignadoId?: string | null
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutAlumnoInput
     bonosComprados?: CompraBonoUncheckedCreateNestedManyWithoutAlumnoInput
@@ -75614,6 +75786,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     profesorAsignado?: ProfesorUpdateOneWithoutAlumnosAsignadosNestedInput
@@ -75637,6 +75811,8 @@ export namespace Prisma {
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     profesorAsignadoId?: NullableStringFieldUpdateOperationsInput | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
@@ -76096,6 +76272,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo: string
     horasPracticasCompletadas?: number
     activo?: boolean
+    estadoExpediente?: string
+    licenciaObtenidaAt?: Date | string | null
     fechaNacimiento?: Date | string | null
   }
 
@@ -76188,6 +76366,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuario?: UsuarioUpdateOneRequiredWithoutAlumnoNestedInput
     clases?: ClasePracticaUpdateManyWithoutAlumnoNestedInput
@@ -76210,6 +76390,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     clases?: ClasePracticaUncheckedUpdateManyWithoutAlumnoNestedInput
     bonosComprados?: CompraBonoUncheckedUpdateManyWithoutAlumnoNestedInput
@@ -76231,6 +76413,8 @@ export namespace Prisma {
     tipoLicenciaObjetivo?: StringFieldUpdateOperationsInput | string
     horasPracticasCompletadas?: IntFieldUpdateOperationsInput | number
     activo?: BoolFieldUpdateOperationsInput | boolean
+    estadoExpediente?: StringFieldUpdateOperationsInput | string
+    licenciaObtenidaAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 

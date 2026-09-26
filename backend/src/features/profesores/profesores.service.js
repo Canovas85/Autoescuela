@@ -15,6 +15,19 @@ const normalizarDni = (valor) => {
   return /^\d{8}[A-Za-z]$/.test(dni) ? dni.toUpperCase() : null;
 };
 
+const normalizarTelefono = (valor) => {
+  if (valor === null || valor === undefined || valor === "") {
+    return null;
+  }
+
+  const telefono = String(valor).trim();
+  if (!telefono) {
+    return null;
+  }
+
+  return /^\d{9}$/.test(telefono) ? telefono : null;
+};
+
 const normalizarPermisosLicencias = (valor, fallbackLicencia = undefined) => {
   const origen =
     valor !== undefined
@@ -76,6 +89,11 @@ export class ProfesoresService {
       throw new Error("El teléfono es obligatorio");
     }
 
+    const telefono = normalizarTelefono(data.telefono);
+    if (!telefono) {
+      throw new Error("El teléfono debe contener exactamente 9 dígitos");
+    }
+
     if (!data.password) {
       throw new Error("La contraseña es obligatoria");
     }
@@ -109,6 +127,7 @@ export class ProfesoresService {
       ...data,
       nombre,
       dni,
+      telefono,
       permisosLicencias,
       licenciaConducir: permisosLicencias[0],
       passwordHash,
@@ -382,11 +401,15 @@ export class ProfesoresService {
     }
 
     if (Object.prototype.hasOwnProperty.call(data, "telefono")) {
-      const telefono =
-        typeof data.telefono === "string" ? data.telefono.trim() : "";
-      if (!telefono) {
+      if (!data.telefono) {
         throw new Error("El teléfono es obligatorio");
       }
+
+      const telefono = normalizarTelefono(data.telefono);
+      if (!telefono) {
+        throw new Error("El teléfono debe contener exactamente 9 dígitos");
+      }
+
       payload.telefono = telefono;
     }
 

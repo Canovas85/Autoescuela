@@ -46,9 +46,22 @@ export class MatriculasController {
   }
 
   async pagar(req, res) {
-    const matricula = await this.service.pagar(req.params.id);
+    try {
+      const matricula = await this.service.pagar(req.user, req.params.id);
 
-    return res.status(200).json(matricula);
+      return res.status(200).json(matricula);
+    } catch (error) {
+      const message = String(error?.message || "");
+      const status = message.includes("no autenticado")
+        ? 401
+        : message.includes("no encontrada")
+          ? 404
+          : 403;
+
+      return res.status(status).json({
+        message: error.message,
+      });
+    }
   }
 
   async anular(req, res) {

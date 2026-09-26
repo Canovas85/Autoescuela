@@ -57,6 +57,12 @@ router.post(
   authorize("ALUMNO"),
   controller.createTheoreticalRequest.bind(controller),
 );
+router.patch(
+  "/mine/teorico/solicitudes/:id/cancelar",
+  authenticate,
+  authorize("ALUMNO"),
+  controller.cancelTheoreticalRequest.bind(controller),
+);
 router.get(
   "/mine/practico/eligibilidad",
   authenticate,

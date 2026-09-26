@@ -26,7 +26,28 @@ export class MatriculasService {
     return this.repository.update(id, data);
   }
 
-  async pagar(id) {
+  async pagar(user, id) {
+    const actorRole = String(user?.rol || "").toUpperCase();
+    const actorId = user?.id;
+
+    if (!actorId) {
+      throw new Error("Usuario no autenticado");
+    }
+
+    const matriculaExistente = await this.repository.findById(id);
+
+    if (!matriculaExistente) {
+      throw new Error("Matrícula no encontrada");
+    }
+
+    const isAdmin = actorRole === "ADMIN";
+    const isOwnerStudent =
+      actorRole === "ALUMNO" && matriculaExistente.alumnoId === actorId;
+
+    if (!isAdmin && !isOwnerStudent) {
+      throw new Error("No tienes permisos para pagar esta matrícula");
+    }
+
     const matricula = await this.repository.pagar(id);
 
     if (!this.notificacionesRepository) {

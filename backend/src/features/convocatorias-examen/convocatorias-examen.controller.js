@@ -39,12 +39,19 @@ export class ConvocatoriasExamenController {
     }
   }
 
+  async getDeleteImpact(req, res) {
+    try {
+      const data = await this.service.getDeleteImpact(req.params.id);
+      return res.status(200).json(data);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  }
+
   async delete(req, res) {
     try {
-      await this.service.delete(req.params.id);
-      return res.status(200).json({
-        message: "Convocatoria desactivada correctamente",
-      });
+      const data = await this.service.delete(req.params.id);
+      return res.status(200).json(data);
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }

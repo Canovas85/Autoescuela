@@ -193,7 +193,7 @@ export default function ProfessorDashboard({ data }) {
 
         <Grid item xs={12} sm={6} lg={4} sx={{ width: 365 }}>
           <StatCard
-            title="Clases Confirmadas Para Hoy"
+            title="Clases Confirmadas para hoy"
             value={resumen.clasesConfirmadasHoy ?? 0}
             subtitle="Clases de hoy en estado confirmada"
             color="#166534"
@@ -203,7 +203,7 @@ export default function ProfessorDashboard({ data }) {
 
         <Grid item xs={12} sm={6} lg={4} sx={{ width: 365 }}>
           <StatCard
-            title="Hojas De Ruta Pendientes Y En Curso"
+            title="Hojas de Ruta pendientes y en curso"
             value={resumen.hojasRutaPendientesEnCurso ?? 0}
             subtitle={`Pendientes: ${resumen.hojasRutaPendientes ?? 0} | En curso: ${resumen.hojasRutaEnCurso ?? 0}`}
             color="#b45309"
@@ -424,54 +424,102 @@ export default function ProfessorDashboard({ data }) {
                     Test práctica
                   </Typography>
 
-                  {detail?.examenes?.ultimoTeorico ? (
-                    <Box
-                      sx={{
-                        p: 1.5,
-                        borderRadius: 2,
-                        border: "1px solid #e2e8f0",
-                        backgroundColor: "#ffffff",
-                        mb: 1.5,
-                      }}
-                    >
-                      <Typography variant="subtitle2" fontWeight={700}>
-                        Resultado último examen teórico
-                      </Typography>
-                      <Stack
-                        direction={{ xs: "column", sm: "row" }}
-                        spacing={1}
-                        alignItems={{ xs: "flex-start", sm: "center" }}
-                        sx={{ mt: 0.75 }}
-                      >
-                        <Chip
-                          size="small"
-                          color={
-                            getExamResultMeta(
-                              detail.examenes.ultimoTeorico.estado,
-                            ).color
-                          }
-                          icon={
-                            getExamResultMeta(
-                              detail.examenes.ultimoTeorico.estado,
-                            ).icon
-                          }
-                          label={
-                            getExamResultMeta(
-                              detail.examenes.ultimoTeorico.estado,
-                            ).label
-                          }
-                        />
-                        <Typography variant="body2" color="text.secondary">
-                          Aciertos:{" "}
-                          {detail.examenes.ultimoTeorico.aciertosExamen ?? "-"}{" "}
-                          | Fallos:{" "}
-                          {detail.examenes.ultimoTeorico.fallosExamen ?? "-"}
-                        </Typography>
-                      </Stack>
-                    </Box>
+                  <Typography
+                    variant="subtitle2"
+                    fontWeight={700}
+                    sx={{ mb: 1 }}
+                  >
+                    Convocatorias examen teórico
+                  </Typography>
+                  {detail?.examenes?.teoricos?.length ? (
+                    <Stack spacing={1} sx={{ mb: 1.5 }}>
+                      {detail.examenes.teoricos.map((examen) => (
+                        <Box
+                          key={`teo-${examen.id}`}
+                          sx={{
+                            p: 1.25,
+                            borderRadius: 2,
+                            border: "1px solid #e2e8f0",
+                            backgroundColor: "#ffffff",
+                          }}
+                        >
+                          <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="center"
+                          >
+                            <Typography variant="subtitle2" fontWeight={700}>
+                              {new Date(
+                                examen.fechaProgramada || examen.fechaSolicitud,
+                              ).toLocaleDateString("es-ES")}
+                            </Typography>
+                            <Chip
+                              size="small"
+                              color={getExamResultMeta(examen.estado).color}
+                              icon={getExamResultMeta(examen.estado).icon}
+                              label={getExamResultMeta(examen.estado).label}
+                            />
+                          </Stack>
+                          <Typography variant="body2" color="text.secondary">
+                            Aciertos: {examen.aciertosExamen ?? "-"} | Fallos:{" "}
+                            {examen.fallosExamen ?? "-"}
+                          </Typography>
+                        </Box>
+                      ))}
+                    </Stack>
                   ) : (
                     <Alert severity="info" sx={{ mb: 1.5 }}>
-                      El alumno no tiene examen teórico presentado.
+                      El alumno no tiene convocatorias teóricas presentadas.
+                    </Alert>
+                  )}
+
+                  <Typography
+                    variant="subtitle2"
+                    fontWeight={700}
+                    sx={{ mb: 1 }}
+                  >
+                    Convocatorias examen práctico
+                  </Typography>
+                  {detail?.examenes?.practicos?.length ? (
+                    <Stack spacing={1} sx={{ mb: 1.5 }}>
+                      {detail.examenes.practicos.map((examen) => (
+                        <Box
+                          key={`pra-${examen.id}`}
+                          sx={{
+                            p: 1.25,
+                            borderRadius: 2,
+                            border: "1px solid #e2e8f0",
+                            backgroundColor: "#ffffff",
+                          }}
+                        >
+                          <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="center"
+                          >
+                            <Typography variant="subtitle2" fontWeight={700}>
+                              {new Date(
+                                examen.fechaProgramada || examen.fechaSolicitud,
+                              ).toLocaleDateString("es-ES")}
+                            </Typography>
+                            <Chip
+                              size="small"
+                              color={getExamResultMeta(examen.estado).color}
+                              icon={getExamResultMeta(examen.estado).icon}
+                              label={getExamResultMeta(examen.estado).label}
+                            />
+                          </Stack>
+                          <Typography variant="body2" color="text.secondary">
+                            Leves: {examen.faltasLeves ?? "-"} | Deficientes:{" "}
+                            {examen.faltasDeficientes ?? "-"} | Eliminatorias:{" "}
+                            {examen.faltasEliminatorias ?? "-"}
+                          </Typography>
+                        </Box>
+                      ))}
+                    </Stack>
+                  ) : (
+                    <Alert severity="info" sx={{ mb: 1.5 }}>
+                      El alumno no tiene convocatorias prácticas presentadas.
                     </Alert>
                   )}
 

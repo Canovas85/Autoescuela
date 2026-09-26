@@ -6,6 +6,23 @@ import { tasaDgtConfig } from "../src/config/tasa-dgt.config.js";
 dotenv.config();
 
 const TOTAL_PREGUNTAS_EXAMEN_TEORICO = 30;
+const DATE_KEY_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+
+const pad2 = (value) => String(value).padStart(2, "0");
+
+const formatDateKeyLocal = (date) =>
+  `${date.getFullYear()}-${pad2(date.getMonth() + 1)}-${pad2(date.getDate())}`;
+
+const parseDateArg = (value) => {
+  const raw = String(value || "").trim();
+
+  if (DATE_KEY_REGEX.test(raw)) {
+    const [year, month, day] = raw.split("-").map((part) => Number(part));
+    return new Date(year, month - 1, day, 12, 0, 0, 0);
+  }
+
+  return new Date(raw);
+};
 
 const inicioDelDia = (fecha = new Date()) => {
   const value = new Date(fecha);
@@ -51,7 +68,7 @@ const parseArgs = (argv) => {
 
     switch (key) {
       case "date":
-        args.date = new Date(value);
+        args.date = parseDateArg(value);
         break;
       case "seed":
         args.seed = value || null;
@@ -376,7 +393,7 @@ async function main() {
       batchId,
       mode,
       dryRun: args.dryRun,
-      targetDate: fechaObjetivo.toISOString().slice(0, 10),
+      targetDate: formatDateKeyLocal(fechaObjetivo),
       summary: plan.summary,
       solicitudes: plan.solicitudes,
       pagos: plan.pagos,

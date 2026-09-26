@@ -117,15 +117,61 @@ describe("MatriculasService", () => {
     };
 
     const repositoryMock = {
+      findById: vi.fn().mockResolvedValue({
+        id: "matricula-1",
+        alumnoId: "alumno-1",
+      }),
       pagar: vi.fn().mockResolvedValue(matriculaPagada),
     };
 
     const service = new MatriculasService(repositoryMock);
 
-    const result = await service.pagar("matricula-1");
+    const result = await service.pagar(
+      { id: "admin-1", rol: "ADMIN" },
+      "matricula-1",
+    );
 
+    expect(repositoryMock.findById).toHaveBeenCalledWith("matricula-1");
     expect(repositoryMock.pagar).toHaveBeenCalledWith("matricula-1");
     expect(result).toEqual(matriculaPagada);
+  });
+
+  it("debe permitir pago cuando el alumno es propietario de la matrícula", async () => {
+    const repositoryMock = {
+      findById: vi.fn().mockResolvedValue({
+        id: "matricula-1",
+        alumnoId: "alumno-1",
+      }),
+      pagar: vi.fn().mockResolvedValue({
+        id: "matricula-1",
+        alumnoId: "alumno-1",
+        estado: "PAGADA",
+      }),
+    };
+
+    const service = new MatriculasService(repositoryMock);
+
+    await service.pagar({ id: "alumno-1", rol: "ALUMNO" }, "matricula-1");
+
+    expect(repositoryMock.pagar).toHaveBeenCalledWith("matricula-1");
+  });
+
+  it("debe bloquear pago cuando el alumno no es propietario", async () => {
+    const repositoryMock = {
+      findById: vi.fn().mockResolvedValue({
+        id: "matricula-1",
+        alumnoId: "alumno-1",
+      }),
+      pagar: vi.fn(),
+    };
+
+    const service = new MatriculasService(repositoryMock);
+
+    await expect(
+      service.pagar({ id: "alumno-2", rol: "ALUMNO" }, "matricula-1"),
+    ).rejects.toThrow("No tienes permisos para pagar esta matrícula");
+
+    expect(repositoryMock.pagar).not.toHaveBeenCalled();
   });
 
   it("debe anular una matrícula", async () => {
