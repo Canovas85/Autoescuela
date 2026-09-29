@@ -46,6 +46,11 @@ import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import { LicenseChip } from "../../components/common/LicenseChip";
+import { ExpedientePhaseChip } from "../../components/common/ExpedientePhaseChip";
+import {
+  EXPEDIENTE_PHASE_OPTIONS,
+  resolveExpedientePhaseCode,
+} from "../../utils/expedientePhase";
 
 import {
   Dialog,
@@ -175,28 +180,6 @@ const aplicarMascaraFecha = (valor) => {
   return `${digitos.slice(0, 2)}/${digitos.slice(2, 4)}/${digitos.slice(4)}`;
 };
 
-const getEstadoAcademicoChip = (estado) => {
-  const code = String(estado?.codigo || "").toUpperCase();
-
-  if (["LICENCIA_OBTENIDA", "LICENCIA_APROBADA"].includes(code)) {
-    return { label: estado?.label || "Licencia obtenida", color: "success" };
-  }
-
-  if (code === "PRACTICO_SUSPENSO") {
-    return { label: estado?.label || "Práctico suspenso", color: "error" };
-  }
-
-  if (code === "TEORICO_APROBADO") {
-    return { label: estado?.label || "Teórico aprobado", color: "info" };
-  }
-
-  if (code === "TEORICO_SUSPENSO") {
-    return { label: estado?.label || "Teórico suspenso", color: "warning" };
-  }
-
-  return { label: estado?.label || "En formación", color: "default" };
-};
-
 const isLicenseObtainedState = (estado) =>
   ["LICENCIA_OBTENIDA", "LICENCIA_APROBADA"].includes(
     String(estado?.codigo || "").toUpperCase(),
@@ -268,6 +251,8 @@ export default function Alumnos() {
 
   const [profesorFiltro, setProfesorFiltro] = useState("");
 
+  const [faseExpedienteFiltro, setFaseExpedienteFiltro] = useState("");
+
   const [profesores, setProfesores] = useState([]);
 
   const [search, setSearch] = useState("");
@@ -284,7 +269,7 @@ export default function Alumnos() {
 
   useEffect(() => {
     loadAlumnos();
-  }, [estadoFiltro, profesorFiltro, search]);
+  }, [estadoFiltro, profesorFiltro, faseExpedienteFiltro, search]);
 
   useEffect(() => {
     loadProfesores();
@@ -338,6 +323,17 @@ export default function Alumnos() {
           (alumno) =>
             String(alumno.profesorAsignado?.id) === String(profesorFiltro),
         );
+      }
+
+      if (faseExpedienteFiltro) {
+        filteredData = filteredData.filter((alumno) => {
+          const code = resolveExpedientePhaseCode({
+            code: alumno.faseActualCodigo,
+            label: alumno.faseActual,
+          });
+
+          return code === faseExpedienteFiltro;
+        });
       }
 
       console.log(
@@ -679,10 +675,13 @@ export default function Alumnos() {
 
     {
       field: "faseActual",
-      headerName: "Fase",
+      headerName: "Estado Expediente",
       flex: 1.2,
       renderCell: (params) => (
-        <Chip label={params.row.faseActual || "En formación"} size="small" />
+        <ExpedientePhaseChip
+          code={params.row.faseActualCodigo}
+          label={params.row.faseActual}
+        />
       ),
     },
 
@@ -1092,6 +1091,22 @@ export default function Alumnos() {
           {profesores.map((profesor) => (
             <MenuItem key={profesor.id} value={profesor.id}>
               {profesor.usuario?.nombre}
+            </MenuItem>
+          ))}
+        </TextField>
+
+        <TextField
+          select
+          size="small"
+          label="Estado expediente"
+          value={faseExpedienteFiltro}
+          onChange={(e) => setFaseExpedienteFiltro(e.target.value)}
+          sx={{ width: 300 }}
+        >
+          <MenuItem value="">Todos los estados</MenuItem>
+          {EXPEDIENTE_PHASE_OPTIONS.map((estado) => (
+            <MenuItem key={estado.code} value={estado.code}>
+              {estado.label}
             </MenuItem>
           ))}
         </TextField>
@@ -2181,18 +2196,9 @@ export default function Alumnos() {
                             </Box>
                           )}
                         </Box>
-                        <Chip
-                          size="small"
-                          label={
-                            getEstadoAcademicoChip(
-                              extendedSummary.estadoAcademico,
-                            ).label
-                          }
-                          color={
-                            getEstadoAcademicoChip(
-                              extendedSummary.estadoAcademico,
-                            ).color
-                          }
+                        <ExpedientePhaseChip
+                          code={extendedSummary.estadoAcademico?.codigo}
+                          label={extendedSummary.estadoAcademico?.label}
                         />
                       </Box>
 

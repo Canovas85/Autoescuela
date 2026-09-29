@@ -103,4 +103,23 @@ describe("PagosService", () => {
 
     expect(repositoryMock.pay).not.toHaveBeenCalled();
   });
+
+  it("debe lanzar error si el pago ya está anulado", async () => {
+    const repositoryMock = {
+      findById: vi.fn().mockResolvedValue({
+        id: "pago-1",
+        alumnoId: "alumno-1",
+        estado: "CANCELADO",
+      }),
+      pay: vi.fn(),
+    };
+
+    const service = new PagosService(repositoryMock);
+
+    await expect(service.payMine("pago-1", "alumno-1")).rejects.toThrow(
+      "Pago ya anulado",
+    );
+
+    expect(repositoryMock.pay).not.toHaveBeenCalled();
+  });
 });

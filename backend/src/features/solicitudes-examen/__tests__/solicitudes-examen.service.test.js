@@ -637,6 +637,42 @@ describe("SolicitudesExamenService", () => {
     expect(repositoryMock.createPagoTasaDgtPendiente).toHaveBeenCalledOnce();
   });
 
+  it("no debe generar gasto practico pendiente cuando ya existe APTO práctico", async () => {
+    const repositoryMock = {
+      findMatriculaPagada: vi.fn().mockResolvedValue({
+        id: "matricula-1",
+        alumnoId: "alumno-1",
+        licencia: "B",
+      }),
+      hasPracticalApto: vi.fn().mockResolvedValue(true),
+      hasPsicotecnicoValidado: vi.fn().mockResolvedValue(true),
+      hasTheoreticalApto: vi.fn().mockResolvedValue(true),
+      countHojasRutaRegistradas: vi.fn().mockResolvedValue(5),
+      countHojasRutaRegistradasConClase: vi.fn().mockResolvedValue(5),
+      findSolicitudPracticoActiva: vi.fn().mockResolvedValue(null),
+      findUltimoPagoTasaDGT: vi.fn().mockResolvedValue({
+        id: "pago-dgt-1",
+        fechaPago: new Date("2026-09-01T10:00:00.000Z"),
+        convocatoriasIncluidas: 2,
+        convocatoriasConsumidas: 0,
+      }),
+      findUltimoNoAptoPractico: vi.fn().mockResolvedValue(null),
+      createPagoGastoPracticoPendiente: vi.fn(),
+      findPagosGastoPracticoActivos: vi.fn().mockResolvedValue([]),
+    };
+
+    const service = new SolicitudesExamenService(repositoryMock);
+    const result = await service.getPracticalEligibilityForStudent("alumno-1");
+
+    expect(result.checks.pagoGastoPracticoPagado).toBe(true);
+    expect(result.bloqueos).not.toContain(
+      "Debes abonar el pago de gastos de examen práctico para poder confirmar la fecha.",
+    );
+    expect(
+      repositoryMock.createPagoGastoPracticoPendiente,
+    ).not.toHaveBeenCalled();
+  });
+
   it("debe procesar resultados practicos con faltas y consumir convocatoria en no apto", async () => {
     const repositoryMock = {
       findSolicitudesPracticoPendientesResultado: vi.fn().mockResolvedValue([

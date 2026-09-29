@@ -66,14 +66,6 @@ const classifyConcepto = (concepto) => {
     return "TASA_DGT";
   }
 
-  if (
-    text.includes("práctic") ||
-    text.includes("practic") ||
-    text.includes("examen")
-  ) {
-    return "EXAMEN_PRACTICO";
-  }
-
   if (text.includes("bono")) {
     return "BONO";
   }
@@ -82,31 +74,55 @@ const classifyConcepto = (concepto) => {
     return "CLASE_PRACTICA";
   }
 
+  if (
+    text.includes("práctic") ||
+    text.includes("practic") ||
+    text.includes("examen")
+  ) {
+    return "EXAMEN_PRACTICO";
+  }
+
   return "OTROS";
 };
 
 const getRowOrigen = (row) => {
-  if (classifyConcepto(row?.concepto) === "TASA_DGT") {
+  const category = classifyConcepto(row?.concepto);
+
+  if (category === "TASA_DGT") {
     return "DGT";
   }
 
-  if (row?.matriculaId) {
-    return "MATRÍCULA";
+  if (category === "EXAMEN_PRACTICO") {
+    return "EXAMEN PRÁCTICO";
   }
 
   if (row?.compraBonoId || row?.clasePracticaId) {
     return "PAGO";
   }
 
+  if (row?.matriculaId) {
+    return "MATRÍCULA";
+  }
+
   return "FACTURA";
 };
 
+const getRowLicencia = (row) =>
+  row?.licenciaInferida ||
+  row?.compraBono?.bono?.licencia ||
+  row?.clasePractica?.vehiculo?.tipoPermiso ||
+  row?.matricula?.licencia ||
+  "-";
+
 const getBaseAmount = (row) => {
-  if (classifyConcepto(row?.concepto) === "TASA_DGT") {
+  const category = classifyConcepto(row?.concepto);
+
+  if (category === "TASA_DGT") {
     return TASA_DGT_FIJA;
   }
 
   if (
+    category === "MATRICULA" &&
     row.matricula?.promocion?.precioOriginal !== undefined &&
     row.matricula?.promocion?.precioOriginal !== null
   ) {
@@ -117,11 +133,13 @@ const getBaseAmount = (row) => {
 };
 
 const getDiscountAmount = (row) => {
-  if (classifyConcepto(row?.concepto) === "TASA_DGT") {
+  const category = classifyConcepto(row?.concepto);
+
+  if (category === "TASA_DGT") {
     return 0;
   }
 
-  if (row.matricula) {
+  if (category === "MATRICULA" && row.matricula) {
     const base = getBaseAmount(row);
     const final = Number(row.total || 0);
     const discount = base - final;
@@ -378,7 +396,7 @@ export default function IngresosFacturas() {
     filteredRows.map((row) => ({
       "Nº Factura": row.numero || "-",
       Alumno: row.alumno?.usuario?.nombre || "-",
-      Licencia: row.matricula?.licencia || "-",
+      Licencia: getRowLicencia(row),
       Origen: getRowOrigen(row),
       Concepto: row.concepto || "-",
       "Precio Base": Number(getBaseAmount(row) || 0).toFixed(2),
@@ -417,7 +435,7 @@ export default function IngresosFacturas() {
       flex: 0.8,
       sortable: false,
       renderCell: (params) => (
-        <LicenseChip value={params.row.matricula?.licencia} />
+        <LicenseChip value={getRowLicencia(params.row)} />
       ),
     },
     {

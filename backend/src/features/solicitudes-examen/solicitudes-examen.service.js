@@ -422,6 +422,11 @@ export class SolicitudesExamenService {
       return null;
     }
 
+    await this.cleanupDuplicatePendingTasaDgtRenewalPayments(
+      alumnoId,
+      licenciaObjetivo,
+    );
+
     const pagoPendienteExistente =
       await this.repository.findPagoTasaDGTPendiente(
         alumnoId,
@@ -455,6 +460,51 @@ export class SolicitudesExamenService {
       observaciones:
         "Renovación automática por agotamiento de convocatorias de Tasa DGT",
     });
+  }
+
+  async cleanupDuplicatePendingTasaDgtRenewalPayments(
+    alumnoId,
+    licenciaObjetivo,
+  ) {
+    if (
+      typeof this.repository.findPagosTasaDGTPendientes !== "function" ||
+      typeof this.repository.cancelPagoAndFacturaIfPending !== "function"
+    ) {
+      return;
+    }
+
+    const pendientes = await this.repository.findPagosTasaDGTPendientes(
+      alumnoId,
+      licenciaObjetivo,
+      this.tasaDgtConfig.conceptoPattern,
+    );
+
+    if ((pendientes || []).length <= 1) {
+      return;
+    }
+
+    for (const pago of pendientes.slice(1)) {
+      await this.repository.cancelPagoAndFacturaIfPending(
+        pago.id,
+        "Pago duplicado limpiado automáticamente",
+      );
+    }
+  }
+
+  async cleanupPendingTasaDgtRenewalPaymentDuplicatesForStudent(alumnoId) {
+    const matriculaPagada = await this.repository.findMatriculaPagada(alumnoId);
+
+    if (!matriculaPagada) {
+      return;
+    }
+
+    const licenciaObjetivo = normalizarLicenciaObjetivo(
+      matriculaPagada.licencia,
+    );
+    await this.cleanupDuplicatePendingTasaDgtRenewalPayments(
+      alumnoId,
+      licenciaObjetivo,
+    );
   }
 
   async validarDerechoExamenPorTasaDGT(alumnoId, licenciaObjetivo) {
@@ -742,6 +792,15 @@ export class SolicitudesExamenService {
     }
 
     const alumnoId = matriculaPagada.alumnoId;
+    const practicalAlreadyApproved =
+      typeof this.repository.hasPracticalApto === "function"
+        ? await this.repository.hasPracticalApto(alumnoId)
+        : false;
+
+    if (practicalAlreadyApproved) {
+      return null;
+    }
+
     const licenciaObjetivo = normalizarLicenciaObjetivo(
       matriculaPagada.licencia,
     );
@@ -864,6 +923,10 @@ export class SolicitudesExamenService {
     };
 
     const matriculaPagada = await this.repository.findMatriculaPagada(alumnoId);
+    const practicalAlreadyApproved =
+      typeof this.repository.hasPracticalApto === "function"
+        ? await this.repository.hasPracticalApto(alumnoId)
+        : false;
 
     if (!matriculaPagada) {
       bloqueos.push(
@@ -1032,6 +1095,7 @@ export class SolicitudesExamenService {
     let canPickDate = false;
 
     if (
+      !practicalAlreadyApproved &&
       checks.matriculaPagada &&
       checks.teoricoAprobado &&
       checks.psicotecnicoValidado &&
@@ -1050,6 +1114,11 @@ export class SolicitudesExamenService {
       }
     }
 
+    if (practicalAlreadyApproved) {
+      checks.pagoGastoPracticoGenerado = true;
+      checks.pagoGastoPracticoPagado = true;
+    }
+
     const puedeMoverFechaSinCancelar =
       solicitudActiva &&
       (pagoGastoPractico?.estado !== "PAGADO" ||
@@ -1066,7 +1135,7 @@ export class SolicitudesExamenService {
       );
     }
 
-    if (!checks.pagoGastoPracticoPagado) {
+    if (!checks.pagoGastoPracticoPagado && !practicalAlreadyApproved) {
       bloqueos.push(
         "Debes abonar el pago de gastos de examen práctico para poder confirmar la fecha.",
       );

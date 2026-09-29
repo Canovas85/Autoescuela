@@ -1,4 +1,5 @@
 import { getCapacidadCombustibleByPermiso } from "../../shared/utils/vehiculo-combustible.js";
+import { resolveExpedientePhase } from "../../shared/domain/expediente-phase.js";
 
 export class DashboardService {
   constructor(repository) {
@@ -594,81 +595,24 @@ export class DashboardService {
     solicitudesExamen = [],
     clases = [],
     estadoExpediente = null,
+    matriculaEstado = null,
   ) {
-    const latestTheoryRequest = [...(solicitudesExamen || [])]
-      .filter((request) => request?.tipo === "TEORICO")
-      .sort(
-        (a, b) => this.getComparableExamDate(b) - this.getComparableExamDate(a),
-      )[0];
+    const phase = resolveExpedientePhase({
+      estadoExpediente,
+      matriculaEstado,
+      solicitudesExamen,
+      clases,
+    });
 
-    const latestPracticalRequest = [...(solicitudesExamen || [])]
-      .filter((request) => request?.tipo === "PRACTICO")
-      .sort(
-        (a, b) => this.getComparableExamDate(b) - this.getComparableExamDate(a),
-      )[0];
-
-    const completedRoadmaps = (clases || []).filter((clase) => {
-      const estadoClase = String(clase?.estado || "").toUpperCase();
-      const estadoHoja = String(clase?.hojaRuta?.estado || "").toUpperCase();
-
-      return (
-        ["COMPLETADA", "REALIZADA", "FINALIZADA", "REGISTRADA"].includes(
-          estadoClase,
-        ) || estadoHoja === "REGISTRADA"
-      );
-    }).length;
-
-    const practicalStatus = String(
-      latestPracticalRequest?.estado || "",
-    ).toUpperCase();
-    const theoryStatus = String(
-      latestTheoryRequest?.estado || "",
-    ).toUpperCase();
-
-    const hasPracticalRequest = [
-      "SOLICITADO",
-      "PROGRAMADO",
-      "PENDIENTE",
-    ].includes(practicalStatus);
-
-    const expedienteNormalizado = String(estadoExpediente || "").toUpperCase();
-
-    if (
-      expedienteNormalizado === "LICENCIA_OBTENIDA" ||
-      practicalStatus === "APTO"
-    ) {
-      return {
-        label: "Licencia obtenida",
-        ok: true,
-        codigo: "LICENCIA_OBTENIDA",
-      };
-    }
-
-    if (["NO_APTO", "SUSPENDIDO", "NO_PRESENTADO"].includes(practicalStatus)) {
-      return { label: "Práctico suspenso", ok: false };
-    }
-
-    if (hasPracticalRequest) {
-      return { label: "Pendiente de examen práctico", ok: false };
-    }
-
-    if (theoryStatus === "APTO" && completedRoadmaps > 0) {
-      return { label: "Preparándose para el práctico", ok: true };
-    }
-
-    if (["NO_APTO", "SUSPENDIDO", "NO_PRESENTADO"].includes(theoryStatus)) {
-      return { label: "Teórico suspenso", ok: false };
-    }
-
-    if (theoryStatus === "APTO") {
-      return { label: "Teórico aprobado", ok: true };
-    }
-
-    if (["SOLICITADO", "PROGRAMADO", "PENDIENTE"].includes(theoryStatus)) {
-      return { label: "Pendiente de examen teórico", ok: false };
-    }
-
-    return { label: "Estudiando teórico", ok: false };
+    return {
+      label: phase.label,
+      codigo: phase.code,
+      ok: [
+        "TEORICO_APROBADO",
+        "PREPARANDO_PRACTICO",
+        "LICENCIA_OBTENIDA",
+      ].includes(phase.code),
+    };
   }
 
   isCompletedPracticalClass(clase) {
@@ -971,6 +915,7 @@ export class DashboardService {
       alumno.solicitudesExamen,
       clases,
       alumno.estadoExpediente,
+      matriculaActual?.estado,
     );
 
     return {
@@ -1200,6 +1145,7 @@ export class DashboardService {
       alumno.solicitudesExamen,
       clases,
       alumno.estadoExpediente,
+      matriculaActual?.estado,
     );
 
     const preparadoParaTeorico = testsTotales >= 10 && porcentajeAprobado >= 80;

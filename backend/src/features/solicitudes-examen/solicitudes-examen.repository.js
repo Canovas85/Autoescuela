@@ -66,6 +66,26 @@ export class SolicitudesExamenRepository {
     });
   }
 
+  async findPagosTasaDGTPendientes(
+    alumnoId,
+    licenciaObjetivo,
+    conceptoPattern,
+  ) {
+    return this.prisma.pago.findMany({
+      where: {
+        alumnoId,
+        tipo: "TASA_DGT_21",
+        permiso: licenciaObjetivo,
+        estado: "PENDIENTE",
+        concepto: {
+          contains: conceptoPattern,
+          mode: "insensitive",
+        },
+      },
+      orderBy: [{ fechaCreacion: "desc" }],
+    });
+  }
+
   async findTarifaTasaDgtByPermiso(permiso, conceptoPattern) {
     return this.prisma.tarifaConcepto.findFirst({
       where: {
@@ -190,6 +210,20 @@ export class SolicitudesExamenRepository {
       where: {
         alumnoId,
         tipo: "TEORICO",
+        estado: {
+          in: ["APTO", "APROBADO"],
+        },
+      },
+    });
+
+    return total > 0;
+  }
+
+  async hasPracticalApto(alumnoId) {
+    const total = await this.prisma.solicitudExamen.count({
+      where: {
+        alumnoId,
+        tipo: "PRACTICO",
         estado: {
           in: ["APTO", "APROBADO"],
         },
@@ -397,15 +431,40 @@ export class SolicitudesExamenRepository {
       where: {
         alumnoId,
         permiso,
-        tipo: {
-          in: ["EXAMEN_PRACTICO_GASTOS", "PROMOCION_PAGO_EXAMEN_GRATIS"],
-        },
         estado: "PAGADO",
-        solicitudesExamenPractico: {
-          none: {},
-        },
+        OR: [
+          {
+            tipo: "EXAMEN_PRACTICO_GASTOS",
+            solicitudesExamenPractico: {
+              none: {},
+            },
+          },
+          {
+            tipo: "PROMOCION_PAGO_EXAMEN_GRATIS",
+            solicitudesExamenPractico: {
+              none: {
+                estado: {
+                  in: [
+                    "APTO",
+                    "NO_APTO",
+                    "NO_PRESENTADO",
+                    "SUSPENDIDO",
+                    "SUSPENSO",
+                    "APROBADO",
+                  ],
+                },
+              },
+            },
+          },
+        ],
       },
-      orderBy: [{ fechaPago: "desc" }, { fechaCreacion: "desc" }],
+      orderBy: [
+        {
+          tipo: "asc",
+        },
+        { fechaPago: "desc" },
+        { fechaCreacion: "desc" },
+      ],
     });
   }
 
@@ -465,6 +524,10 @@ export class SolicitudesExamenRepository {
     }
 
     return this.prisma.$transaction(async (tx) => {
+      await tx.$executeRaw`
+        SELECT pg_advisory_xact_lock(hashtext(${`pago_practico:${alumnoId}:${permiso}`}))
+      `;
+
       const existente = await tx.pago.findFirst({
         where: {
           alumnoId,
@@ -586,6 +649,10 @@ export class SolicitudesExamenRepository {
     }
 
     return this.prisma.$transaction(async (tx) => {
+      await tx.$executeRaw`
+        SELECT pg_advisory_xact_lock(hashtext(${`pago_tasa_dgt:${alumnoId}:${permiso}`}))
+      `;
+
       const existente = await tx.pago.findFirst({
         where: {
           alumnoId,

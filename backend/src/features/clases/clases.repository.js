@@ -297,6 +297,17 @@ export class ClasesRepository {
             id: true,
           },
         },
+        pagos: {
+          orderBy: {
+            fechaCreacion: "desc",
+          },
+          take: 1,
+          select: {
+            id: true,
+            estado: true,
+            tipo: true,
+          },
+        },
       },
       orderBy: {
         fecha: "asc",
@@ -324,6 +335,17 @@ export class ClasesRepository {
           },
         },
         vehiculo: true,
+        pagos: {
+          orderBy: {
+            fechaCreacion: "desc",
+          },
+          take: 1,
+          select: {
+            id: true,
+            estado: true,
+            tipo: true,
+          },
+        },
       },
       orderBy: {
         fecha: "asc",
@@ -584,13 +606,7 @@ export class ClasesRepository {
         metodoPago: "INDIVIDUAL",
         compraBonoId: null,
         estado: {
-          in: [
-            "PROGRAMADA",
-            "CONFIRMADA",
-            "COMPLETADA",
-            "REALIZADA",
-            "FINALIZADA",
-          ],
+          in: ["CONFIRMADA", "COMPLETADA", "REALIZADA", "FINALIZADA"],
         },
         fecha: {
           lte: now,
@@ -619,13 +635,7 @@ export class ClasesRepository {
         metodoPago: "INDIVIDUAL",
         compraBonoId: null,
         estado: {
-          in: [
-            "PROGRAMADA",
-            "CONFIRMADA",
-            "COMPLETADA",
-            "REALIZADA",
-            "FINALIZADA",
-          ],
+          in: ["CONFIRMADA", "COMPLETADA", "REALIZADA", "FINALIZADA"],
         },
         fecha: {
           lte: now,
@@ -703,6 +713,17 @@ export class ClasesRepository {
           },
         },
         vehiculo: true,
+        pagos: {
+          orderBy: {
+            fechaCreacion: "desc",
+          },
+          take: 1,
+          select: {
+            id: true,
+            estado: true,
+            tipo: true,
+          },
+        },
       },
       orderBy: [{ fecha: "asc" }],
     });
@@ -714,8 +735,8 @@ export class ClasesRepository {
         alumnoId,
         estado: "CONFIRMADA",
         metodoPago: "INDIVIDUAL",
-        pagoLimiteAt: {
-          lt: now,
+        fecha: {
+          lte: now,
         },
         pagos: {
           some: {
@@ -733,14 +754,83 @@ export class ClasesRepository {
     });
   }
 
+  async getStudentUnconfirmedIndividualClassesCloseToStart(
+    alumnoId,
+    now,
+    cutoff,
+  ) {
+    return this.prisma.clasePractica.findMany({
+      where: {
+        alumnoId,
+        estado: "PROGRAMADA",
+        metodoPago: "INDIVIDUAL",
+        fecha: {
+          gt: now,
+          lte: cutoff,
+        },
+      },
+      include: {
+        profesor: {
+          include: {
+            usuario: {
+              select: {
+                id: true,
+                nombre: true,
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  async getProfessorUnconfirmedIndividualClassesCloseToStart(
+    profesorId,
+    now,
+    cutoff,
+  ) {
+    return this.prisma.clasePractica.findMany({
+      where: {
+        profesorId,
+        estado: "PROGRAMADA",
+        metodoPago: "INDIVIDUAL",
+        fecha: {
+          gt: now,
+          lte: cutoff,
+        },
+      },
+      include: {
+        alumno: {
+          include: {
+            usuario: {
+              select: {
+                id: true,
+                nombre: true,
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  async updateFacturasByClassId(classId, data) {
+    return this.prisma.factura.updateMany({
+      where: {
+        clasePracticaId: classId,
+      },
+      data,
+    });
+  }
+
   async getProfessorOverdueUnpaidConfirmedClasses(profesorId, now) {
     return this.prisma.clasePractica.findMany({
       where: {
         profesorId,
         estado: "CONFIRMADA",
         metodoPago: "INDIVIDUAL",
-        pagoLimiteAt: {
-          lt: now,
+        fecha: {
+          lte: now,
         },
         pagos: {
           some: {

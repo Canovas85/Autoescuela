@@ -14,6 +14,11 @@ import {
   Stack,
   Typography,
   Link,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from "@mui/material";
 import EventBusyIcon from "@mui/icons-material/EventBusy";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
@@ -233,6 +238,23 @@ const canStudentCancelClass = (clase) => {
   return diffMs > 24 * 60 * 60 * 1000;
 };
 
+const hasPaidIndividualClass = (clase) => {
+  const metodoPago = String(clase?.metodoPago || "").toUpperCase();
+  const estadoPago = String(clase?.pagoClase?.estado || "").toUpperCase();
+
+  return metodoPago === "INDIVIDUAL" && estadoPago === "PAGADO";
+};
+
+const isLessThan24h = (clase) => {
+  const classDate = new Date(clase?.fecha);
+
+  if (Number.isNaN(classDate.getTime())) {
+    return false;
+  }
+
+  return classDate.getTime() - Date.now() <= 24 * 60 * 60 * 1000;
+};
+
 export default function ReservarClase() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -247,6 +269,8 @@ export default function ReservarClase() {
   const [selectedHour, setSelectedHour] = useState("");
   const [metodoPago, setMetodoPago] = useState("INDIVIDUAL");
   const [selectedBonoId, setSelectedBonoId] = useState("");
+  const [penaltyDialogOpen, setPenaltyDialogOpen] = useState(false);
+  const [penaltyTargetClassId, setPenaltyTargetClassId] = useState(null);
 
   const loadContext = async (offset = weekOffset) => {
     setLoading(true);
@@ -415,9 +439,9 @@ export default function ReservarClase() {
     }
   };
 
-  const cancelarSolicitud = async (id) => {
+  const cancelarSolicitud = async (id, options = {}) => {
     try {
-      await clasesPracticasPortalService.cancelStudentRequest(id);
+      await clasesPracticasPortalService.cancelStudentRequest(id, options);
       setSuccess("Solicitud cancelada correctamente");
       await loadContext(weekOffset);
     } catch (cancelError) {
@@ -426,6 +450,29 @@ export default function ReservarClase() {
           "No se pudo cancelar la solicitud",
       );
     }
+  };
+
+  const handleAskCancel = (item) => {
+    if (hasPaidIndividualClass(item) && isLessThan24h(item)) {
+      setPenaltyTargetClassId(item.id);
+      setPenaltyDialogOpen(true);
+      return;
+    }
+
+    cancelarSolicitud(item.id);
+  };
+
+  const handleConfirmPenaltyCancel = async () => {
+    if (!penaltyTargetClassId) {
+      setPenaltyDialogOpen(false);
+      return;
+    }
+
+    setPenaltyDialogOpen(false);
+    await cancelarSolicitud(penaltyTargetClassId, {
+      confirmPenalty: true,
+    });
+    setPenaltyTargetClassId(null);
   };
 
   if (loading) {
@@ -906,11 +953,13 @@ export default function ReservarClase() {
                               </Stack>
 
                               <Stack sx={{ mt: 0.6 }}>
-                                {canStudentCancelClass(item) ? (
+                                {canStudentCancelClass(item) ||
+                                (hasPaidIndividualClass(item) &&
+                                  isLessThan24h(item)) ? (
                                   <Button
                                     color="error"
                                     size="small"
-                                    onClick={() => cancelarSolicitud(item.id)}
+                                    onClick={() => handleAskCancel(item)}
                                     sx={{
                                       px: 0,
                                       justifyContent: "flex-start",
@@ -975,6 +1024,26 @@ export default function ReservarClase() {
           </Paper>
         </>
       ) : null}
+
+      <Dialog
+        open={penaltyDialogOpen}
+        onClose={() => setPenaltyDialogOpen(false)}
+      >
+        <DialogTitle>Cancelación con penalización</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Si cancelas esta clase con menos de 24 horas de antelación, no se
+            devolverá el importe. La factura quedará en estado PENALIZACIÓN.
+            ¿Quieres continuar?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setPenaltyDialogOpen(false)}>Volver</Button>
+          <Button color="error" onClick={handleConfirmPenaltyCancel}>
+            Confirmar cancelación
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

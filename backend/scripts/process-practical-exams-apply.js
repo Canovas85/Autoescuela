@@ -392,6 +392,71 @@ const getPagoTasaInfo = async (tx, alumnoId, conceptoPattern) => {
   return pagoTasa;
 };
 
+const cleanupPendingPracticalExpenseAfterApto = async (tx, alumnoId) => {
+  const pagosPendientes = await tx.pago.findMany({
+    where: {
+      alumnoId,
+      tipo: "EXAMEN_PRACTICO_GASTOS",
+      estado: "PENDIENTE",
+    },
+    select: {
+      id: true,
+      numeroFacturaPago: true,
+    },
+  });
+
+  if (pagosPendientes.length === 0) {
+    return 0;
+  }
+
+  let pagosCancelados = 0;
+
+  for (const pago of pagosPendientes) {
+    await tx.solicitudExamen.updateMany({
+      where: {
+        alumnoId,
+        tipo: "PRACTICO",
+        pagoGastoPracticoId: pago.id,
+      },
+      data: {
+        pagoGastoPracticoId: null,
+      },
+    });
+
+    const updated = await tx.pago.updateMany({
+      where: {
+        id: pago.id,
+        estado: "PENDIENTE",
+      },
+      data: {
+        estado: "CANCELADO",
+        observaciones:
+          "Cancelado automáticamente por resultado APTO en batch práctico",
+      },
+    });
+
+    if (updated.count > 0) {
+      pagosCancelados += 1;
+    }
+
+    if (pago.numeroFacturaPago) {
+      await tx.factura.updateMany({
+        where: {
+          numero: pago.numeroFacturaPago,
+          estado: {
+            in: ["EMITIDA", "PENDIENTE"],
+          },
+        },
+        data: {
+          estado: "ANULADA",
+        },
+      });
+    }
+  }
+
+  return pagosCancelados;
+};
+
 const construirPlanAplicacion = async (tx, candidatas, randomFn, options) => {
   const candidatasUnicas = [];
   const candidatasDuplicadas = [];
@@ -572,6 +637,9 @@ const imprimirResumen = (payload) => {
     `- Faltas eliminatorias totales: ${payload.summary.faltasEliminatoriasTotales}`,
   );
   console.log(`- Pagos actualizados: ${payload.summary.pagosActualizados}`);
+  console.log(
+    `- Pagos prácticos cancelados por APTO: ${payload.summary.pagosPracticoCanceladosPorApto || 0}`,
+  );
 };
 
 async function main() {
@@ -639,6 +707,8 @@ async function main() {
         appliedAt: new Date(),
       },
     });
+
+    let pagosPracticoCanceladosPorApto = 0;
 
     if (plan.solicitudes.length > 0) {
       await tx.practicalExamProcessSolicitud.createMany({
@@ -729,6 +799,21 @@ async function main() {
             createdExamenId: examen.id,
           },
         });
+
+        if (item.afterEstado === "APTO") {
+          pagosPracticoCanceladosPorApto +=
+            await cleanupPendingPracticalExpenseAfterApto(tx, updated.alumnoId);
+
+          await tx.alumno.updateMany({
+            where: {
+              id: updated.alumnoId,
+            },
+            data: {
+              estadoExpediente: "LICENCIA_OBTENIDA",
+              licenciaObtenidaAt: new Date(),
+            },
+          });
+        }
       }
     }
 
@@ -756,7 +841,24 @@ async function main() {
       }
     }
 
-    return basePayload;
+    const summary = {
+      ...basePayload.summary,
+      pagosPracticoCanceladosPorApto,
+    };
+
+    await tx.practicalExamProcessBatch.update({
+      where: {
+        id: batchId,
+      },
+      data: {
+        summary,
+      },
+    });
+
+    return {
+      ...basePayload,
+      summary,
+    };
   });
 
   imprimirResumen(result);

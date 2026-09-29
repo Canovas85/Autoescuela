@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { resolveExpedientePhase } from "../../shared/domain/expediente-phase.js";
 
 const LICENCIAS_PERMITIDAS = ["B", "A1", "A2", "A", "C", "D", "E"];
 
@@ -114,73 +115,6 @@ const formatMinutesAsHours = (minutes) => {
   const hours = Math.floor(safeMinutes / 60);
   const remainder = safeMinutes % 60;
   return `${hours}h ${String(remainder).padStart(2, "0")}min`;
-};
-
-const getComparableExamDate = (examRequest) => {
-  const dateValue = examRequest?.fechaProgramada || examRequest?.fechaSolicitud;
-  const date = new Date(dateValue || 0);
-
-  if (Number.isNaN(date.getTime())) {
-    return 0;
-  }
-
-  return date.getTime();
-};
-
-const getAcademicPhaseFromRequests = (solicitudesExamen = [], clases = []) => {
-  const latestTheoryRequest = [...(solicitudesExamen || [])]
-    .filter((request) => request?.tipo === "TEORICO")
-    .sort((a, b) => getComparableExamDate(b) - getComparableExamDate(a))[0];
-
-  const latestPracticalRequest = [...(solicitudesExamen || [])]
-    .filter((request) => request?.tipo === "PRACTICO")
-    .sort((a, b) => getComparableExamDate(b) - getComparableExamDate(a))[0];
-
-  const completedRoadmaps = (clases || []).filter((clase) => {
-    const estadoClase = String(clase?.estado || "").toUpperCase();
-    const estadoHoja = String(clase?.hojaRuta?.estado || "").toUpperCase();
-
-    return (
-      ["COMPLETADA", "REALIZADA", "FINALIZADA", "REGISTRADA"].includes(
-        estadoClase,
-      ) || estadoHoja === "REGISTRADA"
-    );
-  }).length;
-
-  const practicalStatus = String(
-    latestPracticalRequest?.estado || "",
-  ).toUpperCase();
-  const theoryStatus = String(latestTheoryRequest?.estado || "").toUpperCase();
-
-  if (practicalStatus === "APTO") {
-    return "Licencia aprobada";
-  }
-
-  if (["NO_APTO", "SUSPENDIDO", "SUSPENSO"].includes(practicalStatus)) {
-    return "Práctico suspenso";
-  }
-
-  if (["SOLICITADO", "PROGRAMADO", "PENDIENTE"].includes(practicalStatus)) {
-    return "Pendiente de examen práctico";
-  }
-
-  if (theoryStatus === "APTO" && completedRoadmaps > 0) {
-    return "Preparándose para el práctico";
-  }
-
-  if (["NO_APTO", "SUSPENDIDO", "SUSPENSO"].includes(theoryStatus)) {
-    return "Teórico suspenso";
-  }
-
-  if (theoryStatus === "APTO") {
-    return "Teórico aprobado";
-  }
-
-  if (["SOLICITADO", "PROGRAMADO", "PENDIENTE"].includes(theoryStatus)) {
-    return "Pendiente de examen teórico";
-  }
-
-  return "En formación";
 };
 
 const calcularEdad = (fechaNacimiento) => {
@@ -319,6 +253,7 @@ export class AlumnosService {
       fechaNacimiento,
       telefono,
       tipoLicenciaObjetivo: licenciaNormalizada,
+      estadoExpediente: "PENDIENTE_MATRICULA",
       passwordHash,
       rol: "ALUMNO",
       activo: true,
@@ -524,14 +459,19 @@ export class AlumnosService {
         0,
       );
 
+      const fase = resolveExpedientePhase({
+        estadoExpediente: alumno?.estadoExpediente,
+        matriculaEstado: alumno?.matriculas?.[0]?.estado,
+        solicitudesExamen: alumno?.solicitudesExamen || [],
+        clases,
+      });
+
       return {
         ...alumno,
         horasPracticasCompletadas: Number((minutosPracticas / 60).toFixed(2)),
         horasPracticasCompletadasTexto: formatMinutesAsHours(minutosPracticas),
-        faseActual: getAcademicPhaseFromRequests(
-          alumno?.solicitudesExamen || [],
-          clases,
-        ),
+        faseActual: fase.label,
+        faseActualCodigo: fase.code,
       };
     });
   }
@@ -645,47 +585,12 @@ export class AlumnosService {
     ).length;
     const dgtTotales = examenesDgt.length;
 
-    let estadoAcademico = {
-      codigo: "EN_FORMACION",
-      label: "En formación",
-    };
-
-    const estadoExpediente = String(
-      alumno.estadoExpediente || "",
-    ).toUpperCase();
-
-    if (
-      estadoExpediente === "LICENCIA_OBTENIDA" ||
-      practicoMasReciente?.estado === "APTO"
-    ) {
-      estadoAcademico = {
-        codigo: "LICENCIA_OBTENIDA",
-        label: "Licencia obtenida",
-      };
-    } else if (
-      ["NO_APTO", "SUSPENDIDO", "NO_PRESENTADO"].includes(
-        practicoMasReciente?.estado,
-      )
-    ) {
-      estadoAcademico = {
-        codigo: "PRACTICO_SUSPENSO",
-        label: "Práctico suspenso",
-      };
-    } else if (teoricoMasReciente?.estado === "APTO") {
-      estadoAcademico = {
-        codigo: "TEORICO_APROBADO",
-        label: "Teórico aprobado",
-      };
-    } else if (
-      ["NO_APTO", "SUSPENDIDO", "NO_PRESENTADO"].includes(
-        teoricoMasReciente?.estado,
-      )
-    ) {
-      estadoAcademico = {
-        codigo: "TEORICO_SUSPENSO",
-        label: "Teórico suspenso",
-      };
-    }
+    const estadoAcademico = resolveExpedientePhase({
+      estadoExpediente: alumno.estadoExpediente,
+      matriculaEstado: matriculaActual?.estado,
+      solicitudesExamen: solicitudes,
+      clases: alumno.clases || [],
+    });
 
     const fechaInicioCobertura =
       pagoTasaDgt?.fechaPago || pagoTasaDgt?.fechaCreacion || null;
@@ -923,18 +828,26 @@ export class AlumnosService {
       delete payload.password;
     }
 
-    if (
+    const hasPromotionUpdate = Object.prototype.hasOwnProperty.call(
+      data,
+      "promocionId",
+    );
+    const licenciaObjetivoMatricula =
+      licenciaNuevaNormalizada || matricula?.licencia || null;
+    const shouldRecalculatePendingEnrollment = Boolean(
       this.matriculasRepository &&
       matricula &&
       matricula.estado === "PENDIENTE" &&
-      licenciaNuevaNormalizada &&
-      licenciaNuevaNormalizada !== matricula.licencia
-    ) {
+      licenciaObjetivoMatricula &&
+      (licenciaObjetivoMatricula !== matricula.licencia || hasPromotionUpdate),
+    );
+
+    if (shouldRecalculatePendingEnrollment) {
       const dniActual = alumnoActual.usuario?.dni || data.dni;
       const fechaNacimientoActual =
         data.fechaNacimiento ?? alumnoActual.fechaNacimiento;
       const promociones = await this.getEligiblePromotionsForEnrollment({
-        tipoLicenciaObjetivo: licenciaNuevaNormalizada,
+        tipoLicenciaObjetivo: licenciaObjetivoMatricula,
         fechaNacimiento: fechaNacimientoActual,
         dni: dniActual,
         esEstudiante: parseBoolean(data.esEstudiante, false),
@@ -942,7 +855,7 @@ export class AlumnosService {
 
       let promocionSeleccionada = null;
 
-      if (data.promocionId) {
+      if (hasPromotionUpdate && data.promocionId) {
         promocionSeleccionada = promociones.find(
           (promocion) => promocion.id === data.promocionId,
         );
@@ -952,17 +865,17 @@ export class AlumnosService {
             "La promoción seleccionada no es válida para la nueva licencia.",
           );
         }
-      } else if (promociones.length === 1) {
+      } else if (!hasPromotionUpdate && promociones.length === 1) {
         promocionSeleccionada = promociones[0];
       }
 
       const tarifa = await this.matriculasRepository.findTarifaByLicencia(
-        licenciaNuevaNormalizada,
+        licenciaObjetivoMatricula,
       );
 
       if (!tarifa) {
         throw new Error(
-          `No existe tarifa configurada para la licencia ${licenciaNuevaNormalizada}`,
+          `No existe tarifa configurada para la licencia ${licenciaObjetivoMatricula}`,
         );
       }
 
@@ -975,13 +888,13 @@ export class AlumnosService {
 
       await this.matriculasRepository.updatePendingEnrollmentAndFactura({
         matriculaId: matricula.id,
-        licencia: licenciaNuevaNormalizada,
+        licencia: licenciaObjetivoMatricula,
         precioBase,
         precioFinal,
         promocionId: promocionSeleccionada?.id || null,
         conceptoFactura: promocionSeleccionada
-          ? `Matricula licencia ${licenciaNuevaNormalizada} - ${promocionSeleccionada.nombre}`
-          : `Matricula licencia ${licenciaNuevaNormalizada}`,
+          ? `Matricula licencia ${licenciaObjetivoMatricula} - ${promocionSeleccionada.nombre}`
+          : `Matricula licencia ${licenciaObjetivoMatricula}`,
         descuento:
           baseNumerica > finalNumerico
             ? Number((baseNumerica - finalNumerico).toFixed(2))

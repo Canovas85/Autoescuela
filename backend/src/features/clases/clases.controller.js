@@ -56,6 +56,7 @@ export class ClasesController {
     const data = await this.service.cancelByStudent(
       req.user?.id,
       req.params.id,
+      req.body || {},
     );
     return res.status(200).json(data);
   }

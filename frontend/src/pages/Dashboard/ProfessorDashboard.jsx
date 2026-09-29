@@ -26,6 +26,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 
 import { LicenseChip } from "../../components/common/LicenseChip";
+import { ExpedientePhaseChip } from "../../components/common/ExpedientePhaseChip";
 import { profesorPortalService } from "../../services/profesorPortalService";
 
 function StatCard({ title, value, subtitle, color, icon }) {
@@ -118,13 +119,6 @@ export default function ProfessorDashboard({ data }) {
       setLoadingDetail(false);
     }
   };
-
-  const getProgressChipSx = (ok) => ({
-    backgroundColor: ok ? "#dcfce7" : "#fef3c7",
-    color: ok ? "#166534" : "#92400e",
-    border: `1px solid ${ok ? "#86efac" : "#fcd34d"}`,
-    fontWeight: 700,
-  });
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
@@ -260,14 +254,9 @@ export default function ProfessorDashboard({ data }) {
                         }}
                       >
                         <LicenseChip value={alumno.tipoLicenciaObjetivo} />
-                        <Chip
-                          size="small"
-                          label={
-                            alumno.estadoAlumno?.label || "Estudiando teórico"
-                          }
-                          sx={getProgressChipSx(
-                            Boolean(alumno.estadoAlumno?.ok),
-                          )}
+                        <ExpedientePhaseChip
+                          code={alumno.estadoAlumno?.codigo}
+                          label={alumno.estadoAlumno?.label}
                         />
                       </Box>
                     </CardContent>
@@ -407,12 +396,9 @@ export default function ProfessorDashboard({ data }) {
                   </Grid>
 
                   <Stack direction="row" spacing={1} sx={{ mt: 1.5 }}>
-                    <Chip
-                      size="small"
-                      label={
-                        detail?.estadoAlumno?.label || "Estudiando teórico"
-                      }
-                      sx={getProgressChipSx(Boolean(detail?.estadoAlumno?.ok))}
+                    <ExpedientePhaseChip
+                      code={detail?.estadoAlumno?.codigo}
+                      label={detail?.estadoAlumno?.label}
                     />
                   </Stack>
                 </CardContent>
@@ -453,12 +439,14 @@ export default function ProfessorDashboard({ data }) {
                                 examen.fechaProgramada || examen.fechaSolicitud,
                               ).toLocaleDateString("es-ES")}
                             </Typography>
-                            <Chip
-                              size="small"
-                              color={getExamResultMeta(examen.estado).color}
-                              icon={getExamResultMeta(examen.estado).icon}
-                              label={getExamResultMeta(examen.estado).label}
-                            />
+                            <Box sx={{ flex: 1, textAlign: "right" }}>
+                              <Chip
+                                size="small"
+                                color={getExamResultMeta(examen.estado).color}
+                                icon={getExamResultMeta(examen.estado).icon}
+                                label={getExamResultMeta(examen.estado).label}
+                              />
+                            </Box>
                           </Stack>
                           <Typography variant="body2" color="text.secondary">
                             Aciertos: {examen.aciertosExamen ?? "-"} | Fallos:{" "}
@@ -502,12 +490,14 @@ export default function ProfessorDashboard({ data }) {
                                 examen.fechaProgramada || examen.fechaSolicitud,
                               ).toLocaleDateString("es-ES")}
                             </Typography>
-                            <Chip
-                              size="small"
-                              color={getExamResultMeta(examen.estado).color}
-                              icon={getExamResultMeta(examen.estado).icon}
-                              label={getExamResultMeta(examen.estado).label}
-                            />
+                            <Box sx={{ flex: 1, textAlign: "right" }}>
+                              <Chip
+                                size="small"
+                                color={getExamResultMeta(examen.estado).color}
+                                icon={getExamResultMeta(examen.estado).icon}
+                                label={getExamResultMeta(examen.estado).label}
+                              />
+                            </Box>
                           </Stack>
                           <Typography variant="body2" color="text.secondary">
                             Leves: {examen.faltasLeves ?? "-"} | Deficientes:{" "}

@@ -83,7 +83,7 @@ model Alumno {
   horasPracticasCompletadas Int                  @default(0)
   profesorAsignadoId        String?
   activo                    Boolean              @default(true)
-  estadoExpediente          String               @default("EN_FORMACION")
+  estadoExpediente          String               @default("PENDIENTE_MATRICULA")
   licenciaObtenidaAt        DateTime?
   fechaNacimiento           DateTime?
   usuario                   Usuario              @relation(fields: [id], references: [id], onDelete: Cascade)

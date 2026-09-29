@@ -15,6 +15,8 @@
     "process:practical-exams": "node scripts/process-practical-exams.js",
     "process:practical-exams:apply": "node scripts/process-practical-exams-apply.js",
     "process:practical-exams:rollback": "node scripts/process-practical-exams-rollback.js",
+    "repair:invoices-origin-license:dry": "node scripts/repair-invoices-origin-license.js --dry-run",
+    "repair:invoices-origin-license": "node scripts/repair-invoices-origin-license.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",

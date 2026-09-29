@@ -32,7 +32,6 @@ import ClasesDirectoAdmin from "../pages/ClasesDirectoAdmin/ClasesDirectoAdmin";
 import PagoMatricula from "../pages/Matriculas/PagoMatricula";
 import IngresosFacturas from "../pages/Facturas/IngresosFacturas";
 import MisFacturas from "../pages/Facturas/MisFacturas";
-import MisPagos from "../pages/Pagos/MisPagos";
 import ProfesorAlumnos from "../pages/ProfesorAlumnos/ProfesorAlumnos";
 import ProfesorVehiculos from "../pages/ProfesorVehiculos/ProfesorVehiculos";
 import ProfesorAgenda from "../pages/ProfesorAgenda/ProfesorAgenda";
@@ -147,7 +146,10 @@ export default function AppRouter() {
               <Route path="/facturas" element={<IngresosFacturas />} />
               <Route path="/gastos" element={<Gastos />} />
               <Route path="/mis-facturas" element={<MisFacturas />} />
-              <Route path="/mis-pagos" element={<MisPagos />} />
+              <Route
+                path="/mis-pagos"
+                element={<Navigate to="/mis-facturas" replace />}
+              />
               <Route path="/mis-documentos" element={<DocumentosAlumno />} />
               <Route path="/reservar-clase" element={<ReservarClase />} />
               <Route path="/notificaciones" element={<Notificaciones />} />

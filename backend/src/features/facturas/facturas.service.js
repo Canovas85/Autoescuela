@@ -6,12 +6,186 @@ export class FacturasService {
     this.emailService = emailService;
   }
 
+  classifyConcepto(concepto) {
+    const text = String(concepto || "").toLowerCase();
+
+    if (text.includes("matricul")) {
+      return "MATRICULA";
+    }
+
+    if (text.includes("tasa") || text.includes("dgt")) {
+      return "TASA_DGT";
+    }
+
+    if (text.includes("bono")) {
+      return "BONO";
+    }
+
+    if (text.includes("clase")) {
+      return "CLASE_PRACTICA";
+    }
+
+    if (
+      text.includes("práctic") ||
+      text.includes("practic") ||
+      text.includes("examen")
+    ) {
+      return "EXAMEN_PRACTICO";
+    }
+
+    return "OTROS";
+  }
+
+  buildPagosByNumeroMap(pagos = []) {
+    const map = new Map();
+
+    for (const pago of pagos || []) {
+      const numero = String(pago?.numeroFacturaPago || "");
+
+      if (!numero) {
+        continue;
+      }
+
+      if (!map.has(numero)) {
+        map.set(numero, []);
+      }
+
+      map.get(numero).push(pago);
+    }
+
+    return map;
+  }
+
+  hideTechnicalCancelledDuplicates(facturas, pagosByNumero = new Map()) {
+    const keyByFactura = (factura) =>
+      [
+        factura.alumnoId,
+        String(factura.concepto || "")
+          .trim()
+          .toUpperCase(),
+        Number(factura.total || 0).toFixed(2),
+      ].join("|");
+
+    const grouped = new Map();
+
+    for (const factura of facturas || []) {
+      const key = keyByFactura(factura);
+      if (!grouped.has(key)) {
+        grouped.set(key, []);
+      }
+      grouped.get(key).push(factura);
+    }
+
+    return (facturas || []).filter((factura) => {
+      const pagosFactura =
+        pagosByNumero.get(String(factura.numero || "")) || [];
+      const estadoFactura = String(factura.estado || "").toUpperCase();
+      const invoiceIsUnpayableByCanceledPayment =
+        ["PENDIENTE", "EMITIDA"].includes(estadoFactura) &&
+        pagosFactura.length > 0 &&
+        pagosFactura.every(
+          (pago) => String(pago.estado || "").toUpperCase() === "CANCELADO",
+        );
+
+      if (invoiceIsUnpayableByCanceledPayment) {
+        return false;
+      }
+
+      const isAnulada =
+        String(factura.estado || "").toUpperCase() === "ANULADA";
+      const categoria = this.classifyConcepto(factura.concepto);
+      const isManagedDuplicateCategory =
+        categoria === "EXAMEN_PRACTICO" || categoria === "TASA_DGT";
+
+      if (!isAnulada || !isManagedDuplicateCategory) {
+        const isPendiente =
+          String(factura.estado || "").toUpperCase() === "PENDIENTE";
+
+        if (!isPendiente || !isManagedDuplicateCategory) {
+          return true;
+        }
+
+        const siblings = grouped.get(keyByFactura(factura)) || [];
+        const pendientes = siblings.filter(
+          (item) => String(item.estado || "").toUpperCase() === "PENDIENTE",
+        );
+
+        if (pendientes.length <= 1) {
+          return true;
+        }
+
+        return pendientes[0]?.id === factura.id;
+      }
+
+      const siblings = grouped.get(keyByFactura(factura)) || [];
+
+      return !siblings.some(
+        (item) =>
+          item.id !== factura.id &&
+          String(item.estado || "").toUpperCase() !== "ANULADA",
+      );
+    });
+  }
+
   async getAll() {
-    return this.repository.findAll();
+    const facturas = await this.repository.findAll();
+    const pagos =
+      typeof this.repository.findPagosByInvoiceNumbers === "function"
+        ? await this.repository.findPagosByInvoiceNumbers([
+            ...new Set((facturas || []).map((item) => item.numero)),
+          ])
+        : [];
+    const pagosByNumero = this.buildPagosByNumeroMap(pagos);
+    const visibles = this.hideTechnicalCancelledDuplicates(
+      facturas,
+      pagosByNumero,
+    );
+    return this.attachInferredLicense(visibles, pagos);
   }
 
   async getMine(alumnoId) {
-    return this.repository.findByAlumnoId(alumnoId);
+    const facturas = await this.repository.findByAlumnoId(alumnoId);
+    const pagos =
+      typeof this.repository.findPagosByInvoiceNumbers === "function"
+        ? await this.repository.findPagosByInvoiceNumbers([
+            ...new Set((facturas || []).map((item) => item.numero)),
+          ])
+        : [];
+    const pagosByNumero = this.buildPagosByNumeroMap(pagos);
+    const visibles = this.hideTechnicalCancelledDuplicates(
+      facturas,
+      pagosByNumero,
+    );
+    return this.attachInferredLicense(visibles, pagos);
+  }
+
+  async attachInferredLicense(facturas, pagosProvided = null) {
+    if (typeof this.repository.findPagosByInvoiceNumbers !== "function") {
+      return facturas || [];
+    }
+
+    const numbers = [...new Set((facturas || []).map((item) => item.numero))];
+    const pagos =
+      pagosProvided ||
+      (await this.repository.findPagosByInvoiceNumbers(numbers));
+    const permisoByNumero = new Map(
+      (pagos || []).map((item) => [item.numeroFacturaPago, item.permiso]),
+    );
+
+    return (facturas || []).map((factura) => {
+      const licenciaRelacion =
+        factura.compraBono?.bono?.licencia || factura.matricula?.licencia;
+      const licenciaPago = permisoByNumero.get(factura.numero);
+
+      if (licenciaRelacion || !licenciaPago) {
+        return factura;
+      }
+
+      return {
+        ...factura,
+        licenciaInferida: licenciaPago,
+      };
+    });
   }
 
   async getPreview(facturaId) {
@@ -99,12 +273,15 @@ export class FacturasService {
   }
 
   toPreviewModel(factura) {
+    const category = this.classifyConcepto(factura.concepto);
     const baseFromFactura = Number(factura.baseImponible || 0);
     const total = Number(factura.total || 0);
-    const promoOriginal = Number(
-      factura.matricula?.promocion?.precioOriginal ?? baseFromFactura,
-    );
-    const baseImponible = factura.matricula ? promoOriginal : baseFromFactura;
+    const promoOriginal = Number(factura.matricula?.promocion?.precioOriginal);
+    const usePromotionBase =
+      category === "MATRICULA" &&
+      Number.isFinite(promoOriginal) &&
+      promoOriginal > 0;
+    const baseImponible = usePromotionBase ? promoOriginal : baseFromFactura;
     const descuentoCalculado = baseImponible - total;
     const descuento =
       descuentoCalculado > 0
@@ -112,9 +289,9 @@ export class FacturasService {
         : Number(factura.descuento || 0);
 
     const licencia =
-      factura.matricula?.licencia ||
       factura.compraBono?.bono?.licencia ||
       factura.clasePractica?.vehiculo?.tipoPermiso ||
+      factura.matricula?.licencia ||
       "-";
 
     return {

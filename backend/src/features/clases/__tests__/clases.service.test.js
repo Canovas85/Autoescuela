@@ -247,18 +247,27 @@ describe("ClasesService", () => {
       vehiculoId: "vehiculo-1",
       fecha: "2026-09-01T10:00:00Z",
       duracion: 60,
-      estado: "CANCELADA",
+      estado: "CANCELADA_ADMIN",
     };
 
     const repositoryMock = {
-      cancel: vi.fn().mockResolvedValue(claseCancelada),
+      findById: vi.fn().mockResolvedValue({
+        id: "clase-1",
+        compraBonoId: null,
+      }),
+      findPaymentByClassId: vi.fn().mockResolvedValue(null),
+      updateClassById: vi.fn().mockResolvedValue(claseCancelada),
     };
 
     const service = new ClasesService(repositoryMock);
 
     const result = await service.cancel("clase-1");
 
-    expect(repositoryMock.cancel).toHaveBeenCalledWith("clase-1");
+    expect(repositoryMock.findById).toHaveBeenCalledWith("clase-1");
+    expect(repositoryMock.updateClassById).toHaveBeenCalledWith(
+      "clase-1",
+      expect.objectContaining({ estado: "CANCELADA_ADMIN" }),
+    );
 
     expect(result).toEqual(claseCancelada);
   });
@@ -341,7 +350,34 @@ describe("ClasesService", () => {
     );
   });
 
-  it("debe impedir la cancelación del alumno si faltan 24h o menos", async () => {
+  it("debe bloquear solicitud individual con menos de 24h", async () => {
+    const repositoryMock = {
+      getStudentUnconfirmedIndividualClassesCloseToStart: vi
+        .fn()
+        .mockResolvedValue([]),
+      getStudentOverdueUnpaidConfirmedClasses: vi.fn().mockResolvedValue([]),
+      getStudentPastConfirmedBonusClasses: vi.fn().mockResolvedValue([]),
+    };
+    const service = new ClasesService(repositoryMock);
+
+    service.buildStudentEligibility = vi.fn().mockResolvedValue({
+      puedeReservar: true,
+      alumno: {
+        profesorAsignadoId: "profesor-1",
+      },
+    });
+
+    await expect(
+      service.createStudentRequest("alumno-1", {
+        fecha: new Date(Date.now() + 3 * 60 * 60 * 1000).toISOString(),
+        metodoPago: "INDIVIDUAL",
+      }),
+    ).rejects.toThrow(
+      "No puedes solicitar una clase individual con menos de 24 horas de antelación.",
+    );
+  });
+
+  it("debe pedir confirmación de penalización si el alumno cancela pagada con <=24h", async () => {
     const now = Date.now();
     const repositoryMock = {
       findStudentClassById: vi.fn().mockResolvedValue({
@@ -352,6 +388,10 @@ describe("ClasesService", () => {
         estado: "CONFIRMADA",
         metodoPago: "INDIVIDUAL",
       }),
+      findPaymentByClassId: vi.fn().mockResolvedValue({
+        id: "pago-1",
+        estado: "PAGADO",
+      }),
     };
 
     const service = new ClasesService(repositoryMock);
@@ -359,7 +399,7 @@ describe("ClasesService", () => {
     await expect(
       service.cancelByStudent("alumno-1", "clase-1"),
     ).rejects.toThrow(
-      "Solo puedes cancelar clases PROGRAMADA o CONFIRMADA con más de 24 horas de antelación",
+      "Si cancelas con menos de 24 horas no se devolverá el importe y la factura quedará en penalización. Repite confirmando la penalización.",
     );
   });
 
@@ -487,5 +527,207 @@ describe("ClasesService", () => {
     const result = await service.notifyPendingPaymentsDue24h();
 
     expect(result).toEqual({ notified: 0 });
+  });
+
+  it("debe crear factura al confirmar una clase individual", async () => {
+    const now = Date.now();
+    const repositoryMock = {
+      getProfessorUnconfirmedIndividualClassesCloseToStart: vi
+        .fn()
+        .mockResolvedValue([]),
+      getProfessorOverdueUnpaidConfirmedClasses: vi.fn().mockResolvedValue([]),
+      getProfessorPastConfirmedBonusClasses: vi.fn().mockResolvedValue([]),
+      findProfessorClassById: vi.fn().mockResolvedValue({
+        id: "clase-1",
+        alumnoId: "alumno-1",
+        profesorId: "profesor-1",
+        fecha: new Date(now + 48 * 60 * 60 * 1000).toISOString(),
+        estado: "PROGRAMADA",
+        metodoPago: "INDIVIDUAL",
+        vehiculo: { tipoPermiso: "B" },
+        alumno: { usuario: { nombre: "Alumno Uno" } },
+      }),
+      getTarifaClasePorPermiso: vi.fn().mockResolvedValue({
+        concepto: "Clase práctica B",
+        precio: 40,
+      }),
+      findPaymentByClassId: vi.fn().mockResolvedValue(null),
+      createPendingPaymentForClass: vi.fn().mockResolvedValue({
+        id: "pago-1",
+        numeroFacturaPago: "FAC-1",
+      }),
+      findFacturaByClassId: vi.fn().mockResolvedValue(null),
+      createClassInvoice: vi.fn().mockResolvedValue({ id: "factura-1" }),
+      updateClassById: vi.fn().mockResolvedValue({
+        id: "clase-1",
+        estado: "CONFIRMADA",
+      }),
+      createNotification: vi.fn().mockResolvedValue({}),
+    };
+
+    const service = new ClasesService(repositoryMock);
+
+    await service.confirmByProfessor("profesor-1", "clase-1");
+
+    expect(repositoryMock.createPendingPaymentForClass).toHaveBeenCalledOnce();
+    expect(repositoryMock.createClassInvoice).toHaveBeenCalledOnce();
+  });
+
+  it("debe cancelar por impago y anular pago al llegar hora de clase", async () => {
+    const repositoryMock = {
+      getStudentOverdueUnpaidConfirmedClasses: vi.fn().mockResolvedValue([
+        {
+          id: "clase-1",
+          pagos: [{ id: "pago-1", estado: "PENDIENTE" }],
+        },
+      ]),
+      updateClassById: vi.fn().mockResolvedValue({ id: "clase-1" }),
+      updatePaymentById: vi.fn().mockResolvedValue({ id: "pago-1" }),
+      getStudentPastConfirmedBonusClasses: vi.fn().mockResolvedValue([]),
+    };
+
+    const service = new ClasesService(repositoryMock);
+    await service.markOverdueUnpaidClassesForStudent("alumno-1");
+
+    expect(repositoryMock.updateClassById).toHaveBeenCalledWith(
+      "clase-1",
+      expect.objectContaining({
+        estado: "CANCELADA_IMPAGO",
+        canceladaConPenalizacion: false,
+      }),
+    );
+    expect(repositoryMock.updatePaymentById).toHaveBeenCalledWith(
+      "pago-1",
+      expect.objectContaining({
+        estado: "CANCELADO",
+      }),
+    );
+  });
+
+  it("debe permitir cancelación profesor <=24h devolviendo pago si estaba pagado", async () => {
+    const now = Date.now();
+    const repositoryMock = {
+      findProfessorClassById: vi.fn().mockResolvedValue({
+        id: "clase-1",
+        alumnoId: "alumno-1",
+        profesorId: "profesor-1",
+        fecha: new Date(now + 6 * 60 * 60 * 1000).toISOString(),
+        estado: "CONFIRMADA",
+        metodoPago: "INDIVIDUAL",
+        alumno: { usuario: { nombre: "Alumno Uno" } },
+      }),
+      findPaymentByClassId: vi.fn().mockResolvedValue({
+        id: "pago-1",
+        estado: "PAGADO",
+      }),
+      updatePaymentById: vi.fn().mockResolvedValue({}),
+      updateFacturasByClassId: vi.fn().mockResolvedValue({ count: 1 }),
+      updateClassById: vi.fn().mockResolvedValue({
+        id: "clase-1",
+        estado: "CANCELADA_PROFESOR",
+      }),
+      createNotification: vi.fn().mockResolvedValue({}),
+    };
+
+    const service = new ClasesService(repositoryMock);
+
+    await service.cancelByProfessor("profesor-1", "clase-1");
+
+    expect(repositoryMock.updatePaymentById).toHaveBeenCalledWith(
+      "pago-1",
+      expect.objectContaining({ estado: "DEVUELTO" }),
+    );
+    expect(repositoryMock.updateFacturasByClassId).toHaveBeenCalledWith(
+      "clase-1",
+      expect.objectContaining({ estado: "DEVUELTA" }),
+    );
+  });
+
+  it("debe aplicar penalización al cancelar alumno <=24h con pago confirmado", async () => {
+    const now = Date.now();
+    const repositoryMock = {
+      findStudentClassById: vi.fn().mockResolvedValue({
+        id: "clase-1",
+        alumnoId: "alumno-1",
+        profesorId: "profesor-1",
+        fecha: new Date(now + 8 * 60 * 60 * 1000).toISOString(),
+        estado: "CONFIRMADA",
+        metodoPago: "INDIVIDUAL",
+      }),
+      findPaymentByClassId: vi.fn().mockResolvedValue({
+        id: "pago-1",
+        estado: "PAGADO",
+      }),
+      updatePaymentById: vi.fn().mockResolvedValue({}),
+      updateFacturasByClassId: vi.fn().mockResolvedValue({ count: 1 }),
+      updateClassById: vi.fn().mockResolvedValue({
+        id: "clase-1",
+        estado: "CANCELADA_ALUMNO",
+        canceladaConPenalizacion: true,
+      }),
+      createNotification: vi.fn().mockResolvedValue({}),
+    };
+
+    const service = new ClasesService(repositoryMock);
+
+    await service.cancelByStudent("alumno-1", "clase-1", {
+      confirmPenalty: true,
+    });
+
+    expect(repositoryMock.updatePaymentById).toHaveBeenCalledWith(
+      "pago-1",
+      expect.objectContaining({ estado: "PAGADO" }),
+    );
+    expect(repositoryMock.updateFacturasByClassId).toHaveBeenCalledWith(
+      "clase-1",
+      expect.objectContaining({ estado: "PENALIZACION" }),
+    );
+    expect(repositoryMock.updateClassById).toHaveBeenCalledWith(
+      "clase-1",
+      expect.objectContaining({
+        canceladaConPenalizacion: true,
+      }),
+    );
+  });
+
+  it("debe devolver pago e invoice al cancelar con más de 24h una clase pagada", async () => {
+    const now = Date.now();
+    const repositoryMock = {
+      findStudentClassById: vi.fn().mockResolvedValue({
+        id: "clase-1",
+        alumnoId: "alumno-1",
+        profesorId: "profesor-1",
+        fecha: new Date(now + 30 * 60 * 60 * 1000).toISOString(),
+        estado: "CONFIRMADA",
+        metodoPago: "INDIVIDUAL",
+      }),
+      findPaymentByClassId: vi.fn().mockResolvedValue({
+        id: "pago-1",
+        estado: "PAGADO",
+      }),
+      updatePaymentById: vi.fn().mockResolvedValue({}),
+      updateFacturasByClassId: vi.fn().mockResolvedValue({ count: 1 }),
+      updateClassById: vi.fn().mockResolvedValue({
+        id: "clase-1",
+        estado: "CANCELADA_ALUMNO",
+        canceladaConPenalizacion: false,
+      }),
+      createNotification: vi.fn().mockResolvedValue({}),
+    };
+
+    const service = new ClasesService(repositoryMock);
+
+    await service.cancelByStudent("alumno-1", "clase-1");
+
+    expect(repositoryMock.updatePaymentById).toHaveBeenCalledWith(
+      "pago-1",
+      expect.objectContaining({
+        estado: "DEVUELTO",
+      }),
+    );
+    expect(repositoryMock.updateFacturasByClassId).toHaveBeenCalledWith(
+      "clase-1",
+      expect.objectContaining({ estado: "DEVUELTA" }),
+    );
   });
 });

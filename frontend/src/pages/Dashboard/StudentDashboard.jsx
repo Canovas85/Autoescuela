@@ -37,6 +37,7 @@ import EventNoteIcon from "@mui/icons-material/EventNote";
 import { Button } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
+import { pagosService } from "../../services/pagosService";
 
 const statusStyles = {
   PAGADA: {
@@ -60,8 +61,8 @@ const statusStyles = {
   AGOTADO: {
     label: "Agotado",
     color: "default",
-    background: "#e2e8f0",
-    foreground: "#334155",
+    background: "#FFEBEE",
+    foreground: "#C62828",
   },
   CADUCADO: {
     label: "Caducado",
@@ -154,8 +155,8 @@ function statusChip(status, fallbackLabel) {
   const config = statusStyles[status] ?? {
     label: fallbackLabel ?? status,
     color: "default",
-    background: "#e2e8f0",
-    foreground: "#334155",
+    background: "#E8F5E9",
+    foreground: "#065F46",
   };
 
   return (
@@ -352,6 +353,33 @@ export default function StudentDashboard({ data }) {
     setSelectedExam(null);
   };
 
+  const handlePayPendingDgt = async () => {
+    const pagoId = dgtMetrics.tasa21?.pagoPendiente?.id;
+
+    if (pagoId) {
+      navigate(`/pago-matricula?pagoId=${pagoId}`);
+      return;
+    }
+
+    try {
+      const pagos = await pagosService.getMine();
+      const pendienteTasa = (pagos || []).find(
+        (pago) =>
+          String(pago?.estado || "").toUpperCase() === "PENDIENTE" &&
+          String(pago?.tipo || "").toUpperCase() === "TASA_DGT_21",
+      );
+
+      if (pendienteTasa?.id) {
+        navigate(`/pago-matricula?pagoId=${pendienteTasa.id}`);
+        return;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+    navigate("/mis-pagos");
+  };
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
       {matriculaPendiente && (
@@ -415,7 +443,7 @@ export default function StudentDashboard({ data }) {
               variant="contained"
               color="primary"
               startIcon={<CreditCardIcon />}
-              onClick={() => navigate("/mis-pagos")}
+              onClick={handlePayPendingDgt}
             >
               Pagar tasa DGT
             </Button>
@@ -1225,6 +1253,7 @@ export default function StudentDashboard({ data }) {
                               {bono.descripcion || "Paquete de clases"}
                             </Typography>
                           </Box>
+
                           {statusChip(bono.estado, bono.estado)}
                         </Box>
 
@@ -1297,61 +1326,104 @@ export default function StudentDashboard({ data }) {
                       <Typography
                         variant="subtitle1"
                         fontWeight={800}
-                        sx={{ mb: 1 }}
+                        sx={{ mb: 2 }}
                       >
                         Examen teórico
                       </Typography>
+
                       {examenes.teoricos.length > 0 ? (
-                        <Stack spacing={1.5}>
-                          {examenes.teoricos.map((examen) => (
+                        <Stack spacing={2} sx={{ width: "100%" }}>
+                          {examenes.teoricos.map((examen, index) => (
                             <Box
                               key={examen.id}
                               onClick={() => handleOpenExamModal(examen)}
                               sx={{
                                 cursor: "pointer",
-                                borderRadius: 1,
-                                p: 0.75,
+                                borderRadius: 2,
+                                p: 1.5,
+                                width: "100%",
+                                boxSizing: "border-box",
                                 transition: "background-color 0.2s ease",
                                 "&:hover": {
                                   backgroundColor: "#f8fafc",
                                 },
                               }}
                             >
+                              {/* Fila Principal: Fecha Programada, Estado y Botón de Acción */}
                               <Stack
                                 direction="row"
-                                spacing={1}
+                                spacing={2}
                                 alignItems="center"
                                 justifyContent="space-between"
+                                sx={{ width: "100%", mb: 1 }}
                               >
-                                <Typography fontWeight={700} noWrap>
-                                  Programado:{" "}
-                                  {formatDate(examen.fechaProgramada)}
-                                </Typography>
-                                {statusChip(examen.estado, examen.estado)}
+                                {/* Contenedor Izquierdo: Fechas de Programación y Solicitud */}
+                                <Stack
+                                  spacing={0.5}
+                                  sx={{ minWidth: 0, flexGrow: 1 }}
+                                >
+                                  <Typography
+                                    variant="body1"
+                                    fontWeight={700}
+                                    noWrap
+                                  >
+                                    Programado:{" "}
+                                    {formatDate(examen.fechaProgramada)}
+                                  </Typography>
+                                  <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                    noWrap
+                                  >
+                                    Solicitud:{" "}
+                                    {formatDate(examen.fechaSolicitud)}
+                                  </Typography>
+                                </Stack>
+
+                                {/* Contenedor Derecho: Estado y Botón Detalle */}
+                                <Stack
+                                  direction="row"
+                                  spacing={1.5}
+                                  alignItems="center"
+                                  sx={{ flexShrink: 0 }}
+                                >
+                                  {statusChip(examen.estado, examen.estado)}
+
+                                  <Typography
+                                    variant="caption"
+                                    sx={{
+                                      display: "inline-block",
+                                      backgroundColor: "#fffbeb",
+                                      borderColor: "#facc15",
+                                      borderRadius: "15px",
+                                      borderWidth: "1px",
+                                      borderStyle: "solid",
+                                      px: 1.5,
+                                      py: 0.5,
+                                      fontWeight: 500,
+                                      color: "#b45309",
+                                    }}
+                                  >
+                                    Pulsa para ver detalle de examen
+                                  </Typography>
+                                </Stack>
                               </Stack>
-                              <Typography
-                                variant="body2"
-                                color="text.secondary"
-                                noWrap
-                              >
-                                Solicitud: {formatDate(examen.fechaSolicitud)}
-                              </Typography>
+
+                              {/* Sección Opcional de Observaciones */}
                               {examen.observaciones ? (
                                 <Typography
                                   variant="body2"
                                   color="text.secondary"
+                                  sx={{ mt: 1, px: 0.5 }}
                                 >
                                   {examen.observaciones}
                                 </Typography>
                               ) : null}
-                              <Typography
-                                variant="caption"
-                                color="text.secondary"
-                                sx={{ display: "block", mt: 0.5 }}
-                              >
-                                Pulsa para ver detalle de examen
-                              </Typography>
-                              <Divider sx={{ mt: 1.5 }} />
+
+                              {/* Separador entre elementos (evita duplicar al final de la lista) */}
+                              {index < examenes.teoricos.length - 1 && (
+                                <Divider sx={{ mt: 2 }} />
+                              )}
                             </Box>
                           ))}
                         </Stack>
@@ -1424,8 +1496,18 @@ export default function StudentDashboard({ data }) {
                               ) : null}
                               <Typography
                                 variant="caption"
-                                color="text.secondary"
-                                sx={{ display: "block", mt: 0.5 }}
+                                sx={{
+                                  display: "inline-block",
+                                  backgroundColor: "#fffbeb",
+                                  borderColor: "#facc15",
+                                  borderRadius: "15px",
+                                  borderWidth: "1px",
+                                  borderStyle: "solid",
+                                  px: 1.5,
+                                  py: 0.5,
+                                  fontWeight: 500,
+                                  color: "#b45309",
+                                }}
                               >
                                 Pulsa para ver detalle de faltas
                               </Typography>

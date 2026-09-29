@@ -18,8 +18,11 @@ export const clasesPracticasPortalService = {
     return response.data;
   },
 
-  async cancelStudentRequest(classId) {
-    const response = await api.patch(`/clases/mine/student/${classId}/cancel`);
+  async cancelStudentRequest(classId, payload = {}) {
+    const response = await api.patch(
+      `/clases/mine/student/${classId}/cancel`,
+      payload,
+    );
     return response.data;
   },
 

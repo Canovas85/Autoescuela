@@ -29,8 +29,13 @@ import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
 import { profesorPortalService } from "../../services/profesorPortalService";
 import { LicenseChip } from "../../components/common/LicenseChip";
+import { ExpedientePhaseChip } from "../../components/common/ExpedientePhaseChip";
 import { exportProfesorAlumnosExcel } from "../../utils/exportProfesorAlumnosExcel";
 import { exportProfesorAlumnosPdf } from "../../utils/exportProfesorAlumnosPdf";
+import {
+  EXPEDIENTE_PHASE_OPTIONS,
+  resolveExpedientePhaseCode,
+} from "../../utils/expedientePhase";
 
 const formatDateTime = (value) => {
   if (!value) {
@@ -50,13 +55,6 @@ const formatDateTime = (value) => {
     minute: "2-digit",
   });
 };
-
-const getProgressChipSx = (ok) => ({
-  backgroundColor: ok ? "#dcfce7" : "#fef3c7",
-  color: ok ? "#166534" : "#92400e",
-  border: `1px solid ${ok ? "#86efac" : "#fcd34d"}`,
-  fontWeight: 700,
-});
 
 const formatExamDate = (value) => {
   if (!value) {
@@ -149,6 +147,7 @@ export default function ProfesorAlumnos() {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [faseExpedienteFiltro, setFaseExpedienteFiltro] = useState("");
   const [error, setError] = useState("");
 
   const [openDetail, setOpenDetail] = useState(false);
@@ -182,19 +181,31 @@ export default function ProfesorAlumnos() {
   }, []);
 
   const filteredRows = useMemo(() => {
-    if (!search.trim()) {
-      return rows;
-    }
-
     const q = search.trim().toLowerCase();
 
-    return rows.filter(
-      (row) =>
+    return rows.filter((row) => {
+      const matchesSearch =
+        !q ||
         row.nombre?.toLowerCase().includes(q) ||
         row.email?.toLowerCase().includes(q) ||
-        row.tipoLicenciaObjetivo?.toLowerCase().includes(q),
-    );
-  }, [rows, search]);
+        row.tipoLicenciaObjetivo?.toLowerCase().includes(q);
+
+      if (!matchesSearch) {
+        return false;
+      }
+
+      if (!faseExpedienteFiltro) {
+        return true;
+      }
+
+      const code = resolveExpedientePhaseCode({
+        code: row.estadoAlumno?.codigo,
+        label: row.estadoAlumno?.label,
+      });
+
+      return code === faseExpedienteFiltro;
+    });
+  }, [rows, search, faseExpedienteFiltro]);
 
   const columns = [
     {
@@ -218,10 +229,9 @@ export default function ProfesorAlumnos() {
       headerName: "Estado",
       width: 240,
       renderCell: (params) => (
-        <Chip
-          label={params.value?.label || "Estudiando teórico"}
-          sx={getProgressChipSx(Boolean(params.value?.ok))}
-          size="small"
+        <ExpedientePhaseChip
+          code={params.value?.codigo}
+          label={params.value?.label}
         />
       ),
     },
@@ -357,6 +367,22 @@ export default function ProfesorAlumnos() {
           sx={{ width: { xs: "100%", sm: 340 } }}
         />
 
+        <TextField
+          select
+          size="small"
+          label="Estado expediente"
+          value={faseExpedienteFiltro}
+          onChange={(event) => setFaseExpedienteFiltro(event.target.value)}
+          sx={{ width: { xs: "100%", sm: 300 } }}
+        >
+          <MenuItem value="">Todos los estados</MenuItem>
+          {EXPEDIENTE_PHASE_OPTIONS.map((estado) => (
+            <MenuItem key={estado.code} value={estado.code}>
+              {estado.label}
+            </MenuItem>
+          ))}
+        </TextField>
+
         <Button variant="outlined" onClick={loadStudents}>
           Recargar
         </Button>
@@ -416,12 +442,6 @@ export default function ProfesorAlumnos() {
             </Typography>
 
             <Stack direction="row" spacing={1} alignItems="center">
-              <Chip
-                size="small"
-                label={detail?.estadoAlumno?.label || "Estudiando teórico"}
-                sx={getProgressChipSx(Boolean(detail?.estadoAlumno?.ok))}
-              />
-
               {isLicenseObtainedLabel(detail?.estadoAlumno) && (
                 <Box
                   sx={{
@@ -436,27 +456,12 @@ export default function ProfesorAlumnos() {
                   }}
                 >
                   <EmojiEventsIcon sx={{ color: "#ca8a04", fontSize: 16 }} />
-                  <Typography
-                    variant="caption"
-                    sx={{ color: "#854d0e", fontWeight: 800 }}
-                  >
-                    Medalla de oro
-                  </Typography>
-                  <Box
-                    sx={{
-                      width: 20,
-                      height: 20,
-                      borderRadius: "50%",
-                      display: "grid",
-                      placeItems: "center",
-                      color: "#064e3b",
-                      bgcolor: "#d1fae5",
-                      border: "1px solid #34d399",
-                      fontWeight: 900,
-                    }}
-                  >
-                    L
-                  </Box>
+                  <ExpedientePhaseChip
+                    code={detail?.estadoAlumno?.codigo}
+                    label={detail?.estadoAlumno?.label}
+                    size="small"
+                  />
+                  <LicenseChip value={detail?.perfil?.tipoLicenciaObjetivo} />
                 </Box>
               )}
 
@@ -493,24 +498,68 @@ export default function ProfesorAlumnos() {
 
                 <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
                   <Chip
-                    sx={{ mt: 1 }}
                     color="success"
                     label={`Nombre: ${detail?.perfil?.nombre || "-"}`}
+                    sx={{
+                      mt: 1,
+                      backgroundColor: "#fffbeb", // Color de fondo (puedes usar HEX, RGB o color de MUI)
+                      borderColor: "#facc15", // Color del borde
+                      borderRadius: "15px", // Radio del borde (bordes menos redondeados)
+                      borderWidth: "1px", // Grosor del borde (opcional)
+                      color: "#000", // Color del texto (opcional)
+                      "& .MuiChip-label": {
+                        // Estilos para el texto interno (opcional)
+                        fontWeight: "bold",
+                      },
+                    }}
                   />
                   <Chip
-                    sx={{ mt: 1 }}
                     color="info"
                     label={`Email: ${detail?.perfil?.email || "-"}`}
+                    sx={{
+                      mt: 1,
+                      backgroundColor: "#fffbeb", // Color de fondo (puedes usar HEX, RGB o color de MUI)
+                      borderColor: "#facc15", // Color del borde
+                      borderRadius: "15px", // Radio del borde (bordes menos redondeados)
+                      borderWidth: "1px", // Grosor del borde (opcional)
+                      color: "#000", // Color del texto (opcional)
+                      "& .MuiChip-label": {
+                        // Estilos para el texto interno (opcional)
+                        fontWeight: "bold",
+                      },
+                    }}
                   />
                   <Chip
-                    sx={{ mt: 1 }}
                     color="warning"
                     label={`Teléfono: ${detail?.perfil?.telefono || "-"}`}
+                    sx={{
+                      mt: 1,
+                      backgroundColor: "#fffbeb", // Color de fondo (puedes usar HEX, RGB o color de MUI)
+                      borderColor: "#facc15", // Color del borde
+                      borderRadius: "15px", // Radio del borde (bordes menos redondeados)
+                      borderWidth: "1px", // Grosor del borde (opcional)
+                      color: "#000", // Color del texto (opcional)
+                      "& .MuiChip-label": {
+                        // Estilos para el texto interno (opcional)
+                        fontWeight: "bold",
+                      },
+                    }}
                   />
                   <Chip
-                    sx={{ mt: 1 }}
                     color="inherit"
                     label={`DNI: ${detail?.perfil?.dni || "-"}`}
+                    sx={{
+                      mt: 1,
+                      backgroundColor: "#fffbeb", // Color de fondo (puedes usar HEX, RGB o color de MUI)
+                      borderColor: "#facc15", // Color del borde
+                      borderRadius: "15px", // Radio del borde (bordes menos redondeados)
+                      borderWidth: "30px", // Grosor del borde (opcional)
+                      color: "#000", // Color del texto (opcional)
+                      "& .MuiChip-label": {
+                        // Estilos para el texto interno (opcional)
+                        fontWeight: "bold",
+                      },
+                    }}
                   />
                   <Box sx={{ flex: 1, textAlign: "right" }}>
                     <Button
@@ -641,12 +690,14 @@ export default function ProfesorAlumnos() {
                                       examen.fechaSolicitud,
                                   )}
                                 </Typography>
-                                <Chip
-                                  icon={state.icon}
-                                  size="small"
-                                  color={state.color}
-                                  label={state.label}
-                                />
+                                <Box sx={{ flex: 1, textAlign: "right" }}>
+                                  <Chip
+                                    icon={state.icon}
+                                    size="small"
+                                    color={state.color}
+                                    label={state.label}
+                                  />
+                                </Box>
                               </Stack>
                               <Typography
                                 variant="body2"
@@ -708,13 +759,31 @@ export default function ProfesorAlumnos() {
                         ? `Bono activo: ${detail.practica.bonoActivo.nombre} | Clases bono: ${detail.practica.bonoActivo.clasesBono} | Clases restantes: ${detail.practica.bonoActivo.clasesRestantes}`
                         : "Bono activo: No"}
                     </Typography>
-                    <Typography variant="body2">
-                      Clases realizadas:{" "}
-                      {detail?.practica?.clasesRealizadas ?? 0} | Clases
-                      reservadas: {detail?.practica?.clasesReservadas ?? 0} |
-                      Horas completadas:{" "}
-                      {detail?.practica?.horasCompletadasTexto || "0h 00min"}
-                    </Typography>
+                    <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
+                      <Chip
+                        color="success"
+                        label={`Clases realizadas: ${detail?.practica?.clasesRealizadas ?? 0}`}
+                      />
+                      <Chip
+                        color="primary"
+                        label={`Clases reservadas: ${detail?.practica?.clasesReservadas ?? 0}`}
+                      />
+                      <Chip
+                        label={`Horas de práctica: ${detail?.practica?.horasCompletadasTexto || "0h 00min"}`}
+                        variant="outlined" // Cambiado a 'outlined' para que el borde sea visible de forma nativa
+                        sx={{
+                          backgroundColor: "#fffbeb", // Color de fondo (puedes usar HEX, RGB o color de MUI)
+                          borderColor: "#facc15", // Color del borde
+                          borderRadius: "15px", // Radio del borde (bordes menos redondeados)
+                          borderWidth: "1px", // Grosor del borde (opcional)
+                          color: "#ca8a04", // Color del texto (opcional)
+                          "& .MuiChip-label": {
+                            // Estilos para el texto interno (opcional)
+                            fontWeight: "bold",
+                          },
+                        }}
+                      />
+                    </Stack>
                   </Paper>
                 </Grid>
 
@@ -763,12 +832,14 @@ export default function ProfesorAlumnos() {
                                       examen.fechaSolicitud,
                                   )}
                                 </Typography>
-                                <Chip
-                                  icon={state.icon}
-                                  size="small"
-                                  color={state.color}
-                                  label={state.label}
-                                />
+                                <Box sx={{ flex: 1, textAlign: "right" }}>
+                                  <Chip
+                                    icon={state.icon}
+                                    size="small"
+                                    color={state.color}
+                                    label={state.label}
+                                  />
+                                </Box>
                               </Stack>
 
                               <Typography

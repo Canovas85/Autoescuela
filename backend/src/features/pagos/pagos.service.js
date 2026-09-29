@@ -23,6 +23,15 @@ export class PagosService {
       );
     }
 
+    if (
+      this.solicitudesExamenService
+        ?.cleanupPendingTasaDgtRenewalPaymentDuplicatesForStudent
+    ) {
+      await this.solicitudesExamenService.cleanupPendingTasaDgtRenewalPaymentDuplicatesForStudent(
+        alumnoId,
+      );
+    }
+
     return this.repository.findByAlumnoId(alumnoId);
   }
 
@@ -50,6 +59,15 @@ export class PagosService {
       );
     }
 
+    if (
+      this.solicitudesExamenService
+        ?.cleanupPendingTasaDgtRenewalPaymentDuplicatesForStudent
+    ) {
+      await this.solicitudesExamenService.cleanupPendingTasaDgtRenewalPaymentDuplicatesForStudent(
+        alumnoId,
+      );
+    }
+
     const pago = await this.repository.findById(pagoId);
 
     if (!pago) {
@@ -62,6 +80,10 @@ export class PagosService {
 
     if (pago.estado === "PAGADO") {
       throw new Error("El pago ya está abonado");
+    }
+
+    if (String(pago.estado || "").toUpperCase() === "CANCELADO") {
+      throw new Error("Pago ya anulado");
     }
 
     const paid = await this.repository.pay(pagoId);

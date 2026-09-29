@@ -352,11 +352,6 @@ const menus = {
         //   icon: <LocalOfferIcon fontSize="small" />,
         // },
         {
-          label: "Mis Pagos",
-          path: "/mis-pagos",
-          icon: <CreditCardIcon fontSize="small" />,
-        },
-        {
           label: "Mis Facturas",
           path: "/mis-facturas",
           icon: <ReceiptLongIcon fontSize="small" />,

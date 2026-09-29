@@ -51,6 +51,27 @@ export class FacturasRepository {
     });
   }
 
+  async findPagosByInvoiceNumbers(numeros) {
+    const values = (numeros || []).filter(Boolean);
+
+    if (values.length === 0) {
+      return [];
+    }
+
+    return this.prisma.pago.findMany({
+      where: {
+        numeroFacturaPago: {
+          in: values,
+        },
+      },
+      select: {
+        numeroFacturaPago: true,
+        permiso: true,
+        estado: true,
+      },
+    });
+  }
+
   async findById(id) {
     return this.prisma.factura.findUnique({
       where: { id },

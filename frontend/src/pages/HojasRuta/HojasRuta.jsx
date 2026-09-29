@@ -211,21 +211,28 @@ function RoadmapDetail({
           {value?.requiereRepostaje && !readonly ? (
             <Alert
               severity="warning"
-              sx={{ mb: 2 }}
+              sx={{ mb: 0.5 }}
               action={
                 <Button size="small" variant="contained" onClick={onGoRefuel}>
-                  Ir a pagos
+                  Combustible
                 </Button>
               }
             >
-              {value?.bloqueoRepostajeMensaje ||
-                "El vehículo tiene menos del 20% de combustible. Debes repostar antes de guardar o finalizar la hoja de ruta."}
+              <Box sx={{ mb: 0.5 }}>
+                {value?.bloqueoRepostajeMensaje ||
+                  "El vehículo tiene menos del 20% de combustible. Debes repostar antes de guardar o finalizar la hoja de ruta."}
+              </Box>
             </Alert>
           ) : null}
 
           <Grid container spacing={2.25}>
             <Grid item xs={12} md={4}>
-              <Stack direction="row" spacing={1.25} alignItems="center">
+              <Stack
+                direction="row"
+                spacing={1.25}
+                alignItems="center"
+                sx={{ mt: 2 }}
+              >
                 <PersonIcon fontSize="small" />
                 <Box>
                   <Typography color="text.secondary">Alumno</Typography>
@@ -236,7 +243,12 @@ function RoadmapDetail({
               </Stack>
             </Grid>
             <Grid item xs={12} md={4}>
-              <Stack direction="row" spacing={1.25} alignItems="center">
+              <Stack
+                direction="row"
+                spacing={1.25}
+                alignItems="center"
+                sx={{ mt: 2 }}
+              >
                 <DirectionsCarIcon fontSize="small" />
                 <Box>
                   <Typography color="text.secondary">Vehículo</Typography>
@@ -248,7 +260,12 @@ function RoadmapDetail({
               </Stack>
             </Grid>
             <Grid item xs={12} md={2}>
-              <Stack direction="row" spacing={1.25} alignItems="center">
+              <Stack
+                direction="row"
+                spacing={1.25}
+                alignItems="center"
+                sx={{ mt: 2 }}
+              >
                 <CalendarMonthIcon fontSize="small" />
                 <Box>
                   <Typography color="text.secondary">Fecha</Typography>
@@ -259,7 +276,12 @@ function RoadmapDetail({
               </Stack>
             </Grid>
             <Grid item xs={12} md={2}>
-              <Stack direction="row" spacing={1.25} alignItems="center">
+              <Stack
+                direction="row"
+                spacing={1.25}
+                alignItems="center"
+                sx={{ mt: 2 }}
+              >
                 <AccessTimeIcon fontSize="small" />
                 <Box>
                   <Typography color="text.secondary">Hora inicio</Typography>
@@ -270,7 +292,12 @@ function RoadmapDetail({
               </Stack>
             </Grid>
             <Grid item xs={12} md={2}>
-              <Stack direction="row" spacing={1.25} alignItems="center">
+              <Stack
+                direction="row"
+                spacing={1.25}
+                alignItems="center"
+                sx={{ mt: 2 }}
+              >
                 <AccessTimeIcon fontSize="small" />
                 <Box>
                   <Typography color="text.secondary">Duración</Typography>
@@ -281,7 +308,12 @@ function RoadmapDetail({
               </Stack>
             </Grid>
             <Grid item xs={12} md={4}>
-              <Stack direction="row" spacing={1.25} alignItems="center">
+              <Stack
+                direction="row"
+                spacing={1.25}
+                alignItems="center"
+                sx={{ mt: 2 }}
+              >
                 <PersonIcon fontSize="small" />
                 <Box>
                   <Typography color="text.secondary">Profesor</Typography>
@@ -1713,7 +1745,7 @@ export default function HojasRuta() {
           onFinalize={finalizeClass}
           catalog={catalog}
           loading={loading}
-          onGoRefuel={() => navigate("/gastos")}
+          onGoRefuel={() => navigate("/profesor-vehiculos")}
         />
       ) : null}
 

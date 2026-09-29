@@ -40,14 +40,7 @@ const canProfessorCancelClass = (clase) => {
     return false;
   }
 
-  const classDate = new Date(clase?.fecha);
-
-  if (Number.isNaN(classDate.getTime())) {
-    return false;
-  }
-
-  const diffMs = classDate.getTime() - Date.now();
-  return diffMs > 24 * 60 * 60 * 1000;
+  return true;
 };
 
 export default function ClasesPracticasProfesor() {
