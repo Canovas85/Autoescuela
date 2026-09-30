@@ -242,7 +242,9 @@ export class ClasesRepository {
       where: {
         profesorId,
         estado: {
-          in: ["PROGRAMADA", "CONFIRMADA"],
+          not: {
+            startsWith: "CANCELADA",
+          },
         },
         fecha: {
           gte: weekStart,

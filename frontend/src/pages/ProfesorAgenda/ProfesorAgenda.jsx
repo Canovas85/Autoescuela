@@ -785,7 +785,7 @@ export default function ProfesorAgenda() {
                               left: 7,
                               right: 7,
                               minHeight: 154,
-                              height,
+                              height: 154,
                               p: 1,
                               borderRadius: 2,
                               border: `1px solid ${color.border}`,
@@ -842,6 +842,7 @@ export default function ProfesorAgenda() {
                               }
                               sx={{
                                 mt: 0.55,
+                                ml: 1,
                                 maxWidth: "100%",
                                 fontSize: 10,
                                 height: 20,

@@ -325,22 +325,17 @@ export default function ProfesorVehiculos() {
             <Stack spacing={2} sx={{ mt: 1 }}>
               <Box>
                 <Typography variant="subtitle2" color="text.secondary">
-                  Vehículo
-                </Typography>
-                <Typography fontWeight={700}>
-                  {detail?.vehiculo?.matricula || "-"}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
                   {(detail?.vehiculo?.marca || "Marca") +
                     " " +
-                    (detail?.vehiculo?.modelo || "Modelo")}
+                    (detail?.vehiculo?.modelo || "Modelo")}{" "}
+                  Matricula: {detail?.vehiculo?.matricula || " - "}
+                  <Chip
+                    sx={{ ml: 3 }}
+                    label={`Permiso ${detail?.vehiculo?.tipoPermiso || "-"}`}
+                    color="info"
+                    size="small"
+                  />
                 </Typography>
-                <Chip
-                  sx={{ mt: 1 }}
-                  label={`Permiso ${detail?.vehiculo?.tipoPermiso || "-"}`}
-                  color="info"
-                  size="small"
-                />
               </Box>
 
               <Box>
@@ -364,8 +359,8 @@ export default function ProfesorVehiculos() {
                         }}
                       >
                         <Typography variant="body2" fontWeight={700}>
-                          {formatDateTime(reserva.fecha)} ({reserva.duracion}{" "}
-                          min)
+                          Fecha: {formatDateTime(reserva.fecha)} (Duración:
+                          {reserva.duracion} min)
                         </Typography>
                         <Typography variant="body2">
                           Alumno: {reserva.alumno?.nombre || "Alumno"}
@@ -378,10 +373,10 @@ export default function ProfesorVehiculos() {
                           size="small"
                           label={
                             reserva.esMiClase
-                              ? "La imparto yo"
-                              : "La imparte otro profesor"
+                              ? "Pendiente de Confirmar"
+                              : "Otro profesor"
                           }
-                          color={reserva.esMiClase ? "success" : "default"}
+                          color={reserva.esMiClase ? "warning" : "error"}
                         />
                       </Box>
                     ))}
@@ -414,8 +409,8 @@ export default function ProfesorVehiculos() {
                         }}
                       >
                         <Typography variant="body2" fontWeight={700}>
-                          {formatDateTime(reserva.fecha)} ({reserva.duracion}{" "}
-                          min)
+                          Fecha: {formatDateTime(reserva.fecha)} (Duración:{" "}
+                          {reserva.duracion} min)
                         </Typography>
                         <Typography variant="body2">
                           Alumno: {reserva.alumno?.nombre || "Alumno"}
@@ -427,11 +422,9 @@ export default function ProfesorVehiculos() {
                           sx={{ mt: 1 }}
                           size="small"
                           label={
-                            reserva.esMiClase
-                              ? "La imparto yo"
-                              : "La imparte otro profesor"
+                            reserva.esMiClase ? "Confirmada" : "Otro profesor"
                           }
-                          color={reserva.esMiClase ? "success" : "default"}
+                          color={reserva.esMiClase ? "success" : "error"}
                         />
                       </Box>
                     ))}

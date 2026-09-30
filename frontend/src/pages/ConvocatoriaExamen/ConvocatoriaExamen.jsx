@@ -979,7 +979,54 @@ export default function ConvocatoriaExamen() {
         fullWidth
         maxWidth="sm"
       >
-        <DialogTitle>Detalle de evaluación</DialogTitle>
+        <DialogTitle
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center", // Keeps them perfectly aligned vertically
+            width: "100%",
+          }}
+        >
+          <span>Detalle de evaluación</span>
+          <Chip
+            label={selectedAgendaExam?.estado || "-"}
+            variant="outlined"
+            sx={{
+              borderRadius: "15px",
+              borderWidth: "1px",
+              "& .MuiChip-label": {
+                fontWeight: "bold",
+              },
+              // Modifica el FONDO según el estado
+              backgroundColor:
+                {
+                  SOLICITADO: "#e0f2fe",
+                  APTO: "#ecfdf5",
+                  NO_APTO: "#fef2f2",
+                  PENDIENTE: "#fffbeb",
+                }[selectedAgendaExam?.estado] || "#f3f4f6", // Color por defecto si no coincide
+
+              // Modifica el BORDE según el estado
+              borderColor:
+                {
+                  SOLICITADO: "#0284c7",
+                  APTO: "#34d399",
+                  NO_APTO: "#f87171",
+                  PENDIENTE: "#facc15",
+                }[selectedAgendaExam?.estado] || "#d1d5db", // Color por defecto si no coincide
+
+              // Modifica la LETRA según el estado
+              color:
+                {
+                  SOLICITADO: "#0369a1",
+                  APTO: "#065f46",
+                  NO_APTO: "#991b1b",
+                  PENDIENTE: "#854d0e",
+                }[selectedAgendaExam?.estado] || "#374151", // Color por defecto si no coincide
+            }}
+          />
+        </DialogTitle>
+
         <DialogContent sx={{ display: "grid", gap: 1, pt: 1 }}>
           <Typography>
             <strong>Alumno:</strong> {selectedAgendaExam?.nombre || "-"}
@@ -1073,10 +1120,10 @@ export default function ConvocatoriaExamen() {
               </Typography>
             </>
           )}
-          <Typography>
+          {/*<Typography>
             <strong>Observaciones:</strong>{" "}
             {selectedAgendaExam?.observaciones || "-"}
-          </Typography>
+          </Typography> */}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseAgendaExamModal}>Cerrar</Button>

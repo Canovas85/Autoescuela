@@ -345,10 +345,27 @@ export default function ReservarClase() {
     const map = new Map();
     agendaWeekDays.forEach((day) => map.set(day.id, []));
 
+    const weekStartKey = extractDateKey(context?.calendarioSemana?.inicio);
+    const weekEndKey = extractDateKey(context?.calendarioSemana?.fin);
+
+    const isInsideVisibleWeek = (value) => {
+      const classDateKey = extractDateKey(value);
+
+      if (!classDateKey || !weekStartKey || !weekEndKey) {
+        return false;
+      }
+
+      return classDateKey >= weekStartKey && classDateKey <= weekEndKey;
+    };
+
     const classesMap = new Map();
     const now = new Date();
 
     (context?.solicitudesPendientes || []).forEach((item) => {
+      if (!isInsideVisibleWeek(item?.fecha)) {
+        return;
+      }
+
       classesMap.set(item.id, {
         ...item,
         agendaType: "SOLICITUD",
@@ -356,6 +373,10 @@ export default function ReservarClase() {
     });
 
     (context?.proximasClases || []).forEach((item) => {
+      if (!isInsideVisibleWeek(item?.fecha)) {
+        return;
+      }
+
       const classDate = new Date(item.fecha);
       classesMap.set(item.id, {
         ...item,
@@ -678,7 +699,7 @@ export default function ReservarClase() {
                   <Box
                     sx={{
                       display: "grid",
-                      gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+                      gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
                       gap: 1,
                       mt: 1.5,
                     }}

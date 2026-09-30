@@ -1242,6 +1242,7 @@ export default function HojasRuta() {
                             <Typography fontWeight={700}>
                               {item.alumno?.nombre}
                             </Typography>
+
                             <Chip
                               size="small"
                               label="PENDIENTE"
@@ -1261,15 +1262,20 @@ export default function HojasRuta() {
                           </Typography>
                         </Box>
                       </Box>
-                      <Button
-                        variant="contained"
-                        onClick={() => setParam("claseId", item.claseId)}
-                        endIcon={
-                          <ArrowBackIcon sx={{ transform: "rotate(180deg)" }} />
-                        }
-                      >
-                        Continuar registro
-                      </Button>
+
+                      <Box sx={{ flex: 1, textAlign: "right" }}>
+                        <Button
+                          variant="contained"
+                          onClick={() => setParam("claseId", item.claseId)}
+                          endIcon={
+                            <ArrowBackIcon
+                              sx={{ transform: "rotate(180deg)" }}
+                            />
+                          }
+                        >
+                          Continuar registro
+                        </Button>
+                      </Box>
                     </Stack>
                   </Paper>
                 ))
