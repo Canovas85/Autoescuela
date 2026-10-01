@@ -1802,7 +1802,14 @@ export default function Alumnos() {
               <CircularProgress />
             </Box>
           ) : (
-            <Box sx={{ perspective: "1400px", mt: 2, minHeight: 620 }}>
+            <Box
+              sx={{
+                perspective: "1400px",
+                mt: 2,
+                minHeight: 620,
+                overflow: "hidden",
+              }}
+            >
               <Box
                 sx={{
                   position: "relative",

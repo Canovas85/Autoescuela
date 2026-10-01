@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Alert,
   Box,
@@ -45,13 +45,14 @@ const canProfessorCancelClass = (clase) => {
 
 export default function ClasesPracticasProfesor() {
   const navigate = useNavigate();
-  const pendingRef = useRef(null);
-  const confirmedRef = useRef(null);
+  const VISIBLE_ITEMS = 5;
 
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [pendingStart, setPendingStart] = useState(0);
+  const [confirmedStart, setConfirmedStart] = useState(0);
 
   const loadData = async () => {
     setLoading(true);
@@ -92,6 +93,27 @@ export default function ClasesPracticasProfesor() {
     [rows],
   );
 
+  const pendingMaxStart = Math.max(0, pendientes.length - VISIBLE_ITEMS);
+  const confirmedMaxStart = Math.max(0, confirmadas.length - VISIBLE_ITEMS);
+
+  useEffect(() => {
+    setPendingStart((current) => Math.min(current, pendingMaxStart));
+  }, [pendingMaxStart]);
+
+  useEffect(() => {
+    setConfirmedStart((current) => Math.min(current, confirmedMaxStart));
+  }, [confirmedMaxStart]);
+
+  const pendientesVisible = useMemo(
+    () => pendientes.slice(pendingStart, pendingStart + VISIBLE_ITEMS),
+    [pendientes, pendingStart],
+  );
+
+  const confirmadasVisible = useMemo(
+    () => confirmadas.slice(confirmedStart, confirmedStart + VISIBLE_ITEMS),
+    [confirmadas, confirmedStart],
+  );
+
   const confirm = async (id) => {
     try {
       await clasesPracticasPortalService.confirmProfessorRequest(id);
@@ -110,17 +132,6 @@ export default function ClasesPracticasProfesor() {
     } catch (cancelError) {
       setError(cancelError.response?.data?.message || "No se pudo cancelar");
     }
-  };
-
-  const scrollRow = (ref, direction) => {
-    if (!ref.current) {
-      return;
-    }
-
-    ref.current.scrollBy({
-      left: direction === "left" ? -360 : 360,
-      behavior: "smooth",
-    });
   };
 
   if (loading) {
@@ -154,13 +165,21 @@ export default function ClasesPracticasProfesor() {
             <Box>
               <IconButton
                 size="small"
-                onClick={() => scrollRow(pendingRef, "left")}
+                onClick={() =>
+                  setPendingStart((current) => Math.max(0, current - 1))
+                }
+                disabled={pendingStart === 0}
               >
                 <ArrowBackIosNewIcon fontSize="small" />
               </IconButton>
               <IconButton
                 size="small"
-                onClick={() => scrollRow(pendingRef, "right")}
+                onClick={() =>
+                  setPendingStart((current) =>
+                    Math.min(pendingMaxStart, current + 1),
+                  )
+                }
+                disabled={pendingStart >= pendingMaxStart}
               >
                 <ArrowForwardIosIcon fontSize="small" />
               </IconButton>
@@ -173,18 +192,22 @@ export default function ClasesPracticasProfesor() {
             </Typography>
           ) : (
             <Box
-              ref={pendingRef}
               sx={{
-                display: "flex",
+                display: "grid",
+                gridTemplateColumns: {
+                  xs: "1fr",
+                  sm: "repeat(2, minmax(0, 1fr))",
+                  md: "repeat(3, minmax(0, 1fr))",
+                  lg: "repeat(5, minmax(0, 1fr))",
+                },
                 gap: 2,
-                overflowX: "auto",
                 mt: 1.5,
                 pb: 1,
               }}
             >
-              {pendientes.map((item) => (
+              {pendientesVisible.map((item) => (
                 <Card key={item.id} variant="outlined">
-                  <CardContent sx={{ minWidth: 300 }}>
+                  <CardContent>
                     <Typography fontWeight={700} sx={{ mb: 1 }}>
                       {formatDate(item.fecha)}
                     </Typography>
@@ -238,13 +261,21 @@ export default function ClasesPracticasProfesor() {
             <Box>
               <IconButton
                 size="small"
-                onClick={() => scrollRow(confirmedRef, "left")}
+                onClick={() =>
+                  setConfirmedStart((current) => Math.max(0, current - 1))
+                }
+                disabled={confirmedStart === 0}
               >
                 <ArrowBackIosNewIcon fontSize="small" />
               </IconButton>
               <IconButton
                 size="small"
-                onClick={() => scrollRow(confirmedRef, "right")}
+                onClick={() =>
+                  setConfirmedStart((current) =>
+                    Math.min(confirmedMaxStart, current + 1),
+                  )
+                }
+                disabled={confirmedStart >= confirmedMaxStart}
               >
                 <ArrowForwardIosIcon fontSize="small" />
               </IconButton>
@@ -257,18 +288,22 @@ export default function ClasesPracticasProfesor() {
             </Typography>
           ) : (
             <Box
-              ref={confirmedRef}
               sx={{
-                display: "flex",
+                display: "grid",
+                gridTemplateColumns: {
+                  xs: "1fr",
+                  sm: "repeat(2, minmax(0, 1fr))",
+                  md: "repeat(3, minmax(0, 1fr))",
+                  lg: "repeat(5, minmax(0, 1fr))",
+                },
                 gap: 2,
-                overflowX: "auto",
                 mt: 1.5,
                 pb: 1,
               }}
             >
-              {confirmadas.map((item) => (
+              {confirmadasVisible.map((item) => (
                 <Card key={item.id} variant="outlined">
-                  <CardContent sx={{ minWidth: 300 }}>
+                  <CardContent>
                     <Stack
                       direction="row"
                       justifyContent="space-between"

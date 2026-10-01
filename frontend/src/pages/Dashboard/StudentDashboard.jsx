@@ -9,6 +9,7 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
+  IconButton,
   LinearProgress,
   List,
   ListItem,
@@ -33,6 +34,8 @@ import BookIcon from "@mui/icons-material/Book";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import EventNoteIcon from "@mui/icons-material/EventNote";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import { Button } from "@mui/material";
 
@@ -334,6 +337,12 @@ export default function StudentDashboard({ data }) {
     (acumulado, bono) => acumulado + bono.clasesDisponibles,
     0,
   );
+
+  const temariosRevisados = temarios.filter((temario) => temario.revisado);
+  const [temarioIndex, setTemarioIndex] = useState(0);
+  const temarioMaxIndex = Math.max(0, temariosRevisados.length - 1);
+  const temarioCurrentIndex = Math.min(temarioIndex, temarioMaxIndex);
+  const temarioVisible = temariosRevisados[temarioCurrentIndex] || null;
 
   const periodoMaximo = Math.max(
     1,
@@ -673,7 +682,6 @@ export default function StudentDashboard({ data }) {
               flexDirection: "column",
               border: "1px solid rgba(148, 163, 184, 0.18)",
               boxShadow: "0 14px 32px rgba(15, 23, 42, 0.04)",
-              width: "680px",
             }}
           >
             <CardContent
@@ -896,6 +904,7 @@ export default function StudentDashboard({ data }) {
               flexDirection: "column",
               border: "1px solid rgba(148, 163, 184, 0.18)",
               boxShadow: "0 14px 32px rgba(15, 23, 42, 0.04)",
+              width: "900px",
             }}
           >
             <CardContent
@@ -910,102 +919,106 @@ export default function StudentDashboard({ data }) {
                 subtitle="Relación de temarios asociados al permiso objetivo y su nivel de avance."
               />
 
-              <Box
-                sx={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(2, 1fr)",
-                  gap: 12,
-                  alignItems: "stretch",
-                }}
-              >
-                {temarios.length > 0 ? (
-                  temarios.map((temario) => (
+              {temariosRevisados.length > 0 ? (
+                <>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      mb: 1.5,
+                    }}
+                  >
+                    <Typography variant="body2" color="text.secondary">
+                      {temarioCurrentIndex + 1} de {temariosRevisados.length}
+                    </Typography>
+                    <Box>
+                      <IconButton
+                        size="small"
+                        onClick={() =>
+                          setTemarioIndex(Math.max(0, temarioCurrentIndex - 1))
+                        }
+                        disabled={temarioCurrentIndex === 0}
+                      >
+                        <ArrowBackIosNewIcon fontSize="small" />
+                      </IconButton>
+                      <IconButton
+                        size="small"
+                        onClick={() =>
+                          setTemarioIndex(
+                            Math.min(temarioMaxIndex, temarioCurrentIndex + 1),
+                          )
+                        }
+                        disabled={temarioCurrentIndex >= temarioMaxIndex}
+                      >
+                        <ArrowForwardIosIcon fontSize="small" />
+                      </IconButton>
+                    </Box>
+                  </Box>
+
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      border: "1px solid rgba(148, 163, 184, 0.18)",
+                      borderRadius: 1,
+                      backgroundColor: "#fff",
+                      padding: 1.5,
+                      boxShadow: "0 10px 20px rgba(15, 23, 42, 0.03)",
+                    }}
+                  >
                     <Box
-                      key={`${temario.id}-${temario.titulo}`}
                       sx={{
                         display: "flex",
-                        flexDirection: "column",
-                        border: "1px solid rgba(148, 163, 184, 0.18)",
-                        borderRadius: 1,
-                        backgroundColor: "#fff",
-                        padding: 1.5,
-                        boxShadow: "0 10px 20px rgba(15, 23, 42, 0.03)",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        mb: 1,
                       }}
                     >
-                      {/* 🔵 Línea 1: Título + Estado */}
+                      <Typography fontWeight={800}>
+                        {temarioVisible?.titulo}
+                      </Typography>
+                      <Chip label="Revisado" color="success" size="small" />
+                    </Box>
+
+                    <Box sx={{ width: "100%" }}>
                       <Box
                         sx={{
                           display: "flex",
                           justifyContent: "space-between",
-                          alignItems: "center",
-                          mb: 1,
+                          mb: 0.5,
                         }}
                       >
-                        <Typography fontWeight={800}>
-                          {temario.titulo}
+                        <Typography variant="body2" color="text.secondary">
+                          Dominio del tema
                         </Typography>
-
-                        {temario.revisado ? (
-                          <Chip label="Revisado" color="success" size="small" />
-                        ) : (
-                          <Chip
-                            label="Pendiente"
-                            color="warning"
-                            size="small"
-                          />
-                        )}
+                        <Typography variant="body2" fontWeight={700}>
+                          {temarioVisible?.dominio ?? 0}%
+                        </Typography>
                       </Box>
 
-                      {/* 🔵 Línea 2: Descripción */}
+                      <LinearProgress
+                        variant="determinate"
+                        value={Math.min(temarioVisible?.dominio ?? 0, 100)}
+                        sx={{ height: 8, borderRadius: 999 }}
+                      />
+
                       <Typography
-                        variant="body2"
+                        variant="caption"
                         color="text.secondary"
-                        sx={{ mb: 1 }}
+                        sx={{ mt: 1, display: "block" }}
                       >
-                        {temario.descripcion || "Sin descripción adicional"}
+                        Última revisión:{" "}
+                        {formatDate(temarioVisible?.ultimaRevision)}
                       </Typography>
-
-                      {/* 🔵 Línea 3: Dominio + Barra + Última revisión */}
-                      <Box sx={{ width: "100%" }}>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            mb: 0.5,
-                          }}
-                        >
-                          <Typography variant="body2" color="text.secondary">
-                            Dominio del tema
-                          </Typography>
-                          <Typography variant="body2" fontWeight={700}>
-                            {temario.dominio}%
-                          </Typography>
-                        </Box>
-
-                        <LinearProgress
-                          variant="determinate"
-                          value={Math.min(temario.dominio, 100)}
-                          sx={{ height: 8, borderRadius: 999 }}
-                        />
-
-                        <Typography
-                          variant="caption"
-                          color="text.secondary"
-                          sx={{ mt: 1, display: "block" }}
-                        >
-                          Última revisión: {formatDate(temario.ultimaRevision)}
-                        </Typography>
-                      </Box>
                     </Box>
-                  ))
-                ) : (
-                  <Grid item xs={12}>
-                    <Typography color="text.secondary">
-                      Todavía no hay temarios cargados para este alumno.
-                    </Typography>
-                  </Grid>
-                )}
-              </Box>
+                  </Box>
+                </>
+              ) : (
+                <Typography color="text.secondary">
+                  Todavía no tienes temarios revisados.
+                </Typography>
+              )}
             </CardContent>
           </Card>
         </Grid>
@@ -1019,7 +1032,7 @@ export default function StudentDashboard({ data }) {
               height: "100%",
               border: "1px solid rgba(148, 163, 184, 0.18)",
               boxShadow: "0 14px 32px rgba(15, 23, 42, 0.04)",
-              width: "680px",
+              width: "640px",
             }}
           >
             <CardContent sx={{ py: 2, "&:last-child": { pb: 2 } }}>
@@ -1202,7 +1215,7 @@ export default function StudentDashboard({ data }) {
                 height: "100%",
                 border: "1px solid rgba(148, 163, 184, 0.18)",
                 boxShadow: "0 14px 32px rgba(15, 23, 42, 0.04)",
-                width: "860px",
+                width: "100%",
               }}
             >
               <CardContent

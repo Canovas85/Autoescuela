@@ -297,7 +297,7 @@ export default function ProfessorDashboard({ data }) {
                 >
                   <CardContent>
                     <Typography fontWeight={700}>
-                      {vehiculo.matricula}
+                      {vehiculo.marca} {vehiculo.modelo}
                     </Typography>
 
                     <Typography
@@ -305,7 +305,7 @@ export default function ProfessorDashboard({ data }) {
                       color="text.secondary"
                       sx={{ mt: 1 }}
                     >
-                      {vehiculo.marca} {vehiculo.modelo}
+                      Matricula: {vehiculo.matricula}
                     </Typography>
 
                     <Chip
@@ -365,7 +365,23 @@ export default function ProfessorDashboard({ data }) {
                     <Typography variant="h6" fontWeight={800}>
                       Datos personales
                     </Typography>
-                    <LicenseChip value={detail?.perfil?.tipoLicenciaObjetivo} />
+                    <Box
+                      sx={{
+                        flex: 1,
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        gap: 1,
+                      }}
+                    >
+                      <ExpedientePhaseChip
+                        code={detail?.estadoAlumno?.codigo}
+                        label={detail?.estadoAlumno?.label}
+                      />
+
+                      <LicenseChip
+                        value={detail?.perfil?.tipoLicenciaObjetivo}
+                      />
+                    </Box>
                   </Box>
 
                   <Grid container spacing={1.25} sx={{ mt: 0.5 }}>
@@ -394,13 +410,6 @@ export default function ProfessorDashboard({ data }) {
                       />
                     </Grid>
                   </Grid>
-
-                  <Stack direction="row" spacing={1} sx={{ mt: 1.5 }}>
-                    <ExpedientePhaseChip
-                      code={detail?.estadoAlumno?.codigo}
-                      label={detail?.estadoAlumno?.label}
-                    />
-                  </Stack>
                 </CardContent>
               </Card>
 

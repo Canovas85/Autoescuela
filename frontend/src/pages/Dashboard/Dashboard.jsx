@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import {
   Box,
@@ -34,19 +34,39 @@ import { LicenseChip } from "../../components/common/LicenseChip";
 import { api } from "../../services/api";
 
 function AdminDashboardView({ metrics }) {
-  const studentsRef = useRef(null);
-  const professorsRef = useRef(null);
+  const VISIBLE_RANK_ITEMS = 5;
+  const topStudents = metrics.topStudents || [];
+  const topProfessors = metrics.topProfessors || [];
+  const [studentsStart, setStudentsStart] = useState(0);
+  const [professorsStart, setProfessorsStart] = useState(0);
 
-  const scrollRanking = (ref, direction) => {
-    if (!ref.current) {
-      return;
-    }
+  const studentsMaxStart = Math.max(0, topStudents.length - VISIBLE_RANK_ITEMS);
+  const professorsMaxStart = Math.max(
+    0,
+    topProfessors.length - VISIBLE_RANK_ITEMS,
+  );
 
-    ref.current.scrollBy({
-      left: direction === "left" ? -360 : 360,
-      behavior: "smooth",
-    });
-  };
+  useEffect(() => {
+    setStudentsStart((current) => Math.min(current, studentsMaxStart));
+  }, [studentsMaxStart]);
+
+  useEffect(() => {
+    setProfessorsStart((current) => Math.min(current, professorsMaxStart));
+  }, [professorsMaxStart]);
+
+  const visibleStudents = useMemo(
+    () => topStudents.slice(studentsStart, studentsStart + VISIBLE_RANK_ITEMS),
+    [topStudents, studentsStart],
+  );
+
+  const visibleProfessors = useMemo(
+    () =>
+      topProfessors.slice(
+        professorsStart,
+        professorsStart + VISIBLE_RANK_ITEMS,
+      ),
+    [topProfessors, professorsStart],
+  );
 
   const cards = [
     {
@@ -94,19 +114,19 @@ function AdminDashboardView({ metrics }) {
     {
       title: "Matrículas Pendientes",
       value: (
-        <Typography variant="body2" fontWeight={700} sx={{ fontSize: 12 }}>
+        <Typography variant="body2" fontWeight={700} sx={{ fontSize: 14 }}>
           Mes: {metrics.matriculasPendientesMes ?? 0} | Histórico:{" "}
           {metrics.matriculasPendientesHistorico ?? 0}
         </Typography>
       ),
       icon: <AccessTimeFilledIcon />,
-      color: "#b45309",
+      color: "#ea580c",
       wide: true,
     },
     {
       title: "Teórico APTO",
       value: (
-        <Typography variant="body2" fontWeight={700} sx={{ fontSize: 12 }}>
+        <Typography variant="body2" fontWeight={700} sx={{ fontSize: 14 }}>
           Mes: {metrics.aprobadosTeoricoMes ?? 0} | Histórico:{" "}
           {metrics.aprobadosTeoricoHistorico ?? 0}
         </Typography>
@@ -118,13 +138,13 @@ function AdminDashboardView({ metrics }) {
     {
       title: "Práctico APTO",
       value: (
-        <Typography variant="body2" fontWeight={700} sx={{ fontSize: 12 }}>
+        <Typography variant="body2" fontWeight={700} sx={{ fontSize: 14 }}>
           Mes: {metrics.aprobadosPracticoMes ?? 0} | Histórico:{" "}
           {metrics.aprobadosPracticoHistorico ?? 0}
         </Typography>
       ),
       icon: <EmojiEventsIcon />,
-      color: "#7c2d12",
+      color: "#EFBF04",
       wide: true,
     },
   ];
@@ -208,8 +228,9 @@ function AdminDashboardView({ metrics }) {
                   <Typography color="text.secondary">
                     Clases sin confirmar
                   </Typography>
-                  <Typography variant="h6" fontWeight="bold" sx={{ mt: 0.5 }}>
-                    {metrics.pendingClassConfirmations ?? 0}
+                  <Typography variant="h6" fontWeight="bold" sx={{ mt: 0.2 }}>
+                    {metrics.pendingClassConfirmations ?? 0}{" "}
+                    <AssignmentIcon sx={{ ml: 17, color: "#ea580c" }} />
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     solicitudes programadas
@@ -238,7 +259,8 @@ function AdminDashboardView({ metrics }) {
                     Horas sin confirmar
                   </Typography>
                   <Typography variant="h6" fontWeight="bold" sx={{ mt: 0.5 }}>
-                    {Number(metrics.pendingClassHours || 0).toFixed(1)} h
+                    {Number(metrics.pendingClassHours || 0).toFixed(1)} h{" "}
+                    <AccessTimeFilledIcon sx={{ ml: 14, color: "#ff00ff" }} />
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     total de clases programadas
@@ -266,8 +288,9 @@ function AdminDashboardView({ metrics }) {
                   <Typography color="text.secondary">
                     Numero de Alumnos
                   </Typography>
-                  <Typography variant="h4" fontWeight="bold">
-                    {metrics.pendingExams ?? 0}
+                  <Typography variant="h6" fontWeight="bold">
+                    {metrics.pendingExams ?? 0}{" "}
+                    <AssignmentIcon sx={{ ml: 18, color: "#ea580c" }} />
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     con Exámenes Programados
@@ -295,8 +318,12 @@ function AdminDashboardView({ metrics }) {
                   <Typography color="text.secondary">
                     Exámenes Este Mes
                   </Typography>
-                  <Typography variant="h4" fontWeight="bold">
-                    {metrics.examsThisMonth ?? 0}
+                  <Typography variant="h6" fontWeight="bold">
+                    {metrics.examsThisMonth ?? 0}{" "}
+                    <AssignmentIcon sx={{ ml: 18, color: "#ea580c" }} />
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Programados
                   </Typography>
                 </Box>
               </Box>
@@ -327,7 +354,7 @@ function AdminDashboardView({ metrics }) {
               >
                 <Box>
                   <Typography color="text.secondary">Tests Hoy</Typography>
-                  <Typography variant="h4" fontWeight="bold">
+                  <Typography variant="h6" fontWeight="bold">
                     {metrics.dgtTestsToday ?? 0}
                   </Typography>
                 </Box>
@@ -351,7 +378,7 @@ function AdminDashboardView({ metrics }) {
               >
                 <Box>
                   <Typography color="text.secondary">Tests Mes</Typography>
-                  <Typography variant="h4" fontWeight="bold">
+                  <Typography variant="h6" fontWeight="bold">
                     {metrics.dgtTestsThisMonth ?? 0}
                   </Typography>
                 </Box>
@@ -375,7 +402,7 @@ function AdminDashboardView({ metrics }) {
               >
                 <Box>
                   <Typography color="text.secondary">% Aprobados</Typography>
-                  <Typography variant="h4" fontWeight="bold">
+                  <Typography variant="h6" fontWeight="bold">
                     {metrics.dgtSuccessRate?.toFixed(1)}%
                   </Typography>
                 </Box>
@@ -399,7 +426,7 @@ function AdminDashboardView({ metrics }) {
               >
                 <Box>
                   <Typography color="text.secondary">Total Tests</Typography>
-                  <Typography variant="h4" fontWeight="bold">
+                  <Typography variant="h6" fontWeight="bold">
                     {metrics.totalDgtTests ?? 0}
                   </Typography>
                 </Box>
@@ -426,6 +453,7 @@ function AdminDashboardView({ metrics }) {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
+                  width: "1600px",
                 }}
               >
                 <Typography variant="h6" fontWeight="bold">
@@ -434,13 +462,21 @@ function AdminDashboardView({ metrics }) {
                 <Box>
                   <IconButton
                     size="small"
-                    onClick={() => scrollRanking(studentsRef, "left")}
+                    onClick={() =>
+                      setStudentsStart((current) => Math.max(0, current - 1))
+                    }
+                    disabled={studentsStart === 0}
                   >
                     <ArrowBackIosNewIcon fontSize="small" />
                   </IconButton>
                   <IconButton
                     size="small"
-                    onClick={() => scrollRanking(studentsRef, "right")}
+                    onClick={() =>
+                      setStudentsStart((current) =>
+                        Math.min(studentsMaxStart, current + 1),
+                      )
+                    }
+                    disabled={studentsStart >= studentsMaxStart}
                   >
                     <ArrowForwardIosIcon fontSize="small" />
                   </IconButton>
@@ -448,21 +484,25 @@ function AdminDashboardView({ metrics }) {
               </Box>
 
               <Box
-                ref={studentsRef}
                 sx={{
-                  display: "flex",
+                  display: "grid",
+                  gridTemplateColumns: {
+                    xs: "1fr",
+                    sm: "repeat(2, minmax(0, 1fr))",
+                    md: "repeat(3, minmax(0, 1fr))",
+                    lg: "repeat(5, minmax(0, 1fr))",
+                  },
                   gap: 2,
-                  overflowX: "auto",
                   pb: 1,
                   mt: 1,
                 }}
               >
-                {(metrics.topStudents || []).map((student, index) => (
+                {visibleStudents.map((student, index) => (
                   <Card key={`${student.nombre}-${index}`} variant="outlined">
-                    <CardContent sx={{ minWidth: 240 }}>
+                    <CardContent>
                       <Typography
                         fontWeight={800}
-                      >{`${index + 1}. ${student.nombre}`}</Typography>
+                      >{`${studentsStart + index + 1}. ${student.nombre}`}</Typography>
                       <Box sx={{ mt: 1, mb: 1 }}>
                         <LicenseChip value={student.licencia} />
                       </Box>
@@ -491,6 +531,7 @@ function AdminDashboardView({ metrics }) {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
+                  width: "1600px",
                 }}
               >
                 <Typography variant="h6" fontWeight="bold">
@@ -499,13 +540,21 @@ function AdminDashboardView({ metrics }) {
                 <Box>
                   <IconButton
                     size="small"
-                    onClick={() => scrollRanking(professorsRef, "left")}
+                    onClick={() =>
+                      setProfessorsStart((current) => Math.max(0, current - 1))
+                    }
+                    disabled={professorsStart === 0}
                   >
                     <ArrowBackIosNewIcon fontSize="small" />
                   </IconButton>
                   <IconButton
                     size="small"
-                    onClick={() => scrollRanking(professorsRef, "right")}
+                    onClick={() =>
+                      setProfessorsStart((current) =>
+                        Math.min(professorsMaxStart, current + 1),
+                      )
+                    }
+                    disabled={professorsStart >= professorsMaxStart}
                   >
                     <ArrowForwardIosIcon fontSize="small" />
                   </IconButton>
@@ -513,21 +562,25 @@ function AdminDashboardView({ metrics }) {
               </Box>
 
               <Box
-                ref={professorsRef}
                 sx={{
-                  display: "flex",
+                  display: "grid",
+                  gridTemplateColumns: {
+                    xs: "1fr",
+                    sm: "repeat(2, minmax(0, 1fr))",
+                    md: "repeat(3, minmax(0, 1fr))",
+                    lg: "repeat(5, minmax(0, 1fr))",
+                  },
                   gap: 2,
-                  overflowX: "auto",
                   pb: 1,
                   mt: 1,
                 }}
               >
-                {(metrics.topProfessors || []).map((profesor, index) => (
+                {visibleProfessors.map((profesor, index) => (
                   <Card key={`${profesor.nombre}-${index}`} variant="outlined">
-                    <CardContent sx={{ minWidth: 240 }}>
+                    <CardContent>
                       <Typography
                         fontWeight={800}
-                      >{`${index + 1}. ${profesor.nombre}`}</Typography>
+                      >{`${professorsStart + index + 1}. ${profesor.nombre}`}</Typography>
                       <Box sx={{ mt: 1, mb: 1 }}>
                         <LicenseChip value={profesor.licencia} />
                       </Box>
@@ -559,6 +612,7 @@ function AdminDashboardView({ metrics }) {
           gap: 20,
           width: "100%",
           alignItems: "stretch",
+          mb: 10,
         }}
       >
         {/* Columna izquierda: Evolución DGT */}

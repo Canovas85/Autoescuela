@@ -1058,6 +1058,7 @@ export default function Profesores() {
                 dni: normalizarDni(e.target.value),
               })
             }
+            inputProps={{ maxLength: 9 }}
           />
 
           <TextField
@@ -1121,7 +1122,14 @@ export default function Profesores() {
         open={openDetail}
         onClose={() => setOpenDetail(false)}
         fullWidth
-        maxWidth="lg"
+        maxWidth="lg" // Mantenemos el breakpoint como base
+        sx={{
+          "& .MuiDialog-paper": {
+            maxWidth: "1400px", // <--- Cambia este valor al ancho en píxeles que desees (ej: 1400px, 1600px)
+            width: "100%", // Fuerza a que use el máximo disponible si la pantalla lo permite
+            overflowX: "hidden", // <--- Oculta el scroll horizontal de raíz
+          },
+        }}
       >
         <DialogTitle>
           <Box
@@ -1167,7 +1175,16 @@ export default function Profesores() {
               <CircularProgress />
             </Box>
           ) : (
-            <Box sx={{ perspective: "1400px", mt: 1, minHeight: 620 }}>
+            <Box
+              sx={{
+                perspective: "1400px",
+                mt: 1,
+                minHeight: 620,
+                overflow: "hidden",
+              }}
+            >
+              {" "}
+              {/* <--- Añade overflow: "hidden" aquí */}
               <Box
                 sx={{
                   transition: "transform 700ms ease",
@@ -1229,9 +1246,7 @@ export default function Profesores() {
                                   return (
                                     <Button
                                       key={alumno.id}
-                                      variant={
-                                        isSelected ? "contained" : "outlined"
-                                      }
+                                      variant="outlined" // Mantenemos la estructura de bordes base
                                       onClick={() =>
                                         loadOverview(selectedProfesor?.id, {
                                           weekOffset: overviewWeekOffset,
@@ -1243,10 +1258,35 @@ export default function Profesores() {
                                         textTransform: "none",
                                         py: 1,
                                         px: 1.5,
+                                        // 1. Si está seleccionado, aplicamos un azul claro con transparencia (rgba). Si no, transparente.
+                                        backgroundColor: isSelected
+                                          ? "rgba(25, 118, 210, 0.12)"
+                                          : "transparent",
+                                        // 2. Mantenemos el borde del color del tema si está seleccionado
+                                        borderColor: isSelected
+                                          ? "primary.main"
+                                          : "#ccc",
+                                        // Modificación del comportamiento al pasar el ratón por encima (hover)
+                                        "&:hover": {
+                                          backgroundColor: isSelected
+                                            ? "rgba(25, 118, 210, 0.2)"
+                                            : "rgba(0, 0, 0, 0.04)",
+                                          borderColor: isSelected
+                                            ? "primary.main"
+                                            : "#aaa",
+                                        },
                                       }}
                                     >
                                       <Box sx={{ textAlign: "left" }}>
-                                        <Typography fontWeight={700}>
+                                        {/* 3. Forzamos el color del texto a negro riguroso si NO está seleccionado */}
+                                        <Typography
+                                          fontWeight={700}
+                                          sx={{
+                                            color: isSelected
+                                              ? "primary.main"
+                                              : "#000000",
+                                          }}
+                                        >
                                           {alumno.nombre}
                                         </Typography>
                                       </Box>
