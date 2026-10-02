@@ -33,6 +33,60 @@ const formatDate = (value) =>
     minute: "2-digit",
   });
 
+const normalizeNotificationRoute = (route) => {
+  const normalizedRoute = String(route || "")
+    .trim()
+    .toLowerCase();
+
+  if (normalizedRoute === "/matricula" || normalizedRoute === "/matriculas") {
+    return "/facturas";
+  }
+
+  return route;
+};
+
+const upper = (value) =>
+  String(value || "")
+    .trim()
+    .toUpperCase();
+
+const shouldOpenInFacturas = (item) => {
+  const route = normalizeNotificationRoute(item?.metadata?.route || "");
+  const tipo = upper(item?.tipo);
+
+  if (route === "/facturas") {
+    return true;
+  }
+
+  return ["BONO_COMPRADO", "MATRICULA_PAGADA"].includes(tipo);
+};
+
+const buildFacturasRoute = (item) => {
+  const params = new URLSearchParams();
+  const metadata = item?.metadata || {};
+
+  params.set("openFactura", "1");
+
+  [
+    "facturaId",
+    "numeroFactura",
+    "numeroFacturaPago",
+    "matriculaId",
+    "compraBonoId",
+    "pagoId",
+    "clasePracticaId",
+  ].forEach((key) => {
+    const value = metadata?.[key];
+    if (value !== undefined && value !== null && String(value).trim() !== "") {
+      params.set(key, String(value));
+    }
+  });
+
+  params.set("notificationType", upper(item?.tipo));
+
+  return `/facturas?${params.toString()}`;
+};
+
 export default function Notificaciones() {
   const navigate = useNavigate();
   const [rows, setRows] = useState([]);
@@ -126,12 +180,18 @@ export default function Notificaciones() {
 
   const goToSource = (item) => {
     const route = item?.metadata?.route;
+    const normalizedRoute = normalizeNotificationRoute(route);
 
     if (!route || typeof route !== "string") {
       return;
     }
 
-    navigate(route);
+    if (shouldOpenInFacturas(item)) {
+      navigate(buildFacturasRoute(item));
+      return;
+    }
+
+    navigate(normalizedRoute);
   };
 
   if (loading) {

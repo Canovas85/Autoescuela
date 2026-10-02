@@ -55,6 +55,9 @@ export class MatriculasService {
     }
 
     const detail = await this.repository.findById(matricula.id);
+    const facturaMatricula = (detail?.facturas || []).find(
+      (factura) => String(factura?.estado || "").toUpperCase() === "PAGADA",
+    );
 
     await this.notificacionesRepository.createForRole("ADMIN", {
       tipo: "MATRICULA_PAGADA",
@@ -63,7 +66,9 @@ export class MatriculasService {
       metadata: {
         matriculaId: matricula.id,
         alumnoId: matricula.alumnoId,
-        route: "/matricula",
+        facturaId: facturaMatricula?.id || null,
+        numeroFactura: facturaMatricula?.numero || null,
+        route: "/facturas",
       },
     });
 

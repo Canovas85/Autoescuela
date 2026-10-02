@@ -99,6 +99,7 @@ export default function ExamenTeoricoAlumno() {
   const [eligibility, setEligibility] = useState(null);
   const [calendarDates, setCalendarDates] = useState([]);
   const [myRequests, setMyRequests] = useState([]);
+  const [hasObtainedLicense, setHasObtainedLicense] = useState(false);
   const [viewDate, setViewDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -121,7 +122,18 @@ export default function ExamenTeoricoAlumno() {
 
       setEligibility(eligibilityData);
       setCalendarDates(calendarData.fechas || []);
-      setMyRequests((mineData || []).filter((item) => item.tipo === "TEORICO"));
+      const normalizedMineData = mineData || [];
+
+      setMyRequests(
+        normalizedMineData.filter((item) => item.tipo === "TEORICO"),
+      );
+      setHasObtainedLicense(
+        normalizedMineData.some(
+          (item) =>
+            String(item?.tipo || "").toUpperCase() === "PRACTICO" &&
+            String(item?.estado || "").toUpperCase() === "APTO",
+        ),
+      );
     } catch (error) {
       setNotification({
         open: true,
@@ -154,6 +166,8 @@ export default function ExamenTeoricoAlumno() {
     () => myRequests.some((item) => item.estado === "APTO"),
     [myRequests],
   );
+  const shouldShowRequirements =
+    Boolean(eligibility) && !hasApprovedTheory && !hasObtainedLicense;
 
   const columns = [
     {
@@ -273,7 +287,7 @@ export default function ExamenTeoricoAlumno() {
         convocatoria.
       </Typography>
 
-      {eligibility && (
+      {shouldShowRequirements && (
         <Paper sx={{ p: 2.5, mb: 3, border: "1px solid #e2e8f0" }}>
           <Typography variant="h6" sx={{ mb: 1.5 }}>
             Estado de requisitos
@@ -359,7 +373,7 @@ export default function ExamenTeoricoAlumno() {
             </Typography>
           </Stack>
 
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          <Typography variant="body1" sx={{ mb: 2 }}>
             Ya no necesitas solicitar nuevas convocatorias teóricas. Ahora
             puedes empezar con tu preparación práctica.
           </Typography>

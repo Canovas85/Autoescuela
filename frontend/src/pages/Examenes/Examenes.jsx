@@ -44,7 +44,7 @@ const formatDate = (value) => {
 const stateToColor = (estado) => {
   if (estado === "APTO" || estado === "APROBADO") return "success";
   if (estado === "NO_APTO" || estado === "SUSPENSO") return "error";
-  if (estado === "CANCELADO") return "default";
+  if (estado === "CANCELADO") return "secondary";
   return "warning";
 };
 
@@ -111,6 +111,11 @@ export default function Examenes() {
 
     return Array.from(values).sort();
   }, [rows]);
+
+  const estadoOptions = useMemo(() => {
+    const values = new Set(["CANCELADO", ...estados]);
+    return Array.from(values).sort();
+  }, [estados]);
 
   const tipos = useMemo(() => {
     const values = new Set();
@@ -390,7 +395,7 @@ export default function Examenes() {
             onChange={(event) => setEstadoFiltro(event.target.value)}
           >
             <MenuItem value="TODOS">Todos</MenuItem>
-            {estados.map((estado) => (
+            {estadoOptions.map((estado) => (
               <MenuItem key={estado} value={estado}>
                 {estado}
               </MenuItem>

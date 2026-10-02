@@ -161,6 +161,7 @@ export default function ExamenPracticoAlumno() {
   const practicalApproved = (myRequests || []).some(
     (item) => String(item?.estado || "").toUpperCase() === "APTO",
   );
+  const shouldShowRequirements = Boolean(eligibility) && !practicalApproved;
 
   const handleRequest = async () => {
     if (!selectedDate) {
@@ -294,7 +295,7 @@ export default function ExamenPracticoAlumno() {
         disponible en el calendario de convocatorias.
       </Typography>
 
-      {eligibility && (
+      {shouldShowRequirements && (
         <Paper sx={{ p: 2.5, mb: 3, border: "1px solid #e2e8f0" }}>
           <Typography variant="h6" sx={{ mb: 1.5 }}>
             Estado de requisitos

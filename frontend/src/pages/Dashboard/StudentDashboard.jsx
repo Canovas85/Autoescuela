@@ -528,7 +528,7 @@ export default function StudentDashboard({ data }) {
                   </Grid>
                 ))}
               </Grid>
-
+              {/* 
               <Divider sx={{ my: 2 }} />
 
               <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
@@ -543,68 +543,114 @@ export default function StudentDashboard({ data }) {
                   variant="outlined"
                 />
               </Stack>
+              */}
             </CardContent>
           </Card>
         </Grid>
 
         <Grid item xs={12} md={4}>
           <Grid container spacing={3.2}>
-            <Grid item xs={12} sm={6} sx={{ width: 230 }}>
+            <Grid item xs={12} sm={6} sx={{ width: 230, height: 110 }}>
               <DashboardStatCard
-                icon={<CreditCardIcon />}
-                title="Matrícula"
+                title={
+                  <Box
+                    sx={{ display: "flex", alignItems: "center", gap: "6px" }}
+                  >
+                    <CreditCardIcon
+                      sx={{ fontSize: "1.1rem", color: "#16a34a" }}
+                    />
+                    <span>Matrícula</span>
+                  </Box>
+                }
                 value={resumen.matricula === "PAGADA" ? "Pagada" : "Pendiente"}
                 subtitle={
                   resumen.matricula === "PAGADA"
                     ? `Pagada el ${formatDate(perfil.fechaMatriculaPago)}`
                     : "Falta completar el pago de matrícula"
                 }
-                color={resumen.matricula === "PAGADA" ? "#16a34a" : "#f59e0b"}
               />
             </Grid>
-            <Grid item xs={12} sm={6} sx={{ width: 239 }}>
+
+            <Grid item xs={12} sm={6} sx={{ width: 230, height: 110 }}>
               <DashboardStatCard
-                icon={<AssignmentIcon />}
-                title="Tests de práctica"
-                value={teoria.testsTotales}
+                title={
+                  <Box
+                    sx={{ display: "flex", alignItems: "center", gap: "6px" }}
+                  >
+                    <AssignmentIcon
+                      sx={{ fontSize: "1.1rem", color: "#2563eb" }}
+                    />
+                    <span>Tests de práctica</span>
+                  </Box>
+                }
+                value={`${teoria.testsTotales} Tests totales`}
                 subtitle={`${teoria.testsAprobados} aprobados y ${teoria.testsSuspendidos} suspendidos`}
-                color="#2563eb"
               />
             </Grid>
-            <Grid item xs={12} sm={6} sx={{ width: 239 }}>
+
+            <Grid item xs={12} sm={6} sx={{ width: 260, height: 110 }}>
               <DashboardStatCard
-                icon={<WorkspacePremiumIcon />}
-                title="Test DGT"
-                value={dgtMetrics.testsTotales}
+                title={
+                  <Box
+                    sx={{ display: "flex", alignItems: "center", gap: "6px" }}
+                  >
+                    <WorkspacePremiumIcon
+                      sx={{ fontSize: "1.1rem", color: "#FF8C00" }}
+                    />
+                    <span>Test DGT</span>
+                  </Box>
+                }
+                value={`${dgtMetrics.testsTotales} Test Completados`}
                 subtitle={`${dgtMetrics.testsAprobados} aprobados y ${dgtMetrics.testsSuspendidos} suspendidos`}
-                color="#0891b2"
               />
             </Grid>
-            <Grid item xs={12} sm={6} sx={{ width: 239 }}>
+
+            <Grid item xs={12} sm={6} sx={{ width: 230, height: 110 }}>
               <DashboardStatCard
-                icon={<VerifiedIcon />}
-                title="Convocatorias Examen DGT"
-                value={dgtMetrics.tasa21?.convocatoriasDisponibles ?? 0}
+                title={
+                  <Box
+                    sx={{ display: "flex", alignItems: "center", gap: "6px" }}
+                  >
+                    <VerifiedIcon
+                      sx={{ fontSize: "1.1rem", color: "#0284c7" }}
+                    />
+                    <span>Convocatorias Examen DGT</span>
+                  </Box>
+                }
+                value={`${dgtMetrics.tasa21?.convocatoriasDisponibles ?? 0} Convocatorias`}
                 subtitle={`${dgtMetrics.tasa21?.convocatoriasConsumidas ?? 0} consumidas de ${dgtMetrics.tasa21?.convocatoriasIncluidas ?? 0}`}
-                color="#0284c7"
               />
             </Grid>
-            <Grid item xs={12} sm={6} sx={{ width: 239 }}>
+            <Grid item xs={12} sm={6} sx={{ width: 230, height: 110 }}>
               <DashboardStatCard
-                icon={<DirectionsCarIcon />}
-                title="Clases compradas"
-                value={practica.clasesCompradas}
+                title={
+                  <Box
+                    sx={{ display: "flex", alignItems: "center", gap: "6px" }}
+                  >
+                    <DirectionsCarIcon
+                      sx={{ fontSize: "1.1rem", color: "#0f172a" }}
+                    />
+                    <span>Clases compradas</span>
+                  </Box>
+                }
+                value={`${practica.clasesCompradas} Clases`}
                 subtitle={`${practica.clasesPagadas} pagadas y ${practica.clasesReservadas} reservadas`}
-                color="#0f172a"
               />
             </Grid>
-            <Grid item xs={12} sm={6} sx={{ width: 239 }}>
+            <Grid item xs={12} sm={6} sx={{ width: 230, height: 110 }}>
               <DashboardStatCard
-                icon={<EventAvailableIcon />}
-                title="Reservas activas"
-                value={practica.clasesReservadas}
+                title={
+                  <Box
+                    sx={{ display: "flex", alignItems: "center", gap: "6px" }}
+                  >
+                    <EventAvailableIcon
+                      sx={{ fontSize: "1.1rem", color: "#7c3aed" }}
+                    />
+                    <span>Reservas activas</span>
+                  </Box>
+                }
+                value={`${practica.clasesReservadas} Reservas`}
                 subtitle="Clases programadas actualmente"
-                color="#7c3aed"
               />
             </Grid>
           </Grid>
@@ -971,7 +1017,7 @@ export default function StudentDashboard({ data }) {
               height: "100%",
               border: "1px solid rgba(148, 163, 184, 0.18)",
               boxShadow: "0 14px 32px rgba(15, 23, 42, 0.04)",
-              width: "640px",
+              width: "670px",
             }}
           >
             <CardContent sx={{ py: 2, "&:last-child": { pb: 2 } }}>
@@ -1154,7 +1200,7 @@ export default function StudentDashboard({ data }) {
                 height: "100%",
                 border: "1px solid rgba(148, 163, 184, 0.18)",
                 boxShadow: "0 14px 32px rgba(15, 23, 42, 0.04)",
-                width: "100%",
+                width: "900px",
               }}
             >
               <CardContent
@@ -1238,7 +1284,7 @@ export default function StudentDashboard({ data }) {
             <Card
               sx={{
                 borderRadius: 2,
-                width: "100%",
+                width: "900px",
                 border: "1px solid rgba(148, 163, 184, 0.18)",
                 boxShadow: "0 14px 32px rgba(15, 23, 42, 0.04)",
               }}
@@ -1273,6 +1319,7 @@ export default function StudentDashboard({ data }) {
                         borderRadius: 1,
                         border: "1px solid rgba(148, 163, 184, 0.18)",
                         backgroundColor: "#fff",
+                        width: "850px",
                       }}
                     >
                       <Typography
@@ -1310,26 +1357,20 @@ export default function StudentDashboard({ data }) {
                                 sx={{ width: "100%", mb: 1 }}
                               >
                                 {/* Contenedor Izquierdo: Fechas de Programación y Solicitud */}
-                                <Stack
-                                  spacing={0.5}
-                                  sx={{ minWidth: 0, flexGrow: 1 }}
-                                >
+                                <Stack spacing={0.5}>
                                   <Typography
                                     variant="body1"
                                     fontWeight={700}
                                     noWrap
                                   >
-                                    Programado:{" "}
+                                    Fecha del Examen:{" "}
                                     {formatDate(examen.fechaProgramada)}
                                   </Typography>
                                   <Typography
                                     variant="body2"
                                     color="text.secondary"
                                     noWrap
-                                  >
-                                    Solicitud:{" "}
-                                    {formatDate(examen.fechaSolicitud)}
-                                  </Typography>
+                                  ></Typography>
                                 </Stack>
 
                                 {/* Contenedor Derecho: Estado y Botón Detalle */}
@@ -1390,21 +1431,24 @@ export default function StudentDashboard({ data }) {
                   <Grid item xs={12} md={6}>
                     <Box
                       sx={{
-                        p: 1.75,
-                        borderRadius: 1,
+                        p: 2,
+                        borderRadius: 2,
                         border: "1px solid rgba(148, 163, 184, 0.18)",
                         backgroundColor: "#fff",
+                        height: "100%", // Asegura que ambos contenedores midan lo mismo de alto
+                        width: "850px",
                       }}
                     >
                       <Typography
                         variant="subtitle1"
                         fontWeight={800}
-                        sx={{ mb: 1 }}
+                        sx={{ mb: 2 }}
                       >
                         Examen práctico
                       </Typography>
+
                       {examenes.practicos.length > 0 ? (
-                        <Stack spacing={1.5}>
+                        <Stack spacing={2} sx={{ width: "100%" }}>
                           {examenes.practicos.map((examen) => (
                             <Box
                               key={examen.id}
@@ -1412,58 +1456,72 @@ export default function StudentDashboard({ data }) {
                               sx={{
                                 cursor: "pointer",
                                 borderRadius: 1,
-                                p: 0.75,
+                                p: 1.5,
+                                width: "100%",
+                                boxSizing: "border-box",
                                 transition: "background-color 0.2s ease",
                                 "&:hover": {
                                   backgroundColor: "#f8fafc",
                                 },
                               }}
                             >
+                              {/* Contenedor principal alineado horizontalmente */}
                               <Stack
                                 direction="row"
-                                spacing={1}
+                                spacing={2}
                                 alignItems="center"
                                 justifyContent="space-between"
+                                sx={{ width: "100%", mb: 1 }}
                               >
-                                <Typography fontWeight={700} noWrap>
-                                  Programado:{" "}
-                                  {formatDate(examen.fechaProgramada)}
-                                </Typography>
-                                {statusChip(examen.estado, examen.estado)}
-                              </Stack>
-                              <Typography
-                                variant="body2"
-                                color="text.secondary"
-                                noWrap
-                              >
-                                Solicitud: {formatDate(examen.fechaSolicitud)}
-                              </Typography>
-                              {examen.observaciones ? (
-                                <Typography
-                                  variant="body2"
-                                  color="text.secondary"
+                                {/* Bloque Izquierdo: Fechas apiladas verticalmente */}
+                                <Stack spacing={0.5}>
+                                  <Typography fontWeight={700} variant="body1">
+                                    Fecha del Examen:{" "}
+                                    {formatDate(examen.fechaProgramada)}
+                                  </Typography>
+                                  <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                  ></Typography>
+                                  {examen.observaciones ? (
+                                    <Typography
+                                      variant="body2"
+                                      color="text.secondary"
+                                    >
+                                      {examen.observaciones}
+                                    </Typography>
+                                  ) : null}
+                                </Stack>
+
+                                {/* Bloque Derecho: Chip de estado y Botón de detalles */}
+                                <Stack
+                                  direction="row"
+                                  spacing={1.5}
+                                  alignItems="center"
                                 >
-                                  {examen.observaciones}
-                                </Typography>
-                              ) : null}
-                              <Typography
-                                variant="caption"
-                                sx={{
-                                  display: "inline-block",
-                                  backgroundColor: "#fffbeb",
-                                  borderColor: "#facc15",
-                                  borderRadius: "15px",
-                                  borderWidth: "1px",
-                                  borderStyle: "solid",
-                                  px: 1.5,
-                                  py: 0.5,
-                                  fontWeight: 500,
-                                  color: "#b45309",
-                                }}
-                              >
-                                Pulsa para ver detalle de faltas
-                              </Typography>
-                              <Divider sx={{ mt: 1.5 }} />
+                                  {statusChip(examen.estado, examen.estado)}
+                                  <Typography
+                                    variant="caption"
+                                    sx={{
+                                      display: "inline-block",
+                                      backgroundColor: "#fffbeb",
+                                      borderColor: "#facc15",
+                                      borderRadius: "15px",
+                                      borderWidth: "1px",
+                                      borderStyle: "solid",
+                                      px: 1.5,
+                                      py: 0.5,
+                                      fontWeight: 500,
+                                      color: "#b45309",
+                                      whiteSpace: "nowrap", // Evita que el texto del botón se rompa en dos líneas
+                                    }}
+                                  >
+                                    Pulsa para ver detalle de faltas
+                                  </Typography>
+                                </Stack>
+                              </Stack>
+
+                              <Divider sx={{ mt: 2 }} />
                             </Box>
                           ))}
                         </Stack>
@@ -1475,7 +1533,7 @@ export default function StudentDashboard({ data }) {
                     </Box>
                   </Grid>
                 </Grid>
-
+                {/*
                 <Box
                   sx={{
                     mt: 2.5,
@@ -1497,7 +1555,7 @@ export default function StudentDashboard({ data }) {
                       : "Aún no estás listo para examinarte del teórico; revisa los temarios recomendados y mejora el porcentaje de acierto."}
                   </Typography>
                 </Box>
-
+                */}
                 <Dialog
                   open={openExamModal}
                   onClose={handleCloseExamModal}

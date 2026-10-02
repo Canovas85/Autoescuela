@@ -124,7 +124,8 @@ export class PagosService {
         metadata: {
           pagoId: paid.id,
           compraBonoId: paid.compraBonoId,
-          route: "/bonos",
+          numeroFactura: paid.numeroFacturaPago,
+          route: "/facturas",
         },
       });
     }

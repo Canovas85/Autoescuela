@@ -24,6 +24,7 @@ import SendIcon from "@mui/icons-material/Send";
 import DownloadIcon from "@mui/icons-material/Download";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { facturasService } from "../../services/facturasService";
 import { matriculasService } from "../../services/matriculasService";
@@ -158,7 +159,37 @@ const getFinalAmount = (row) => {
   return Number(row.total || 0);
 };
 
+const matchesValue = (left, right) =>
+  String(left || "").trim() !== "" &&
+  String(right || "").trim() !== "" &&
+  String(left).trim() === String(right).trim();
+
+const resolveFacturaFromSearch = (rows, search) => {
+  const params = new URLSearchParams(search);
+
+  if (params.get("openFactura") !== "1") {
+    return null;
+  }
+
+  const facturaId = params.get("facturaId");
+  const numeroFactura = params.get("numeroFactura");
+  const matriculaId = params.get("matriculaId");
+  const compraBonoId = params.get("compraBonoId");
+  const clasePracticaId = params.get("clasePracticaId");
+
+  return (
+    rows.find((row) => matchesValue(row.id, facturaId)) ||
+    rows.find((row) => matchesValue(row.numero, numeroFactura)) ||
+    rows.find((row) => matchesValue(row.compraBonoId, compraBonoId)) ||
+    rows.find((row) => matchesValue(row.matriculaId, matriculaId)) ||
+    rows.find((row) => matchesValue(row.clasePracticaId, clasePracticaId)) ||
+    null
+  );
+};
+
 export default function IngresosFacturas() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [rows, setRows] = useState([]);
   const [searchAlumno, setSearchAlumno] = useState("");
   const [conceptoFiltro, setConceptoFiltro] = useState("");
@@ -282,6 +313,33 @@ export default function IngresosFacturas() {
       setLoadingPreview(false);
     }
   };
+
+  useEffect(() => {
+    if (!rows.length) {
+      return;
+    }
+
+    const params = new URLSearchParams(location.search);
+
+    if (params.get("openFactura") !== "1") {
+      return;
+    }
+
+    const targetRow = resolveFacturaFromSearch(rows, location.search);
+
+    if (!targetRow) {
+      setNotification({
+        open: true,
+        message: "No se encontró la factura asociada a la notificación",
+        severity: "warning",
+      });
+      navigate("/facturas", { replace: true });
+      return;
+    }
+
+    handleOpenPreview(targetRow);
+    navigate("/facturas", { replace: true });
+  }, [rows, location.search]);
 
   const handleDownloadPdf = async (facturaId) => {
     try {

@@ -132,6 +132,10 @@ const normalizarEstadoEvaluacion = (estado) => {
     .trim()
     .toUpperCase();
 
+  if (["CANCELADO", "CANCELADA", "ANULADO", "ANULADA"].includes(value)) {
+    return "CANCELADO";
+  }
+
   if (["APROBADO", "APTO"].includes(value)) {
     return "APROBADO";
   }
@@ -1091,8 +1095,20 @@ export class SolicitudesExamenService {
       }
     }
 
-    let pagoGastoPractico = null;
+    let pagoGastoPractico =
+      typeof this.repository.findPagoGastoPracticoPagadoReutilizable ===
+      "function"
+        ? await this.repository.findPagoGastoPracticoPagadoReutilizable(
+            alumnoId,
+            licenciaObjetivo,
+          )
+        : null;
     let canPickDate = false;
+
+    if (pagoGastoPractico?.estado === "PAGADO") {
+      checks.pagoGastoPracticoGenerado = true;
+      checks.pagoGastoPracticoPagado = true;
+    }
 
     if (
       !practicalAlreadyApproved &&
@@ -1102,8 +1118,10 @@ export class SolicitudesExamenService {
       checks.hojasRutaMinimas &&
       checks.hojasRutaConsistentes
     ) {
-      pagoGastoPractico =
-        await this.ensurePracticalExamExpensePayment(matriculaPagada);
+      if (!checks.pagoGastoPracticoPagado) {
+        pagoGastoPractico =
+          await this.ensurePracticalExamExpensePayment(matriculaPagada);
+      }
 
       if (pagoGastoPractico) {
         checks.pagoGastoPracticoGenerado = true;
