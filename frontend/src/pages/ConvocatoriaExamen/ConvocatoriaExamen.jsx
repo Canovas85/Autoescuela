@@ -1034,16 +1034,10 @@ export default function ConvocatoriaExamen() {
           <Typography>
             <strong>Tipo:</strong> {selectedAgendaExam?.tipoExamen || "-"}
           </Typography>
-          <Typography>
-            <strong>Estado:</strong> {selectedAgendaExam?.estado || "-"}
-          </Typography>
+
           <Typography>
             <strong>Fecha convocatoria:</strong>{" "}
             {formatDate(selectedAgendaExam?.fechaProgramada)}
-          </Typography>
-          <Typography>
-            <strong>Fecha solicitud:</strong>{" "}
-            {formatDate(selectedAgendaExam?.fechaSolicitud)}
           </Typography>
 
           {selectedAgendaExam?.tipoExamen === "TEORICO" ? (

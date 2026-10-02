@@ -66,11 +66,20 @@ import {
   getWeekDayIdFromValue,
 } from "../../utils/calendarDate";
 
-const normalizarDni = (valor) =>
-  valor
-    ?.toString()
+const limpiarDni = (valor) =>
+  String(valor || "")
     .toUpperCase()
-    .replace(/[^0-9A-Z]/g, "") || "";
+    .replace(/[^0-9A-Z]/g, "");
+
+const normalizarDniFormulario = (valor) => {
+  const limpio = limpiarDni(valor);
+  const numeros = limpio.replace(/[^0-9]/g, "").slice(0, 8);
+  const letra = limpio.replace(/[0-9]/g, "").slice(0, 1);
+
+  return `${numeros}${letra}`;
+};
+
+const esDniCompleto = (valor) => /^\d{8}[A-Z]$/.test(limpiarDni(valor));
 
 const normalizarTelefono = (valor) =>
   String(valor || "")
@@ -290,6 +299,18 @@ export default function Profesores() {
 
   const saveProfesor = async () => {
     try {
+      const dniNormalizado = limpiarDni(nuevoProfesor.dni);
+
+      if (!esDniCompleto(dniNormalizado)) {
+        setNotification({
+          open: true,
+          message: "El DNI está incompleto. Formato esperado: 12345678Z",
+          severity: "error",
+        });
+        setFieldTouched((prev) => ({ ...prev, dni: true }));
+        return;
+      }
+
       const telefonoNormalizado = normalizarTelefono(nuevoProfesor.telefono);
 
       if (!esTelefonoValido(telefonoNormalizado)) {
@@ -307,7 +328,7 @@ export default function Profesores() {
         telefono: telefonoNormalizado,
         permisosLicencias: nuevoProfesor.permisosLicencias,
         licenciaConducir: nuevoProfesor.permisosLicencias[0] || "",
-        dni: normalizarDni(nuevoProfesor.dni),
+        dni: dniNormalizado,
       };
 
       if (editingId) {
@@ -343,6 +364,10 @@ export default function Profesores() {
         dni: "",
         telefono: "",
         permisosLicencias: ["B"],
+      });
+
+      setFieldTouched({
+        dni: false,
       });
 
       loadProfesores();
@@ -700,6 +725,12 @@ export default function Profesores() {
     activo: true,
   });
 
+  const [fieldTouched, setFieldTouched] = useState({
+    dni: false,
+  });
+
+  const dniIncompleto = fieldTouched.dni && !esDniCompleto(nuevoProfesor.dni);
+
   const [confirmDialog, setConfirmDialog] = useState({
     open: false,
     action: null,
@@ -730,12 +761,16 @@ export default function Profesores() {
       nombre: row.usuario?.nombre || "",
       email: row.usuario?.email || "",
       password: "",
-      dni: row.usuario?.dni || "",
+      dni: normalizarDniFormulario(row.usuario?.dni || ""),
       telefono: row.usuario?.telefono || "",
       permisosLicencias:
         Array.isArray(row.permisosLicencias) && row.permisosLicencias.length > 0
           ? row.permisosLicencias
           : [row.licenciaConducir || "B"],
+    });
+
+    setFieldTouched({
+      dni: false,
     });
 
     setOpen(true);
@@ -906,6 +941,10 @@ export default function Profesores() {
               permisosLicencias: ["B"],
             });
 
+            setFieldTouched({
+              dni: false,
+            });
+
             setOpen(true);
           }}
         >
@@ -1055,8 +1094,20 @@ export default function Profesores() {
             onChange={(e) =>
               setNuevoProfesor({
                 ...nuevoProfesor,
-                dni: normalizarDni(e.target.value),
+                dni: normalizarDniFormulario(e.target.value),
               })
+            }
+            onBlur={() =>
+              setFieldTouched((prev) => ({
+                ...prev,
+                dni: true,
+              }))
+            }
+            error={dniIncompleto}
+            helperText={
+              dniIncompleto
+                ? "DNI incompleto. Introduce 8 números y 1 letra."
+                : undefined
             }
             inputProps={{ maxLength: 9 }}
           />

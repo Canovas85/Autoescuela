@@ -170,7 +170,7 @@ export default function ExamenTeoricoAlumno() {
         const color =
           params.value === "APTO"
             ? "success"
-            : ["NO_APTO", "NO_PRESENTADO"].includes(params.value)
+            : ["NO_APTO", "NO_PRESENTADO", "CANCELADO"].includes(params.value)
               ? "error"
               : "warning";
         return <Chip size="small" label={params.value} color={color} />;
@@ -354,12 +354,12 @@ export default function ExamenTeoricoAlumno() {
             sx={{ mb: 1 }}
           >
             <CheckCircleIcon color="success" />
-            <Typography variant="h6" sx={{ fontWeight: 700 }}>
+            <Typography variant="h6" sx={{ fontWeight: 700, color: "#166534" }}>
               Enhorabuena, ya has aprobado el teórico
             </Typography>
           </Stack>
 
-          <Typography variant="body1" sx={{ mb: 2 }}>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
             Ya no necesitas solicitar nuevas convocatorias teóricas. Ahora
             puedes empezar con tu preparación práctica.
           </Typography>

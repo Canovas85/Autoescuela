@@ -7,6 +7,14 @@ const EXPEDIENTE_PHASE_META = {
       border: "1px solid #fca5a5",
     },
   },
+  ESTUDIANDO_TEORICO: {
+    label: "Estudiando teórico",
+    sx: {
+      backgroundColor: "#fef9c3",
+      color: "#854d0e",
+      border: "1px solid #facc15",
+    },
+  },
   PENDIENTE_EXAMEN_TEORICO: {
     label: "Pendiente de examen teórico",
     sx: {
@@ -32,7 +40,7 @@ const EXPEDIENTE_PHASE_META = {
     },
   },
   PREPARANDO_PRACTICO: {
-    label: "Preparándose para el práctico",
+    label: "Preparándose para examen práctico",
     sx: {
       backgroundColor: "#ede9fe",
       color: "#5b21b6",
@@ -68,6 +76,8 @@ const EXPEDIENTE_PHASE_META = {
 const LEGACY_CODE_BY_LABEL = {
   "en formación": "PENDIENTE_MATRICULA",
   "pendiente matrícula": "PENDIENTE_MATRICULA",
+  "estudiando teórico": "ESTUDIANDO_TEORICO",
+  "estudiando teorico": "ESTUDIANDO_TEORICO",
   "pendiente de examen teórico": "PENDIENTE_EXAMEN_TEORICO",
   "teórico suspenso": "TEORICO_SUSPENSO",
   "teorico suspenso": "TEORICO_SUSPENSO",
@@ -81,8 +91,8 @@ const LEGACY_CODE_BY_LABEL = {
   "practico suspenso": "PRACTICO_SUSPENSO",
   "licencia obtenida": "LICENCIA_OBTENIDA",
   "licencia aprobada": "LICENCIA_OBTENIDA",
-  "estudiando teórico": "PENDIENTE_EXAMEN_TEORICO",
-  "estudiando teorico": "PENDIENTE_EXAMEN_TEORICO",
+  "preparándose para examen práctico": "PREPARANDO_PRACTICO",
+  "preparandose para examen practico": "PREPARANDO_PRACTICO",
 };
 
 const normalizeCode = (value) =>
@@ -105,12 +115,12 @@ export const resolveExpedientePhaseCode = ({ code, label }) => {
     return LEGACY_CODE_BY_LABEL[normalizedLabel];
   }
 
-  return "PENDIENTE_EXAMEN_TEORICO";
+  return "ESTUDIANDO_TEORICO";
 };
 
 export const getExpedientePhaseMeta = ({ code, label } = {}) => {
   const resolvedCode = resolveExpedientePhaseCode({ code, label });
-  const fallback = EXPEDIENTE_PHASE_META.PENDIENTE_EXAMEN_TEORICO;
+  const fallback = EXPEDIENTE_PHASE_META.ESTUDIANDO_TEORICO;
   const meta = EXPEDIENTE_PHASE_META[resolvedCode] || fallback;
 
   return {

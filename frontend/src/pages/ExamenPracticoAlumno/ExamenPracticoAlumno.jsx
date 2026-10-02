@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { solicitudesExamenService } from "../../services/solicitudesExamenService";
 
 const WEEK_DAYS = ["L", "M", "X", "J", "V", "S", "D"];
@@ -430,9 +431,10 @@ export default function ExamenPracticoAlumno() {
             variant="h6"
             sx={{ mb: 1, color: "#166534", fontWeight: 700 }}
           >
+            <CheckCircleIcon color="success" sx={{ mr: 1 }} />
             Enhorabuena, has aprobado el examen práctico
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
             Ya tienes la licencia de conducir correspondiente a tu permiso. En
             breve recibirás tu carnet físico. Como conductor novel, mantén una
             conducción preventiva, respeta distancias de seguridad y continúa

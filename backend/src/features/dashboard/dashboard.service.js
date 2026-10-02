@@ -405,6 +405,13 @@ export class DashboardService {
 
     const fechaPago = matriculaActual?.fechaPago ?? null;
 
+    const estadoAlumno = this.getStudentProgressStatus(
+      examenes,
+      clases,
+      dashboard.profile.alumno.estadoExpediente,
+      matriculaActual?.estado,
+    );
+
     return {
       perfil: {
         id: dashboard.profile.id,
@@ -497,6 +504,7 @@ export class DashboardService {
         practicos: examenes.filter((examen) => examen.tipo === "PRACTICO"),
       },
       reservas: clasesReservadas,
+      estadoAlumno,
       evolucion,
       resumen: {
         matricula: matriculaPagada ? "PAGADA" : "PENDIENTE",

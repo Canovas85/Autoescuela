@@ -31,38 +31,50 @@ const countCompletedRoadmaps = (clases = []) => {
   }).length;
 };
 
+const hasRequestedPracticalClasses = (clases = []) => {
+  return (clases || []).some((clase) => {
+    const estadoClase = String(clase?.estado || "").toUpperCase();
+
+    return ["PROGRAMADA", "CONFIRMADA"].includes(estadoClase);
+  });
+};
+
 export const EXPEDIENTE_PHASES = {
   PENDIENTE_MATRICULA: {
     code: "PENDIENTE_MATRICULA",
-    label: "Pendiente matrícula",
+    label: "Pendiente Matrícula",
+  },
+  ESTUDIANDO_TEORICO: {
+    code: "ESTUDIANDO_TEORICO",
+    label: "Estudiando Teórico",
   },
   PENDIENTE_EXAMEN_TEORICO: {
     code: "PENDIENTE_EXAMEN_TEORICO",
-    label: "Pendiente de examen teórico",
+    label: "Pendiente Examen Teórico",
   },
   TEORICO_SUSPENSO: {
     code: "TEORICO_SUSPENSO",
-    label: "Teórico suspenso",
+    label: "Teórico Suspenso",
   },
   TEORICO_APROBADO: {
     code: "TEORICO_APROBADO",
-    label: "Teórico aprobado",
+    label: "Teórico Aprobado",
   },
   PREPARANDO_PRACTICO: {
     code: "PREPARANDO_PRACTICO",
-    label: "Preparándose para el práctico",
+    label: "Preparándose Examen Práctico",
   },
   PENDIENTE_EXAMEN_PRACTICO: {
     code: "PENDIENTE_EXAMEN_PRACTICO",
-    label: "Pendiente de examen práctico",
+    label: "Pendiente Examen Práctico",
   },
   PRACTICO_SUSPENSO: {
     code: "PRACTICO_SUSPENSO",
-    label: "Práctico suspenso",
+    label: "Práctico Suspenso",
   },
   LICENCIA_OBTENIDA: {
     code: "LICENCIA_OBTENIDA",
-    label: "Licencia obtenida",
+    label: "Licencia Obtenida",
   },
 };
 
@@ -88,6 +100,7 @@ export const resolveExpedientePhase = ({
   const expedienteNormalizado = String(estadoExpediente || "").toUpperCase();
   const matriculaNormalizada = String(matriculaEstado || "").toUpperCase();
   const completedRoadmaps = countCompletedRoadmaps(clases);
+  const practicalClassesRequested = hasRequestedPracticalClasses(clases);
 
   if (matriculaNormalizada !== "PAGADA") {
     return EXPEDIENTE_PHASES.PENDIENTE_MATRICULA;
@@ -108,7 +121,10 @@ export const resolveExpedientePhase = ({
     return EXPEDIENTE_PHASES.PENDIENTE_EXAMEN_PRACTICO;
   }
 
-  if (theoryStatus === "APTO" && completedRoadmaps > 0) {
+  if (
+    theoryStatus === "APTO" &&
+    (practicalClassesRequested || completedRoadmaps > 0)
+  ) {
     return EXPEDIENTE_PHASES.PREPARANDO_PRACTICO;
   }
 
@@ -124,5 +140,5 @@ export const resolveExpedientePhase = ({
     return EXPEDIENTE_PHASES.PENDIENTE_EXAMEN_TEORICO;
   }
 
-  return EXPEDIENTE_PHASES.PENDIENTE_EXAMEN_TEORICO;
+  return EXPEDIENTE_PHASES.ESTUDIANDO_TEORICO;
 };
