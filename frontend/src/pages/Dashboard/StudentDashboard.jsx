@@ -32,6 +32,7 @@ import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import TimelineIcon from "@mui/icons-material/Timeline";
 import BookIcon from "@mui/icons-material/Book";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
@@ -155,12 +156,33 @@ function DashboardStatCard({ icon, title, value, subtitle, color }) {
 }
 
 function statusChip(status, fallbackLabel) {
-  const config = statusStyles[status] ?? {
-    label: fallbackLabel ?? status,
-    color: "default",
-    background: "#E8F5E9",
-    foreground: "#065F46",
-  };
+  // 1. Convertimos el status a mayúsculas para evitar problemas de formato (apto, Apto, APTO)
+  const normalizedStatus = String(status).toUpperCase();
+
+  // 2. Definimos estilos específicos para los resultados del examen
+  let customConfig = null;
+
+  if (normalizedStatus === "APTO") {
+    customConfig = {
+      label: fallbackLabel ?? "Apto",
+      background: "#E8F5E9", // Verde claro
+      foreground: "#1B5E20", // Verde oscuro
+    };
+  } else if (normalizedStatus === "NO APTO" || normalizedStatus === "NO_APTO") {
+    customConfig = {
+      label: fallbackLabel ?? "No Apto",
+      background: "#FFEBEE", // Rojo claro
+      foreground: "#C62828", // Rojo oscuro
+    };
+  }
+
+  // 3. Si no es ninguno de los anteriores, busca en statusStyles o usa el fallback por defecto
+  const config = customConfig ??
+    statusStyles[status] ?? {
+      label: fallbackLabel ?? status,
+      background: "#F1F5F9", // Gris claro neutral
+      foreground: "#475569", // Gris oscuro neutral
+    };
 
   return (
     <Chip
@@ -170,6 +192,7 @@ function statusChip(status, fallbackLabel) {
         backgroundColor: config.background,
         color: config.foreground,
         fontWeight: 700,
+        textTransform: "uppercase", // Opcional: fuerza el texto a mayúsculas
       }}
     />
   );
@@ -846,14 +869,16 @@ export default function StudentDashboard({ data }) {
                   {dgtUltimoResultado ? (
                     <Chip
                       label={`${dgtUltimoResultado.aprobado ? "APROBADO" : "SUSPENDIDO"} · ${dgtUltimoResultado.aciertos} aciertos y ${dgtUltimoResultado.fallos} fallos`}
-                      color={dgtUltimoResultado.aprobado ? "success" : "error"}
+                      /*color={dgtUltimoResultado.aprobado ? "success" : "error"}*/
                       variant="outlined"
                     />
                   ) : null}
+                  {/* 
                   <Chip
                     label={`Racha actual: ${dgtRachaTexto}`}
                     variant="outlined"
                   />
+                  */}
                 </Stack>
               </Box>
 
@@ -960,11 +985,18 @@ export default function StudentDashboard({ data }) {
                         mb: 1,
                       }}
                     >
-                      <Typography fontWeight={800}>
+                      <Typography fontWeight={800} sx={{ fontWeight: "bold" }}>
                         {temarioVisible?.titulo}
                       </Typography>
                       <Chip label="Revisado" color="success" size="small" />
                     </Box>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ mb: 1, fontSize: "0.875rem" }}
+                    >
+                      {temarioVisible?.descripcion}
+                    </Typography>
 
                     <Box sx={{ width: "100%" }}>
                       <Box
@@ -1000,9 +1032,13 @@ export default function StudentDashboard({ data }) {
                   </Box>
                 </>
               ) : (
-                <Typography color="text.secondary">
-                  Todavía no tienes temarios revisados.
-                </Typography>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <WarningAmberIcon color="warning" fontSize="small" />
+                  <Typography variant="body2">
+                    Aún no has empezado a estudiar ningún tema. Ve a la sección
+                    de contenidos para revisar tu primer temario.
+                  </Typography>
+                </Box>
               )}
             </CardContent>
           </Card>
@@ -1562,7 +1598,57 @@ export default function StudentDashboard({ data }) {
                   fullWidth
                   maxWidth="sm"
                 >
-                  <DialogTitle>Detalle de examen</DialogTitle>
+                  <DialogTitle
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center", // Keeps them perfectly aligned vertically
+                      width: "100%",
+                    }}
+                  >
+                    <span>Detalle de evaluación</span>
+                    <Chip
+                      label={selectedExam?.estado || "-"}
+                      variant="outlined"
+                      sx={{
+                        borderRadius: "15px",
+                        borderWidth: "1px",
+                        "& .MuiChip-label": {
+                          fontWeight: "bold",
+                        },
+                        // Modifica el FONDO según el estado
+                        backgroundColor:
+                          {
+                            SOLICITADO: "#e0f2fe",
+                            APTO: "#ecfdf5",
+                            NO_APTO: "#fef2f2",
+                            PENDIENTE: "#fffbeb",
+                            CANCELADO: "#eae9e9",
+                          }[selectedExam?.estado] || "#f3f4f6", // Color por defecto si no coincide
+
+                        // Modifica el BORDE según el estado
+                        borderColor:
+                          {
+                            SOLICITADO: "#0284c7",
+                            APTO: "#34d399",
+                            NO_APTO: "#f87171",
+                            PENDIENTE: "#facc15",
+                            CANCELADO: "#000000",
+                          }[selectedExam?.estado] || "#d1d5db", // Color por defecto si no coincide
+
+                        // Modifica la LETRA según el estado
+                        color:
+                          {
+                            SOLICITADO: "#0369a1",
+                            APTO: "#065f46",
+                            NO_APTO: "#991b1b",
+                            PENDIENTE: "#854d0e",
+                            CANCELADO: "#000000",
+                          }[selectedExam?.estado] || "#374151", // Color por defecto si no coincide
+                      }}
+                    />
+                  </DialogTitle>
+
                   <DialogContent sx={{ display: "grid", gap: 1, pt: 1 }}>
                     <Typography>
                       <strong>Tipo:</strong> {selectedExam?.tipo || "-"}
@@ -1571,9 +1657,7 @@ export default function StudentDashboard({ data }) {
                       <strong>Fecha:</strong>{" "}
                       {formatDate(selectedExam?.fechaProgramada)}
                     </Typography>
-                    <Typography>
-                      <strong>Estado:</strong> {selectedExam?.estado || "-"}
-                    </Typography>
+
                     {selectedExam?.tipo === "PRACTICO" ? (
                       <>
                         <Typography>

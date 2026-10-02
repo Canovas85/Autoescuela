@@ -260,7 +260,7 @@ function AdminDashboardView({ metrics }) {
                   </Typography>
                   <Typography variant="h6" fontWeight="bold" sx={{ mt: 0.5 }}>
                     {Number(metrics.pendingClassHours || 0).toFixed(1)} h{" "}
-                    <AccessTimeFilledIcon sx={{ ml: 14, color: "#ff00ff" }} />
+                    <AccessTimeFilledIcon sx={{ ml: 12, color: "#ff00ff" }} />
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     total de clases programadas
@@ -290,7 +290,7 @@ function AdminDashboardView({ metrics }) {
                   </Typography>
                   <Typography variant="h6" fontWeight="bold">
                     {metrics.pendingExams ?? 0}{" "}
-                    <AssignmentIcon sx={{ ml: 18, color: "#ea580c" }} />
+                    <DirectionsCarIcon sx={{ ml: 18, color: "#000000" }} />
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     con Exámenes Programados
