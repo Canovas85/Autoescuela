@@ -21,7 +21,11 @@ const accountActivationService = new AccountActivationService(
   emailService,
 );
 
-const service = new AuthService(repository, accountActivationService);
+const service = new AuthService(
+  repository,
+  accountActivationService,
+  emailService,
+);
 
 const controller = new AuthController(service);
 
@@ -79,6 +83,16 @@ router.post(
   authenticate,
   authorize("ADMIN"),
   controller.resendActivation.bind(controller),
+);
+
+router.post(
+  "/password-reset/validate-email",
+  controller.validatePasswordResetEmail.bind(controller),
+);
+
+router.post(
+  "/password-reset/reset-default",
+  controller.resetPasswordToDefault.bind(controller),
 );
 
 export default router;

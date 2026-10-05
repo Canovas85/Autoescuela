@@ -55,7 +55,18 @@ export default function Login() {
 
   const [openForgotPassword, setOpenForgotPassword] = useState(false);
 
+  const [forgotPasswordStep, setForgotPasswordStep] = useState(1);
+
   const [forgotPasswordEmail, setForgotPasswordEmail] = useState("");
+
+  const [forgotPasswordNombreCompleto, setForgotPasswordNombreCompleto] =
+    useState("");
+
+  const [forgotPasswordDni, setForgotPasswordDni] = useState("");
+
+  const [forgotPasswordLoading, setForgotPasswordLoading] = useState(false);
+
+  const [forgotPasswordError, setForgotPasswordError] = useState("");
 
   const [registerForm, setRegisterForm] = useState({
     nombre: "",
@@ -154,6 +165,108 @@ export default function Login() {
           100,
       )
     : 0;
+
+  const normalizarDniFormulario = (value) => {
+    const limpio = String(value || "")
+      .toUpperCase()
+      .replace(/[^0-9A-Z]/g, "");
+    const numeros = limpio.replace(/[^0-9]/g, "").slice(0, 8);
+    const letra = limpio.replace(/[0-9]/g, "").slice(0, 1);
+
+    return `${numeros}${letra}`;
+  };
+
+  const resetForgotPasswordState = () => {
+    setForgotPasswordStep(1);
+    setForgotPasswordEmail("");
+    setForgotPasswordNombreCompleto("");
+    setForgotPasswordDni("");
+    setForgotPasswordError("");
+    setForgotPasswordLoading(false);
+  };
+
+  const handleOpenForgotPassword = () => {
+    resetForgotPasswordState();
+    setOpenForgotPassword(true);
+  };
+
+  const handleCloseForgotPassword = () => {
+    setOpenForgotPassword(false);
+    resetForgotPasswordState();
+  };
+
+  const handleForgotPasswordContinue = async () => {
+    if (forgotPasswordLoading) {
+      return;
+    }
+
+    setForgotPasswordError("");
+
+    if (forgotPasswordStep === 1) {
+      const email = forgotPasswordEmail.trim();
+
+      if (!email) {
+        setForgotPasswordError("Debes informar el correo electrónico");
+        return;
+      }
+
+      setForgotPasswordLoading(true);
+
+      try {
+        await api.post("/auth/password-reset/validate-email", {
+          email,
+        });
+
+        setForgotPasswordEmail(email);
+        setForgotPasswordStep(2);
+      } catch (error) {
+        setForgotPasswordError(
+          error.response?.data?.message ||
+            "No se pudo validar el correo electrónico",
+        );
+      } finally {
+        setForgotPasswordLoading(false);
+      }
+
+      return;
+    }
+
+    if (forgotPasswordStep === 2) {
+      const nombreCompleto = forgotPasswordNombreCompleto.trim();
+      const dni = normalizarDniFormulario(forgotPasswordDni);
+
+      if (!nombreCompleto) {
+        setForgotPasswordError("Debes informar el nombre completo");
+        return;
+      }
+
+      if (!/^\d{8}[A-Z]$/.test(dni)) {
+        setForgotPasswordError("El DNI debe tener formato 12345678A");
+        return;
+      }
+
+      setForgotPasswordLoading(true);
+
+      try {
+        await api.post("/auth/password-reset/reset-default", {
+          email: forgotPasswordEmail,
+          nombreCompleto,
+          dni,
+        });
+
+        setForgotPasswordNombreCompleto(nombreCompleto);
+        setForgotPasswordDni(dni);
+        setForgotPasswordStep(3);
+      } catch (error) {
+        setForgotPasswordError(
+          error.response?.data?.message ||
+            "No se pudo restablecer la contraseña",
+        );
+      } finally {
+        setForgotPasswordLoading(false);
+      }
+    }
+  };
 
   return (
     <Box className="login-page">
@@ -385,7 +498,7 @@ export default function Login() {
                       fontWeight: 600,
                       textAlign: "right",
                     }}
-                    onClick={() => setOpenForgotPassword(true)}
+                    onClick={handleOpenForgotPassword}
                   >
                     ¿Olvidaste tu contraseña?
                   </Typography>
@@ -572,7 +685,7 @@ export default function Login() {
 
       <Dialog
         open={openForgotPassword}
-        onClose={() => setOpenForgotPassword(false)}
+        onClose={handleCloseForgotPassword}
         fullWidth
         maxWidth="sm"
       >
@@ -594,8 +707,9 @@ export default function Login() {
                 width: 32,
                 height: 32,
                 borderRadius: "50%",
-                backgroundColor: "#2563eb",
-                color: "#fff",
+                backgroundColor:
+                  forgotPasswordStep >= 1 ? "#2563eb" : "#e2e8f0",
+                color: forgotPasswordStep >= 1 ? "#fff" : "#64748b",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -618,8 +732,9 @@ export default function Login() {
                 width: 32,
                 height: 32,
                 borderRadius: "50%",
-                backgroundColor: "#e2e8f0",
-                color: "#64748b",
+                backgroundColor:
+                  forgotPasswordStep >= 2 ? "#2563eb" : "#e2e8f0",
+                color: forgotPasswordStep >= 2 ? "#fff" : "#64748b",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -642,8 +757,9 @@ export default function Login() {
                 width: 32,
                 height: 32,
                 borderRadius: "50%",
-                backgroundColor: "#e2e8f0",
-                color: "#64748b",
+                backgroundColor:
+                  forgotPasswordStep >= 3 ? "#2563eb" : "#e2e8f0",
+                color: forgotPasswordStep >= 3 ? "#fff" : "#64748b",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -654,25 +770,89 @@ export default function Login() {
             </Box>
           </Box>
 
-          <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-            No te preocupes. Si has olvidado tu contraseña, podremos ayudarte a
-            recuperarla. Introduce el correo electrónico asociado a tu cuenta y
-            te enviaremos instrucciones para restablecer tu contraseña de forma
-            segura.
-          </Typography>
+          {forgotPasswordError && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {forgotPasswordError}
+            </Alert>
+          )}
 
-          <TextField
-            label="Correo electrónico"
-            fullWidth
-            value={forgotPasswordEmail}
-            onChange={(e) => setForgotPasswordEmail(e.target.value)}
-          />
+          {forgotPasswordStep === 1 && (
+            <>
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+                Introduce el correo electrónico asociado a tu cuenta para
+                validar que existe en la plataforma.
+              </Typography>
+
+              <TextField
+                label="Correo electrónico"
+                fullWidth
+                value={forgotPasswordEmail}
+                onChange={(e) => setForgotPasswordEmail(e.target.value)}
+              />
+            </>
+          )}
+
+          {forgotPasswordStep === 2 && (
+            <>
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+                Para confirmar tu identidad, indica tu nombre completo y tu DNI.
+              </Typography>
+
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                <TextField
+                  label="Nombre completo"
+                  fullWidth
+                  value={forgotPasswordNombreCompleto}
+                  onChange={(e) =>
+                    setForgotPasswordNombreCompleto(e.target.value)
+                  }
+                />
+
+                <TextField
+                  label="DNI"
+                  fullWidth
+                  value={forgotPasswordDni}
+                  onChange={(e) =>
+                    setForgotPasswordDni(
+                      normalizarDniFormulario(e.target.value),
+                    )
+                  }
+                  inputProps={{
+                    maxLength: 9,
+                  }}
+                />
+              </Box>
+            </>
+          )}
+
+          {forgotPasswordStep === 3 && (
+            <Alert severity="success" sx={{ mt: 1 }}>
+              Tu contraseña se ha restablecido a <strong>Password123</strong>.
+              Revisa tu correo para ver el aviso. Cuando inicies sesión con esa
+              contraseña, el sistema te llevará a la pantalla de cambio de
+              contraseña obligatoria.
+            </Alert>
+          )}
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={() => setOpenForgotPassword(false)}>Cancelar</Button>
+          <Button onClick={handleCloseForgotPassword}>
+            {forgotPasswordStep === 3 ? "Cerrar" : "Cancelar"}
+          </Button>
 
-          <Button variant="contained">Continuar</Button>
+          {forgotPasswordStep < 3 && (
+            <Button
+              variant="contained"
+              onClick={handleForgotPasswordContinue}
+              disabled={forgotPasswordLoading}
+            >
+              {forgotPasswordLoading ? (
+                <CircularProgress size={20} color="inherit" />
+              ) : (
+                "Continuar"
+              )}
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
     </Box>

@@ -59,6 +59,22 @@ export class MatriculasService {
       (factura) => String(factura?.estado || "").toUpperCase() === "PAGADA",
     );
 
+    if (actorRole === "ALUMNO") {
+      await this.notificacionesRepository.create({
+        usuarioId: actorId,
+        tipo: "FACTURA_GENERADA",
+        titulo: "Factura generada",
+        mensaje: `Factura ${facturaMatricula?.numero || "de matrícula"} disponible en Mis Facturas`,
+        metadata: {
+          matriculaId: matricula.id,
+          alumnoId: matricula.alumnoId,
+          facturaId: facturaMatricula?.id || null,
+          numeroFactura: facturaMatricula?.numero || null,
+          route: "/facturas",
+        },
+      });
+    }
+
     await this.notificacionesRepository.createForRole("ADMIN", {
       tipo: "MATRICULA_PAGADA",
       titulo: "Matrícula pagada",

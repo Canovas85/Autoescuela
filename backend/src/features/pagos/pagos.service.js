@@ -87,18 +87,21 @@ export class PagosService {
     }
 
     const paid = await this.repository.pay(pagoId);
+    const isTasaDgt21 = String(paid.tipo || "").toUpperCase() === "TASA_DGT_21";
 
     if (typeof this.repository.createNotification === "function") {
-      await this.repository.createNotification({
-        usuarioId: alumnoId,
-        tipo: "PAGO_REALIZADO",
-        titulo: "Pago realizado correctamente",
-        mensaje: `Se ha registrado el pago: ${paid.concepto}`,
-        metadata: {
-          pagoId: paid.id,
-          numeroFactura: paid.numeroFacturaPago,
-        },
-      });
+      if (!isTasaDgt21) {
+        await this.repository.createNotification({
+          usuarioId: alumnoId,
+          tipo: "PAGO_REALIZADO",
+          titulo: "Pago realizado correctamente",
+          mensaje: `Se ha registrado el pago: ${paid.concepto}`,
+          metadata: {
+            pagoId: paid.id,
+            numeroFactura: paid.numeroFacturaPago,
+          },
+        });
+      }
 
       await this.repository.createNotification({
         usuarioId: alumnoId,
@@ -110,6 +113,20 @@ export class PagosService {
           numeroFactura: paid.numeroFacturaPago,
         },
       });
+
+      if (isTasaDgt21) {
+        await this.repository.createNotification({
+          usuarioId: alumnoId,
+          tipo: "CERTIFICADO_PSICOTECNICO_REQUERIDO",
+          titulo: "Sube tu psicotécnico",
+          mensaje:
+            "Debes subir la documentación del psicotécnico para poder solicitar fecha de examen teórico.",
+          metadata: {
+            pagoId: paid.id,
+            route: "/mis-documentos",
+          },
+        });
+      }
     }
 
     if (

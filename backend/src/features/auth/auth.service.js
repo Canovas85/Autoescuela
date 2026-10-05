@@ -1,10 +1,28 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+const DEFAULT_PASSWORD_RECOVERY = "Password123";
+
+const normalizarNombre = (value) =>
+  String(value || "")
+    .trim()
+    .replace(/\s+/g, " ")
+    .toUpperCase();
+
+const normalizarDni = (value) =>
+  String(value || "")
+    .trim()
+    .toUpperCase();
+
 export class AuthService {
-  constructor(repository, accountActivationService = null) {
+  constructor(
+    repository,
+    accountActivationService = null,
+    emailService = null,
+  ) {
     this.repository = repository;
     this.accountActivationService = accountActivationService;
+    this.emailService = emailService;
   }
 
   validarPasswordNueva(password) {
@@ -157,5 +175,90 @@ export class AuthService {
       usuarioId: userId,
       createdById: adminUserId,
     });
+  }
+
+  ensureActiveUser(user) {
+    if (user.rol === "ALUMNO" && user.alumno?.activo === false) {
+      throw new Error("Usuario desactivado. Contacte con administración");
+    }
+
+    if (user.rol === "PROFESOR" && user.profesor?.activo === false) {
+      throw new Error("Usuario desactivado. Contacte con administración");
+    }
+  }
+
+  async validatePasswordResetEmail(emailRaw) {
+    const email = String(emailRaw || "").trim();
+
+    if (!email) {
+      throw new Error("Debes informar el correo electrónico");
+    }
+
+    const user = await this.repository.findUserByEmailInsensitive(email);
+
+    if (!user) {
+      throw new Error(
+        "No existe ninguna cuenta asociada al correo electrónico indicado",
+      );
+    }
+
+    this.ensureActiveUser(user);
+
+    return {
+      valid: true,
+      email: user.email,
+    };
+  }
+
+  async resetPasswordToDefault({ email, nombreCompleto, dni }) {
+    const safeEmail = String(email || "").trim();
+    const safeNombre = String(nombreCompleto || "").trim();
+    const safeDni = normalizarDni(dni);
+
+    if (!safeEmail) {
+      throw new Error("Debes informar el correo electrónico");
+    }
+
+    if (!safeNombre) {
+      throw new Error("Debes informar el nombre completo");
+    }
+
+    if (!/^\d{8}[A-Z]$/.test(safeDni)) {
+      throw new Error("El DNI debe tener formato 12345678A");
+    }
+
+    const user = await this.repository.findUserByEmailAndDni(
+      safeEmail,
+      safeDni,
+    );
+
+    if (
+      !user ||
+      normalizarNombre(user.nombre) !== normalizarNombre(safeNombre)
+    ) {
+      throw new Error("Los datos de verificación no son correctos");
+    }
+
+    this.ensureActiveUser(user);
+
+    const passwordHash = await bcrypt.hash(DEFAULT_PASSWORD_RECOVERY, 10);
+
+    await this.repository.updatePasswordAndRequireFirstLogin(
+      user.id,
+      passwordHash,
+    );
+
+    if (this.emailService?.sendPasswordResetDefaultEmail) {
+      await this.emailService.sendPasswordResetDefaultEmail({
+        to: user.email,
+        nombre: user.nombre,
+        passwordDefault: DEFAULT_PASSWORD_RECOVERY,
+      });
+    }
+
+    return {
+      message:
+        "Contraseña restablecida correctamente. Se ha enviado un correo con las instrucciones de acceso.",
+    };
   }
 }

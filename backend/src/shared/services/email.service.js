@@ -30,6 +30,21 @@ export class EmailService {
     await this.sendEmail({ to, subject, html });
   }
 
+  async sendPasswordResetDefaultEmail({ to, nombre, passwordDefault }) {
+    const subject = "Contraseña restablecida - Autoescuela";
+
+    const html = `
+      <div style="font-family: Arial, sans-serif; line-height:1.6; color:#1f2937;">
+        <h2 style="margin-bottom:8px;">Hola ${nombre || ""}</h2>
+        <p>Tu contraseña ha sido restablecida correctamente.</p>
+        <p>Tu nueva contraseña temporal es: <strong>${passwordDefault}</strong></p>
+        <p>Inicia sesión con esa contraseña. Por seguridad, el sistema te pedirá cambiarla en el primer acceso.</p>
+      </div>
+    `;
+
+    await this.sendEmail({ to, subject, html });
+  }
+
   async sendEmail({ to, subject, html, attachments = [] }) {
     if (this.provider === "resend") {
       await this.sendWithResend({ to, subject, html, attachments });

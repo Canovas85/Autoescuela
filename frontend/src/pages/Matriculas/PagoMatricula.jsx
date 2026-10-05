@@ -59,6 +59,27 @@ export default function PagoMatricula() {
 
   const esPagoPendiente = Boolean(pagoId);
 
+  const esCaducidadValida = (value) => {
+    if (!/^\d{2}\/\d{2}$/.test(value)) {
+      return false;
+    }
+
+    const [mesRaw, yearRaw] = value.split("/");
+    const mes = Number(mesRaw);
+    const year = Number(yearRaw);
+    const yearActual2Digitos = new Date().getFullYear() % 100;
+
+    if (!Number.isInteger(mes) || mes < 1 || mes > 12) {
+      return false;
+    }
+
+    if (!Number.isInteger(year) || year < yearActual2Digitos) {
+      return false;
+    }
+
+    return true;
+  };
+
   const validarFormulario = () => {
     const nuevosErrores = {};
 
@@ -72,6 +93,11 @@ export default function PagoMatricula() {
 
     if (!/^\d{2}\/\d{2}$/.test(caducidad)) {
       nuevosErrores.caducidad = "Formato MM/AA";
+    } else if (!esCaducidadValida(caducidad)) {
+      const yearActual2Digitos = String(
+        new Date().getFullYear() % 100,
+      ).padStart(2, "0");
+      nuevosErrores.caducidad = `Fecha de Caducidad inválida`;
     }
 
     if (!/^\d{3}$/.test(cvv)) {
@@ -169,7 +195,7 @@ export default function PagoMatricula() {
 
       setNotification({
         open: true,
-        message: "Pago realizado correctamente",
+        message: "Factura generada",
         severity: "success",
       });
 

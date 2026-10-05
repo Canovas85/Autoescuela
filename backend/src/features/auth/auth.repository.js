@@ -23,6 +23,64 @@ export class AuthRepository {
     });
   }
 
+  async findUserByEmailInsensitive(email) {
+    return this.prisma.usuario.findFirst({
+      where: {
+        email: {
+          equals: email,
+          mode: "insensitive",
+        },
+      },
+      select: {
+        id: true,
+        nombre: true,
+        email: true,
+        rol: true,
+        alumno: {
+          select: {
+            activo: true,
+          },
+        },
+        profesor: {
+          select: {
+            activo: true,
+          },
+        },
+      },
+    });
+  }
+
+  async findUserByEmailAndDni(email, dni) {
+    return this.prisma.usuario.findFirst({
+      where: {
+        email: {
+          equals: email,
+          mode: "insensitive",
+        },
+        dni: {
+          equals: dni,
+          mode: "insensitive",
+        },
+      },
+      select: {
+        id: true,
+        nombre: true,
+        email: true,
+        rol: true,
+        alumno: {
+          select: {
+            activo: true,
+          },
+        },
+        profesor: {
+          select: {
+            activo: true,
+          },
+        },
+      },
+    });
+  }
+
   async findUserById(id) {
     return this.prisma.usuario.findUnique({
       where: {
@@ -59,6 +117,18 @@ export class AuthRepository {
       data: {
         passwordHash,
         requiereCambioPassword: false,
+      },
+    });
+  }
+
+  async updatePasswordAndRequireFirstLogin(id, passwordHash) {
+    return this.prisma.usuario.update({
+      where: {
+        id,
+      },
+      data: {
+        passwordHash,
+        requiereCambioPassword: true,
       },
     });
   }

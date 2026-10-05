@@ -103,4 +103,35 @@ export class AuthController {
       });
     }
   }
+
+  async validatePasswordResetEmail(req, res) {
+    try {
+      const { email } = req.body;
+      const result = await this.service.validatePasswordResetEmail(email);
+
+      return res.status(200).json(result);
+    } catch (error) {
+      return res.status(error.statusCode || 400).json({
+        message: error.message,
+      });
+    }
+  }
+
+  async resetPasswordToDefault(req, res) {
+    try {
+      const { email, nombreCompleto, dni } = req.body;
+
+      const result = await this.service.resetPasswordToDefault({
+        email,
+        nombreCompleto,
+        dni,
+      });
+
+      return res.status(200).json(result);
+    } catch (error) {
+      return res.status(error.statusCode || 400).json({
+        message: error.message,
+      });
+    }
+  }
 }
