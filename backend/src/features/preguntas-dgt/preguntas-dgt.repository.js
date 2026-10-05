@@ -3,6 +3,21 @@ export class PreguntasDGTRepository {
     this.prisma = prisma;
   }
 
+  async getAllIdsByPrefix(prefix) {
+    const rows = await this.prisma.preguntaDGT.findMany({
+      where: {
+        id: {
+          startsWith: prefix,
+        },
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    return rows.map((row) => row.id);
+  }
+
   async create(data) {
     return this.prisma.preguntaDGT.create({
       data,

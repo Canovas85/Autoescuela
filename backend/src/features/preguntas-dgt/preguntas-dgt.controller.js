@@ -15,6 +15,18 @@ export class PreguntasDGTController {
     }
   }
 
+  async getNextId(req, res) {
+    try {
+      const id = await this.service.getNextPublicId();
+
+      return res.status(200).json({ id });
+    } catch (error) {
+      return res.status(400).json({
+        message: error.message,
+      });
+    }
+  }
+
   async getAll(req, res) {
     const preguntas = await this.service.getAll(req.query || {});
 

@@ -21,6 +21,11 @@ const buildFormData = (pregunta, imagenFile = null, eliminarImagen = false) => {
 };
 
 export const preguntasDGTService = {
+  async getNextId() {
+    const response = await api.get("/preguntas-dgt/next-id");
+    return response.data;
+  },
+
   async getAll(params = {}) {
     const response = await api.get("/preguntas-dgt", { params });
     return response.data;

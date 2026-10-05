@@ -38,6 +38,13 @@ router.get(
 );
 
 router.get(
+  "/next-id",
+  authenticate,
+  authorize("ADMIN"),
+  controller.getNextId.bind(controller),
+);
+
+router.get(
   "/:id",
   authenticate,
   authorize("ADMIN"),

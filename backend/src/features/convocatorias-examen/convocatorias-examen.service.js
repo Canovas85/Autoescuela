@@ -1,4 +1,13 @@
 const TIPOS_EXAMEN_VALIDOS = ["TEORICO", "PRACTICO"];
+const ESTADOS_SOLICITUD_VALIDOS = [
+  "PENDIENTE",
+  "SOLICITADO",
+  "PROGRAMADO",
+  "APTO",
+  "NO_APTO",
+  "NO_PRESENTADO",
+  "CANCELADO",
+];
 
 const normalizarLicencia = (valor) =>
   String(valor || "")
@@ -6,6 +15,11 @@ const normalizarLicencia = (valor) =>
     .toUpperCase() || "B";
 
 const normalizarTipoExamen = (valor) =>
+  String(valor || "")
+    .trim()
+    .toUpperCase();
+
+const normalizarEstadoAlumno = (valor) =>
   String(valor || "")
     .trim()
     .toUpperCase();
@@ -150,6 +164,16 @@ export class ConvocatoriasExamenService {
       }
     }
 
+    if (filters.estadoAlumno) {
+      const estadoAlumno = normalizarEstadoAlumno(filters.estadoAlumno);
+
+      if (!ESTADOS_SOLICITUD_VALIDOS.includes(estadoAlumno)) {
+        throw new Error("El estado de alumno para filtrado no es válido");
+      }
+
+      parsed.estadoAlumno = estadoAlumno;
+    }
+
     return this.repository.findAll(parsed);
   }
 
@@ -281,10 +305,26 @@ export class ConvocatoriasExamenService {
       ? normalizarLicencia(filters.licencia)
       : undefined;
 
+    const activo =
+      filters.activo !== undefined
+        ? String(filters.activo).toLowerCase() === "true"
+        : undefined;
+
+    let estadoAlumno;
+    if (filters.estadoAlumno) {
+      estadoAlumno = normalizarEstadoAlumno(filters.estadoAlumno);
+
+      if (!ESTADOS_SOLICITUD_VALIDOS.includes(estadoAlumno)) {
+        throw new Error("El estado de alumno para filtrado no es válido");
+      }
+    }
+
     const convocatorias = await this.repository.findAgendaWithConfirmedStudents(
       {
         tipoExamen,
         licencia,
+        activo,
+        estadoAlumno,
         monthStart,
         monthEnd,
       },

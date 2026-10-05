@@ -4,6 +4,7 @@ import path from "path";
 import { PREGUNTAS_DGT_UPLOAD_DIR } from "./preguntas-dgt.upload.js";
 
 const LICENCIAS_VALIDAS = ["B", "A1", "A2", "A", "C", "D", "E"];
+const PREGUNTA_DGT_ID_PREFIX = "pregunta-dgt-b-";
 
 const normalizarTexto = (valor) =>
   typeof valor === "string" ? valor.trim() : "";
@@ -183,22 +184,59 @@ export class PreguntasDGTService {
     };
   }
 
+  async getNextPublicId() {
+    const ids = await this.repository.getAllIdsByPrefix(PREGUNTA_DGT_ID_PREFIX);
+
+    const maxNumero = ids.reduce((max, id) => {
+      const match = new RegExp(`^${PREGUNTA_DGT_ID_PREFIX}(\\d+)$`).exec(id);
+
+      if (!match) {
+        return max;
+      }
+
+      const numero = Number(match[1]);
+      return Number.isInteger(numero) && numero > max ? numero : max;
+    }, 0);
+
+    const siguiente = maxNumero + 1;
+    const sufijo = String(siguiente).padStart(3, "0");
+
+    return `${PREGUNTA_DGT_ID_PREFIX}${sufijo}`;
+  }
+
   async create(data, imagenFile) {
     const payload = this.validarPayload(data);
     payload.imagenRuta = imagenFile
       ? `/api/uploads/preguntas-dgt/${imagenFile.filename}`
       : null;
 
-    return this.repository.create({
-      licencia: payload.licencia,
-      enunciado: payload.enunciado,
-      imagenRuta: payload.imagenRuta,
-      explicacion: payload.explicacion,
-      activa: payload.activa,
-      respuestas: {
-        create: payload.respuestas,
-      },
-    });
+    let ultimoError = null;
+
+    for (let intento = 0; intento < 3; intento += 1) {
+      const nextId = await this.getNextPublicId();
+
+      try {
+        return await this.repository.create({
+          id: nextId,
+          licencia: payload.licencia,
+          enunciado: payload.enunciado,
+          imagenRuta: payload.imagenRuta,
+          explicacion: payload.explicacion,
+          activa: payload.activa,
+          respuestas: {
+            create: payload.respuestas,
+          },
+        });
+      } catch (error) {
+        ultimoError = error;
+
+        if (error?.code !== "P2002") {
+          throw error;
+        }
+      }
+    }
+
+    throw ultimoError || new Error("No se pudo generar el identificador");
   }
 
   async getAll(filters = {}) {

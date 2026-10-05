@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
   Alert,
@@ -31,17 +31,27 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import UndoIcon from "@mui/icons-material/Undo";
 import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
+import * as XLSX from "xlsx";
 
 import { preguntasDGTService } from "../../services/preguntasDGTService";
 import { LicenseChipList } from "../../components/common/LicenseChip";
+import { exportPreguntasDGTTemplateExcel } from "../../utils/exportPreguntasDGTTemplateExcel";
 
 const LICENCIAS = ["B", "A1", "A2", "A", "C", "D", "E"];
 const TAMANO_MAXIMO_IMAGEN = 5 * 1024 * 1024;
 const TIPOS_IMAGEN_PERMITIDOS = ["image/png", "image/jpeg", "image/webp"];
+const IMPORT_REQUIRED_COLUMNS = [
+  "LICENCIAS",
+  "ENUNCIADO",
+  "RESPUESTA_1",
+  "RESPUESTA_2",
+  "RESPUESTA_3",
+  "RESPUESTA_CORRECTA",
+];
 
-const createEmptyForm = () => ({
+const createEmptyForm = (defaultEnunciado = "") => ({
   licencia: ["B"],
-  enunciado: "",
+  enunciado: defaultEnunciado,
   explicacion: "",
   activa: true,
   imagenRuta: "",
@@ -67,9 +77,12 @@ export default function TestDGTAdmin() {
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(createEmptyForm());
+  const [nextPreguntaId, setNextPreguntaId] = useState("");
+  const [importingExcel, setImportingExcel] = useState(false);
   const [imagenFile, setImagenFile] = useState(null);
   const [previewImage, setPreviewImage] = useState("");
   const [eliminarImagenActual, setEliminarImagenActual] = useState(false);
+  const importInputRef = useRef(null);
 
   const [notification, setNotification] = useState({
     open: false,
@@ -101,14 +114,24 @@ export default function TestDGTAdmin() {
     }
   };
 
+  const loadNextId = async () => {
+    try {
+      const data = await preguntasDGTService.getNextId();
+      setNextPreguntaId(data?.id || "");
+    } catch {
+      setNextPreguntaId("");
+    }
+  };
+
   useEffect(() => {
     loadPreguntas();
+    loadNextId();
   }, [licenciaFiltro]);
 
   const filteredRows = useMemo(() => rows, [rows]);
 
-  const resetForm = () => {
-    setForm(createEmptyForm());
+  const resetForm = (defaultEnunciado = "") => {
+    setForm(createEmptyForm(defaultEnunciado));
     setImagenFile(null);
     setPreviewImage("");
     setEliminarImagenActual(false);
@@ -116,7 +139,8 @@ export default function TestDGTAdmin() {
   };
 
   const handleOpenCreate = () => {
-    resetForm();
+    const suggestedPrefix = nextPreguntaId ? `${nextPreguntaId} ` : "";
+    resetForm(suggestedPrefix);
     setOpen(true);
   };
 
@@ -360,6 +384,7 @@ export default function TestDGTAdmin() {
       }
 
       await loadPreguntas();
+      await loadNextId();
       setOpen(false);
       resetForm();
       setNotification({
@@ -377,6 +402,190 @@ export default function TestDGTAdmin() {
           error.response?.data?.message || "No se pudo guardar la pregunta",
         severity: "error",
       });
+    }
+  };
+
+  const parseLicencias = (value, rowIndex) => {
+    const licencias = String(value || "")
+      .split(",")
+      .map((item) => item.trim().toUpperCase())
+      .filter(Boolean);
+
+    if (licencias.length === 0) {
+      throw new Error(
+        `Fila ${rowIndex}: Debes informar al menos una licencia en la columna LICENCIAS.`,
+      );
+    }
+
+    const invalidas = licencias.filter((item) => !LICENCIAS.includes(item));
+
+    if (invalidas.length > 0) {
+      throw new Error(
+        `Fila ${rowIndex}: Licencias no válidas: ${invalidas.join(", ")}.`,
+      );
+    }
+
+    return [...new Set(licencias)];
+  };
+
+  const parseCorrectaIndex = (row, respuestas, rowIndex) => {
+    const correctaRaw = String(row.RESPUESTA_CORRECTA || "").trim();
+
+    if (!correctaRaw) {
+      throw new Error(
+        `Fila ${rowIndex}: Debes informar RESPUESTA_CORRECTA con 1-4 o texto de respuesta.`,
+      );
+    }
+
+    const maybeNumber = Number(correctaRaw);
+
+    if (Number.isInteger(maybeNumber)) {
+      const idx = maybeNumber - 1;
+
+      if (idx < 0 || idx >= respuestas.length) {
+        throw new Error(
+          `Fila ${rowIndex}: RESPUESTA_CORRECTA fuera de rango para las respuestas informadas.`,
+        );
+      }
+
+      return idx;
+    }
+
+    const idxByText = respuestas.findIndex(
+      (respuesta) =>
+        respuesta.texto.toLowerCase() === correctaRaw.toLowerCase(),
+    );
+
+    if (idxByText < 0) {
+      throw new Error(
+        `Fila ${rowIndex}: RESPUESTA_CORRECTA no coincide con ninguna respuesta.`,
+      );
+    }
+
+    return idxByText;
+  };
+
+  const handleImportExcel = async (event) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    try {
+      setImportingExcel(true);
+
+      const arrayBuffer = await file.arrayBuffer();
+      const workbook = XLSX.read(arrayBuffer, { type: "array" });
+      const sheetName = workbook.SheetNames[0];
+
+      if (!sheetName) {
+        throw new Error("El archivo no contiene hojas para importar.");
+      }
+
+      const worksheet = workbook.Sheets[sheetName];
+      const rowsExcel = XLSX.utils.sheet_to_json(worksheet, {
+        defval: "",
+      });
+
+      if (!rowsExcel.length) {
+        throw new Error("El Excel está vacío.");
+      }
+
+      const firstRow = rowsExcel[0] || {};
+      const missingColumns = IMPORT_REQUIRED_COLUMNS.filter(
+        (column) => !(column in firstRow),
+      );
+
+      if (missingColumns.length > 0) {
+        throw new Error(
+          `Faltan columnas obligatorias: ${missingColumns.join(", ")}.`,
+        );
+      }
+
+      const errores = [];
+      let creadas = 0;
+
+      for (let idx = 0; idx < rowsExcel.length; idx += 1) {
+        const row = rowsExcel[idx];
+        const rowIndex = idx + 2;
+
+        try {
+          const licencias = parseLicencias(row.LICENCIAS, rowIndex);
+          const enunciado = String(row.ENUNCIADO || "").trim();
+          const explicacion = String(row.EXPLICACION || "").trim();
+
+          if (!enunciado) {
+            throw new Error(
+              `Fila ${rowIndex}: Debes informar el enunciado de la pregunta.`,
+            );
+          }
+
+          const respuestasText = [
+            String(row.RESPUESTA_1 || "").trim(),
+            String(row.RESPUESTA_2 || "").trim(),
+            String(row.RESPUESTA_3 || "").trim(),
+            String(row.RESPUESTA_4 || "").trim(),
+          ].filter(Boolean);
+
+          if (respuestasText.length < 3 || respuestasText.length > 4) {
+            throw new Error(
+              `Fila ${rowIndex}: Debes informar entre 3 y 4 respuestas.`,
+            );
+          }
+
+          const respuestas = respuestasText.map((texto, respIndex) => ({
+            texto,
+            correcta: false,
+            orden: respIndex + 1,
+          }));
+
+          const idxCorrecta = parseCorrectaIndex(row, respuestas, rowIndex);
+          respuestas[idxCorrecta].correcta = true;
+
+          await preguntasDGTService.create({
+            licencia: licencias,
+            enunciado,
+            explicacion,
+            activa: true,
+            respuestas,
+          });
+
+          creadas += 1;
+        } catch (error) {
+          errores.push(error.message);
+        }
+      }
+
+      await loadPreguntas();
+      await loadNextId();
+
+      if (errores.length > 0) {
+        setNotification({
+          open: true,
+          severity: "warning",
+          message: `Importación parcial: ${creadas} creadas, ${errores.length} con error. Primer error: ${errores[0]}`,
+        });
+      } else {
+        setNotification({
+          open: true,
+          severity: "success",
+          message: `Importación completada: ${creadas} pregunta(s) creada(s).`,
+        });
+      }
+    } catch (error) {
+      setNotification({
+        open: true,
+        severity: "error",
+        message:
+          error?.message || "No se pudo importar el Excel de preguntas DGT.",
+      });
+    } finally {
+      setImportingExcel(false);
+
+      if (event.target) {
+        event.target.value = "";
+      }
     }
   };
 
@@ -420,6 +629,11 @@ export default function TestDGTAdmin() {
   };
 
   const columns = [
+    {
+      field: "id",
+      headerName: "ID",
+      flex: 0.9,
+    },
     {
       field: "enunciado",
       headerName: "Enunciado",
@@ -543,7 +757,7 @@ export default function TestDGTAdmin() {
           </Typography>
         </Box>
 
-        <Stack direction="row" spacing={1.5}>
+        <Stack direction="row" spacing={1.5} useFlexGap flexWrap="wrap">
           <FormControl size="small" sx={{ minWidth: 220 }}>
             <Select
               value={licenciaFiltro}
@@ -557,6 +771,25 @@ export default function TestDGTAdmin() {
               ))}
             </Select>
           </FormControl>
+
+          <Button variant="outlined" onClick={exportPreguntasDGTTemplateExcel}>
+            Descargar plantilla Excel
+          </Button>
+
+          <Button
+            variant="outlined"
+            component="label"
+            disabled={importingExcel}
+          >
+            {importingExcel ? "Importando..." : "Importar Excel"}
+            <input
+              ref={importInputRef}
+              hidden
+              type="file"
+              accept=".xlsx,.xls"
+              onChange={handleImportExcel}
+            />
+          </Button>
 
           <Button
             variant="contained"
@@ -614,6 +847,12 @@ export default function TestDGTAdmin() {
               ))}
             </Select>
           </FormControl>
+
+          {!editingId && nextPreguntaId ? (
+            <Alert severity="info">
+              ID asignado en el alta: <strong>{nextPreguntaId}</strong>
+            </Alert>
+          ) : null}
 
           <Stack spacing={1}>
             {previewImage && !eliminarImagenActual ? (

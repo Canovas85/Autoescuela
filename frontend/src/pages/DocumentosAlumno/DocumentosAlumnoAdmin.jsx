@@ -87,7 +87,7 @@ export default function DocumentosAlumnoAdmin() {
         message: "Documento validado correctamente",
         severity: "success",
       });
-      loadDocuments();
+      await loadDocuments(searchAlumno, tipoFiltro, estadoFiltro);
     } catch (error) {
       setNotification({
         open: true,
@@ -106,7 +106,7 @@ export default function DocumentosAlumnoAdmin() {
         message: "Documento rechazado correctamente",
         severity: "warning",
       });
-      loadDocuments();
+      await loadDocuments(searchAlumno, tipoFiltro, estadoFiltro);
     } catch (error) {
       setNotification({
         open: true,
@@ -301,6 +301,7 @@ export default function DocumentosAlumnoAdmin() {
         open={notification.open}
         autoHideDuration={3500}
         onClose={() => setNotification((prev) => ({ ...prev, open: false }))}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <Alert
           severity={notification.severity}

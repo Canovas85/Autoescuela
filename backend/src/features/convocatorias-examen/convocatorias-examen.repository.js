@@ -3,6 +3,13 @@ export class ConvocatoriasExamenRepository {
     this.prisma = prisma;
   }
 
+  buildConvocatoriaKey({ fecha, licencia, tipoExamen }) {
+    const year = fecha.getUTCFullYear();
+    const month = String(fecha.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(fecha.getUTCDate()).padStart(2, "0");
+    return `${tipoExamen}|${licencia}|${year}-${month}-${day}`;
+  }
+
   async create(data) {
     return this.prisma.convocatoriaExamen.create({ data });
   }
@@ -14,10 +21,88 @@ export class ConvocatoriasExamenRepository {
       ...(filters.activo !== undefined ? { activo: filters.activo } : {}),
     };
 
-    return this.prisma.convocatoriaExamen.findMany({
+    const convocatorias = await this.prisma.convocatoriaExamen.findMany({
       where,
       orderBy: [{ fecha: "asc" }, { licencia: "asc" }, { tipoExamen: "asc" }],
     });
+
+    if (!filters.estadoAlumno || convocatorias.length === 0) {
+      return convocatorias;
+    }
+
+    const minRaw = convocatorias[0].fecha;
+    const maxRaw = convocatorias[convocatorias.length - 1].fecha;
+    const minFecha = new Date(
+      Date.UTC(
+        minRaw.getUTCFullYear(),
+        minRaw.getUTCMonth(),
+        minRaw.getUTCDate(),
+        0,
+        0,
+        0,
+        0,
+      ),
+    );
+    const maxFecha = new Date(
+      Date.UTC(
+        maxRaw.getUTCFullYear(),
+        maxRaw.getUTCMonth(),
+        maxRaw.getUTCDate(),
+        23,
+        59,
+        59,
+        999,
+      ),
+    );
+
+    const solicitudes = await this.prisma.solicitudExamen.findMany({
+      where: {
+        estado: filters.estadoAlumno,
+        fechaProgramada: {
+          gte: minFecha,
+          lte: maxFecha,
+        },
+        ...(filters.tipoExamen ? { tipo: filters.tipoExamen } : {}),
+        ...(filters.licencia
+          ? {
+              alumno: {
+                tipoLicenciaObjetivo: filters.licencia,
+              },
+            }
+          : {}),
+      },
+      select: {
+        tipo: true,
+        fechaProgramada: true,
+        alumno: {
+          select: {
+            tipoLicenciaObjetivo: true,
+          },
+        },
+      },
+    });
+
+    const convocatoriaKeysConEstado = new Set(
+      solicitudes
+        .filter((solicitud) => solicitud.fechaProgramada && solicitud.alumno)
+        .map((solicitud) =>
+          this.buildConvocatoriaKey({
+            fecha: solicitud.fechaProgramada,
+            licencia: solicitud.alumno.tipoLicenciaObjetivo,
+            tipoExamen: solicitud.tipo,
+          }),
+        ),
+    );
+
+    return convocatorias.filter((convocatoria) =>
+      convocatoriaKeysConEstado.has(
+        this.buildConvocatoriaKey({
+          fecha: convocatoria.fecha,
+          licencia: convocatoria.licencia,
+          tipoExamen: convocatoria.tipoExamen,
+        }),
+      ),
+    );
   }
 
   async findDuplicate({
@@ -132,11 +217,13 @@ export class ConvocatoriasExamenRepository {
   async findAgendaWithConfirmedStudents({
     tipoExamen,
     licencia,
+    activo,
+    estadoAlumno,
     monthStart,
     monthEnd,
   }) {
     const where = {
-      activo: true,
+      ...(activo !== undefined ? { activo } : {}),
       fecha: {
         gte: monthStart,
         lte: monthEnd,
@@ -158,13 +245,9 @@ export class ConvocatoriasExamenRepository {
         const fin = new Date(convocatoria.fecha);
         fin.setHours(23, 59, 59, 999);
 
-        const estadosConvocatoria = [
-          "SOLICITADO",
-          "PROGRAMADO",
-          "APTO",
-          "NO_APTO",
-          "NO_PRESENTADO",
-        ];
+        const estadosConvocatoria = estadoAlumno
+          ? [estadoAlumno]
+          : ["SOLICITADO", "PROGRAMADO", "APTO", "NO_APTO", "NO_PRESENTADO"];
 
         const solicitudes = await this.prisma.solicitudExamen.findMany({
           where: {

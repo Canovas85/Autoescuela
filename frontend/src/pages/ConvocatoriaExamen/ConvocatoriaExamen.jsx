@@ -104,6 +104,15 @@ const DEFAULT_FORM = {
 };
 
 const LICENCIAS_APP = ["AM", "A1", "A2", "A", "B", "C", "D", "E"];
+const ESTADOS_ALUMNO = [
+  "SOLICITADO",
+  "PROGRAMADO",
+  "APTO",
+  "NO_APTO",
+  "NO_PRESENTADO",
+  "CANCELADO",
+  "PENDIENTE",
+];
 
 export default function ConvocatoriaExamen() {
   const [rows, setRows] = useState([]);
@@ -121,9 +130,10 @@ export default function ConvocatoriaExamen() {
     impact: null,
   });
   const [form, setForm] = useState(DEFAULT_FORM);
-  const [search, setSearch] = useState("");
   const [viewMode, setViewMode] = useState("TABLA");
   const [tipoFilter, setTipoFilter] = useState("ALL");
+  const [activoFilter, setActivoFilter] = useState("ALL");
+  const [estadoAlumnoFilter, setEstadoAlumnoFilter] = useState("ALL");
   const [viewDate, setViewDate] = useState(new Date());
   const [notification, setNotification] = useState({
     open: false,
@@ -133,7 +143,20 @@ export default function ConvocatoriaExamen() {
 
   const loadRows = async () => {
     try {
-      const params = tipoFilter === "ALL" ? {} : { tipoExamen: tipoFilter };
+      const params = {};
+
+      if (tipoFilter !== "ALL") {
+        params.tipoExamen = tipoFilter;
+      }
+
+      if (activoFilter !== "ALL") {
+        params.activo = activoFilter;
+      }
+
+      if (estadoAlumnoFilter !== "ALL") {
+        params.estadoAlumno = estadoAlumnoFilter;
+      }
+
       const data = await convocatoriasTeoricoService.getAll(params);
       setRows(data || []);
     } catch (error) {
@@ -158,6 +181,14 @@ export default function ConvocatoriaExamen() {
         params.tipoExamen = tipoFilter;
       }
 
+      if (activoFilter !== "ALL") {
+        params.activo = activoFilter;
+      }
+
+      if (estadoAlumnoFilter !== "ALL") {
+        params.estadoAlumno = estadoAlumnoFilter;
+      }
+
       const data = await convocatoriasTeoricoService.getAgenda(params);
       setAgendaRows(data?.convocatorias || []);
     } catch (error) {
@@ -171,13 +202,13 @@ export default function ConvocatoriaExamen() {
 
   useEffect(() => {
     loadRows();
-  }, [tipoFilter]);
+  }, [tipoFilter, activoFilter, estadoAlumnoFilter]);
 
   useEffect(() => {
     if (viewMode === "AGENDA") {
       loadAgenda();
     }
-  }, [viewMode, tipoFilter, viewDate]);
+  }, [viewMode, tipoFilter, activoFilter, estadoAlumnoFilter, viewDate]);
 
   const resetDialog = () => {
     setForm(DEFAULT_FORM);
@@ -332,7 +363,16 @@ export default function ConvocatoriaExamen() {
         year: date.getFullYear(),
         month: date.getMonth() + 1,
         tipoExamen: row?.tipoExamen || undefined,
+        licencia: row?.licencia || undefined,
       };
+
+      if (activoFilter !== "ALL") {
+        params.activo = activoFilter;
+      }
+
+      if (estadoAlumnoFilter !== "ALL") {
+        params.estadoAlumno = estadoAlumnoFilter;
+      }
 
       const data = await convocatoriasTeoricoService.getAgenda(params);
       const convocatoria = (data?.convocatorias || []).find(
@@ -360,22 +400,6 @@ export default function ConvocatoriaExamen() {
     setOpenAgendaExamModal(false);
     setSelectedAgendaExam(null);
   };
-
-  const filteredRows = useMemo(() => {
-    if (!search.trim()) {
-      return rows;
-    }
-
-    const text = search.toLowerCase();
-
-    return rows.filter((row) => {
-      return (
-        formatDate(row.fecha).toLowerCase().includes(text) ||
-        (row.licencia || "").toLowerCase().includes(text) ||
-        (row.tipoExamen || "").toLowerCase().includes(text)
-      );
-    });
-  }, [rows, search]);
 
   const monthGrid = useMemo(() => buildMonthGrid(viewDate), [viewDate]);
 
@@ -436,7 +460,10 @@ export default function ConvocatoriaExamen() {
           <Stack direction="row" spacing={0.5}>
             <Tooltip title="Editar" arrow>
               <IconButton
-                onClick={() => handleEdit(params.row)}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleEdit(params.row);
+                }}
                 size="small"
                 color="primary"
               >
@@ -445,7 +472,10 @@ export default function ConvocatoriaExamen() {
             </Tooltip>
             <Tooltip title="Eliminar" arrow>
               <IconButton
-                onClick={() => handleDeactivate(params.row)}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleDeactivate(params.row);
+                }}
                 size="small"
                 color="error"
                 disabled={!params.row.activo}
@@ -537,11 +567,33 @@ export default function ConvocatoriaExamen() {
           </TextField>
 
           <TextField
+            select
             size="small"
-            label="Buscar"
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-          />
+            label="Estado convocatoria"
+            value={activoFilter}
+            onChange={(event) => setActivoFilter(event.target.value)}
+            sx={{ minWidth: 210 }}
+          >
+            <MenuItem value="ALL">Todas</MenuItem>
+            <MenuItem value="true">Activas</MenuItem>
+            <MenuItem value="false">Inactivas</MenuItem>
+          </TextField>
+
+          <TextField
+            select
+            size="small"
+            label="Estado alumnos"
+            value={estadoAlumnoFilter}
+            onChange={(event) => setEstadoAlumnoFilter(event.target.value)}
+            sx={{ minWidth: 210 }}
+          >
+            <MenuItem value="ALL">Todos</MenuItem>
+            {ESTADOS_ALUMNO.map((estado) => (
+              <MenuItem key={estado} value={estado}>
+                {estado}
+              </MenuItem>
+            ))}
+          </TextField>
 
           <Button
             variant={viewMode === "TABLA" ? "contained" : "outlined"}
@@ -572,7 +624,7 @@ export default function ConvocatoriaExamen() {
       {viewMode === "TABLA" ? (
         <Box sx={{ height: 700 }}>
           <DataGrid
-            rows={filteredRows}
+            rows={rows}
             columns={columns}
             getRowId={(row) => row.id}
             disableRowSelectionOnClick

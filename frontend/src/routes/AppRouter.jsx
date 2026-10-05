@@ -21,6 +21,7 @@ import Examenes from "../pages/Examenes/Examenes";
 import Temarios from "../pages/Temarios/Temarios";
 import TemarioAlumno from "../pages/Temarios/TemarioAlumno";
 import TemarioTemaDetalle from "../pages/Temarios/TemarioTemaDetalle";
+import TemarioClaseDirectoViewer from "../pages/Temarios/TemarioClaseDirectoViewer";
 import Bonos from "../pages/Bonos/Bonos";
 import SolicitudesExamen from "../pages/SolicitudesExamen/SolicitudesExamen";
 import Promociones from "../pages/Promociones/Promociones";
@@ -100,9 +101,17 @@ export default function AppRouter() {
 
               <Route path="/temarios" element={<Temarios />} />
               <Route path="/temarios/:id" element={<TemarioTemaDetalle />} />
+              <Route
+                path="/temarios/:id/clase-directo"
+                element={<TemarioClaseDirectoViewer />}
+              />
 
               <Route path="/temario" element={<TemarioAlumno />} />
               <Route path="/temario/:id" element={<TemarioTemaDetalle />} />
+              <Route
+                path="/temario/:id/clase-directo"
+                element={<TemarioClaseDirectoViewer />}
+              />
               <Route path="/test-dgt" element={<TestDGT />} />
               <Route path="/examen-teorico" element={<ExamenTeoricoAlumno />} />
               <Route

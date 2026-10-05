@@ -175,6 +175,9 @@ export default function TemarioTemaDetalle() {
   const hasDocumentacion = Boolean(temario?.documentacionRuta);
   const hasClaseDirecto = Boolean(temario?.claseDirectoVideoUrl);
   const backPath = isAdmin ? "/temarios" : "/temario";
+  const claseDirectoViewerPath = isAdmin
+    ? `/temarios/${id}/clase-directo`
+    : `/temario/${id}/clase-directo`;
 
   const toLicenciasArray = (valor) => {
     if (Array.isArray(valor)) {
@@ -368,9 +371,9 @@ export default function TemarioTemaDetalle() {
                       variant="contained"
                       startIcon={<OndemandVideoIcon />}
                       color="warning"
-                      href={temario.claseDirectoVideoUrl}
-                      target="_blank"
-                      rel="noreferrer"
+                      href={claseDirectoViewerPath}
+                      /* target="_blank"  <- Elimina o comenta esta línea */
+                      /* rel="noreferrer" <- También puedes eliminar esta línea, ya que no es necesaria si no usas _blank */
                       sx={{ backgroundColor: "#C00000", color: "#FFFFFF" }}
                     >
                       Clase en Directo
