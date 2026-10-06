@@ -193,11 +193,11 @@ export class ProfesoresService {
     };
   }
 
-  getMonthBounds() {
-    const now = new Date();
+  getMonthBounds(baseDate = new Date()) {
+    const source = new Date(baseDate);
     const monthStart = new Date(
-      now.getFullYear(),
-      now.getMonth(),
+      source.getFullYear(),
+      source.getMonth(),
       1,
       0,
       0,
@@ -205,8 +205,8 @@ export class ProfesoresService {
       0,
     );
     const monthEnd = new Date(
-      now.getFullYear(),
-      now.getMonth() + 1,
+      source.getFullYear(),
+      source.getMonth() + 1,
       0,
       23,
       59,
@@ -272,6 +272,115 @@ export class ProfesoresService {
     };
   }
 
+  normalizeScheduleRows(rows = []) {
+    const grouped = new Map();
+
+    for (let day = 1; day <= 7; day += 1) {
+      grouped.set(day, []);
+    }
+
+    for (const row of rows || []) {
+      const day = Number(row?.diaSemana);
+
+      if (!grouped.has(day)) {
+        continue;
+      }
+
+      grouped.get(day).push({
+        id: row.id,
+        horaInicio: row.horaInicio,
+        horaFin: row.horaFin,
+      });
+    }
+
+    return Array.from(grouped.entries()).map(([diaSemana, bloques]) => ({
+      diaSemana,
+      bloques: (bloques || []).sort((a, b) =>
+        String(a.horaInicio || "").localeCompare(String(b.horaInicio || "")),
+      ),
+    }));
+  }
+
+  buildStatusSummary(agendaClasses = []) {
+    return (agendaClasses || []).reduce((acc, clase) => {
+      const key = String(clase?.estadoAgenda || clase?.estado || "")
+        .trim()
+        .toUpperCase();
+
+      if (!key) {
+        return acc;
+      }
+
+      acc[key] = (acc[key] || 0) + 1;
+      return acc;
+    }, {});
+  }
+
+  async getAdminAgenda(profesorId, options = {}) {
+    const profesor = await this.repository.findById(profesorId);
+
+    if (!profesor) {
+      throw new Error("Profesor no encontrado");
+    }
+
+    const weekOffset = this.parseWeekOffset(options.weekOffset);
+    const { weekStart, weekEnd } = this.getWeekBounds(weekOffset);
+    const { monthStart, monthEnd } = this.getMonthBounds(weekStart);
+
+    const alumnoId = options.alumnoId ? String(options.alumnoId) : undefined;
+
+    const [scheduleRows, weekClassesRaw, monthClassesRaw] = await Promise.all([
+      this.repository.findProfesorWorkSchedule(profesorId),
+      this.repository.findProfesorAgendaClassesBetween(
+        profesorId,
+        weekStart,
+        weekEnd,
+        {
+          alumnoId,
+        },
+      ),
+      this.repository.findProfesorAgendaClassesBetween(
+        profesorId,
+        monthStart,
+        monthEnd,
+        {
+          alumnoId,
+        },
+      ),
+    ]);
+
+    const now = new Date();
+    const clasesSemana = (weekClassesRaw || []).map((clase) =>
+      this.mapAgendaClass(clase, now),
+    );
+    const clasesMes = (monthClassesRaw || []).map((clase) =>
+      this.mapAgendaClass(clase, now),
+    );
+
+    return {
+      profesor: {
+        id: profesor.id,
+        nombre: profesor.usuario?.nombre || "Profesor",
+      },
+      semana: {
+        offset: weekOffset,
+        inicio: weekStart,
+        fin: weekEnd,
+      },
+      mesVisible: {
+        year: monthStart.getFullYear(),
+        month: monthStart.getMonth() + 1,
+        inicio: monthStart,
+        fin: monthEnd,
+        totalClases: clasesMes.length,
+      },
+      horario: this.normalizeScheduleRows(scheduleRows),
+      clasesSemana,
+      resumenSemanaPorEstado: this.buildStatusSummary(clasesSemana),
+      resumenMesPorEstado: this.buildStatusSummary(clasesMes),
+    };
+  }
+
   async getOverview(id, options = {}) {
     const profesor = await this.repository.findById(id);
 
@@ -281,11 +390,12 @@ export class ProfesoresService {
 
     const weekOffset = this.parseWeekOffset(options.weekOffset);
     const { weekStart, weekEnd } = this.getWeekBounds(weekOffset);
-    const { monthStart, monthEnd } = this.getMonthBounds();
+    const { monthStart, monthEnd } = this.getMonthBounds(weekStart);
 
-    const [assignedStudents, monthClasses] = await Promise.all([
+    const [assignedStudents, monthClasses, scheduleRows] = await Promise.all([
       this.repository.findAssignedAlumnosLite(id),
       this.repository.findProfesorClassesBetween(id, monthStart, monthEnd),
+      this.repository.findProfesorWorkSchedule(id),
     ]);
 
     const alumnos = (assignedStudents || []).map((alumno) => ({
@@ -310,11 +420,24 @@ export class ProfesoresService {
     }
 
     const studentWeekClasses = selectedAlumno
-      ? await this.repository.findProfesorStudentClassesBetween(
+      ? await this.repository.findProfesorAgendaClassesBetween(
           id,
-          selectedAlumno.id,
           weekStart,
           weekEnd,
+          {
+            alumnoId: selectedAlumno.id,
+          },
+        )
+      : [];
+
+    const studentMonthClasses = selectedAlumno
+      ? await this.repository.findProfesorAgendaClassesBetween(
+          id,
+          monthStart,
+          monthEnd,
+          {
+            alumnoId: selectedAlumno.id,
+          },
         )
       : [];
 
@@ -328,6 +451,13 @@ export class ProfesoresService {
     const realizadasMes = (monthClasses || []).filter((clase) =>
       this.isClassDone(clase),
     ).length;
+
+    const agendaSemanaClases = (studentWeekClasses || []).map((clase) =>
+      this.mapAgendaClass(clase, now),
+    );
+    const agendaMesClases = (studentMonthClasses || []).map((clase) =>
+      this.mapAgendaClass(clase, now),
+    );
 
     return {
       profesor: {
@@ -346,9 +476,17 @@ export class ProfesoresService {
           inicio: weekStart,
           fin: weekEnd,
         },
-        clases: (studentWeekClasses || []).map((clase) =>
-          this.mapAgendaClass(clase, now),
-        ),
+        horario: this.normalizeScheduleRows(scheduleRows),
+        clases: agendaSemanaClases,
+        resumenSemanaPorEstado: this.buildStatusSummary(agendaSemanaClases),
+        resumenMesPorEstado: this.buildStatusSummary(agendaMesClases),
+        mesVisible: {
+          year: monthStart.getFullYear(),
+          month: monthStart.getMonth() + 1,
+          inicio: monthStart,
+          fin: monthEnd,
+          totalClases: agendaMesClases.length,
+        },
       },
     };
   }

@@ -34,6 +34,15 @@ export class ProfesoresController {
     }
   }
 
+  async getAdminAgenda(req, res) {
+    try {
+      const data = await this.service.getAdminAgenda(req.params.id, req.query);
+      return res.status(200).json(data);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  }
+
   async update(req, res) {
     const profesor = await this.service.update(req.params.id, req.body);
 

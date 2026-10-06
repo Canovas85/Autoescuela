@@ -21,6 +21,9 @@ import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import { LicenseChipList } from "../../components/common/LicenseChip";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import PersonIcon from "@mui/icons-material/Person";
 
 import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
 
@@ -55,22 +58,19 @@ import {
   DialogContentText,
   TextField,
 } from "@mui/material";
-import ReadOnlyWeeklyAgendaBoard from "../../components/agenda/ReadOnlyWeeklyAgendaBoard";
+import {
+  addDaysToDateKey,
+  dateFromKeyAtNoon,
+  extractDateKey,
+  formatDateValue,
+  getWeekDayIdFromValue,
+} from "../../utils/calendarDate";
 
-const limpiarDni = (valor) =>
-  String(valor || "")
+const normalizarDni = (valor) =>
+  valor
+    ?.toString()
     .toUpperCase()
-    .replace(/[^0-9A-Z]/g, "");
-
-const normalizarDniFormulario = (valor) => {
-  const limpio = limpiarDni(valor);
-  const numeros = limpio.replace(/[^0-9]/g, "").slice(0, 8);
-  const letra = limpio.replace(/[0-9]/g, "").slice(0, 1);
-
-  return `${numeros}${letra}`;
-};
-
-const esDniCompleto = (valor) => /^\d{8}[A-Z]$/.test(limpiarDni(valor));
+    .replace(/[^0-9A-Z]/g, "") || "";
 
 const normalizarTelefono = (valor) =>
   String(valor || "")
@@ -78,6 +78,129 @@ const normalizarTelefono = (valor) =>
     .slice(0, 9);
 
 const esTelefonoValido = (valor) => /^\d{9}$/.test(String(valor || ""));
+
+const WEEK_DAYS = [
+  { id: 1, label: "Lunes" },
+  { id: 2, label: "Martes" },
+  { id: 3, label: "Miercoles" },
+  { id: 4, label: "Jueves" },
+  { id: 5, label: "Viernes" },
+  { id: 6, label: "Sabado" },
+  { id: 7, label: "Domingo" },
+];
+
+const STUDENT_PALETTE = [
+  {
+    bg: "#e9f2ff",
+    border: "#9cc6ff",
+    title: "#1e3a8a",
+  },
+  {
+    bg: "#fff3e6",
+    border: "#ffd39f",
+    title: "#92400e",
+  },
+  {
+    bg: "#e8f9f1",
+    border: "#98e4be",
+    title: "#166534",
+  },
+  {
+    bg: "#f1ecff",
+    border: "#c5b2ff",
+    title: "#5b21b6",
+  },
+  {
+    bg: "#e8f7fb",
+    border: "#93dff0",
+    title: "#0f4f66",
+  },
+];
+
+const formatAgendaDate = (value) => {
+  const formatted = formatDateValue(value, {
+    day: "numeric",
+    month: "numeric",
+    year: "numeric",
+  });
+
+  return formatted || "-";
+};
+
+const formatAgendaDay = (value) => {
+  const formatted = formatDateValue(value, {
+    day: "numeric",
+    month: "short",
+  });
+
+  return formatted || "-";
+};
+
+const formatHour = (value) => {
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "--:--";
+  }
+
+  return date.toLocaleTimeString("es-ES", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+};
+
+const formatHourRange = (value, duracion = 45) => {
+  const startDate = new Date(value);
+
+  if (Number.isNaN(startDate.getTime())) {
+    return "--:-- - --:--";
+  }
+
+  const endDate = new Date(startDate);
+  endDate.setMinutes(endDate.getMinutes() + (Number(duracion) || 45));
+
+  return `${formatHour(startDate)} - ${formatHour(endDate)}`;
+};
+
+const getColorByStudent = (studentId, studentName) => {
+  const seed = String(studentId || studentName || "SIN_ALUMNO");
+  let hash = 0;
+
+  for (let i = 0; i < seed.length; i += 1) {
+    hash = (hash << 5) - hash + seed.charCodeAt(i);
+    hash |= 0;
+  }
+
+  const index = Math.abs(hash) % STUDENT_PALETTE.length;
+  return STUDENT_PALETTE[index];
+};
+
+const getAgendaStatusChipConfig = (status) => {
+  const normalized = String(status || "").toUpperCase();
+
+  if (normalized === "REGISTRADA") {
+    return { label: "REGISTRADA", color: "success" };
+  }
+
+  if (normalized === "PENDIENTE_REGISTRO") {
+    return { label: "PENDIENTE REGISTRO", color: "warning" };
+  }
+
+  if (normalized === "EN_CURSO") {
+    return { label: "EN CURSO", color: "info" };
+  }
+
+  if (normalized === "CONFIRMADA") {
+    return { label: "CONFIRMADA", color: "primary" };
+  }
+
+  if (normalized === "PROGRAMADA") {
+    return { label: "PROGRAMADA", color: "default" };
+  }
+
+  return { label: normalized || "SIN ESTADO", color: "default" };
+};
 
 export default function Profesores() {
   const [rows, setRows] = useState([]);
@@ -167,18 +290,6 @@ export default function Profesores() {
 
   const saveProfesor = async () => {
     try {
-      const dniNormalizado = limpiarDni(nuevoProfesor.dni);
-
-      if (!esDniCompleto(dniNormalizado)) {
-        setNotification({
-          open: true,
-          message: "El DNI está incompleto. Formato esperado: 12345678Z",
-          severity: "error",
-        });
-        setFieldTouched((prev) => ({ ...prev, dni: true }));
-        return;
-      }
-
       const telefonoNormalizado = normalizarTelefono(nuevoProfesor.telefono);
 
       if (!esTelefonoValido(telefonoNormalizado)) {
@@ -196,7 +307,7 @@ export default function Profesores() {
         telefono: telefonoNormalizado,
         permisosLicencias: nuevoProfesor.permisosLicencias,
         licenciaConducir: nuevoProfesor.permisosLicencias[0] || "",
-        dni: dniNormalizado,
+        dni: normalizarDni(nuevoProfesor.dni),
       };
 
       if (editingId) {
@@ -232,10 +343,6 @@ export default function Profesores() {
         dni: "",
         telefono: "",
         permisosLicencias: ["B"],
-      });
-
-      setFieldTouched({
-        dni: false,
       });
 
       loadProfesores();
@@ -593,12 +700,6 @@ export default function Profesores() {
     activo: true,
   });
 
-  const [fieldTouched, setFieldTouched] = useState({
-    dni: false,
-  });
-
-  const dniIncompleto = fieldTouched.dni && !esDniCompleto(nuevoProfesor.dni);
-
   const [confirmDialog, setConfirmDialog] = useState({
     open: false,
     action: null,
@@ -629,16 +730,12 @@ export default function Profesores() {
       nombre: row.usuario?.nombre || "",
       email: row.usuario?.email || "",
       password: "",
-      dni: normalizarDniFormulario(row.usuario?.dni || ""),
+      dni: row.usuario?.dni || "",
       telefono: row.usuario?.telefono || "",
       permisosLicencias:
         Array.isArray(row.permisosLicencias) && row.permisosLicencias.length > 0
           ? row.permisosLicencias
           : [row.licenciaConducir || "B"],
-    });
-
-    setFieldTouched({
-      dni: false,
     });
 
     setOpen(true);
@@ -719,6 +816,53 @@ export default function Profesores() {
     });
   };
 
+  const agendaWeekDays = useMemo(() => {
+    const weekStartKey = extractDateKey(
+      overviewData?.agendaAlumno?.semana?.inicio,
+    );
+
+    if (!weekStartKey) {
+      return WEEK_DAYS.map((day) => ({
+        ...day,
+        date: null,
+      }));
+    }
+
+    return WEEK_DAYS.map((day, index) => {
+      const dateKey = addDaysToDateKey(weekStartKey, index);
+      return {
+        ...day,
+        date: dateFromKeyAtNoon(dateKey),
+      };
+    });
+  }, [overviewData?.agendaAlumno?.semana?.inicio]);
+
+  const agendaClassesByDay = useMemo(() => {
+    const map = new Map();
+
+    WEEK_DAYS.forEach((day) => {
+      map.set(day.id, []);
+    });
+
+    const classes = overviewData?.agendaAlumno?.clases || [];
+
+    classes.forEach((clase) => {
+      const dayId = getWeekDayIdFromValue(clase.fecha);
+      const list = map.get(dayId) || [];
+      list.push(clase);
+      map.set(dayId, list);
+    });
+
+    WEEK_DAYS.forEach((day) => {
+      const sorted = (map.get(day.id) || []).sort(
+        (a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime(),
+      );
+      map.set(day.id, sorted);
+    });
+
+    return map;
+  }, [overviewData?.agendaAlumno?.clases]);
+
   const readOnlyFieldSx = {
     "& .MuiInputBase-input": {
       cursor: "default",
@@ -729,22 +873,6 @@ export default function Profesores() {
       backgroundColor: "action.hover",
     },
   };
-
-  const overviewAgendaData = useMemo(() => {
-    if (!overviewData?.agendaAlumno) {
-      return null;
-    }
-
-    return {
-      semana: overviewData.agendaAlumno.semana,
-      horario: overviewData.agendaAlumno.horario || [],
-      clasesSemana: overviewData.agendaAlumno.clases || [],
-      resumenSemanaPorEstado:
-        overviewData.agendaAlumno.resumenSemanaPorEstado || {},
-      resumenMesPorEstado: overviewData.agendaAlumno.resumenMesPorEstado || {},
-      mesVisible: overviewData.agendaAlumno.mesVisible || null,
-    };
-  }, [overviewData]);
 
   return (
     <Box>
@@ -776,10 +904,6 @@ export default function Profesores() {
               dni: "",
               telefono: "",
               permisosLicencias: ["B"],
-            });
-
-            setFieldTouched({
-              dni: false,
             });
 
             setOpen(true);
@@ -931,22 +1055,9 @@ export default function Profesores() {
             onChange={(e) =>
               setNuevoProfesor({
                 ...nuevoProfesor,
-                dni: normalizarDniFormulario(e.target.value),
+                dni: normalizarDni(e.target.value),
               })
             }
-            onBlur={() =>
-              setFieldTouched((prev) => ({
-                ...prev,
-                dni: true,
-              }))
-            }
-            error={dniIncompleto}
-            helperText={
-              dniIncompleto
-                ? "DNI incompleto. Introduce 8 números y 1 letra."
-                : undefined
-            }
-            inputProps={{ maxLength: 9 }}
           />
 
           <TextField
@@ -1010,14 +1121,7 @@ export default function Profesores() {
         open={openDetail}
         onClose={() => setOpenDetail(false)}
         fullWidth
-        maxWidth="lg" // Mantenemos el breakpoint como base
-        sx={{
-          "& .MuiDialog-paper": {
-            maxWidth: "1400px", // <--- Cambia este valor al ancho en píxeles que desees (ej: 1400px, 1600px)
-            width: "100%", // Fuerza a que use el máximo disponible si la pantalla lo permite
-            overflowX: "hidden", // <--- Oculta el scroll horizontal de raíz
-          },
-        }}
+        maxWidth="lg"
       >
         <DialogTitle>
           <Box
@@ -1063,16 +1167,7 @@ export default function Profesores() {
               <CircularProgress />
             </Box>
           ) : (
-            <Box
-              sx={{
-                perspective: "1400px",
-                mt: 1,
-                minHeight: 620,
-                overflow: "hidden",
-              }}
-            >
-              {" "}
-              {/* <--- Añade overflow: "hidden" aquí */}
+            <Box sx={{ perspective: "1400px", mt: 1, minHeight: 620 }}>
               <Box
                 sx={{
                   transition: "transform 700ms ease",
@@ -1115,29 +1210,55 @@ export default function Profesores() {
                             </Typography>
 
                             {overviewData?.alumnos?.length ? (
-                              <TextField
-                                select
-                                fullWidth
-                                size="small"
-                                label="Seleccionar alumno"
-                                value={
-                                  overviewData?.agendaAlumno
-                                    ?.alumnoSeleccionadoId || ""
-                                }
-                                onChange={(event) =>
-                                  loadOverview(selectedProfesor?.id, {
-                                    weekOffset: overviewWeekOffset,
-                                    alumnoId: event.target.value,
-                                  })
-                                }
+                              <Box
+                                sx={{
+                                  display: "grid",
+                                  gridTemplateColumns: {
+                                    xs: "1fr",
+                                    md: "1fr 1fr",
+                                  },
+                                  gap: 1,
+                                }}
                               >
-                                {(overviewData?.alumnos || []).map((alumno) => (
-                                  <MenuItem key={alumno.id} value={alumno.id}>
-                                    {alumno.nombre} | Licencia{" "}
-                                    {alumno.licencia || "-"}
-                                  </MenuItem>
-                                ))}
-                              </TextField>
+                                {(overviewData?.alumnos || []).map((alumno) => {
+                                  const isSelected =
+                                    alumno.id ===
+                                    overviewData?.agendaAlumno
+                                      ?.alumnoSeleccionadoId;
+
+                                  return (
+                                    <Button
+                                      key={alumno.id}
+                                      variant={
+                                        isSelected ? "contained" : "outlined"
+                                      }
+                                      onClick={() =>
+                                        loadOverview(selectedProfesor?.id, {
+                                          weekOffset: overviewWeekOffset,
+                                          alumnoId: alumno.id,
+                                        })
+                                      }
+                                      sx={{
+                                        justifyContent: "space-between",
+                                        textTransform: "none",
+                                        py: 1,
+                                        px: 1.5,
+                                      }}
+                                    >
+                                      <Box sx={{ textAlign: "left" }}>
+                                        <Typography fontWeight={700}>
+                                          {alumno.nombre}
+                                        </Typography>
+                                      </Box>
+                                      <Chip
+                                        size="small"
+                                        label={`Licencia ${alumno.licencia || "-"}`}
+                                        color={isSelected ? "warning" : "info"}
+                                      />
+                                    </Button>
+                                  );
+                                })}
+                              </Box>
                             ) : (
                               <Alert severity="info">
                                 Este profesor no tiene alumnos asignados.
@@ -1145,37 +1266,266 @@ export default function Profesores() {
                             )}
                           </Paper>
 
-                          {!overviewData?.agendaAlumno?.alumnoSeleccionadoId ? (
-                            <Alert severity="info">
-                              Selecciona un alumno para consultar su agenda
-                              semanal.
-                            </Alert>
-                          ) : (
-                            <ReadOnlyWeeklyAgendaBoard
-                              title="Agenda semanal del alumno"
-                              data={overviewAgendaData}
-                              loading={overviewLoading}
-                              error={""}
-                              onPrevWeek={() =>
-                                loadOverview(selectedProfesor?.id, {
-                                  weekOffset: overviewWeekOffset - 1,
-                                  alumnoId:
-                                    overviewData?.agendaAlumno
-                                      ?.alumnoSeleccionadoId,
-                                })
-                              }
-                              onNextWeek={() =>
-                                loadOverview(selectedProfesor?.id, {
-                                  weekOffset: overviewWeekOffset + 1,
-                                  alumnoId:
-                                    overviewData?.agendaAlumno
-                                      ?.alumnoSeleccionadoId,
-                                })
-                              }
-                              showStudentName={false}
-                              emptyMessage="No hay clases del alumno en la semana seleccionada."
-                            />
-                          )}
+                          <Paper variant="outlined" sx={{ p: 2 }}>
+                            <Typography
+                              variant="subtitle1"
+                              fontWeight={700}
+                              sx={{ mb: 1 }}
+                            >
+                              Clases del mes actual
+                            </Typography>
+                            <Box
+                              sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}
+                            >
+                              <Chip
+                                color="warning"
+                                label={`Programadas: ${overviewData?.resumenMes?.programadas ?? 0}`}
+                              />
+                              <Chip
+                                color="success"
+                                label={`Realizadas: ${overviewData?.resumenMes?.realizadas ?? 0}`}
+                              />
+                            </Box>
+                          </Paper>
+
+                          <Paper variant="outlined" sx={{ p: 2 }}>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                gap: 1,
+                                mb: 1.5,
+                                flexWrap: "wrap",
+                              }}
+                            >
+                              <Typography variant="subtitle1" fontWeight={700}>
+                                Agenda semanal del alumno
+                              </Typography>
+
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: 1,
+                                }}
+                              >
+                                <IconButton
+                                  size="small"
+                                  onClick={() =>
+                                    loadOverview(selectedProfesor?.id, {
+                                      weekOffset: overviewWeekOffset - 1,
+                                      alumnoId:
+                                        overviewData?.agendaAlumno
+                                          ?.alumnoSeleccionadoId,
+                                    })
+                                  }
+                                >
+                                  <NavigateBeforeIcon fontSize="small" />
+                                </IconButton>
+
+                                <Typography variant="body2" fontWeight={700}>
+                                  {formatAgendaDate(
+                                    overviewData?.agendaAlumno?.semana?.inicio,
+                                  )}{" "}
+                                  -{" "}
+                                  {formatAgendaDate(
+                                    overviewData?.agendaAlumno?.semana?.fin,
+                                  )}
+                                </Typography>
+
+                                <IconButton
+                                  size="small"
+                                  onClick={() =>
+                                    loadOverview(selectedProfesor?.id, {
+                                      weekOffset: overviewWeekOffset + 1,
+                                      alumnoId:
+                                        overviewData?.agendaAlumno
+                                          ?.alumnoSeleccionadoId,
+                                    })
+                                  }
+                                >
+                                  <NavigateNextIcon fontSize="small" />
+                                </IconButton>
+                              </Box>
+                            </Box>
+
+                            {!overviewData?.agendaAlumno
+                              ?.alumnoSeleccionadoId ? (
+                              <Alert severity="info">
+                                Selecciona un alumno para consultar su agenda
+                                semanal.
+                              </Alert>
+                            ) : (
+                              <Box
+                                sx={{
+                                  display: "grid",
+                                  gridTemplateColumns: {
+                                    xs: "1fr",
+                                    md: "repeat(7, minmax(0, 1fr))",
+                                  },
+                                  gap: 1,
+                                }}
+                              >
+                                {agendaWeekDays.map((day) => {
+                                  const dayClasses =
+                                    agendaClassesByDay.get(day.id) || [];
+
+                                  return (
+                                    <Box
+                                      key={day.id}
+                                      sx={{
+                                        border: "1px solid #e2e8f0",
+                                        borderRadius: 1,
+                                        p: 1,
+                                        minHeight: 180,
+                                        backgroundColor: "#f8fafc",
+                                      }}
+                                    >
+                                      <Typography
+                                        fontWeight={700}
+                                        variant="body2"
+                                      >
+                                        {day.label}
+                                      </Typography>
+                                      <Typography
+                                        variant="caption"
+                                        color="text.secondary"
+                                        sx={{ display: "block", mb: 1 }}
+                                      >
+                                        {formatAgendaDay(day.date)}
+                                      </Typography>
+
+                                      <Stack spacing={0.8}>
+                                        {dayClasses.length ? (
+                                          dayClasses.map((clase) => (
+                                            <Box
+                                              key={clase.id}
+                                              sx={{
+                                                border: "1px solid",
+                                                borderColor: getColorByStudent(
+                                                  clase.alumno?.id,
+                                                  clase.alumno?.nombre,
+                                                ).border,
+                                                borderRadius: 1.5,
+                                                p: 0.9,
+                                                bgcolor: getColorByStudent(
+                                                  clase.alumno?.id,
+                                                  clase.alumno?.nombre,
+                                                ).bg,
+                                              }}
+                                            >
+                                              <Typography
+                                                variant="caption"
+                                                fontWeight={700}
+                                                sx={{
+                                                  color: getColorByStudent(
+                                                    clase.alumno?.id,
+                                                    clase.alumno?.nombre,
+                                                  ).title,
+                                                }}
+                                              >
+                                                {formatHourRange(
+                                                  clase.fecha,
+                                                  clase.duracion,
+                                                )}
+                                              </Typography>
+
+                                              <Stack
+                                                direction="row"
+                                                spacing={0.5}
+                                                alignItems="center"
+                                                sx={{ mt: 0.3 }}
+                                              >
+                                                <PersonIcon
+                                                  sx={{
+                                                    fontSize: 14,
+                                                    color: getColorByStudent(
+                                                      clase.alumno?.id,
+                                                      clase.alumno?.nombre,
+                                                    ).title,
+                                                  }}
+                                                />
+                                                <Typography
+                                                  variant="caption"
+                                                  fontWeight={700}
+                                                  sx={{
+                                                    color: getColorByStudent(
+                                                      clase.alumno?.id,
+                                                      clase.alumno?.nombre,
+                                                    ).title,
+                                                  }}
+                                                >
+                                                  {clase.alumno?.nombre ||
+                                                    "Alumno"}
+                                                </Typography>
+                                              </Stack>
+
+                                              <Typography
+                                                variant="caption"
+                                                color="text.secondary"
+                                                sx={{
+                                                  display: "block",
+                                                  mt: 0.15,
+                                                }}
+                                              >
+                                                {clase.vehiculo?.marca ||
+                                                  "Vehículo"}{" "}
+                                                {clase.vehiculo?.modelo || ""}
+                                              </Typography>
+
+                                              <Chip
+                                                size="small"
+                                                label={
+                                                  clase.vehiculo?.matricula ||
+                                                  "Sin matrícula"
+                                                }
+                                                sx={{
+                                                  mt: 0.45,
+                                                  height: 20,
+                                                  fontSize: 10,
+                                                  bgcolor: "#fff",
+                                                  border: "1px solid #dbe5f2",
+                                                }}
+                                              />
+
+                                              <Chip
+                                                size="small"
+                                                color={
+                                                  getAgendaStatusChipConfig(
+                                                    clase.estadoAgenda ||
+                                                      clase.estado,
+                                                  ).color
+                                                }
+                                                label={
+                                                  getAgendaStatusChipConfig(
+                                                    clase.estadoAgenda ||
+                                                      clase.estado,
+                                                  ).label
+                                                }
+                                                sx={{
+                                                  mt: 0.45,
+                                                  height: 20,
+                                                  fontSize: 10,
+                                                }}
+                                              />
+                                            </Box>
+                                          ))
+                                        ) : (
+                                          <Typography
+                                            variant="caption"
+                                            color="text.secondary"
+                                          >
+                                            Sin clases
+                                          </Typography>
+                                        )}
+                                      </Stack>
+                                    </Box>
+                                  );
+                                })}
+                              </Box>
+                            )}
+                          </Paper>
                         </>
                       )}
                     </Box>

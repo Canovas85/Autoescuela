@@ -16,6 +16,13 @@ export const profesoresService = {
     return response.data;
   },
 
+  getAdminAgenda: async (id, params = {}) => {
+    const response = await api.get(`/profesores/${id}/admin-agenda`, {
+      params,
+    });
+    return response.data;
+  },
+
   create: async (data) => {
     const response = await api.post("/profesores", data);
     return response.data;

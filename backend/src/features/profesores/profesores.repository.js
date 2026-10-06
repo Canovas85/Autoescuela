@@ -279,6 +279,70 @@ export class ProfesoresRepository {
     });
   }
 
+  async findProfesorWorkSchedule(profesorId) {
+    return this.prisma.profesorHorarioBloque.findMany({
+      where: {
+        profesorId,
+      },
+      orderBy: [{ diaSemana: "asc" }, { horaInicio: "asc" }],
+    });
+  }
+
+  async findProfesorAgendaClassesBetween(
+    profesorId,
+    startDate,
+    endDate,
+    options = {},
+  ) {
+    return this.prisma.clasePractica.findMany({
+      where: {
+        profesorId,
+        fecha: {
+          gte: startDate,
+          lte: endDate,
+        },
+        estado: {
+          not: {
+            startsWith: "CANCELADA",
+          },
+        },
+        ...(options.alumnoId
+          ? {
+              alumnoId: options.alumnoId,
+            }
+          : {}),
+      },
+      include: {
+        alumno: {
+          include: {
+            usuario: {
+              select: {
+                nombre: true,
+              },
+            },
+          },
+        },
+        vehiculo: {
+          select: {
+            matricula: true,
+            marca: true,
+            modelo: true,
+            tipoPermiso: true,
+          },
+        },
+        hojaRuta: {
+          select: {
+            id: true,
+            estado: true,
+          },
+        },
+      },
+      orderBy: {
+        fecha: "asc",
+      },
+    });
+  }
+
   async findActiveProfesoresByLicenciaExcluding(licencia, excludeProfesorId) {
     return this.prisma.profesor.findMany({
       where: {

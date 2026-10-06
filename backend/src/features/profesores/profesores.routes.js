@@ -121,6 +121,13 @@ router.get(
 );
 
 router.get(
+  "/:id/admin-agenda",
+  authenticate,
+  authorize("ADMIN"),
+  controller.getAdminAgenda.bind(controller),
+);
+
+router.get(
   "/:id",
   authenticate,
   authorize("ADMIN"),

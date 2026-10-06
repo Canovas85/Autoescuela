@@ -132,6 +132,7 @@ export default function ConvocatoriaExamen() {
   const [form, setForm] = useState(DEFAULT_FORM);
   const [viewMode, setViewMode] = useState("TABLA");
   const [tipoFilter, setTipoFilter] = useState("ALL");
+  const [licenciaFilter, setLicenciaFilter] = useState("ALL");
   const [activoFilter, setActivoFilter] = useState("ALL");
   const [estadoAlumnoFilter, setEstadoAlumnoFilter] = useState("ALL");
   const [viewDate, setViewDate] = useState(new Date());
@@ -147,6 +148,10 @@ export default function ConvocatoriaExamen() {
 
       if (tipoFilter !== "ALL") {
         params.tipoExamen = tipoFilter;
+      }
+
+      if (licenciaFilter !== "ALL") {
+        params.licencia = licenciaFilter;
       }
 
       if (activoFilter !== "ALL") {
@@ -181,6 +186,10 @@ export default function ConvocatoriaExamen() {
         params.tipoExamen = tipoFilter;
       }
 
+      if (licenciaFilter !== "ALL") {
+        params.licencia = licenciaFilter;
+      }
+
       if (activoFilter !== "ALL") {
         params.activo = activoFilter;
       }
@@ -202,13 +211,20 @@ export default function ConvocatoriaExamen() {
 
   useEffect(() => {
     loadRows();
-  }, [tipoFilter, activoFilter, estadoAlumnoFilter]);
+  }, [tipoFilter, licenciaFilter, activoFilter, estadoAlumnoFilter]);
 
   useEffect(() => {
     if (viewMode === "AGENDA") {
       loadAgenda();
     }
-  }, [viewMode, tipoFilter, activoFilter, estadoAlumnoFilter, viewDate]);
+  }, [
+    viewMode,
+    tipoFilter,
+    licenciaFilter,
+    activoFilter,
+    estadoAlumnoFilter,
+    viewDate,
+  ]);
 
   const resetDialog = () => {
     setForm(DEFAULT_FORM);
@@ -564,6 +580,22 @@ export default function ConvocatoriaExamen() {
             <MenuItem value="ALL">Todos</MenuItem>
             <MenuItem value="TEORICO">Teórico</MenuItem>
             <MenuItem value="PRACTICO">Práctico</MenuItem>
+          </TextField>
+
+          <TextField
+            select
+            size="small"
+            label="Licencia"
+            value={licenciaFilter}
+            onChange={(event) => setLicenciaFilter(event.target.value)}
+            sx={{ minWidth: 150 }}
+          >
+            <MenuItem value="ALL">Todas</MenuItem>
+            {LICENCIAS_APP.map((licencia) => (
+              <MenuItem key={licencia} value={licencia}>
+                {licencia}
+              </MenuItem>
+            ))}
           </TextField>
 
           <TextField

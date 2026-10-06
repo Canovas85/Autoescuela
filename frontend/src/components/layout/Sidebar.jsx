@@ -171,6 +171,11 @@ const menus = {
           path: "/hojas-ruta",
           icon: <AssignmentIcon fontSize="small" />,
         },
+        {
+          label: "Agendas",
+          path: "/agendas",
+          icon: <EventNoteIcon fontSize="small" />,
+        },
       ],
     },
 
@@ -204,7 +209,6 @@ const menus = {
           label: "Informes",
           path: "/informes",
           icon: <AssessmentIcon fontSize="small" />,
-          disabled: true,
         },
       ],
     },

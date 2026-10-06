@@ -29,6 +29,7 @@ import convocatoriasExamenRoutes from "./features/convocatorias-examen/convocato
 import notificacionesRoutes from "./features/notificaciones/notificaciones.routes.js";
 import hojasRutaRoutes from "./features/hojas-ruta/hojas-ruta.routes.js";
 import gastosCombustibleRoutes from "./features/gastos-combustible/gastos-combustible.routes.js";
+import informesRoutes from "./features/informes/informes.routes.js";
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -79,6 +80,7 @@ app.use("/api/convocatorias-examen", convocatoriasExamenRoutes);
 app.use("/api/notificaciones", notificacionesRoutes);
 app.use("/api/hojas-ruta", hojasRutaRoutes);
 app.use("/api/gastos-combustible", gastosCombustibleRoutes);
+app.use("/api/informes", informesRoutes);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
