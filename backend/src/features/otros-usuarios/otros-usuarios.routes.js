@@ -56,6 +56,13 @@ router.delete(
   controller.deactivate.bind(controller),
 );
 
+router.delete(
+  "/:id/hard-delete",
+  authenticate,
+  authorize("ADMIN"),
+  controller.hardDelete.bind(controller),
+);
+
 router.patch(
   "/:id/reset-password",
   authenticate,

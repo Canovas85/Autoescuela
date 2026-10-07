@@ -3,12 +3,14 @@ export class OtrosUsuariosRepository {
     this.prisma = prisma;
   }
 
-  buildWhere(filters = {}) {
-    const where = {
-      rol: {
-        in: ["ADMINISTRATIVO", "SOPORTE"],
-      },
-    };
+  buildWhere(filters = {}, allowedRoles = []) {
+    const where = {};
+
+    if (Array.isArray(allowedRoles) && allowedRoles.length > 0) {
+      where.rol = {
+        in: allowedRoles,
+      };
+    }
 
     if (filters.rol) {
       where.rol = filters.rol;
@@ -51,8 +53,10 @@ export class OtrosUsuariosRepository {
   }
 
   async findAll(filters = {}) {
+    const allowedRoles = filters.allowedRoles || [];
+
     return this.prisma.usuario.findMany({
-      where: this.buildWhere(filters),
+      where: this.buildWhere(filters, allowedRoles),
       select: {
         id: true,
         nombre: true,
@@ -70,13 +74,22 @@ export class OtrosUsuariosRepository {
     });
   }
 
-  async findById(id) {
+  async findById(id, allowedRoles = []) {
+    const roleWhere =
+      Array.isArray(allowedRoles) && allowedRoles.length > 0
+        ? {
+            in: allowedRoles,
+          }
+        : undefined;
+
     return this.prisma.usuario.findFirst({
       where: {
         id,
-        rol: {
-          in: ["ADMINISTRATIVO", "SOPORTE"],
-        },
+        ...(roleWhere
+          ? {
+              rol: roleWhere,
+            }
+          : {}),
       },
       select: {
         id: true,
@@ -176,6 +189,20 @@ export class OtrosUsuariosRepository {
   async createPasswordResetAudit(data) {
     return this.prisma.passwordResetAudit.create({
       data,
+    });
+  }
+
+  async hardDelete(id) {
+    return this.prisma.usuario.delete({
+      where: {
+        id,
+      },
+      select: {
+        id: true,
+        nombre: true,
+        email: true,
+        rol: true,
+      },
     });
   }
 }

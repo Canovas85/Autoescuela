@@ -31,6 +31,11 @@ export const otrosUsuariosService = {
     return response.data;
   },
 
+  hardDelete: async (id) => {
+    const response = await api.delete(`/otros-usuarios/${id}/hard-delete`);
+    return response.data;
+  },
+
   resetPassword: async (id, payload = {}) => {
     const response = await api.patch(
       `/otros-usuarios/${id}/reset-password`,

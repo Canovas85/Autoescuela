@@ -25,6 +25,7 @@ import DownloadIcon from "@mui/icons-material/Download";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { useLocation, useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 import { facturasService } from "../../services/facturasService";
 import { matriculasService } from "../../services/matriculasService";
@@ -187,9 +188,19 @@ const resolveFacturaFromSearch = (rows, search) => {
   );
 };
 
+const normalizeRole = (role) => {
+  if (role === "GESTOR") {
+    return "SOPORTE";
+  }
+
+  return role;
+};
+
 export default function IngresosFacturas() {
+  const token = localStorage.getItem("token") || "";
   const location = useLocation();
   const navigate = useNavigate();
+  const [currentRole, setCurrentRole] = useState("ADMIN");
   const [rows, setRows] = useState([]);
   const [searchAlumno, setSearchAlumno] = useState("");
   const [conceptoFiltro, setConceptoFiltro] = useState("");
@@ -215,6 +226,17 @@ export default function IngresosFacturas() {
     message: "",
     severity: "success",
   });
+
+  useEffect(() => {
+    try {
+      const decoded = jwtDecode(token);
+      setCurrentRole(normalizeRole(decoded?.rol || "ADMIN"));
+    } catch {
+      setCurrentRole("ADMIN");
+    }
+  }, [token]);
+
+  const canMutateMatricula = currentRole !== "ADMINISTRATIVO";
 
   const loadRows = async () => {
     try {
@@ -618,31 +640,35 @@ export default function IngresosFacturas() {
               </IconButton>
             </Tooltip>
 
-            <Tooltip title="Pagar matrícula" arrow>
-              <span>
-                <IconButton
-                  color="success"
-                  size="small"
-                  disabled={disableMatriculaActions}
-                  onClick={() => handlePagarMatricula(params.row)}
-                >
-                  <CheckCircleIcon fontSize="small" />
-                </IconButton>
-              </span>
-            </Tooltip>
+            {canMutateMatricula ? (
+              <Tooltip title="Pagar matrícula" arrow>
+                <span>
+                  <IconButton
+                    color="success"
+                    size="small"
+                    disabled={disableMatriculaActions}
+                    onClick={() => handlePagarMatricula(params.row)}
+                  >
+                    <CheckCircleIcon fontSize="small" />
+                  </IconButton>
+                </span>
+              </Tooltip>
+            ) : null}
 
-            <Tooltip title="Anular matrícula" arrow>
-              <span>
-                <IconButton
-                  color="error"
-                  size="small"
-                  disabled={disableMatriculaActions}
-                  onClick={() => handleAnularMatricula(params.row)}
-                >
-                  <CancelIcon fontSize="small" />
-                </IconButton>
-              </span>
-            </Tooltip>
+            {canMutateMatricula ? (
+              <Tooltip title="Anular matrícula" arrow>
+                <span>
+                  <IconButton
+                    color="error"
+                    size="small"
+                    disabled={disableMatriculaActions}
+                    onClick={() => handleAnularMatricula(params.row)}
+                  >
+                    <CancelIcon fontSize="small" />
+                  </IconButton>
+                </span>
+              </Tooltip>
+            ) : null}
           </Stack>
         );
       },

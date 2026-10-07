@@ -25,11 +25,12 @@ import {
 import { DataGrid } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import DownloadIcon from "@mui/icons-material/Download";
 import LockResetIcon from "@mui/icons-material/LockReset";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { jwtDecode } from "jwt-decode";
 
 import { otrosUsuariosService } from "../../services/otrosUsuariosService";
 import { exportOtrosUsuariosExcel } from "../../utils/exportOtrosUsuariosExcel";
@@ -58,9 +59,19 @@ const esDniCompleto = (valor) => /^\d{8}[A-Z]$/.test(limpiarDni(valor));
 
 const esTelefonoValido = (valor) => /^\d{9}$/.test(String(valor || ""));
 
+const normalizeRole = (role) => {
+  if (role === "GESTOR") {
+    return "SOPORTE";
+  }
+
+  return role;
+};
+
 export default function OtrosUsuarios() {
+  const token = localStorage.getItem("token") || "";
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [currentRole, setCurrentRole] = useState("ADMIN");
   const [search, setSearch] = useState("");
   const [estadoFiltro, setEstadoFiltro] = useState("todos");
   const [rolFiltro, setRolFiltro] = useState("todos");
@@ -90,6 +101,18 @@ export default function OtrosUsuarios() {
     message: "",
     severity: "success",
   });
+
+  useEffect(() => {
+    try {
+      const decoded = jwtDecode(token);
+      setCurrentRole(normalizeRole(decoded?.rol || "ADMIN"));
+    } catch {
+      setCurrentRole("ADMIN");
+    }
+  }, [token]);
+
+  const isAdmin = currentRole === "ADMIN";
+  const isSupport = currentRole === "SOPORTE";
 
   const loadData = async () => {
     setLoading(true);
@@ -241,6 +264,17 @@ export default function OtrosUsuarios() {
     });
   };
 
+  const askHardDelete = (row) => {
+    setConfirmDialog({
+      open: true,
+      action: "hard-delete",
+      usuarioId: row.id,
+      nombre: row.nombre,
+      title: "Confirmar borrado definitivo",
+      message: `Vas a eliminar definitivamente a ${row.nombre}. Esta acción no se puede deshacer. ¿Deseas continuar?`,
+    });
+  };
+
   const closeConfirm = () => {
     setConfirmDialog({
       open: false,
@@ -266,12 +300,18 @@ export default function OtrosUsuarios() {
         await otrosUsuariosService.activate(confirmDialog.usuarioId);
       }
 
+      if (confirmDialog.action === "hard-delete") {
+        await otrosUsuariosService.hardDelete(confirmDialog.usuarioId);
+      }
+
       setNotification({
         open: true,
         message:
           confirmDialog.action === "activate"
             ? "Usuario activado correctamente"
-            : "Usuario desactivado correctamente",
+            : confirmDialog.action === "hard-delete"
+              ? "Usuario eliminado definitivamente"
+              : "Usuario desactivado correctamente",
         severity: "success",
       });
 
@@ -408,7 +448,7 @@ export default function OtrosUsuarios() {
       sortable: false,
       filterable: false,
       disableColumnMenu: true,
-      width: 220,
+      width: 260,
       renderCell: (params) => (
         <Stack direction="row" spacing={0.5}>
           <Tooltip title="Editar" arrow>
@@ -421,24 +461,26 @@ export default function OtrosUsuarios() {
             </IconButton>
           </Tooltip>
 
-          <Tooltip title="Reset password" arrow>
-            <IconButton
-              color="warning"
-              size="small"
-              onClick={() => openResetDialog(params.row)}
-            >
-              <LockResetIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
+          {isSupport ? (
+            <Tooltip title="Reset password" arrow>
+              <IconButton
+                color="warning"
+                size="small"
+                onClick={() => openResetDialog(params.row)}
+              >
+                <LockResetIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          ) : null}
 
           {params.row.activo ? (
             <Tooltip title="Desactivar" arrow>
               <IconButton
-                color="error"
+                color="warning"
                 size="small"
                 onClick={() => askDeactivate(params.row)}
               >
-                <DeleteIcon fontSize="small" />
+                <ToggleOffIcon fontSize="small" />
               </IconButton>
             </Tooltip>
           ) : (
@@ -452,6 +494,18 @@ export default function OtrosUsuarios() {
               </IconButton>
             </Tooltip>
           )}
+
+          {isAdmin ? (
+            <Tooltip title="Borrar definitivo" arrow>
+              <IconButton
+                color="error"
+                size="small"
+                onClick={() => askHardDelete(params.row)}
+              >
+                <DeleteForeverIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          ) : null}
         </Stack>
       ),
     },
@@ -474,7 +528,9 @@ export default function OtrosUsuarios() {
             Otros Usuarios
           </Typography>
           <Typography color="text.secondary">
-            Gestión de perfiles ADMINISTRATIVO y SOPORTE.
+            {isSupport
+              ? "Gestión de usuarios (ADMIN, PROFESOR, ALUMNO y ADMINISTRATIVO)."
+              : "Gestión de perfiles ADMINISTRATIVO y SOPORTE."}
           </Typography>
         </Box>
 
@@ -515,8 +571,13 @@ export default function OtrosUsuarios() {
               onChange={(event) => setRolFiltro(event.target.value)}
             >
               <MenuItem value="todos">Todos</MenuItem>
+              {isSupport ? <MenuItem value="ADMIN">ADMIN</MenuItem> : null}
+              {isSupport ? (
+                <MenuItem value="PROFESOR">PROFESOR</MenuItem>
+              ) : null}
+              {isSupport ? <MenuItem value="ALUMNO">ALUMNO</MenuItem> : null}
               <MenuItem value="ADMINISTRATIVO">ADMINISTRATIVO</MenuItem>
-              <MenuItem value="SOPORTE">SOPORTE</MenuItem>
+              {!isSupport ? <MenuItem value="SOPORTE">SOPORTE</MenuItem> : null}
             </Select>
           </FormControl>
 
@@ -648,8 +709,15 @@ export default function OtrosUsuarios() {
                   setForm((prev) => ({ ...prev, rol: event.target.value }))
                 }
               >
+                {isSupport ? <MenuItem value="ADMIN">ADMIN</MenuItem> : null}
+                {isSupport ? (
+                  <MenuItem value="PROFESOR">PROFESOR</MenuItem>
+                ) : null}
+                {isSupport ? <MenuItem value="ALUMNO">ALUMNO</MenuItem> : null}
                 <MenuItem value="ADMINISTRATIVO">ADMINISTRATIVO</MenuItem>
-                <MenuItem value="SOPORTE">SOPORTE</MenuItem>
+                {!isSupport ? (
+                  <MenuItem value="SOPORTE">SOPORTE</MenuItem>
+                ) : null}
               </Select>
             </FormControl>
           </Stack>

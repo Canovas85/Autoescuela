@@ -6,16 +6,23 @@ import {
   Card,
   CardContent,
   Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Divider,
+  IconButton,
   Menu,
   MenuItem,
   Stack,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import DownloadIcon from "@mui/icons-material/Download";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
@@ -28,7 +35,7 @@ import {
   PieChart,
   Cell,
   ResponsiveContainer,
-  Tooltip,
+  Tooltip as RechartsTooltip,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -37,6 +44,7 @@ import {
 import { informesService } from "../../services/informesService";
 import { exportInformesExcel } from "../../utils/exportInformesExcel";
 import { exportInformesPdf } from "../../utils/exportInformesPdf";
+import { facturasService } from "../../services/facturasService";
 
 const PERIOD_OPTIONS = [
   { value: "MONTH", label: "Mes" },
@@ -161,11 +169,20 @@ export default function Informes() {
   const [quarter, setQuarter] = useState("1");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
+  const [focusDateFrom, setFocusDateFrom] = useState(false);
+  const [focusDateTo, setFocusDateTo] = useState(false);
+  const [dateFromInputType, setDateFromInputType] = useState("text");
+  const [dateToInputType, setDateToInputType] = useState("text");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [report, setReport] = useState(null);
   const [exportAnchor, setExportAnchor] = useState(null);
+  const [conceptoFiltro, setConceptoFiltro] = useState("TODOS");
+  const [searchConcepto, setSearchConcepto] = useState("");
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewLoading, setPreviewLoading] = useState(false);
+  const [selectedFactura, setSelectedFactura] = useState(null);
 
   const loadReport = async () => {
     setLoading(true);
@@ -208,6 +225,85 @@ export default function Informes() {
 
   const movementRows = report?.movimientos || [];
 
+  const conceptoOptions = useMemo(() => {
+    const values = new Set();
+
+    movementRows.forEach((row) => {
+      if (row?.concepto) {
+        values.add(row.concepto);
+      }
+    });
+
+    return Array.from(values).sort((a, b) => a.localeCompare(b));
+  }, [movementRows]);
+
+  const filteredMovementRows = useMemo(() => {
+    const text = searchConcepto.trim().toLowerCase();
+
+    return movementRows.filter((row) => {
+      if (conceptoFiltro !== "TODOS" && row.concepto !== conceptoFiltro) {
+        return false;
+      }
+
+      if (!text) {
+        return true;
+      }
+
+      return String(row.concepto || "")
+        .toLowerCase()
+        .includes(text);
+    });
+  }, [movementRows, conceptoFiltro, searchConcepto]);
+
+  const handleOpenFacturaModal = async (movement) => {
+    const movementId = String(movement?.id || "");
+
+    if (!movementId.startsWith("factura-")) {
+      return;
+    }
+
+    const facturaId = movementId.replace("factura-", "");
+
+    try {
+      setPreviewOpen(true);
+      setPreviewLoading(true);
+      const preview = await facturasService.getPreview(facturaId);
+      setSelectedFactura(preview);
+    } catch (error) {
+      setPreviewOpen(false);
+      setSelectedFactura(null);
+      setError(
+        error.response?.data?.message ||
+          "No se pudo cargar el detalle de la factura",
+      );
+    } finally {
+      setPreviewLoading(false);
+    }
+  };
+
+  const handleDownloadFacturaModalPdf = async () => {
+    if (!selectedFactura?.id) {
+      return;
+    }
+
+    try {
+      const { blob, fileName } = await facturasService.downloadPdf(
+        selectedFactura.id,
+      );
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      setError(error.response?.data?.message || "No se pudo descargar el PDF");
+    }
+  };
+
   const movementColumns = useMemo(
     () => [
       { field: "tipo", headerName: "Tipo", width: 110 },
@@ -225,6 +321,33 @@ export default function Informes() {
         headerName: "Importe",
         minWidth: 140,
         valueGetter: (_, row) => formatCurrency(row.importe),
+      },
+      {
+        field: "acciones",
+        headerName: "Acciones",
+        width: 120,
+        sortable: false,
+        filterable: false,
+        disableColumnMenu: true,
+        renderCell: (params) => {
+          if (params.row.tipo !== "FACTURA") {
+            return <Typography variant="caption">-</Typography>;
+          }
+
+          return (
+            <Stack direction="row" spacing={0.25}>
+              <Tooltip title="Ver factura" arrow>
+                <IconButton
+                  color="primary"
+                  size="small"
+                  onClick={() => handleOpenFacturaModal(params.row)}
+                >
+                  <VisibilityIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
+            </Stack>
+          );
+        },
       },
     ],
     [],
@@ -335,19 +458,45 @@ export default function Informes() {
                 <>
                   <TextField
                     size="small"
-                    type="date"
+                    type={dateFromInputType}
                     label="Desde"
                     value={dateFrom}
                     onChange={(event) => setDateFrom(event.target.value)}
-                    InputLabelProps={{ shrink: true }}
+                    placeholder={focusDateFrom ? "dd/mm/aaaa" : ""}
+                    InputLabelProps={{
+                      shrink: focusDateFrom || Boolean(dateFrom),
+                    }}
+                    onFocus={() => {
+                      setFocusDateFrom(true);
+                      setDateFromInputType("date");
+                    }}
+                    onBlur={() => {
+                      setFocusDateFrom(false);
+                      if (!dateFrom) {
+                        setDateFromInputType("text");
+                      }
+                    }}
+                    sx={{ minWidth: 170 }}
                   />
                   <TextField
                     size="small"
-                    type="date"
+                    type={dateToInputType}
                     label="Hasta"
                     value={dateTo}
                     onChange={(event) => setDateTo(event.target.value)}
-                    InputLabelProps={{ shrink: true }}
+                    placeholder={focusDateTo ? "dd/mm/aaaa" : ""}
+                    InputLabelProps={{ shrink: focusDateTo || Boolean(dateTo) }}
+                    onFocus={() => {
+                      setFocusDateTo(true);
+                      setDateToInputType("date");
+                    }}
+                    onBlur={() => {
+                      setFocusDateTo(false);
+                      if (!dateTo) {
+                        setDateToInputType("text");
+                      }
+                    }}
+                    sx={{ minWidth: 170 }}
                   />
                 </>
               ) : null}
@@ -473,9 +622,13 @@ export default function Informes() {
               <ResponsiveContainer>
                 <LineChart data={cashFlowRows}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="fecha" />
-                  <YAxis />
-                  <Tooltip />
+                  <XAxis
+                    dataKey="fecha"
+                    tick={{ fontSize: 10 }}
+                    tickMargin={6}
+                  />
+                  <YAxis tick={{ fontSize: 10 }} width={58} />
+                  <RechartsTooltip />
                   <Legend />
                   <Line
                     type="monotone"
@@ -532,7 +685,7 @@ export default function Informes() {
                       />
                     ))}
                   </Pie>
-                  <Tooltip />
+                  <RechartsTooltip />
                   <Legend />
                 </PieChart>
               </ResponsiveContainer>
@@ -586,9 +739,39 @@ export default function Informes() {
             </Typography>
           </Stack>
 
+          <Stack
+            direction={{ xs: "column", md: "row" }}
+            spacing={1}
+            sx={{ mb: 1.5 }}
+          >
+            <TextField
+              select
+              size="small"
+              label="Concepto"
+              value={conceptoFiltro}
+              onChange={(event) => setConceptoFiltro(event.target.value)}
+              sx={{ minWidth: 240 }}
+            >
+              <MenuItem value="TODOS">Todos</MenuItem>
+              {conceptoOptions.map((concepto) => (
+                <MenuItem key={concepto} value={concepto}>
+                  {concepto}
+                </MenuItem>
+              ))}
+            </TextField>
+
+            <TextField
+              size="small"
+              label="Buscar por concepto"
+              value={searchConcepto}
+              onChange={(event) => setSearchConcepto(event.target.value)}
+              sx={{ minWidth: 260 }}
+            />
+          </Stack>
+
           <Box sx={{ height: 420 }}>
             <DataGrid
-              rows={movementRows}
+              rows={filteredMovementRows}
               columns={movementColumns}
               getRowId={(row) => row.id}
               disableRowSelectionOnClick
@@ -606,6 +789,61 @@ export default function Informes() {
           </Box>
         </CardContent>
       </Card>
+
+      <Dialog
+        open={previewOpen}
+        onClose={() => {
+          setPreviewOpen(false);
+          setSelectedFactura(null);
+        }}
+        fullWidth
+        maxWidth="md"
+      >
+        <DialogTitle>Factura</DialogTitle>
+        <DialogContent>
+          {previewLoading ? (
+            <Typography>Cargando factura...</Typography>
+          ) : selectedFactura ? (
+            <Stack spacing={1} sx={{ pt: 0.5 }}>
+              <Typography fontWeight={700}>
+                Nº {selectedFactura.numero || "-"}
+              </Typography>
+              <Typography variant="body2">
+                Alumno: {selectedFactura.alumno?.nombre || "-"}
+              </Typography>
+              <Typography variant="body2">
+                Concepto: {selectedFactura.concepto || "-"}
+              </Typography>
+              <Typography variant="body2">
+                Estado: {selectedFactura.estado || "-"}
+              </Typography>
+              <Typography variant="body2" fontWeight={700}>
+                Total: {formatCurrency(selectedFactura.total || 0)}
+              </Typography>
+            </Stack>
+          ) : (
+            <Alert severity="warning">No hay factura para mostrar</Alert>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              setPreviewOpen(false);
+              setSelectedFactura(null);
+            }}
+          >
+            Cerrar
+          </Button>
+          <Button
+            variant="contained"
+            startIcon={<DownloadIcon />}
+            onClick={handleDownloadFacturaModalPdf}
+            disabled={!selectedFactura?.id}
+          >
+            Descargar PDF
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

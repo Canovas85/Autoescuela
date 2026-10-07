@@ -58,7 +58,7 @@ const drawerWidth = 300;
 
 const normalizeRole = (role) => {
   if (role === "GESTOR") {
-    return "ADMINISTRATIVO";
+    return "SOPORTE";
   }
 
   return role;
@@ -260,11 +260,6 @@ const menus = {
           label: "Convocatorias",
           path: "/convocatorias-examen",
           icon: <CalendarMonthIcon fontSize="small" />,
-        },
-        {
-          label: "Otros Usuarios",
-          path: "/otros-usuarios",
-          icon: <GroupIcon fontSize="small" />,
         },
       ],
     },

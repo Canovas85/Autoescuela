@@ -1,6 +1,12 @@
 import bcrypt from "bcryptjs";
 
 const ROLES_PERMITIDOS = ["ADMINISTRATIVO", "SOPORTE"];
+const ROLES_SOPORTE_VISIBLES = [
+  "ADMIN",
+  "PROFESOR",
+  "ALUMNO",
+  "ADMINISTRATIVO",
+];
 
 const normalizarDni = (valor) => {
   if (valor === null || valor === undefined || valor === "") {
@@ -35,6 +41,28 @@ export class OtrosUsuariosService {
     this.repository = repository;
   }
 
+  normalizeActorRole(rol) {
+    const normalized = String(rol || "")
+      .trim()
+      .toUpperCase();
+
+    if (normalized === "GESTOR") {
+      return "SOPORTE";
+    }
+
+    return normalized;
+  }
+
+  resolveAllowedRolesByActor(actorRoleRaw) {
+    const actorRole = this.normalizeActorRole(actorRoleRaw);
+
+    if (actorRole === "SOPORTE") {
+      return ROLES_SOPORTE_VISIBLES;
+    }
+
+    return ["ADMINISTRATIVO", "SOPORTE"];
+  }
+
   parseFilters(query = {}) {
     const rol = String(query.rol || "")
       .trim()
@@ -45,7 +73,7 @@ export class OtrosUsuariosService {
       search: String(query.search || "").trim(),
     };
 
-    if (ROLES_PERMITIDOS.includes(rol)) {
+    if (rol) {
       filters.rol = rol;
     }
 
@@ -60,13 +88,23 @@ export class OtrosUsuariosService {
     return filters;
   }
 
-  async getAll(query = {}) {
+  async getAll(query = {}, actorRoleRaw = "") {
     const filters = this.parseFilters(query);
+
+    const allowedRoles = this.resolveAllowedRolesByActor(actorRoleRaw);
+
+    if (!allowedRoles.includes(filters.rol)) {
+      delete filters.rol;
+    }
+
+    filters.allowedRoles = allowedRoles;
+
     return this.repository.findAll(filters);
   }
 
-  async getById(id) {
-    const usuario = await this.repository.findById(id);
+  async getById(id, actorRoleRaw = "") {
+    const allowedRoles = this.resolveAllowedRolesByActor(actorRoleRaw);
+    const usuario = await this.repository.findById(id, allowedRoles);
 
     if (!usuario) {
       throw new Error("Usuario no encontrado");
@@ -85,6 +123,25 @@ export class OtrosUsuariosService {
     }
 
     return normalized;
+  }
+
+  normalizeRoleForActor(rol, actorRoleRaw = "") {
+    const actorRole = this.normalizeActorRole(actorRoleRaw);
+    const normalized = String(rol || "")
+      .trim()
+      .toUpperCase();
+
+    if (actorRole === "SOPORTE") {
+      if (!ROLES_SOPORTE_VISIBLES.includes(normalized)) {
+        throw new Error(
+          "SOPORTE solo puede gestionar perfiles ADMIN, PROFESOR, ALUMNO y ADMINISTRATIVO",
+        );
+      }
+
+      return normalized;
+    }
+
+    return this.normalizeRole(normalized);
   }
 
   async validateUniqueFields({ email, dni, currentId = null }) {
@@ -110,7 +167,7 @@ export class OtrosUsuariosService {
     }
   }
 
-  async create(data) {
+  async create(data, actorRoleRaw = "") {
     const nombre = String(data.nombre || "").trim();
     const email = String(data.email || "")
       .trim()
@@ -129,7 +186,7 @@ export class OtrosUsuariosService {
       throw new Error("La contraseña debe tener al menos 8 caracteres");
     }
 
-    const rol = this.normalizeRole(data.rol);
+    const rol = this.normalizeRoleForActor(data.rol, actorRoleRaw);
 
     const dni = normalizarDni(data.dni);
 
@@ -159,8 +216,9 @@ export class OtrosUsuariosService {
     });
   }
 
-  async update(id, data) {
-    const current = await this.repository.findById(id);
+  async update(id, data, actorRoleRaw = "") {
+    const allowedRoles = this.resolveAllowedRolesByActor(actorRoleRaw);
+    const current = await this.repository.findById(id, allowedRoles);
 
     if (!current) {
       throw new Error("Usuario no encontrado");
@@ -178,7 +236,9 @@ export class OtrosUsuariosService {
         : current.email;
 
     const rol =
-      data.rol !== undefined ? this.normalizeRole(data.rol) : current.rol;
+      data.rol !== undefined
+        ? this.normalizeRoleForActor(data.rol, actorRoleRaw)
+        : current.rol;
 
     const dni =
       data.dni !== undefined ? normalizarDni(data.dni) : (current.dni ?? null);
@@ -232,8 +292,9 @@ export class OtrosUsuariosService {
     return this.repository.update(id, payload);
   }
 
-  async deactivate(id) {
-    const current = await this.repository.findById(id);
+  async deactivate(id, actorRoleRaw = "") {
+    const allowedRoles = this.resolveAllowedRolesByActor(actorRoleRaw);
+    const current = await this.repository.findById(id, allowedRoles);
 
     if (!current) {
       throw new Error("Usuario no encontrado");
@@ -242,8 +303,9 @@ export class OtrosUsuariosService {
     return this.repository.setActive(id, false);
   }
 
-  async activate(id) {
-    const current = await this.repository.findById(id);
+  async activate(id, actorRoleRaw = "") {
+    const allowedRoles = this.resolveAllowedRolesByActor(actorRoleRaw);
+    const current = await this.repository.findById(id, allowedRoles);
 
     if (!current) {
       throw new Error("Usuario no encontrado");
@@ -252,11 +314,27 @@ export class OtrosUsuariosService {
     return this.repository.setActive(id, true);
   }
 
-  async resetPassword(id, actorId, motivo = null, newPassword = null) {
-    const current = await this.repository.findById(id);
+  async resetPassword(
+    id,
+    actorId,
+    actorRoleRaw,
+    motivo = null,
+    newPassword = null,
+  ) {
+    const actorRole = this.normalizeActorRole(actorRoleRaw);
+
+    if (actorRole !== "SOPORTE") {
+      throw new Error("Solo SOPORTE puede resetear contraseñas");
+    }
+
+    const current = await this.repository.findById(id, ROLES_SOPORTE_VISIBLES);
 
     if (!current) {
       throw new Error("Usuario no encontrado");
+    }
+
+    if (!ROLES_SOPORTE_VISIBLES.includes(current.rol)) {
+      throw new Error("No puedes resetear este perfil");
     }
 
     const rawPassword = String(newPassword || "").trim() || "Autoescuela123!";
@@ -282,5 +360,28 @@ export class OtrosUsuariosService {
       usuario: updated,
       passwordTemporal: rawPassword,
     };
+  }
+
+  async hardDelete(id, actorRoleRaw = "", actorId = null) {
+    const actorRole = this.normalizeActorRole(actorRoleRaw);
+
+    if (actorRole !== "ADMIN") {
+      throw new Error("Solo ADMIN puede borrar definitivamente");
+    }
+
+    const current = await this.repository.findById(id, [
+      "ADMINISTRATIVO",
+      "SOPORTE",
+    ]);
+
+    if (!current) {
+      throw new Error("Usuario no encontrado");
+    }
+
+    if (actorId && current.id === actorId) {
+      throw new Error("No puedes eliminar tu propio usuario");
+    }
+
+    return this.repository.hardDelete(id);
   }
 }

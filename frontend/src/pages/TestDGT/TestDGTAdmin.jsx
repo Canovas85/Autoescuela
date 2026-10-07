@@ -656,7 +656,7 @@ export default function TestDGTAdmin() {
     {
       field: "licencia",
       headerName: "Licencia",
-      flex: 0.7,
+      flex: 1.15,
       renderCell: (params) => (
         <Box
           sx={{
@@ -670,12 +670,6 @@ export default function TestDGTAdmin() {
           <LicenseChipList values={params.row.licencia} />
         </Box>
       ),
-    },
-    {
-      field: "respuestas",
-      headerName: "Respuestas",
-      flex: 0.8,
-      renderCell: (params) => params.row.respuestas?.length || 0,
     },
     {
       field: "activa",
