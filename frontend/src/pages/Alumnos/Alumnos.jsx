@@ -739,8 +739,22 @@ export default function Alumnos() {
       renderCell: (params) => (
         <Chip
           label={(params.row.activo ?? true) ? "Activo" : "Inactivo"}
-          color={(params.row.activo ?? true) ? "success" : "error"}
           size="small"
+          sx={{
+            // 1. Estilos si está Activo
+            ...((params.row.activo ?? true) && {
+              backgroundColor: "#e8f5e9", // Fondo verde claro
+              color: "#2e7d32", // Texto verde oscuro
+              border: "1px solid #2e7d32", // Borde verde
+            }),
+            // 2. Estilos si está Inactivo
+            ...(!(params.row.activo ?? true) && {
+              backgroundColor: "#ffebee", // Fondo rojo claro
+              color: "#c62828", // Texto rojo oscuro
+              border: "1px solid #c62828", // Borde rojo
+            }),
+            fontWeight: "bold", // Estilo común para ambos estados (opcional)
+          }}
         />
       ),
     },
@@ -928,7 +942,14 @@ export default function Alumnos() {
     try {
       const detalle = await alumnosService.getById(row.id);
 
-      setSelectedAlumno(detalle);
+      setSelectedAlumno({
+        ...detalle,
+        horasPracticasCompletadas:
+          row?.horasPracticasCompletadas ?? detalle?.horasPracticasCompletadas,
+        horasPracticasCompletadasTexto:
+          row?.horasPracticasCompletadasTexto ||
+          detalle?.horasPracticasCompletadasTexto,
+      });
       setPromocionMatricula(detalle?.matriculas?.[0]?.promocion || null);
       setExtendedSummary(null);
       setShowExtendedSummary(false);

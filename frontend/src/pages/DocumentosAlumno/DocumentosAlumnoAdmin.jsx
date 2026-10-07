@@ -133,14 +133,31 @@ export default function DocumentosAlumnoAdmin() {
         renderCell: (params) => (
           <Chip
             label={ESTADOS[params.value] || params.value}
-            color={
-              params.value === "VALIDADO"
-                ? "success"
-                : params.value === "RECHAZADO"
-                  ? "error"
-                  : "warning"
-            }
             size="small"
+            sx={{
+              fontWeight: "bold", // Estilo común opcional
+
+              // Aplicación dinámica de estilos según el valor
+              ...(params.value === "VALIDADO" && {
+                backgroundColor: "#e8f5e9", // Verde claro
+                color: "#2e7d32", // Verde oscuro
+                border: "1px solid #2e7d32", // Borde verde
+              }),
+
+              ...(params.value === "RECHAZADO" && {
+                backgroundColor: "#ffebee", // Rojo claro
+                color: "#c62828", // Rojo oscuro
+                border: "1px solid #c62828", // Borde rojo
+              }),
+
+              // Estado por defecto (Warning / Pendiente)
+              ...(params.value !== "VALIDADO" &&
+                params.value !== "RECHAZADO" && {
+                  backgroundColor: "#fff3e0", // Naranja/Amarillo claro
+                  color: "#ef6c00", // Naranja oscuro
+                  border: "1px solid #ef6c00", // Borde naranja
+                }),
+            }}
           />
         ),
       },

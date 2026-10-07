@@ -5,9 +5,9 @@ export const exportProfesoresExcel = (rows) => {
   const data = rows.map((profesor) => ({
     Nombre: profesor.usuario?.nombre ?? "",
     Email: profesor.usuario?.email ?? "",
-    Telefono: profesor.usuario?.telefono ?? "",
     DNI: profesor.usuario?.dni ?? "",
     Permisos: profesor.permisosLicencias?.join(", ") ?? "",
+    Telefono: profesor.usuario?.telefono ?? "",
     Estado: profesor.activo ? "Activo" : "Inactivo",
   }));
 

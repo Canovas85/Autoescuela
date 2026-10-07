@@ -6,6 +6,11 @@ export const exportVehiculosExcel = (rows) => {
     Matricula: vehiculo.matricula,
     Marca: vehiculo.marca,
     Modelo: vehiculo.modelo,
+    Permiso: vehiculo.tipoPermiso || "",
+    NumeroClases: Number(vehiculo.numeroClasesRealizadas || 0),
+    FechaUltimaITV: vehiculo.fechaUltimaItv
+      ? new Date(vehiculo.fechaUltimaItv).toLocaleDateString("es-ES")
+      : "-",
 
     Estado: vehiculo.activo ? "Activo" : "Inactivo",
   }));

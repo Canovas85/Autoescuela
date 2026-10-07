@@ -45,4 +45,9 @@ export const vehiculosService = {
     const response = await api.patch(`/vehiculos/${id}/activar`);
     return response.data;
   },
+
+  payItv: async (id) => {
+    const response = await api.post(`/vehiculos/${id}/pagar-itv`);
+    return response.data;
+  },
 };

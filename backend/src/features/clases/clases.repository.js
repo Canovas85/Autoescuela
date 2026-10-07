@@ -117,6 +117,53 @@ export class ClasesRepository {
     });
   }
 
+  async findLatestItvExpenseByVehiculoId(vehiculoId) {
+    return this.prisma.gastoCombustible.findFirst({
+      where: {
+        vehiculoId,
+        tipoGasto: "REVISION_ITV",
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  }
+
+  async countCompletedClassesByVehiculoSince(vehiculoId, fromDate, now) {
+    return this.prisma.clasePractica.count({
+      where: {
+        vehiculoId,
+        fecha: {
+          gte: fromDate,
+        },
+        estado: {
+          not: {
+            startsWith: "CANCELADA",
+          },
+        },
+        OR: [
+          {
+            estado: {
+              in: ["REALIZADA", "COMPLETADA", "FINALIZADA", "REGISTRADA"],
+            },
+          },
+          {
+            hojaRuta: {
+              is: {
+                estado: "REGISTRADA",
+              },
+            },
+          },
+          {
+            fecha: {
+              lt: now,
+            },
+          },
+        ],
+      },
+    });
+  }
+
   async findStudentBookingProfile(alumnoId) {
     return this.prisma.alumno.findUnique({
       where: {

@@ -436,9 +436,23 @@ export default function OtrosUsuarios() {
       flex: 0.8,
       renderCell: (params) => (
         <Chip
+          label={(params.row.activo ?? true) ? "Activo" : "Inactivo"}
           size="small"
-          label={params.value ? "Activo" : "Inactivo"}
-          color={params.value ? "success" : "error"}
+          sx={{
+            // 1. Estilos si está Activo
+            ...((params.row.activo ?? true) && {
+              backgroundColor: "#e8f5e9", // Fondo verde claro
+              color: "#2e7d32", // Texto verde oscuro
+              border: "1px solid #2e7d32", // Borde verde
+            }),
+            // 2. Estilos si está Inactivo
+            ...(!(params.row.activo ?? true) && {
+              backgroundColor: "#ffebee", // Fondo rojo claro
+              color: "#c62828", // Texto rojo oscuro
+              border: "1px solid #c62828", // Borde rojo
+            }),
+            fontWeight: "bold", // Estilo común para ambos estados (opcional)
+          }}
         />
       ),
     },

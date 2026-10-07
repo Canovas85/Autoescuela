@@ -233,9 +233,23 @@ export default function TarifasMatricula() {
 
       renderCell: (params) => (
         <Chip
-          label={params.row.activa ? "Activa" : "Inactiva"}
-          color={params.row.activa ? "success" : "default"}
           size="small"
+          label={params.value ? "Activa" : "Inactiva"}
+          sx={{
+            // Fondo según la opción
+            backgroundColor: params.value ? "#e8f5e9" : "#ffebee",
+
+            // Color de la letra según la opción
+            color: params.value ? "#2e7d32" : "#c62828",
+
+            // Borde según la opción (grosor, tipo y color)
+            border: `1px solid ${params.value ? "#4caf50" : "#ef5350"}`,
+
+            // Opcional: Asegura que si hay iconos o estados hover no rompan tus colores
+            "& .MuiChip-label": {
+              fontWeight: "medium",
+            },
+          }}
         />
       ),
     },

@@ -1,4 +1,8 @@
 import { generateFacturaNumber } from "../../shared/utils/factura-number.js";
+import {
+  evaluateVehicleItvStatus,
+  ITV_BLOCK_MESSAGE,
+} from "../../shared/domain/vehiculo-itv.js";
 
 const DURACION_CLASE_MINUTOS = 45;
 const CONVOCATORIAS_POR_DEFECTO = 2;
@@ -102,6 +106,41 @@ const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 export class ClasesService {
   constructor(repository) {
     this.repository = repository;
+  }
+
+  async ensureVehicleItvCompliant(vehiculoId) {
+    const vehiculo = await this.repository.findVehiculoById(vehiculoId);
+
+    if (!vehiculo || vehiculo.activo === false) {
+      throw new Error("El vehículo seleccionado no existe o está inactivo");
+    }
+
+    const now = new Date();
+    const latestItvExpense =
+      await this.repository.findLatestItvExpenseByVehiculoId(vehiculoId);
+    const referenceDate =
+      latestItvExpense?.createdAt || vehiculo?.createdAt || now;
+    const kmBase = Number(latestItvExpense?.kilometrosVehiculo || 0);
+    const completedClassesSinceReference =
+      await this.repository.countCompletedClassesByVehiculoSince(
+        vehiculoId,
+        referenceDate,
+        now,
+      );
+
+    const itvStatus = evaluateVehicleItvStatus({
+      vehiculo,
+      referenceDate,
+      kmBase,
+      completedClassesSinceReference,
+      now,
+    });
+
+    if (itvStatus.pendiente) {
+      throw new Error(ITV_BLOCK_MESSAGE);
+    }
+
+    return vehiculo;
   }
 
   generateClassInvoiceNumber(attempt = 0) {
@@ -1068,14 +1107,25 @@ export class ClasesService {
       fecha,
     );
 
-    if (!vehicles.length) {
-      throw new Error(
-        "No hay vehículos disponibles para esta licencia en la franja seleccionada",
-      );
+    const vehiclesWithItvOk = [];
+
+    for (const vehicle of vehicles) {
+      try {
+        await this.ensureVehicleItvCompliant(vehicle.id);
+        vehiclesWithItvOk.push(vehicle);
+      } catch (error) {
+        if (error.message !== ITV_BLOCK_MESSAGE) {
+          throw error;
+        }
+      }
     }
 
-    const randomIndex = Math.floor(Math.random() * vehicles.length);
-    const selectedVehicle = vehicles[randomIndex];
+    if (!vehiclesWithItvOk.length) {
+      throw new Error(ITV_BLOCK_MESSAGE);
+    }
+
+    const randomIndex = Math.floor(Math.random() * vehiclesWithItvOk.length);
+    const selectedVehicle = vehiclesWithItvOk[randomIndex];
 
     let compraBonoId = null;
 
@@ -1180,6 +1230,8 @@ export class ClasesService {
         "Solo se pueden confirmar solicitudes en estado PROGRAMADA",
       );
     }
+
+    await this.ensureVehicleItvCompliant(clase.vehiculoId);
 
     let compraBonoUsada = clase.compraBonoId;
 
@@ -1573,13 +1625,7 @@ export class ClasesService {
       }
     }
 
-    if (typeof this.repository.findVehiculoById === "function") {
-      const vehiculo = await this.repository.findVehiculoById(data.vehiculoId);
-
-      if (!vehiculo || vehiculo.activo === false) {
-        throw new Error("El vehículo seleccionado no existe o está inactivo");
-      }
-    }
+    await this.ensureVehicleItvCompliant(data.vehiculoId);
 
     const existingClass = await this.repository.findByProfesorAndFecha(
       data.profesorId,
@@ -1650,12 +1696,7 @@ export class ClasesService {
         throw new Error("El profesor seleccionado no existe o está inactivo");
       }
 
-      const vehiculo =
-        await this.repository.findVehiculoById(vehiculoIdObjetivo);
-
-      if (!vehiculo || vehiculo.activo === false) {
-        throw new Error("El vehículo seleccionado no existe o está inactivo");
-      }
+      await this.ensureVehicleItvCompliant(vehiculoIdObjetivo);
     }
 
     return this.repository.update(id, data);

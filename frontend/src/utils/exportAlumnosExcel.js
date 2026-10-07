@@ -6,7 +6,10 @@ export const exportAlumnosExcel = (rows) => {
     Nombre: alumno.usuario?.nombre ?? "",
     Email: alumno.usuario?.email ?? "",
     Licencia: alumno.tipoLicenciaObjetivo ?? "",
-    HorasPracticas: alumno.horasPracticasCompletadas ?? 0,
+    EstadoExpediente: alumno.faseActual ?? "-",
+    HorasPracticas:
+      alumno.horasPracticasCompletadasTexto ??
+      `${Number(alumno.horasPracticasCompletadas || 0).toFixed(2)} h`,
     Profesor: alumno.profesorAsignado?.usuario?.nombre ?? "Sin asignar",
     Telefono: alumno.usuario?.telefono ?? "",
     Estado: alumno.activo ? "Activo" : "Inactivo",

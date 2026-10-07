@@ -127,6 +127,7 @@ exports.Prisma.UsuarioScalarFieldEnum = {
   email: 'email',
   passwordHash: 'passwordHash',
   rol: 'rol',
+  activo: 'activo',
   fechaCreacion: 'fechaCreacion',
   telefono: 'telefono',
   dni: 'dni',
@@ -331,8 +332,11 @@ exports.Prisma.VehiculoScalarFieldEnum = {
   tipoPermiso: 'tipoPermiso',
   kmActuales: 'kmActuales',
   combustibleActualPct: 'combustibleActualPct',
+  fechaUltimaItv: 'fechaUltimaItv',
   activo: 'activo',
-  imagenRuta: 'imagenRuta'
+  imagenRuta: 'imagenRuta',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ClasePracticaScalarFieldEnum = {
@@ -628,6 +632,8 @@ exports.Prisma.GastoCombustibleScalarFieldEnum = {
   numeroFactura: 'numeroFactura',
   profesorId: 'profesorId',
   vehiculoId: 'vehiculoId',
+  tipoGasto: 'tipoGasto',
+  concepto: 'concepto',
   titularTarjeta: 'titularTarjeta',
   numeroTarjeta: 'numeroTarjeta',
   combustibleAntesPct: 'combustibleAntesPct',
@@ -653,6 +659,14 @@ exports.Prisma.NotificacionScalarFieldEnum = {
   createdAt: 'createdAt',
   readAt: 'readAt',
   archivedAt: 'archivedAt'
+};
+
+exports.Prisma.PasswordResetAuditScalarFieldEnum = {
+  id: 'id',
+  soporteId: 'soporteId',
+  usuarioObjetivoId: 'usuarioObjetivoId',
+  motivo: 'motivo',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -686,6 +700,8 @@ exports.Prisma.JsonNullValueFilter = {
 };
 exports.Rol = exports.$Enums.Rol = {
   ADMIN: 'ADMIN',
+  ADMINISTRATIVO: 'ADMINISTRATIVO',
+  SOPORTE: 'SOPORTE',
   PROFESOR: 'PROFESOR',
   ALUMNO: 'ALUMNO'
 };
@@ -738,7 +754,8 @@ exports.Prisma.ModelName = {
   MatriculaConcepto: 'MatriculaConcepto',
   Factura: 'Factura',
   GastoCombustible: 'GastoCombustible',
-  Notificacion: 'Notificacion'
+  Notificacion: 'Notificacion',
+  PasswordResetAudit: 'PasswordResetAudit'
 };
 
 /**

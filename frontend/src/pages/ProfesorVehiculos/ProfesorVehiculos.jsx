@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
+import FactCheckIcon from "@mui/icons-material/FactCheck";
 import { profesorPortalService } from "../../services/profesorPortalService";
 import { LicenseChip } from "../../components/common/LicenseChip";
 import { gastosCombustibleService } from "../../services/gastosCombustibleService";
@@ -57,6 +58,7 @@ export default function ProfesorVehiculos() {
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [reciboFile, setReciboFile] = useState(null);
   const [loadingRefuel, setLoadingRefuel] = useState(false);
+  const [loadingItvVehicleId, setLoadingItvVehicleId] = useState("");
 
   const loadVehicles = async () => {
     setLoading(true);
@@ -149,33 +151,68 @@ export default function ProfesorVehiculos() {
       },
     },
     {
+      field: "itvPendiente",
+      headerName: "ITV",
+      width: 130,
+      renderCell: (params) =>
+        params.row.itvPendiente ? (
+          <Chip label="Pendiente" color="warning" size="small" />
+        ) : (
+          <Chip label="Al día" color="success" size="small" />
+        ),
+    },
+    {
       field: "acciones",
       headerName: "Acciones",
-      width: 160,
+      width: 240,
       sortable: false,
       filterable: false,
       disableColumnMenu: true,
       renderCell: (params) => {
         const combustibleActual = Number(params.row.combustibleActualPct ?? 0);
         const canRefuel = combustibleActual < 20;
+        const hasItvPending = Boolean(params.row.itvPendiente);
+        const isPayingItv = loadingItvVehicleId === params.row.id;
 
-        return canRefuel ? (
-          <Button
-            size="small"
-            color="warning"
-            variant="contained"
-            startIcon={<LocalGasStationIcon />}
-            onClick={(event) => {
-              event.stopPropagation();
-              setSelectedVehicle(params.row);
-              setReciboFile(null);
-              setOpenRefuel(true);
-            }}
-          >
-            Repostar
-          </Button>
-        ) : (
-          <Chip label="Sin acciones" size="small" />
+        if (!canRefuel && !hasItvPending) {
+          return <Chip label="Sin acciones" size="small" />;
+        }
+
+        return (
+          <Stack direction="row" spacing={1} alignItems="center">
+            {canRefuel ? (
+              <Button
+                size="small"
+                color="warning"
+                variant="contained"
+                startIcon={<LocalGasStationIcon />}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setSelectedVehicle(params.row);
+                  setReciboFile(null);
+                  setOpenRefuel(true);
+                }}
+              >
+                Repostar
+              </Button>
+            ) : null}
+
+            {hasItvPending ? (
+              <Button
+                size="small"
+                color="info"
+                variant="outlined"
+                startIcon={<FactCheckIcon />}
+                disabled={isPayingItv}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handlePayItv(params.row);
+                }}
+              >
+                {isPayingItv ? "Procesando..." : "Pagar ITV"}
+              </Button>
+            ) : null}
+          </Stack>
         );
       },
     },
@@ -243,6 +280,37 @@ export default function ProfesorVehiculos() {
       );
     } finally {
       setLoadingRefuel(false);
+    }
+  };
+
+  const handlePayItv = async (vehiculo) => {
+    if (!vehiculo?.id) {
+      return;
+    }
+
+    setLoadingItvVehicleId(vehiculo.id);
+    setError("");
+
+    try {
+      const result = await gastosCombustibleService.pagarRevisionItv(
+        vehiculo.id,
+      );
+      setSuccess(result.message || "Pago de revisión ITV registrado");
+      await loadVehicles();
+
+      if (detail?.vehiculo?.id === vehiculo.id) {
+        const response = await profesorPortalService.getVehicleSchedule(
+          vehiculo.id,
+        );
+        setDetail(response);
+      }
+    } catch (saveError) {
+      setError(
+        saveError.response?.data?.message ||
+          "No se pudo registrar el pago de revisión ITV",
+      );
+    } finally {
+      setLoadingItvVehicleId("");
     }
   };
 
@@ -337,6 +405,37 @@ export default function ProfesorVehiculos() {
                   />
                 </Typography>
               </Box>
+
+              {detail?.vehiculo?.itvPendiente ? (
+                <Alert
+                  severity="warning"
+                  action={
+                    <Button
+                      color="inherit"
+                      size="small"
+                      variant="outlined"
+                      startIcon={<FactCheckIcon />}
+                      disabled={loadingItvVehicleId === detail?.vehiculo?.id}
+                      onClick={() => handlePayItv(detail.vehiculo)}
+                    >
+                      {loadingItvVehicleId === detail?.vehiculo?.id
+                        ? "Procesando..."
+                        : `Pagar ITV (${Number(
+                            detail?.vehiculo?.itvPrecioRevision || 0,
+                          ).toFixed(2)} EUR)`}
+                    </Button>
+                  }
+                >
+                  <Typography variant="body2" fontWeight={700}>
+                    Este vehículo tiene la revisión ITV pendiente.
+                  </Typography>
+                  {(detail?.vehiculo?.itvMotivos || []).length ? (
+                    <Typography variant="body2" sx={{ mt: 0.5 }}>
+                      {detail.vehiculo.itvMotivos.join(" · ")}
+                    </Typography>
+                  ) : null}
+                </Alert>
+              ) : null}
 
               <Box>
                 <Typography

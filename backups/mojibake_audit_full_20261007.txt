@@ -1,0 +1,327 @@
+﻿SCAN|_prisma_migrations|id|0
+SCAN|_prisma_migrations|checksum|0
+SCAN|_prisma_migrations|migration_name|0
+SCAN|_prisma_migrations|logs|0
+SCAN|activaciones_cuenta|id|0
+ERROR|activaciones_cuenta|usuarioId|ERROR: column "usuarioid" does not exist LINE 1: ...tivaciones_cuenta WHERE POSITION(CHR(195) IN CAST(usuarioId ... ^ HINT: Perhaps you meant to reference the column "activaciones_cuenta.usuarioId".
+ERROR|activaciones_cuenta|tokenHash|ERROR: column "tokenhash" does not exist LINE 1: ...tivaciones_cuenta WHERE POSITION(CHR(195) IN CAST(tokenHash ... ^ HINT: Perhaps you meant to reference the column "activaciones_cuenta.tokenHash".
+ERROR|activaciones_cuenta|createdById|ERROR: column "createdbyid" does not exist LINE 1: ...tivaciones_cuenta WHERE POSITION(CHR(195) IN CAST(createdByI... ^ HINT: Perhaps you meant to reference the column "activaciones_cuenta.createdById".
+SCAN|alumnos|id|0
+ERROR|alumnos|tipoLicenciaObjetivo|ERROR: column "tipolicenciaobjetivo" does not exist LINE 1: ...OM public.alumnos WHERE POSITION(CHR(195) IN CAST(tipoLicenc... ^ HINT: Perhaps you meant to reference the column "alumnos.tipoLicenciaObjetivo".
+ERROR|alumnos|profesorAsignadoId|ERROR: column "profesorasignadoid" does not exist LINE 1: ...OM public.alumnos WHERE POSITION(CHR(195) IN CAST(profesorAs... ^ HINT: Perhaps you meant to reference the column "alumnos.profesorAsignadoId".
+ERROR|alumnos|estadoExpediente|ERROR: column "estadoexpediente" does not exist LINE 1: ...OM public.alumnos WHERE POSITION(CHR(195) IN CAST(estadoExpe... ^ HINT: Perhaps you meant to reference the column "alumnos.estadoExpediente".
+SCAN|alumnos_profesor_historial|id|0
+ERROR|alumnos_profesor_historial|alumnoId|ERROR: column "alumnoid" does not exist LINE 1: ...rofesor_historial WHERE POSITION(CHR(195) IN CAST(alumnoId A... ^ HINT: Perhaps you meant to reference the column "alumnos_profesor_historial.alumnoId".
+ERROR|alumnos_profesor_historial|profesorAnteriorId|ERROR: column "profesoranteriorid" does not exist LINE 1: ...rofesor_historial WHERE POSITION(CHR(195) IN CAST(profesorAn... ^ HINT: Perhaps you meant to reference the column "alumnos_profesor_historial.profesorAnteriorId".
+ERROR|alumnos_profesor_historial|profesorNuevoId|ERROR: column "profesornuevoid" does not exist LINE 1: ...rofesor_historial WHERE POSITION(CHR(195) IN CAST(profesorNu... ^ HINT: Perhaps you meant to reference the column "alumnos_profesor_historial.profesorNuevoId".
+ERROR|alumnos_profesor_historial|changedById|ERROR: column "changedbyid" does not exist LINE 1: ...rofesor_historial WHERE POSITION(CHR(195) IN CAST(changedByI... ^ HINT: Perhaps you meant to reference the column "alumnos_profesor_historial.changedById".
+SCAN|alumnos_profesor_historial|motivo|0
+SCAN|auditoria_reseteos_password|id|0
+ERROR|auditoria_reseteos_password|soporteId|ERROR: column "soporteid" does not exist LINE 1: ...reseteos_password WHERE POSITION(CHR(195) IN CAST(soporteId ... ^ HINT: Perhaps you meant to reference the column "auditoria_reseteos_password.soporteId".
+ERROR|auditoria_reseteos_password|usuarioObjetivoId|ERROR: column "usuarioobjetivoid" does not exist LINE 1: ...reseteos_password WHERE POSITION(CHR(195) IN CAST(usuarioObj... ^ HINT: Perhaps you meant to reference the column "auditoria_reseteos_password.usuarioObjetivoId".
+SCAN|auditoria_reseteos_password|motivo|0
+SCAN|bonos|id|0
+SCAN|bonos|nombre|10
+SAMPLE|bonos|nombre|4a1040f3-089c-4f3c-be95-431d550eaec2|Bono promoci├â┬│n Promoci├â┬│n Todo Incluido
+SAMPLE|bonos|nombre|177ea776-4ada-452f-bb77-832223403de5|Bono promoci├â┬│n Promoci├â┬│n Todo Incluido
+SAMPLE|bonos|nombre|3766daeb-e133-4550-87f3-6a6ba2e6339d|Bono promoci├â┬│n Promoci├â┬│n Todo Incluido
+SAMPLE|bonos|nombre|7d480583-3bf6-4712-bbee-436fa3d4b89c|Bono promoci├â┬│n Promoci├â┬│n Todo Incluido
+SAMPLE|bonos|nombre|cd143ee8-1584-4de6-b3c6-1f993cd3b318|Bono promoci├â┬│n Promoci├â┬│n Todo Incluido
+SCAN|bonos|descripcion|15
+SAMPLE|bonos|descripcion|bono-001|Bono est├â┬índar con 10 clases pr├â┬ícticas.
+SAMPLE|bonos|descripcion|bono-002|Bono ampliado con 20 clases pr├â┬ícticas.
+SAMPLE|bonos|descripcion|bono-003|Bono intensivo para refuerzo r├â┬ípido antes del examen.
+SAMPLE|bonos|descripcion|4a1040f3-089c-4f3c-be95-431d550eaec2|Bono gratuito generado autom├â┬íticamente por promoci├â┬│n
+SAMPLE|bonos|descripcion|177ea776-4ada-452f-bb77-832223403de5|Bono gratuito generado autom├â┬íticamente por promoci├â┬│n
+SCAN|bonos|licencia|0
+SCAN|clases_directo|id|0
+SCAN|clases_directo|titulo|0
+SCAN|clases_directo|descripcion|0
+ERROR|clases_directo|videoUrl|ERROR: column "videourl" does not exist LINE 1: ...ic.clases_directo WHERE POSITION(CHR(195) IN CAST(videoUrl A... ^ HINT: Perhaps you meant to reference the column "clases_directo.videoUrl".
+ERROR|clases_directo|profesorId|ERROR: column "profesorid" does not exist LINE 1: ...ic.clases_directo WHERE POSITION(CHR(195) IN CAST(profesorId... ^ HINT: Perhaps you meant to reference the column "clases_directo.profesorId".
+SCAN|clases_directo|permiso|0
+SCAN|clases_practicas|id|0
+ERROR|clases_practicas|alumnoId|ERROR: column "alumnoid" does not exist LINE 1: ....clases_practicas WHERE POSITION(CHR(195) IN CAST(alumnoId A... ^ HINT: Perhaps you meant to reference the column "clases_practicas.alumnoId".
+ERROR|clases_practicas|profesorId|ERROR: column "profesorid" does not exist LINE 1: ....clases_practicas WHERE POSITION(CHR(195) IN CAST(profesorId... ^ HINT: Perhaps you meant to reference the column "clases_practicas.profesorId".
+ERROR|clases_practicas|vehiculoId|ERROR: column "vehiculoid" does not exist LINE 1: ....clases_practicas WHERE POSITION(CHR(195) IN CAST(vehiculoId... ^ HINT: Perhaps you meant to reference the column "clases_practicas.vehiculoId".
+SCAN|clases_practicas|estado|0
+ERROR|clases_practicas|compraBonoId|ERROR: column "comprabonoid" does not exist LINE 1: ....clases_practicas WHERE POSITION(CHR(195) IN CAST(compraBono... ^ HINT: Perhaps you meant to reference the column "clases_practicas.compraBonoId".
+ERROR|clases_practicas|metodoPago|ERROR: column "metodopago" does not exist LINE 1: ....clases_practicas WHERE POSITION(CHR(195) IN CAST(metodoPago... ^ HINT: Perhaps you meant to reference the column "clases_practicas.metodoPago".
+ERROR|clases_practicas|canceladaPor|ERROR: column "canceladapor" does not exist LINE 1: ....clases_practicas WHERE POSITION(CHR(195) IN CAST(canceladaP... ^ HINT: Perhaps you meant to reference the column "clases_practicas.canceladaPor".
+SCAN|compras_bonos|id|0
+ERROR|compras_bonos|alumnoId|ERROR: column "alumnoid" does not exist LINE 1: ...lic.compras_bonos WHERE POSITION(CHR(195) IN CAST(alumnoId A... ^ HINT: Perhaps you meant to reference the column "compras_bonos.alumnoId".
+ERROR|compras_bonos|bonoId|ERROR: column "bonoid" does not exist LINE 1: ...lic.compras_bonos WHERE POSITION(CHR(195) IN CAST(bonoId AS ... ^ HINT: Perhaps you meant to reference the column "compras_bonos.bonoId".
+ERROR|compras_bonos|matriculaOrigenId|ERROR: column "matriculaorigenid" does not exist LINE 1: ...lic.compras_bonos WHERE POSITION(CHR(195) IN CAST(matriculaO... ^ HINT: Perhaps you meant to reference the column "compras_bonos.matriculaOrigenId".
+ERROR|compras_bonos|origenPromocionId|ERROR: column "origenpromocionid" does not exist LINE 1: ...lic.compras_bonos WHERE POSITION(CHR(195) IN CAST(origenProm... ^ HINT: Perhaps you meant to reference the column "compras_bonos.origenPromocionId".
+SCAN|convocatorias_examen|id|0
+SCAN|convocatorias_examen|licencia|0
+ERROR|convocatorias_examen|tipoExamen|ERROR: column "tipoexamen" does not exist LINE 1: ...vocatorias_examen WHERE POSITION(CHR(195) IN CAST(tipoExamen... ^ HINT: Perhaps you meant to reference the column "convocatorias_examen.tipoExamen".
+SCAN|documentos_alumno|id|0
+ERROR|documentos_alumno|alumnoId|ERROR: column "alumnoid" does not exist LINE 1: ...documentos_alumno WHERE POSITION(CHR(195) IN CAST(alumnoId A... ^ HINT: Perhaps you meant to reference the column "documentos_alumno.alumnoId".
+SCAN|documentos_alumno|tipo|0
+SCAN|documentos_alumno|estado|0
+SCAN|documentos_alumno|observaciones|10
+SAMPLE|documentos_alumno|observaciones|242ded77-09a1-4f11-9b8d-bef831d26b53|Sonia Jim├â┬®nez Mar
+SAMPLE|documentos_alumno|observaciones|46cb34a3-4c6b-423b-9a79-9abf137e6330|Sonia Jim├â┬®nez Mar
+SAMPLE|documentos_alumno|observaciones|9ed9cb74-7373-475a-98ae-d104cae7074a|CERTIFICADO PSICOTECNICO - Roc├â┬¡o Renueva Practico
+SAMPLE|documentos_alumno|observaciones|ed8f2b74-5998-46ba-a061-37343b8c1b44|CERIFICADO PSICOTECNICO - Ra├â┬║l Renueva Te├â┬│rico
+SAMPLE|documentos_alumno|observaciones|4bed83c7-cf3a-41c9-bef4-acee11b0bd8d|CERTIFICADO PSICOTENICO - Alberto ├â┬ülava Aprobado
+SCAN|documentos_alumno_archivos|id|0
+ERROR|documentos_alumno_archivos|documentoId|ERROR: column "documentoid" does not exist LINE 1: ...s_alumno_archivos WHERE POSITION(CHR(195) IN CAST(documentoI... ^ HINT: Perhaps you meant to reference the column "documentos_alumno_archivos.documentoId".
+ERROR|documentos_alumno_archivos|nombreOriginal|ERROR: column "nombreoriginal" does not exist LINE 1: ...s_alumno_archivos WHERE POSITION(CHR(195) IN CAST(nombreOrig... ^ HINT: Perhaps you meant to reference the column "documentos_alumno_archivos.nombreOriginal".
+ERROR|documentos_alumno_archivos|nombreArchivo|ERROR: column "nombrearchivo" does not exist LINE 1: ...s_alumno_archivos WHERE POSITION(CHR(195) IN CAST(nombreArch... ^ HINT: Perhaps you meant to reference the column "documentos_alumno_archivos.nombreArchivo".
+ERROR|documentos_alumno_archivos|mimeType|ERROR: column "mimetype" does not exist LINE 1: ...s_alumno_archivos WHERE POSITION(CHR(195) IN CAST(mimeType A... ^ HINT: Perhaps you meant to reference the column "documentos_alumno_archivos.mimeType".
+SCAN|documentos_alumno_archivos|ruta|0
+SCAN|examenes|id|0
+ERROR|examenes|alumnoId|ERROR: column "alumnoid" does not exist LINE 1: ...M public.examenes WHERE POSITION(CHR(195) IN CAST(alumnoId A... ^ HINT: Perhaps you meant to reference the column "examenes.alumnoId".
+SCAN|examenes|tipo|0
+SCAN|examenes|estado|0
+SCAN|examenes_dgt_alumno|id|0
+ERROR|examenes_dgt_alumno|alumnoId|ERROR: column "alumnoid" does not exist LINE 1: ...amenes_dgt_alumno WHERE POSITION(CHR(195) IN CAST(alumnoId A... ^ HINT: Perhaps you meant to reference the column "examenes_dgt_alumno.alumnoId".
+SCAN|examenes_dgt_alumno|licencia|0
+SCAN|facturas|id|0
+SCAN|facturas|numero|0
+ERROR|facturas|alumnoId|ERROR: column "alumnoid" does not exist LINE 1: ...M public.facturas WHERE POSITION(CHR(195) IN CAST(alumnoId A... ^ HINT: Perhaps you meant to reference the column "facturas.alumnoId".
+ERROR|facturas|matriculaId|ERROR: column "matriculaid" does not exist LINE 1: ...M public.facturas WHERE POSITION(CHR(195) IN CAST(matriculaI... ^ HINT: Perhaps you meant to reference the column "facturas.matriculaId".
+SCAN|facturas|concepto|48
+SAMPLE|facturas|concepto|5a2f9f62-c846-442e-85ba-336fffecf7b6|Matricula licencia B - Promoci├â┬│n Coche
+SAMPLE|facturas|concepto|fd7186c1-3e1e-4cee-b8ea-eb8156b608ee|Gastos Examen Pr├â┬íctico
+SAMPLE|facturas|concepto|7456196a-e526-4d71-ae71-525d3ad5186a|Matricula licencia B - Promoci├â┬│n Coche Septiembre
+SAMPLE|facturas|concepto|bfc5cec6-a2ff-44c1-a1f9-5b3ef0191b11|Matricula licencia B - Promoci├â┬│n Coche Septiembre
+SAMPLE|facturas|concepto|cad44312-2868-4dfd-9815-cde0646175e4|Matricula licencia B - Promoci├â┬│n Coche Septiembre
+SCAN|facturas|estado|0
+ERROR|facturas|clasePracticaId|ERROR: column "clasepracticaid" does not exist LINE 1: ...M public.facturas WHERE POSITION(CHR(195) IN CAST(clasePract... ^ HINT: Perhaps you meant to reference the column "facturas.clasePracticaId".
+ERROR|facturas|compraBonoId|ERROR: column "comprabonoid" does not exist LINE 1: ...M public.facturas WHERE POSITION(CHR(195) IN CAST(compraBono... ^ HINT: Perhaps you meant to reference the column "facturas.compraBonoId".
+SCAN|gastos_combustible|id|0
+ERROR|gastos_combustible|numeroFactura|ERROR: column "numerofactura" does not exist LINE 1: ...astos_combustible WHERE POSITION(CHR(195) IN CAST(numeroFact... ^ HINT: Perhaps you meant to reference the column "gastos_combustible.numeroFactura".
+ERROR|gastos_combustible|profesorId|ERROR: column "profesorid" does not exist LINE 1: ...astos_combustible WHERE POSITION(CHR(195) IN CAST(profesorId... ^ HINT: Perhaps you meant to reference the column "gastos_combustible.profesorId".
+ERROR|gastos_combustible|vehiculoId|ERROR: column "vehiculoid" does not exist LINE 1: ...astos_combustible WHERE POSITION(CHR(195) IN CAST(vehiculoId... ^ HINT: Perhaps you meant to reference the column "gastos_combustible.vehiculoId".
+ERROR|gastos_combustible|titularTarjeta|ERROR: column "titulartarjeta" does not exist LINE 1: ...astos_combustible WHERE POSITION(CHR(195) IN CAST(titularTar... ^ HINT: Perhaps you meant to reference the column "gastos_combustible.titularTarjeta".
+ERROR|gastos_combustible|numeroTarjeta|ERROR: column "numerotarjeta" does not exist LINE 1: ...astos_combustible WHERE POSITION(CHR(195) IN CAST(numeroTarj... ^ HINT: Perhaps you meant to reference the column "gastos_combustible.numeroTarjeta".
+ERROR|gastos_combustible|rutaRecibo|ERROR: column "rutarecibo" does not exist LINE 1: ...astos_combustible WHERE POSITION(CHR(195) IN CAST(rutaRecibo... ^ HINT: Perhaps you meant to reference the column "gastos_combustible.rutaRecibo".
+ERROR|gastos_combustible|tipoGasto|ERROR: column "tipogasto" does not exist LINE 1: ...astos_combustible WHERE POSITION(CHR(195) IN CAST(tipoGasto ... ^ HINT: Perhaps you meant to reference the column "gastos_combustible.tipoGasto".
+SCAN|gastos_combustible|concepto|0
+SCAN|hojas_ruta|id|0
+ERROR|hojas_ruta|clasePracticaId|ERROR: column "clasepracticaid" does not exist LINE 1: ...public.hojas_ruta WHERE POSITION(CHR(195) IN CAST(clasePract... ^ HINT: Perhaps you meant to reference the column "hojas_ruta.clasePracticaId".
+ERROR|hojas_ruta|profesorId|ERROR: column "profesorid" does not exist LINE 1: ...public.hojas_ruta WHERE POSITION(CHR(195) IN CAST(profesorId... ^ HINT: Perhaps you meant to reference the column "hojas_ruta.profesorId".
+ERROR|hojas_ruta|alumnoId|ERROR: column "alumnoid" does not exist LINE 1: ...public.hojas_ruta WHERE POSITION(CHR(195) IN CAST(alumnoId A... ^ HINT: Perhaps you meant to reference the column "hojas_ruta.alumnoId".
+SCAN|hojas_ruta|estado|0
+ERROR|hojas_ruta|observacionesProfesor|ERROR: column "observacionesprofesor" does not exist LINE 1: ...public.hojas_ruta WHERE POSITION(CHR(195) IN CAST(observacio... ^ HINT: Perhaps you meant to reference the column "hojas_ruta.observacionesProfesor".
+SCAN|hojas_ruta_faltas|id|0
+ERROR|hojas_ruta_faltas|hojaRutaId|ERROR: column "hojarutaid" does not exist LINE 1: ...hojas_ruta_faltas WHERE POSITION(CHR(195) IN CAST(hojaRutaId... ^ HINT: Perhaps you meant to reference the column "hojas_ruta_faltas.hojaRutaId".
+SCAN|hojas_ruta_faltas|hora|0
+SCAN|hojas_ruta_faltas|tipo|0
+SCAN|hojas_ruta_faltas|categoria|41
+SAMPLE|hojas_ruta_faltas|categoria|6056391c-6c19-4d80-9179-6fa06cda9851|Se├â┬▒alizaci├â┬│n
+SAMPLE|hojas_ruta_faltas|categoria|73219686-0e87-4e5b-ad90-b6bc54e2e326|Incorporaci├â┬│n
+SAMPLE|hojas_ruta_faltas|categoria|c7c5dca3-3ea8-4008-acb0-d7695d284ab4|Sem├â┬íforos
+SAMPLE|hojas_ruta_faltas|categoria|e0b85912-3b63-47f4-8187-c66f4d4b756d|Conducci├â┬│n eficiente
+SAMPLE|hojas_ruta_faltas|categoria|5a92706a-ef5d-4169-9530-2413db40b961|Conducci├â┬│n eficiente
+SCAN|hojas_ruta_faltas|descripcion|52
+SAMPLE|hojas_ruta_faltas|descripcion|6056391c-6c19-4d80-9179-6fa06cda9851|No se├â┬▒alizar correctamente una maniobra cuando la situaci├â┬│n no alcanza gravedad superior.
+SAMPLE|hojas_ruta_faltas|descripcion|0fe12a1c-6b3b-49c0-b7ce-03c49716aa82|Seleccionar una relaci├â┬│n de marcha mejorable.
+SAMPLE|hojas_ruta_faltas|descripcion|73219686-0e87-4e5b-ad90-b6bc54e2e326|Incorporarse dificultando notablemente la circulaci├â┬│n.
+SAMPLE|hojas_ruta_faltas|descripcion|d84b34b3-1748-4b99-b95b-ca275c5a349a|Mantener una velocidad que, sin ser peligrosa, no es la m├â┬ís adecuada para las circunstancias.
+SAMPLE|hojas_ruta_faltas|descripcion|2e5ddeea-61c3-40e4-bd32-ffa0f3ef565e|Posicionarse incorrectamente afectando significativamente a la circulaci├â┬│n.
+ERROR|hojas_ruta_faltas|catalogoId|ERROR: column "catalogoid" does not exist LINE 1: ...hojas_ruta_faltas WHERE POSITION(CHR(195) IN CAST(catalogoId... ^ HINT: Perhaps you meant to reference the column "hojas_ruta_faltas.catalogoId".
+SCAN|hojas_ruta_faltas_catalogo|id|0
+SCAN|hojas_ruta_faltas_catalogo|tipo|0
+SCAN|hojas_ruta_faltas_catalogo|categoria|18
+SAMPLE|hojas_ruta_faltas_catalogo|categoria|CAT-L-001|Se├â┬▒alizaci├â┬│n
+SAMPLE|hojas_ruta_faltas_catalogo|categoria|CAT-L-002|Observaci├â┬│n
+SAMPLE|hojas_ruta_faltas_catalogo|categoria|CAT-L-004|Mandos del veh├â┬¡culo
+SAMPLE|hojas_ruta_faltas_catalogo|categoria|CAT-L-005|Conducci├â┬│n eficiente
+SAMPLE|hojas_ruta_faltas_catalogo|categoria|CAT-L-010|Observaci├â┬│n
+SCAN|hojas_ruta_faltas_catalogo|descripcion|22
+SAMPLE|hojas_ruta_faltas_catalogo|descripcion|CAT-L-001|No se├â┬▒alizar correctamente una maniobra cuando la situaci├â┬│n no alcanza gravedad superior.
+SAMPLE|hojas_ruta_faltas_catalogo|descripcion|CAT-L-002|No realizar una comprobaci├â┬│n suficientemente adecuada.
+SAMPLE|hojas_ruta_faltas_catalogo|descripcion|CAT-L-003|Seleccionar una relaci├â┬│n de marcha mejorable.
+SAMPLE|hojas_ruta_faltas_catalogo|descripcion|CAT-L-005|Frenada o aceleraci├â┬│n poco adecuada.
+SAMPLE|hojas_ruta_faltas_catalogo|descripcion|CAT-L-006|Mantener una velocidad que, sin ser peligrosa, no es la m├â┬ís adecuada para las circunstancias.
+SCAN|matriculas|id|0
+ERROR|matriculas|alumnoId|ERROR: column "alumnoid" does not exist LINE 1: ...public.matriculas WHERE POSITION(CHR(195) IN CAST(alumnoId A... ^ HINT: Perhaps you meant to reference the column "matriculas.alumnoId".
+SCAN|matriculas|licencia|0
+ERROR|matriculas|promocionId|ERROR: column "promocionid" does not exist LINE 1: ...public.matriculas WHERE POSITION(CHR(195) IN CAST(promocionI... ^ HINT: Perhaps you meant to reference the column "matriculas.promocionId".
+SCAN|matriculas|estado|0
+SCAN|matriculas|observaciones|0
+SCAN|matriculas_conceptos|id|0
+ERROR|matriculas_conceptos|matriculaId|ERROR: column "matriculaid" does not exist LINE 1: ...riculas_conceptos WHERE POSITION(CHR(195) IN CAST(matriculaI... ^ HINT: Perhaps you meant to reference the column "matriculas_conceptos.matriculaId".
+ERROR|matriculas_conceptos|tarifaConceptoId|ERROR: column "tarifaconceptoid" does not exist LINE 1: ...riculas_conceptos WHERE POSITION(CHR(195) IN CAST(tarifaConc... ^ HINT: Perhaps you meant to reference the column "matriculas_conceptos.tarifaConceptoId".
+SCAN|matriculas_conceptos|observaciones|0
+SCAN|notificaciones|id|0
+ERROR|notificaciones|usuarioId|ERROR: column "usuarioid" does not exist LINE 1: ...ic.notificaciones WHERE POSITION(CHR(195) IN CAST(usuarioId ... ^ HINT: Perhaps you meant to reference the column "notificaciones.usuarioId".
+SCAN|notificaciones|tipo|0
+SCAN|notificaciones|titulo|176
+SAMPLE|notificaciones|titulo|9780ddd8-257d-4af8-b39f-bd415aa03e08|Matr├â┬¡cula pagada
+SAMPLE|notificaciones|titulo|92cec3bb-6b90-4d4a-ad90-34854b49290f|Matr├â┬¡cula pagada
+SAMPLE|notificaciones|titulo|38741af2-b9f0-4527-96f8-a3bb471c7fb3|Matr├â┬¡cula pagada
+SAMPLE|notificaciones|titulo|3a9f38cf-afb9-4d41-89bd-98e8103655c5|Matr├â┬¡cula pagada
+SAMPLE|notificaciones|titulo|b26fc5cf-47c6-40c3-9169-0bdc6add5900|Matr├â┬¡cula pagada
+SCAN|notificaciones|mensaje|267
+SAMPLE|notificaciones|mensaje|9780ddd8-257d-4af8-b39f-bd415aa03e08|Se ha registrado el pago de matr├â┬¡cula para Sergio Cano Cabezas
+SAMPLE|notificaciones|mensaje|92cec3bb-6b90-4d4a-ad90-34854b49290f|Se ha registrado el pago de matr├â┬¡cula para Diana Sol Martinez
+SAMPLE|notificaciones|mensaje|caed2f32-3b05-49eb-bd60-bedf4a7905e0|La matr├â┬¡cula de Sergio Cano Cabezas est├â┬í pagada y no tiene profesor asignado
+SAMPLE|notificaciones|mensaje|38741af2-b9f0-4527-96f8-a3bb471c7fb3|Se ha registrado el pago de matr├â┬¡cula para Sergio Cano Cabezas
+SAMPLE|notificaciones|mensaje|3a9f38cf-afb9-4d41-89bd-98e8103655c5|Se ha registrado el pago de matr├â┬¡cula para Alberto Alava Aprobado
+SCAN|pagos|id|0
+ERROR|pagos|alumnoId|ERROR: column "alumnoid" does not exist LINE 1: ...FROM public.pagos WHERE POSITION(CHR(195) IN CAST(alumnoId A... ^ HINT: Perhaps you meant to reference the column "pagos.alumnoId".
+ERROR|pagos|matriculaId|ERROR: column "matriculaid" does not exist LINE 1: ...FROM public.pagos WHERE POSITION(CHR(195) IN CAST(matriculaI... ^ HINT: Perhaps you meant to reference the column "pagos.matriculaId".
+SCAN|pagos|tipo|0
+SCAN|pagos|concepto|37
+SAMPLE|pagos|concepto|e67bf8e1-73d8-4b7d-ab34-b05fe0cf3563|Gastos Examen Pr├â┬íctico
+SAMPLE|pagos|concepto|81c21722-aff8-4db6-8ee4-d0dbae0eecf6|Gastos Examen Pr├â┬íctico
+SAMPLE|pagos|concepto|681b95be-0c93-412f-8293-4468cf3eb7b8|Gastos Examen Pr├â┬íctico
+SAMPLE|pagos|concepto|d97418f1-48df-4da4-b7db-d1ea662c01fd|Gastos Examen Pr├â┬íctico
+SAMPLE|pagos|concepto|ffe57035-3881-44a1-9249-9da9f67cdcbb|Gastos Examen Pr├â┬íctico
+SCAN|pagos|permiso|0
+SCAN|pagos|estado|0
+ERROR|pagos|numeroFacturaPago|ERROR: column "numerofacturapago" does not exist LINE 1: ...FROM public.pagos WHERE POSITION(CHR(195) IN CAST(numeroFact... ^ HINT: Perhaps you meant to reference the column "pagos.numeroFacturaPago".
+SCAN|pagos|observaciones|19
+SAMPLE|pagos|observaciones|e67bf8e1-73d8-4b7d-ab34-b05fe0cf3563|Pago duplicado limpiado autom├â┬íticamente
+SAMPLE|pagos|observaciones|a71ceccc-da10-47b4-859a-8a48cc5ba289|Cancelado por reparaci├â┬│n de duplicados (script)
+SAMPLE|pagos|observaciones|022cb5c6-7d42-4f19-a56b-e9a7d01d0a93|Cancelado por reparaci├â┬│n de duplicados (script)
+SAMPLE|pagos|observaciones|81c21722-aff8-4db6-8ee4-d0dbae0eecf6|Cancelado por reparaci├â┬│n de duplicados (script)
+SAMPLE|pagos|observaciones|681b95be-0c93-412f-8293-4468cf3eb7b8|Cancelado por reparaci├â┬│n de duplicados (script)
+ERROR|pagos|clasePracticaId|ERROR: column "clasepracticaid" does not exist LINE 1: ...FROM public.pagos WHERE POSITION(CHR(195) IN CAST(clasePract... ^ HINT: Perhaps you meant to reference the column "pagos.clasePracticaId".
+ERROR|pagos|compraBonoId|ERROR: column "comprabonoid" does not exist LINE 1: ...FROM public.pagos WHERE POSITION(CHR(195) IN CAST(compraBono... ^ HINT: Perhaps you meant to reference the column "pagos.compraBonoId".
+SCAN|practical_exam_process_batches|id|0
+SCAN|practical_exam_process_batches|status|0
+SCAN|practical_exam_process_batches|mode|0
+SCAN|practical_exam_process_batches|seed|0
+SCAN|practical_exam_process_batches|operator|0
+SCAN|practical_exam_process_batches|reason|0
+ERROR|practical_exam_process_pagos|batchId|ERROR: column "batchid" does not exist LINE 1: ...xam_process_pagos WHERE POSITION(CHR(195) IN CAST(batchId AS... ^ HINT: Perhaps you meant to reference the column "practical_exam_process_pagos.batchId".
+ERROR|practical_exam_process_pagos|pagoId|ERROR: column "pagoid" does not exist LINE 1: ...xam_process_pagos WHERE POSITION(CHR(195) IN CAST(pagoId AS ... ^ HINT: Perhaps you meant to reference the column "practical_exam_process_pagos.pagoId".
+ERROR|practical_exam_process_pagos|alumnoId|ERROR: column "alumnoid" does not exist LINE 1: ...xam_process_pagos WHERE POSITION(CHR(195) IN CAST(alumnoId A... ^ HINT: Perhaps you meant to reference the column "practical_exam_process_pagos.alumnoId".
+ERROR|practical_exam_process_pagos|conflictReason|ERROR: column "conflictreason" does not exist LINE 1: ...xam_process_pagos WHERE POSITION(CHR(195) IN CAST(conflictRe... ^ HINT: Perhaps you meant to reference the column "practical_exam_process_pagos.conflictReason".
+ERROR|practical_exam_process_solicitudes|batchId|ERROR: column "batchid" does not exist LINE 1: ...ocess_solicitudes WHERE POSITION(CHR(195) IN CAST(batchId AS... ^ HINT: Perhaps you meant to reference the column "practical_exam_process_solicitudes.batchId".
+ERROR|practical_exam_process_solicitudes|solicitudId|ERROR: column "solicitudid" does not exist LINE 1: ...ocess_solicitudes WHERE POSITION(CHR(195) IN CAST(solicitudI... ^ HINT: Perhaps you meant to reference the column "practical_exam_process_solicitudes.solicitudId".
+ERROR|practical_exam_process_solicitudes|alumnoId|ERROR: column "alumnoid" does not exist LINE 1: ...ocess_solicitudes WHERE POSITION(CHR(195) IN CAST(alumnoId A... ^ HINT: Perhaps you meant to reference the column "practical_exam_process_solicitudes.alumnoId".
+ERROR|practical_exam_process_solicitudes|beforeEstado|ERROR: column "beforeestado" does not exist LINE 1: ...ocess_solicitudes WHERE POSITION(CHR(195) IN CAST(beforeEsta... ^ HINT: Perhaps you meant to reference the column "practical_exam_process_solicitudes.beforeEstado".
+ERROR|practical_exam_process_solicitudes|beforeMotivoNoApto|ERROR: column "beforemotivonoapto" does not exist LINE 1: ...ocess_solicitudes WHERE POSITION(CHR(195) IN CAST(beforeMoti... ^ HINT: Perhaps you meant to reference the column "practical_exam_process_solicitudes.beforeMotivoNoApto".
+ERROR|practical_exam_process_solicitudes|afterEstado|ERROR: column "afterestado" does not exist LINE 1: ...ocess_solicitudes WHERE POSITION(CHR(195) IN CAST(afterEstad... ^ HINT: Perhaps you meant to reference the column "practical_exam_process_solicitudes.afterEstado".
+ERROR|practical_exam_process_solicitudes|afterMotivoNoApto|ERROR: column "aftermotivonoapto" does not exist LINE 1: ...ocess_solicitudes WHERE POSITION(CHR(195) IN CAST(afterMotiv... ^ HINT: Perhaps you meant to reference the column "practical_exam_process_solicitudes.afterMotivoNoApto".
+ERROR|practical_exam_process_solicitudes|createdExamenId|ERROR: column "createdexamenid" does not exist LINE 1: ...ocess_solicitudes WHERE POSITION(CHR(195) IN CAST(createdExa... ^ HINT: Perhaps you meant to reference the column "practical_exam_process_solicitudes.createdExamenId".
+ERROR|practical_exam_process_solicitudes|conflictReason|ERROR: column "conflictreason" does not exist LINE 1: ...ocess_solicitudes WHERE POSITION(CHR(195) IN CAST(conflictRe... ^ HINT: Perhaps you meant to reference the column "practical_exam_process_solicitudes.conflictReason".
+SCAN|preguntas_dgt|id|0
+SCAN|preguntas_dgt|enunciado|132
+SAMPLE|preguntas_dgt|enunciado|pregunta-dgt-b-060|Pregunta DGT 60: ├é┬┐Puede estar una baca instalada en un veh├â┬¡culo sin que se le de uso?
+SAMPLE|preguntas_dgt|enunciado|pregunta-dgt-b-056|Pregunta DGT 56: El consumo de drogas de abuso o ilegales, ├é┬┐afecta a la seguridad vial?
+SAMPLE|preguntas_dgt|enunciado|pregunta-dgt-b-018|Pregunta DGT 18: ├é┬┐Aumenta el consumo de carburante al circular a alta velocidad?
+SAMPLE|preguntas_dgt|enunciado|pregunta-dgt-b-019|Pregunta DGT 19: ├é┬┐Es la luz antiniebla delantera obligatoria para los veh├â┬¡culos a motor?
+SAMPLE|preguntas_dgt|enunciado|pregunta-dgt-b-022|Pregunta DGT 22: ├é┬┐Esta permitido escuchar la radio o hablar por el m├â┬│vil mientras se conduce un patinete?
+ERROR|preguntas_dgt|imagenRuta|ERROR: column "imagenruta" does not exist LINE 1: ...lic.preguntas_dgt WHERE POSITION(CHR(195) IN CAST(imagenRuta... ^ HINT: Perhaps you meant to reference the column "preguntas_dgt.imagenRuta".
+SCAN|preguntas_dgt|explicacion|46
+SAMPLE|preguntas_dgt|explicacion|pregunta-dgt-b-094|Con un solo carril por sentido, el adelantamiento est├â┬í prohibido en este supuesto.
+SAMPLE|preguntas_dgt|explicacion|pregunta-dgt-b-095|Una rueda temporal tiene condiciones espec├â┬¡ficas de uso que deben respetarse seg├â┬║n el fabricante.
+SAMPLE|preguntas_dgt|explicacion|pregunta-dgt-b-096|Las marcas azules identifican zonas de estacionamiento regulado y su duraci├â┬│n puede estar limitada.
+SAMPLE|preguntas_dgt|explicacion|pregunta-dgt-b-091|Debes mantener siempre una distancia de seguridad adecuada a velocidad y condiciones de la v├â┬¡a.
+SAMPLE|preguntas_dgt|explicacion|pregunta-dgt-b-092|La se├â┬▒al permite el acceso al conjunto indicado en la pregunta cuando el remolque es de un solo eje.
+SCAN|profesor_horarios_bloque|id|0
+ERROR|profesor_horarios_bloque|profesorId|ERROR: column "profesorid" does not exist LINE 1: ...r_horarios_bloque WHERE POSITION(CHR(195) IN CAST(profesorId... ^ HINT: Perhaps you meant to reference the column "profesor_horarios_bloque.profesorId".
+ERROR|profesor_horarios_bloque|horaInicio|ERROR: column "horainicio" does not exist LINE 1: ...r_horarios_bloque WHERE POSITION(CHR(195) IN CAST(horaInicio... ^ HINT: Perhaps you meant to reference the column "profesor_horarios_bloque.horaInicio".
+ERROR|profesor_horarios_bloque|horaFin|ERROR: column "horafin" does not exist LINE 1: ...r_horarios_bloque WHERE POSITION(CHR(195) IN CAST(horaFin AS... ^ HINT: Perhaps you meant to reference the column "profesor_horarios_bloque.horaFin".
+SCAN|profesores|id|0
+ERROR|profesores|licenciaConducir|ERROR: column "licenciaconducir" does not exist LINE 1: ...public.profesores WHERE POSITION(CHR(195) IN CAST(licenciaCo... ^ HINT: Perhaps you meant to reference the column "profesores.licenciaConducir".
+SCAN|profesores|telefono|0
+SCAN|promociones|id|0
+SCAN|promociones|nombre|0
+SCAN|promociones|descripcion|0
+ERROR|promociones|imagenRuta|ERROR: column "imagenruta" does not exist LINE 1: ...ublic.promociones WHERE POSITION(CHR(195) IN CAST(imagenRuta... ^ HINT: Perhaps you meant to reference the column "promociones.imagenRuta".
+ERROR|promociones|licenciaClasesGratis|ERROR: column "licenciaclasesgratis" does not exist LINE 1: ...ublic.promociones WHERE POSITION(CHR(195) IN CAST(licenciaCl... ^ HINT: Perhaps you meant to reference the column "promociones.licenciaClasesGratis".
+SCAN|respuestas_pregunta_dgt|id|0
+ERROR|respuestas_pregunta_dgt|preguntaId|ERROR: column "preguntaid" does not exist LINE 1: ...stas_pregunta_dgt WHERE POSITION(CHR(195) IN CAST(preguntaId... ^ HINT: Perhaps you meant to reference the column "respuestas_pregunta_dgt.preguntaId".
+SCAN|respuestas_pregunta_dgt|texto|227
+SAMPLE|respuestas_pregunta_dgt|texto|57c85c33-660b-42e0-96a6-2d8fec17d8c9|Una situaci├â┬│n de trafico excesivamente sencilla
+SAMPLE|respuestas_pregunta_dgt|texto|9eec5214-12a1-47f7-bc0c-a5424861b16d|Una situaci├â┬│n de trafico excesivamente compleja
+SAMPLE|respuestas_pregunta_dgt|texto|d690f50f-a2bf-409f-ba25-00d2b6a44ab0|Con los neum├â┬íticos fr├â┬¡os
+SAMPLE|respuestas_pregunta_dgt|texto|74f887d0-b180-448a-b92b-7f060dc32018|No, no deben facilitar el paso en ning├â┬║n caso
+SAMPLE|respuestas_pregunta_dgt|texto|5359ed1a-9ad7-44be-bd5c-65132e883489|Con los neum├â┬íticos calientes
+SCAN|solicitudes_examen|id|0
+ERROR|solicitudes_examen|alumnoId|ERROR: column "alumnoid" does not exist LINE 1: ...olicitudes_examen WHERE POSITION(CHR(195) IN CAST(alumnoId A... ^ HINT: Perhaps you meant to reference the column "solicitudes_examen.alumnoId".
+SCAN|solicitudes_examen|tipo|0
+SCAN|solicitudes_examen|estado|0
+SCAN|solicitudes_examen|observaciones|3
+SAMPLE|solicitudes_examen|observaciones|dc1d069d-0e75-4195-9485-91376c275032|Cancelado por alumno con m├â┬ís de 24h de antelaci├â┬│n
+SAMPLE|solicitudes_examen|observaciones|3d387b89-b1e3-4a68-a934-f90a0a1e85de|Cancelado por alumno con m├â┬ís de 24h de antelaci├â┬│n
+SAMPLE|solicitudes_examen|observaciones|afc693cc-207c-4e08-9024-56c707c3781d|Cancelado por alumno con m├â┬ís de 24h de antelaci├â┬│n
+ERROR|solicitudes_examen|pagoGastoPracticoId|ERROR: column "pagogastopracticoid" does not exist LINE 1: ...olicitudes_examen WHERE POSITION(CHR(195) IN CAST(pagoGastoP... ^ HINT: Perhaps you meant to reference the column "solicitudes_examen.pagoGastoPracticoId".
+ERROR|solicitudes_examen|motivoNoApto|ERROR: column "motivonoapto" does not exist LINE 1: ...olicitudes_examen WHERE POSITION(CHR(195) IN CAST(motivoNoAp... ^ HINT: Perhaps you meant to reference the column "solicitudes_examen.motivoNoApto".
+SCAN|tarifas_concepto|id|0
+SCAN|tarifas_concepto|permiso|0
+SCAN|tarifas_concepto|concepto|20
+SAMPLE|tarifas_concepto|concepto|834e187a-9bd7-442a-ad11-98ae0da30a96|Curso de CAP inicial (Mercanc├â┬¡as)
+SAMPLE|tarifas_concepto|concepto|104a3e04-4f33-48a4-8474-d19f1b96396f|Psicot├â┬®cnico
+SAMPLE|tarifas_concepto|concepto|e33d45fe-9e50-4cac-a864-ee1f9674e96b|Clases de circulaci├â┬│n (Abierto)
+SAMPLE|tarifas_concepto|concepto|bd3f10df-4cc5-4b12-b5a0-9d6fa9fe1187|Gastos Derechos de examen (Circuito y circulaci├â┬│n)
+SAMPLE|tarifas_concepto|concepto|c5c963fe-4604-4d94-98dc-3904d2b465b4|Clases de circulaci├â┬│n (Abierto)
+SCAN|tarifas_concepto|descripcion|24
+SAMPLE|tarifas_concepto|descripcion|104a3e04-4f33-48a4-8474-d19f1b96396f|Certificado m├â┬®dico de aptitud
+SAMPLE|tarifas_concepto|descripcion|e33d45fe-9e50-4cac-a864-ee1f9674e96b|Pr├â┬ícticas en tr├â┬ífico real con intercomunicador
+SAMPLE|tarifas_concepto|descripcion|e5e918f6-84cb-49c3-b432-c6adac7da6c9|Pr├â┬ícticas en circuito cerrado (precio por sesi├â┬│n de 30 minutos)
+SAMPLE|tarifas_concepto|descripcion|bd3f10df-4cc5-4b12-b5a0-9d6fa9fe1187|Cobro de autoescuela por presentaci├â┬│n y traslado
+SAMPLE|tarifas_concepto|descripcion|c5c963fe-4604-4d94-98dc-3904d2b465b4|Pr├â┬ícticas en tr├â┬ífico real con intercomunicador
+SCAN|tarifas_concepto_historial|id|0
+ERROR|tarifas_concepto_historial|tarifaConceptoId|ERROR: column "tarifaconceptoid" does not exist LINE 1: ...oncepto_historial WHERE POSITION(CHR(195) IN CAST(tarifaConc... ^ HINT: Perhaps you meant to reference the column "tarifas_concepto_historial.tarifaConceptoId".
+SCAN|tarifas_concepto_historial|permiso|0
+SCAN|tarifas_concepto_historial|concepto|0
+SCAN|tarifas_concepto_historial|motivo|0
+ERROR|tarifas_concepto_historial|usuarioId|ERROR: column "usuarioid" does not exist LINE 1: ...oncepto_historial WHERE POSITION(CHR(195) IN CAST(usuarioId ... ^ HINT: Perhaps you meant to reference the column "tarifas_concepto_historial.usuarioId".
+SCAN|tarifas_matricula|id|0
+SCAN|tarifas_matricula|licencia|0
+SCAN|temarios|id|0
+SCAN|temarios|titulo|19
+SAMPLE|temarios|titulo|bd235cdb-05bd-4877-9141-3211ea60bed6|Conducci├â┬│n eficiente
+SAMPLE|temarios|titulo|390365cb-0cb5-4665-bbc2-1b7396d46547|Permisos y Documentaci├â┬│n
+SAMPLE|temarios|titulo|de960487-c022-4367-ab39-a75be6344562|Permisos y documentaci├â┬│n
+SAMPLE|temarios|titulo|temario-003|Sem├â┬íforos y Agentes
+SAMPLE|temarios|titulo|temario-004|Veh├â┬¡culo
+SCAN|temarios|descripcion|29
+SAMPLE|temarios|descripcion|bd235cdb-05bd-4877-9141-3211ea60bed6|Ahorro de combustible. Impacto ambiental. Conducci├â┬│n previsora. Tratamiento preventivo.
+SAMPLE|temarios|descripcion|390365cb-0cb5-4665-bbc2-1b7396d46547|Permiso de conducir. Documentaci├â┬│n del conductor y del veh├â┬¡culo. Inspecciones (ITV). Autorizaciones.
+SAMPLE|temarios|descripcion|de960487-c022-4367-ab39-a75be6344562|Permiso de conducir. Documentaci├â┬│n del conductor y del veh├â┬¡culo. Inspecciones (ITV) y Autorizaciones
+SAMPLE|temarios|descripcion|temario-003|Sem├â┬íforos. Se├â┬▒ales de los agentes. Ordenes verbales. Ordenes gestuales.
+SAMPLE|temarios|descripcion|temario-004|Partes del veh├â┬¡culo. Luces y dispositivos de alumbrado. Mantenimiento. Carga y remolque. Documentaci├â┬│n.
+ERROR|temarios|documentacionRuta|ERROR: column "documentacionruta" does not exist LINE 1: ...M public.temarios WHERE POSITION(CHR(195) IN CAST(documentac... ^ HINT: Perhaps you meant to reference the column "temarios.documentacionRuta".
+ERROR|temarios|claseDirectoVideoUrl|ERROR: column "clasedirectovideourl" does not exist LINE 1: ...M public.temarios WHERE POSITION(CHR(195) IN CAST(claseDirec... ^ HINT: Perhaps you meant to reference the column "temarios.claseDirectoVideoUrl".
+SCAN|temarios_progreso|id|0
+ERROR|temarios_progreso|alumnoId|ERROR: column "alumnoid" does not exist LINE 1: ...temarios_progreso WHERE POSITION(CHR(195) IN CAST(alumnoId A... ^ HINT: Perhaps you meant to reference the column "temarios_progreso.alumnoId".
+ERROR|temarios_progreso|temarioId|ERROR: column "temarioid" does not exist LINE 1: ...temarios_progreso WHERE POSITION(CHR(195) IN CAST(temarioId ... ^ HINT: Perhaps you meant to reference the column "temarios_progreso.temarioId".
+SCAN|tests_practica|id|0
+ERROR|tests_practica|alumnoId|ERROR: column "alumnoid" does not exist LINE 1: ...ic.tests_practica WHERE POSITION(CHR(195) IN CAST(alumnoId A... ^ HINT: Perhaps you meant to reference the column "tests_practica.alumnoId".
+ERROR|tests_practica|temarioId|ERROR: column "temarioid" does not exist LINE 1: ...ic.tests_practica WHERE POSITION(CHR(195) IN CAST(temarioId ... ^ HINT: Perhaps you meant to reference the column "tests_practica.temarioId".
+SCAN|tests_practica|resultado|0
+SCAN|theoretical_exam_process_batches|id|0
+SCAN|theoretical_exam_process_batches|status|0
+SCAN|theoretical_exam_process_batches|mode|0
+SCAN|theoretical_exam_process_batches|seed|0
+SCAN|theoretical_exam_process_batches|operator|0
+SCAN|theoretical_exam_process_batches|reason|0
+ERROR|theoretical_exam_process_pagos|batchId|ERROR: column "batchid" does not exist LINE 1: ...xam_process_pagos WHERE POSITION(CHR(195) IN CAST(batchId AS... ^ HINT: Perhaps you meant to reference the column "theoretical_exam_process_pagos.batchId".
+ERROR|theoretical_exam_process_pagos|pagoId|ERROR: column "pagoid" does not exist LINE 1: ...xam_process_pagos WHERE POSITION(CHR(195) IN CAST(pagoId AS ... ^ HINT: Perhaps you meant to reference the column "theoretical_exam_process_pagos.pagoId".
+ERROR|theoretical_exam_process_pagos|alumnoId|ERROR: column "alumnoid" does not exist LINE 1: ...xam_process_pagos WHERE POSITION(CHR(195) IN CAST(alumnoId A... ^ HINT: Perhaps you meant to reference the column "theoretical_exam_process_pagos.alumnoId".
+ERROR|theoretical_exam_process_pagos|conflictReason|ERROR: column "conflictreason" does not exist LINE 1: ...xam_process_pagos WHERE POSITION(CHR(195) IN CAST(conflictRe... ^ HINT: Perhaps you meant to reference the column "theoretical_exam_process_pagos.conflictReason".
+ERROR|theoretical_exam_process_solicitudes|batchId|ERROR: column "batchid" does not exist LINE 1: ...ocess_solicitudes WHERE POSITION(CHR(195) IN CAST(batchId AS... ^ HINT: Perhaps you meant to reference the column "theoretical_exam_process_solicitudes.batchId".
+ERROR|theoretical_exam_process_solicitudes|solicitudId|ERROR: column "solicitudid" does not exist LINE 1: ...ocess_solicitudes WHERE POSITION(CHR(195) IN CAST(solicitudI... ^ HINT: Perhaps you meant to reference the column "theoretical_exam_process_solicitudes.solicitudId".
+ERROR|theoretical_exam_process_solicitudes|alumnoId|ERROR: column "alumnoid" does not exist LINE 1: ...ocess_solicitudes WHERE POSITION(CHR(195) IN CAST(alumnoId A... ^ HINT: Perhaps you meant to reference the column "theoretical_exam_process_solicitudes.alumnoId".
+ERROR|theoretical_exam_process_solicitudes|beforeEstado|ERROR: column "beforeestado" does not exist LINE 1: ...ocess_solicitudes WHERE POSITION(CHR(195) IN CAST(beforeEsta... ^ HINT: Perhaps you meant to reference the column "theoretical_exam_process_solicitudes.beforeEstado".
+ERROR|theoretical_exam_process_solicitudes|afterEstado|ERROR: column "afterestado" does not exist LINE 1: ...ocess_solicitudes WHERE POSITION(CHR(195) IN CAST(afterEstad... ^ HINT: Perhaps you meant to reference the column "theoretical_exam_process_solicitudes.afterEstado".
+ERROR|theoretical_exam_process_solicitudes|conflictReason|ERROR: column "conflictreason" does not exist LINE 1: ...ocess_solicitudes WHERE POSITION(CHR(195) IN CAST(conflictRe... ^ HINT: Perhaps you meant to reference the column "theoretical_exam_process_solicitudes.conflictReason".
+SCAN|usuarios|id|0
+SCAN|usuarios|nombre|10
+SAMPLE|usuarios|nombre|b11eba2a-9d60-4da4-a158-7f74a796c334|├â┬ülvaro Aguado Mena
+SAMPLE|usuarios|nombre|c53048d7-6639-4750-b75c-466f7bed8241|Sonia Jim├â┬®nez Mar
+SAMPLE|usuarios|nombre|d43ca313-62ec-4a89-91a6-0e4f26d488f5|Maria Monta├â┬▒a Ruiz
+SAMPLE|usuarios|nombre|7c3231f8-7145-496c-a670-ee95d24987f3|Jes├â┬║s Puente Roma
+SAMPLE|usuarios|nombre|d059ac32-1792-44b6-b2a6-2bad954f9200|Bego├â┬▒a Burgos Berlanga
+SCAN|usuarios|email|0
+ERROR|usuarios|passwordHash|ERROR: column "passwordhash" does not exist LINE 1: ...M public.usuarios WHERE POSITION(CHR(195) IN CAST(passwordHa... ^ HINT: Perhaps you meant to reference the column "usuarios.passwordHash".
+SCAN|usuarios|telefono|0
+SCAN|usuarios|dni|0
+SCAN|vehiculos|id|0
+SCAN|vehiculos|matricula|0
+SCAN|vehiculos|marca|0
+SCAN|vehiculos|modelo|0
+ERROR|vehiculos|tipoPermiso|ERROR: column "tipopermiso" does not exist LINE 1: ... public.vehiculos WHERE POSITION(CHR(195) IN CAST(tipoPermis... ^ HINT: Perhaps you meant to reference the column "vehiculos.tipoPermiso".
+ERROR|vehiculos|imagenRuta|ERROR: column "imagenruta" does not exist LINE 1: ... public.vehiculos WHERE POSITION(CHR(195) IN CAST(imagenRuta... ^ HINT: Perhaps you meant to reference the column "vehiculos.imagenRuta".
+SUMMARY|total_text_columns=223|affected_columns=21|affected_tables=13|total_suspicious_rows=1225|errors=104

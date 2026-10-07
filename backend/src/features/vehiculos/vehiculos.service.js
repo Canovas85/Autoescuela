@@ -2,10 +2,155 @@ import fs from "fs";
 import path from "path";
 
 import { VEHICULOS_UPLOAD_DIR } from "./vehiculos.upload.js";
+import {
+  evaluateVehicleItvStatus,
+  getItvPriceByPermiso,
+  isCompletedClass,
+  ITV_BLOCK_MESSAGE,
+} from "../../shared/domain/vehiculo-itv.js";
+import { generateFacturaNumber } from "../../shared/utils/factura-number.js";
 
 export class VehiculosService {
   constructor(repository) {
     this.repository = repository;
+  }
+
+  parseOptionalDate(value) {
+    if (value === undefined || value === null || String(value).trim() === "") {
+      return null;
+    }
+
+    const parsed = new Date(value);
+
+    if (Number.isNaN(parsed.getTime())) {
+      throw new Error("La fecha de última ITV no es válida");
+    }
+
+    return parsed;
+  }
+
+  generateInvoiceNumber(attempt = 0) {
+    return generateFacturaNumber(attempt);
+  }
+
+  async resolveProfessorActorId(userId) {
+    if (!userId) {
+      return null;
+    }
+
+    if (typeof this.repository.findProfesorById !== "function") {
+      return null;
+    }
+
+    const profesor = await this.repository.findProfesorById(userId);
+    return profesor?.id || null;
+  }
+
+  buildItvStatusFromVehicleData(vehiculo, now = new Date()) {
+    const clases = Array.isArray(vehiculo?.clases) ? vehiculo.clases : [];
+    const numeroClasesRealizadas = clases.filter((clase) =>
+      isCompletedClass(clase, now),
+    ).length;
+
+    const latestItvExpense = vehiculo?.gastosCombustible?.[0] || null;
+    const referenceDate =
+      latestItvExpense?.createdAt || vehiculo?.createdAt || now;
+    const kmBase = Number(latestItvExpense?.kilometrosVehiculo || 0);
+
+    const completedClassesSinceReference = clases.filter((clase) => {
+      if (!isCompletedClass(clase, now)) {
+        return false;
+      }
+
+      const classDate = new Date(clase?.fecha);
+
+      if (Number.isNaN(classDate.getTime())) {
+        return false;
+      }
+
+      return classDate >= referenceDate;
+    }).length;
+
+    const itvStatus = evaluateVehicleItvStatus({
+      vehiculo,
+      referenceDate,
+      kmBase,
+      completedClassesSinceReference,
+      now,
+    });
+
+    return {
+      numeroClasesRealizadas,
+      latestItvExpense,
+      itvStatus,
+      precioRevisionItv: getItvPriceByPermiso(vehiculo?.tipoPermiso),
+    };
+  }
+
+  async getVehicleItvStatus(vehiculoId, now = new Date()) {
+    const vehiculo = await this.repository.findById(vehiculoId);
+
+    if (!vehiculo) {
+      throw new Error("Vehículo no encontrado");
+    }
+
+    const latestItvExpense =
+      typeof this.repository.findLatestItvExpenseByVehiculoId === "function"
+        ? await this.repository.findLatestItvExpenseByVehiculoId(vehiculoId)
+        : null;
+
+    const referenceDate =
+      latestItvExpense?.createdAt || vehiculo?.createdAt || now;
+    const kmBase = Number(latestItvExpense?.kilometrosVehiculo || 0);
+
+    const completedClassesSinceReference =
+      typeof this.repository.countCompletedClassesByVehiculoSince === "function"
+        ? await this.repository.countCompletedClassesByVehiculoSince(
+            vehiculoId,
+            referenceDate,
+            now,
+          )
+        : 0;
+
+    const itvStatus = evaluateVehicleItvStatus({
+      vehiculo,
+      referenceDate,
+      kmBase,
+      completedClassesSinceReference,
+      now,
+    });
+
+    return {
+      vehiculo,
+      latestItvExpense,
+      ...itvStatus,
+      precioRevisionItv: getItvPriceByPermiso(vehiculo?.tipoPermiso),
+    };
+  }
+
+  mapVehiculoWithStats(vehiculo, now = new Date()) {
+    const {
+      numeroClasesRealizadas,
+      latestItvExpense,
+      itvStatus,
+      precioRevisionItv,
+    } = this.buildItvStatusFromVehicleData(vehiculo, now);
+
+    return {
+      ...vehiculo,
+      numeroClasesRealizadas,
+      itvPendiente: itvStatus.pendiente,
+      itvMotivos: itvStatus.motivos,
+      itvPrecioRevision: precioRevisionItv,
+      itvFechaReferencia: itvStatus.fechaReferenciaRevision,
+      itvFechaLimite: itvStatus.fechaLimiteRevision,
+      itvKmRecorridosDesdeUltimaRevision:
+        itvStatus.kmRecorridosDesdeUltimaRevision,
+      itvClasesEfectuadasDesdeUltimaRevision:
+        itvStatus.clasesEfectuadasDesdeUltimaRevision,
+      ultimaRevisionItvRegistradaAt: latestItvExpense?.createdAt || null,
+      ultimaRevisionItvNumeroFactura: latestItvExpense?.numeroFactura || null,
+    };
   }
 
   async create(data, imagenFile) {
@@ -40,6 +185,7 @@ export class VehiculosService {
       marca: typeof data.marca === "string" ? data.marca.trim() : data.marca,
       modelo:
         typeof data.modelo === "string" ? data.modelo.trim() : data.modelo,
+      fechaUltimaItv: this.parseOptionalDate(data.fechaUltimaItv),
       imagenRuta: imagenFile
         ? `/api/uploads/vehiculos/${imagenFile.filename}`
         : null,
@@ -47,11 +193,22 @@ export class VehiculosService {
     });
   }
   async getAll() {
-    return this.repository.findAll();
+    const rows = await this.repository.findAll();
+    const now = new Date();
+
+    return (rows || []).map((vehiculo) =>
+      this.mapVehiculoWithStats(vehiculo, now),
+    );
   }
 
   async getById(id) {
-    return this.repository.findById(id);
+    const vehiculo = await this.repository.findById(id);
+
+    if (!vehiculo) {
+      return null;
+    }
+
+    return this.mapVehiculoWithStats(vehiculo);
   }
 
   async update(id, data, imagenFile) {
@@ -99,6 +256,10 @@ export class VehiculosService {
     if (Object.prototype.hasOwnProperty.call(data, "modelo")) {
       payload.modelo =
         typeof data.modelo === "string" ? data.modelo.trim() : data.modelo;
+    }
+
+    if (Object.prototype.hasOwnProperty.call(data, "fechaUltimaItv")) {
+      payload.fechaUltimaItv = this.parseOptionalDate(data.fechaUltimaItv);
     }
 
     const vehiculoActual =
@@ -296,10 +457,73 @@ export class VehiculosService {
       };
     });
 
+    for (const assignment of assignments) {
+      const itvStatus = await this.getVehicleItvStatus(
+        assignment.nuevoVehiculoId,
+      );
+
+      if (itvStatus.pendiente) {
+        throw new Error(ITV_BLOCK_MESSAGE);
+      }
+    }
+
     return this.repository.deactivateWithReassignments({
       vehiculoId: id,
       assignments,
     });
+  }
+
+  async payItv(vehiculoId, userId = null) {
+    const itvStatus = await this.getVehicleItvStatus(vehiculoId);
+
+    if (!itvStatus.pendiente) {
+      throw new Error(
+        "Este vehículo no tiene una revisión ITV pendiente en este momento",
+      );
+    }
+
+    const concepto = `Revisión ITV - ${itvStatus.vehiculo.matricula}`;
+    const total = Number(getItvPriceByPermiso(itvStatus.vehiculo.tipoPermiso));
+    const profesorActorId = await this.resolveProfessorActorId(userId);
+
+    let attempt = 0;
+
+    while (attempt < 3) {
+      const numeroFactura = this.generateInvoiceNumber(attempt);
+
+      try {
+        const payload = {
+          vehiculoId,
+          profesorId: profesorActorId,
+          numeroFactura,
+          concepto,
+          total,
+          kilometrosVehiculo: Number(itvStatus.vehiculo.kmActuales || 0),
+          fechaRevision: new Date(),
+        };
+
+        const result =
+          await this.repository.createItvExpenseAndInvoice(payload);
+
+        return {
+          message: "Pago de revisión ITV registrado correctamente",
+          numeroFactura,
+          concepto,
+          total,
+          vehiculo: result.vehiculo,
+        };
+      } catch (error) {
+        if (error?.code !== "P2002" || attempt === 2) {
+          throw error;
+        }
+
+        attempt += 1;
+      }
+    }
+
+    throw new Error(
+      "No se pudo generar el número de factura para la revisión ITV",
+    );
   }
 
   async activate(id) {

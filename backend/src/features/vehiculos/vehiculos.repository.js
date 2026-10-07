@@ -17,8 +17,53 @@ export class VehiculosRepository {
     });
   }
 
+  async findProfesorById(id) {
+    return this.prisma.profesor.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        id: true,
+      },
+    });
+  }
+
   async findAll() {
-    return this.prisma.vehiculo.findMany();
+    return this.prisma.vehiculo.findMany({
+      include: {
+        clases: {
+          select: {
+            id: true,
+            fecha: true,
+            estado: true,
+            hojaRuta: {
+              select: {
+                estado: true,
+              },
+            },
+          },
+        },
+        gastosCombustible: {
+          where: {
+            tipoGasto: "REVISION_ITV",
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+          take: 1,
+          select: {
+            id: true,
+            createdAt: true,
+            kilometrosVehiculo: true,
+            total: true,
+            numeroFactura: true,
+          },
+        },
+      },
+      orderBy: {
+        matricula: "asc",
+      },
+    });
   }
 
   async findById(id) {
@@ -26,6 +71,144 @@ export class VehiculosRepository {
       where: {
         id,
       },
+      include: {
+        clases: {
+          select: {
+            id: true,
+            fecha: true,
+            estado: true,
+            hojaRuta: {
+              select: {
+                estado: true,
+              },
+            },
+          },
+        },
+        gastosCombustible: {
+          where: {
+            tipoGasto: "REVISION_ITV",
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+          take: 1,
+          select: {
+            id: true,
+            createdAt: true,
+            kilometrosVehiculo: true,
+            total: true,
+            numeroFactura: true,
+          },
+        },
+      },
+    });
+  }
+
+  async findLatestItvExpenseByVehiculoId(vehiculoId) {
+    return this.prisma.gastoCombustible.findFirst({
+      where: {
+        vehiculoId,
+        tipoGasto: "REVISION_ITV",
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  }
+
+  async countCompletedClassesByVehiculoSince(vehiculoId, fromDate, now) {
+    return this.prisma.clasePractica.count({
+      where: {
+        vehiculoId,
+        fecha: {
+          gte: fromDate,
+        },
+        estado: {
+          not: {
+            startsWith: "CANCELADA",
+          },
+        },
+        OR: [
+          {
+            estado: {
+              in: ["REALIZADA", "COMPLETADA", "FINALIZADA", "REGISTRADA"],
+            },
+          },
+          {
+            hojaRuta: {
+              is: {
+                estado: "REGISTRADA",
+              },
+            },
+          },
+          {
+            fecha: {
+              lt: now,
+            },
+          },
+        ],
+      },
+    });
+  }
+
+  async createItvExpenseAndInvoice(payload) {
+    const {
+      vehiculoId,
+      profesorId,
+      numeroFactura,
+      concepto,
+      total,
+      kilometrosVehiculo,
+      fechaRevision,
+    } = payload;
+
+    return this.prisma.$transaction(async (tx) => {
+      const gasto = await tx.gastoCombustible.create({
+        data: {
+          numeroFactura,
+          profesorId,
+          vehiculoId,
+          tipoGasto: "REVISION_ITV",
+          concepto,
+          titularTarjeta: "Autoescuela Eguzkilore",
+          numeroTarjeta: "5102 1234 4321 5015",
+          combustibleAntesPct: 0,
+          combustibleDespuesPct: 0,
+          litrosRepostados: 0,
+          precioLitro: 0,
+          total,
+          kilometrosVehiculo,
+          rutaRecibo: null,
+        },
+      });
+
+      const factura = await tx.factura.create({
+        data: {
+          numero: numeroFactura,
+          alumnoId: null,
+          concepto,
+          baseImponible: total,
+          descuento: 0,
+          total,
+          estado: "PAGADA",
+          fechaPago: fechaRevision,
+        },
+      });
+
+      const vehiculo = await tx.vehiculo.update({
+        where: {
+          id: vehiculoId,
+        },
+        data: {
+          fechaUltimaItv: fechaRevision,
+        },
+      });
+
+      return {
+        gasto,
+        factura,
+        vehiculo,
+      };
     });
   }
 

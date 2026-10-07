@@ -218,6 +218,11 @@ export type GastoCombustible = $Result.DefaultSelection<Prisma.$GastoCombustible
  * 
  */
 export type Notificacion = $Result.DefaultSelection<Prisma.$NotificacionPayload>
+/**
+ * Model PasswordResetAudit
+ * 
+ */
+export type PasswordResetAudit = $Result.DefaultSelection<Prisma.$PasswordResetAuditPayload>
 
 /**
  * Enums
@@ -235,6 +240,8 @@ export type TipoPrecio = (typeof TipoPrecio)[keyof typeof TipoPrecio]
 
 export const Rol: {
   ADMIN: 'ADMIN',
+  ADMINISTRATIVO: 'ADMINISTRATIVO',
+  SOPORTE: 'SOPORTE',
   PROFESOR: 'PROFESOR',
   ALUMNO: 'ALUMNO'
 };
@@ -778,6 +785,16 @@ export class PrismaClient<
     * ```
     */
   get notificacion(): Prisma.NotificacionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.passwordResetAudit`: Exposes CRUD operations for the **PasswordResetAudit** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PasswordResetAudits
+    * const passwordResetAudits = await prisma.passwordResetAudit.findMany()
+    * ```
+    */
+  get passwordResetAudit(): Prisma.PasswordResetAuditDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1259,7 +1276,8 @@ export namespace Prisma {
     MatriculaConcepto: 'MatriculaConcepto',
     Factura: 'Factura',
     GastoCombustible: 'GastoCombustible',
-    Notificacion: 'Notificacion'
+    Notificacion: 'Notificacion',
+    PasswordResetAudit: 'PasswordResetAudit'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1278,7 +1296,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "usuario" | "activacionCuenta" | "profesor" | "profesorHorarioBloque" | "alumno" | "documentoAlumno" | "documentoAlumnoArchivo" | "temario" | "temarioProgreso" | "claseDirecto" | "testPractica" | "preguntaDGT" | "respuestaPreguntaDGT" | "examenDGTAlumno" | "bono" | "compraBono" | "solicitudExamen" | "convocatoriaExamen" | "vehiculo" | "clasePractica" | "hojaRuta" | "hojaRutaFalta" | "hojaRutaFaltaCatalogo" | "examen" | "promocion" | "alumnoProfesorHistorial" | "tarifaConcepto" | "tarifaConceptoHistorial" | "tarifaMatricula" | "matricula" | "pago" | "practicalExamProcessBatch" | "practicalExamProcessSolicitud" | "practicalExamProcessPago" | "theoreticalExamProcessBatch" | "theoreticalExamProcessSolicitud" | "theoreticalExamProcessPago" | "matriculaConcepto" | "factura" | "gastoCombustible" | "notificacion"
+      modelProps: "usuario" | "activacionCuenta" | "profesor" | "profesorHorarioBloque" | "alumno" | "documentoAlumno" | "documentoAlumnoArchivo" | "temario" | "temarioProgreso" | "claseDirecto" | "testPractica" | "preguntaDGT" | "respuestaPreguntaDGT" | "examenDGTAlumno" | "bono" | "compraBono" | "solicitudExamen" | "convocatoriaExamen" | "vehiculo" | "clasePractica" | "hojaRuta" | "hojaRutaFalta" | "hojaRutaFaltaCatalogo" | "examen" | "promocion" | "alumnoProfesorHistorial" | "tarifaConcepto" | "tarifaConceptoHistorial" | "tarifaMatricula" | "matricula" | "pago" | "practicalExamProcessBatch" | "practicalExamProcessSolicitud" | "practicalExamProcessPago" | "theoreticalExamProcessBatch" | "theoreticalExamProcessSolicitud" | "theoreticalExamProcessPago" | "matriculaConcepto" | "factura" | "gastoCombustible" | "notificacion" | "passwordResetAudit"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4316,6 +4334,80 @@ export namespace Prisma {
           }
         }
       }
+      PasswordResetAudit: {
+        payload: Prisma.$PasswordResetAuditPayload<ExtArgs>
+        fields: Prisma.PasswordResetAuditFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PasswordResetAuditFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetAuditPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PasswordResetAuditFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetAuditPayload>
+          }
+          findFirst: {
+            args: Prisma.PasswordResetAuditFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetAuditPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PasswordResetAuditFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetAuditPayload>
+          }
+          findMany: {
+            args: Prisma.PasswordResetAuditFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetAuditPayload>[]
+          }
+          create: {
+            args: Prisma.PasswordResetAuditCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetAuditPayload>
+          }
+          createMany: {
+            args: Prisma.PasswordResetAuditCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PasswordResetAuditCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetAuditPayload>[]
+          }
+          delete: {
+            args: Prisma.PasswordResetAuditDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetAuditPayload>
+          }
+          update: {
+            args: Prisma.PasswordResetAuditUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetAuditPayload>
+          }
+          deleteMany: {
+            args: Prisma.PasswordResetAuditDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PasswordResetAuditUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PasswordResetAuditUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetAuditPayload>[]
+          }
+          upsert: {
+            args: Prisma.PasswordResetAuditUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetAuditPayload>
+          }
+          aggregate: {
+            args: Prisma.PasswordResetAuditAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePasswordResetAudit>
+          }
+          groupBy: {
+            args: Prisma.PasswordResetAuditGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PasswordResetAuditGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PasswordResetAuditCountArgs<ExtArgs>
+            result: $Utils.Optional<PasswordResetAuditCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -4453,6 +4545,7 @@ export namespace Prisma {
     factura?: FacturaOmit
     gastoCombustible?: GastoCombustibleOmit
     notificacion?: NotificacionOmit
+    passwordResetAudit?: PasswordResetAuditOmit
   }
 
   /* Types for Logging */
@@ -4535,11 +4628,15 @@ export namespace Prisma {
   export type UsuarioCountOutputType = {
     activacionesCuenta: number
     notificaciones: number
+    resetAuditsAsActor: number
+    resetAuditsAsTarget: number
   }
 
   export type UsuarioCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     activacionesCuenta?: boolean | UsuarioCountOutputTypeCountActivacionesCuentaArgs
     notificaciones?: boolean | UsuarioCountOutputTypeCountNotificacionesArgs
+    resetAuditsAsActor?: boolean | UsuarioCountOutputTypeCountResetAuditsAsActorArgs
+    resetAuditsAsTarget?: boolean | UsuarioCountOutputTypeCountResetAuditsAsTargetArgs
   }
 
   // Custom InputTypes
@@ -4565,6 +4662,20 @@ export namespace Prisma {
    */
   export type UsuarioCountOutputTypeCountNotificacionesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NotificacionWhereInput
+  }
+
+  /**
+   * UsuarioCountOutputType without action
+   */
+  export type UsuarioCountOutputTypeCountResetAuditsAsActorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PasswordResetAuditWhereInput
+  }
+
+  /**
+   * UsuarioCountOutputType without action
+   */
+  export type UsuarioCountOutputTypeCountResetAuditsAsTargetArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PasswordResetAuditWhereInput
   }
 
 
@@ -5376,6 +5487,7 @@ export namespace Prisma {
     email: string | null
     passwordHash: string | null
     rol: $Enums.Rol | null
+    activo: boolean | null
     fechaCreacion: Date | null
     telefono: string | null
     dni: string | null
@@ -5388,6 +5500,7 @@ export namespace Prisma {
     email: string | null
     passwordHash: string | null
     rol: $Enums.Rol | null
+    activo: boolean | null
     fechaCreacion: Date | null
     telefono: string | null
     dni: string | null
@@ -5400,6 +5513,7 @@ export namespace Prisma {
     email: number
     passwordHash: number
     rol: number
+    activo: number
     fechaCreacion: number
     telefono: number
     dni: number
@@ -5414,6 +5528,7 @@ export namespace Prisma {
     email?: true
     passwordHash?: true
     rol?: true
+    activo?: true
     fechaCreacion?: true
     telefono?: true
     dni?: true
@@ -5426,6 +5541,7 @@ export namespace Prisma {
     email?: true
     passwordHash?: true
     rol?: true
+    activo?: true
     fechaCreacion?: true
     telefono?: true
     dni?: true
@@ -5438,6 +5554,7 @@ export namespace Prisma {
     email?: true
     passwordHash?: true
     rol?: true
+    activo?: true
     fechaCreacion?: true
     telefono?: true
     dni?: true
@@ -5523,6 +5640,7 @@ export namespace Prisma {
     email: string
     passwordHash: string
     rol: $Enums.Rol
+    activo: boolean
     fechaCreacion: Date
     telefono: string | null
     dni: string | null
@@ -5552,12 +5670,15 @@ export namespace Prisma {
     email?: boolean
     passwordHash?: boolean
     rol?: boolean
+    activo?: boolean
     fechaCreacion?: boolean
     telefono?: boolean
     dni?: boolean
     requiereCambioPassword?: boolean
     activacionesCuenta?: boolean | Usuario$activacionesCuentaArgs<ExtArgs>
     notificaciones?: boolean | Usuario$notificacionesArgs<ExtArgs>
+    resetAuditsAsActor?: boolean | Usuario$resetAuditsAsActorArgs<ExtArgs>
+    resetAuditsAsTarget?: boolean | Usuario$resetAuditsAsTargetArgs<ExtArgs>
     alumno?: boolean | Usuario$alumnoArgs<ExtArgs>
     profesor?: boolean | Usuario$profesorArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
@@ -5569,6 +5690,7 @@ export namespace Prisma {
     email?: boolean
     passwordHash?: boolean
     rol?: boolean
+    activo?: boolean
     fechaCreacion?: boolean
     telefono?: boolean
     dni?: boolean
@@ -5581,6 +5703,7 @@ export namespace Prisma {
     email?: boolean
     passwordHash?: boolean
     rol?: boolean
+    activo?: boolean
     fechaCreacion?: boolean
     telefono?: boolean
     dni?: boolean
@@ -5593,16 +5716,19 @@ export namespace Prisma {
     email?: boolean
     passwordHash?: boolean
     rol?: boolean
+    activo?: boolean
     fechaCreacion?: boolean
     telefono?: boolean
     dni?: boolean
     requiereCambioPassword?: boolean
   }
 
-  export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "email" | "passwordHash" | "rol" | "fechaCreacion" | "telefono" | "dni" | "requiereCambioPassword", ExtArgs["result"]["usuario"]>
+  export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "email" | "passwordHash" | "rol" | "activo" | "fechaCreacion" | "telefono" | "dni" | "requiereCambioPassword", ExtArgs["result"]["usuario"]>
   export type UsuarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     activacionesCuenta?: boolean | Usuario$activacionesCuentaArgs<ExtArgs>
     notificaciones?: boolean | Usuario$notificacionesArgs<ExtArgs>
+    resetAuditsAsActor?: boolean | Usuario$resetAuditsAsActorArgs<ExtArgs>
+    resetAuditsAsTarget?: boolean | Usuario$resetAuditsAsTargetArgs<ExtArgs>
     alumno?: boolean | Usuario$alumnoArgs<ExtArgs>
     profesor?: boolean | Usuario$profesorArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
@@ -5615,6 +5741,8 @@ export namespace Prisma {
     objects: {
       activacionesCuenta: Prisma.$ActivacionCuentaPayload<ExtArgs>[]
       notificaciones: Prisma.$NotificacionPayload<ExtArgs>[]
+      resetAuditsAsActor: Prisma.$PasswordResetAuditPayload<ExtArgs>[]
+      resetAuditsAsTarget: Prisma.$PasswordResetAuditPayload<ExtArgs>[]
       alumno: Prisma.$AlumnoPayload<ExtArgs> | null
       profesor: Prisma.$ProfesorPayload<ExtArgs> | null
     }
@@ -5624,6 +5752,7 @@ export namespace Prisma {
       email: string
       passwordHash: string
       rol: $Enums.Rol
+      activo: boolean
       fechaCreacion: Date
       telefono: string | null
       dni: string | null
@@ -6024,6 +6153,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     activacionesCuenta<T extends Usuario$activacionesCuentaArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$activacionesCuentaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivacionCuentaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notificaciones<T extends Usuario$notificacionesArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$notificacionesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificacionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    resetAuditsAsActor<T extends Usuario$resetAuditsAsActorArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$resetAuditsAsActorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetAuditPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    resetAuditsAsTarget<T extends Usuario$resetAuditsAsTargetArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$resetAuditsAsTargetArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetAuditPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     alumno<T extends Usuario$alumnoArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$alumnoArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     profesor<T extends Usuario$profesorArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$profesorArgs<ExtArgs>>): Prisma__ProfesorClient<$Result.GetResult<Prisma.$ProfesorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
@@ -6060,6 +6191,7 @@ export namespace Prisma {
     readonly email: FieldRef<"Usuario", 'String'>
     readonly passwordHash: FieldRef<"Usuario", 'String'>
     readonly rol: FieldRef<"Usuario", 'Rol'>
+    readonly activo: FieldRef<"Usuario", 'Boolean'>
     readonly fechaCreacion: FieldRef<"Usuario", 'DateTime'>
     readonly telefono: FieldRef<"Usuario", 'String'>
     readonly dni: FieldRef<"Usuario", 'String'>
@@ -6497,6 +6629,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: NotificacionScalarFieldEnum | NotificacionScalarFieldEnum[]
+  }
+
+  /**
+   * Usuario.resetAuditsAsActor
+   */
+  export type Usuario$resetAuditsAsActorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetAudit
+     */
+    select?: PasswordResetAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetAudit
+     */
+    omit?: PasswordResetAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetAuditInclude<ExtArgs> | null
+    where?: PasswordResetAuditWhereInput
+    orderBy?: PasswordResetAuditOrderByWithRelationInput | PasswordResetAuditOrderByWithRelationInput[]
+    cursor?: PasswordResetAuditWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PasswordResetAuditScalarFieldEnum | PasswordResetAuditScalarFieldEnum[]
+  }
+
+  /**
+   * Usuario.resetAuditsAsTarget
+   */
+  export type Usuario$resetAuditsAsTargetArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetAudit
+     */
+    select?: PasswordResetAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetAudit
+     */
+    omit?: PasswordResetAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetAuditInclude<ExtArgs> | null
+    where?: PasswordResetAuditWhereInput
+    orderBy?: PasswordResetAuditOrderByWithRelationInput | PasswordResetAuditOrderByWithRelationInput[]
+    cursor?: PasswordResetAuditWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PasswordResetAuditScalarFieldEnum | PasswordResetAuditScalarFieldEnum[]
   }
 
   /**
@@ -26561,8 +26741,11 @@ export namespace Prisma {
     tipoPermiso: string | null
     kmActuales: number | null
     combustibleActualPct: number | null
+    fechaUltimaItv: Date | null
     activo: boolean | null
     imagenRuta: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type VehiculoMaxAggregateOutputType = {
@@ -26573,8 +26756,11 @@ export namespace Prisma {
     tipoPermiso: string | null
     kmActuales: number | null
     combustibleActualPct: number | null
+    fechaUltimaItv: Date | null
     activo: boolean | null
     imagenRuta: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type VehiculoCountAggregateOutputType = {
@@ -26585,8 +26771,11 @@ export namespace Prisma {
     tipoPermiso: number
     kmActuales: number
     combustibleActualPct: number
+    fechaUltimaItv: number
     activo: number
     imagenRuta: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -26609,8 +26798,11 @@ export namespace Prisma {
     tipoPermiso?: true
     kmActuales?: true
     combustibleActualPct?: true
+    fechaUltimaItv?: true
     activo?: true
     imagenRuta?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type VehiculoMaxAggregateInputType = {
@@ -26621,8 +26813,11 @@ export namespace Prisma {
     tipoPermiso?: true
     kmActuales?: true
     combustibleActualPct?: true
+    fechaUltimaItv?: true
     activo?: true
     imagenRuta?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type VehiculoCountAggregateInputType = {
@@ -26633,8 +26828,11 @@ export namespace Prisma {
     tipoPermiso?: true
     kmActuales?: true
     combustibleActualPct?: true
+    fechaUltimaItv?: true
     activo?: true
     imagenRuta?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -26732,8 +26930,11 @@ export namespace Prisma {
     tipoPermiso: string
     kmActuales: number
     combustibleActualPct: number
+    fechaUltimaItv: Date | null
     activo: boolean
     imagenRuta: string | null
+    createdAt: Date
+    updatedAt: Date
     _count: VehiculoCountAggregateOutputType | null
     _avg: VehiculoAvgAggregateOutputType | null
     _sum: VehiculoSumAggregateOutputType | null
@@ -26763,8 +26964,11 @@ export namespace Prisma {
     tipoPermiso?: boolean
     kmActuales?: boolean
     combustibleActualPct?: boolean
+    fechaUltimaItv?: boolean
     activo?: boolean
     imagenRuta?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     clases?: boolean | Vehiculo$clasesArgs<ExtArgs>
     gastosCombustible?: boolean | Vehiculo$gastosCombustibleArgs<ExtArgs>
     _count?: boolean | VehiculoCountOutputTypeDefaultArgs<ExtArgs>
@@ -26778,8 +26982,11 @@ export namespace Prisma {
     tipoPermiso?: boolean
     kmActuales?: boolean
     combustibleActualPct?: boolean
+    fechaUltimaItv?: boolean
     activo?: boolean
     imagenRuta?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["vehiculo"]>
 
   export type VehiculoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -26790,8 +26997,11 @@ export namespace Prisma {
     tipoPermiso?: boolean
     kmActuales?: boolean
     combustibleActualPct?: boolean
+    fechaUltimaItv?: boolean
     activo?: boolean
     imagenRuta?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["vehiculo"]>
 
   export type VehiculoSelectScalar = {
@@ -26802,11 +27012,14 @@ export namespace Prisma {
     tipoPermiso?: boolean
     kmActuales?: boolean
     combustibleActualPct?: boolean
+    fechaUltimaItv?: boolean
     activo?: boolean
     imagenRuta?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type VehiculoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "matricula" | "marca" | "modelo" | "tipoPermiso" | "kmActuales" | "combustibleActualPct" | "activo" | "imagenRuta", ExtArgs["result"]["vehiculo"]>
+  export type VehiculoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "matricula" | "marca" | "modelo" | "tipoPermiso" | "kmActuales" | "combustibleActualPct" | "fechaUltimaItv" | "activo" | "imagenRuta" | "createdAt" | "updatedAt", ExtArgs["result"]["vehiculo"]>
   export type VehiculoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     clases?: boolean | Vehiculo$clasesArgs<ExtArgs>
     gastosCombustible?: boolean | Vehiculo$gastosCombustibleArgs<ExtArgs>
@@ -26829,8 +27042,11 @@ export namespace Prisma {
       tipoPermiso: string
       kmActuales: number
       combustibleActualPct: number
+      fechaUltimaItv: Date | null
       activo: boolean
       imagenRuta: string | null
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["vehiculo"]>
     composites: {}
   }
@@ -27263,8 +27479,11 @@ export namespace Prisma {
     readonly tipoPermiso: FieldRef<"Vehiculo", 'String'>
     readonly kmActuales: FieldRef<"Vehiculo", 'Int'>
     readonly combustibleActualPct: FieldRef<"Vehiculo", 'Int'>
+    readonly fechaUltimaItv: FieldRef<"Vehiculo", 'DateTime'>
     readonly activo: FieldRef<"Vehiculo", 'Boolean'>
     readonly imagenRuta: FieldRef<"Vehiculo", 'String'>
+    readonly createdAt: FieldRef<"Vehiculo", 'DateTime'>
+    readonly updatedAt: FieldRef<"Vehiculo", 'DateTime'>
   }
     
 
@@ -50729,7 +50948,7 @@ export namespace Prisma {
   export type FacturaGroupByOutputType = {
     id: string
     numero: string
-    alumnoId: string
+    alumnoId: string | null
     matriculaId: string | null
     compraBonoId: string | null
     clasePracticaId: string | null
@@ -50775,7 +50994,7 @@ export namespace Prisma {
     estado?: boolean
     fechaEmision?: boolean
     fechaPago?: boolean
-    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    alumno?: boolean | Factura$alumnoArgs<ExtArgs>
     matricula?: boolean | Factura$matriculaArgs<ExtArgs>
     compraBono?: boolean | Factura$compraBonoArgs<ExtArgs>
     clasePractica?: boolean | Factura$clasePracticaArgs<ExtArgs>
@@ -50795,7 +51014,7 @@ export namespace Prisma {
     estado?: boolean
     fechaEmision?: boolean
     fechaPago?: boolean
-    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    alumno?: boolean | Factura$alumnoArgs<ExtArgs>
     matricula?: boolean | Factura$matriculaArgs<ExtArgs>
     compraBono?: boolean | Factura$compraBonoArgs<ExtArgs>
     clasePractica?: boolean | Factura$clasePracticaArgs<ExtArgs>
@@ -50815,7 +51034,7 @@ export namespace Prisma {
     estado?: boolean
     fechaEmision?: boolean
     fechaPago?: boolean
-    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    alumno?: boolean | Factura$alumnoArgs<ExtArgs>
     matricula?: boolean | Factura$matriculaArgs<ExtArgs>
     compraBono?: boolean | Factura$compraBonoArgs<ExtArgs>
     clasePractica?: boolean | Factura$clasePracticaArgs<ExtArgs>
@@ -50839,19 +51058,19 @@ export namespace Prisma {
 
   export type FacturaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "numero" | "alumnoId" | "matriculaId" | "compraBonoId" | "clasePracticaId" | "concepto" | "baseImponible" | "descuento" | "total" | "estado" | "fechaEmision" | "fechaPago", ExtArgs["result"]["factura"]>
   export type FacturaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    alumno?: boolean | Factura$alumnoArgs<ExtArgs>
     matricula?: boolean | Factura$matriculaArgs<ExtArgs>
     compraBono?: boolean | Factura$compraBonoArgs<ExtArgs>
     clasePractica?: boolean | Factura$clasePracticaArgs<ExtArgs>
   }
   export type FacturaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    alumno?: boolean | Factura$alumnoArgs<ExtArgs>
     matricula?: boolean | Factura$matriculaArgs<ExtArgs>
     compraBono?: boolean | Factura$compraBonoArgs<ExtArgs>
     clasePractica?: boolean | Factura$clasePracticaArgs<ExtArgs>
   }
   export type FacturaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    alumno?: boolean | Factura$alumnoArgs<ExtArgs>
     matricula?: boolean | Factura$matriculaArgs<ExtArgs>
     compraBono?: boolean | Factura$compraBonoArgs<ExtArgs>
     clasePractica?: boolean | Factura$clasePracticaArgs<ExtArgs>
@@ -50860,7 +51079,7 @@ export namespace Prisma {
   export type $FacturaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Factura"
     objects: {
-      alumno: Prisma.$AlumnoPayload<ExtArgs>
+      alumno: Prisma.$AlumnoPayload<ExtArgs> | null
       matricula: Prisma.$MatriculaPayload<ExtArgs> | null
       compraBono: Prisma.$CompraBonoPayload<ExtArgs> | null
       clasePractica: Prisma.$ClasePracticaPayload<ExtArgs> | null
@@ -50868,7 +51087,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       numero: string
-      alumnoId: string
+      alumnoId: string | null
       matriculaId: string | null
       compraBonoId: string | null
       clasePracticaId: string | null
@@ -51273,7 +51492,7 @@ export namespace Prisma {
    */
   export interface Prisma__FacturaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    alumno<T extends AlumnoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AlumnoDefaultArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    alumno<T extends Factura$alumnoArgs<ExtArgs> = {}>(args?: Subset<T, Factura$alumnoArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     matricula<T extends Factura$matriculaArgs<ExtArgs> = {}>(args?: Subset<T, Factura$matriculaArgs<ExtArgs>>): Prisma__MatriculaClient<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     compraBono<T extends Factura$compraBonoArgs<ExtArgs> = {}>(args?: Subset<T, Factura$compraBonoArgs<ExtArgs>>): Prisma__CompraBonoClient<$Result.GetResult<Prisma.$CompraBonoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     clasePractica<T extends Factura$clasePracticaArgs<ExtArgs> = {}>(args?: Subset<T, Factura$clasePracticaArgs<ExtArgs>>): Prisma__ClasePracticaClient<$Result.GetResult<Prisma.$ClasePracticaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -51715,6 +51934,25 @@ export namespace Prisma {
   }
 
   /**
+   * Factura.alumno
+   */
+  export type Factura$alumnoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Alumno
+     */
+    select?: AlumnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Alumno
+     */
+    omit?: AlumnoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlumnoInclude<ExtArgs> | null
+    where?: AlumnoWhereInput
+  }
+
+  /**
    * Factura.matricula
    */
   export type Factura$matriculaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -51825,6 +52063,8 @@ export namespace Prisma {
     numeroFactura: string | null
     profesorId: string | null
     vehiculoId: string | null
+    tipoGasto: string | null
+    concepto: string | null
     titularTarjeta: string | null
     numeroTarjeta: string | null
     combustibleAntesPct: number | null
@@ -51843,6 +52083,8 @@ export namespace Prisma {
     numeroFactura: string | null
     profesorId: string | null
     vehiculoId: string | null
+    tipoGasto: string | null
+    concepto: string | null
     titularTarjeta: string | null
     numeroTarjeta: string | null
     combustibleAntesPct: number | null
@@ -51861,6 +52103,8 @@ export namespace Prisma {
     numeroFactura: number
     profesorId: number
     vehiculoId: number
+    tipoGasto: number
+    concepto: number
     titularTarjeta: number
     numeroTarjeta: number
     combustibleAntesPct: number
@@ -51899,6 +52143,8 @@ export namespace Prisma {
     numeroFactura?: true
     profesorId?: true
     vehiculoId?: true
+    tipoGasto?: true
+    concepto?: true
     titularTarjeta?: true
     numeroTarjeta?: true
     combustibleAntesPct?: true
@@ -51917,6 +52163,8 @@ export namespace Prisma {
     numeroFactura?: true
     profesorId?: true
     vehiculoId?: true
+    tipoGasto?: true
+    concepto?: true
     titularTarjeta?: true
     numeroTarjeta?: true
     combustibleAntesPct?: true
@@ -51935,6 +52183,8 @@ export namespace Prisma {
     numeroFactura?: true
     profesorId?: true
     vehiculoId?: true
+    tipoGasto?: true
+    concepto?: true
     titularTarjeta?: true
     numeroTarjeta?: true
     combustibleAntesPct?: true
@@ -52038,8 +52288,10 @@ export namespace Prisma {
   export type GastoCombustibleGroupByOutputType = {
     id: string
     numeroFactura: string
-    profesorId: string
+    profesorId: string | null
     vehiculoId: string
+    tipoGasto: string
+    concepto: string | null
     titularTarjeta: string
     numeroTarjeta: string
     combustibleAntesPct: number
@@ -52077,6 +52329,8 @@ export namespace Prisma {
     numeroFactura?: boolean
     profesorId?: boolean
     vehiculoId?: boolean
+    tipoGasto?: boolean
+    concepto?: boolean
     titularTarjeta?: boolean
     numeroTarjeta?: boolean
     combustibleAntesPct?: boolean
@@ -52088,7 +52342,7 @@ export namespace Prisma {
     rutaRecibo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+    profesor?: boolean | GastoCombustible$profesorArgs<ExtArgs>
     vehiculo?: boolean | VehiculoDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["gastoCombustible"]>
 
@@ -52097,6 +52351,8 @@ export namespace Prisma {
     numeroFactura?: boolean
     profesorId?: boolean
     vehiculoId?: boolean
+    tipoGasto?: boolean
+    concepto?: boolean
     titularTarjeta?: boolean
     numeroTarjeta?: boolean
     combustibleAntesPct?: boolean
@@ -52108,7 +52364,7 @@ export namespace Prisma {
     rutaRecibo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+    profesor?: boolean | GastoCombustible$profesorArgs<ExtArgs>
     vehiculo?: boolean | VehiculoDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["gastoCombustible"]>
 
@@ -52117,6 +52373,8 @@ export namespace Prisma {
     numeroFactura?: boolean
     profesorId?: boolean
     vehiculoId?: boolean
+    tipoGasto?: boolean
+    concepto?: boolean
     titularTarjeta?: boolean
     numeroTarjeta?: boolean
     combustibleAntesPct?: boolean
@@ -52128,7 +52386,7 @@ export namespace Prisma {
     rutaRecibo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+    profesor?: boolean | GastoCombustible$profesorArgs<ExtArgs>
     vehiculo?: boolean | VehiculoDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["gastoCombustible"]>
 
@@ -52137,6 +52395,8 @@ export namespace Prisma {
     numeroFactura?: boolean
     profesorId?: boolean
     vehiculoId?: boolean
+    tipoGasto?: boolean
+    concepto?: boolean
     titularTarjeta?: boolean
     numeroTarjeta?: boolean
     combustibleAntesPct?: boolean
@@ -52150,31 +52410,33 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type GastoCombustibleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "numeroFactura" | "profesorId" | "vehiculoId" | "titularTarjeta" | "numeroTarjeta" | "combustibleAntesPct" | "combustibleDespuesPct" | "litrosRepostados" | "precioLitro" | "total" | "kilometrosVehiculo" | "rutaRecibo" | "createdAt" | "updatedAt", ExtArgs["result"]["gastoCombustible"]>
+  export type GastoCombustibleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "numeroFactura" | "profesorId" | "vehiculoId" | "tipoGasto" | "concepto" | "titularTarjeta" | "numeroTarjeta" | "combustibleAntesPct" | "combustibleDespuesPct" | "litrosRepostados" | "precioLitro" | "total" | "kilometrosVehiculo" | "rutaRecibo" | "createdAt" | "updatedAt", ExtArgs["result"]["gastoCombustible"]>
   export type GastoCombustibleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+    profesor?: boolean | GastoCombustible$profesorArgs<ExtArgs>
     vehiculo?: boolean | VehiculoDefaultArgs<ExtArgs>
   }
   export type GastoCombustibleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+    profesor?: boolean | GastoCombustible$profesorArgs<ExtArgs>
     vehiculo?: boolean | VehiculoDefaultArgs<ExtArgs>
   }
   export type GastoCombustibleIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+    profesor?: boolean | GastoCombustible$profesorArgs<ExtArgs>
     vehiculo?: boolean | VehiculoDefaultArgs<ExtArgs>
   }
 
   export type $GastoCombustiblePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "GastoCombustible"
     objects: {
-      profesor: Prisma.$ProfesorPayload<ExtArgs>
+      profesor: Prisma.$ProfesorPayload<ExtArgs> | null
       vehiculo: Prisma.$VehiculoPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       numeroFactura: string
-      profesorId: string
+      profesorId: string | null
       vehiculoId: string
+      tipoGasto: string
+      concepto: string | null
       titularTarjeta: string
       numeroTarjeta: string
       combustibleAntesPct: number
@@ -52580,7 +52842,7 @@ export namespace Prisma {
    */
   export interface Prisma__GastoCombustibleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    profesor<T extends ProfesorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfesorDefaultArgs<ExtArgs>>): Prisma__ProfesorClient<$Result.GetResult<Prisma.$ProfesorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    profesor<T extends GastoCombustible$profesorArgs<ExtArgs> = {}>(args?: Subset<T, GastoCombustible$profesorArgs<ExtArgs>>): Prisma__ProfesorClient<$Result.GetResult<Prisma.$ProfesorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     vehiculo<T extends VehiculoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VehiculoDefaultArgs<ExtArgs>>): Prisma__VehiculoClient<$Result.GetResult<Prisma.$VehiculoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -52615,6 +52877,8 @@ export namespace Prisma {
     readonly numeroFactura: FieldRef<"GastoCombustible", 'String'>
     readonly profesorId: FieldRef<"GastoCombustible", 'String'>
     readonly vehiculoId: FieldRef<"GastoCombustible", 'String'>
+    readonly tipoGasto: FieldRef<"GastoCombustible", 'String'>
+    readonly concepto: FieldRef<"GastoCombustible", 'String'>
     readonly titularTarjeta: FieldRef<"GastoCombustible", 'String'>
     readonly numeroTarjeta: FieldRef<"GastoCombustible", 'String'>
     readonly combustibleAntesPct: FieldRef<"GastoCombustible", 'Int'>
@@ -53019,6 +53283,25 @@ export namespace Prisma {
      * Limit how many GastoCombustibles to delete.
      */
     limit?: number
+  }
+
+  /**
+   * GastoCombustible.profesor
+   */
+  export type GastoCombustible$profesorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Profesor
+     */
+    select?: ProfesorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Profesor
+     */
+    omit?: ProfesorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProfesorInclude<ExtArgs> | null
+    where?: ProfesorWhereInput
   }
 
   /**
@@ -54173,6 +54456,1072 @@ export namespace Prisma {
 
 
   /**
+   * Model PasswordResetAudit
+   */
+
+  export type AggregatePasswordResetAudit = {
+    _count: PasswordResetAuditCountAggregateOutputType | null
+    _min: PasswordResetAuditMinAggregateOutputType | null
+    _max: PasswordResetAuditMaxAggregateOutputType | null
+  }
+
+  export type PasswordResetAuditMinAggregateOutputType = {
+    id: string | null
+    soporteId: string | null
+    usuarioObjetivoId: string | null
+    motivo: string | null
+    createdAt: Date | null
+  }
+
+  export type PasswordResetAuditMaxAggregateOutputType = {
+    id: string | null
+    soporteId: string | null
+    usuarioObjetivoId: string | null
+    motivo: string | null
+    createdAt: Date | null
+  }
+
+  export type PasswordResetAuditCountAggregateOutputType = {
+    id: number
+    soporteId: number
+    usuarioObjetivoId: number
+    motivo: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PasswordResetAuditMinAggregateInputType = {
+    id?: true
+    soporteId?: true
+    usuarioObjetivoId?: true
+    motivo?: true
+    createdAt?: true
+  }
+
+  export type PasswordResetAuditMaxAggregateInputType = {
+    id?: true
+    soporteId?: true
+    usuarioObjetivoId?: true
+    motivo?: true
+    createdAt?: true
+  }
+
+  export type PasswordResetAuditCountAggregateInputType = {
+    id?: true
+    soporteId?: true
+    usuarioObjetivoId?: true
+    motivo?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PasswordResetAuditAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PasswordResetAudit to aggregate.
+     */
+    where?: PasswordResetAuditWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordResetAudits to fetch.
+     */
+    orderBy?: PasswordResetAuditOrderByWithRelationInput | PasswordResetAuditOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PasswordResetAuditWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordResetAudits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordResetAudits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PasswordResetAudits
+    **/
+    _count?: true | PasswordResetAuditCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PasswordResetAuditMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PasswordResetAuditMaxAggregateInputType
+  }
+
+  export type GetPasswordResetAuditAggregateType<T extends PasswordResetAuditAggregateArgs> = {
+        [P in keyof T & keyof AggregatePasswordResetAudit]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePasswordResetAudit[P]>
+      : GetScalarType<T[P], AggregatePasswordResetAudit[P]>
+  }
+
+
+
+
+  export type PasswordResetAuditGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PasswordResetAuditWhereInput
+    orderBy?: PasswordResetAuditOrderByWithAggregationInput | PasswordResetAuditOrderByWithAggregationInput[]
+    by: PasswordResetAuditScalarFieldEnum[] | PasswordResetAuditScalarFieldEnum
+    having?: PasswordResetAuditScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PasswordResetAuditCountAggregateInputType | true
+    _min?: PasswordResetAuditMinAggregateInputType
+    _max?: PasswordResetAuditMaxAggregateInputType
+  }
+
+  export type PasswordResetAuditGroupByOutputType = {
+    id: string
+    soporteId: string
+    usuarioObjetivoId: string
+    motivo: string | null
+    createdAt: Date
+    _count: PasswordResetAuditCountAggregateOutputType | null
+    _min: PasswordResetAuditMinAggregateOutputType | null
+    _max: PasswordResetAuditMaxAggregateOutputType | null
+  }
+
+  type GetPasswordResetAuditGroupByPayload<T extends PasswordResetAuditGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PasswordResetAuditGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PasswordResetAuditGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PasswordResetAuditGroupByOutputType[P]>
+            : GetScalarType<T[P], PasswordResetAuditGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PasswordResetAuditSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    soporteId?: boolean
+    usuarioObjetivoId?: boolean
+    motivo?: boolean
+    createdAt?: boolean
+    soporte?: boolean | UsuarioDefaultArgs<ExtArgs>
+    usuarioObjetivo?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["passwordResetAudit"]>
+
+  export type PasswordResetAuditSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    soporteId?: boolean
+    usuarioObjetivoId?: boolean
+    motivo?: boolean
+    createdAt?: boolean
+    soporte?: boolean | UsuarioDefaultArgs<ExtArgs>
+    usuarioObjetivo?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["passwordResetAudit"]>
+
+  export type PasswordResetAuditSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    soporteId?: boolean
+    usuarioObjetivoId?: boolean
+    motivo?: boolean
+    createdAt?: boolean
+    soporte?: boolean | UsuarioDefaultArgs<ExtArgs>
+    usuarioObjetivo?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["passwordResetAudit"]>
+
+  export type PasswordResetAuditSelectScalar = {
+    id?: boolean
+    soporteId?: boolean
+    usuarioObjetivoId?: boolean
+    motivo?: boolean
+    createdAt?: boolean
+  }
+
+  export type PasswordResetAuditOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "soporteId" | "usuarioObjetivoId" | "motivo" | "createdAt", ExtArgs["result"]["passwordResetAudit"]>
+  export type PasswordResetAuditInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    soporte?: boolean | UsuarioDefaultArgs<ExtArgs>
+    usuarioObjetivo?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+  export type PasswordResetAuditIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    soporte?: boolean | UsuarioDefaultArgs<ExtArgs>
+    usuarioObjetivo?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+  export type PasswordResetAuditIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    soporte?: boolean | UsuarioDefaultArgs<ExtArgs>
+    usuarioObjetivo?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+
+  export type $PasswordResetAuditPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PasswordResetAudit"
+    objects: {
+      soporte: Prisma.$UsuarioPayload<ExtArgs>
+      usuarioObjetivo: Prisma.$UsuarioPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      soporteId: string
+      usuarioObjetivoId: string
+      motivo: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["passwordResetAudit"]>
+    composites: {}
+  }
+
+  type PasswordResetAuditGetPayload<S extends boolean | null | undefined | PasswordResetAuditDefaultArgs> = $Result.GetResult<Prisma.$PasswordResetAuditPayload, S>
+
+  type PasswordResetAuditCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PasswordResetAuditFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PasswordResetAuditCountAggregateInputType | true
+    }
+
+  export interface PasswordResetAuditDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PasswordResetAudit'], meta: { name: 'PasswordResetAudit' } }
+    /**
+     * Find zero or one PasswordResetAudit that matches the filter.
+     * @param {PasswordResetAuditFindUniqueArgs} args - Arguments to find a PasswordResetAudit
+     * @example
+     * // Get one PasswordResetAudit
+     * const passwordResetAudit = await prisma.passwordResetAudit.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PasswordResetAuditFindUniqueArgs>(args: SelectSubset<T, PasswordResetAuditFindUniqueArgs<ExtArgs>>): Prisma__PasswordResetAuditClient<$Result.GetResult<Prisma.$PasswordResetAuditPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PasswordResetAudit that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PasswordResetAuditFindUniqueOrThrowArgs} args - Arguments to find a PasswordResetAudit
+     * @example
+     * // Get one PasswordResetAudit
+     * const passwordResetAudit = await prisma.passwordResetAudit.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PasswordResetAuditFindUniqueOrThrowArgs>(args: SelectSubset<T, PasswordResetAuditFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PasswordResetAuditClient<$Result.GetResult<Prisma.$PasswordResetAuditPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PasswordResetAudit that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetAuditFindFirstArgs} args - Arguments to find a PasswordResetAudit
+     * @example
+     * // Get one PasswordResetAudit
+     * const passwordResetAudit = await prisma.passwordResetAudit.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PasswordResetAuditFindFirstArgs>(args?: SelectSubset<T, PasswordResetAuditFindFirstArgs<ExtArgs>>): Prisma__PasswordResetAuditClient<$Result.GetResult<Prisma.$PasswordResetAuditPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PasswordResetAudit that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetAuditFindFirstOrThrowArgs} args - Arguments to find a PasswordResetAudit
+     * @example
+     * // Get one PasswordResetAudit
+     * const passwordResetAudit = await prisma.passwordResetAudit.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PasswordResetAuditFindFirstOrThrowArgs>(args?: SelectSubset<T, PasswordResetAuditFindFirstOrThrowArgs<ExtArgs>>): Prisma__PasswordResetAuditClient<$Result.GetResult<Prisma.$PasswordResetAuditPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PasswordResetAudits that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetAuditFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PasswordResetAudits
+     * const passwordResetAudits = await prisma.passwordResetAudit.findMany()
+     * 
+     * // Get first 10 PasswordResetAudits
+     * const passwordResetAudits = await prisma.passwordResetAudit.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const passwordResetAuditWithIdOnly = await prisma.passwordResetAudit.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PasswordResetAuditFindManyArgs>(args?: SelectSubset<T, PasswordResetAuditFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetAuditPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PasswordResetAudit.
+     * @param {PasswordResetAuditCreateArgs} args - Arguments to create a PasswordResetAudit.
+     * @example
+     * // Create one PasswordResetAudit
+     * const PasswordResetAudit = await prisma.passwordResetAudit.create({
+     *   data: {
+     *     // ... data to create a PasswordResetAudit
+     *   }
+     * })
+     * 
+     */
+    create<T extends PasswordResetAuditCreateArgs>(args: SelectSubset<T, PasswordResetAuditCreateArgs<ExtArgs>>): Prisma__PasswordResetAuditClient<$Result.GetResult<Prisma.$PasswordResetAuditPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PasswordResetAudits.
+     * @param {PasswordResetAuditCreateManyArgs} args - Arguments to create many PasswordResetAudits.
+     * @example
+     * // Create many PasswordResetAudits
+     * const passwordResetAudit = await prisma.passwordResetAudit.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PasswordResetAuditCreateManyArgs>(args?: SelectSubset<T, PasswordResetAuditCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PasswordResetAudits and returns the data saved in the database.
+     * @param {PasswordResetAuditCreateManyAndReturnArgs} args - Arguments to create many PasswordResetAudits.
+     * @example
+     * // Create many PasswordResetAudits
+     * const passwordResetAudit = await prisma.passwordResetAudit.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PasswordResetAudits and only return the `id`
+     * const passwordResetAuditWithIdOnly = await prisma.passwordResetAudit.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PasswordResetAuditCreateManyAndReturnArgs>(args?: SelectSubset<T, PasswordResetAuditCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetAuditPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PasswordResetAudit.
+     * @param {PasswordResetAuditDeleteArgs} args - Arguments to delete one PasswordResetAudit.
+     * @example
+     * // Delete one PasswordResetAudit
+     * const PasswordResetAudit = await prisma.passwordResetAudit.delete({
+     *   where: {
+     *     // ... filter to delete one PasswordResetAudit
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PasswordResetAuditDeleteArgs>(args: SelectSubset<T, PasswordResetAuditDeleteArgs<ExtArgs>>): Prisma__PasswordResetAuditClient<$Result.GetResult<Prisma.$PasswordResetAuditPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PasswordResetAudit.
+     * @param {PasswordResetAuditUpdateArgs} args - Arguments to update one PasswordResetAudit.
+     * @example
+     * // Update one PasswordResetAudit
+     * const passwordResetAudit = await prisma.passwordResetAudit.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PasswordResetAuditUpdateArgs>(args: SelectSubset<T, PasswordResetAuditUpdateArgs<ExtArgs>>): Prisma__PasswordResetAuditClient<$Result.GetResult<Prisma.$PasswordResetAuditPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PasswordResetAudits.
+     * @param {PasswordResetAuditDeleteManyArgs} args - Arguments to filter PasswordResetAudits to delete.
+     * @example
+     * // Delete a few PasswordResetAudits
+     * const { count } = await prisma.passwordResetAudit.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PasswordResetAuditDeleteManyArgs>(args?: SelectSubset<T, PasswordResetAuditDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PasswordResetAudits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetAuditUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PasswordResetAudits
+     * const passwordResetAudit = await prisma.passwordResetAudit.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PasswordResetAuditUpdateManyArgs>(args: SelectSubset<T, PasswordResetAuditUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PasswordResetAudits and returns the data updated in the database.
+     * @param {PasswordResetAuditUpdateManyAndReturnArgs} args - Arguments to update many PasswordResetAudits.
+     * @example
+     * // Update many PasswordResetAudits
+     * const passwordResetAudit = await prisma.passwordResetAudit.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PasswordResetAudits and only return the `id`
+     * const passwordResetAuditWithIdOnly = await prisma.passwordResetAudit.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PasswordResetAuditUpdateManyAndReturnArgs>(args: SelectSubset<T, PasswordResetAuditUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetAuditPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PasswordResetAudit.
+     * @param {PasswordResetAuditUpsertArgs} args - Arguments to update or create a PasswordResetAudit.
+     * @example
+     * // Update or create a PasswordResetAudit
+     * const passwordResetAudit = await prisma.passwordResetAudit.upsert({
+     *   create: {
+     *     // ... data to create a PasswordResetAudit
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PasswordResetAudit we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PasswordResetAuditUpsertArgs>(args: SelectSubset<T, PasswordResetAuditUpsertArgs<ExtArgs>>): Prisma__PasswordResetAuditClient<$Result.GetResult<Prisma.$PasswordResetAuditPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PasswordResetAudits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetAuditCountArgs} args - Arguments to filter PasswordResetAudits to count.
+     * @example
+     * // Count the number of PasswordResetAudits
+     * const count = await prisma.passwordResetAudit.count({
+     *   where: {
+     *     // ... the filter for the PasswordResetAudits we want to count
+     *   }
+     * })
+    **/
+    count<T extends PasswordResetAuditCountArgs>(
+      args?: Subset<T, PasswordResetAuditCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PasswordResetAuditCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PasswordResetAudit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetAuditAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PasswordResetAuditAggregateArgs>(args: Subset<T, PasswordResetAuditAggregateArgs>): Prisma.PrismaPromise<GetPasswordResetAuditAggregateType<T>>
+
+    /**
+     * Group by PasswordResetAudit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetAuditGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PasswordResetAuditGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PasswordResetAuditGroupByArgs['orderBy'] }
+        : { orderBy?: PasswordResetAuditGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PasswordResetAuditGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPasswordResetAuditGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PasswordResetAudit model
+   */
+  readonly fields: PasswordResetAuditFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PasswordResetAudit.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PasswordResetAuditClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    soporte<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    usuarioObjetivo<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PasswordResetAudit model
+   */
+  interface PasswordResetAuditFieldRefs {
+    readonly id: FieldRef<"PasswordResetAudit", 'String'>
+    readonly soporteId: FieldRef<"PasswordResetAudit", 'String'>
+    readonly usuarioObjetivoId: FieldRef<"PasswordResetAudit", 'String'>
+    readonly motivo: FieldRef<"PasswordResetAudit", 'String'>
+    readonly createdAt: FieldRef<"PasswordResetAudit", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PasswordResetAudit findUnique
+   */
+  export type PasswordResetAuditFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetAudit
+     */
+    select?: PasswordResetAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetAudit
+     */
+    omit?: PasswordResetAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetAuditInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordResetAudit to fetch.
+     */
+    where: PasswordResetAuditWhereUniqueInput
+  }
+
+  /**
+   * PasswordResetAudit findUniqueOrThrow
+   */
+  export type PasswordResetAuditFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetAudit
+     */
+    select?: PasswordResetAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetAudit
+     */
+    omit?: PasswordResetAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetAuditInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordResetAudit to fetch.
+     */
+    where: PasswordResetAuditWhereUniqueInput
+  }
+
+  /**
+   * PasswordResetAudit findFirst
+   */
+  export type PasswordResetAuditFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetAudit
+     */
+    select?: PasswordResetAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetAudit
+     */
+    omit?: PasswordResetAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetAuditInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordResetAudit to fetch.
+     */
+    where?: PasswordResetAuditWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordResetAudits to fetch.
+     */
+    orderBy?: PasswordResetAuditOrderByWithRelationInput | PasswordResetAuditOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PasswordResetAudits.
+     */
+    cursor?: PasswordResetAuditWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordResetAudits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordResetAudits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PasswordResetAudits.
+     */
+    distinct?: PasswordResetAuditScalarFieldEnum | PasswordResetAuditScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordResetAudit findFirstOrThrow
+   */
+  export type PasswordResetAuditFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetAudit
+     */
+    select?: PasswordResetAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetAudit
+     */
+    omit?: PasswordResetAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetAuditInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordResetAudit to fetch.
+     */
+    where?: PasswordResetAuditWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordResetAudits to fetch.
+     */
+    orderBy?: PasswordResetAuditOrderByWithRelationInput | PasswordResetAuditOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PasswordResetAudits.
+     */
+    cursor?: PasswordResetAuditWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordResetAudits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordResetAudits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PasswordResetAudits.
+     */
+    distinct?: PasswordResetAuditScalarFieldEnum | PasswordResetAuditScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordResetAudit findMany
+   */
+  export type PasswordResetAuditFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetAudit
+     */
+    select?: PasswordResetAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetAudit
+     */
+    omit?: PasswordResetAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetAuditInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordResetAudits to fetch.
+     */
+    where?: PasswordResetAuditWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordResetAudits to fetch.
+     */
+    orderBy?: PasswordResetAuditOrderByWithRelationInput | PasswordResetAuditOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PasswordResetAudits.
+     */
+    cursor?: PasswordResetAuditWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordResetAudits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordResetAudits.
+     */
+    skip?: number
+    distinct?: PasswordResetAuditScalarFieldEnum | PasswordResetAuditScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordResetAudit create
+   */
+  export type PasswordResetAuditCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetAudit
+     */
+    select?: PasswordResetAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetAudit
+     */
+    omit?: PasswordResetAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetAuditInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PasswordResetAudit.
+     */
+    data: XOR<PasswordResetAuditCreateInput, PasswordResetAuditUncheckedCreateInput>
+  }
+
+  /**
+   * PasswordResetAudit createMany
+   */
+  export type PasswordResetAuditCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PasswordResetAudits.
+     */
+    data: PasswordResetAuditCreateManyInput | PasswordResetAuditCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PasswordResetAudit createManyAndReturn
+   */
+  export type PasswordResetAuditCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetAudit
+     */
+    select?: PasswordResetAuditSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetAudit
+     */
+    omit?: PasswordResetAuditOmit<ExtArgs> | null
+    /**
+     * The data used to create many PasswordResetAudits.
+     */
+    data: PasswordResetAuditCreateManyInput | PasswordResetAuditCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetAuditIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PasswordResetAudit update
+   */
+  export type PasswordResetAuditUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetAudit
+     */
+    select?: PasswordResetAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetAudit
+     */
+    omit?: PasswordResetAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetAuditInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PasswordResetAudit.
+     */
+    data: XOR<PasswordResetAuditUpdateInput, PasswordResetAuditUncheckedUpdateInput>
+    /**
+     * Choose, which PasswordResetAudit to update.
+     */
+    where: PasswordResetAuditWhereUniqueInput
+  }
+
+  /**
+   * PasswordResetAudit updateMany
+   */
+  export type PasswordResetAuditUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PasswordResetAudits.
+     */
+    data: XOR<PasswordResetAuditUpdateManyMutationInput, PasswordResetAuditUncheckedUpdateManyInput>
+    /**
+     * Filter which PasswordResetAudits to update
+     */
+    where?: PasswordResetAuditWhereInput
+    /**
+     * Limit how many PasswordResetAudits to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PasswordResetAudit updateManyAndReturn
+   */
+  export type PasswordResetAuditUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetAudit
+     */
+    select?: PasswordResetAuditSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetAudit
+     */
+    omit?: PasswordResetAuditOmit<ExtArgs> | null
+    /**
+     * The data used to update PasswordResetAudits.
+     */
+    data: XOR<PasswordResetAuditUpdateManyMutationInput, PasswordResetAuditUncheckedUpdateManyInput>
+    /**
+     * Filter which PasswordResetAudits to update
+     */
+    where?: PasswordResetAuditWhereInput
+    /**
+     * Limit how many PasswordResetAudits to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetAuditIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PasswordResetAudit upsert
+   */
+  export type PasswordResetAuditUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetAudit
+     */
+    select?: PasswordResetAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetAudit
+     */
+    omit?: PasswordResetAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetAuditInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PasswordResetAudit to update in case it exists.
+     */
+    where: PasswordResetAuditWhereUniqueInput
+    /**
+     * In case the PasswordResetAudit found by the `where` argument doesn't exist, create a new PasswordResetAudit with this data.
+     */
+    create: XOR<PasswordResetAuditCreateInput, PasswordResetAuditUncheckedCreateInput>
+    /**
+     * In case the PasswordResetAudit was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PasswordResetAuditUpdateInput, PasswordResetAuditUncheckedUpdateInput>
+  }
+
+  /**
+   * PasswordResetAudit delete
+   */
+  export type PasswordResetAuditDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetAudit
+     */
+    select?: PasswordResetAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetAudit
+     */
+    omit?: PasswordResetAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetAuditInclude<ExtArgs> | null
+    /**
+     * Filter which PasswordResetAudit to delete.
+     */
+    where: PasswordResetAuditWhereUniqueInput
+  }
+
+  /**
+   * PasswordResetAudit deleteMany
+   */
+  export type PasswordResetAuditDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PasswordResetAudits to delete
+     */
+    where?: PasswordResetAuditWhereInput
+    /**
+     * Limit how many PasswordResetAudits to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PasswordResetAudit without action
+   */
+  export type PasswordResetAuditDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetAudit
+     */
+    select?: PasswordResetAuditSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetAudit
+     */
+    omit?: PasswordResetAuditOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetAuditInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -54192,6 +55541,7 @@ export namespace Prisma {
     email: 'email',
     passwordHash: 'passwordHash',
     rol: 'rol',
+    activo: 'activo',
     fechaCreacion: 'fechaCreacion',
     telefono: 'telefono',
     dni: 'dni',
@@ -54450,8 +55800,11 @@ export namespace Prisma {
     tipoPermiso: 'tipoPermiso',
     kmActuales: 'kmActuales',
     combustibleActualPct: 'combustibleActualPct',
+    fechaUltimaItv: 'fechaUltimaItv',
     activo: 'activo',
-    imagenRuta: 'imagenRuta'
+    imagenRuta: 'imagenRuta',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type VehiculoScalarFieldEnum = (typeof VehiculoScalarFieldEnum)[keyof typeof VehiculoScalarFieldEnum]
@@ -54810,6 +56163,8 @@ export namespace Prisma {
     numeroFactura: 'numeroFactura',
     profesorId: 'profesorId',
     vehiculoId: 'vehiculoId',
+    tipoGasto: 'tipoGasto',
+    concepto: 'concepto',
     titularTarjeta: 'titularTarjeta',
     numeroTarjeta: 'numeroTarjeta',
     combustibleAntesPct: 'combustibleAntesPct',
@@ -54841,6 +56196,17 @@ export namespace Prisma {
   };
 
   export type NotificacionScalarFieldEnum = (typeof NotificacionScalarFieldEnum)[keyof typeof NotificacionScalarFieldEnum]
+
+
+  export const PasswordResetAuditScalarFieldEnum: {
+    id: 'id',
+    soporteId: 'soporteId',
+    usuarioObjetivoId: 'usuarioObjetivoId',
+    motivo: 'motivo',
+    createdAt: 'createdAt'
+  };
+
+  export type PasswordResetAuditScalarFieldEnum = (typeof PasswordResetAuditScalarFieldEnum)[keyof typeof PasswordResetAuditScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -54925,6 +56291,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -54935,13 +56308,6 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -55041,12 +56407,15 @@ export namespace Prisma {
     email?: StringFilter<"Usuario"> | string
     passwordHash?: StringFilter<"Usuario"> | string
     rol?: EnumRolFilter<"Usuario"> | $Enums.Rol
+    activo?: BoolFilter<"Usuario"> | boolean
     fechaCreacion?: DateTimeFilter<"Usuario"> | Date | string
     telefono?: StringNullableFilter<"Usuario"> | string | null
     dni?: StringNullableFilter<"Usuario"> | string | null
     requiereCambioPassword?: BoolFilter<"Usuario"> | boolean
     activacionesCuenta?: ActivacionCuentaListRelationFilter
     notificaciones?: NotificacionListRelationFilter
+    resetAuditsAsActor?: PasswordResetAuditListRelationFilter
+    resetAuditsAsTarget?: PasswordResetAuditListRelationFilter
     alumno?: XOR<AlumnoNullableScalarRelationFilter, AlumnoWhereInput> | null
     profesor?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
   }
@@ -55057,12 +56426,15 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     rol?: SortOrder
+    activo?: SortOrder
     fechaCreacion?: SortOrder
     telefono?: SortOrderInput | SortOrder
     dni?: SortOrderInput | SortOrder
     requiereCambioPassword?: SortOrder
     activacionesCuenta?: ActivacionCuentaOrderByRelationAggregateInput
     notificaciones?: NotificacionOrderByRelationAggregateInput
+    resetAuditsAsActor?: PasswordResetAuditOrderByRelationAggregateInput
+    resetAuditsAsTarget?: PasswordResetAuditOrderByRelationAggregateInput
     alumno?: AlumnoOrderByWithRelationInput
     profesor?: ProfesorOrderByWithRelationInput
   }
@@ -55077,11 +56449,14 @@ export namespace Prisma {
     nombre?: StringFilter<"Usuario"> | string
     passwordHash?: StringFilter<"Usuario"> | string
     rol?: EnumRolFilter<"Usuario"> | $Enums.Rol
+    activo?: BoolFilter<"Usuario"> | boolean
     fechaCreacion?: DateTimeFilter<"Usuario"> | Date | string
     telefono?: StringNullableFilter<"Usuario"> | string | null
     requiereCambioPassword?: BoolFilter<"Usuario"> | boolean
     activacionesCuenta?: ActivacionCuentaListRelationFilter
     notificaciones?: NotificacionListRelationFilter
+    resetAuditsAsActor?: PasswordResetAuditListRelationFilter
+    resetAuditsAsTarget?: PasswordResetAuditListRelationFilter
     alumno?: XOR<AlumnoNullableScalarRelationFilter, AlumnoWhereInput> | null
     profesor?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
   }, "id" | "email" | "dni">
@@ -55092,6 +56467,7 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     rol?: SortOrder
+    activo?: SortOrder
     fechaCreacion?: SortOrder
     telefono?: SortOrderInput | SortOrder
     dni?: SortOrderInput | SortOrder
@@ -55110,6 +56486,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"Usuario"> | string
     passwordHash?: StringWithAggregatesFilter<"Usuario"> | string
     rol?: EnumRolWithAggregatesFilter<"Usuario"> | $Enums.Rol
+    activo?: BoolWithAggregatesFilter<"Usuario"> | boolean
     fechaCreacion?: DateTimeWithAggregatesFilter<"Usuario"> | Date | string
     telefono?: StringNullableWithAggregatesFilter<"Usuario"> | string | null
     dni?: StringNullableWithAggregatesFilter<"Usuario"> | string | null
@@ -56449,8 +57826,11 @@ export namespace Prisma {
     tipoPermiso?: StringFilter<"Vehiculo"> | string
     kmActuales?: IntFilter<"Vehiculo"> | number
     combustibleActualPct?: IntFilter<"Vehiculo"> | number
+    fechaUltimaItv?: DateTimeNullableFilter<"Vehiculo"> | Date | string | null
     activo?: BoolFilter<"Vehiculo"> | boolean
     imagenRuta?: StringNullableFilter<"Vehiculo"> | string | null
+    createdAt?: DateTimeFilter<"Vehiculo"> | Date | string
+    updatedAt?: DateTimeFilter<"Vehiculo"> | Date | string
     clases?: ClasePracticaListRelationFilter
     gastosCombustible?: GastoCombustibleListRelationFilter
   }
@@ -56463,8 +57843,11 @@ export namespace Prisma {
     tipoPermiso?: SortOrder
     kmActuales?: SortOrder
     combustibleActualPct?: SortOrder
+    fechaUltimaItv?: SortOrderInput | SortOrder
     activo?: SortOrder
     imagenRuta?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     clases?: ClasePracticaOrderByRelationAggregateInput
     gastosCombustible?: GastoCombustibleOrderByRelationAggregateInput
   }
@@ -56480,8 +57863,11 @@ export namespace Prisma {
     tipoPermiso?: StringFilter<"Vehiculo"> | string
     kmActuales?: IntFilter<"Vehiculo"> | number
     combustibleActualPct?: IntFilter<"Vehiculo"> | number
+    fechaUltimaItv?: DateTimeNullableFilter<"Vehiculo"> | Date | string | null
     activo?: BoolFilter<"Vehiculo"> | boolean
     imagenRuta?: StringNullableFilter<"Vehiculo"> | string | null
+    createdAt?: DateTimeFilter<"Vehiculo"> | Date | string
+    updatedAt?: DateTimeFilter<"Vehiculo"> | Date | string
     clases?: ClasePracticaListRelationFilter
     gastosCombustible?: GastoCombustibleListRelationFilter
   }, "id" | "matricula">
@@ -56494,8 +57880,11 @@ export namespace Prisma {
     tipoPermiso?: SortOrder
     kmActuales?: SortOrder
     combustibleActualPct?: SortOrder
+    fechaUltimaItv?: SortOrderInput | SortOrder
     activo?: SortOrder
     imagenRuta?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: VehiculoCountOrderByAggregateInput
     _avg?: VehiculoAvgOrderByAggregateInput
     _max?: VehiculoMaxOrderByAggregateInput
@@ -56514,8 +57903,11 @@ export namespace Prisma {
     tipoPermiso?: StringWithAggregatesFilter<"Vehiculo"> | string
     kmActuales?: IntWithAggregatesFilter<"Vehiculo"> | number
     combustibleActualPct?: IntWithAggregatesFilter<"Vehiculo"> | number
+    fechaUltimaItv?: DateTimeNullableWithAggregatesFilter<"Vehiculo"> | Date | string | null
     activo?: BoolWithAggregatesFilter<"Vehiculo"> | boolean
     imagenRuta?: StringNullableWithAggregatesFilter<"Vehiculo"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Vehiculo"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Vehiculo"> | Date | string
   }
 
   export type ClasePracticaWhereInput = {
@@ -58273,7 +59665,7 @@ export namespace Prisma {
     NOT?: FacturaWhereInput | FacturaWhereInput[]
     id?: StringFilter<"Factura"> | string
     numero?: StringFilter<"Factura"> | string
-    alumnoId?: StringFilter<"Factura"> | string
+    alumnoId?: StringNullableFilter<"Factura"> | string | null
     matriculaId?: StringNullableFilter<"Factura"> | string | null
     compraBonoId?: StringNullableFilter<"Factura"> | string | null
     clasePracticaId?: StringNullableFilter<"Factura"> | string | null
@@ -58284,7 +59676,7 @@ export namespace Prisma {
     estado?: StringFilter<"Factura"> | string
     fechaEmision?: DateTimeFilter<"Factura"> | Date | string
     fechaPago?: DateTimeNullableFilter<"Factura"> | Date | string | null
-    alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+    alumno?: XOR<AlumnoNullableScalarRelationFilter, AlumnoWhereInput> | null
     matricula?: XOR<MatriculaNullableScalarRelationFilter, MatriculaWhereInput> | null
     compraBono?: XOR<CompraBonoNullableScalarRelationFilter, CompraBonoWhereInput> | null
     clasePractica?: XOR<ClasePracticaNullableScalarRelationFilter, ClasePracticaWhereInput> | null
@@ -58293,7 +59685,7 @@ export namespace Prisma {
   export type FacturaOrderByWithRelationInput = {
     id?: SortOrder
     numero?: SortOrder
-    alumnoId?: SortOrder
+    alumnoId?: SortOrderInput | SortOrder
     matriculaId?: SortOrderInput | SortOrder
     compraBonoId?: SortOrderInput | SortOrder
     clasePracticaId?: SortOrderInput | SortOrder
@@ -58316,7 +59708,7 @@ export namespace Prisma {
     AND?: FacturaWhereInput | FacturaWhereInput[]
     OR?: FacturaWhereInput[]
     NOT?: FacturaWhereInput | FacturaWhereInput[]
-    alumnoId?: StringFilter<"Factura"> | string
+    alumnoId?: StringNullableFilter<"Factura"> | string | null
     matriculaId?: StringNullableFilter<"Factura"> | string | null
     compraBonoId?: StringNullableFilter<"Factura"> | string | null
     clasePracticaId?: StringNullableFilter<"Factura"> | string | null
@@ -58327,7 +59719,7 @@ export namespace Prisma {
     estado?: StringFilter<"Factura"> | string
     fechaEmision?: DateTimeFilter<"Factura"> | Date | string
     fechaPago?: DateTimeNullableFilter<"Factura"> | Date | string | null
-    alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+    alumno?: XOR<AlumnoNullableScalarRelationFilter, AlumnoWhereInput> | null
     matricula?: XOR<MatriculaNullableScalarRelationFilter, MatriculaWhereInput> | null
     compraBono?: XOR<CompraBonoNullableScalarRelationFilter, CompraBonoWhereInput> | null
     clasePractica?: XOR<ClasePracticaNullableScalarRelationFilter, ClasePracticaWhereInput> | null
@@ -58336,7 +59728,7 @@ export namespace Prisma {
   export type FacturaOrderByWithAggregationInput = {
     id?: SortOrder
     numero?: SortOrder
-    alumnoId?: SortOrder
+    alumnoId?: SortOrderInput | SortOrder
     matriculaId?: SortOrderInput | SortOrder
     compraBonoId?: SortOrderInput | SortOrder
     clasePracticaId?: SortOrderInput | SortOrder
@@ -58360,7 +59752,7 @@ export namespace Prisma {
     NOT?: FacturaScalarWhereWithAggregatesInput | FacturaScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Factura"> | string
     numero?: StringWithAggregatesFilter<"Factura"> | string
-    alumnoId?: StringWithAggregatesFilter<"Factura"> | string
+    alumnoId?: StringNullableWithAggregatesFilter<"Factura"> | string | null
     matriculaId?: StringNullableWithAggregatesFilter<"Factura"> | string | null
     compraBonoId?: StringNullableWithAggregatesFilter<"Factura"> | string | null
     clasePracticaId?: StringNullableWithAggregatesFilter<"Factura"> | string | null
@@ -58379,8 +59771,10 @@ export namespace Prisma {
     NOT?: GastoCombustibleWhereInput | GastoCombustibleWhereInput[]
     id?: StringFilter<"GastoCombustible"> | string
     numeroFactura?: StringFilter<"GastoCombustible"> | string
-    profesorId?: StringFilter<"GastoCombustible"> | string
+    profesorId?: StringNullableFilter<"GastoCombustible"> | string | null
     vehiculoId?: StringFilter<"GastoCombustible"> | string
+    tipoGasto?: StringFilter<"GastoCombustible"> | string
+    concepto?: StringNullableFilter<"GastoCombustible"> | string | null
     titularTarjeta?: StringFilter<"GastoCombustible"> | string
     numeroTarjeta?: StringFilter<"GastoCombustible"> | string
     combustibleAntesPct?: IntFilter<"GastoCombustible"> | number
@@ -58392,15 +59786,17 @@ export namespace Prisma {
     rutaRecibo?: StringNullableFilter<"GastoCombustible"> | string | null
     createdAt?: DateTimeFilter<"GastoCombustible"> | Date | string
     updatedAt?: DateTimeFilter<"GastoCombustible"> | Date | string
-    profesor?: XOR<ProfesorScalarRelationFilter, ProfesorWhereInput>
+    profesor?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
     vehiculo?: XOR<VehiculoScalarRelationFilter, VehiculoWhereInput>
   }
 
   export type GastoCombustibleOrderByWithRelationInput = {
     id?: SortOrder
     numeroFactura?: SortOrder
-    profesorId?: SortOrder
+    profesorId?: SortOrderInput | SortOrder
     vehiculoId?: SortOrder
+    tipoGasto?: SortOrder
+    concepto?: SortOrderInput | SortOrder
     titularTarjeta?: SortOrder
     numeroTarjeta?: SortOrder
     combustibleAntesPct?: SortOrder
@@ -58422,8 +59818,10 @@ export namespace Prisma {
     AND?: GastoCombustibleWhereInput | GastoCombustibleWhereInput[]
     OR?: GastoCombustibleWhereInput[]
     NOT?: GastoCombustibleWhereInput | GastoCombustibleWhereInput[]
-    profesorId?: StringFilter<"GastoCombustible"> | string
+    profesorId?: StringNullableFilter<"GastoCombustible"> | string | null
     vehiculoId?: StringFilter<"GastoCombustible"> | string
+    tipoGasto?: StringFilter<"GastoCombustible"> | string
+    concepto?: StringNullableFilter<"GastoCombustible"> | string | null
     titularTarjeta?: StringFilter<"GastoCombustible"> | string
     numeroTarjeta?: StringFilter<"GastoCombustible"> | string
     combustibleAntesPct?: IntFilter<"GastoCombustible"> | number
@@ -58435,15 +59833,17 @@ export namespace Prisma {
     rutaRecibo?: StringNullableFilter<"GastoCombustible"> | string | null
     createdAt?: DateTimeFilter<"GastoCombustible"> | Date | string
     updatedAt?: DateTimeFilter<"GastoCombustible"> | Date | string
-    profesor?: XOR<ProfesorScalarRelationFilter, ProfesorWhereInput>
+    profesor?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
     vehiculo?: XOR<VehiculoScalarRelationFilter, VehiculoWhereInput>
   }, "id" | "numeroFactura">
 
   export type GastoCombustibleOrderByWithAggregationInput = {
     id?: SortOrder
     numeroFactura?: SortOrder
-    profesorId?: SortOrder
+    profesorId?: SortOrderInput | SortOrder
     vehiculoId?: SortOrder
+    tipoGasto?: SortOrder
+    concepto?: SortOrderInput | SortOrder
     titularTarjeta?: SortOrder
     numeroTarjeta?: SortOrder
     combustibleAntesPct?: SortOrder
@@ -58468,8 +59868,10 @@ export namespace Prisma {
     NOT?: GastoCombustibleScalarWhereWithAggregatesInput | GastoCombustibleScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"GastoCombustible"> | string
     numeroFactura?: StringWithAggregatesFilter<"GastoCombustible"> | string
-    profesorId?: StringWithAggregatesFilter<"GastoCombustible"> | string
+    profesorId?: StringNullableWithAggregatesFilter<"GastoCombustible"> | string | null
     vehiculoId?: StringWithAggregatesFilter<"GastoCombustible"> | string
+    tipoGasto?: StringWithAggregatesFilter<"GastoCombustible"> | string
+    concepto?: StringNullableWithAggregatesFilter<"GastoCombustible"> | string | null
     titularTarjeta?: StringWithAggregatesFilter<"GastoCombustible"> | string
     numeroTarjeta?: StringWithAggregatesFilter<"GastoCombustible"> | string
     combustibleAntesPct?: IntWithAggregatesFilter<"GastoCombustible"> | number
@@ -58568,18 +59970,79 @@ export namespace Prisma {
     archivedAt?: DateTimeNullableWithAggregatesFilter<"Notificacion"> | Date | string | null
   }
 
+  export type PasswordResetAuditWhereInput = {
+    AND?: PasswordResetAuditWhereInput | PasswordResetAuditWhereInput[]
+    OR?: PasswordResetAuditWhereInput[]
+    NOT?: PasswordResetAuditWhereInput | PasswordResetAuditWhereInput[]
+    id?: StringFilter<"PasswordResetAudit"> | string
+    soporteId?: StringFilter<"PasswordResetAudit"> | string
+    usuarioObjetivoId?: StringFilter<"PasswordResetAudit"> | string
+    motivo?: StringNullableFilter<"PasswordResetAudit"> | string | null
+    createdAt?: DateTimeFilter<"PasswordResetAudit"> | Date | string
+    soporte?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+    usuarioObjetivo?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+  }
+
+  export type PasswordResetAuditOrderByWithRelationInput = {
+    id?: SortOrder
+    soporteId?: SortOrder
+    usuarioObjetivoId?: SortOrder
+    motivo?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    soporte?: UsuarioOrderByWithRelationInput
+    usuarioObjetivo?: UsuarioOrderByWithRelationInput
+  }
+
+  export type PasswordResetAuditWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PasswordResetAuditWhereInput | PasswordResetAuditWhereInput[]
+    OR?: PasswordResetAuditWhereInput[]
+    NOT?: PasswordResetAuditWhereInput | PasswordResetAuditWhereInput[]
+    soporteId?: StringFilter<"PasswordResetAudit"> | string
+    usuarioObjetivoId?: StringFilter<"PasswordResetAudit"> | string
+    motivo?: StringNullableFilter<"PasswordResetAudit"> | string | null
+    createdAt?: DateTimeFilter<"PasswordResetAudit"> | Date | string
+    soporte?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+    usuarioObjetivo?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+  }, "id">
+
+  export type PasswordResetAuditOrderByWithAggregationInput = {
+    id?: SortOrder
+    soporteId?: SortOrder
+    usuarioObjetivoId?: SortOrder
+    motivo?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: PasswordResetAuditCountOrderByAggregateInput
+    _max?: PasswordResetAuditMaxOrderByAggregateInput
+    _min?: PasswordResetAuditMinOrderByAggregateInput
+  }
+
+  export type PasswordResetAuditScalarWhereWithAggregatesInput = {
+    AND?: PasswordResetAuditScalarWhereWithAggregatesInput | PasswordResetAuditScalarWhereWithAggregatesInput[]
+    OR?: PasswordResetAuditScalarWhereWithAggregatesInput[]
+    NOT?: PasswordResetAuditScalarWhereWithAggregatesInput | PasswordResetAuditScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PasswordResetAudit"> | string
+    soporteId?: StringWithAggregatesFilter<"PasswordResetAudit"> | string
+    usuarioObjetivoId?: StringWithAggregatesFilter<"PasswordResetAudit"> | string
+    motivo?: StringNullableWithAggregatesFilter<"PasswordResetAudit"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"PasswordResetAudit"> | Date | string
+  }
+
   export type UsuarioCreateInput = {
     id?: string
     nombre: string
     email: string
     passwordHash: string
     rol: $Enums.Rol
+    activo?: boolean
     fechaCreacion?: Date | string
     telefono?: string | null
     dni?: string | null
     requiereCambioPassword?: boolean
     activacionesCuenta?: ActivacionCuentaCreateNestedManyWithoutUsuarioInput
     notificaciones?: NotificacionCreateNestedManyWithoutUsuarioInput
+    resetAuditsAsActor?: PasswordResetAuditCreateNestedManyWithoutSoporteInput
+    resetAuditsAsTarget?: PasswordResetAuditCreateNestedManyWithoutUsuarioObjetivoInput
     alumno?: AlumnoCreateNestedOneWithoutUsuarioInput
     profesor?: ProfesorCreateNestedOneWithoutUsuarioInput
   }
@@ -58590,12 +60053,15 @@ export namespace Prisma {
     email: string
     passwordHash: string
     rol: $Enums.Rol
+    activo?: boolean
     fechaCreacion?: Date | string
     telefono?: string | null
     dni?: string | null
     requiereCambioPassword?: boolean
     activacionesCuenta?: ActivacionCuentaUncheckedCreateNestedManyWithoutUsuarioInput
     notificaciones?: NotificacionUncheckedCreateNestedManyWithoutUsuarioInput
+    resetAuditsAsActor?: PasswordResetAuditUncheckedCreateNestedManyWithoutSoporteInput
+    resetAuditsAsTarget?: PasswordResetAuditUncheckedCreateNestedManyWithoutUsuarioObjetivoInput
     alumno?: AlumnoUncheckedCreateNestedOneWithoutUsuarioInput
     profesor?: ProfesorUncheckedCreateNestedOneWithoutUsuarioInput
   }
@@ -58606,12 +60072,15 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
+    activo?: BoolFieldUpdateOperationsInput | boolean
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     dni?: NullableStringFieldUpdateOperationsInput | string | null
     requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     activacionesCuenta?: ActivacionCuentaUpdateManyWithoutUsuarioNestedInput
     notificaciones?: NotificacionUpdateManyWithoutUsuarioNestedInput
+    resetAuditsAsActor?: PasswordResetAuditUpdateManyWithoutSoporteNestedInput
+    resetAuditsAsTarget?: PasswordResetAuditUpdateManyWithoutUsuarioObjetivoNestedInput
     alumno?: AlumnoUpdateOneWithoutUsuarioNestedInput
     profesor?: ProfesorUpdateOneWithoutUsuarioNestedInput
   }
@@ -58622,12 +60091,15 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
+    activo?: BoolFieldUpdateOperationsInput | boolean
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     dni?: NullableStringFieldUpdateOperationsInput | string | null
     requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     activacionesCuenta?: ActivacionCuentaUncheckedUpdateManyWithoutUsuarioNestedInput
     notificaciones?: NotificacionUncheckedUpdateManyWithoutUsuarioNestedInput
+    resetAuditsAsActor?: PasswordResetAuditUncheckedUpdateManyWithoutSoporteNestedInput
+    resetAuditsAsTarget?: PasswordResetAuditUncheckedUpdateManyWithoutUsuarioObjetivoNestedInput
     alumno?: AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput
     profesor?: ProfesorUncheckedUpdateOneWithoutUsuarioNestedInput
   }
@@ -58638,6 +60110,7 @@ export namespace Prisma {
     email: string
     passwordHash: string
     rol: $Enums.Rol
+    activo?: boolean
     fechaCreacion?: Date | string
     telefono?: string | null
     dni?: string | null
@@ -58650,6 +60123,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
+    activo?: BoolFieldUpdateOperationsInput | boolean
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     dni?: NullableStringFieldUpdateOperationsInput | string | null
@@ -58662,6 +60136,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
+    activo?: BoolFieldUpdateOperationsInput | boolean
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     dni?: NullableStringFieldUpdateOperationsInput | string | null
@@ -60104,8 +61579,11 @@ export namespace Prisma {
     tipoPermiso: string
     kmActuales?: number
     combustibleActualPct?: number
+    fechaUltimaItv?: Date | string | null
     activo?: boolean
     imagenRuta?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     clases?: ClasePracticaCreateNestedManyWithoutVehiculoInput
     gastosCombustible?: GastoCombustibleCreateNestedManyWithoutVehiculoInput
   }
@@ -60118,8 +61596,11 @@ export namespace Prisma {
     tipoPermiso: string
     kmActuales?: number
     combustibleActualPct?: number
+    fechaUltimaItv?: Date | string | null
     activo?: boolean
     imagenRuta?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutVehiculoInput
     gastosCombustible?: GastoCombustibleUncheckedCreateNestedManyWithoutVehiculoInput
   }
@@ -60132,8 +61613,11 @@ export namespace Prisma {
     tipoPermiso?: StringFieldUpdateOperationsInput | string
     kmActuales?: IntFieldUpdateOperationsInput | number
     combustibleActualPct?: IntFieldUpdateOperationsInput | number
+    fechaUltimaItv?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
     imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clases?: ClasePracticaUpdateManyWithoutVehiculoNestedInput
     gastosCombustible?: GastoCombustibleUpdateManyWithoutVehiculoNestedInput
   }
@@ -60146,8 +61630,11 @@ export namespace Prisma {
     tipoPermiso?: StringFieldUpdateOperationsInput | string
     kmActuales?: IntFieldUpdateOperationsInput | number
     combustibleActualPct?: IntFieldUpdateOperationsInput | number
+    fechaUltimaItv?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
     imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clases?: ClasePracticaUncheckedUpdateManyWithoutVehiculoNestedInput
     gastosCombustible?: GastoCombustibleUncheckedUpdateManyWithoutVehiculoNestedInput
   }
@@ -60160,8 +61647,11 @@ export namespace Prisma {
     tipoPermiso: string
     kmActuales?: number
     combustibleActualPct?: number
+    fechaUltimaItv?: Date | string | null
     activo?: boolean
     imagenRuta?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type VehiculoUpdateManyMutationInput = {
@@ -60172,8 +61662,11 @@ export namespace Prisma {
     tipoPermiso?: StringFieldUpdateOperationsInput | string
     kmActuales?: IntFieldUpdateOperationsInput | number
     combustibleActualPct?: IntFieldUpdateOperationsInput | number
+    fechaUltimaItv?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
     imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VehiculoUncheckedUpdateManyInput = {
@@ -60184,8 +61677,11 @@ export namespace Prisma {
     tipoPermiso?: StringFieldUpdateOperationsInput | string
     kmActuales?: IntFieldUpdateOperationsInput | number
     combustibleActualPct?: IntFieldUpdateOperationsInput | number
+    fechaUltimaItv?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
     imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ClasePracticaCreateInput = {
@@ -62140,7 +63636,7 @@ export namespace Prisma {
     estado?: string
     fechaEmision?: Date | string
     fechaPago?: Date | string | null
-    alumno: AlumnoCreateNestedOneWithoutFacturasInput
+    alumno?: AlumnoCreateNestedOneWithoutFacturasInput
     matricula?: MatriculaCreateNestedOneWithoutFacturasInput
     compraBono?: CompraBonoCreateNestedOneWithoutFacturasInput
     clasePractica?: ClasePracticaCreateNestedOneWithoutFacturasInput
@@ -62149,7 +63645,7 @@ export namespace Prisma {
   export type FacturaUncheckedCreateInput = {
     id?: string
     numero: string
-    alumnoId: string
+    alumnoId?: string | null
     matriculaId?: string | null
     compraBonoId?: string | null
     clasePracticaId?: string | null
@@ -62172,7 +63668,7 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
     fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    alumno?: AlumnoUpdateOneRequiredWithoutFacturasNestedInput
+    alumno?: AlumnoUpdateOneWithoutFacturasNestedInput
     matricula?: MatriculaUpdateOneWithoutFacturasNestedInput
     compraBono?: CompraBonoUpdateOneWithoutFacturasNestedInput
     clasePractica?: ClasePracticaUpdateOneWithoutFacturasNestedInput
@@ -62181,7 +63677,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
-    alumnoId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: NullableStringFieldUpdateOperationsInput | string | null
     matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
     compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
     clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -62197,7 +63693,7 @@ export namespace Prisma {
   export type FacturaCreateManyInput = {
     id?: string
     numero: string
-    alumnoId: string
+    alumnoId?: string | null
     matriculaId?: string | null
     compraBonoId?: string | null
     clasePracticaId?: string | null
@@ -62225,7 +63721,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
-    alumnoId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: NullableStringFieldUpdateOperationsInput | string | null
     matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
     compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
     clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -62241,6 +63737,8 @@ export namespace Prisma {
   export type GastoCombustibleCreateInput = {
     id?: string
     numeroFactura: string
+    tipoGasto?: string
+    concepto?: string | null
     titularTarjeta: string
     numeroTarjeta: string
     combustibleAntesPct: number
@@ -62252,15 +63750,17 @@ export namespace Prisma {
     rutaRecibo?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    profesor: ProfesorCreateNestedOneWithoutGastosCombustibleInput
+    profesor?: ProfesorCreateNestedOneWithoutGastosCombustibleInput
     vehiculo: VehiculoCreateNestedOneWithoutGastosCombustibleInput
   }
 
   export type GastoCombustibleUncheckedCreateInput = {
     id?: string
     numeroFactura: string
-    profesorId: string
+    profesorId?: string | null
     vehiculoId: string
+    tipoGasto?: string
+    concepto?: string | null
     titularTarjeta: string
     numeroTarjeta: string
     combustibleAntesPct: number
@@ -62277,6 +63777,8 @@ export namespace Prisma {
   export type GastoCombustibleUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     numeroFactura?: StringFieldUpdateOperationsInput | string
+    tipoGasto?: StringFieldUpdateOperationsInput | string
+    concepto?: NullableStringFieldUpdateOperationsInput | string | null
     titularTarjeta?: StringFieldUpdateOperationsInput | string
     numeroTarjeta?: StringFieldUpdateOperationsInput | string
     combustibleAntesPct?: IntFieldUpdateOperationsInput | number
@@ -62288,15 +63790,17 @@ export namespace Prisma {
     rutaRecibo?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    profesor?: ProfesorUpdateOneRequiredWithoutGastosCombustibleNestedInput
+    profesor?: ProfesorUpdateOneWithoutGastosCombustibleNestedInput
     vehiculo?: VehiculoUpdateOneRequiredWithoutGastosCombustibleNestedInput
   }
 
   export type GastoCombustibleUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     numeroFactura?: StringFieldUpdateOperationsInput | string
-    profesorId?: StringFieldUpdateOperationsInput | string
+    profesorId?: NullableStringFieldUpdateOperationsInput | string | null
     vehiculoId?: StringFieldUpdateOperationsInput | string
+    tipoGasto?: StringFieldUpdateOperationsInput | string
+    concepto?: NullableStringFieldUpdateOperationsInput | string | null
     titularTarjeta?: StringFieldUpdateOperationsInput | string
     numeroTarjeta?: StringFieldUpdateOperationsInput | string
     combustibleAntesPct?: IntFieldUpdateOperationsInput | number
@@ -62313,8 +63817,10 @@ export namespace Prisma {
   export type GastoCombustibleCreateManyInput = {
     id?: string
     numeroFactura: string
-    profesorId: string
+    profesorId?: string | null
     vehiculoId: string
+    tipoGasto?: string
+    concepto?: string | null
     titularTarjeta: string
     numeroTarjeta: string
     combustibleAntesPct: number
@@ -62331,6 +63837,8 @@ export namespace Prisma {
   export type GastoCombustibleUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     numeroFactura?: StringFieldUpdateOperationsInput | string
+    tipoGasto?: StringFieldUpdateOperationsInput | string
+    concepto?: NullableStringFieldUpdateOperationsInput | string | null
     titularTarjeta?: StringFieldUpdateOperationsInput | string
     numeroTarjeta?: StringFieldUpdateOperationsInput | string
     combustibleAntesPct?: IntFieldUpdateOperationsInput | number
@@ -62347,8 +63855,10 @@ export namespace Prisma {
   export type GastoCombustibleUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     numeroFactura?: StringFieldUpdateOperationsInput | string
-    profesorId?: StringFieldUpdateOperationsInput | string
+    profesorId?: NullableStringFieldUpdateOperationsInput | string | null
     vehiculoId?: StringFieldUpdateOperationsInput | string
+    tipoGasto?: StringFieldUpdateOperationsInput | string
+    concepto?: NullableStringFieldUpdateOperationsInput | string | null
     titularTarjeta?: StringFieldUpdateOperationsInput | string
     numeroTarjeta?: StringFieldUpdateOperationsInput | string
     combustibleAntesPct?: IntFieldUpdateOperationsInput | number
@@ -62459,6 +63969,60 @@ export namespace Prisma {
     archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type PasswordResetAuditCreateInput = {
+    id?: string
+    motivo?: string | null
+    createdAt?: Date | string
+    soporte: UsuarioCreateNestedOneWithoutResetAuditsAsActorInput
+    usuarioObjetivo: UsuarioCreateNestedOneWithoutResetAuditsAsTargetInput
+  }
+
+  export type PasswordResetAuditUncheckedCreateInput = {
+    id?: string
+    soporteId: string
+    usuarioObjetivoId: string
+    motivo?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PasswordResetAuditUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    motivo?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    soporte?: UsuarioUpdateOneRequiredWithoutResetAuditsAsActorNestedInput
+    usuarioObjetivo?: UsuarioUpdateOneRequiredWithoutResetAuditsAsTargetNestedInput
+  }
+
+  export type PasswordResetAuditUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    soporteId?: StringFieldUpdateOperationsInput | string
+    usuarioObjetivoId?: StringFieldUpdateOperationsInput | string
+    motivo?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordResetAuditCreateManyInput = {
+    id?: string
+    soporteId: string
+    usuarioObjetivoId: string
+    motivo?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PasswordResetAuditUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    motivo?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordResetAuditUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    soporteId?: StringFieldUpdateOperationsInput | string
+    usuarioObjetivoId?: StringFieldUpdateOperationsInput | string
+    motivo?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -62479,6 +64043,11 @@ export namespace Prisma {
     in?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
     notIn?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
     not?: NestedEnumRolFilter<$PrismaModel> | $Enums.Rol
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -62507,11 +64076,6 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type ActivacionCuentaListRelationFilter = {
     every?: ActivacionCuentaWhereInput
     some?: ActivacionCuentaWhereInput
@@ -62522,6 +64086,12 @@ export namespace Prisma {
     every?: NotificacionWhereInput
     some?: NotificacionWhereInput
     none?: NotificacionWhereInput
+  }
+
+  export type PasswordResetAuditListRelationFilter = {
+    every?: PasswordResetAuditWhereInput
+    some?: PasswordResetAuditWhereInput
+    none?: PasswordResetAuditWhereInput
   }
 
   export type AlumnoNullableScalarRelationFilter = {
@@ -62547,12 +64117,17 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type PasswordResetAuditOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UsuarioCountOrderByAggregateInput = {
     id?: SortOrder
     nombre?: SortOrder
     email?: SortOrder
     passwordHash?: SortOrder
     rol?: SortOrder
+    activo?: SortOrder
     fechaCreacion?: SortOrder
     telefono?: SortOrder
     dni?: SortOrder
@@ -62565,6 +64140,7 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     rol?: SortOrder
+    activo?: SortOrder
     fechaCreacion?: SortOrder
     telefono?: SortOrder
     dni?: SortOrder
@@ -62577,6 +64153,7 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     rol?: SortOrder
+    activo?: SortOrder
     fechaCreacion?: SortOrder
     telefono?: SortOrder
     dni?: SortOrder
@@ -62611,6 +64188,14 @@ export namespace Prisma {
     _max?: NestedEnumRolFilter<$PrismaModel>
   }
 
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -62641,14 +64226,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type DateTimeNullableFilter<$PrismaModel = never> = {
@@ -63698,8 +65275,11 @@ export namespace Prisma {
     tipoPermiso?: SortOrder
     kmActuales?: SortOrder
     combustibleActualPct?: SortOrder
+    fechaUltimaItv?: SortOrder
     activo?: SortOrder
     imagenRuta?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type VehiculoAvgOrderByAggregateInput = {
@@ -63715,8 +65295,11 @@ export namespace Prisma {
     tipoPermiso?: SortOrder
     kmActuales?: SortOrder
     combustibleActualPct?: SortOrder
+    fechaUltimaItv?: SortOrder
     activo?: SortOrder
     imagenRuta?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type VehiculoMinOrderByAggregateInput = {
@@ -63727,8 +65310,11 @@ export namespace Prisma {
     tipoPermiso?: SortOrder
     kmActuales?: SortOrder
     combustibleActualPct?: SortOrder
+    fechaUltimaItv?: SortOrder
     activo?: SortOrder
     imagenRuta?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type VehiculoSumOrderByAggregateInput = {
@@ -65061,6 +66647,8 @@ export namespace Prisma {
     numeroFactura?: SortOrder
     profesorId?: SortOrder
     vehiculoId?: SortOrder
+    tipoGasto?: SortOrder
+    concepto?: SortOrder
     titularTarjeta?: SortOrder
     numeroTarjeta?: SortOrder
     combustibleAntesPct?: SortOrder
@@ -65088,6 +66676,8 @@ export namespace Prisma {
     numeroFactura?: SortOrder
     profesorId?: SortOrder
     vehiculoId?: SortOrder
+    tipoGasto?: SortOrder
+    concepto?: SortOrder
     titularTarjeta?: SortOrder
     numeroTarjeta?: SortOrder
     combustibleAntesPct?: SortOrder
@@ -65106,6 +66696,8 @@ export namespace Prisma {
     numeroFactura?: SortOrder
     profesorId?: SortOrder
     vehiculoId?: SortOrder
+    tipoGasto?: SortOrder
+    concepto?: SortOrder
     titularTarjeta?: SortOrder
     numeroTarjeta?: SortOrder
     combustibleAntesPct?: SortOrder
@@ -65217,6 +66809,30 @@ export namespace Prisma {
     _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
+  export type PasswordResetAuditCountOrderByAggregateInput = {
+    id?: SortOrder
+    soporteId?: SortOrder
+    usuarioObjetivoId?: SortOrder
+    motivo?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PasswordResetAuditMaxOrderByAggregateInput = {
+    id?: SortOrder
+    soporteId?: SortOrder
+    usuarioObjetivoId?: SortOrder
+    motivo?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PasswordResetAuditMinOrderByAggregateInput = {
+    id?: SortOrder
+    soporteId?: SortOrder
+    usuarioObjetivoId?: SortOrder
+    motivo?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type ActivacionCuentaCreateNestedManyWithoutUsuarioInput = {
     create?: XOR<ActivacionCuentaCreateWithoutUsuarioInput, ActivacionCuentaUncheckedCreateWithoutUsuarioInput> | ActivacionCuentaCreateWithoutUsuarioInput[] | ActivacionCuentaUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: ActivacionCuentaCreateOrConnectWithoutUsuarioInput | ActivacionCuentaCreateOrConnectWithoutUsuarioInput[]
@@ -65229,6 +66845,20 @@ export namespace Prisma {
     connectOrCreate?: NotificacionCreateOrConnectWithoutUsuarioInput | NotificacionCreateOrConnectWithoutUsuarioInput[]
     createMany?: NotificacionCreateManyUsuarioInputEnvelope
     connect?: NotificacionWhereUniqueInput | NotificacionWhereUniqueInput[]
+  }
+
+  export type PasswordResetAuditCreateNestedManyWithoutSoporteInput = {
+    create?: XOR<PasswordResetAuditCreateWithoutSoporteInput, PasswordResetAuditUncheckedCreateWithoutSoporteInput> | PasswordResetAuditCreateWithoutSoporteInput[] | PasswordResetAuditUncheckedCreateWithoutSoporteInput[]
+    connectOrCreate?: PasswordResetAuditCreateOrConnectWithoutSoporteInput | PasswordResetAuditCreateOrConnectWithoutSoporteInput[]
+    createMany?: PasswordResetAuditCreateManySoporteInputEnvelope
+    connect?: PasswordResetAuditWhereUniqueInput | PasswordResetAuditWhereUniqueInput[]
+  }
+
+  export type PasswordResetAuditCreateNestedManyWithoutUsuarioObjetivoInput = {
+    create?: XOR<PasswordResetAuditCreateWithoutUsuarioObjetivoInput, PasswordResetAuditUncheckedCreateWithoutUsuarioObjetivoInput> | PasswordResetAuditCreateWithoutUsuarioObjetivoInput[] | PasswordResetAuditUncheckedCreateWithoutUsuarioObjetivoInput[]
+    connectOrCreate?: PasswordResetAuditCreateOrConnectWithoutUsuarioObjetivoInput | PasswordResetAuditCreateOrConnectWithoutUsuarioObjetivoInput[]
+    createMany?: PasswordResetAuditCreateManyUsuarioObjetivoInputEnvelope
+    connect?: PasswordResetAuditWhereUniqueInput | PasswordResetAuditWhereUniqueInput[]
   }
 
   export type AlumnoCreateNestedOneWithoutUsuarioInput = {
@@ -65257,6 +66887,20 @@ export namespace Prisma {
     connect?: NotificacionWhereUniqueInput | NotificacionWhereUniqueInput[]
   }
 
+  export type PasswordResetAuditUncheckedCreateNestedManyWithoutSoporteInput = {
+    create?: XOR<PasswordResetAuditCreateWithoutSoporteInput, PasswordResetAuditUncheckedCreateWithoutSoporteInput> | PasswordResetAuditCreateWithoutSoporteInput[] | PasswordResetAuditUncheckedCreateWithoutSoporteInput[]
+    connectOrCreate?: PasswordResetAuditCreateOrConnectWithoutSoporteInput | PasswordResetAuditCreateOrConnectWithoutSoporteInput[]
+    createMany?: PasswordResetAuditCreateManySoporteInputEnvelope
+    connect?: PasswordResetAuditWhereUniqueInput | PasswordResetAuditWhereUniqueInput[]
+  }
+
+  export type PasswordResetAuditUncheckedCreateNestedManyWithoutUsuarioObjetivoInput = {
+    create?: XOR<PasswordResetAuditCreateWithoutUsuarioObjetivoInput, PasswordResetAuditUncheckedCreateWithoutUsuarioObjetivoInput> | PasswordResetAuditCreateWithoutUsuarioObjetivoInput[] | PasswordResetAuditUncheckedCreateWithoutUsuarioObjetivoInput[]
+    connectOrCreate?: PasswordResetAuditCreateOrConnectWithoutUsuarioObjetivoInput | PasswordResetAuditCreateOrConnectWithoutUsuarioObjetivoInput[]
+    createMany?: PasswordResetAuditCreateManyUsuarioObjetivoInputEnvelope
+    connect?: PasswordResetAuditWhereUniqueInput | PasswordResetAuditWhereUniqueInput[]
+  }
+
   export type AlumnoUncheckedCreateNestedOneWithoutUsuarioInput = {
     create?: XOR<AlumnoCreateWithoutUsuarioInput, AlumnoUncheckedCreateWithoutUsuarioInput>
     connectOrCreate?: AlumnoCreateOrConnectWithoutUsuarioInput
@@ -65277,16 +66921,16 @@ export namespace Prisma {
     set?: $Enums.Rol
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type ActivacionCuentaUpdateManyWithoutUsuarioNestedInput = {
@@ -65315,6 +66959,34 @@ export namespace Prisma {
     update?: NotificacionUpdateWithWhereUniqueWithoutUsuarioInput | NotificacionUpdateWithWhereUniqueWithoutUsuarioInput[]
     updateMany?: NotificacionUpdateManyWithWhereWithoutUsuarioInput | NotificacionUpdateManyWithWhereWithoutUsuarioInput[]
     deleteMany?: NotificacionScalarWhereInput | NotificacionScalarWhereInput[]
+  }
+
+  export type PasswordResetAuditUpdateManyWithoutSoporteNestedInput = {
+    create?: XOR<PasswordResetAuditCreateWithoutSoporteInput, PasswordResetAuditUncheckedCreateWithoutSoporteInput> | PasswordResetAuditCreateWithoutSoporteInput[] | PasswordResetAuditUncheckedCreateWithoutSoporteInput[]
+    connectOrCreate?: PasswordResetAuditCreateOrConnectWithoutSoporteInput | PasswordResetAuditCreateOrConnectWithoutSoporteInput[]
+    upsert?: PasswordResetAuditUpsertWithWhereUniqueWithoutSoporteInput | PasswordResetAuditUpsertWithWhereUniqueWithoutSoporteInput[]
+    createMany?: PasswordResetAuditCreateManySoporteInputEnvelope
+    set?: PasswordResetAuditWhereUniqueInput | PasswordResetAuditWhereUniqueInput[]
+    disconnect?: PasswordResetAuditWhereUniqueInput | PasswordResetAuditWhereUniqueInput[]
+    delete?: PasswordResetAuditWhereUniqueInput | PasswordResetAuditWhereUniqueInput[]
+    connect?: PasswordResetAuditWhereUniqueInput | PasswordResetAuditWhereUniqueInput[]
+    update?: PasswordResetAuditUpdateWithWhereUniqueWithoutSoporteInput | PasswordResetAuditUpdateWithWhereUniqueWithoutSoporteInput[]
+    updateMany?: PasswordResetAuditUpdateManyWithWhereWithoutSoporteInput | PasswordResetAuditUpdateManyWithWhereWithoutSoporteInput[]
+    deleteMany?: PasswordResetAuditScalarWhereInput | PasswordResetAuditScalarWhereInput[]
+  }
+
+  export type PasswordResetAuditUpdateManyWithoutUsuarioObjetivoNestedInput = {
+    create?: XOR<PasswordResetAuditCreateWithoutUsuarioObjetivoInput, PasswordResetAuditUncheckedCreateWithoutUsuarioObjetivoInput> | PasswordResetAuditCreateWithoutUsuarioObjetivoInput[] | PasswordResetAuditUncheckedCreateWithoutUsuarioObjetivoInput[]
+    connectOrCreate?: PasswordResetAuditCreateOrConnectWithoutUsuarioObjetivoInput | PasswordResetAuditCreateOrConnectWithoutUsuarioObjetivoInput[]
+    upsert?: PasswordResetAuditUpsertWithWhereUniqueWithoutUsuarioObjetivoInput | PasswordResetAuditUpsertWithWhereUniqueWithoutUsuarioObjetivoInput[]
+    createMany?: PasswordResetAuditCreateManyUsuarioObjetivoInputEnvelope
+    set?: PasswordResetAuditWhereUniqueInput | PasswordResetAuditWhereUniqueInput[]
+    disconnect?: PasswordResetAuditWhereUniqueInput | PasswordResetAuditWhereUniqueInput[]
+    delete?: PasswordResetAuditWhereUniqueInput | PasswordResetAuditWhereUniqueInput[]
+    connect?: PasswordResetAuditWhereUniqueInput | PasswordResetAuditWhereUniqueInput[]
+    update?: PasswordResetAuditUpdateWithWhereUniqueWithoutUsuarioObjetivoInput | PasswordResetAuditUpdateWithWhereUniqueWithoutUsuarioObjetivoInput[]
+    updateMany?: PasswordResetAuditUpdateManyWithWhereWithoutUsuarioObjetivoInput | PasswordResetAuditUpdateManyWithWhereWithoutUsuarioObjetivoInput[]
+    deleteMany?: PasswordResetAuditScalarWhereInput | PasswordResetAuditScalarWhereInput[]
   }
 
   export type AlumnoUpdateOneWithoutUsuarioNestedInput = {
@@ -65363,6 +67035,34 @@ export namespace Prisma {
     update?: NotificacionUpdateWithWhereUniqueWithoutUsuarioInput | NotificacionUpdateWithWhereUniqueWithoutUsuarioInput[]
     updateMany?: NotificacionUpdateManyWithWhereWithoutUsuarioInput | NotificacionUpdateManyWithWhereWithoutUsuarioInput[]
     deleteMany?: NotificacionScalarWhereInput | NotificacionScalarWhereInput[]
+  }
+
+  export type PasswordResetAuditUncheckedUpdateManyWithoutSoporteNestedInput = {
+    create?: XOR<PasswordResetAuditCreateWithoutSoporteInput, PasswordResetAuditUncheckedCreateWithoutSoporteInput> | PasswordResetAuditCreateWithoutSoporteInput[] | PasswordResetAuditUncheckedCreateWithoutSoporteInput[]
+    connectOrCreate?: PasswordResetAuditCreateOrConnectWithoutSoporteInput | PasswordResetAuditCreateOrConnectWithoutSoporteInput[]
+    upsert?: PasswordResetAuditUpsertWithWhereUniqueWithoutSoporteInput | PasswordResetAuditUpsertWithWhereUniqueWithoutSoporteInput[]
+    createMany?: PasswordResetAuditCreateManySoporteInputEnvelope
+    set?: PasswordResetAuditWhereUniqueInput | PasswordResetAuditWhereUniqueInput[]
+    disconnect?: PasswordResetAuditWhereUniqueInput | PasswordResetAuditWhereUniqueInput[]
+    delete?: PasswordResetAuditWhereUniqueInput | PasswordResetAuditWhereUniqueInput[]
+    connect?: PasswordResetAuditWhereUniqueInput | PasswordResetAuditWhereUniqueInput[]
+    update?: PasswordResetAuditUpdateWithWhereUniqueWithoutSoporteInput | PasswordResetAuditUpdateWithWhereUniqueWithoutSoporteInput[]
+    updateMany?: PasswordResetAuditUpdateManyWithWhereWithoutSoporteInput | PasswordResetAuditUpdateManyWithWhereWithoutSoporteInput[]
+    deleteMany?: PasswordResetAuditScalarWhereInput | PasswordResetAuditScalarWhereInput[]
+  }
+
+  export type PasswordResetAuditUncheckedUpdateManyWithoutUsuarioObjetivoNestedInput = {
+    create?: XOR<PasswordResetAuditCreateWithoutUsuarioObjetivoInput, PasswordResetAuditUncheckedCreateWithoutUsuarioObjetivoInput> | PasswordResetAuditCreateWithoutUsuarioObjetivoInput[] | PasswordResetAuditUncheckedCreateWithoutUsuarioObjetivoInput[]
+    connectOrCreate?: PasswordResetAuditCreateOrConnectWithoutUsuarioObjetivoInput | PasswordResetAuditCreateOrConnectWithoutUsuarioObjetivoInput[]
+    upsert?: PasswordResetAuditUpsertWithWhereUniqueWithoutUsuarioObjetivoInput | PasswordResetAuditUpsertWithWhereUniqueWithoutUsuarioObjetivoInput[]
+    createMany?: PasswordResetAuditCreateManyUsuarioObjetivoInputEnvelope
+    set?: PasswordResetAuditWhereUniqueInput | PasswordResetAuditWhereUniqueInput[]
+    disconnect?: PasswordResetAuditWhereUniqueInput | PasswordResetAuditWhereUniqueInput[]
+    delete?: PasswordResetAuditWhereUniqueInput | PasswordResetAuditWhereUniqueInput[]
+    connect?: PasswordResetAuditWhereUniqueInput | PasswordResetAuditWhereUniqueInput[]
+    update?: PasswordResetAuditUpdateWithWhereUniqueWithoutUsuarioObjetivoInput | PasswordResetAuditUpdateWithWhereUniqueWithoutUsuarioObjetivoInput[]
+    updateMany?: PasswordResetAuditUpdateManyWithWhereWithoutUsuarioObjetivoInput | PasswordResetAuditUpdateManyWithWhereWithoutUsuarioObjetivoInput[]
+    deleteMany?: PasswordResetAuditScalarWhereInput | PasswordResetAuditScalarWhereInput[]
   }
 
   export type AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput = {
@@ -68174,10 +69874,12 @@ export namespace Prisma {
     connect?: ClasePracticaWhereUniqueInput
   }
 
-  export type AlumnoUpdateOneRequiredWithoutFacturasNestedInput = {
+  export type AlumnoUpdateOneWithoutFacturasNestedInput = {
     create?: XOR<AlumnoCreateWithoutFacturasInput, AlumnoUncheckedCreateWithoutFacturasInput>
     connectOrCreate?: AlumnoCreateOrConnectWithoutFacturasInput
     upsert?: AlumnoUpsertWithoutFacturasInput
+    disconnect?: AlumnoWhereInput | boolean
+    delete?: AlumnoWhereInput | boolean
     connect?: AlumnoWhereUniqueInput
     update?: XOR<XOR<AlumnoUpdateToOneWithWhereWithoutFacturasInput, AlumnoUpdateWithoutFacturasInput>, AlumnoUncheckedUpdateWithoutFacturasInput>
   }
@@ -68224,10 +69926,12 @@ export namespace Prisma {
     connect?: VehiculoWhereUniqueInput
   }
 
-  export type ProfesorUpdateOneRequiredWithoutGastosCombustibleNestedInput = {
+  export type ProfesorUpdateOneWithoutGastosCombustibleNestedInput = {
     create?: XOR<ProfesorCreateWithoutGastosCombustibleInput, ProfesorUncheckedCreateWithoutGastosCombustibleInput>
     connectOrCreate?: ProfesorCreateOrConnectWithoutGastosCombustibleInput
     upsert?: ProfesorUpsertWithoutGastosCombustibleInput
+    disconnect?: ProfesorWhereInput | boolean
+    delete?: ProfesorWhereInput | boolean
     connect?: ProfesorWhereUniqueInput
     update?: XOR<XOR<ProfesorUpdateToOneWithWhereWithoutGastosCombustibleInput, ProfesorUpdateWithoutGastosCombustibleInput>, ProfesorUncheckedUpdateWithoutGastosCombustibleInput>
   }
@@ -68254,6 +69958,34 @@ export namespace Prisma {
     update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutNotificacionesInput, UsuarioUpdateWithoutNotificacionesInput>, UsuarioUncheckedUpdateWithoutNotificacionesInput>
   }
 
+  export type UsuarioCreateNestedOneWithoutResetAuditsAsActorInput = {
+    create?: XOR<UsuarioCreateWithoutResetAuditsAsActorInput, UsuarioUncheckedCreateWithoutResetAuditsAsActorInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutResetAuditsAsActorInput
+    connect?: UsuarioWhereUniqueInput
+  }
+
+  export type UsuarioCreateNestedOneWithoutResetAuditsAsTargetInput = {
+    create?: XOR<UsuarioCreateWithoutResetAuditsAsTargetInput, UsuarioUncheckedCreateWithoutResetAuditsAsTargetInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutResetAuditsAsTargetInput
+    connect?: UsuarioWhereUniqueInput
+  }
+
+  export type UsuarioUpdateOneRequiredWithoutResetAuditsAsActorNestedInput = {
+    create?: XOR<UsuarioCreateWithoutResetAuditsAsActorInput, UsuarioUncheckedCreateWithoutResetAuditsAsActorInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutResetAuditsAsActorInput
+    upsert?: UsuarioUpsertWithoutResetAuditsAsActorInput
+    connect?: UsuarioWhereUniqueInput
+    update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutResetAuditsAsActorInput, UsuarioUpdateWithoutResetAuditsAsActorInput>, UsuarioUncheckedUpdateWithoutResetAuditsAsActorInput>
+  }
+
+  export type UsuarioUpdateOneRequiredWithoutResetAuditsAsTargetNestedInput = {
+    create?: XOR<UsuarioCreateWithoutResetAuditsAsTargetInput, UsuarioUncheckedCreateWithoutResetAuditsAsTargetInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutResetAuditsAsTargetInput
+    upsert?: UsuarioUpsertWithoutResetAuditsAsTargetInput
+    connect?: UsuarioWhereUniqueInput
+    update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutResetAuditsAsTargetInput, UsuarioUpdateWithoutResetAuditsAsTargetInput>, UsuarioUncheckedUpdateWithoutResetAuditsAsTargetInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -68273,6 +70005,11 @@ export namespace Prisma {
     in?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
     notIn?: $Enums.Rol[] | ListEnumRolFieldRefInput<$PrismaModel>
     not?: NestedEnumRolFilter<$PrismaModel> | $Enums.Rol
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -68298,11 +70035,6 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -68341,6 +70073,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRolFilter<$PrismaModel>
     _max?: NestedEnumRolFilter<$PrismaModel>
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -68383,14 +70123,6 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
@@ -68682,6 +70414,54 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PasswordResetAuditCreateWithoutSoporteInput = {
+    id?: string
+    motivo?: string | null
+    createdAt?: Date | string
+    usuarioObjetivo: UsuarioCreateNestedOneWithoutResetAuditsAsTargetInput
+  }
+
+  export type PasswordResetAuditUncheckedCreateWithoutSoporteInput = {
+    id?: string
+    usuarioObjetivoId: string
+    motivo?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PasswordResetAuditCreateOrConnectWithoutSoporteInput = {
+    where: PasswordResetAuditWhereUniqueInput
+    create: XOR<PasswordResetAuditCreateWithoutSoporteInput, PasswordResetAuditUncheckedCreateWithoutSoporteInput>
+  }
+
+  export type PasswordResetAuditCreateManySoporteInputEnvelope = {
+    data: PasswordResetAuditCreateManySoporteInput | PasswordResetAuditCreateManySoporteInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PasswordResetAuditCreateWithoutUsuarioObjetivoInput = {
+    id?: string
+    motivo?: string | null
+    createdAt?: Date | string
+    soporte: UsuarioCreateNestedOneWithoutResetAuditsAsActorInput
+  }
+
+  export type PasswordResetAuditUncheckedCreateWithoutUsuarioObjetivoInput = {
+    id?: string
+    soporteId: string
+    motivo?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PasswordResetAuditCreateOrConnectWithoutUsuarioObjetivoInput = {
+    where: PasswordResetAuditWhereUniqueInput
+    create: XOR<PasswordResetAuditCreateWithoutUsuarioObjetivoInput, PasswordResetAuditUncheckedCreateWithoutUsuarioObjetivoInput>
+  }
+
+  export type PasswordResetAuditCreateManyUsuarioObjetivoInputEnvelope = {
+    data: PasswordResetAuditCreateManyUsuarioObjetivoInput | PasswordResetAuditCreateManyUsuarioObjetivoInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AlumnoCreateWithoutUsuarioInput = {
     tipoLicenciaObjetivo: string
     horasPracticasCompletadas?: number
@@ -68831,6 +70611,49 @@ export namespace Prisma {
     archivedAt?: DateTimeNullableFilter<"Notificacion"> | Date | string | null
   }
 
+  export type PasswordResetAuditUpsertWithWhereUniqueWithoutSoporteInput = {
+    where: PasswordResetAuditWhereUniqueInput
+    update: XOR<PasswordResetAuditUpdateWithoutSoporteInput, PasswordResetAuditUncheckedUpdateWithoutSoporteInput>
+    create: XOR<PasswordResetAuditCreateWithoutSoporteInput, PasswordResetAuditUncheckedCreateWithoutSoporteInput>
+  }
+
+  export type PasswordResetAuditUpdateWithWhereUniqueWithoutSoporteInput = {
+    where: PasswordResetAuditWhereUniqueInput
+    data: XOR<PasswordResetAuditUpdateWithoutSoporteInput, PasswordResetAuditUncheckedUpdateWithoutSoporteInput>
+  }
+
+  export type PasswordResetAuditUpdateManyWithWhereWithoutSoporteInput = {
+    where: PasswordResetAuditScalarWhereInput
+    data: XOR<PasswordResetAuditUpdateManyMutationInput, PasswordResetAuditUncheckedUpdateManyWithoutSoporteInput>
+  }
+
+  export type PasswordResetAuditScalarWhereInput = {
+    AND?: PasswordResetAuditScalarWhereInput | PasswordResetAuditScalarWhereInput[]
+    OR?: PasswordResetAuditScalarWhereInput[]
+    NOT?: PasswordResetAuditScalarWhereInput | PasswordResetAuditScalarWhereInput[]
+    id?: StringFilter<"PasswordResetAudit"> | string
+    soporteId?: StringFilter<"PasswordResetAudit"> | string
+    usuarioObjetivoId?: StringFilter<"PasswordResetAudit"> | string
+    motivo?: StringNullableFilter<"PasswordResetAudit"> | string | null
+    createdAt?: DateTimeFilter<"PasswordResetAudit"> | Date | string
+  }
+
+  export type PasswordResetAuditUpsertWithWhereUniqueWithoutUsuarioObjetivoInput = {
+    where: PasswordResetAuditWhereUniqueInput
+    update: XOR<PasswordResetAuditUpdateWithoutUsuarioObjetivoInput, PasswordResetAuditUncheckedUpdateWithoutUsuarioObjetivoInput>
+    create: XOR<PasswordResetAuditCreateWithoutUsuarioObjetivoInput, PasswordResetAuditUncheckedCreateWithoutUsuarioObjetivoInput>
+  }
+
+  export type PasswordResetAuditUpdateWithWhereUniqueWithoutUsuarioObjetivoInput = {
+    where: PasswordResetAuditWhereUniqueInput
+    data: XOR<PasswordResetAuditUpdateWithoutUsuarioObjetivoInput, PasswordResetAuditUncheckedUpdateWithoutUsuarioObjetivoInput>
+  }
+
+  export type PasswordResetAuditUpdateManyWithWhereWithoutUsuarioObjetivoInput = {
+    where: PasswordResetAuditScalarWhereInput
+    data: XOR<PasswordResetAuditUpdateManyMutationInput, PasswordResetAuditUncheckedUpdateManyWithoutUsuarioObjetivoInput>
+  }
+
   export type AlumnoUpsertWithoutUsuarioInput = {
     update: XOR<AlumnoUpdateWithoutUsuarioInput, AlumnoUncheckedUpdateWithoutUsuarioInput>
     create: XOR<AlumnoCreateWithoutUsuarioInput, AlumnoUncheckedCreateWithoutUsuarioInput>
@@ -68935,11 +70758,14 @@ export namespace Prisma {
     email: string
     passwordHash: string
     rol: $Enums.Rol
+    activo?: boolean
     fechaCreacion?: Date | string
     telefono?: string | null
     dni?: string | null
     requiereCambioPassword?: boolean
     notificaciones?: NotificacionCreateNestedManyWithoutUsuarioInput
+    resetAuditsAsActor?: PasswordResetAuditCreateNestedManyWithoutSoporteInput
+    resetAuditsAsTarget?: PasswordResetAuditCreateNestedManyWithoutUsuarioObjetivoInput
     alumno?: AlumnoCreateNestedOneWithoutUsuarioInput
     profesor?: ProfesorCreateNestedOneWithoutUsuarioInput
   }
@@ -68950,11 +70776,14 @@ export namespace Prisma {
     email: string
     passwordHash: string
     rol: $Enums.Rol
+    activo?: boolean
     fechaCreacion?: Date | string
     telefono?: string | null
     dni?: string | null
     requiereCambioPassword?: boolean
     notificaciones?: NotificacionUncheckedCreateNestedManyWithoutUsuarioInput
+    resetAuditsAsActor?: PasswordResetAuditUncheckedCreateNestedManyWithoutSoporteInput
+    resetAuditsAsTarget?: PasswordResetAuditUncheckedCreateNestedManyWithoutUsuarioObjetivoInput
     alumno?: AlumnoUncheckedCreateNestedOneWithoutUsuarioInput
     profesor?: ProfesorUncheckedCreateNestedOneWithoutUsuarioInput
   }
@@ -68981,11 +70810,14 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
+    activo?: BoolFieldUpdateOperationsInput | boolean
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     dni?: NullableStringFieldUpdateOperationsInput | string | null
     requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     notificaciones?: NotificacionUpdateManyWithoutUsuarioNestedInput
+    resetAuditsAsActor?: PasswordResetAuditUpdateManyWithoutSoporteNestedInput
+    resetAuditsAsTarget?: PasswordResetAuditUpdateManyWithoutUsuarioObjetivoNestedInput
     alumno?: AlumnoUpdateOneWithoutUsuarioNestedInput
     profesor?: ProfesorUpdateOneWithoutUsuarioNestedInput
   }
@@ -68996,11 +70828,14 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
+    activo?: BoolFieldUpdateOperationsInput | boolean
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     dni?: NullableStringFieldUpdateOperationsInput | string | null
     requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     notificaciones?: NotificacionUncheckedUpdateManyWithoutUsuarioNestedInput
+    resetAuditsAsActor?: PasswordResetAuditUncheckedUpdateManyWithoutSoporteNestedInput
+    resetAuditsAsTarget?: PasswordResetAuditUncheckedUpdateManyWithoutUsuarioObjetivoNestedInput
     alumno?: AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput
     profesor?: ProfesorUncheckedUpdateOneWithoutUsuarioNestedInput
   }
@@ -69198,6 +71033,8 @@ export namespace Prisma {
   export type GastoCombustibleCreateWithoutProfesorInput = {
     id?: string
     numeroFactura: string
+    tipoGasto?: string
+    concepto?: string | null
     titularTarjeta: string
     numeroTarjeta: string
     combustibleAntesPct: number
@@ -69216,6 +71053,8 @@ export namespace Prisma {
     id?: string
     numeroFactura: string
     vehiculoId: string
+    tipoGasto?: string
+    concepto?: string | null
     titularTarjeta: string
     numeroTarjeta: string
     combustibleAntesPct: number
@@ -69315,12 +71154,15 @@ export namespace Prisma {
     email: string
     passwordHash: string
     rol: $Enums.Rol
+    activo?: boolean
     fechaCreacion?: Date | string
     telefono?: string | null
     dni?: string | null
     requiereCambioPassword?: boolean
     activacionesCuenta?: ActivacionCuentaCreateNestedManyWithoutUsuarioInput
     notificaciones?: NotificacionCreateNestedManyWithoutUsuarioInput
+    resetAuditsAsActor?: PasswordResetAuditCreateNestedManyWithoutSoporteInput
+    resetAuditsAsTarget?: PasswordResetAuditCreateNestedManyWithoutUsuarioObjetivoInput
     alumno?: AlumnoCreateNestedOneWithoutUsuarioInput
   }
 
@@ -69330,12 +71172,15 @@ export namespace Prisma {
     email: string
     passwordHash: string
     rol: $Enums.Rol
+    activo?: boolean
     fechaCreacion?: Date | string
     telefono?: string | null
     dni?: string | null
     requiereCambioPassword?: boolean
     activacionesCuenta?: ActivacionCuentaUncheckedCreateNestedManyWithoutUsuarioInput
     notificaciones?: NotificacionUncheckedCreateNestedManyWithoutUsuarioInput
+    resetAuditsAsActor?: PasswordResetAuditUncheckedCreateNestedManyWithoutSoporteInput
+    resetAuditsAsTarget?: PasswordResetAuditUncheckedCreateNestedManyWithoutUsuarioObjetivoInput
     alumno?: AlumnoUncheckedCreateNestedOneWithoutUsuarioInput
   }
 
@@ -69507,8 +71352,10 @@ export namespace Prisma {
     NOT?: GastoCombustibleScalarWhereInput | GastoCombustibleScalarWhereInput[]
     id?: StringFilter<"GastoCombustible"> | string
     numeroFactura?: StringFilter<"GastoCombustible"> | string
-    profesorId?: StringFilter<"GastoCombustible"> | string
+    profesorId?: StringNullableFilter<"GastoCombustible"> | string | null
     vehiculoId?: StringFilter<"GastoCombustible"> | string
+    tipoGasto?: StringFilter<"GastoCombustible"> | string
+    concepto?: StringNullableFilter<"GastoCombustible"> | string | null
     titularTarjeta?: StringFilter<"GastoCombustible"> | string
     numeroTarjeta?: StringFilter<"GastoCombustible"> | string
     combustibleAntesPct?: IntFilter<"GastoCombustible"> | number
@@ -69603,12 +71450,15 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
+    activo?: BoolFieldUpdateOperationsInput | boolean
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     dni?: NullableStringFieldUpdateOperationsInput | string | null
     requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     activacionesCuenta?: ActivacionCuentaUpdateManyWithoutUsuarioNestedInput
     notificaciones?: NotificacionUpdateManyWithoutUsuarioNestedInput
+    resetAuditsAsActor?: PasswordResetAuditUpdateManyWithoutSoporteNestedInput
+    resetAuditsAsTarget?: PasswordResetAuditUpdateManyWithoutUsuarioObjetivoNestedInput
     alumno?: AlumnoUpdateOneWithoutUsuarioNestedInput
   }
 
@@ -69618,12 +71468,15 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
+    activo?: BoolFieldUpdateOperationsInput | boolean
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     dni?: NullableStringFieldUpdateOperationsInput | string | null
     requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     activacionesCuenta?: ActivacionCuentaUncheckedUpdateManyWithoutUsuarioNestedInput
     notificaciones?: NotificacionUncheckedUpdateManyWithoutUsuarioNestedInput
+    resetAuditsAsActor?: PasswordResetAuditUncheckedUpdateManyWithoutSoporteNestedInput
+    resetAuditsAsTarget?: PasswordResetAuditUncheckedUpdateManyWithoutUsuarioObjetivoNestedInput
     alumno?: AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput
   }
 
@@ -69709,12 +71562,15 @@ export namespace Prisma {
     email: string
     passwordHash: string
     rol: $Enums.Rol
+    activo?: boolean
     fechaCreacion?: Date | string
     telefono?: string | null
     dni?: string | null
     requiereCambioPassword?: boolean
     activacionesCuenta?: ActivacionCuentaCreateNestedManyWithoutUsuarioInput
     notificaciones?: NotificacionCreateNestedManyWithoutUsuarioInput
+    resetAuditsAsActor?: PasswordResetAuditCreateNestedManyWithoutSoporteInput
+    resetAuditsAsTarget?: PasswordResetAuditCreateNestedManyWithoutUsuarioObjetivoInput
     profesor?: ProfesorCreateNestedOneWithoutUsuarioInput
   }
 
@@ -69724,12 +71580,15 @@ export namespace Prisma {
     email: string
     passwordHash: string
     rol: $Enums.Rol
+    activo?: boolean
     fechaCreacion?: Date | string
     telefono?: string | null
     dni?: string | null
     requiereCambioPassword?: boolean
     activacionesCuenta?: ActivacionCuentaUncheckedCreateNestedManyWithoutUsuarioInput
     notificaciones?: NotificacionUncheckedCreateNestedManyWithoutUsuarioInput
+    resetAuditsAsActor?: PasswordResetAuditUncheckedCreateNestedManyWithoutSoporteInput
+    resetAuditsAsTarget?: PasswordResetAuditUncheckedCreateNestedManyWithoutUsuarioObjetivoInput
     profesor?: ProfesorUncheckedCreateNestedOneWithoutUsuarioInput
   }
 
@@ -70262,12 +72121,15 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
+    activo?: BoolFieldUpdateOperationsInput | boolean
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     dni?: NullableStringFieldUpdateOperationsInput | string | null
     requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     activacionesCuenta?: ActivacionCuentaUpdateManyWithoutUsuarioNestedInput
     notificaciones?: NotificacionUpdateManyWithoutUsuarioNestedInput
+    resetAuditsAsActor?: PasswordResetAuditUpdateManyWithoutSoporteNestedInput
+    resetAuditsAsTarget?: PasswordResetAuditUpdateManyWithoutUsuarioObjetivoNestedInput
     profesor?: ProfesorUpdateOneWithoutUsuarioNestedInput
   }
 
@@ -70277,12 +72139,15 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
+    activo?: BoolFieldUpdateOperationsInput | boolean
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     dni?: NullableStringFieldUpdateOperationsInput | string | null
     requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     activacionesCuenta?: ActivacionCuentaUncheckedUpdateManyWithoutUsuarioNestedInput
     notificaciones?: NotificacionUncheckedUpdateManyWithoutUsuarioNestedInput
+    resetAuditsAsActor?: PasswordResetAuditUncheckedUpdateManyWithoutSoporteNestedInput
+    resetAuditsAsTarget?: PasswordResetAuditUncheckedUpdateManyWithoutUsuarioObjetivoNestedInput
     profesor?: ProfesorUncheckedUpdateOneWithoutUsuarioNestedInput
   }
 
@@ -70424,7 +72289,7 @@ export namespace Prisma {
     NOT?: FacturaScalarWhereInput | FacturaScalarWhereInput[]
     id?: StringFilter<"Factura"> | string
     numero?: StringFilter<"Factura"> | string
-    alumnoId?: StringFilter<"Factura"> | string
+    alumnoId?: StringNullableFilter<"Factura"> | string | null
     matriculaId?: StringNullableFilter<"Factura"> | string | null
     compraBonoId?: StringNullableFilter<"Factura"> | string | null
     clasePracticaId?: StringNullableFilter<"Factura"> | string | null
@@ -71755,7 +73620,7 @@ export namespace Prisma {
     estado?: string
     fechaEmision?: Date | string
     fechaPago?: Date | string | null
-    alumno: AlumnoCreateNestedOneWithoutFacturasInput
+    alumno?: AlumnoCreateNestedOneWithoutFacturasInput
     matricula?: MatriculaCreateNestedOneWithoutFacturasInput
     clasePractica?: ClasePracticaCreateNestedOneWithoutFacturasInput
   }
@@ -71763,7 +73628,7 @@ export namespace Prisma {
   export type FacturaUncheckedCreateWithoutCompraBonoInput = {
     id?: string
     numero: string
-    alumnoId: string
+    alumnoId?: string | null
     matriculaId?: string | null
     clasePracticaId?: string | null
     concepto: string
@@ -72296,6 +74161,8 @@ export namespace Prisma {
   export type GastoCombustibleCreateWithoutVehiculoInput = {
     id?: string
     numeroFactura: string
+    tipoGasto?: string
+    concepto?: string | null
     titularTarjeta: string
     numeroTarjeta: string
     combustibleAntesPct: number
@@ -72307,13 +74174,15 @@ export namespace Prisma {
     rutaRecibo?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    profesor: ProfesorCreateNestedOneWithoutGastosCombustibleInput
+    profesor?: ProfesorCreateNestedOneWithoutGastosCombustibleInput
   }
 
   export type GastoCombustibleUncheckedCreateWithoutVehiculoInput = {
     id?: string
     numeroFactura: string
-    profesorId: string
+    profesorId?: string | null
+    tipoGasto?: string
+    concepto?: string | null
     titularTarjeta: string
     numeroTarjeta: string
     combustibleAntesPct: number
@@ -72463,8 +74332,11 @@ export namespace Prisma {
     tipoPermiso: string
     kmActuales?: number
     combustibleActualPct?: number
+    fechaUltimaItv?: Date | string | null
     activo?: boolean
     imagenRuta?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     gastosCombustible?: GastoCombustibleCreateNestedManyWithoutVehiculoInput
   }
 
@@ -72476,8 +74348,11 @@ export namespace Prisma {
     tipoPermiso: string
     kmActuales?: number
     combustibleActualPct?: number
+    fechaUltimaItv?: Date | string | null
     activo?: boolean
     imagenRuta?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     gastosCombustible?: GastoCombustibleUncheckedCreateNestedManyWithoutVehiculoInput
   }
 
@@ -72579,7 +74454,7 @@ export namespace Prisma {
     estado?: string
     fechaEmision?: Date | string
     fechaPago?: Date | string | null
-    alumno: AlumnoCreateNestedOneWithoutFacturasInput
+    alumno?: AlumnoCreateNestedOneWithoutFacturasInput
     matricula?: MatriculaCreateNestedOneWithoutFacturasInput
     compraBono?: CompraBonoCreateNestedOneWithoutFacturasInput
   }
@@ -72587,7 +74462,7 @@ export namespace Prisma {
   export type FacturaUncheckedCreateWithoutClasePracticaInput = {
     id?: string
     numero: string
-    alumnoId: string
+    alumnoId?: string | null
     matriculaId?: string | null
     compraBonoId?: string | null
     concepto: string
@@ -72763,8 +74638,11 @@ export namespace Prisma {
     tipoPermiso?: StringFieldUpdateOperationsInput | string
     kmActuales?: IntFieldUpdateOperationsInput | number
     combustibleActualPct?: IntFieldUpdateOperationsInput | number
+    fechaUltimaItv?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
     imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     gastosCombustible?: GastoCombustibleUpdateManyWithoutVehiculoNestedInput
   }
 
@@ -72776,8 +74654,11 @@ export namespace Prisma {
     tipoPermiso?: StringFieldUpdateOperationsInput | string
     kmActuales?: IntFieldUpdateOperationsInput | number
     combustibleActualPct?: IntFieldUpdateOperationsInput | number
+    fechaUltimaItv?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
     imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     gastosCombustible?: GastoCombustibleUncheckedUpdateManyWithoutVehiculoNestedInput
   }
 
@@ -74052,7 +75933,7 @@ export namespace Prisma {
     estado?: string
     fechaEmision?: Date | string
     fechaPago?: Date | string | null
-    alumno: AlumnoCreateNestedOneWithoutFacturasInput
+    alumno?: AlumnoCreateNestedOneWithoutFacturasInput
     compraBono?: CompraBonoCreateNestedOneWithoutFacturasInput
     clasePractica?: ClasePracticaCreateNestedOneWithoutFacturasInput
   }
@@ -74060,7 +75941,7 @@ export namespace Prisma {
   export type FacturaUncheckedCreateWithoutMatriculaInput = {
     id?: string
     numero: string
-    alumnoId: string
+    alumnoId?: string | null
     compraBonoId?: string | null
     clasePracticaId?: string | null
     concepto: string
@@ -75998,8 +77879,11 @@ export namespace Prisma {
     tipoPermiso: string
     kmActuales?: number
     combustibleActualPct?: number
+    fechaUltimaItv?: Date | string | null
     activo?: boolean
     imagenRuta?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     clases?: ClasePracticaCreateNestedManyWithoutVehiculoInput
   }
 
@@ -76011,8 +77895,11 @@ export namespace Prisma {
     tipoPermiso: string
     kmActuales?: number
     combustibleActualPct?: number
+    fechaUltimaItv?: Date | string | null
     activo?: boolean
     imagenRuta?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutVehiculoInput
   }
 
@@ -76081,8 +77968,11 @@ export namespace Prisma {
     tipoPermiso?: StringFieldUpdateOperationsInput | string
     kmActuales?: IntFieldUpdateOperationsInput | number
     combustibleActualPct?: IntFieldUpdateOperationsInput | number
+    fechaUltimaItv?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
     imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clases?: ClasePracticaUpdateManyWithoutVehiculoNestedInput
   }
 
@@ -76094,8 +77984,11 @@ export namespace Prisma {
     tipoPermiso?: StringFieldUpdateOperationsInput | string
     kmActuales?: IntFieldUpdateOperationsInput | number
     combustibleActualPct?: IntFieldUpdateOperationsInput | number
+    fechaUltimaItv?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
     imagenRuta?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clases?: ClasePracticaUncheckedUpdateManyWithoutVehiculoNestedInput
   }
 
@@ -76105,11 +77998,14 @@ export namespace Prisma {
     email: string
     passwordHash: string
     rol: $Enums.Rol
+    activo?: boolean
     fechaCreacion?: Date | string
     telefono?: string | null
     dni?: string | null
     requiereCambioPassword?: boolean
     activacionesCuenta?: ActivacionCuentaCreateNestedManyWithoutUsuarioInput
+    resetAuditsAsActor?: PasswordResetAuditCreateNestedManyWithoutSoporteInput
+    resetAuditsAsTarget?: PasswordResetAuditCreateNestedManyWithoutUsuarioObjetivoInput
     alumno?: AlumnoCreateNestedOneWithoutUsuarioInput
     profesor?: ProfesorCreateNestedOneWithoutUsuarioInput
   }
@@ -76120,11 +78016,14 @@ export namespace Prisma {
     email: string
     passwordHash: string
     rol: $Enums.Rol
+    activo?: boolean
     fechaCreacion?: Date | string
     telefono?: string | null
     dni?: string | null
     requiereCambioPassword?: boolean
     activacionesCuenta?: ActivacionCuentaUncheckedCreateNestedManyWithoutUsuarioInput
+    resetAuditsAsActor?: PasswordResetAuditUncheckedCreateNestedManyWithoutSoporteInput
+    resetAuditsAsTarget?: PasswordResetAuditUncheckedCreateNestedManyWithoutUsuarioObjetivoInput
     alumno?: AlumnoUncheckedCreateNestedOneWithoutUsuarioInput
     profesor?: ProfesorUncheckedCreateNestedOneWithoutUsuarioInput
   }
@@ -76151,11 +78050,14 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
+    activo?: BoolFieldUpdateOperationsInput | boolean
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     dni?: NullableStringFieldUpdateOperationsInput | string | null
     requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     activacionesCuenta?: ActivacionCuentaUpdateManyWithoutUsuarioNestedInput
+    resetAuditsAsActor?: PasswordResetAuditUpdateManyWithoutSoporteNestedInput
+    resetAuditsAsTarget?: PasswordResetAuditUpdateManyWithoutUsuarioObjetivoNestedInput
     alumno?: AlumnoUpdateOneWithoutUsuarioNestedInput
     profesor?: ProfesorUpdateOneWithoutUsuarioNestedInput
   }
@@ -76166,11 +78068,190 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
+    activo?: BoolFieldUpdateOperationsInput | boolean
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     dni?: NullableStringFieldUpdateOperationsInput | string | null
     requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
     activacionesCuenta?: ActivacionCuentaUncheckedUpdateManyWithoutUsuarioNestedInput
+    resetAuditsAsActor?: PasswordResetAuditUncheckedUpdateManyWithoutSoporteNestedInput
+    resetAuditsAsTarget?: PasswordResetAuditUncheckedUpdateManyWithoutUsuarioObjetivoNestedInput
+    alumno?: AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput
+    profesor?: ProfesorUncheckedUpdateOneWithoutUsuarioNestedInput
+  }
+
+  export type UsuarioCreateWithoutResetAuditsAsActorInput = {
+    id?: string
+    nombre: string
+    email: string
+    passwordHash: string
+    rol: $Enums.Rol
+    activo?: boolean
+    fechaCreacion?: Date | string
+    telefono?: string | null
+    dni?: string | null
+    requiereCambioPassword?: boolean
+    activacionesCuenta?: ActivacionCuentaCreateNestedManyWithoutUsuarioInput
+    notificaciones?: NotificacionCreateNestedManyWithoutUsuarioInput
+    resetAuditsAsTarget?: PasswordResetAuditCreateNestedManyWithoutUsuarioObjetivoInput
+    alumno?: AlumnoCreateNestedOneWithoutUsuarioInput
+    profesor?: ProfesorCreateNestedOneWithoutUsuarioInput
+  }
+
+  export type UsuarioUncheckedCreateWithoutResetAuditsAsActorInput = {
+    id?: string
+    nombre: string
+    email: string
+    passwordHash: string
+    rol: $Enums.Rol
+    activo?: boolean
+    fechaCreacion?: Date | string
+    telefono?: string | null
+    dni?: string | null
+    requiereCambioPassword?: boolean
+    activacionesCuenta?: ActivacionCuentaUncheckedCreateNestedManyWithoutUsuarioInput
+    notificaciones?: NotificacionUncheckedCreateNestedManyWithoutUsuarioInput
+    resetAuditsAsTarget?: PasswordResetAuditUncheckedCreateNestedManyWithoutUsuarioObjetivoInput
+    alumno?: AlumnoUncheckedCreateNestedOneWithoutUsuarioInput
+    profesor?: ProfesorUncheckedCreateNestedOneWithoutUsuarioInput
+  }
+
+  export type UsuarioCreateOrConnectWithoutResetAuditsAsActorInput = {
+    where: UsuarioWhereUniqueInput
+    create: XOR<UsuarioCreateWithoutResetAuditsAsActorInput, UsuarioUncheckedCreateWithoutResetAuditsAsActorInput>
+  }
+
+  export type UsuarioCreateWithoutResetAuditsAsTargetInput = {
+    id?: string
+    nombre: string
+    email: string
+    passwordHash: string
+    rol: $Enums.Rol
+    activo?: boolean
+    fechaCreacion?: Date | string
+    telefono?: string | null
+    dni?: string | null
+    requiereCambioPassword?: boolean
+    activacionesCuenta?: ActivacionCuentaCreateNestedManyWithoutUsuarioInput
+    notificaciones?: NotificacionCreateNestedManyWithoutUsuarioInput
+    resetAuditsAsActor?: PasswordResetAuditCreateNestedManyWithoutSoporteInput
+    alumno?: AlumnoCreateNestedOneWithoutUsuarioInput
+    profesor?: ProfesorCreateNestedOneWithoutUsuarioInput
+  }
+
+  export type UsuarioUncheckedCreateWithoutResetAuditsAsTargetInput = {
+    id?: string
+    nombre: string
+    email: string
+    passwordHash: string
+    rol: $Enums.Rol
+    activo?: boolean
+    fechaCreacion?: Date | string
+    telefono?: string | null
+    dni?: string | null
+    requiereCambioPassword?: boolean
+    activacionesCuenta?: ActivacionCuentaUncheckedCreateNestedManyWithoutUsuarioInput
+    notificaciones?: NotificacionUncheckedCreateNestedManyWithoutUsuarioInput
+    resetAuditsAsActor?: PasswordResetAuditUncheckedCreateNestedManyWithoutSoporteInput
+    alumno?: AlumnoUncheckedCreateNestedOneWithoutUsuarioInput
+    profesor?: ProfesorUncheckedCreateNestedOneWithoutUsuarioInput
+  }
+
+  export type UsuarioCreateOrConnectWithoutResetAuditsAsTargetInput = {
+    where: UsuarioWhereUniqueInput
+    create: XOR<UsuarioCreateWithoutResetAuditsAsTargetInput, UsuarioUncheckedCreateWithoutResetAuditsAsTargetInput>
+  }
+
+  export type UsuarioUpsertWithoutResetAuditsAsActorInput = {
+    update: XOR<UsuarioUpdateWithoutResetAuditsAsActorInput, UsuarioUncheckedUpdateWithoutResetAuditsAsActorInput>
+    create: XOR<UsuarioCreateWithoutResetAuditsAsActorInput, UsuarioUncheckedCreateWithoutResetAuditsAsActorInput>
+    where?: UsuarioWhereInput
+  }
+
+  export type UsuarioUpdateToOneWithWhereWithoutResetAuditsAsActorInput = {
+    where?: UsuarioWhereInput
+    data: XOR<UsuarioUpdateWithoutResetAuditsAsActorInput, UsuarioUncheckedUpdateWithoutResetAuditsAsActorInput>
+  }
+
+  export type UsuarioUpdateWithoutResetAuditsAsActorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
+    activacionesCuenta?: ActivacionCuentaUpdateManyWithoutUsuarioNestedInput
+    notificaciones?: NotificacionUpdateManyWithoutUsuarioNestedInput
+    resetAuditsAsTarget?: PasswordResetAuditUpdateManyWithoutUsuarioObjetivoNestedInput
+    alumno?: AlumnoUpdateOneWithoutUsuarioNestedInput
+    profesor?: ProfesorUpdateOneWithoutUsuarioNestedInput
+  }
+
+  export type UsuarioUncheckedUpdateWithoutResetAuditsAsActorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
+    activacionesCuenta?: ActivacionCuentaUncheckedUpdateManyWithoutUsuarioNestedInput
+    notificaciones?: NotificacionUncheckedUpdateManyWithoutUsuarioNestedInput
+    resetAuditsAsTarget?: PasswordResetAuditUncheckedUpdateManyWithoutUsuarioObjetivoNestedInput
+    alumno?: AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput
+    profesor?: ProfesorUncheckedUpdateOneWithoutUsuarioNestedInput
+  }
+
+  export type UsuarioUpsertWithoutResetAuditsAsTargetInput = {
+    update: XOR<UsuarioUpdateWithoutResetAuditsAsTargetInput, UsuarioUncheckedUpdateWithoutResetAuditsAsTargetInput>
+    create: XOR<UsuarioCreateWithoutResetAuditsAsTargetInput, UsuarioUncheckedCreateWithoutResetAuditsAsTargetInput>
+    where?: UsuarioWhereInput
+  }
+
+  export type UsuarioUpdateToOneWithWhereWithoutResetAuditsAsTargetInput = {
+    where?: UsuarioWhereInput
+    data: XOR<UsuarioUpdateWithoutResetAuditsAsTargetInput, UsuarioUncheckedUpdateWithoutResetAuditsAsTargetInput>
+  }
+
+  export type UsuarioUpdateWithoutResetAuditsAsTargetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
+    activacionesCuenta?: ActivacionCuentaUpdateManyWithoutUsuarioNestedInput
+    notificaciones?: NotificacionUpdateManyWithoutUsuarioNestedInput
+    resetAuditsAsActor?: PasswordResetAuditUpdateManyWithoutSoporteNestedInput
+    alumno?: AlumnoUpdateOneWithoutUsuarioNestedInput
+    profesor?: ProfesorUpdateOneWithoutUsuarioNestedInput
+  }
+
+  export type UsuarioUncheckedUpdateWithoutResetAuditsAsTargetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    rol?: EnumRolFieldUpdateOperationsInput | $Enums.Rol
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    requiereCambioPassword?: BoolFieldUpdateOperationsInput | boolean
+    activacionesCuenta?: ActivacionCuentaUncheckedUpdateManyWithoutUsuarioNestedInput
+    notificaciones?: NotificacionUncheckedUpdateManyWithoutUsuarioNestedInput
+    resetAuditsAsActor?: PasswordResetAuditUncheckedUpdateManyWithoutSoporteNestedInput
     alumno?: AlumnoUncheckedUpdateOneWithoutUsuarioNestedInput
     profesor?: ProfesorUncheckedUpdateOneWithoutUsuarioNestedInput
   }
@@ -76196,6 +78277,20 @@ export namespace Prisma {
     createdAt?: Date | string
     readAt?: Date | string | null
     archivedAt?: Date | string | null
+  }
+
+  export type PasswordResetAuditCreateManySoporteInput = {
+    id?: string
+    usuarioObjetivoId: string
+    motivo?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PasswordResetAuditCreateManyUsuarioObjetivoInput = {
+    id?: string
+    soporteId: string
+    motivo?: string | null
+    createdAt?: Date | string
   }
 
   export type ActivacionCuentaUpdateWithoutUsuarioInput = {
@@ -76267,6 +78362,48 @@ export namespace Prisma {
     archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type PasswordResetAuditUpdateWithoutSoporteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    motivo?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioObjetivo?: UsuarioUpdateOneRequiredWithoutResetAuditsAsTargetNestedInput
+  }
+
+  export type PasswordResetAuditUncheckedUpdateWithoutSoporteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    usuarioObjetivoId?: StringFieldUpdateOperationsInput | string
+    motivo?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordResetAuditUncheckedUpdateManyWithoutSoporteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    usuarioObjetivoId?: StringFieldUpdateOperationsInput | string
+    motivo?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordResetAuditUpdateWithoutUsuarioObjetivoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    motivo?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    soporte?: UsuarioUpdateOneRequiredWithoutResetAuditsAsActorNestedInput
+  }
+
+  export type PasswordResetAuditUncheckedUpdateWithoutUsuarioObjetivoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    soporteId?: StringFieldUpdateOperationsInput | string
+    motivo?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordResetAuditUncheckedUpdateManyWithoutUsuarioObjetivoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    soporteId?: StringFieldUpdateOperationsInput | string
+    motivo?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type AlumnoCreateManyProfesorAsignadoInput = {
     id: string
     tipoLicenciaObjetivo: string
@@ -76325,6 +78462,8 @@ export namespace Prisma {
     id?: string
     numeroFactura: string
     vehiculoId: string
+    tipoGasto?: string
+    concepto?: string | null
     titularTarjeta: string
     numeroTarjeta: string
     combustibleAntesPct: number
@@ -76559,6 +78698,8 @@ export namespace Prisma {
   export type GastoCombustibleUpdateWithoutProfesorInput = {
     id?: StringFieldUpdateOperationsInput | string
     numeroFactura?: StringFieldUpdateOperationsInput | string
+    tipoGasto?: StringFieldUpdateOperationsInput | string
+    concepto?: NullableStringFieldUpdateOperationsInput | string | null
     titularTarjeta?: StringFieldUpdateOperationsInput | string
     numeroTarjeta?: StringFieldUpdateOperationsInput | string
     combustibleAntesPct?: IntFieldUpdateOperationsInput | number
@@ -76577,6 +78718,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     numeroFactura?: StringFieldUpdateOperationsInput | string
     vehiculoId?: StringFieldUpdateOperationsInput | string
+    tipoGasto?: StringFieldUpdateOperationsInput | string
+    concepto?: NullableStringFieldUpdateOperationsInput | string | null
     titularTarjeta?: StringFieldUpdateOperationsInput | string
     numeroTarjeta?: StringFieldUpdateOperationsInput | string
     combustibleAntesPct?: IntFieldUpdateOperationsInput | number
@@ -76594,6 +78737,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     numeroFactura?: StringFieldUpdateOperationsInput | string
     vehiculoId?: StringFieldUpdateOperationsInput | string
+    tipoGasto?: StringFieldUpdateOperationsInput | string
+    concepto?: NullableStringFieldUpdateOperationsInput | string | null
     titularTarjeta?: StringFieldUpdateOperationsInput | string
     numeroTarjeta?: StringFieldUpdateOperationsInput | string
     combustibleAntesPct?: IntFieldUpdateOperationsInput | number
@@ -77552,7 +79697,7 @@ export namespace Prisma {
   export type FacturaCreateManyCompraBonoInput = {
     id?: string
     numero: string
-    alumnoId: string
+    alumnoId?: string | null
     matriculaId?: string | null
     clasePracticaId?: string | null
     concepto: string
@@ -77644,7 +79789,7 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
     fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    alumno?: AlumnoUpdateOneRequiredWithoutFacturasNestedInput
+    alumno?: AlumnoUpdateOneWithoutFacturasNestedInput
     matricula?: MatriculaUpdateOneWithoutFacturasNestedInput
     clasePractica?: ClasePracticaUpdateOneWithoutFacturasNestedInput
   }
@@ -77652,7 +79797,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateWithoutCompraBonoInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
-    alumnoId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: NullableStringFieldUpdateOperationsInput | string | null
     matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
     clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
     concepto?: StringFieldUpdateOperationsInput | string
@@ -77667,7 +79812,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateManyWithoutCompraBonoInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
-    alumnoId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: NullableStringFieldUpdateOperationsInput | string | null
     matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
     clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
     concepto?: StringFieldUpdateOperationsInput | string
@@ -77744,7 +79889,9 @@ export namespace Prisma {
   export type GastoCombustibleCreateManyVehiculoInput = {
     id?: string
     numeroFactura: string
-    profesorId: string
+    profesorId?: string | null
+    tipoGasto?: string
+    concepto?: string | null
     titularTarjeta: string
     numeroTarjeta: string
     combustibleAntesPct: number
@@ -77809,6 +79956,8 @@ export namespace Prisma {
   export type GastoCombustibleUpdateWithoutVehiculoInput = {
     id?: StringFieldUpdateOperationsInput | string
     numeroFactura?: StringFieldUpdateOperationsInput | string
+    tipoGasto?: StringFieldUpdateOperationsInput | string
+    concepto?: NullableStringFieldUpdateOperationsInput | string | null
     titularTarjeta?: StringFieldUpdateOperationsInput | string
     numeroTarjeta?: StringFieldUpdateOperationsInput | string
     combustibleAntesPct?: IntFieldUpdateOperationsInput | number
@@ -77820,13 +79969,15 @@ export namespace Prisma {
     rutaRecibo?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    profesor?: ProfesorUpdateOneRequiredWithoutGastosCombustibleNestedInput
+    profesor?: ProfesorUpdateOneWithoutGastosCombustibleNestedInput
   }
 
   export type GastoCombustibleUncheckedUpdateWithoutVehiculoInput = {
     id?: StringFieldUpdateOperationsInput | string
     numeroFactura?: StringFieldUpdateOperationsInput | string
-    profesorId?: StringFieldUpdateOperationsInput | string
+    profesorId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoGasto?: StringFieldUpdateOperationsInput | string
+    concepto?: NullableStringFieldUpdateOperationsInput | string | null
     titularTarjeta?: StringFieldUpdateOperationsInput | string
     numeroTarjeta?: StringFieldUpdateOperationsInput | string
     combustibleAntesPct?: IntFieldUpdateOperationsInput | number
@@ -77843,7 +79994,9 @@ export namespace Prisma {
   export type GastoCombustibleUncheckedUpdateManyWithoutVehiculoInput = {
     id?: StringFieldUpdateOperationsInput | string
     numeroFactura?: StringFieldUpdateOperationsInput | string
-    profesorId?: StringFieldUpdateOperationsInput | string
+    profesorId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoGasto?: StringFieldUpdateOperationsInput | string
+    concepto?: NullableStringFieldUpdateOperationsInput | string | null
     titularTarjeta?: StringFieldUpdateOperationsInput | string
     numeroTarjeta?: StringFieldUpdateOperationsInput | string
     combustibleAntesPct?: IntFieldUpdateOperationsInput | number
@@ -77878,7 +80031,7 @@ export namespace Prisma {
   export type FacturaCreateManyClasePracticaInput = {
     id?: string
     numero: string
-    alumnoId: string
+    alumnoId?: string | null
     matriculaId?: string | null
     compraBonoId?: string | null
     concepto: string
@@ -77956,7 +80109,7 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
     fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    alumno?: AlumnoUpdateOneRequiredWithoutFacturasNestedInput
+    alumno?: AlumnoUpdateOneWithoutFacturasNestedInput
     matricula?: MatriculaUpdateOneWithoutFacturasNestedInput
     compraBono?: CompraBonoUpdateOneWithoutFacturasNestedInput
   }
@@ -77964,7 +80117,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateWithoutClasePracticaInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
-    alumnoId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: NullableStringFieldUpdateOperationsInput | string | null
     matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
     compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
     concepto?: StringFieldUpdateOperationsInput | string
@@ -77979,7 +80132,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateManyWithoutClasePracticaInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
-    alumnoId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: NullableStringFieldUpdateOperationsInput | string | null
     matriculaId?: NullableStringFieldUpdateOperationsInput | string | null
     compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
     concepto?: StringFieldUpdateOperationsInput | string
@@ -78236,7 +80389,7 @@ export namespace Prisma {
   export type FacturaCreateManyMatriculaInput = {
     id?: string
     numero: string
-    alumnoId: string
+    alumnoId?: string | null
     compraBonoId?: string | null
     clasePracticaId?: string | null
     concepto: string
@@ -78288,7 +80441,7 @@ export namespace Prisma {
     estado?: StringFieldUpdateOperationsInput | string
     fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaPago?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    alumno?: AlumnoUpdateOneRequiredWithoutFacturasNestedInput
+    alumno?: AlumnoUpdateOneWithoutFacturasNestedInput
     compraBono?: CompraBonoUpdateOneWithoutFacturasNestedInput
     clasePractica?: ClasePracticaUpdateOneWithoutFacturasNestedInput
   }
@@ -78296,7 +80449,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateWithoutMatriculaInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
-    alumnoId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: NullableStringFieldUpdateOperationsInput | string | null
     compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
     clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
     concepto?: StringFieldUpdateOperationsInput | string
@@ -78311,7 +80464,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateManyWithoutMatriculaInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
-    alumnoId?: StringFieldUpdateOperationsInput | string
+    alumnoId?: NullableStringFieldUpdateOperationsInput | string | null
     compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
     clasePracticaId?: NullableStringFieldUpdateOperationsInput | string | null
     concepto?: StringFieldUpdateOperationsInput | string

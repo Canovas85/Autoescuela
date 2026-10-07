@@ -206,6 +206,64 @@ export class ProfesoresRepository {
     });
   }
 
+  async findAssignedAlumnosDetailed(profesorId) {
+    return this.prisma.alumno.findMany({
+      where: {
+        profesorAsignadoId: profesorId,
+        activo: true,
+      },
+      select: {
+        id: true,
+        tipoLicenciaObjetivo: true,
+        estadoExpediente: true,
+        usuario: {
+          select: {
+            nombre: true,
+            email: true,
+          },
+        },
+        matriculas: {
+          select: {
+            estado: true,
+          },
+          orderBy: {
+            fechaCreacion: "desc",
+          },
+          take: 1,
+        },
+        solicitudesExamen: {
+          select: {
+            id: true,
+            tipo: true,
+            estado: true,
+            fechaSolicitud: true,
+            fechaProgramada: true,
+          },
+          orderBy: {
+            fechaSolicitud: "desc",
+          },
+        },
+        clases: {
+          select: {
+            id: true,
+            estado: true,
+            duracion: true,
+            hojaRuta: {
+              select: {
+                estado: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        usuario: {
+          nombre: "asc",
+        },
+      },
+    });
+  }
+
   async findProfesorClassesBetween(profesorId, startDate, endDate) {
     return this.prisma.clasePractica.findMany({
       where: {
@@ -229,6 +287,38 @@ export class ProfesoresRepository {
       },
       orderBy: {
         fecha: "asc",
+      },
+    });
+  }
+
+  async findProfesorClassesAll(profesorId) {
+    return this.prisma.clasePractica.findMany({
+      where: {
+        profesorId,
+      },
+      select: {
+        id: true,
+        fecha: true,
+        estado: true,
+        duracion: true,
+        vehiculoId: true,
+        hojaRuta: {
+          select: {
+            id: true,
+            estado: true,
+          },
+        },
+        vehiculo: {
+          select: {
+            matricula: true,
+            marca: true,
+            modelo: true,
+            tipoPermiso: true,
+          },
+        },
+      },
+      orderBy: {
+        fecha: "desc",
       },
     });
   }

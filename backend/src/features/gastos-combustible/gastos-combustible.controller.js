@@ -22,4 +22,13 @@ export class GastosCombustibleController {
 
     return res.status(201).json(result);
   }
+
+  async createItvExpense(req, res) {
+    const result = await this.service.createItvExpense(
+      req.user?.id,
+      req.params.vehiculoId,
+    );
+
+    return res.status(201).json(result);
+  }
 }

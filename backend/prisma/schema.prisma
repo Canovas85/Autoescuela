@@ -348,8 +348,11 @@ model Vehiculo {
   tipoPermiso          String
   kmActuales           Int                @default(0)
   combustibleActualPct Int                @default(100)
+  fechaUltimaItv       DateTime?
   activo               Boolean            @default(true)
   imagenRuta           String?
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
   clases               ClasePractica[]
   gastosCombustible    GastoCombustible[]
 
@@ -773,7 +776,7 @@ model MatriculaConcepto {
 model Factura {
   id            String    @id @default(uuid())
   numero        String    @unique
-  alumnoId      String
+  alumnoId      String?
   matriculaId   String?
   compraBonoId  String?
   clasePracticaId String?
@@ -784,7 +787,7 @@ model Factura {
   estado        String    @default("EMITIDA")
   fechaEmision  DateTime  @default(now())
   fechaPago     DateTime?
-  alumno        Alumno    @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  alumno        Alumno?   @relation(fields: [alumnoId], references: [id], onDelete: SetNull)
   matricula     Matricula? @relation(fields: [matriculaId], references: [id], onDelete: Cascade)
   compraBono    CompraBono? @relation(fields: [compraBonoId], references: [id], onDelete: SetNull)
   clasePractica ClasePractica? @relation(fields: [clasePracticaId], references: [id], onDelete: SetNull)
@@ -801,8 +804,10 @@ model Factura {
 model GastoCombustible {
   id                   String   @id @default(uuid())
   numeroFactura        String   @unique
-  profesorId           String
+  profesorId           String?
   vehiculoId           String
+  tipoGasto            String   @default("COMBUSTIBLE")
+  concepto             String?
   titularTarjeta       String
   numeroTarjeta        String
   combustibleAntesPct  Int
@@ -814,11 +819,12 @@ model GastoCombustible {
   rutaRecibo           String?
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
-  profesor             Profesor @relation(fields: [profesorId], references: [id], onDelete: Restrict)
+  profesor             Profesor? @relation(fields: [profesorId], references: [id], onDelete: SetNull)
   vehiculo             Vehiculo @relation(fields: [vehiculoId], references: [id], onDelete: Restrict)
 
   @@index([profesorId])
   @@index([vehiculoId])
+  @@index([tipoGasto])
   @@index([createdAt])
   @@map("gastos_combustible")
 }

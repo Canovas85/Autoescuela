@@ -205,8 +205,33 @@ export default function Examenes() {
         renderCell: (params) => (
           <Chip
             size="small"
-            color={stateToColor(params.row.estado)}
-            label={params.row.estado}
+            label={params.value}
+            sx={{
+              backgroundColor: (theme) => {
+                if (params.value === "APTO" || params.value === "APROBADO")
+                  return "#e8f5e9";
+                if (params.value === "NO_APTO" || params.value === "SUSPENSO")
+                  return "#ffebee";
+                if (params.value === "CANCELADO") return "#f3e5f5";
+                return "#fff8e1"; // default
+              },
+              color: (theme) => {
+                if (params.value === "APTO" || params.value === "APROBADO")
+                  return "#2e7d32";
+                if (params.value === "NO_APTO" || params.value === "SUSPENSO")
+                  return "#c62828";
+                if (params.value === "CANCELADO") return "#6a1b9a";
+                return "#b78103"; // default
+              },
+              border: (theme) => {
+                if (params.value === "APTO" || params.value === "APROBADO")
+                  return "1px solid #4caf50";
+                if (params.value === "NO_APTO" || params.value === "SUSPENSO")
+                  return "1px solid #ef5350";
+                if (params.value === "CANCELADO") return "1px solid #ab47bc";
+                return "1px solid #ffb74d"; // default
+              },
+            }}
           />
         ),
       },
@@ -511,11 +536,48 @@ export default function Examenes() {
                     <Typography variant="body2" color="text.secondary">
                       Estado/Resultado
                     </Typography>
-                    <Chip
-                      size="small"
-                      label={selectedRow.estado || "-"}
-                      color={stateToColor(selectedRow.estado)}
-                    />
+                    {(() => {
+                      const estado = selectedRow.estado;
+                      let bgColor, borderColor, textColor;
+
+                      switch (estado) {
+                        case "APTO":
+                        case "APROBADO":
+                          bgColor = "#e8f5e9";
+                          borderColor = "#4caf50";
+                          textColor = "#2e7d32";
+                          break;
+                        case "NO_APTO":
+                        case "SUSPENSO":
+                          bgColor = "#ffebee";
+                          borderColor = "#ef5350";
+                          textColor = "#c62828";
+                          break;
+                        case "CANCELADO":
+                          bgColor = "#f3e5f5";
+                          borderColor = "#ab47bc";
+                          textColor = "#6a1b9a";
+                          break;
+                        default:
+                          // Estado por defecto (warning / pendiente) o si viene vacío/null
+                          bgColor = "#fff8e1";
+                          borderColor = "#ffb74d";
+                          textColor = "#b78103";
+                      }
+
+                      return (
+                        <Chip
+                          size="small"
+                          label={estado || "-"}
+                          sx={{
+                            backgroundColor: bgColor,
+                            color: textColor,
+                            border: `1px solid ${borderColor}`,
+                            fontWeight: 500,
+                          }}
+                        />
+                      );
+                    })()}
                   </Box>
                 </Stack>
               </Paper>

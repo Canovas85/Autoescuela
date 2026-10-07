@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { resolveExpedientePhase } from "../../shared/domain/expediente-phase.js";
 
 const LICENCIAS_VALIDAS = new Set(["B", "A1", "A2", "A", "C", "D", "E"]);
 
@@ -231,6 +232,78 @@ export class ProfesoresService {
     );
   }
 
+  isClassCancelled(clase) {
+    return String(clase?.estado || "")
+      .toUpperCase()
+      .startsWith("CANCELADA");
+  }
+
+  isCompletedOrPendingRoadmapRegistration(clase, now = new Date()) {
+    if (this.isClassCancelled(clase)) {
+      return false;
+    }
+
+    if (this.isClassDone(clase)) {
+      return true;
+    }
+
+    const classDate = new Date(clase?.fecha);
+
+    if (Number.isNaN(classDate.getTime())) {
+      return false;
+    }
+
+    return classDate < now;
+  }
+
+  isFutureProgrammedClass(clase, now = new Date()) {
+    if (this.isClassCancelled(clase)) {
+      return false;
+    }
+
+    const status = String(clase?.estado || "").toUpperCase();
+    const classDate = new Date(clase?.fecha);
+
+    if (Number.isNaN(classDate.getTime())) {
+      return false;
+    }
+
+    return ["PROGRAMADA", "CONFIRMADA"].includes(status) && classDate > now;
+  }
+
+  buildProfessorVehicleBreakdown(classes, predicate) {
+    const map = new Map();
+
+    for (const clase of classes || []) {
+      if (!predicate(clase)) {
+        continue;
+      }
+
+      const vehicle = clase?.vehiculo;
+      const key = String(clase?.vehiculoId || vehicle?.matricula || "");
+
+      if (!key) {
+        continue;
+      }
+
+      if (!map.has(key)) {
+        map.set(key, {
+          vehiculoId: clase?.vehiculoId || null,
+          matricula: vehicle?.matricula || "-",
+          marca: vehicle?.marca || "-",
+          modelo: vehicle?.modelo || "-",
+          clasesEfectuadas: 0,
+        });
+      }
+
+      map.get(key).clasesEfectuadas += 1;
+    }
+
+    return Array.from(map.values()).sort((a, b) =>
+      String(a.matricula || "").localeCompare(String(b.matricula || "")),
+    );
+  }
+
   deriveAgendaStatus(clase, now = new Date()) {
     const roadmapStatus = String(clase?.hojaRuta?.estado || "").toUpperCase();
 
@@ -392,17 +465,30 @@ export class ProfesoresService {
     const { weekStart, weekEnd } = this.getWeekBounds(weekOffset);
     const { monthStart, monthEnd } = this.getMonthBounds(weekStart);
 
-    const [assignedStudents, monthClasses, scheduleRows] = await Promise.all([
-      this.repository.findAssignedAlumnosLite(id),
-      this.repository.findProfesorClassesBetween(id, monthStart, monthEnd),
+    const [assignedStudents, allClasses, scheduleRows] = await Promise.all([
+      this.repository.findAssignedAlumnosDetailed(id),
+      this.repository.findProfesorClassesAll(id),
       this.repository.findProfesorWorkSchedule(id),
     ]);
 
-    const alumnos = (assignedStudents || []).map((alumno) => ({
-      id: alumno.id,
-      nombre: alumno.usuario?.nombre || "Alumno",
-      licencia: alumno.tipoLicenciaObjetivo || "-",
-    }));
+    const now = new Date();
+
+    const alumnos = (assignedStudents || []).map((alumno) => {
+      const fase = resolveExpedientePhase({
+        estadoExpediente: alumno?.estadoExpediente,
+        matriculaEstado: alumno?.matriculas?.[0]?.estado,
+        solicitudesExamen: alumno?.solicitudesExamen || [],
+        clases: alumno?.clases || [],
+      });
+
+      return {
+        id: alumno.id,
+        nombre: alumno.usuario?.nombre || "Alumno",
+        licencia: alumno.tipoLicenciaObjetivo || "-",
+        estadoExpedienteLabel: fase.label,
+        estadoExpedienteCode: fase.code,
+      };
+    });
 
     const selectedAlumnoIdRaw = options.alumnoId || alumnos[0]?.id || null;
     const selectedAlumnoId = selectedAlumnoIdRaw
@@ -441,16 +527,46 @@ export class ProfesoresService {
         )
       : [];
 
-    const now = new Date();
+    const monthClasses = (allClasses || []).filter((clase) => {
+      const classDate = new Date(clase?.fecha);
 
-    const programadasMes = (monthClasses || []).filter((clase) => {
-      const status = String(clase?.estado || "").toUpperCase();
-      return status !== "CANCELADA";
-    }).length;
+      if (Number.isNaN(classDate.getTime())) {
+        return false;
+      }
 
-    const realizadasMes = (monthClasses || []).filter((clase) =>
-      this.isClassDone(clase),
+      return classDate >= monthStart && classDate <= monthEnd;
+    });
+
+    const clasesRealizadasMes = monthClasses.filter((clase) =>
+      this.isCompletedOrPendingRoadmapRegistration(clase, now),
     ).length;
+
+    const clasesRealizadasTotal = (allClasses || []).filter((clase) =>
+      this.isCompletedOrPendingRoadmapRegistration(clase, now),
+    ).length;
+
+    const clasesPendientesMes = monthClasses.filter((clase) =>
+      this.isFutureProgrammedClass(clase, now),
+    ).length;
+
+    const alumnosLicenciaObtenida = alumnos.filter(
+      (alumno) => alumno.estadoExpedienteCode === "LICENCIA_OBTENIDA",
+    ).length;
+
+    const alumnosEnProgreso = Math.max(
+      alumnos.length - alumnosLicenciaObtenida,
+      0,
+    );
+
+    const vehiculosMes = this.buildProfessorVehicleBreakdown(
+      monthClasses,
+      (clase) => this.isCompletedOrPendingRoadmapRegistration(clase, now),
+    );
+
+    const vehiculosTotal = this.buildProfessorVehicleBreakdown(
+      allClasses,
+      (clase) => this.isCompletedOrPendingRoadmapRegistration(clase, now),
+    );
 
     const agendaSemanaClases = (studentWeekClasses || []).map((clase) =>
       this.mapAgendaClass(clase, now),
@@ -465,9 +581,19 @@ export class ProfesoresService {
         nombre: profesor.usuario?.nombre || "Profesor",
       },
       alumnos,
+      alumnosDetalle: alumnos,
       resumenMes: {
-        programadas: programadasMes,
-        realizadas: realizadasMes,
+        programadas: monthClasses.length,
+        realizadas: clasesRealizadasMes,
+      },
+      resumenProfesor: {
+        clasesRealizadasMes,
+        clasesRealizadasTotal,
+        clasesPendientesMes,
+        alumnosLicenciaObtenida,
+        alumnosEnProgreso,
+        vehiculosMes,
+        vehiculosTotal,
       },
       agendaAlumno: {
         alumnoSeleccionadoId: selectedAlumno?.id || null,

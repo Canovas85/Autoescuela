@@ -506,8 +506,22 @@ export default function Profesores() {
       renderCell: (params) => (
         <Chip
           label={(params.row.activo ?? true) ? "Activo" : "Inactivo"}
-          color={(params.row.activo ?? true) ? "success" : "error"}
           size="small"
+          sx={{
+            // 1. Estilos si está Activo
+            ...((params.row.activo ?? true) && {
+              backgroundColor: "#e8f5e9", // Fondo verde claro
+              color: "#2e7d32", // Texto verde oscuro
+              border: "1px solid #2e7d32", // Borde verde
+            }),
+            // 2. Estilos si está Inactivo
+            ...(!(params.row.activo ?? true) && {
+              backgroundColor: "#ffebee", // Fondo rojo claro
+              color: "#c62828", // Texto rojo oscuro
+              border: "1px solid #c62828", // Borde rojo
+            }),
+            fontWeight: "bold", // Estilo común para ambos estados (opcional)
+          }}
         />
       ),
     },
@@ -656,6 +670,10 @@ export default function Profesores() {
       const detalle = await profesoresService.getById(row.id);
 
       setSelectedProfesor(detalle);
+      await loadOverview(detalle.id, {
+        weekOffset: 0,
+        alumnoId: "",
+      });
     } catch (error) {
       console.error(error);
 
@@ -678,7 +696,13 @@ export default function Profesores() {
       options.weekOffset !== undefined
         ? options.weekOffset
         : overviewWeekOffset;
-    const alumnoId = options.alumnoId || selectedAlumnoAgendaId || undefined;
+    const hasAlumnoOption = Object.prototype.hasOwnProperty.call(
+      options,
+      "alumnoId",
+    );
+    const alumnoId = hasAlumnoOption
+      ? options.alumnoId || undefined
+      : selectedAlumnoAgendaId || undefined;
 
     setOverviewLoading(true);
 
@@ -745,6 +769,27 @@ export default function Profesores() {
       mesVisible: overviewData.agendaAlumno.mesVisible || null,
     };
   }, [overviewData]);
+
+  const alumnosResumenColumns = useMemo(
+    () => [
+      {
+        field: "nombre",
+        headerName: "Alumno",
+        flex: 1.2,
+      },
+      {
+        field: "licencia",
+        headerName: "Licencia",
+        width: 120,
+      },
+      {
+        field: "estadoExpedienteLabel",
+        headerName: "Estado expediente",
+        flex: 1.6,
+      },
+    ],
+    [],
+  );
 
   return (
     <Box>
@@ -1182,77 +1227,222 @@ export default function Profesores() {
                     <Box
                       sx={{
                         display: "grid",
-                        gap: 2,
+                        gridTemplateColumns: {
+                          xs: "1fr",
+                          md: "1fr 1fr",
+                        },
+                        gap: 3,
                         mt: 2,
                       }}
                     >
-                      <TextField
-                        label="Nombre"
-                        value={selectedProfesor?.usuario?.nombre || ""}
-                        InputProps={{
-                          readOnly: true,
-                          tabIndex: -1,
-                        }}
-                        sx={readOnlyFieldSx}
-                        fullWidth
-                      />
+                      <Paper variant="outlined" sx={{ p: 2 }}>
+                        <Typography
+                          variant="subtitle1"
+                          fontWeight={700}
+                          sx={{ mb: 1.5 }}
+                        >
+                          Datos personales
+                        </Typography>
 
-                      <TextField
-                        label="Email"
-                        value={selectedProfesor?.usuario?.email || ""}
-                        InputProps={{
-                          readOnly: true,
-                          tabIndex: -1,
-                        }}
-                        sx={readOnlyFieldSx}
-                        fullWidth
-                      />
+                        <Box sx={{ display: "grid", gap: 1.5 }}>
+                          <TextField
+                            label="Nombre"
+                            value={selectedProfesor?.usuario?.nombre || ""}
+                            InputProps={{
+                              readOnly: true,
+                              tabIndex: -1,
+                            }}
+                            sx={readOnlyFieldSx}
+                            fullWidth
+                          />
 
-                      <TextField
-                        label="Teléfono"
-                        value={selectedProfesor?.usuario?.telefono || ""}
-                        InputProps={{
-                          readOnly: true,
-                          tabIndex: -1,
-                        }}
-                        sx={readOnlyFieldSx}
-                        fullWidth
-                      />
+                          <TextField
+                            label="Email"
+                            value={selectedProfesor?.usuario?.email || ""}
+                            InputProps={{
+                              readOnly: true,
+                              tabIndex: -1,
+                            }}
+                            sx={readOnlyFieldSx}
+                            fullWidth
+                          />
 
-                      <TextField
-                        label="DNI"
-                        value={selectedProfesor?.usuario?.dni || ""}
-                        InputProps={{
-                          readOnly: true,
-                          tabIndex: -1,
-                        }}
-                        sx={readOnlyFieldSx}
-                        fullWidth
-                      />
+                          <TextField
+                            label="Teléfono"
+                            value={selectedProfesor?.usuario?.telefono || ""}
+                            InputProps={{
+                              readOnly: true,
+                              tabIndex: -1,
+                            }}
+                            sx={readOnlyFieldSx}
+                            fullWidth
+                          />
 
-                      <TextField
-                        label="Permisos"
-                        value={
-                          selectedProfesor?.permisosLicencias?.join(", ") || ""
-                        }
-                        InputProps={{
-                          readOnly: true,
-                          tabIndex: -1,
-                        }}
-                        sx={readOnlyFieldSx}
-                        fullWidth
-                      />
+                          <TextField
+                            label="DNI"
+                            value={selectedProfesor?.usuario?.dni || ""}
+                            InputProps={{
+                              readOnly: true,
+                              tabIndex: -1,
+                            }}
+                            sx={readOnlyFieldSx}
+                            fullWidth
+                          />
 
-                      <TextField
-                        label="Estado"
-                        value={selectedProfesor?.activo ? "Activo" : "Inactivo"}
-                        InputProps={{
-                          readOnly: true,
-                          tabIndex: -1,
-                        }}
-                        sx={readOnlyFieldSx}
-                        fullWidth
-                      />
+                          <TextField
+                            label="Permisos"
+                            value={
+                              selectedProfesor?.permisosLicencias?.join(", ") ||
+                              ""
+                            }
+                            InputProps={{
+                              readOnly: true,
+                              tabIndex: -1,
+                            }}
+                            sx={readOnlyFieldSx}
+                            fullWidth
+                          />
+
+                          <TextField
+                            label="Estado"
+                            value={
+                              selectedProfesor?.activo ? "Activo" : "Inactivo"
+                            }
+                            InputProps={{
+                              readOnly: true,
+                              tabIndex: -1,
+                            }}
+                            sx={readOnlyFieldSx}
+                            fullWidth
+                          />
+                        </Box>
+                      </Paper>
+
+                      <Paper
+                        variant="outlined"
+                        sx={{ p: 2, display: "grid", gap: 2 }}
+                      >
+                        <Typography variant="subtitle1" fontWeight={700}>
+                          Resumen operativo
+                        </Typography>
+
+                        {overviewLoading ? (
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                              py: 4,
+                            }}
+                          >
+                            <CircularProgress size={28} />
+                          </Box>
+                        ) : (
+                          <>
+                            <Stack
+                              direction="row"
+                              flexWrap="wrap"
+                              useFlexGap
+                              gap={1}
+                            >
+                              <Chip
+                                color="success"
+                                label={`Clases realizadas este mes: ${overviewData?.resumenProfesor?.clasesRealizadasMes || 0}`}
+                              />
+                              <Chip
+                                color="info"
+                                label={`Clases realizadas total: ${overviewData?.resumenProfesor?.clasesRealizadasTotal || 0}`}
+                              />
+                              <Chip
+                                color="warning"
+                                label={`Pendientes mes: ${overviewData?.resumenProfesor?.clasesPendientesMes || 0}`}
+                              />
+                              <Chip
+                                color="success"
+                                label={`Licencia obtenida: ${overviewData?.resumenProfesor?.alumnosLicenciaObtenida || 0}`}
+                              />
+                              <Chip
+                                color="primary"
+                                label={`Alumnos en progreso: ${overviewData?.resumenProfesor?.alumnosEnProgreso || 0}`}
+                              />
+                            </Stack>
+
+                            <Typography variant="subtitle2" fontWeight={700}>
+                              Alumnos y estado de expediente
+                            </Typography>
+
+                            <Box sx={{ height: 260 }}>
+                              <DataGrid
+                                rows={overviewData?.alumnosDetalle || []}
+                                columns={alumnosResumenColumns}
+                                getRowId={(row) => row.id}
+                                disableRowSelectionOnClick
+                                pageSizeOptions={[5, 10, 20]}
+                                initialState={{
+                                  pagination: {
+                                    paginationModel: {
+                                      pageSize: 5,
+                                      page: 0,
+                                    },
+                                  },
+                                }}
+                                localeText={{
+                                  noRowsLabel: "No hay alumnos asignados",
+                                }}
+                              />
+                            </Box>
+
+                            <Typography variant="subtitle2" fontWeight={700}>
+                              Clases efectuadas por vehículo (este mes)
+                            </Typography>
+
+                            {(overviewData?.resumenProfesor?.vehiculosMes || [])
+                              .length ? (
+                              <Box sx={{ display: "grid", gap: 1 }}>
+                                {(
+                                  overviewData?.resumenProfesor?.vehiculosMes ||
+                                  []
+                                ).map((item) => (
+                                  <Chip
+                                    key={`mes-${item.vehiculoId || item.matricula}`}
+                                    variant="outlined"
+                                    label={`${item.matricula} | ${item.marca} ${item.modelo} | ${item.clasesEfectuadas} clases`}
+                                  />
+                                ))}
+                              </Box>
+                            ) : (
+                              <Alert severity="info">
+                                No hay clases efectuadas este mes.
+                              </Alert>
+                            )}
+
+                            <Typography variant="subtitle2" fontWeight={700}>
+                              Clases efectuadas por vehículo (total)
+                            </Typography>
+
+                            {(
+                              overviewData?.resumenProfesor?.vehiculosTotal ||
+                              []
+                            ).length ? (
+                              <Box sx={{ display: "grid", gap: 1 }}>
+                                {(
+                                  overviewData?.resumenProfesor
+                                    ?.vehiculosTotal || []
+                                ).map((item) => (
+                                  <Chip
+                                    key={`total-${item.vehiculoId || item.matricula}`}
+                                    variant="outlined"
+                                    label={`${item.matricula} | ${item.marca} ${item.modelo} | ${item.clasesEfectuadas} clases`}
+                                  />
+                                ))}
+                              </Box>
+                            ) : (
+                              <Alert severity="info">
+                                No hay clases efectuadas en el histórico.
+                              </Alert>
+                            )}
+                          </>
+                        )}
+                      </Paper>
                     </Box>
                   )}
                 </Box>

@@ -40,4 +40,11 @@ router.post(
   controller.createRefuelExpense.bind(controller),
 );
 
+router.post(
+  "/revision-itv/:vehiculoId",
+  authenticate,
+  authorize("ADMIN", "ADMINISTRATIVO", "PROFESOR"),
+  controller.createItvExpense.bind(controller),
+);
+
 export default router;

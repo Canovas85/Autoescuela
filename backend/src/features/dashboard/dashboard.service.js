@@ -1,9 +1,43 @@
 import { getCapacidadCombustibleByPermiso } from "../../shared/utils/vehiculo-combustible.js";
 import { resolveExpedientePhase } from "../../shared/domain/expediente-phase.js";
+import {
+  evaluateVehicleItvStatus,
+  getItvPriceByPermiso,
+} from "../../shared/domain/vehiculo-itv.js";
 
 export class DashboardService {
   constructor(repository) {
     this.repository = repository;
+  }
+
+  async buildVehicleItvStatus(vehiculo) {
+    const now = new Date();
+    const latestItvExpense =
+      await this.repository.findLatestItvExpenseByVehiculoId(vehiculo.id);
+    const referenceDate =
+      latestItvExpense?.createdAt || vehiculo?.createdAt || now;
+    const kmBase = Number(latestItvExpense?.kilometrosVehiculo || 0);
+    const completedClassesSinceReference =
+      await this.repository.countCompletedClassesByVehiculoSince(
+        vehiculo.id,
+        referenceDate,
+        now,
+      );
+
+    const status = evaluateVehicleItvStatus({
+      vehiculo,
+      referenceDate,
+      kmBase,
+      completedClassesSinceReference,
+      now,
+    });
+
+    return {
+      pendiente: status.pendiente,
+      motivos: status.motivos,
+      precioRevision: getItvPriceByPermiso(vehiculo.tipoPermiso),
+      fechaLimiteRevision: status.fechaLimiteRevision,
+    };
   }
 
   calcularRachaExamenesDGT(examenesDGT = []) {
@@ -1532,18 +1566,28 @@ export class DashboardService {
     const vehiculos =
       await this.repository.getProfessorAvailableVehicles(permisosLicencias);
 
-    return vehiculos.map((vehiculo) => ({
-      id: vehiculo.id,
-      matricula: vehiculo.matricula,
-      marca: vehiculo.marca,
-      modelo: vehiculo.modelo,
-      tipoPermiso: vehiculo.tipoPermiso,
-      kmActuales: vehiculo.kmActuales,
-      combustibleActualPct: vehiculo.combustibleActualPct,
-      capacidadCombustibleLitros: getCapacidadCombustibleByPermiso(
-        vehiculo.tipoPermiso,
-      ),
-    }));
+    return Promise.all(
+      vehiculos.map(async (vehiculo) => {
+        const itv = await this.buildVehicleItvStatus(vehiculo);
+
+        return {
+          id: vehiculo.id,
+          matricula: vehiculo.matricula,
+          marca: vehiculo.marca,
+          modelo: vehiculo.modelo,
+          tipoPermiso: vehiculo.tipoPermiso,
+          kmActuales: vehiculo.kmActuales,
+          combustibleActualPct: vehiculo.combustibleActualPct,
+          capacidadCombustibleLitros: getCapacidadCombustibleByPermiso(
+            vehiculo.tipoPermiso,
+          ),
+          itvPendiente: itv.pendiente,
+          itvMotivos: itv.motivos,
+          itvPrecioRevision: itv.precioRevision,
+          itvFechaLimiteRevision: itv.fechaLimiteRevision,
+        };
+      }),
+    );
   }
 
   async getProfessorVehicleSchedule(userId, vehiculoId) {
@@ -1569,6 +1613,7 @@ export class DashboardService {
     }
 
     const clases = await this.repository.getVehicleScheduledClasses(vehiculoId);
+    const itv = await this.buildVehicleItvStatus(vehiculo);
 
     const reservas = clases.map((clase) => ({
       id: clase.id,
@@ -1596,6 +1641,10 @@ export class DashboardService {
         capacidadCombustibleLitros: getCapacidadCombustibleByPermiso(
           vehiculo.tipoPermiso,
         ),
+        itvPendiente: itv.pendiente,
+        itvMotivos: itv.motivos,
+        itvPrecioRevision: itv.precioRevision,
+        itvFechaLimiteRevision: itv.fechaLimiteRevision,
       },
       reservas,
     };

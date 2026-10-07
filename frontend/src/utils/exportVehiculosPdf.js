@@ -9,12 +9,27 @@ export const exportVehiculosPdf = (rows) => {
   autoTable(doc, {
     startY: 25,
 
-    head: [["Matricula", "Marca", "Modelo", "Estado"]],
+    head: [
+      [
+        "Matricula",
+        "Marca",
+        "Modelo",
+        "Permiso",
+        "Numero de Clases",
+        "Fecha ultima ITV",
+        "Estado",
+      ],
+    ],
 
     body: rows.map((vehiculo) => [
       vehiculo.matricula,
       vehiculo.marca,
       vehiculo.modelo,
+      vehiculo.tipoPermiso || "",
+      Number(vehiculo.numeroClasesRealizadas || 0),
+      vehiculo.fechaUltimaItv
+        ? new Date(vehiculo.fechaUltimaItv).toLocaleDateString("es-ES")
+        : "-",
       vehiculo.activo ? "Activo" : "Inactivo",
     ]),
   });

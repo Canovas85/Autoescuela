@@ -10,17 +10,20 @@ datasource db {
 }
 
 model Usuario {
-  id                     String             @id @default(uuid())
+  id                     String               @id @default(uuid())
   nombre                 String
-  email                  String             @unique
+  email                  String               @unique
   passwordHash           String
   rol                    Rol
-  fechaCreacion          DateTime           @default(now())
+  activo                 Boolean              @default(true)
+  fechaCreacion          DateTime             @default(now())
   telefono               String?
-  dni                    String?            @unique
-  requiereCambioPassword Boolean            @default(true)
+  dni                    String?              @unique
+  requiereCambioPassword Boolean              @default(true)
   activacionesCuenta     ActivacionCuenta[]
   notificaciones         Notificacion[]
+  resetAuditsAsActor     PasswordResetAudit[] @relation("PasswordResetActor")
+  resetAuditsAsTarget    PasswordResetAudit[] @relation("PasswordResetTarget")
   alumno                 Alumno?
   profesor               Profesor?
 
@@ -83,7 +86,7 @@ model Alumno {
   horasPracticasCompletadas Int                       @default(0)
   profesorAsignadoId        String?
   activo                    Boolean                   @default(true)
-  estadoExpediente          String                    @default("EN_FORMACION")
+  estadoExpediente          String                    @default("PENDIENTE_MATRICULA")
   licenciaObtenidaAt        DateTime?
   fechaNacimiento           DateTime?
   usuario                   Usuario                   @relation(fields: [id], references: [id], onDelete: Cascade)
@@ -344,6 +347,7 @@ model Vehiculo {
   tipoPermiso          String
   kmActuales           Int                @default(0)
   combustibleActualPct Int                @default(100)
+  fechaUltimaItv       DateTime?
   activo               Boolean            @default(true)
   imagenRuta           String?
   clases               ClasePractica[]
@@ -841,8 +845,25 @@ model Notificacion {
   @@map("notificaciones")
 }
 
+model PasswordResetAudit {
+  id                String   @id @default(uuid())
+  soporteId         String
+  usuarioObjetivoId String
+  motivo            String?
+  createdAt         DateTime @default(now())
+  soporte           Usuario  @relation("PasswordResetActor", fields: [soporteId], references: [id], onDelete: Restrict)
+  usuarioObjetivo   Usuario  @relation("PasswordResetTarget", fields: [usuarioObjetivoId], references: [id], onDelete: Cascade)
+
+  @@index([soporteId])
+  @@index([usuarioObjetivoId])
+  @@index([createdAt])
+  @@map("auditoria_reseteos_password")
+}
+
 enum Rol {
   ADMIN
+  ADMINISTRATIVO
+  SOPORTE
   PROFESOR
   ALUMNO
 }

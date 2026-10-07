@@ -29,6 +29,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import UndoIcon from "@mui/icons-material/Undo";
+import FactCheckIcon from "@mui/icons-material/FactCheck";
 import { vehiculosService } from "../../services/vehiculosService";
 import { LicenseChip } from "../../components/common/LicenseChip";
 
@@ -45,6 +46,34 @@ const PERMISOS = ["B", "A1", "A2", "A", "C", "D", "E"];
 const TAMANO_MAXIMO_IMAGEN = 5 * 1024 * 1024;
 const TIPOS_IMAGEN_PERMITIDOS = ["image/png", "image/jpeg", "image/webp"];
 
+const formatDateForInput = (value) => {
+  if (!value) {
+    return "";
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  return date.toISOString().slice(0, 10);
+};
+
+const formatDateLabel = (value) => {
+  if (!value) {
+    return "-";
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "-";
+  }
+
+  return date.toLocaleDateString("es-ES");
+};
+
 const formDataVehiculo = (vehiculo, imagenFile, eliminarImagen) => {
   const data = new FormData();
 
@@ -52,6 +81,7 @@ const formDataVehiculo = (vehiculo, imagenFile, eliminarImagen) => {
   data.append("marca", vehiculo.marca?.trim() || "");
   data.append("modelo", vehiculo.modelo?.trim() || "");
   data.append("tipoPermiso", vehiculo.tipoPermiso || "");
+  data.append("fechaUltimaItv", vehiculo.fechaUltimaItv || "");
 
   if (imagenFile) {
     data.append("imagen", imagenFile);
@@ -80,6 +110,7 @@ export default function Vehiculos() {
     marca: "",
     modelo: "",
     tipoPermiso: "B",
+    fechaUltimaItv: "",
     imagenRuta: "",
     activo: true,
   });
@@ -165,6 +196,7 @@ export default function Vehiculos() {
       marca: "",
       modelo: "",
       tipoPermiso: "B",
+      fechaUltimaItv: "",
       imagenRuta: "",
       activo: true,
     });
@@ -327,6 +359,7 @@ export default function Vehiculos() {
       marca: row.marca || "",
       modelo: row.modelo || "",
       tipoPermiso: row.tipoPermiso || "B",
+      fechaUltimaItv: formatDateForInput(row.fechaUltimaItv),
       imagenRuta: row.imagenRuta || "",
       activo: row.activo,
     });
@@ -561,6 +594,26 @@ export default function Vehiculos() {
     }
   };
 
+  const handlePayItv = async (row) => {
+    try {
+      const result = await vehiculosService.payItv(row.id);
+      await loadVehiculos();
+      setNotification({
+        open: true,
+        message: result?.message || "Pago de revisión ITV registrado",
+        severity: "success",
+      });
+    } catch (error) {
+      setNotification({
+        open: true,
+        message:
+          error.response?.data?.message ||
+          "No se pudo registrar el pago de revisión ITV",
+        severity: "error",
+      });
+    }
+  };
+
   const columns = [
     { field: "matricula", headerName: "Matrícula", flex: 1 },
     { field: "marca", headerName: "Marca", flex: 1 },
@@ -571,6 +624,56 @@ export default function Vehiculos() {
       flex: 0.7,
       renderCell: (params) => <LicenseChip value={params.value} />,
     },
+    {
+      field: "combustibleActualPct",
+      headerName: "Combustible",
+      width: 135,
+      valueGetter: (_, row) =>
+        `${Math.max(Number(row.combustibleActualPct || 0), 0)}%`,
+    },
+    {
+      field: "numeroClasesRealizadas",
+      headerName: "Nº Clases",
+      width: 120,
+      valueGetter: (_, row) => Number(row.numeroClasesRealizadas || 0),
+    },
+    {
+      field: "fechaUltimaItv",
+      headerName: "Fecha última ITV",
+      width: 160,
+      valueGetter: (_, row) => formatDateLabel(row.fechaUltimaItv),
+    },
+    {
+      field: "itvPendiente",
+      headerName: "Revisión ITV",
+      width: 160,
+      renderCell: (params) =>
+        params.row.itvPendiente ? (
+          <Chip label="Pendiente" color="warning" size="small" />
+        ) : (
+          <Chip
+            label="Vigente"
+            sx={{
+              width: "fit-content",
+              backgroundColor: "#fffbeb", // Fondo original
+              borderColor: "#facc15", // Borde original
+              borderStyle: "solid",
+              borderRadius: "15px",
+              borderWidth: "2px",
+              color: "#ca8a04", // Texto original
+              "& .MuiChip-label": {
+                fontWeight: "bold",
+              },
+              // 👇 ESTO ES LO QUE DEBES AÑADIR PARA EL HOVER
+              "&:hover": {
+                backgroundColor: "#fef08a", // Fondo al pasar el ratón (un amarillo un poco más oscuro)
+                borderColor: "#eab308", // Borde al pasar el ratón (opcional)
+                color: "#854d0e", // Texto al pasar el ratón (opcional)
+              },
+            }}
+          />
+        ),
+    },
 
     {
       field: "activo",
@@ -579,8 +682,22 @@ export default function Vehiculos() {
       renderCell: (params) => (
         <Chip
           label={(params.row.activo ?? true) ? "Activo" : "Inactivo"}
-          color={(params.row.activo ?? true) ? "success" : "error"}
           size="small"
+          sx={{
+            // 1. Estilos si está Activo
+            ...((params.row.activo ?? true) && {
+              backgroundColor: "#e8f5e9", // Fondo verde claro
+              color: "#2e7d32", // Texto verde oscuro
+              border: "1px solid #2e7d32", // Borde verde
+            }),
+            // 2. Estilos si está Inactivo
+            ...(!(params.row.activo ?? true) && {
+              backgroundColor: "#ffebee", // Fondo rojo claro
+              color: "#c62828", // Texto rojo oscuro
+              border: "1px solid #c62828", // Borde rojo
+            }),
+            fontWeight: "bold", // Estilo común para ambos estados (opcional)
+          }}
         />
       ),
     },
@@ -626,6 +743,20 @@ export default function Vehiculos() {
               </IconButton>
             )}
           </Tooltip>
+
+          {params.row.itvPendiente ? (
+            <Tooltip title="Registrar pago revisión ITV" arrow>
+              <IconButton
+                color="info"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handlePayItv(params.row);
+                }}
+              >
+                <FactCheckIcon />
+              </IconButton>
+            </Tooltip>
+          ) : null}
         </>
       ),
     },
@@ -821,6 +952,25 @@ export default function Vehiculos() {
                   </MenuItem>
                 ))}
               </Select>
+
+              <TextField
+                fullWidth
+                size="small"
+                type="date"
+                label="Fecha última ITV"
+                value={nuevoVehiculo.fechaUltimaItv}
+                onChange={(e) =>
+                  setNuevoVehiculo({
+                    ...nuevoVehiculo,
+                    fechaUltimaItv: e.target.value,
+                  })
+                }
+                helperText="Formato: dd/mm/aaaa"
+                InputLabelProps={{ shrink: true }}
+                slotProps={{
+                  inputLabel: { shrink: true },
+                }}
+              />
             </Box>
 
             <Box
@@ -1039,6 +1189,39 @@ export default function Vehiculos() {
                 <TextField
                   label="Permiso"
                   value={selectedVehiculo?.tipoPermiso || ""}
+                  InputProps={{
+                    readOnly: true,
+                    tabIndex: -1,
+                  }}
+                  sx={readOnlyFieldSx}
+                  fullWidth
+                />
+
+                <TextField
+                  label="Combustible"
+                  value={`${Math.max(Number(selectedVehiculo?.combustibleActualPct || 0), 0)}%`}
+                  InputProps={{
+                    readOnly: true,
+                    tabIndex: -1,
+                  }}
+                  sx={readOnlyFieldSx}
+                  fullWidth
+                />
+
+                <TextField
+                  label="Número de clases realizadas"
+                  value={Number(selectedVehiculo?.numeroClasesRealizadas || 0)}
+                  InputProps={{
+                    readOnly: true,
+                    tabIndex: -1,
+                  }}
+                  sx={readOnlyFieldSx}
+                  fullWidth
+                />
+
+                <TextField
+                  label="Fecha última ITV"
+                  value={formatDateLabel(selectedVehiculo?.fechaUltimaItv)}
                   InputProps={{
                     readOnly: true,
                     tabIndex: -1,

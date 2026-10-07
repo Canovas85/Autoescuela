@@ -68,4 +68,16 @@ export class VehiculosController {
 
     return res.status(200).json(vehiculo);
   }
+
+  async payItv(req, res) {
+    try {
+      const result = await this.service.payItv(
+        req.params.id,
+        req.user?.id || null,
+      );
+      return res.status(201).json(result);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  }
 }

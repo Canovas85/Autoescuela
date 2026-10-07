@@ -15,13 +15,28 @@ export const exportAlumnosPdf = (rows) => {
   autoTable(doc, {
     startY: 40,
 
-    head: [["Nombre", "Email", "Licencia", "Profesor", "Estado"]],
+    head: [
+      [
+        "Nombre",
+        "Email",
+        "Licencia",
+        "Estado Expediente",
+        "Horas Prácticas",
+        "Profesor",
+        "Teléfono",
+        "Estado",
+      ],
+    ],
 
     body: rows.map((alumno) => [
       alumno.usuario?.nombre ?? "",
       alumno.usuario?.email ?? "",
       alumno.tipoLicenciaObjetivo ?? "",
+      alumno.faseActual ?? "-",
+      alumno.horasPracticasCompletadasTexto ??
+        `${Number(alumno.horasPracticasCompletadas || 0).toFixed(2)} h`,
       alumno.profesorAsignado?.usuario?.nombre ?? "Sin asignar",
+      alumno.usuario?.telefono ?? "",
       alumno.activo ? "Activo" : "Inactivo",
     ]),
   });

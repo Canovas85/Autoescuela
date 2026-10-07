@@ -188,7 +188,7 @@ function DayColumn({ day, classes, showStudentName, emptyMessage }) {
                   border: "1px solid",
                   borderColor: palette.border,
                   backgroundColor: palette.bg,
-                  borderRadius: 2,
+                  borderRadius: 1,
                   p: 0.9,
                 }}
               >
@@ -251,7 +251,7 @@ function SummaryRow({ title, summary, colorMap }) {
   const entries = Object.entries(summary || {});
 
   return (
-    <Paper variant="outlined" sx={{ p: 1, borderRadius: 2 }}>
+    <Paper variant="outlined" sx={{ p: 1, borderRadius: 1 }}>
       <Typography
         variant="caption"
         color="text.secondary"
@@ -334,7 +334,7 @@ export default function ReadOnlyWeeklyAgendaBoard({
   }
 
   return (
-    <Paper variant="outlined" sx={{ p: 1.5, borderRadius: 4 }}>
+    <Paper variant="outlined" sx={{ p: 1.5, borderRadius: 1 }}>
       <Box
         sx={{
           display: "flex",

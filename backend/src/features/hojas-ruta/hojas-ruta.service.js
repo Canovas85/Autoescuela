@@ -1,3 +1,8 @@
+import {
+  evaluateVehicleItvStatus,
+  ITV_BLOCK_MESSAGE,
+} from "../../shared/domain/vehiculo-itv.js";
+
 const ROADMAP_STATUS = {
   PENDIENTE: "PENDIENTE",
   EN_CURSO: "EN_CURSO",
@@ -313,6 +318,37 @@ export class HojasRutaService {
     this.repository = repository;
   }
 
+  async ensureVehicleItvCompliant(vehiculo) {
+    if (!vehiculo?.id) {
+      return;
+    }
+
+    const now = new Date();
+    const latestItvExpense =
+      await this.repository.findLatestItvExpenseByVehiculoId(vehiculo.id);
+    const referenceDate =
+      latestItvExpense?.createdAt || vehiculo?.createdAt || now;
+    const kmBase = Number(latestItvExpense?.kilometrosVehiculo || 0);
+    const completedClassesSinceReference =
+      await this.repository.countCompletedClassesByVehiculoSince(
+        vehiculo.id,
+        referenceDate,
+        now,
+      );
+
+    const itvStatus = evaluateVehicleItvStatus({
+      vehiculo,
+      referenceDate,
+      kmBase,
+      completedClassesSinceReference,
+      now,
+    });
+
+    if (itvStatus.pendiente) {
+      throw new Error(ITV_BLOCK_MESSAGE);
+    }
+  }
+
   async getFaultCatalog() {
     const rows = await this.repository.findFaultCatalog();
 
@@ -477,6 +513,8 @@ export class HojasRutaService {
       );
     }
 
+    await this.ensureVehicleItvCompliant(clase.vehiculo);
+
     if (hasLowFuel(clase)) {
       throw new Error(
         "El vehículo tiene menos del 20% de combustible. Debes repostar antes de guardar la hoja de ruta.",
@@ -526,6 +564,8 @@ export class HojasRutaService {
         "La hoja de ruta solo puede finalizarse tras la fecha de clase",
       );
     }
+
+    await this.ensureVehicleItvCompliant(clase.vehiculo);
 
     if (hasLowFuel(clase)) {
       throw new Error(

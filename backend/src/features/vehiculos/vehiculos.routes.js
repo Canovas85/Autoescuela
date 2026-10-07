@@ -213,4 +213,11 @@ router.patch(
   controller.activate.bind(controller),
 );
 
+router.post(
+  "/:id/pagar-itv",
+  authenticate,
+  authorize("ADMIN", "ADMINISTRATIVO", "PROFESOR"),
+  controller.payItv.bind(controller),
+);
+
 export default router;

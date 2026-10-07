@@ -28,4 +28,12 @@ export const gastosCombustibleService = {
 
     return response.data;
   },
+
+  async pagarRevisionItv(vehiculoId) {
+    const response = await api.post(
+      `/gastos-combustible/revision-itv/${vehiculoId}`,
+    );
+
+    return response.data;
+  },
 };
