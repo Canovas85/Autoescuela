@@ -17,7 +17,7 @@ const controller = new InformesController(service);
 router.get(
   "/accounting",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAccountingReport.bind(controller),
 );
 

@@ -224,14 +224,14 @@ export default function Bonos() {
     try {
       setLoading(true);
       const data =
-        role === "ADMIN"
+        role === "ADMIN" || role === "ADMINISTRATIVO"
           ? await bonosService.getAll({
               licencia: licenciaFiltro === "all" ? undefined : licenciaFiltro,
             })
           : await bonosService.getAvailable();
       setRows(data);
 
-      if (role !== "ADMIN") {
+      if (role !== "ADMIN" && role !== "ADMINISTRATIVO") {
         const bonosAlumno = await bonosService.getMine();
         setMyBonos(Array.isArray(bonosAlumno) ? bonosAlumno : []);
       }
@@ -240,7 +240,7 @@ export default function Bonos() {
       setNotification({
         open: true,
         message:
-          role === "ADMIN"
+          role === "ADMIN" || role === "ADMINISTRATIVO"
             ? "No se pudieron cargar los bonos"
             : "No se pudieron cargar los bonos disponibles",
         severity: "error",
@@ -519,10 +519,12 @@ export default function Bonos() {
         }}
       >
         <Typography variant="h4" fontWeight="bold">
-          {role === "ADMIN" ? "Bonos" : "Compra de Bonos"}
+          {role === "ADMIN" || role === "ADMINISTRATIVO"
+            ? "Bonos"
+            : "Compra de Bonos"}
         </Typography>
 
-        {role === "ADMIN" ? (
+        {role === "ADMIN" || role === "ADMINISTRATIVO" ? (
           <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
             <FormControl size="small" sx={{ minWidth: 180 }}>
               <InputLabel>Licencia</InputLabel>
@@ -551,7 +553,7 @@ export default function Bonos() {
         ) : null}
       </Box>
 
-      {role === "ADMIN" ? (
+      {role === "ADMIN" || role === "ADMINISTRATIVO" ? (
         <Box sx={{ height: 700 }}>
           <DataGrid
             rows={filteredRows}

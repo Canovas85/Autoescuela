@@ -130,6 +130,10 @@ describe("DashboardService", () => {
 
       getTotalClasesProgramadas: vi.fn().mockResolvedValue(45),
 
+      getPendingClassConfirmations: vi.fn().mockResolvedValue(4),
+
+      getPendingClassHours: vi.fn().mockResolvedValue(3),
+
       getTotalClasesCanceladas: vi.fn().mockResolvedValue(8),
 
       getClasesEsteMes: vi.fn().mockResolvedValue(52),
@@ -250,6 +254,26 @@ describe("DashboardService", () => {
 
       getTotalClasesProgramadas: vi.fn().mockResolvedValue(45),
 
+      getPendingClassConfirmations: vi.fn().mockResolvedValue(4),
+
+      getPendingClassHours: vi.fn().mockResolvedValue(3),
+
+      getMatriculasPagadasMes: vi.fn().mockResolvedValue(0),
+
+      getMatriculasPagadasHistorico: vi.fn().mockResolvedValue([]),
+
+      getMatriculasPendientesMes: vi.fn().mockResolvedValue(0),
+
+      getMatriculasPendientesHistorico: vi.fn().mockResolvedValue([]),
+
+      getAprobadosTeoricoMes: vi.fn().mockResolvedValue(0),
+
+      getAprobadosTeoricoHistorico: vi.fn().mockResolvedValue([]),
+
+      getAprobadosPracticoMes: vi.fn().mockResolvedValue(0),
+
+      getAprobadosPracticoHistorico: vi.fn().mockResolvedValue([]),
+
       getExamenesEsteMes: vi.fn().mockResolvedValue(20),
 
       getExamenesAprobadosEsteMes: vi.fn().mockResolvedValue(15),
@@ -318,6 +342,8 @@ describe("DashboardService", () => {
   });
 
   it("debe devolver el dashboard del alumno con métricas calculadas", async () => {
+    const now = Date.now();
+
     const repositoryMock = {
       getStudentDashboard: vi.fn().mockResolvedValue({
         profile: {
@@ -385,9 +411,10 @@ describe("DashboardService", () => {
         ],
         clases: [
           {
-            id: "clase-1",
-            fecha: new Date("2026-08-12T10:00:00.000Z"),
+            id: "clase-pendiente",
+            fecha: new Date(now + 3 * 24 * 60 * 60 * 1000),
             estado: "PROGRAMADA",
+            compraBonoId: "bono-1",
             vehiculo: {
               matricula: "1234-ABC",
             },
@@ -395,6 +422,40 @@ describe("DashboardService", () => {
               usuario: {
                 nombre: "Profesor Demo",
               },
+            },
+            hojaRuta: null,
+          },
+          {
+            id: "clase-confirmada",
+            fecha: new Date(now + 5 * 24 * 60 * 60 * 1000),
+            estado: "CONFIRMADA",
+            compraBonoId: "bono-1",
+            vehiculo: {
+              matricula: "1234-ABC",
+            },
+            profesor: {
+              usuario: {
+                nombre: "Profesor Demo",
+              },
+            },
+            hojaRuta: null,
+          },
+          {
+            id: "clase-realizada",
+            fecha: new Date(now - 2 * 24 * 60 * 60 * 1000),
+            estado: "CONFIRMADA",
+            compraBonoId: "bono-1",
+            vehiculo: {
+              matricula: "1234-ABC",
+            },
+            profesor: {
+              usuario: {
+                nombre: "Profesor Demo",
+              },
+            },
+            hojaRuta: {
+              id: "hoja-1",
+              estado: "REGISTRADA",
             },
           },
         ],
@@ -492,7 +553,16 @@ describe("DashboardService", () => {
     expect(result.teoria.recomendacionTemarios).toEqual(["Prioridad"]);
     expect(result.practica.clasesCompradas).toBe(10);
     expect(result.practica.clasesPagadas).toBe(10);
-    expect(result.practica.clasesReservadas).toBe(1);
+    expect(result.practica.clasesReservadas).toBe(2);
+    expect(result.practica.clasesSolicitadasTotales).toBe(2);
+    expect(result.practica.clasesConfirmadasProfesor).toBe(1);
+    expect(result.practica.clasesPendientesConfirmacion).toBe(1);
+    expect(result.practica.clasesRealizadas).toBe(1);
+    expect(result.practica.clasesConsumidas).toBe(1);
+    expect(result.bonos[0].clasesConsumidas).toBe(1);
+    expect(result.bonos[0].clasesSolicitadas).toBe(2);
+    expect(result.bonos[0].clasesDisponibles).toBe(9);
+    expect(result.bonos[0].clasesDisponiblesContandoSolicitadas).toBe(7);
     expect(result.bonos[0].estado).toBe("APLICABLE");
     expect(result.examenes.teoricos).toHaveLength(1);
     expect(result.examenes.practicos).toHaveLength(1);
@@ -629,6 +699,17 @@ describe("DashboardService", () => {
             vehiculo: null,
           },
         ],
+      }),
+      findProfessorAssignedStudentActivityById: vi.fn().mockResolvedValue({
+        id: "alumno-1",
+        usuario: {
+          fechaCreacion: new Date("2026-08-01T10:00:00.000Z"),
+        },
+        matriculas: [],
+        pagos: [],
+        clases: [],
+        solicitudesExamen: [],
+        examenesDGT: [],
       }),
     };
 

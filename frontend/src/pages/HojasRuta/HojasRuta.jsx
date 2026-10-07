@@ -983,7 +983,7 @@ export default function HojasRuta() {
         }
       }
 
-      if (role === "ADMIN") {
+      if (role === "ADMIN" || role === "ADMINISTRATIVO") {
         if (viewRoadmapId) {
           const detail =
             await hojasRutaService.getAdminRoadmapDetail(viewRoadmapId);
@@ -1756,18 +1756,21 @@ export default function HojasRuta() {
       ) : null}
 
       {role === "PROFESOR" && !viewClaseId ? renderProfessorList() : null}
-      {role === "ADMIN" ? renderAdminView() : null}
+      {role === "ADMIN" || role === "ADMINISTRATIVO" ? renderAdminView() : null}
       {role === "ALUMNO" ? renderStudentView() : null}
 
       {loading ? (
         <Typography color="text.secondary">Cargando...</Typography>
       ) : null}
-      {(role !== "ADMIN" && role !== "PROFESOR" && role !== "ALUMNO") ||
+      {(role !== "ADMIN" &&
+        role !== "ADMINISTRATIVO" &&
+        role !== "PROFESOR" &&
+        role !== "ALUMNO") ||
       !token ? (
         <Alert severity="info">No se pudo validar el rol actual.</Alert>
       ) : null}
 
-      {(role === "ADMIN" || role === "ALUMNO") &&
+      {(role === "ADMIN" || role === "ADMINISTRATIVO" || role === "ALUMNO") &&
       viewRoadmapId &&
       detailData ? (
         <Stack direction="row" justifyContent="flex-start">

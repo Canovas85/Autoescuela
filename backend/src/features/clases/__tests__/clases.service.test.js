@@ -730,4 +730,69 @@ describe("ClasesService", () => {
       expect.objectContaining({ estado: "DEVUELTA" }),
     );
   });
+
+  it("debe descontar consumidas y solicitadas al informar bonos en reserva", async () => {
+    const now = Date.now();
+    const repositoryMock = {
+      getStudentUnconfirmedIndividualClassesCloseToStart: vi
+        .fn()
+        .mockResolvedValue([]),
+      getStudentOverdueUnpaidConfirmedClasses: vi.fn().mockResolvedValue([]),
+      getStudentUpcomingConfirmedClasses: vi.fn().mockResolvedValue([
+        {
+          id: "clase-consumida",
+          compraBonoId: "bono-1",
+          fecha: new Date(now - 2 * 24 * 60 * 60 * 1000).toISOString(),
+          estado: "CONFIRMADA",
+          hojaRuta: {
+            id: "hr-1",
+            estado: "REGISTRADA",
+          },
+        },
+        {
+          id: "clase-solicitada",
+          compraBonoId: "bono-1",
+          fecha: new Date(now + 2 * 24 * 60 * 60 * 1000).toISOString(),
+          estado: "PROGRAMADA",
+          hojaRuta: null,
+        },
+      ]),
+      getStudentPendingRequests: vi.fn().mockResolvedValue([]),
+      getTarifaClasePorPermiso: vi.fn().mockResolvedValue({ precio: 40 }),
+      getApplicableBonos: vi.fn().mockResolvedValue([
+        {
+          id: "bono-1",
+          clasesCompradas: 20,
+          clasesConsumidas: 0,
+          fechaValidezHasta: new Date(now + 20 * 24 * 60 * 60 * 1000),
+          bono: {
+            nombre: "Pack 20",
+          },
+        },
+      ]),
+    };
+
+    const service = new ClasesService(repositoryMock);
+    service.buildStudentEligibility = vi.fn().mockResolvedValue({
+      puedeReservar: false,
+      bloqueos: ["Sin teórico APTO"],
+      teoricoApto: false,
+      vidasIncluidas: 2,
+      vidasGastadas: 0,
+      vidasDisponibles: 2,
+      tieneExamenTeoricoFuturo: null,
+      permiso: "B",
+      alumno: {
+        profesorAsignadoId: null,
+      },
+    });
+
+    const result = await service.getStudentBookingContext("alumno-1", 0);
+    const bono = result.pago.bonosDisponibles[0];
+
+    expect(bono.clasesConsumidas).toBe(1);
+    expect(bono.clasesSolicitadas).toBe(1);
+    expect(bono.clasesDisponiblesSinSolicitudes).toBe(19);
+    expect(bono.clasesDisponibles).toBe(18);
+  });
 });

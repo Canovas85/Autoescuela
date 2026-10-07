@@ -56,6 +56,14 @@ import { notificacionesService } from "../../services/notificacionesService";
 
 const drawerWidth = 300;
 
+const normalizeRole = (role) => {
+  if (role === "GESTOR") {
+    return "ADMINISTRATIVO";
+  }
+
+  return role;
+};
+
 const menus = {
   ADMIN: [
     {
@@ -103,7 +111,6 @@ const menus = {
           label: "Otros Usuarios",
           path: "/otros-usuarios",
           icon: <GroupIcon fontSize="small" />,
-          disabled: true,
         },
       ],
     },
@@ -211,6 +218,153 @@ const menus = {
           icon: <AssessmentIcon fontSize="small" />,
         },
       ],
+    },
+  ],
+
+  ADMINISTRATIVO: [
+    {
+      label: "Dashboard",
+      icon: <DashboardIcon />,
+      path: "/dashboard",
+    },
+    {
+      label: "Notificaciones",
+      icon: <NewReleasesIcon />,
+      path: "/notificaciones",
+    },
+    {
+      label: "Gestión",
+      icon: <SettingsIcon />,
+      children: [
+        {
+          label: "Alumnos",
+          path: "/alumnos",
+          icon: <PeopleIcon fontSize="small" />,
+        },
+        {
+          label: "Profesores",
+          path: "/profesores",
+          icon: <SchoolOutlinedIcon fontSize="small" />,
+        },
+        {
+          label: "Vehículos",
+          path: "/vehiculos",
+          icon: <DirectionsCarFilledIcon fontSize="small" />,
+        },
+        {
+          label: "Documentación",
+          path: "/documentos-alumno-admin",
+          icon: <DescriptionIcon fontSize="small" />,
+        },
+        {
+          label: "Convocatorias",
+          path: "/convocatorias-examen",
+          icon: <CalendarMonthIcon fontSize="small" />,
+        },
+        {
+          label: "Otros Usuarios",
+          path: "/otros-usuarios",
+          icon: <GroupIcon fontSize="small" />,
+        },
+      ],
+    },
+    {
+      label: "Precios",
+      icon: <PaymentsIcon />,
+      children: [
+        {
+          label: "Tarifas matricula",
+          path: "/tarifas-matricula",
+          icon: <LocalOfferIcon fontSize="small" />,
+        },
+        {
+          label: "Tarifas por permisos",
+          path: "/tarifas-concepto",
+          icon: <LocalOfferIcon fontSize="small" />,
+        },
+        {
+          label: "Bonos",
+          path: "/bonos",
+          icon: <LocalOfferIcon fontSize="small" />,
+        },
+        {
+          label: "Promociones",
+          path: "/promociones",
+          icon: <LocalOfferIcon fontSize="small" />,
+        },
+      ],
+    },
+    {
+      label: "Teórica",
+      icon: <SchoolIcon />,
+      children: [
+        {
+          label: "Temarios",
+          path: "/temarios",
+          icon: <MenuBookIcon fontSize="small" />,
+        },
+        {
+          label: "Preguntas Test DGT",
+          path: "/test-dgt",
+          icon: <QuizIcon fontSize="small" />,
+        },
+      ],
+    },
+    {
+      label: "Práctica",
+      icon: <DirectionsCarIcon />,
+      children: [
+        {
+          label: "Hojas de Ruta",
+          path: "/hojas-ruta",
+          icon: <AssignmentIcon fontSize="small" />,
+        },
+        {
+          label: "Agendas",
+          path: "/agendas",
+          icon: <EventNoteIcon fontSize="small" />,
+        },
+      ],
+    },
+    {
+      label: "Evaluación",
+      icon: <FactCheckIcon />,
+      children: [
+        {
+          label: "Exámenes",
+          path: "/examenes",
+          icon: <QuizIcon fontSize="small" />,
+        },
+      ],
+    },
+    {
+      label: "Contabilidad",
+      icon: <AssessmentIcon />,
+      children: [
+        {
+          label: "Ingresos y facturas",
+          path: "/facturas",
+          icon: <ReceiptLongIcon fontSize="small" />,
+        },
+      ],
+    },
+  ],
+
+  SOPORTE: [
+    {
+      label: "Dashboard",
+      icon: <DashboardIcon />,
+      path: "/dashboard",
+    },
+    {
+      label: "Notificaciones",
+      icon: <NewReleasesIcon />,
+      path: "/notificaciones",
+    },
+    {
+      label: "Gestión de Usuarios",
+      icon: <GroupIcon />,
+      path: "/otros-usuarios",
     },
   ],
 
@@ -405,7 +559,7 @@ export default function Sidebar({ navigate, location }) {
     try {
       const user = jwtDecode(token);
 
-      role = user.rol;
+      role = normalizeRole(user.rol);
     } catch (error) {
       console.error("Error leyendo JWT:", error);
     }
@@ -635,7 +789,7 @@ export default function Sidebar({ navigate, location }) {
       }}
     >
       <List>
-        {role === "ADMIN"
+        {role === "ADMIN" || role === "ADMINISTRATIVO"
           ? menu.map((item) => (
               <Box key={item.label}>
                 {item.children ? (

@@ -64,7 +64,7 @@ export default function TemarioTemaDetalle() {
 
     try {
       const decoded = jwtDecode(token);
-      return decoded?.rol === "ADMIN";
+      return decoded?.rol === "ADMIN" || decoded?.rol === "ADMINISTRATIVO";
     } catch (error) {
       console.error("Error leyendo JWT del temario:", error);
       return false;

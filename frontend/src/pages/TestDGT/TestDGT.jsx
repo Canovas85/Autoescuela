@@ -61,7 +61,7 @@ export default function TestDGT() {
     loadMatricula();
   }, [role]);
 
-  if (role === "ADMIN") {
+  if (role === "ADMIN" || role === "ADMINISTRATIVO") {
     return <TestDGTAdmin />;
   }
 

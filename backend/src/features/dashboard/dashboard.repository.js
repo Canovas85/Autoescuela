@@ -3,6 +3,54 @@ export class DashboardRepository {
     this.prisma = prisma;
   }
 
+  async countUsuariosByRoles(roles = []) {
+    return this.prisma.usuario.count({
+      where: {
+        rol: {
+          in: roles,
+        },
+      },
+    });
+  }
+
+  async countUsuariosByRolesAndActive(roles = [], activo = true) {
+    return this.prisma.usuario.count({
+      where: {
+        rol: {
+          in: roles,
+        },
+        activo,
+      },
+    });
+  }
+
+  async getRecentPasswordResetAudits(limit = 10) {
+    return this.prisma.passwordResetAudit.findMany({
+      take: limit,
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        soporte: {
+          select: {
+            id: true,
+            nombre: true,
+            email: true,
+            rol: true,
+          },
+        },
+        usuarioObjetivo: {
+          select: {
+            id: true,
+            nombre: true,
+            email: true,
+            rol: true,
+          },
+        },
+      },
+    });
+  }
+
   async getTotalAlumnos() {
     return this.prisma.alumno.count();
   }
@@ -152,6 +200,12 @@ export class DashboardRepository {
       },
       include: {
         vehiculo: true,
+        hojaRuta: {
+          select: {
+            id: true,
+            estado: true,
+          },
+        },
         profesor: {
           include: {
             usuario: {

@@ -21,7 +21,7 @@ const controller = new GastosCombustibleController(service);
 router.get(
   "/",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAll.bind(controller),
 );
 

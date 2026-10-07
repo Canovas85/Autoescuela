@@ -798,7 +798,9 @@ export default function ReservarClase() {
                   >
                     {(context?.pago?.bonosDisponibles || []).map((bono) => (
                       <MenuItem value={bono.id} key={bono.id}>
-                        {bono.nombre} ({bono.clasesDisponibles} clases)
+                        {bono.nombre} ({bono.clasesDisponibles} clases
+                        restantes: {bono.clasesConsumidas} consumidas y{" "}
+                        {bono.clasesSolicitadas} solicitadas)
                       </MenuItem>
                     ))}
                   </Select>

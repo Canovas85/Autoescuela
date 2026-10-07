@@ -57,7 +57,7 @@ const controller = new ClasesController(service);
 router.post(
   "/",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.create.bind(controller),
 );
 
@@ -78,7 +78,7 @@ router.post(
 router.get(
   "/",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAll.bind(controller),
 );
 
@@ -107,7 +107,7 @@ router.get(
 router.get(
   "/:id",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getById.bind(controller),
 );
 
@@ -136,7 +136,7 @@ router.get(
 router.put(
   "/:id",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.update.bind(controller),
 );
 
@@ -163,7 +163,7 @@ router.put(
 router.delete(
   "/:id",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.cancel.bind(controller),
 );
 

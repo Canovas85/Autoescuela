@@ -296,34 +296,104 @@ export class DashboardService {
         ? temariosPendientes.slice(0, 3).map((temario) => temario.titulo)
         : [];
 
+    const clases = dashboard.clases || [];
+    const clasesRealizadasRows = clases.filter((clase) =>
+      this.isCompletedPracticalClass(clase),
+    );
+    const clasesRealizadas = clasesRealizadasRows.length;
+
+    const clasesConsumidasRows = clases.filter((clase) => {
+      if (this.isCompletedPracticalClass(clase)) {
+        return true;
+      }
+
+      return this.isPastRequestedPracticalClass(clase, fechaActual);
+    });
+
+    const clasesPendientesConfirmacion = clases.filter((clase) => {
+      const estadoClase = String(clase?.estado || "").toUpperCase();
+      const fechaClase = new Date(clase?.fecha);
+
+      if (Number.isNaN(fechaClase.getTime())) {
+        return false;
+      }
+
+      return estadoClase === "PROGRAMADA" && fechaClase >= fechaActual;
+    });
+
+    const clasesConfirmadasProfesor = clases.filter((clase) => {
+      const estadoClase = String(clase?.estado || "").toUpperCase();
+      const fechaClase = new Date(clase?.fecha);
+
+      if (Number.isNaN(fechaClase.getTime())) {
+        return false;
+      }
+
+      return estadoClase === "CONFIRMADA" && fechaClase >= fechaActual;
+    });
+
+    const clasesSolicitadasTotales =
+      clasesPendientesConfirmacion.length + clasesConfirmadasProfesor.length;
+
     const bonos = (dashboard.bonos || []).map((bonoCompra) => {
-      const disponibles =
-        bonoCompra.clasesCompradas - bonoCompra.clasesConsumidas;
+      const clasesBono = clases.filter(
+        (clase) => clase.compraBonoId === bonoCompra.id,
+      );
+      const clasesBonoConsumidas = clasesBono.filter((clase) => {
+        if (this.isCompletedPracticalClass(clase)) {
+          return true;
+        }
+
+        return this.isPastRequestedPracticalClass(clase, fechaActual);
+      }).length;
+      const clasesBonoSolicitadas = clasesBono.filter((clase) => {
+        const estadoClase = String(clase?.estado || "").toUpperCase();
+        const fechaClase = new Date(clase?.fecha);
+
+        if (Number.isNaN(fechaClase.getTime())) {
+          return false;
+        }
+
+        return (
+          ["PROGRAMADA", "CONFIRMADA"].includes(estadoClase) &&
+          fechaClase >= fechaActual
+        );
+      }).length;
+
+      const clasesDisponibles = Math.max(
+        bonoCompra.clasesCompradas - clasesBonoConsumidas,
+        0,
+      );
+      const clasesDisponiblesContandoSolicitadas = Math.max(
+        clasesDisponibles - clasesBonoSolicitadas,
+        0,
+      );
 
       return {
         id: bonoCompra.id,
         nombre: bonoCompra.bono?.nombre ?? "Bono",
         descripcion: bonoCompra.bono?.descripcion ?? null,
         clasesCompradas: bonoCompra.clasesCompradas,
-        clasesConsumidas: bonoCompra.clasesConsumidas,
-        clasesDisponibles: Math.max(disponibles, 0),
+        clasesConsumidas: clasesBonoConsumidas,
+        clasesSolicitadas: clasesBonoSolicitadas,
+        clasesDisponibles,
+        clasesDisponiblesContandoSolicitadas,
         pagado: Boolean(bonoCompra.pagado),
         fechaCompra: bonoCompra.fechaCompra,
         fechaValidezHasta: bonoCompra.fechaValidezHasta,
-        estado: this.construirEstadoBono(bonoCompra, fechaActual),
+        estado: this.construirEstadoBono(
+          {
+            ...bonoCompra,
+            clasesConsumidas: clasesBonoConsumidas,
+          },
+          fechaActual,
+        ),
         aplicable:
           Boolean(bonoCompra.pagado) &&
-          disponibles > 0 &&
+          clasesDisponiblesContandoSolicitadas > 0 &&
           new Date(bonoCompra.fechaValidezHasta) >= fechaActual,
       };
     });
-
-    const clases = dashboard.clases || [];
-    const clasesReservadas = clases.filter(
-      (clase) => clase.estado === "PROGRAMADA",
-    );
-
-    const clasesRealizadas = dashboard.profile.alumno.horasPracticasCompletadas;
 
     const clasesCompradas = bonos.reduce(
       (acumulado, bono) => acumulado + bono.clasesCompradas,
@@ -495,15 +565,19 @@ export class DashboardService {
       practica: {
         clasesCompradas,
         clasesPagadas,
-        clasesReservadas: clasesReservadas.length,
+        clasesReservadas: clasesSolicitadasTotales,
+        clasesSolicitadasTotales,
+        clasesConfirmadasProfesor: clasesConfirmadasProfesor.length,
+        clasesPendientesConfirmacion: clasesPendientesConfirmacion.length,
         clasesRealizadas,
+        clasesConsumidas: clasesConsumidasRows.length,
       },
       bonos,
       examenes: {
         teoricos: examenes.filter((examen) => examen.tipo === "TEORICO"),
         practicos: examenes.filter((examen) => examen.tipo === "PRACTICO"),
       },
-      reservas: clasesReservadas,
+      reservas: [...clasesConfirmadasProfesor, ...clasesPendientesConfirmacion],
       estadoAlumno,
       evolucion,
       resumen: {
@@ -579,6 +653,39 @@ export class DashboardService {
     };
   }
 
+  async getAdministrativeDashboard() {
+    return this.getExecutiveDashboard();
+  }
+
+  async getSupportDashboard() {
+    const rolesGestionables = ["ADMIN", "ADMINISTRATIVO", "SOPORTE"];
+
+    const [
+      totalUsuariosInternos,
+      usuariosInternosActivos,
+      usuariosInternosInactivos,
+      usuariosSoporte,
+      usuariosAdministrativos,
+      ultimosReseteos,
+    ] = await Promise.all([
+      this.repository.countUsuariosByRoles(rolesGestionables),
+      this.repository.countUsuariosByRolesAndActive(rolesGestionables, true),
+      this.repository.countUsuariosByRolesAndActive(rolesGestionables, false),
+      this.repository.countUsuariosByRoles(["SOPORTE"]),
+      this.repository.countUsuariosByRoles(["ADMINISTRATIVO"]),
+      this.repository.getRecentPasswordResetAudits(10),
+    ]);
+
+    return {
+      totalUsuariosInternos,
+      usuariosInternosActivos,
+      usuariosInternosInactivos,
+      usuariosSoporte,
+      usuariosAdministrativos,
+      ultimosReseteos,
+    };
+  }
+
   formatMinutesAsHours(minutes) {
     const safeMinutes = Number.isFinite(minutes) ? Math.max(minutes, 0) : 0;
     const hours = Math.floor(safeMinutes / 60);
@@ -632,6 +739,25 @@ export class DashboardService {
         estadoClase,
       ) || estadoHoja === "REGISTRADA"
     );
+  }
+
+  isRequestedPracticalClass(clase) {
+    const estadoClase = String(clase?.estado || "").toUpperCase();
+    return ["PROGRAMADA", "CONFIRMADA"].includes(estadoClase);
+  }
+
+  isPastRequestedPracticalClass(clase, now) {
+    if (!this.isRequestedPracticalClass(clase)) {
+      return false;
+    }
+
+    const fechaClase = new Date(clase?.fecha);
+
+    if (Number.isNaN(fechaClase.getTime())) {
+      return false;
+    }
+
+    return fechaClase < now;
   }
 
   buildProfessorStudentHistory(actividad = null) {

@@ -22,42 +22,42 @@ const controller = new ConvocatoriasExamenController(service);
 router.post(
   "/",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.create.bind(controller),
 );
 
 router.get(
   "/",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAll.bind(controller),
 );
 
 router.get(
   "/agenda",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAgenda.bind(controller),
 );
 
 router.put(
   "/:id",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.update.bind(controller),
 );
 
 router.get(
   "/:id/delete-impact",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getDeleteImpact.bind(controller),
 );
 
 router.delete(
   "/:id",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.delete.bind(controller),
 );
 

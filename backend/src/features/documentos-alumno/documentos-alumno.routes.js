@@ -30,7 +30,7 @@ router.get(
 router.get(
   "/admin",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAllAdmin.bind(controller),
 );
 
@@ -60,7 +60,7 @@ router.delete(
 router.patch(
   "/:id/validar",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.validate.bind(controller),
 );
 

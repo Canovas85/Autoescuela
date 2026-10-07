@@ -297,6 +297,7 @@ export class ClasesRepository {
         hojaRuta: {
           select: {
             id: true,
+            estado: true,
           },
         },
         pagos: {

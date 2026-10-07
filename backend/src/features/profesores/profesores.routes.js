@@ -66,7 +66,7 @@ const controller = new ProfesoresController(service);
 router.post(
   "/",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.create.bind(controller),
 );
 
@@ -87,7 +87,7 @@ router.post(
 router.get(
   "/",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAll.bind(controller),
 );
 
@@ -116,21 +116,21 @@ router.get(
 router.get(
   "/:id/overview",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getOverview.bind(controller),
 );
 
 router.get(
   "/:id/admin-agenda",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAdminAgenda.bind(controller),
 );
 
 router.get(
   "/:id",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getById.bind(controller),
 );
 
@@ -187,7 +187,7 @@ router.get(
 router.put(
   "/:id",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.update.bind(controller),
 );
 
@@ -216,28 +216,28 @@ router.put(
 router.delete(
   "/:id",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.deactivate.bind(controller),
 );
 
 router.get(
   "/:id/deactivation-impact",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getDeactivationImpact.bind(controller),
 );
 
 router.post(
   "/:id/deactivate-with-reassignment",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.deactivateWithReassignment.bind(controller),
 );
 
 router.patch(
   "/:id/activar",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.activate.bind(controller),
 );
 

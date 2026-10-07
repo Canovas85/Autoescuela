@@ -6,6 +6,8 @@ import {
   CardContent,
   Grid,
   IconButton,
+  Paper,
+  Stack,
   Typography,
 } from "@mui/material";
 
@@ -18,6 +20,9 @@ import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import SchoolIcon from "@mui/icons-material/School";
 import PeopleIcon from "@mui/icons-material/People";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import GroupIcon from "@mui/icons-material/Group";
+import ToggleOnIcon from "@mui/icons-material/ToggleOn";
+import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
@@ -32,6 +37,14 @@ import ProfessorDashboard from "./ProfessorDashboard";
 import { LicenseChip } from "../../components/common/LicenseChip";
 
 import { api } from "../../services/api";
+
+const normalizeRole = (role) => {
+  if (role === "GESTOR") {
+    return "ADMINISTRATIVO";
+  }
+
+  return role;
+};
 
 function AdminDashboardView({ metrics }) {
   const VISIBLE_RANK_ITEMS = 5;
@@ -648,6 +661,121 @@ function AdminDashboardView({ metrics }) {
   );
 }
 
+function SupportDashboardView({ metrics }) {
+  const cards = [
+    {
+      title: "Usuarios internos",
+      value: metrics.totalUsuariosInternos ?? 0,
+      color: "#1d4ed8",
+      icon: <PeopleIcon />,
+    },
+    {
+      title: "Usuarios activos",
+      value: metrics.usuariosInternosActivos ?? 0,
+      color: "#15803d",
+      icon: <ToggleOnIcon />,
+    },
+    {
+      title: "Usuarios inactivos",
+      value: metrics.usuariosInternosInactivos ?? 0,
+      color: "#b91c1c",
+      icon: <ToggleOffIcon />,
+    },
+    {
+      title: "Perfiles soporte",
+      value: metrics.usuariosSoporte ?? 0,
+      color: "#6d28d9",
+      icon: <GroupIcon />,
+    },
+    {
+      title: "Perfiles administrativo",
+      value: metrics.usuariosAdministrativos ?? 0,
+      color: "#0f766e",
+      icon: <AppRegistrationIcon />,
+    },
+  ];
+
+  return (
+    <Box>
+      <Typography variant="h4" fontWeight="bold">
+        Dashboard Soporte
+      </Typography>
+
+      <Box sx={{ height: 20 }} />
+
+      <Grid container spacing={3}>
+        {cards.map((card) => (
+          <Grid xs={12} sm={6} md={4} lg={2.4} key={card.title}>
+            <Card>
+              <CardContent>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Box>
+                    <Typography color="text.secondary">{card.title}</Typography>
+                    <Typography variant="h6" fontWeight="bold">
+                      {card.value}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ color: card.color }}>{card.icon}</Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+
+      <Box sx={{ height: 32 }} />
+
+      <Typography variant="h5" fontWeight="bold" sx={{ mb: 2 }}>
+        Últimos reseteos de contraseña
+      </Typography>
+
+      <Paper sx={{ p: 2 }}>
+        {(metrics.ultimosReseteos || []).length === 0 ? (
+          <Typography color="text.secondary">
+            No hay reseteos de contraseña registrados.
+          </Typography>
+        ) : (
+          <Stack spacing={1.25}>
+            {metrics.ultimosReseteos.map((item) => (
+              <Box
+                key={item.id}
+                sx={{
+                  border: "1px solid #e5e7eb",
+                  borderRadius: 2,
+                  p: 1.5,
+                }}
+              >
+                <Typography fontWeight={700}>
+                  {item.usuarioObjetivo?.nombre || "Usuario"} (
+                  {item.usuarioObjetivo?.rol || "-"})
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Reseteado por: {item.soporte?.nombre || "-"} (
+                  {item.soporte?.rol || "-"})
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Fecha: {new Date(item.createdAt).toLocaleString("es-ES")}
+                </Typography>
+                {item.motivo ? (
+                  <Typography variant="body2" color="text.secondary">
+                    Motivo: {item.motivo}
+                  </Typography>
+                ) : null}
+              </Box>
+            ))}
+          </Stack>
+        )}
+      </Paper>
+    </Box>
+  );
+}
+
 export default function Dashboard() {
   const [metrics, setMetrics] = useState(null);
   const [role, setRole] = useState(null);
@@ -668,14 +796,20 @@ export default function Dashboard() {
           }
         }
 
-        setRole(decoded?.rol ?? "ALUMNO");
+        const normalizedRole = normalizeRole(decoded?.rol ?? "ALUMNO");
+
+        setRole(normalizedRole);
 
         const endpoint =
-          decoded?.rol === "ALUMNO"
+          normalizedRole === "ALUMNO"
             ? "/dashboard/student"
-            : decoded?.rol === "PROFESOR"
+            : normalizedRole === "PROFESOR"
               ? "/dashboard/professor"
-              : "/dashboard/executive";
+              : normalizedRole === "ADMINISTRATIVO"
+                ? "/dashboard/administrativo"
+                : normalizedRole === "SOPORTE"
+                  ? "/dashboard/soporte"
+                  : "/dashboard/executive";
 
         const response = await api.get(endpoint);
 
@@ -712,6 +846,10 @@ export default function Dashboard() {
 
   if (role === "ALUMNO") {
     return <StudentDashboard data={metrics} />;
+  }
+
+  if (role === "SOPORTE") {
+    return <SupportDashboardView metrics={metrics} />;
   }
 
   return <AdminDashboardView metrics={metrics} />;

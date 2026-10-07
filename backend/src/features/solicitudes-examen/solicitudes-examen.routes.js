@@ -18,19 +18,19 @@ const controller = new SolicitudesExamenController(service);
 router.post(
   "/",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.create.bind(controller),
 );
 router.get(
   "/",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAll.bind(controller),
 );
 router.get(
   "/evaluacion",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAdminEvaluation.bind(controller),
 );
 router.get(
@@ -90,19 +90,19 @@ router.patch(
 router.get(
   "/:id",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getById.bind(controller),
 );
 router.put(
   "/:id",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.update.bind(controller),
 );
 router.delete(
   "/:id",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.delete.bind(controller),
 );
 

@@ -295,8 +295,20 @@ export default function StudentDashboard({ data }) {
   const matriculaPendiente = resumen?.matricula === "PENDIENTE";
   const pagoTasaPendiente = Boolean(dgtMetrics.tasa21?.pagoPendiente);
 
+  const clasesSolicitadasTotales =
+    practica.clasesSolicitadasTotales ?? practica.clasesReservadas ?? 0;
+  const clasesConfirmadasProfesor = practica.clasesConfirmadasProfesor ?? 0;
+  const clasesPendientesConfirmacion =
+    practica.clasesPendientesConfirmacion ?? 0;
+
   const totalBonoDisponible = bonos.reduce(
     (acumulado, bono) => acumulado + bono.clasesDisponibles,
+    0,
+  );
+  const totalBonoDisponibleContandoSolicitadas = bonos.reduce(
+    (acumulado, bono) =>
+      acumulado +
+      (bono.clasesDisponiblesContandoSolicitadas ?? bono.clasesDisponibles),
     0,
   );
 
@@ -657,7 +669,7 @@ export default function StudentDashboard({ data }) {
                   </Box>
                 }
                 value={`${practica.clasesCompradas} Clases`}
-                subtitle={`${practica.clasesPagadas} pagadas y ${practica.clasesReservadas} reservadas`}
+                subtitle={`${clasesSolicitadasTotales} solicitadas · ${clasesConfirmadasProfesor} confirmadas · ${clasesPendientesConfirmacion} pendientes`}
               />
             </Grid>
             <Grid item xs={12} sm={6} sx={{ width: 230, height: 110 }}>
@@ -672,8 +684,8 @@ export default function StudentDashboard({ data }) {
                     <span>Reservas activas</span>
                   </Box>
                 }
-                value={`${practica.clasesReservadas} Reservas`}
-                subtitle="Clases programadas actualmente"
+                value={`${clasesSolicitadasTotales} Solicitudes`}
+                subtitle={`${clasesConfirmadasProfesor} confirmadas por profesor y ${clasesPendientesConfirmacion} pendientes`}
               />
             </Grid>
           </Grid>
@@ -1105,10 +1117,10 @@ export default function StudentDashboard({ data }) {
                     }}
                   >
                     <Typography variant="body2" color="text.secondary">
-                      Reservadas
+                      Solicitadas
                     </Typography>
                     <Typography variant="h5" fontWeight={800}>
-                      {practica.clasesReservadas}
+                      {clasesSolicitadasTotales}
                     </Typography>
                   </Box>
                 </Grid>
@@ -1129,6 +1141,11 @@ export default function StudentDashboard({ data }) {
                   </Box>
                 </Grid>
               </Grid>
+
+              <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                {clasesConfirmadasProfesor} confirmadas por profesor y{" "}
+                {clasesPendientesConfirmacion} pendientes de confirmación.
+              </Typography>
 
               <Divider sx={{ my: 2.5 }} />
 
@@ -1258,7 +1275,7 @@ export default function StudentDashboard({ data }) {
                 <SectionTitle
                   icon={<WorkspacePremiumIcon sx={{ color: "#d97706" }} />}
                   title="Bonos disponibles"
-                  subtitle={`Tienes ${bonos.length} bono(s) registrados y ${totalBonoDisponible} clase(s) aplicables.`}
+                  subtitle={`Tienes ${bonos.length} bono(s), ${totalBonoDisponible} clase(s) disponibles y ${totalBonoDisponibleContandoSolicitadas} tras descontar solicitadas.`}
                 />
 
                 <Stack spacing={1.25}>
@@ -1295,7 +1312,11 @@ export default function StudentDashboard({ data }) {
                           <Typography variant="body2" color="text.secondary">
                             {bono.clasesCompradas} compradas ·{" "}
                             {bono.clasesConsumidas} consumidas ·{" "}
-                            {bono.clasesDisponibles} disponibles
+                            {bono.clasesSolicitadas ?? 0} solicitadas ·{" "}
+                            {bono.clasesDisponibles} disponibles ·{" "}
+                            {bono.clasesDisponiblesContandoSolicitadas ??
+                              bono.clasesDisponibles}{" "}
+                            disponibles contando solicitadas
                           </Typography>
                           <Typography variant="body2" color="text.secondary">
                             Válido hasta: {formatDate(bono.fechaValidezHasta)}

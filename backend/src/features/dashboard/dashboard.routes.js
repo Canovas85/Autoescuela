@@ -36,7 +36,7 @@ const controller = new DashboardController(service);
 router.get(
   "/",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getMetrics.bind(controller),
 );
 
@@ -61,7 +61,7 @@ router.get(
 router.get(
   "/advanced",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAdvancedMetrics.bind(controller),
 );
 
@@ -88,6 +88,20 @@ router.get(
   authenticate,
   authorize("ADMIN"),
   controller.getExecutiveDashboard.bind(controller),
+);
+
+router.get(
+  "/administrativo",
+  authenticate,
+  authorize("ADMINISTRATIVO"),
+  controller.getAdministrativeDashboard.bind(controller),
+);
+
+router.get(
+  "/soporte",
+  authenticate,
+  authorize("SOPORTE"),
+  controller.getSupportDashboard.bind(controller),
 );
 
 /**

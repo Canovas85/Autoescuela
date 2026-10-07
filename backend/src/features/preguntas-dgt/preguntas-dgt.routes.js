@@ -25,7 +25,7 @@ const controller = new PreguntasDGTController(service);
 router.post(
   "/",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   uploadPreguntaDGTImagen.single("imagen"),
   controller.create.bind(controller),
 );
@@ -33,28 +33,28 @@ router.post(
 router.get(
   "/",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAll.bind(controller),
 );
 
 router.get(
   "/next-id",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getNextId.bind(controller),
 );
 
 router.get(
   "/:id",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getById.bind(controller),
 );
 
 router.put(
   "/:id",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   uploadPreguntaDGTImagen.single("imagen"),
   controller.update.bind(controller),
 );
@@ -62,21 +62,21 @@ router.put(
 router.delete(
   "/:id",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.delete.bind(controller),
 );
 
 router.patch(
   "/:id/activar",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.activate.bind(controller),
 );
 
 router.patch(
   "/:id/desactivar",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.deactivate.bind(controller),
 );
 

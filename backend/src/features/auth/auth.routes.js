@@ -81,7 +81,7 @@ router.post(
 router.post(
   "/activacion/reenviar/:userId",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.resendActivation.bind(controller),
 );
 

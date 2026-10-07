@@ -22,7 +22,7 @@ const controller = new PromocionesController(service);
 router.post(
   "/",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   uploadPromocionImagen.single("imagen"),
   controller.create.bind(controller),
 );
@@ -30,7 +30,7 @@ router.post(
 router.get(
   "/",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAll.bind(controller),
 );
 
@@ -39,14 +39,14 @@ router.get("/public", controller.getPublic.bind(controller));
 router.get(
   "/:id",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getById.bind(controller),
 );
 
 router.put(
   "/:id",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   uploadPromocionImagen.single("imagen"),
   controller.update.bind(controller),
 );
@@ -54,21 +54,21 @@ router.put(
 router.delete(
   "/:id",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.delete.bind(controller),
 );
 
 router.patch(
   "/:id/activar",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.activate.bind(controller),
 );
 
 router.patch(
   "/:id/desactivar",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.deactivate.bind(controller),
 );
 

@@ -19,6 +19,18 @@ export class DashboardController {
     return res.status(200).json(metrics);
   }
 
+  async getAdministrativeDashboard(req, res) {
+    const metrics = await this.service.getAdministrativeDashboard();
+
+    return res.status(200).json(metrics);
+  }
+
+  async getSupportDashboard(req, res) {
+    const metrics = await this.service.getSupportDashboard();
+
+    return res.status(200).json(metrics);
+  }
+
   async getStudentDashboard(req, res) {
     const metrics = await this.service.getStudentDashboard(req.user?.id);
 

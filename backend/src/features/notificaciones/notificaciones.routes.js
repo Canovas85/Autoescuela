@@ -19,35 +19,35 @@ router.get("/stream", controller.stream.bind(controller));
 router.get(
   "/mine",
   authenticate,
-  authorize("ADMIN", "PROFESOR", "ALUMNO"),
+  authorize("ADMIN", "ADMINISTRATIVO", "SOPORTE", "PROFESOR", "ALUMNO"),
   controller.getMine.bind(controller),
 );
 
 router.patch(
   "/mine/read-all",
   authenticate,
-  authorize("ADMIN", "PROFESOR", "ALUMNO"),
+  authorize("ADMIN", "ADMINISTRATIVO", "SOPORTE", "PROFESOR", "ALUMNO"),
   controller.markAllMineAsRead.bind(controller),
 );
 
 router.patch(
   "/:id/read",
   authenticate,
-  authorize("ADMIN", "PROFESOR", "ALUMNO"),
+  authorize("ADMIN", "ADMINISTRATIVO", "SOPORTE", "PROFESOR", "ALUMNO"),
   controller.markMineAsRead.bind(controller),
 );
 
 router.patch(
   "/:id/archive",
   authenticate,
-  authorize("ADMIN", "PROFESOR", "ALUMNO"),
+  authorize("ADMIN", "ADMINISTRATIVO", "SOPORTE", "PROFESOR", "ALUMNO"),
   controller.archiveMine.bind(controller),
 );
 
 router.patch(
   "/:id/unarchive",
   authenticate,
-  authorize("ADMIN", "PROFESOR", "ALUMNO"),
+  authorize("ADMIN", "ADMINISTRATIVO", "SOPORTE", "PROFESOR", "ALUMNO"),
   controller.unarchiveMine.bind(controller),
 );
 

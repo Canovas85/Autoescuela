@@ -54,7 +54,7 @@ export default function TemarioClaseDirectoViewer() {
 
     try {
       const decoded = jwtDecode(token);
-      return decoded?.rol === "ADMIN";
+      return decoded?.rol === "ADMIN" || decoded?.rol === "ADMINISTRATIVO";
     } catch {
       return false;
     }

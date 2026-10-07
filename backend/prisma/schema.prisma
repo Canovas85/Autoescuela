@@ -15,12 +15,15 @@ model Usuario {
   email                  String             @unique
   passwordHash           String
   rol                    Rol
+  activo                 Boolean            @default(true)
   fechaCreacion          DateTime           @default(now())
   telefono               String?
   dni                    String?            @unique
   requiereCambioPassword Boolean            @default(true)
   activacionesCuenta     ActivacionCuenta[]
   notificaciones         Notificacion[]
+  resetAuditsAsActor     PasswordResetAudit[] @relation("PasswordResetActor")
+  resetAuditsAsTarget    PasswordResetAudit[] @relation("PasswordResetTarget")
   alumno                 Alumno?
   profesor               Profesor?
 
@@ -842,8 +845,25 @@ model Notificacion {
   @@map("notificaciones")
 }
 
+model PasswordResetAudit {
+  id               String   @id @default(uuid())
+  soporteId        String
+  usuarioObjetivoId String
+  motivo           String?
+  createdAt        DateTime @default(now())
+  soporte          Usuario  @relation("PasswordResetActor", fields: [soporteId], references: [id], onDelete: Restrict)
+  usuarioObjetivo  Usuario  @relation("PasswordResetTarget", fields: [usuarioObjetivoId], references: [id], onDelete: Cascade)
+
+  @@index([soporteId])
+  @@index([usuarioObjetivoId])
+  @@index([createdAt])
+  @@map("auditoria_reseteos_password")
+}
+
 enum Rol {
   ADMIN
+  ADMINISTRATIVO
+  SOPORTE
   PROFESOR
   ALUMNO
 }

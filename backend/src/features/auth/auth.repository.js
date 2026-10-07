@@ -36,6 +36,7 @@ export class AuthRepository {
         nombre: true,
         email: true,
         rol: true,
+        activo: true,
         alumno: {
           select: {
             activo: true,
@@ -67,6 +68,7 @@ export class AuthRepository {
         nombre: true,
         email: true,
         rol: true,
+        activo: true,
         alumno: {
           select: {
             activo: true,
@@ -91,6 +93,7 @@ export class AuthRepository {
         nombre: true,
         email: true,
         rol: true,
+        activo: true,
       },
     });
   }
@@ -141,6 +144,7 @@ export class AuthRepository {
       select: {
         id: true,
         rol: true,
+        activo: true,
         alumno: {
           select: {
             activo: true,

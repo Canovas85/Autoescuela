@@ -91,14 +91,14 @@ const controller = new AlumnosController(service);
 router.post(
   "/promociones-elegibles",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getEligiblePromotions.bind(controller),
 );
 
 router.post(
   "/",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.create.bind(controller),
 );
 
@@ -119,7 +119,7 @@ router.post(
 router.get(
   "/",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAll.bind(controller),
 );
 
@@ -148,21 +148,21 @@ router.get(
 router.get(
   "/:id/profesores-elegibles",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getEligibleProfesores.bind(controller),
 );
 
 router.get(
   "/:id/resumen-extendido",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getExtendedSummary.bind(controller),
 );
 
 router.get(
   "/:id",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getById.bind(controller),
 );
 
@@ -190,7 +190,7 @@ router.get(
 router.put(
   "/:id",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.update.bind(controller),
 );
 
@@ -219,14 +219,14 @@ router.put(
 router.delete(
   "/:id",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.deactivate.bind(controller),
 );
 
 router.patch(
   "/:id/activar",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.activate.bind(controller),
 );
 

@@ -1,0 +1,286 @@
+import bcrypt from "bcryptjs";
+
+const ROLES_PERMITIDOS = ["ADMINISTRATIVO", "SOPORTE"];
+
+const normalizarDni = (valor) => {
+  if (valor === null || valor === undefined || valor === "") {
+    return null;
+  }
+
+  const dni = String(valor).trim();
+
+  if (!dni) {
+    return null;
+  }
+
+  return /^\d{8}[A-Za-z]$/.test(dni) ? dni.toUpperCase() : null;
+};
+
+const normalizarTelefono = (valor) => {
+  if (valor === null || valor === undefined || valor === "") {
+    return null;
+  }
+
+  const telefono = String(valor).trim();
+
+  if (!telefono) {
+    return null;
+  }
+
+  return /^\d{9}$/.test(telefono) ? telefono : null;
+};
+
+export class OtrosUsuariosService {
+  constructor(repository) {
+    this.repository = repository;
+  }
+
+  parseFilters(query = {}) {
+    const rol = String(query.rol || "")
+      .trim()
+      .toUpperCase();
+    const activoRaw = query.activo;
+
+    const filters = {
+      search: String(query.search || "").trim(),
+    };
+
+    if (ROLES_PERMITIDOS.includes(rol)) {
+      filters.rol = rol;
+    }
+
+    if (activoRaw === "true" || activoRaw === true) {
+      filters.activo = true;
+    }
+
+    if (activoRaw === "false" || activoRaw === false) {
+      filters.activo = false;
+    }
+
+    return filters;
+  }
+
+  async getAll(query = {}) {
+    const filters = this.parseFilters(query);
+    return this.repository.findAll(filters);
+  }
+
+  async getById(id) {
+    const usuario = await this.repository.findById(id);
+
+    if (!usuario) {
+      throw new Error("Usuario no encontrado");
+    }
+
+    return usuario;
+  }
+
+  normalizeRole(rol) {
+    const normalized = String(rol || "")
+      .trim()
+      .toUpperCase();
+
+    if (!ROLES_PERMITIDOS.includes(normalized)) {
+      throw new Error("El perfil debe ser ADMINISTRATIVO o SOPORTE");
+    }
+
+    return normalized;
+  }
+
+  async validateUniqueFields({ email, dni, currentId = null }) {
+    const emailNormalized = String(email || "")
+      .trim()
+      .toLowerCase();
+
+    const existingEmail =
+      await this.repository.findUserByEmail(emailNormalized);
+
+    if (existingEmail && existingEmail.id !== currentId) {
+      throw new Error("El email ya existe");
+    }
+
+    if (!dni) {
+      return;
+    }
+
+    const existingDni = await this.repository.findUserByDni(dni);
+
+    if (existingDni && existingDni.id !== currentId) {
+      throw new Error("El DNI ya existe");
+    }
+  }
+
+  async create(data) {
+    const nombre = String(data.nombre || "").trim();
+    const email = String(data.email || "")
+      .trim()
+      .toLowerCase();
+    const password = String(data.password || "");
+
+    if (!nombre) {
+      throw new Error("El nombre es obligatorio");
+    }
+
+    if (!email) {
+      throw new Error("El email es obligatorio");
+    }
+
+    if (password.length < 8) {
+      throw new Error("La contraseña debe tener al menos 8 caracteres");
+    }
+
+    const rol = this.normalizeRole(data.rol);
+
+    const dni = normalizarDni(data.dni);
+
+    if (!dni) {
+      throw new Error("El DNI debe tener un formato válido");
+    }
+
+    const telefono = normalizarTelefono(data.telefono);
+
+    if (!telefono) {
+      throw new Error("El teléfono debe contener exactamente 9 dígitos");
+    }
+
+    await this.validateUniqueFields({ email, dni });
+
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    return this.repository.create({
+      nombre,
+      email,
+      dni,
+      telefono,
+      rol,
+      activo: true,
+      requiereCambioPassword: true,
+      passwordHash,
+    });
+  }
+
+  async update(id, data) {
+    const current = await this.repository.findById(id);
+
+    if (!current) {
+      throw new Error("Usuario no encontrado");
+    }
+
+    const nombre =
+      data.nombre !== undefined
+        ? String(data.nombre || "").trim()
+        : current.nombre;
+    const email =
+      data.email !== undefined
+        ? String(data.email || "")
+            .trim()
+            .toLowerCase()
+        : current.email;
+
+    const rol =
+      data.rol !== undefined ? this.normalizeRole(data.rol) : current.rol;
+
+    const dni =
+      data.dni !== undefined ? normalizarDni(data.dni) : (current.dni ?? null);
+
+    if (!nombre) {
+      throw new Error("El nombre es obligatorio");
+    }
+
+    if (!email) {
+      throw new Error("El email es obligatorio");
+    }
+
+    if (data.dni !== undefined && !dni) {
+      throw new Error("El DNI debe tener un formato válido");
+    }
+
+    const telefono =
+      data.telefono !== undefined
+        ? normalizarTelefono(data.telefono)
+        : (current.telefono ?? null);
+
+    if (data.telefono !== undefined && !telefono) {
+      throw new Error("El teléfono debe contener exactamente 9 dígitos");
+    }
+
+    await this.validateUniqueFields({
+      email,
+      dni,
+      currentId: id,
+    });
+
+    const payload = {
+      nombre,
+      email,
+      dni,
+      telefono,
+      rol,
+    };
+
+    if (data.password !== undefined && String(data.password || "").trim()) {
+      const password = String(data.password || "");
+
+      if (password.length < 8) {
+        throw new Error("La contraseña debe tener al menos 8 caracteres");
+      }
+
+      payload.passwordHash = await bcrypt.hash(password, 10);
+      payload.requiereCambioPassword = true;
+    }
+
+    return this.repository.update(id, payload);
+  }
+
+  async deactivate(id) {
+    const current = await this.repository.findById(id);
+
+    if (!current) {
+      throw new Error("Usuario no encontrado");
+    }
+
+    return this.repository.setActive(id, false);
+  }
+
+  async activate(id) {
+    const current = await this.repository.findById(id);
+
+    if (!current) {
+      throw new Error("Usuario no encontrado");
+    }
+
+    return this.repository.setActive(id, true);
+  }
+
+  async resetPassword(id, actorId, motivo = null, newPassword = null) {
+    const current = await this.repository.findById(id);
+
+    if (!current) {
+      throw new Error("Usuario no encontrado");
+    }
+
+    const rawPassword = String(newPassword || "").trim() || "Autoescuela123!";
+
+    if (rawPassword.length < 8) {
+      throw new Error("La nueva contraseña debe tener al menos 8 caracteres");
+    }
+
+    const passwordHash = await bcrypt.hash(rawPassword, 10);
+
+    const updated = await this.repository.update(id, {
+      passwordHash,
+      requiereCambioPassword: true,
+    });
+
+    await this.repository.createPasswordResetAudit({
+      soporteId: actorId,
+      usuarioObjetivoId: id,
+      motivo: motivo ? String(motivo).trim() : null,
+    });
+
+    return {
+      usuario: updated,
+      passwordTemporal: rawPassword,
+    };
+  }
+}

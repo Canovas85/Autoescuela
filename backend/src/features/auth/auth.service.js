@@ -52,6 +52,10 @@ export class AuthService {
       throw new Error("Credenciales inválidas");
     }
 
+    if (user.activo === false) {
+      throw new Error("Usuario desactivado. Contacte con administración");
+    }
+
     if (user.rol === "ALUMNO" && user.alumno?.activo === false) {
       throw new Error("Usuario desactivado. Contacte con administración");
     }
@@ -178,6 +182,10 @@ export class AuthService {
   }
 
   ensureActiveUser(user) {
+    if (user?.activo === false) {
+      throw new Error("Usuario desactivado. Contacte con administración");
+    }
+
     if (user.rol === "ALUMNO" && user.alumno?.activo === false) {
       throw new Error("Usuario desactivado. Contacte con administración");
     }

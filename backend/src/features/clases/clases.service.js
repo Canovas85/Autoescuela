@@ -442,6 +442,86 @@ export class ClasesService {
     };
   }
 
+  isCompletedPracticalClass(clase) {
+    const estadoClase = String(clase?.estado || "").toUpperCase();
+    const estadoHoja = String(clase?.hojaRuta?.estado || "").toUpperCase();
+
+    return (
+      ["REALIZADA", "COMPLETADA", "FINALIZADA", "REGISTRADA"].includes(
+        estadoClase,
+      ) || estadoHoja === "REGISTRADA"
+    );
+  }
+
+  isRequestedPracticalClass(clase) {
+    const estadoClase = String(clase?.estado || "").toUpperCase();
+    return ["PROGRAMADA", "CONFIRMADA"].includes(estadoClase);
+  }
+
+  buildBonusAvailabilityByClassUsage(
+    bonos = [],
+    clases = [],
+    now = new Date(),
+  ) {
+    const availability = new Map();
+
+    for (const bono of bonos || []) {
+      const classesForBono = (clases || []).filter(
+        (clase) => clase?.compraBonoId === bono.id,
+      );
+
+      const consumidas = classesForBono.filter((clase) => {
+        if (this.isCompletedPracticalClass(clase)) {
+          return true;
+        }
+
+        if (!this.isRequestedPracticalClass(clase)) {
+          return false;
+        }
+
+        const fechaClase = new Date(clase?.fecha);
+
+        if (Number.isNaN(fechaClase.getTime())) {
+          return false;
+        }
+
+        return fechaClase < now;
+      }).length;
+
+      const solicitadas = classesForBono.filter((clase) => {
+        if (!this.isRequestedPracticalClass(clase)) {
+          return false;
+        }
+
+        const fechaClase = new Date(clase?.fecha);
+
+        if (Number.isNaN(fechaClase.getTime())) {
+          return false;
+        }
+
+        return fechaClase >= now;
+      }).length;
+
+      const clasesDisponibles = Math.max(
+        Number(bono?.clasesCompradas || 0) - consumidas,
+        0,
+      );
+      const clasesDisponiblesContandoSolicitadas = Math.max(
+        clasesDisponibles - solicitadas,
+        0,
+      );
+
+      availability.set(bono.id, {
+        consumidas,
+        solicitadas,
+        clasesDisponibles,
+        clasesDisponiblesContandoSolicitadas,
+      });
+    }
+
+    return availability;
+  }
+
   async syncPastConfirmedBonusClassesForStudent(alumnoId, now = new Date()) {
     if (
       typeof this.repository.getStudentPastConfirmedBonusClasses !==
@@ -831,17 +911,32 @@ export class ClasesService {
       now,
       eligibility.permiso,
     );
+    const bonusAvailability = this.buildBonusAvailabilityByClassUsage(
+      bonos,
+      proximasClases,
+      now,
+    );
+
     base.pago.bonosDisponibles = (bonos || [])
-      .filter((bono) => bono.clasesConsumidas < bono.clasesCompradas)
-      .map((bono) => ({
-        id: bono.id,
-        nombre: bono.bono?.nombre || "Bono",
-        fechaValidezHasta: bono.fechaValidezHasta,
-        clasesDisponibles: Math.max(
-          bono.clasesCompradas - bono.clasesConsumidas,
-          0,
-        ),
-      }));
+      .map((bono) => {
+        const metrics = bonusAvailability.get(bono.id) || {
+          consumidas: 0,
+          solicitadas: 0,
+          clasesDisponibles: 0,
+          clasesDisponiblesContandoSolicitadas: 0,
+        };
+
+        return {
+          id: bono.id,
+          nombre: bono.bono?.nombre || "Bono",
+          fechaValidezHasta: bono.fechaValidezHasta,
+          clasesConsumidas: metrics.consumidas,
+          clasesSolicitadas: metrics.solicitadas,
+          clasesDisponibles: metrics.clasesDisponiblesContandoSolicitadas,
+          clasesDisponiblesSinSolicitudes: metrics.clasesDisponibles,
+        };
+      })
+      .filter((bono) => bono.clasesDisponibles > 0);
 
     if (!eligibility.puedeReservar) {
       return base;
@@ -990,9 +1085,17 @@ export class ClasesService {
         new Date(),
         eligibility.permiso,
       );
-      const candidatos = bonos.filter(
-        (bono) => bono.clasesConsumidas < bono.clasesCompradas,
+      const clasesRelacionadasBono =
+        await this.repository.getStudentUpcomingConfirmedClasses(alumnoId);
+      const availability = this.buildBonusAvailabilityByClassUsage(
+        bonos,
+        clasesRelacionadasBono,
+        new Date(),
       );
+      const candidatos = bonos.filter((bono) => {
+        const metrics = availability.get(bono.id);
+        return Number(metrics?.clasesDisponiblesContandoSolicitadas || 0) > 0;
+      });
 
       if (!candidatos.length) {
         throw new Error("No tienes un bono activo con clases disponibles");

@@ -20,7 +20,7 @@ const controller = new FacturasController(service);
 router.get(
   "/",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAll.bind(controller),
 );
 
@@ -34,21 +34,21 @@ router.get(
 router.get(
   "/:id/preview",
   authenticate,
-  authorize("ADMIN", "ALUMNO"),
+  authorize("ADMIN", "ADMINISTRATIVO", "ALUMNO"),
   controller.getPreview.bind(controller),
 );
 
 router.get(
   "/:id/pdf",
   authenticate,
-  authorize("ADMIN", "ALUMNO"),
+  authorize("ADMIN", "ADMINISTRATIVO", "ALUMNO"),
   controller.getPdf.bind(controller),
 );
 
 router.post(
   "/:id/send-duplicate",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.sendDuplicate.bind(controller),
 );
 

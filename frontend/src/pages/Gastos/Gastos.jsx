@@ -76,7 +76,7 @@ export default function Gastos() {
 
     try {
       const data =
-        role === "ADMIN"
+        role === "ADMIN" || role === "ADMINISTRATIVO"
           ? await gastosCombustibleService.getAll()
           : await gastosCombustibleService.getMine();
 
@@ -226,7 +226,7 @@ export default function Gastos() {
     },
   ];
 
-  if (role === "ADMIN") {
+  if (role === "ADMIN" || role === "ADMINISTRATIVO") {
     columns.splice(3, 0, {
       field: "profesorNombre",
       headerName: "Profesor",

@@ -36,7 +36,7 @@ router.get(
 router.put(
   "/mine/profesor/:claseId/borrador",
   authenticate,
-  authorize("PROFESOR"),
+  authorize("ADMIN", "ADMINISTRATIVO", "PROFESOR", "ALUMNO"),
   controller.saveProfessorDraft.bind(controller),
 );
 
@@ -50,28 +50,28 @@ router.put(
 router.get(
   "/admin/profesores",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAdminProfessorsSummary.bind(controller),
 );
 
 router.get(
   "/admin/profesores/:profesorId/alumnos",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAdminStudentsByProfessor.bind(controller),
 );
 
 router.get(
   "/admin/profesores/:profesorId/alumnos/:alumnoId/hojas",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAdminRegisteredRoadmapsByStudent.bind(controller),
 );
 
 router.get(
   "/admin/hojas/:roadmapId",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAdminRoadmapDetail.bind(controller),
 );
 
