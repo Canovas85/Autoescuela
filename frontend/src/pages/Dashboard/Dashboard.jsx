@@ -95,24 +95,6 @@ function AdminDashboardView({ metrics }) {
       color: "#2563eb",
     },
     {
-      title: "Clases Programadas",
-      value: metrics.scheduledClasses ?? 0,
-      icon: <DirectionsCarIcon />,
-      color: "#0f172a",
-    },
-    {
-      title: "Exámenes Pendientes",
-      value: metrics.pendingExams ?? 0,
-      icon: <AssignmentIcon />,
-      color: "#ea580c",
-    },
-    {
-      title: "Tasa de Éxito",
-      value: `${Number(metrics.successRate || 0).toFixed(1)}%`,
-      icon: <TrendingUpIcon />,
-      color: "#16a34a",
-    },
-    {
       title: "Matrículas Pagadas",
       value: (
         <Typography variant="body2" fontWeight={700} sx={{ fontSize: 12 }}>
@@ -136,29 +118,12 @@ function AdminDashboardView({ metrics }) {
       color: "#ea580c",
       wide: true,
     },
+
     {
-      title: "Teórico APTO",
-      value: (
-        <Typography variant="body2" fontWeight={700} sx={{ fontSize: 14 }}>
-          Mes: {metrics.aprobadosTeoricoMes ?? 0} | Histórico:{" "}
-          {metrics.aprobadosTeoricoHistorico ?? 0}
-        </Typography>
-      ),
-      icon: <SchoolIcon />,
-      color: "#0369a1",
-      wide: true,
-    },
-    {
-      title: "Práctico APTO",
-      value: (
-        <Typography variant="body2" fontWeight={700} sx={{ fontSize: 14 }}>
-          Mes: {metrics.aprobadosPracticoMes ?? 0} | Histórico:{" "}
-          {metrics.aprobadosPracticoHistorico ?? 0}
-        </Typography>
-      ),
-      icon: <EmojiEventsIcon />,
-      color: "#EFBF04",
-      wide: true,
+      title: "Tasa de Éxito",
+      value: `${Number(metrics.successRate || 0).toFixed(1)}%`,
+      icon: <TrendingUpIcon />,
+      color: "#16a34a",
     },
   ];
 
@@ -224,7 +189,61 @@ function AdminDashboardView({ metrics }) {
       <Box sx={{ height: 20 }} />
 
       <Grid container spacing={3}>
-        {/* Tarjeta 1: Profesor más activo */}
+        {/* Tarjeta 1: Examenes Teóricos APTO */}
+        <Grid xs={12} sm={6} md={4} lg={3} key="profesor-activo">
+          <Card>
+            <CardContent>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  minHeight: 80, // Asegura una altura consistente con tu primer diseño
+                  width: 190,
+                }}
+              >
+                <Box>
+                  <Typography color="text.secondary">Teórico APTO</Typography>
+                  <Typography variant="h6" fontWeight="bold" sx={{ mt: 0.2 }}>
+                    <SchoolIcon sx={{ ml: 20, color: "#0369a1" }} />
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Mes: {metrics.aprobadosTeoricoMes ?? 0} | Histórico:{" "}
+                    {metrics.aprobadosTeoricoHistorico ?? 0}
+                  </Typography>
+                </Box>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+        {/* Tarjeta 2: Examenes Practicos APTO */}
+        <Grid xs={12} sm={6} md={4} lg={3} key="profesor-activo">
+          <Card>
+            <CardContent>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  minHeight: 80, // Asegura una altura consistente con tu primer diseño
+                  width: 190,
+                }}
+              >
+                <Box>
+                  <Typography color="text.secondary">Práctico APTO</Typography>
+                  <Typography variant="h6" fontWeight="bold" sx={{ mt: 0.2 }}>
+                    <EmojiEventsIcon sx={{ ml: 20, color: "#EFBF04" }} />
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Mes: {metrics.aprobadosPracticoMes ?? 0} | Histórico:{" "}
+                    {metrics.aprobadosPracticoHistorico ?? 0}
+                  </Typography>
+                </Box>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+
         <Grid xs={12} sm={6} md={4} lg={3} key="profesor-activo">
           <Card>
             <CardContent>
@@ -243,7 +262,7 @@ function AdminDashboardView({ metrics }) {
                   </Typography>
                   <Typography variant="h6" fontWeight="bold" sx={{ mt: 0.2 }}>
                     {metrics.pendingClassConfirmations ?? 0}{" "}
-                    <AssignmentIcon sx={{ ml: 17, color: "#ea580c" }} />
+                    <DirectionsCarIcon sx={{ ml: 17, color: "#ea580c" }} />
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     solicitudes programadas

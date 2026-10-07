@@ -1010,8 +1010,8 @@ export default function Alumnos() {
         Gestión de Alumnos
       </Typography>
       <Typography color="text.secondary" sx={{ mb: 2 }}>
-        Administra los perfiles, el estado de las matrículas y el progreso en
-        los permisos de conducir de cada estudiante.
+        Administra los alumnos registrados en la Autoescuela Eguskilore y el
+        progreso en los permisos de conducir de cada estudiante.
       </Typography>
       <Box
         sx={{
@@ -1843,6 +1843,7 @@ export default function Alumnos() {
                         display: "flex",
                         flexDirection: "column",
                         gap: 2,
+                        mt: 1,
                       }}
                     >
                       <TextField
@@ -1916,9 +1917,25 @@ export default function Alumnos() {
                       />
 
                       <Chip
-                        label="Ver resumen académico y pagos"
-                        color="primary"
-                        variant="outlined"
+                        label="Resumen Académico y Pagos"
+                        sx={{
+                          width: "fit-content",
+                          backgroundColor: "#fffbeb", // Fondo original
+                          borderColor: "#facc15", // Borde original
+                          borderStyle: "solid",
+                          borderRadius: "15px",
+                          borderWidth: "2px",
+                          color: "#ca8a04", // Texto original
+                          "& .MuiChip-label": {
+                            fontWeight: "bold",
+                          },
+                          // 👇 ESTO ES LO QUE DEBES AÑADIR PARA EL HOVER
+                          "&:hover": {
+                            backgroundColor: "#fef08a", // Fondo al pasar el ratón (un amarillo un poco más oscuro)
+                            borderColor: "#eab308", // Borde al pasar el ratón (opcional)
+                            color: "#854d0e", // Texto al pasar el ratón (opcional)
+                          },
+                        }}
                         clickable
                         onClick={async () => {
                           if (!selectedAlumno?.id) {
@@ -1935,7 +1952,6 @@ export default function Alumnos() {
 
                           setShowExtendedSummary(true);
                         }}
-                        sx={{ width: "fit-content", fontWeight: 600 }}
                       />
                     </Box>
 
@@ -2133,8 +2149,25 @@ export default function Alumnos() {
                       Resumen académico y pagos
                     </Typography>
                     <Chip
-                      label="Volver al detalle"
-                      color="primary"
+                      label="Volver Detalle Alumno"
+                      sx={{
+                        width: "fit-content",
+                        backgroundColor: "#fffbeb", // Fondo original
+                        borderColor: "#facc15", // Borde original
+                        borderStyle: "solid",
+                        borderRadius: "15px",
+                        borderWidth: "2px",
+                        color: "#ca8a04", // Texto original
+                        "& .MuiChip-label": {
+                          fontWeight: "bold",
+                        },
+                        // 👇 ESTO ES LO QUE DEBES AÑADIR PARA EL HOVER
+                        "&:hover": {
+                          backgroundColor: "#fef08a", // Fondo al pasar el ratón (un amarillo un poco más oscuro)
+                          borderColor: "#eab308", // Borde al pasar el ratón (opcional)
+                          color: "#854d0e", // Texto al pasar el ratón (opcional)
+                        },
+                      }}
                       clickable
                       onClick={() => setShowExtendedSummary(false)}
                     />

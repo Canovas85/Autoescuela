@@ -752,8 +752,7 @@ export default function Profesores() {
         Gestión de Profesores
       </Typography>
       <Typography color="text.secondary" sx={{ mb: 2 }}>
-        Organiza los datos del personal docente, sus horarios de disponibilidad
-        y las clases asignadas.
+        Administra los profesores registrados en la Autoescuela Eguskilore.
       </Typography>
       <Box
         sx={{
