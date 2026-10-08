@@ -893,6 +893,52 @@ export class SolicitudesExamenRepository {
     });
   }
 
+  async markLicenseObtainedAndUnassignProfessor(alumnoId, options = {}) {
+    const licenciaObtenida = options.licenciaObtenida || null;
+    const motivo = options.motivo || "LICENCIA_OBTENIDA";
+
+    return this.prisma.$transaction(async (tx) => {
+      const alumno = await tx.alumno.findUnique({
+        where: {
+          id: alumnoId,
+        },
+        select: {
+          id: true,
+          profesorAsignadoId: true,
+        },
+      });
+
+      if (!alumno) {
+        return null;
+      }
+
+      const updatedAlumno = await tx.alumno.update({
+        where: {
+          id: alumnoId,
+        },
+        data: {
+          estadoExpediente: "LICENCIA_OBTENIDA",
+          licenciaObtenidaAt: new Date(),
+          profesorAsignadoId: null,
+        },
+      });
+
+      if (alumno.profesorAsignadoId) {
+        await tx.alumnoProfesorHistorial.create({
+          data: {
+            alumnoId,
+            profesorAnteriorId: alumno.profesorAsignadoId,
+            profesorNuevoId: null,
+            licenciaObtenida,
+            motivo,
+          },
+        });
+      }
+
+      return updatedAlumno;
+    });
+  }
+
   async incrementarConvocatoriasConsumidas(pagoId) {
     return this.prisma.pago.update({
       where: {

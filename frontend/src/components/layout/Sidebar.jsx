@@ -53,6 +53,7 @@ import NewReleasesIcon from "@mui/icons-material/NewReleases";
 
 import { matriculasService } from "../../services/matriculasService";
 import { notificacionesService } from "../../services/notificacionesService";
+import { dashboardService } from "../../services/dashboardService";
 
 const drawerWidth = 300;
 
@@ -527,6 +528,7 @@ export default function Sidebar({ navigate, location }) {
   });
 
   const [matriculaPagada, setMatriculaPagada] = useState(true);
+  const [licenciaObtenida, setLicenciaObtenida] = useState(false);
   const [unreadNotifications, setUnreadNotifications] = useState(0);
 
   const loadUnreadNotifications = async () => {
@@ -561,21 +563,29 @@ export default function Sidebar({ navigate, location }) {
   }
 
   useEffect(() => {
-    const loadMatricula = async () => {
+    const loadStudentState = async () => {
       if (role !== "ALUMNO") {
         return;
       }
 
       try {
-        const matricula = await matriculasService.getMine();
+        const [matricula, dashboard] = await Promise.all([
+          matriculasService.getMine(),
+          dashboardService.getStudentDashboard(),
+        ]);
 
-        setMatriculaPagada(matricula.estado === "PAGADA");
+        setMatriculaPagada(matricula?.estado === "PAGADA");
+        setLicenciaObtenida(
+          String(dashboard?.estadoAlumno?.codigo || "").toUpperCase() ===
+            "LICENCIA_OBTENIDA",
+        );
       } catch (error) {
         console.error(error);
+        setLicenciaObtenida(false);
       }
     };
 
-    loadMatricula();
+    loadStudentState();
   }, [role]);
 
   useEffect(() => {
@@ -619,7 +629,37 @@ export default function Sidebar({ navigate, location }) {
 
   let menu = menus[role];
 
-  if (role === "ALUMNO" && !matriculaPagada) {
+  if (role === "ALUMNO" && licenciaObtenida) {
+    menu = [
+      {
+        label: "Mi progreso",
+        icon: <TrendingUpIcon />,
+        path: "/dashboard",
+      },
+      {
+        label: "Mis documentos",
+        icon: <DescriptionIcon />,
+        path: "/mis-documentos",
+      },
+      {
+        label: "Notificaciones",
+        icon: <NewReleasesIcon />,
+        path: "/notificaciones",
+      },
+      {
+        label: "Facturas",
+        icon: <ReceiptLongIcon />,
+        path: "/mis-facturas",
+      },
+      {
+        label: "Nueva licencia",
+        icon: <DriveEtaIcon />,
+        path: "/nueva-licencia",
+      },
+    ];
+  }
+
+  if (role === "ALUMNO" && !licenciaObtenida && !matriculaPagada) {
     menu = [
       {
         label: "Mi progreso",

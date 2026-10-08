@@ -44,6 +44,88 @@ export class AlumnosRepository {
     });
   }
 
+  async detachLicensedAssignedStudents() {
+    const rows = await this.prisma.alumno.findMany({
+      where: {
+        profesorAsignadoId: {
+          not: null,
+        },
+        estadoExpediente: "LICENCIA_OBTENIDA",
+      },
+      select: {
+        id: true,
+        profesorAsignadoId: true,
+        tipoLicenciaObjetivo: true,
+        matriculas: {
+          where: {
+            estado: "PAGADA",
+          },
+          orderBy: {
+            fechaPago: "desc",
+          },
+          take: 1,
+          select: {
+            licencia: true,
+          },
+        },
+      },
+    });
+
+    if (!rows.length) {
+      return 0;
+    }
+
+    await this.prisma.$transaction(async (tx) => {
+      for (const row of rows) {
+        const professorId = row.profesorAsignadoId;
+
+        if (!professorId) {
+          continue;
+        }
+
+        const existingHistory = await tx.alumnoProfesorHistorial.findFirst({
+          where: {
+            alumnoId: row.id,
+            profesorAnteriorId: professorId,
+            motivo: "LICENCIA_OBTENIDA",
+          },
+          orderBy: {
+            changedAt: "desc",
+          },
+          select: {
+            id: true,
+          },
+        });
+
+        if (!existingHistory) {
+          await tx.alumnoProfesorHistorial.create({
+            data: {
+              alumnoId: row.id,
+              profesorAnteriorId: professorId,
+              profesorNuevoId: null,
+              licenciaObtenida:
+                row.matriculas?.[0]?.licencia ||
+                row.tipoLicenciaObjetivo ||
+                null,
+              motivo: "LICENCIA_OBTENIDA",
+            },
+          });
+        }
+
+        await tx.alumno.update({
+          where: {
+            id: row.id,
+          },
+          data: {
+            profesorAsignadoId: null,
+          },
+        });
+      }
+    });
+
+    return rows.length;
+  }
+
   async findAll() {
     return this.prisma.alumno.findMany({
       include: {

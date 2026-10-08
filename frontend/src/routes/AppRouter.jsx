@@ -50,6 +50,7 @@ import Gastos from "../pages/Gastos/Gastos";
 import Informes from "../pages/Informes/Informes";
 import Agendas from "../pages/Agendas/Agendas";
 import OtrosUsuarios from "../pages/OtrosUsuarios/OtrosUsuarios";
+import NuevaLicencia from "../pages/NuevaLicencia/NuevaLicencia";
 
 function RequireAuth() {
   const token = localStorage.getItem("token");
@@ -166,6 +167,7 @@ export default function AppRouter() {
                 element={<Navigate to="/mis-facturas" replace />}
               />
               <Route path="/mis-documentos" element={<DocumentosAlumno />} />
+              <Route path="/nueva-licencia" element={<NuevaLicencia />} />
               <Route path="/reservar-clase" element={<ReservarClase />} />
               <Route path="/notificaciones" element={<Notificaciones />} />
               <Route path="/hojas-ruta" element={<HojasRuta />} />

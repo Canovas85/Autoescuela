@@ -94,9 +94,13 @@ export default function ProfessorDashboard({ data }) {
   const perfil = data?.perfil || {};
   const resumen = data?.resumen || {};
   const alumnos = Array.isArray(data?.alumnos) ? data.alumnos : [];
+  const alumnosHistoricos = Array.isArray(data?.alumnosHistoricos)
+    ? data.alumnosHistoricos
+    : [];
   const vehiculos = Array.isArray(data?.vehiculos) ? data.vehiculos : [];
 
   const [openDetail, setOpenDetail] = useState(false);
+  const [openHistory, setOpenHistory] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [detail, setDetail] = useState(null);
   const [error, setError] = useState("");
@@ -160,6 +164,14 @@ export default function ProfessorDashboard({ data }) {
             sx={{ color: "#fff", borderColor: "rgba(255,255,255,0.6)" }}
           >
             Ver vehículos compatibles
+          </Button>
+
+          <Button
+            variant="outlined"
+            onClick={() => setOpenHistory(true)}
+            sx={{ color: "#fff", borderColor: "rgba(255,255,255,0.6)" }}
+          >
+            Histórico licencias ({resumen.alumnosHistoricosLicenciados ?? 0})
           </Button>
         </Stack>
       </Box>
@@ -335,6 +347,78 @@ export default function ProfessorDashboard({ data }) {
           </Grid>
         </CardContent>
       </Card>
+
+      <Dialog
+        open={openHistory}
+        onClose={() => setOpenHistory(false)}
+        fullWidth
+        maxWidth="lg"
+      >
+        <DialogTitle>Histórico de alumnos con licencia obtenida</DialogTitle>
+        <DialogContent>
+          <Grid container spacing={2} sx={{ mt: 0.5 }}>
+            {alumnosHistoricos.length === 0 ? (
+              <Grid item xs={12}>
+                <Typography color="text.secondary">
+                  No hay alumnos históricos con licencia obtenida.
+                </Typography>
+              </Grid>
+            ) : (
+              alumnosHistoricos.map((alumno) => (
+                <Grid item xs={12} sm={6} md={4} key={`hist-${alumno.id}`}>
+                  <Card
+                    variant="outlined"
+                    sx={{ borderRadius: 2, height: "100%" }}
+                  >
+                    <CardActionArea
+                      sx={{ height: "100%" }}
+                      onClick={() => {
+                        setOpenHistory(false);
+                        openStudentDetail(alumno.id);
+                      }}
+                    >
+                      <CardContent>
+                        <Typography fontWeight={700}>
+                          {alumno.nombre}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {alumno.email || "Sin email"}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Tel: {alumno.telefono || "Sin teléfono"}
+                        </Typography>
+
+                        <Stack
+                          direction="row"
+                          spacing={1}
+                          alignItems="center"
+                          sx={{ mt: 1 }}
+                        >
+                          <LicenseChip
+                            value={
+                              alumno.licenciaObtenida ||
+                              alumno.tipoLicenciaObjetivo ||
+                              "-"
+                            }
+                          />
+                          <Chip
+                            label="Histórico"
+                            color="default"
+                            size="small"
+                          />
+                        </Stack>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </Grid>
+              ))
+            )}
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenHistory(false)}>Cerrar</Button>
+        </DialogActions>
+      </Dialog>
 
       <Dialog
         open={openDetail}

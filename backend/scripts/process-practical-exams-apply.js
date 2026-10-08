@@ -804,15 +804,49 @@ async function main() {
           pagosPracticoCanceladosPorApto +=
             await cleanupPendingPracticalExpenseAfterApto(tx, updated.alumnoId);
 
-          await tx.alumno.updateMany({
+          const alumno = await tx.alumno.findUnique({
+            where: {
+              id: updated.alumnoId,
+            },
+            select: {
+              profesorAsignadoId: true,
+              matriculas: {
+                where: {
+                  estado: "PAGADA",
+                },
+                orderBy: {
+                  fechaPago: "desc",
+                },
+                take: 1,
+                select: {
+                  licencia: true,
+                },
+              },
+            },
+          });
+
+          await tx.alumno.update({
             where: {
               id: updated.alumnoId,
             },
             data: {
               estadoExpediente: "LICENCIA_OBTENIDA",
               licenciaObtenidaAt: new Date(),
+              profesorAsignadoId: null,
             },
           });
+
+          if (alumno?.profesorAsignadoId) {
+            await tx.alumnoProfesorHistorial.create({
+              data: {
+                alumnoId: updated.alumnoId,
+                profesorAnteriorId: alumno.profesorAsignadoId,
+                profesorNuevoId: null,
+                licenciaObtenida: alumno.matriculas?.[0]?.licencia || null,
+                motivo: "LICENCIA_OBTENIDA",
+              },
+            });
+          }
         }
       }
     }

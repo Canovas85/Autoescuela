@@ -17,6 +17,7 @@ import {
   IconButton,
   InputAdornment,
   LinearProgress,
+  Menu,
   MenuItem,
   Pagination,
   Paper,
@@ -38,9 +39,16 @@ import SearchIcon from "@mui/icons-material/Search";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import RouteIcon from "@mui/icons-material/Route";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import DownloadIcon from "@mui/icons-material/Download";
 import { jwtDecode } from "jwt-decode";
 
 import { hojasRutaService } from "../../services/hojasRutaService";
+import { exportHojasRutaProfesoresExcel } from "../../utils/exportHojasRutaProfesoresExcel";
+import { exportHojasRutaProfesoresPdf } from "../../utils/exportHojasRutaProfesoresPdf";
+import { exportHojasRutaAlumnosProfesorExcel } from "../../utils/exportHojasRutaAlumnosProfesorExcel";
+import { exportHojasRutaAlumnosProfesorPdf } from "../../utils/exportHojasRutaAlumnosProfesorPdf";
+import { exportHojasRutaAlumnoDetalleExcel } from "../../utils/exportHojasRutaAlumnoDetalleExcel";
+import { exportHojasRutaAlumnoDetallePdf } from "../../utils/exportHojasRutaAlumnoDetallePdf";
 
 const formatDateTime = (value) => {
   if (!value) return "-";
@@ -79,6 +87,29 @@ const colorByStatus = (status) => {
   if (status === "PENDIENTE") return "warning";
   if (status === "CANCELADA") return "error";
   return "default";
+};
+
+const ADMIN_ROADMAP_STATUS_OPTIONS = [
+  { value: "", label: "Todos" },
+  { value: "PENDIENTE", label: "Pendiente" },
+  { value: "EN_CURSO", label: "En curso" },
+  { value: "REGISTRADA", label: "Registrada" },
+  { value: "CANCELADA", label: "Cancelada" },
+];
+
+const MONTH_OPTIONS = Array.from({ length: 12 }, (_, index) => {
+  const value = String(index + 1);
+  return {
+    value,
+    label: value,
+  };
+});
+
+const formatDateLocal = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 };
 
 const initialFault = {
@@ -925,6 +956,10 @@ export default function HojasRuta() {
     total: 0,
   });
   const [showProfessorFilters, setShowProfessorFilters] = useState(false);
+  const [exportAnchorEl, setExportAnchorEl] = useState(null);
+  const [exportScope, setExportScope] = useState("");
+  const [focusDia, setFocusDia] = useState(false);
+  const [tipoDia, setTipoDia] = useState("text");
 
   const viewProfesorId = searchParams.get("profesorId");
   const viewAlumnoId = searchParams.get("alumnoId");
@@ -933,6 +968,15 @@ export default function HojasRuta() {
 
   const statusTab = searchParams.get("estado") || "TODAS";
   const page = Number(searchParams.get("page") || "1");
+  const queryKey = searchParams.toString();
+  const currentYear = new Date().getFullYear();
+  const yearOptions = useMemo(() => {
+    const years = [];
+    for (let year = 2026; year <= currentYear + 10; year += 1) {
+      years.push({ value: String(year), label: String(year) });
+    }
+    return years;
+  }, [currentYear]);
 
   const setParam = (key, value) => {
     const next = new URLSearchParams(searchParams);
@@ -989,27 +1033,55 @@ export default function HojasRuta() {
             await hojasRutaService.getAdminRoadmapDetail(viewRoadmapId);
           setDetailData(detail);
         } else if (viewProfesorId && viewAlumnoId) {
+          const estadoFiltro = searchParams.get("estadoClase") || undefined;
+          const vehiculoFiltro = searchParams.get("vehiculo") || undefined;
+          const diaFiltro = searchParams.get("dia") || undefined;
+
           const data =
             await hojasRutaService.getAdminRegisteredRoadmapsByStudent(
               viewProfesorId,
               viewAlumnoId,
-              { page, pageSize: 10 },
+              {
+                page,
+                pageSize: 10,
+                estado: estadoFiltro,
+                vehiculoId: vehiculoFiltro,
+                day: diaFiltro,
+              },
             );
           setAdminRoadmapRows(data.rows || []);
           setPagination(
             data.pagination || { page: 1, totalPages: 1, total: 0 },
           );
         } else if (viewProfesorId) {
+          const searchAlumno = searchParams.get("searchAlumno") || undefined;
+
           const rows = await hojasRutaService.getAdminStudentsByProfessor(
             viewProfesorId,
             {
-              search: searchParams.get("search") || undefined,
+              search: searchAlumno,
             },
           );
           setAdminStudentRows(rows || []);
         } else {
+          const searchProfesor = searchParams.get("search") || undefined;
+          const month = Number(searchParams.get("month") || "0");
+          const year = Number(searchParams.get("year") || "0");
+          let dateFrom;
+          let dateTo;
+
+          if (month >= 1 && month <= 12 && year > 0) {
+            const start = new Date(year, month - 1, 1);
+            const end = new Date(year, month, 0);
+
+            dateFrom = formatDateLocal(start);
+            dateTo = formatDateLocal(end);
+          }
+
           const rows = await hojasRutaService.getAdminProfessorsSummary({
-            search: searchParams.get("search") || undefined,
+            search: searchProfesor,
+            dateFrom,
+            dateTo,
           });
           setAdminRows(rows || []);
         }
@@ -1055,7 +1127,155 @@ export default function HojasRuta() {
     viewClaseId,
     statusTab,
     page,
+    queryKey,
   ]);
+
+  const adminRowsFiltered = useMemo(() => {
+    const search = String(searchParams.get("search") || "")
+      .trim()
+      .toLowerCase();
+
+    return (adminRows || []).filter((row) => {
+      if (!search) {
+        return true;
+      }
+
+      return String(row.profesorNombre || "")
+        .toLowerCase()
+        .includes(search);
+    });
+  }, [adminRows, searchParams]);
+
+  const adminStudentRowsFiltered = useMemo(() => {
+    const search = String(searchParams.get("searchAlumno") || "")
+      .trim()
+      .toLowerCase();
+
+    return (adminStudentRows || []).filter((row) => {
+      if (!search) {
+        return true;
+      }
+
+      return String(row.alumnoNombre || "")
+        .toLowerCase()
+        .includes(search);
+    });
+  }, [adminStudentRows, searchParams]);
+
+  const adminRoadmapRowsFiltered = useMemo(() => {
+    const estado = String(searchParams.get("estadoClase") || "")
+      .trim()
+      .toUpperCase();
+    const vehiculo = String(searchParams.get("vehiculo") || "")
+      .trim()
+      .toLowerCase();
+    const dia = String(searchParams.get("dia") || "").trim();
+
+    return (adminRoadmapRows || []).filter((row) => {
+      const estadoRow = String(row.sinDatos ? "PENDIENTE" : row.estado || "")
+        .trim()
+        .toUpperCase();
+
+      if (estado && estadoRow !== estado) {
+        return false;
+      }
+
+      if (vehiculo) {
+        const matricula = String(row.vehiculo?.matricula || "").toLowerCase();
+        const marca = String(row.vehiculo?.marca || "").toLowerCase();
+        const modelo = String(row.vehiculo?.modelo || "").toLowerCase();
+
+        if (
+          !matricula.includes(vehiculo) &&
+          !marca.includes(vehiculo) &&
+          !modelo.includes(vehiculo)
+        ) {
+          return false;
+        }
+      }
+
+      if (dia) {
+        const rowDate = new Date(row.fecha);
+
+        if (Number.isNaN(rowDate.getTime())) {
+          return false;
+        }
+
+        if (rowDate.toISOString().slice(0, 10) !== dia) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }, [adminRoadmapRows, searchParams]);
+
+  const adminRoadmapVehicleOptions = useMemo(() => {
+    const unique = new Map();
+
+    (adminRoadmapRows || []).forEach((row) => {
+      const id = String(row?.vehiculo?.id || "").trim();
+      const marca = String(row?.vehiculo?.marca || "").trim();
+      const modelo = String(row?.vehiculo?.modelo || "").trim();
+
+      if (!id || (!marca && !modelo)) {
+        return;
+      }
+
+      if (!unique.has(id)) {
+        unique.set(id, {
+          value: id,
+          label: `${marca} ${modelo}`.trim(),
+        });
+      }
+    });
+
+    return Array.from(unique.values()).sort((a, b) =>
+      a.label.localeCompare(b.label, "es"),
+    );
+  }, [adminRoadmapRows]);
+
+  const openExportMenu = (scope, event) => {
+    setExportScope(scope);
+    setExportAnchorEl(event.currentTarget);
+  };
+
+  const closeExportMenu = () => {
+    setExportAnchorEl(null);
+    setExportScope("");
+  };
+
+  const handleExportExcel = () => {
+    if (exportScope === "admin-professors") {
+      exportHojasRutaProfesoresExcel(adminRowsFiltered);
+    }
+
+    if (exportScope === "admin-students") {
+      exportHojasRutaAlumnosProfesorExcel(adminStudentRowsFiltered);
+    }
+
+    if (exportScope === "admin-roadmaps") {
+      exportHojasRutaAlumnoDetalleExcel(adminRoadmapRowsFiltered);
+    }
+
+    closeExportMenu();
+  };
+
+  const handleExportPdf = () => {
+    if (exportScope === "admin-professors") {
+      exportHojasRutaProfesoresPdf(adminRowsFiltered);
+    }
+
+    if (exportScope === "admin-students") {
+      exportHojasRutaAlumnosProfesorPdf(adminStudentRowsFiltered);
+    }
+
+    if (exportScope === "admin-roadmaps") {
+      exportHojasRutaAlumnoDetallePdf(adminRoadmapRowsFiltered);
+    }
+
+    closeExportMenu();
+  };
 
   const saveDraft = async () => {
     if (!viewClaseId || !detailData) return;
@@ -1411,9 +1631,79 @@ export default function HojasRuta() {
 
           <Card>
             <CardContent>
+              <Stack
+                direction={{ xs: "column", md: "row" }}
+                spacing={1.5}
+                sx={{ mb: 1.5 }}
+              >
+                <TextField
+                  select
+                  size="small"
+                  label="Estado"
+                  value={searchParams.get("estadoClase") || ""}
+                  onChange={(event) =>
+                    setParam("estadoClase", event.target.value)
+                  }
+                  sx={{ minWidth: 180 }}
+                >
+                  {ADMIN_ROADMAP_STATUS_OPTIONS.map((option) => (
+                    <MenuItem key={option.value || "ALL"} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+
+                <TextField
+                  select
+                  size="small"
+                  label="Vehículo"
+                  value={searchParams.get("vehiculo") || ""}
+                  onChange={(event) => setParam("vehiculo", event.target.value)}
+                  sx={{ minWidth: 240 }}
+                >
+                  <MenuItem value="">Todos</MenuItem>
+                  {adminRoadmapVehicleOptions.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+
+                <TextField
+                  size="small"
+                  type={tipoDia}
+                  label="Día"
+                  placeholder={focusDia ? "dd/mm/aaaa" : ""}
+                  InputLabelProps={{
+                    shrink: focusDia || Boolean(searchParams.get("dia")),
+                  }}
+                  value={searchParams.get("dia") || ""}
+                  onChange={(event) => setParam("dia", event.target.value)}
+                  onFocus={() => {
+                    setFocusDia(true);
+                    setTipoDia("date");
+                  }}
+                  onBlur={() => {
+                    setFocusDia(false);
+                    if (!searchParams.get("dia")) {
+                      setTipoDia("text");
+                    }
+                  }}
+                  sx={{ minWidth: 180 }}
+                />
+
+                <Button
+                  variant="outlined"
+                  startIcon={<DownloadIcon />}
+                  onClick={(event) => openExportMenu("admin-roadmaps", event)}
+                >
+                  Exportar
+                </Button>
+              </Stack>
+
               <Box sx={{ height: 560 }}>
                 <DataGrid
-                  rows={adminRoadmapRows}
+                  rows={adminRoadmapRowsFiltered}
                   columns={[
                     {
                       field: "fecha",
@@ -1532,8 +1822,32 @@ export default function HojasRuta() {
 
           <Card>
             <CardContent>
+              <Stack
+                direction={{ xs: "column", md: "row" }}
+                spacing={1.5}
+                sx={{ mb: 1.5 }}
+              >
+                <TextField
+                  size="small"
+                  label="Filtrar por alumno"
+                  value={searchParams.get("searchAlumno") || ""}
+                  onChange={(event) =>
+                    setParam("searchAlumno", event.target.value)
+                  }
+                  fullWidth
+                />
+
+                <Button
+                  variant="outlined"
+                  startIcon={<DownloadIcon />}
+                  onClick={(event) => openExportMenu("admin-students", event)}
+                >
+                  Exportar
+                </Button>
+              </Stack>
+
               <DataGrid
-                rows={adminStudentRows}
+                rows={adminStudentRowsFiltered}
                 columns={[
                   { field: "alumnoNombre", headerName: "Alumno", flex: 1.2 },
                   { field: "total", headerName: "Total", flex: 0.5 },
@@ -1587,8 +1901,62 @@ export default function HojasRuta() {
 
         <Card>
           <CardContent>
+            <Stack
+              direction={{ xs: "column", md: "row" }}
+              spacing={1.5}
+              sx={{ mb: 1.5 }}
+            >
+              <TextField
+                size="small"
+                label="Buscar profesor"
+                value={searchParams.get("search") || ""}
+                onChange={(event) => setParam("search", event.target.value)}
+                fullWidth
+              />
+
+              <TextField
+                select
+                size="small"
+                label="Mes"
+                value={searchParams.get("month") || ""}
+                onChange={(event) => setParam("month", event.target.value)}
+                sx={{ minWidth: 120 }}
+              >
+                <MenuItem value="">Todos</MenuItem>
+                {MONTH_OPTIONS.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+
+              <TextField
+                select
+                size="small"
+                label="Año"
+                value={searchParams.get("year") || ""}
+                onChange={(event) => setParam("year", event.target.value)}
+                sx={{ minWidth: 140 }}
+              >
+                <MenuItem value="">Todos</MenuItem>
+                {yearOptions.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+
+              <Button
+                variant="outlined"
+                startIcon={<DownloadIcon />}
+                onClick={(event) => openExportMenu("admin-professors", event)}
+              >
+                Exportar
+              </Button>
+            </Stack>
+
             <DataGrid
-              rows={adminRows}
+              rows={adminRowsFiltered}
               columns={[
                 { field: "profesorNombre", headerName: "Profesor", flex: 1.5 },
                 { field: "total", headerName: "Total", flex: 0.5 },
@@ -1803,6 +2171,15 @@ export default function HojasRuta() {
           </Button>
         </Stack>
       ) : null}
+
+      <Menu
+        anchorEl={exportAnchorEl}
+        open={Boolean(exportAnchorEl)}
+        onClose={closeExportMenu}
+      >
+        <MenuItem onClick={handleExportExcel}>Exportar a Excel</MenuItem>
+        <MenuItem onClick={handleExportPdf}>Exportar a PDF</MenuItem>
+      </Menu>
     </Box>
   );
 }

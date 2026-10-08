@@ -582,6 +582,9 @@ export class DashboardRepository {
       where: {
         profesorAsignadoId: userId,
         activo: true,
+        estadoExpediente: {
+          not: "LICENCIA_OBTENIDA",
+        },
       },
       include: {
         usuario: {
@@ -638,11 +641,184 @@ export class DashboardRepository {
     });
   }
 
+  async detachLicensedAssignedStudentsForProfessor(profesorId) {
+    const rows = await this.prisma.alumno.findMany({
+      where: {
+        profesorAsignadoId: profesorId,
+        estadoExpediente: "LICENCIA_OBTENIDA",
+      },
+      select: {
+        id: true,
+        profesorAsignadoId: true,
+        tipoLicenciaObjetivo: true,
+        matriculas: {
+          where: {
+            estado: "PAGADA",
+          },
+          orderBy: {
+            fechaPago: "desc",
+          },
+          take: 1,
+          select: {
+            licencia: true,
+          },
+        },
+      },
+    });
+
+    if (!rows.length) {
+      return 0;
+    }
+
+    await this.prisma.$transaction(async (tx) => {
+      for (const row of rows) {
+        const professorId = row.profesorAsignadoId;
+
+        if (!professorId) {
+          continue;
+        }
+
+        const existingHistory = await tx.alumnoProfesorHistorial.findFirst({
+          where: {
+            alumnoId: row.id,
+            profesorAnteriorId: professorId,
+            motivo: "LICENCIA_OBTENIDA",
+          },
+          orderBy: {
+            changedAt: "desc",
+          },
+          select: {
+            id: true,
+          },
+        });
+
+        if (!existingHistory) {
+          await tx.alumnoProfesorHistorial.create({
+            data: {
+              alumnoId: row.id,
+              profesorAnteriorId: professorId,
+              profesorNuevoId: null,
+              licenciaObtenida:
+                row.matriculas?.[0]?.licencia ||
+                row.tipoLicenciaObjetivo ||
+                null,
+              motivo: "LICENCIA_OBTENIDA",
+            },
+          });
+        }
+
+        await tx.alumno.update({
+          where: {
+            id: row.id,
+          },
+          data: {
+            profesorAsignadoId: null,
+          },
+        });
+      }
+    });
+
+    return rows.length;
+  }
+
+  async getProfessorHistoricalLicensedStudents(userId) {
+    return this.prisma.alumno.findMany({
+      where: {
+        activo: true,
+        estadoExpediente: "LICENCIA_OBTENIDA",
+        historialProfesores: {
+          some: {
+            profesorAnteriorId: userId,
+            motivo: "LICENCIA_OBTENIDA",
+          },
+        },
+      },
+      include: {
+        usuario: {
+          select: {
+            nombre: true,
+            email: true,
+            telefono: true,
+          },
+        },
+        matriculas: {
+          orderBy: {
+            fechaCreacion: "desc",
+          },
+          take: 1,
+        },
+        solicitudesExamen: {
+          select: {
+            id: true,
+            tipo: true,
+            estado: true,
+            fechaSolicitud: true,
+            fechaProgramada: true,
+            erroresExamen: true,
+            aciertosExamen: true,
+            faltasLeves: true,
+            faltasDeficientes: true,
+            faltasEliminatorias: true,
+            motivoNoApto: true,
+          },
+          orderBy: {
+            fechaSolicitud: "desc",
+          },
+        },
+        clases: {
+          select: {
+            id: true,
+            fecha: true,
+            estado: true,
+            duracion: true,
+            hojaRuta: {
+              select: {
+                id: true,
+                estado: true,
+              },
+            },
+          },
+        },
+        historialProfesores: {
+          where: {
+            profesorAnteriorId: userId,
+            motivo: "LICENCIA_OBTENIDA",
+          },
+          orderBy: {
+            changedAt: "desc",
+          },
+          take: 1,
+          select: {
+            changedAt: true,
+            licenciaObtenida: true,
+          },
+        },
+      },
+      orderBy: {
+        usuario: {
+          nombre: "asc",
+        },
+      },
+    });
+  }
+
   async findProfessorAssignedStudentById(profesorId, alumnoId) {
     return this.prisma.alumno.findFirst({
       where: {
         id: alumnoId,
-        profesorAsignadoId: profesorId,
+        OR: [
+          {
+            profesorAsignadoId: profesorId,
+          },
+          {
+            historialProfesores: {
+              some: {
+                profesorAnteriorId: profesorId,
+                motivo: "LICENCIA_OBTENIDA",
+              },
+            },
+          },
+        ],
       },
       include: {
         usuario: {
@@ -736,7 +912,19 @@ export class DashboardRepository {
     return this.prisma.alumno.findFirst({
       where: {
         id: alumnoId,
-        profesorAsignadoId: profesorId,
+        OR: [
+          {
+            profesorAsignadoId: profesorId,
+          },
+          {
+            historialProfesores: {
+              some: {
+                profesorAnteriorId: profesorId,
+                motivo: "LICENCIA_OBTENIDA",
+              },
+            },
+          },
+        ],
       },
       select: {
         id: true,
@@ -1244,6 +1432,340 @@ export class DashboardRepository {
         estado: {
           in: ["PENDIENTE", "PAGADA"],
         },
+      },
+    });
+  }
+
+  async getTotalProfesoresActivos() {
+    return this.prisma.usuario.count({
+      where: {
+        rol: "PROFESOR",
+        activo: true,
+      },
+    });
+  }
+
+  async getTotalAdministrativosActivos() {
+    return this.prisma.usuario.count({
+      where: {
+        rol: "ADMINISTRATIVO",
+        activo: true,
+      },
+    });
+  }
+
+  async getTotalSoportesActivos() {
+    return this.prisma.usuario.count({
+      where: {
+        rol: "SOPORTE",
+        activo: true,
+      },
+    });
+  }
+
+  async getTotalAlumnosLicenciadosActivos() {
+    return this.prisma.alumno.count({
+      where: {
+        activo: true,
+        estadoExpediente: "LICENCIA_OBTENIDA",
+      },
+    });
+  }
+
+  async getTotalAlumnosMatriculadosPagadaSinLicencia() {
+    return this.prisma.alumno.count({
+      where: {
+        activo: true,
+        estadoExpediente: {
+          not: "LICENCIA_OBTENIDA",
+        },
+        matriculas: {
+          some: {
+            estado: "PAGADA",
+          },
+        },
+      },
+    });
+  }
+
+  async getTotalAlumnosConMatriculaPendientePago() {
+    return this.prisma.alumno.count({
+      where: {
+        activo: true,
+        matriculas: {
+          some: {
+            estado: "PENDIENTE",
+          },
+        },
+      },
+    });
+  }
+
+  async getMatriculasPagadasSince(startDate) {
+    return this.prisma.matricula.findMany({
+      where: {
+        estado: "PAGADA",
+        fechaPago: {
+          gte: startDate,
+        },
+      },
+      select: {
+        id: true,
+        fechaPago: true,
+      },
+      orderBy: {
+        fechaPago: "asc",
+      },
+    });
+  }
+
+  async getPromocionesActivasVigentes(referenceDate = new Date()) {
+    return this.prisma.promocion.findMany({
+      where: {
+        activa: true,
+        OR: [
+          {
+            fechaInicio: null,
+          },
+          {
+            fechaInicio: {
+              lte: referenceDate,
+            },
+          },
+        ],
+        AND: [
+          {
+            OR: [
+              {
+                fechaFin: null,
+              },
+              {
+                fechaFin: {
+                  gte: referenceDate,
+                },
+              },
+            ],
+          },
+        ],
+      },
+      orderBy: [{ precioPromocional: "asc" }, { nombre: "asc" }],
+    });
+  }
+
+  async getBonosActivos() {
+    return this.prisma.bono.findMany({
+      where: {
+        activo: true,
+      },
+      orderBy: [{ precio: "asc" }, { nombre: "asc" }],
+    });
+  }
+
+  async getComprasPromocionPagadasMesActual() {
+    const { start, end } = this.getCurrentMonthRange();
+
+    return this.prisma.matricula.findMany({
+      where: {
+        estado: "PAGADA",
+        fechaPago: {
+          gte: start,
+          lte: end,
+        },
+        promocionId: {
+          not: null,
+        },
+      },
+      select: {
+        id: true,
+        alumnoId: true,
+        promocion: {
+          select: {
+            id: true,
+            nombre: true,
+          },
+        },
+      },
+    });
+  }
+
+  async getComprasBonoPagadasMesActual() {
+    const { start, end } = this.getCurrentMonthRange();
+
+    return this.prisma.pago.findMany({
+      where: {
+        estado: "PAGADO",
+        fechaPago: {
+          gte: start,
+          lte: end,
+        },
+        compraBonoId: {
+          not: null,
+        },
+      },
+      select: {
+        id: true,
+        alumnoId: true,
+        compraBono: {
+          select: {
+            bono: {
+              select: {
+                id: true,
+                nombre: true,
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  async countClasesPracticasCompletadas(range = null) {
+    const where = {
+      OR: [
+        {
+          estado: {
+            in: ["REALIZADA", "COMPLETADA", "FINALIZADA", "REGISTRADA"],
+          },
+        },
+        {
+          hojaRuta: {
+            is: {
+              estado: "REGISTRADA",
+            },
+          },
+        },
+      ],
+    };
+
+    if (range?.start && range?.end) {
+      where.fecha = {
+        gte: range.start,
+        lte: range.end,
+      };
+    }
+
+    return this.prisma.clasePractica.count({
+      where,
+    });
+  }
+
+  async countClasesPracticasSolicitadas(range = null) {
+    const where = {
+      estado: {
+        in: ["PROGRAMADA", "CONFIRMADA"],
+      },
+    };
+
+    if (range?.start && range?.end) {
+      where.fecha = {
+        gte: range.start,
+        lte: range.end,
+      };
+    }
+
+    return this.prisma.clasePractica.count({
+      where,
+    });
+  }
+
+  async countClasesPagadasFueraBono() {
+    return this.prisma.pago.count({
+      where: {
+        estado: "PAGADO",
+        clasePracticaId: {
+          not: null,
+        },
+        clasePractica: {
+          is: {
+            metodoPago: "INDIVIDUAL",
+          },
+        },
+      },
+    });
+  }
+
+  async countSolicitudesExamenByResultado(tipo, estado, range = null) {
+    const where = {
+      tipo,
+      estado,
+    };
+
+    if (range?.start && range?.end) {
+      where.fechaProgramada = {
+        gte: range.start,
+        lte: range.end,
+      };
+    }
+
+    return this.prisma.solicitudExamen.count({
+      where,
+    });
+  }
+
+  async countSolicitudesExamenByTipoConResultado(tipo, range = null) {
+    const where = {
+      tipo,
+      estado: {
+        in: ["APTO", "NO_APTO"],
+      },
+    };
+
+    if (range?.start && range?.end) {
+      where.fechaProgramada = {
+        gte: range.start,
+        lte: range.end,
+      };
+    }
+
+    return this.prisma.solicitudExamen.count({
+      where,
+    });
+  }
+
+  async countSolicitudesExamenPendientesFuturas(
+    tipo,
+    referenceDate = new Date(),
+  ) {
+    return this.prisma.solicitudExamen.count({
+      where: {
+        tipo,
+        estado: {
+          notIn: ["APTO", "NO_APTO"],
+        },
+        fechaProgramada: {
+          gt: referenceDate,
+        },
+      },
+    });
+  }
+
+  async getSolicitudesExamenConResultadoDesde(tipo, startDate) {
+    return this.prisma.solicitudExamen.findMany({
+      where: {
+        tipo,
+        estado: {
+          in: ["APTO", "NO_APTO"],
+        },
+        OR: [
+          {
+            fechaProgramada: {
+              gte: startDate,
+            },
+          },
+          {
+            fechaSolicitud: {
+              gte: startDate,
+            },
+          },
+        ],
+      },
+      select: {
+        estado: true,
+        fechaProgramada: true,
+        fechaSolicitud: true,
+      },
+      orderBy: {
+        fechaSolicitud: "asc",
       },
     });
   }

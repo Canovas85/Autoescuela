@@ -370,10 +370,27 @@ export class SolicitudesExamenService {
       return false;
     }
 
+    if (
+      typeof this.repository.markLicenseObtainedAndUnassignProfessor ===
+      "function"
+    ) {
+      const matriculaPagada =
+        typeof this.repository.findMatriculaPagada === "function"
+          ? await this.repository.findMatriculaPagada(alumnoId)
+          : null;
+
+      await this.repository.markLicenseObtainedAndUnassignProfessor(alumnoId, {
+        licenciaObtenida: matriculaPagada?.licencia || null,
+        motivo: "LICENCIA_OBTENIDA",
+      });
+      return true;
+    }
+
     if (typeof this.repository.updateAlumnoEstadoExpediente === "function") {
       await this.repository.updateAlumnoEstadoExpediente(alumnoId, {
         estadoExpediente: "LICENCIA_OBTENIDA",
         licenciaObtenidaAt: new Date(),
+        profesorAsignadoId: null,
       });
     }
 

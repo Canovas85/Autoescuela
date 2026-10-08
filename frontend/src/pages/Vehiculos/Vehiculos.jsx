@@ -16,9 +16,11 @@ import {
   Paper,
   Select,
   Snackbar,
+  Stack,
   TextField,
   Typography,
   Chip,
+  LinearProgress,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
@@ -627,9 +629,24 @@ export default function Vehiculos() {
     {
       field: "combustibleActualPct",
       headerName: "Combustible",
-      width: 135,
-      valueGetter: (_, row) =>
-        `${Math.max(Number(row.combustibleActualPct || 0), 0)}%`,
+      width: 170,
+      renderCell: (params) => {
+        const value = Number(params.row.combustibleActualPct ?? 0);
+
+        return (
+          <Stack sx={{ width: "100%", py: 1 }} spacing={0.4}>
+            <Typography variant="caption" fontWeight={700}>
+              {Math.max(0, Math.min(100, value))}%
+            </Typography>
+            <LinearProgress
+              variant="determinate"
+              value={Math.max(0, Math.min(100, value))}
+              color={value < 20 ? "error" : value < 40 ? "warning" : "success"}
+              sx={{ height: 7, borderRadius: 999 }}
+            />
+          </Stack>
+        );
+      },
     },
     {
       field: "numeroClasesRealizadas",

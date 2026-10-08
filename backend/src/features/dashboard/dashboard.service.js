@@ -622,62 +622,394 @@ export class DashboardService {
       },
     };
   }
-  async getExecutiveDashboard() {
-    const totalDgtTests = await this.repository.getTotalDgtTests();
 
-    const approvedDgtTests = await this.repository.getDgtApprovedTests();
+  getMonthKey(dateValue) {
+    const date = new Date(dateValue);
+
+    if (Number.isNaN(date.getTime())) {
+      return null;
+    }
+
+    return `${date.getFullYear()}-${date.getMonth()}`;
+  }
+
+  buildLastMonthsPeriods(months = 6, now = new Date()) {
+    return Array.from({ length: months }, (_, index) => {
+      const date = new Date(now.getFullYear(), now.getMonth() - index, 1);
+      return {
+        key: `${date.getFullYear()}-${date.getMonth()}`,
+        mes: this.formatearMes(date),
+      };
+    }).reverse();
+  }
+
+  buildMonthlyEnrollmentSeries(rows = [], months = 6) {
+    const periods = this.buildLastMonthsPeriods(months);
+    const totalsByKey = new Map(periods.map((period) => [period.key, 0]));
+
+    for (const row of rows) {
+      const key = this.getMonthKey(row?.fechaPago);
+
+      if (!key || !totalsByKey.has(key)) {
+        continue;
+      }
+
+      totalsByKey.set(key, (totalsByKey.get(key) || 0) + 1);
+    }
+
+    return periods.map((period) => ({
+      mes: period.mes,
+      total: totalsByKey.get(period.key) || 0,
+    }));
+  }
+
+  buildMonthlyExamEvolution(rows = [], months = 6) {
+    const periods = this.buildLastMonthsPeriods(months);
+    const totalsByKey = new Map(
+      periods.map((period) => [period.key, { apto: 0, noApto: 0 }]),
+    );
+
+    for (const row of rows) {
+      const date = row?.fechaProgramada || row?.fechaSolicitud;
+      const key = this.getMonthKey(date);
+
+      if (!key || !totalsByKey.has(key)) {
+        continue;
+      }
+
+      const bucket = totalsByKey.get(key);
+      const estado = String(row?.estado || "").toUpperCase();
+
+      if (estado === "APTO") {
+        bucket.apto += 1;
+      } else if (estado === "NO_APTO") {
+        bucket.noApto += 1;
+      }
+    }
+
+    return periods.map((period) => {
+      const bucket = totalsByKey.get(period.key) || { apto: 0, noApto: 0 };
+      const total = bucket.apto + bucket.noApto;
+
+      return {
+        mes: period.mes,
+        apto: bucket.apto,
+        noApto: bucket.noApto,
+        total,
+        tasaExito: total === 0 ? 0 : (bucket.apto / total) * 100,
+      };
+    });
+  }
+
+  buildDonutRowsByName(rows = [], getName, getOwnerId = null) {
+    const counts = new Map();
+    const uniqueByTypeAndOwner = new Set();
+
+    for (const row of rows) {
+      const name = String(getName(row) || "").trim() || "Sin nombre";
+
+      if (typeof getOwnerId === "function") {
+        const ownerId = String(getOwnerId(row) || "").trim();
+
+        if (ownerId) {
+          const ownerKey = `${name}::${ownerId}`;
+
+          if (uniqueByTypeAndOwner.has(ownerKey)) {
+            continue;
+          }
+
+          uniqueByTypeAndOwner.add(ownerKey);
+        }
+      }
+
+      counts.set(name, (counts.get(name) || 0) + 1);
+    }
+
+    return Array.from(counts.entries()).map(([name, value]) => ({
+      name,
+      value,
+    }));
+  }
+
+  calcSuccessRate(apto, noApto) {
+    const total = apto + noApto;
+
+    if (total === 0) {
+      return 0;
+    }
+
+    return (apto / total) * 100;
+  }
+
+  async getExecutiveDashboard() {
+    const now = new Date();
+    const { start: startMonth, end: endMonth } =
+      this.repository.getCurrentMonthRange();
+    const startSixMonths = new Date(
+      now.getFullYear(),
+      now.getMonth() - 5,
+      1,
+      0,
+      0,
+      0,
+      0,
+    );
+
+    const [
+      activeStudents,
+      activeEnrollments,
+      scheduledClasses,
+      pendingClassConfirmations,
+      pendingClassHours,
+      pendingExams,
+      matriculasPagadasMes,
+      matriculasPagadasHistorico,
+      matriculasPendientesMes,
+      matriculasPendientesHistorico,
+      aprobadosTeoricoMes,
+      aprobadosTeoricoHistorico,
+      aprobadosPracticoMes,
+      aprobadosPracticoHistorico,
+      examsThisMonth,
+      successRate,
+      monthlySuccessRate,
+      dgtTestsToday,
+      dgtTestsThisMonth,
+      dgtSuccessRate,
+      totalDgtTests,
+      topStudents,
+      topProfessors,
+      topProfesorByClasses,
+      topProfesorByHours,
+      dgtEvolution,
+      totalAlumnosActivos,
+      totalAlumnosLicenciados,
+      totalAlumnosMatriculaPendientePago,
+      matriculasPagadasUltimosMeses,
+      totalProfesoresActivos,
+      totalAdministrativosActivos,
+      totalSoportesActivos,
+      promocionesActivasVigentes,
+      comprasPromocionMes,
+      bonosActivos,
+      comprasBonoMes,
+      clasesCompletadasTotal,
+      clasesSolicitadasTotal,
+      clasesCompletadasMes,
+      clasesSolicitadasMes,
+      clasesPagadasFueraBono,
+      teoricoNoAptoMes,
+      teoricoAptoHistorico,
+      teoricoNoAptoHistorico,
+      practicoNoAptoMes,
+      practicoAptoHistorico,
+      practicoNoAptoHistorico,
+      evaluacionesPendientesTeorico,
+      evaluacionesPendientesPractico,
+      examenesTeoricoUltimosMeses,
+      examenesPracticoUltimosMeses,
+      approvedDgtTests,
+    ] = await Promise.all([
+      this.repository.getTotalAlumnosActivos(),
+      this.repository.getTotalMatriculasActivas(),
+      this.repository.getTotalClasesProgramadas(),
+      this.repository.getPendingClassConfirmations(),
+      this.repository.getPendingClassHours(),
+      this.repository.getTotalExamenesPendientes(),
+      this.repository.getMatriculasPagadasMes(),
+      this.repository.getMatriculasPagadasHistorico(),
+      this.repository.getMatriculasPendientesMes(),
+      this.repository.getMatriculasPendientesHistorico(),
+      this.repository.getAprobadosTeoricoMes(),
+      this.repository.getAprobadosTeoricoHistorico(),
+      this.repository.getAprobadosPracticoMes(),
+      this.repository.getAprobadosPracticoHistorico(),
+      this.repository.getExamenesEsteMes(),
+      this.getTasaExito(),
+      this.getPorcentajeExitoMensual(),
+      this.repository.getDgtTestsToday(),
+      this.repository.getDgtTestsThisMonth(),
+      this.getDgtSuccessRate(),
+      this.repository.getTotalDgtTests(),
+      this.getTopStudentsRanking(),
+      this.getProfessorRanking(),
+      this.getTopProfesorPorClases(),
+      this.getTopProfesorPorHoras(),
+      this.getDgtEvolution(),
+      this.repository.getTotalAlumnosActivos(),
+      this.repository.getTotalAlumnosLicenciadosActivos(),
+      this.repository.getTotalAlumnosConMatriculaPendientePago(),
+      this.repository.getMatriculasPagadasSince(startSixMonths),
+      this.repository.getTotalProfesoresActivos(),
+      this.repository.getTotalAdministrativosActivos(),
+      this.repository.getTotalSoportesActivos(),
+      this.repository.getPromocionesActivasVigentes(now),
+      this.repository.getComprasPromocionPagadasMesActual(),
+      this.repository.getBonosActivos(),
+      this.repository.getComprasBonoPagadasMesActual(),
+      this.repository.countClasesPracticasCompletadas(),
+      this.repository.countClasesPracticasSolicitadas(),
+      this.repository.countClasesPracticasCompletadas({
+        start: startMonth,
+        end: endMonth,
+      }),
+      this.repository.countClasesPracticasSolicitadas({
+        start: startMonth,
+        end: endMonth,
+      }),
+      this.repository.countClasesPagadasFueraBono(),
+      this.repository.countSolicitudesExamenByResultado("TEORICO", "NO_APTO", {
+        start: startMonth,
+        end: endMonth,
+      }),
+      this.repository.countSolicitudesExamenByResultado("TEORICO", "APTO"),
+      this.repository.countSolicitudesExamenByResultado("TEORICO", "NO_APTO"),
+      this.repository.countSolicitudesExamenByResultado("PRACTICO", "NO_APTO", {
+        start: startMonth,
+        end: endMonth,
+      }),
+      this.repository.countSolicitudesExamenByResultado("PRACTICO", "APTO"),
+      this.repository.countSolicitudesExamenByResultado("PRACTICO", "NO_APTO"),
+      this.repository.countSolicitudesExamenPendientesFuturas("TEORICO", now),
+      this.repository.countSolicitudesExamenPendientesFuturas("PRACTICO", now),
+      this.repository.getSolicitudesExamenConResultadoDesde(
+        "TEORICO",
+        startSixMonths,
+      ),
+      this.repository.getSolicitudesExamenConResultadoDesde(
+        "PRACTICO",
+        startSixMonths,
+      ),
+      this.repository.getDgtApprovedTests(),
+    ]);
+
+    const promoDonutRaw = this.buildDonutRowsByName(
+      comprasPromocionMes,
+      (row) => row?.promocion?.nombre,
+      (row) => row?.alumnoId,
+    );
+    const bonoDonutRaw = this.buildDonutRowsByName(
+      comprasBonoMes,
+      (row) => row?.compraBono?.bono?.nombre,
+      (row) => row?.alumnoId,
+    );
+
+    const promoDonut = promoDonutRaw.length > 0 ? promoDonutRaw : [];
+    const bonoDonut = bonoDonutRaw.length > 0 ? bonoDonutRaw : [];
+
+    const teoricoPresentadosMes = aprobadosTeoricoMes + teoricoNoAptoMes;
+    const practicoPresentadosMes = aprobadosPracticoMes + practicoNoAptoMes;
+    const teoricoPresentadosHistorico =
+      teoricoAptoHistorico + teoricoNoAptoHistorico;
+    const practicoPresentadosHistorico =
+      practicoAptoHistorico + practicoNoAptoHistorico;
+    const alumnosMatriculadosExclusivos = Math.max(
+      Number(totalAlumnosActivos || 0) -
+        Number(totalAlumnosLicenciados || 0) -
+        Number(totalAlumnosMatriculaPendientePago || 0),
+      0,
+    );
 
     return {
-      activeStudents: await this.repository.getTotalAlumnosActivos(),
+      activeStudents,
+      activeEnrollments,
+      scheduledClasses,
+      pendingClassConfirmations,
+      pendingClassHours,
+      pendingExams,
+      matriculasPagadasMes,
+      matriculasPagadasHistorico,
+      matriculasPendientesMes,
+      matriculasPendientesHistorico,
+      aprobadosTeoricoMes,
+      aprobadosTeoricoHistorico,
+      aprobadosPracticoMes,
+      aprobadosPracticoHistorico,
+      examsThisMonth,
+      successRate,
+      monthlySuccessRate,
+      dgtTestsToday,
+      dgtTestsThisMonth,
+      dgtSuccessRate,
+      totalDgtTests,
+      topStudents,
+      topProfessors,
+      topProfesorByClasses,
+      topProfesorByHours,
+      dgtEvolution,
 
-      activeEnrollments: await this.repository.getTotalMatriculasActivas(),
-
-      scheduledClasses: await this.repository.getTotalClasesProgramadas(),
-
-      pendingClassConfirmations:
-        await this.repository.getPendingClassConfirmations(),
-
-      pendingClassHours: await this.repository.getPendingClassHours(),
-
-      pendingExams: await this.repository.getTotalExamenesPendientes(),
-
-      matriculasPagadasMes: await this.repository.getMatriculasPagadasMes(),
-      matriculasPagadasHistorico:
-        await this.repository.getMatriculasPagadasHistorico(),
-      matriculasPendientesMes:
-        await this.repository.getMatriculasPendientesMes(),
-      matriculasPendientesHistorico:
-        await this.repository.getMatriculasPendientesHistorico(),
-      aprobadosTeoricoMes: await this.repository.getAprobadosTeoricoMes(),
-      aprobadosTeoricoHistorico:
-        await this.repository.getAprobadosTeoricoHistorico(),
-      aprobadosPracticoMes: await this.repository.getAprobadosPracticoMes(),
-      aprobadosPracticoHistorico:
-        await this.repository.getAprobadosPracticoHistorico(),
-
-      examsThisMonth: await this.repository.getExamenesEsteMes(),
-
-      successRate: await this.getTasaExito(),
-
-      monthlySuccessRate: await this.getPorcentajeExitoMensual(),
-
-      dgtTestsToday: await this.repository.getDgtTestsToday(),
-
-      dgtTestsThisMonth: await this.repository.getDgtTestsThisMonth(),
-
-      dgtSuccessRate: await this.getDgtSuccessRate(),
-
-      totalDgtTests: await this.repository.getTotalDgtTests(),
-
-      topStudents: await this.getTopStudentsRanking(),
-
-      topProfessors: await this.getProfessorRanking(),
-
-      topProfesorByClasses: await this.getTopProfesorPorClases(),
-
-      topProfesorByHours: await this.getTopProfesorPorHoras(),
-
-      dgtEvolution: await this.getDgtEvolution(),
+      adminOverview: {
+        matriculasAlumnos: {
+          alumnosRegistrados: totalAlumnosActivos,
+          alumnosLicenciados: totalAlumnosLicenciados,
+          alumnosMatriculados: alumnosMatriculadosExclusivos,
+          alumnosMatriculaPendientePago: totalAlumnosMatriculaPendientePago,
+          matriculadosPorMes: this.buildMonthlyEnrollmentSeries(
+            matriculasPagadasUltimosMeses,
+          ),
+        },
+        usuarios: {
+          profesoresRegistrados: totalProfesoresActivos,
+          administrativosRegistrados: totalAdministrativosActivos,
+          soportesRegistrados: totalSoportesActivos,
+        },
+        promociones: {
+          items: promocionesActivasVigentes,
+          comprasMesPorPromocion: promoDonut,
+        },
+        bonos: {
+          items: bonosActivos,
+          comprasMesPorBono: bonoDonut,
+        },
+        clasesPracticas: {
+          clasesTotales: clasesCompletadasTotal + clasesSolicitadasTotal,
+          clasesCompletadasMes,
+          clasesSolicitadasMes,
+          clasesPagadasFueraBono,
+        },
+        evaluaciones: {
+          teorico: {
+            aptoMes: aprobadosTeoricoMes,
+            aptoHistorico: teoricoAptoHistorico,
+            noAptoMes: teoricoNoAptoMes,
+            noAptoHistorico: teoricoNoAptoHistorico,
+            presentadosMes: teoricoPresentadosMes,
+            presentadosHistorico: teoricoPresentadosHistorico,
+            tasaExitoMes: this.calcSuccessRate(
+              aprobadosTeoricoMes,
+              teoricoNoAptoMes,
+            ),
+            tasaExitoHistorico: this.calcSuccessRate(
+              teoricoAptoHistorico,
+              teoricoNoAptoHistorico,
+            ),
+            pendientes: evaluacionesPendientesTeorico,
+            evolucion: this.buildMonthlyExamEvolution(
+              examenesTeoricoUltimosMeses,
+            ),
+          },
+          practico: {
+            aptoMes: aprobadosPracticoMes,
+            aptoHistorico: practicoAptoHistorico,
+            noAptoMes: practicoNoAptoMes,
+            noAptoHistorico: practicoNoAptoHistorico,
+            presentadosMes: practicoPresentadosMes,
+            presentadosHistorico: practicoPresentadosHistorico,
+            tasaExitoMes: this.calcSuccessRate(
+              aprobadosPracticoMes,
+              practicoNoAptoMes,
+            ),
+            tasaExitoHistorico: this.calcSuccessRate(
+              practicoAptoHistorico,
+              practicoNoAptoHistorico,
+            ),
+            pendientes: evaluacionesPendientesPractico,
+            evolucion: this.buildMonthlyExamEvolution(
+              examenesPracticoUltimosMeses,
+            ),
+          },
+        },
+      },
 
       dgtSummary: {
         total: totalDgtTests,
@@ -1102,6 +1434,13 @@ export class DashboardService {
   }
 
   async getProfessorDashboard(userId) {
+    if (
+      typeof this.repository.detachLicensedAssignedStudentsForProfessor ===
+      "function"
+    ) {
+      await this.repository.detachLicensedAssignedStudentsForProfessor(userId);
+    }
+
     const profile = await this.repository.getProfessorProfile(userId);
 
     if (!profile) {
@@ -1120,11 +1459,13 @@ export class DashboardService {
 
     const [
       alumnosAsignados,
+      alumnosHistoricosLicenciados,
       vehiculosDisponibles,
       clasesConfirmadasHoy,
       roadmapTrackingRows,
     ] = await Promise.all([
       this.repository.getProfessorAssignedStudents(userId),
+      this.repository.getProfessorHistoricalLicensedStudents(userId),
       this.repository.getProfessorAvailableVehicles(permisosLicencias),
       this.repository.getProfessorTodayConfirmedClasses(
         userId,
@@ -1137,6 +1478,18 @@ export class DashboardService {
     const alumnos = (alumnosAsignados || []).map((alumno) =>
       this.buildProfessorStudentSummary(alumno),
     );
+
+    const historicos = (alumnosHistoricosLicenciados || []).map((alumno) => ({
+      ...this.buildProfessorStudentSummary(alumno),
+      esHistorico: true,
+      fechaLicenciaObtenida:
+        alumno.historialProfesores?.[0]?.changedAt || alumno.licenciaObtenidaAt,
+      licenciaObtenida:
+        alumno.historialProfesores?.[0]?.licenciaObtenida ||
+        alumno.matriculas?.[0]?.licencia ||
+        alumno.tipoLicenciaObjetivo ||
+        null,
+    }));
 
     const vehiculos = (vehiculosDisponibles || []).map((vehiculo) => ({
       id: vehiculo.id,
@@ -1177,6 +1530,7 @@ export class DashboardService {
       },
       resumen: {
         alumnosAsignados: alumnos.length,
+        alumnosHistoricosLicenciados: historicos.length,
         alumnosMatriculaPagada,
         vehiculosDisponibles: vehiculos.length,
         clasesConfirmadasHoy,
@@ -1185,22 +1539,49 @@ export class DashboardService {
         hojasRutaPendientesEnCurso: hojasRutaPendientes + hojasRutaEnCurso,
       },
       alumnos,
+      alumnosHistoricos: historicos,
       vehiculos,
     };
   }
 
   async getProfessorStudents(userId) {
+    if (
+      typeof this.repository.detachLicensedAssignedStudentsForProfessor ===
+      "function"
+    ) {
+      await this.repository.detachLicensedAssignedStudentsForProfessor(userId);
+    }
+
     const profile = await this.repository.getProfessorProfile(userId);
 
     if (!profile) {
       throw new Error("Profesor no encontrado");
     }
 
-    const alumnosAsignados =
-      await this.repository.getProfessorAssignedStudents(userId);
+    const [alumnosAsignados, alumnosHistoricosLicenciados] = await Promise.all([
+      this.repository.getProfessorAssignedStudents(userId),
+      this.repository.getProfessorHistoricalLicensedStudents(userId),
+    ]);
 
-    return (alumnosAsignados || []).map((alumno) =>
-      this.buildProfessorStudentSummary(alumno),
+    const byId = new Map();
+
+    for (const alumno of alumnosAsignados || []) {
+      byId.set(alumno.id, this.buildProfessorStudentSummary(alumno));
+    }
+
+    for (const alumno of alumnosHistoricosLicenciados || []) {
+      if (byId.has(alumno.id)) {
+        continue;
+      }
+
+      byId.set(alumno.id, {
+        ...this.buildProfessorStudentSummary(alumno),
+        esHistorico: true,
+      });
+    }
+
+    return Array.from(byId.values()).sort((a, b) =>
+      String(a.nombre || "").localeCompare(String(b.nombre || ""), "es"),
     );
   }
 
@@ -1225,7 +1606,7 @@ export class DashboardService {
     ]);
 
     if (!alumno || !actividad) {
-      throw new Error("Alumno no encontrado o no asignado a este profesor");
+      throw new Error("Alumno no encontrado o sin relación con este profesor");
     }
 
     const matriculaActual = alumno.matriculas?.[0] ?? null;

@@ -10,8 +10,22 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  ComposedChart,
+  Legend,
+  Line,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
@@ -26,17 +40,13 @@ import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
-import DGTChart from "../../components/dashboard/DGTChart";
-import DGTSummaryChart from "../../components/dashboard/DGTSummaryChart";
-
 import { jwtDecode } from "jwt-decode";
 
-import SuccessChart from "../../components/dashboard/SuccessChart";
 import StudentDashboard from "./StudentDashboard";
 import ProfessorDashboard from "./ProfessorDashboard";
 import { LicenseChip } from "../../components/common/LicenseChip";
 
-import { api } from "../../services/api";
+import { dashboardService } from "../../services/dashboardService";
 
 const normalizeRole = (role) => {
   if (role === "GESTOR") {
@@ -50,14 +60,46 @@ function AdminDashboardView({ metrics }) {
   const VISIBLE_RANK_ITEMS = 5;
   const topStudents = metrics.topStudents || [];
   const topProfessors = metrics.topProfessors || [];
+  const adminOverview = metrics.adminOverview || {};
+  const matriculasAlumnos = adminOverview.matriculasAlumnos || {};
+  const usuarios = adminOverview.usuarios || {};
+  const promociones = adminOverview.promociones || {};
+  const bonos = adminOverview.bonos || {};
+  const clasesPracticas = adminOverview.clasesPracticas || {};
+  const evaluaciones = adminOverview.evaluaciones || {};
+  const evaluacionTeorico = evaluaciones.teorico || {};
+  const evaluacionPractico = evaluaciones.practico || {};
+
+  const donutColors = [
+    "#ea580c",
+    "#2563eb",
+    "#16a34a",
+    "#eab308",
+    "#9333ea",
+    "#0891b2",
+    "#be123c",
+  ];
+
+  const currentPromotions = promociones.items || [];
+  const currentBonos = bonos.items || [];
+  const promoPurchases = promociones.comprasMesPorPromocion || [];
+  const bonoPurchases = bonos.comprasMesPorBono || [];
+
   const [studentsStart, setStudentsStart] = useState(0);
   const [professorsStart, setProfessorsStart] = useState(0);
+  const [promotionsStart, setPromotionsStart] = useState(0);
+  const [bonosStart, setBonosStart] = useState(0);
 
   const studentsMaxStart = Math.max(0, topStudents.length - VISIBLE_RANK_ITEMS);
   const professorsMaxStart = Math.max(
     0,
     topProfessors.length - VISIBLE_RANK_ITEMS,
   );
+  const promotionsMaxStart = Math.max(
+    0,
+    currentPromotions.length - VISIBLE_RANK_ITEMS,
+  );
+  const bonosMaxStart = Math.max(0, currentBonos.length - VISIBLE_RANK_ITEMS);
 
   useEffect(() => {
     setStudentsStart((current) => Math.min(current, studentsMaxStart));
@@ -66,6 +108,14 @@ function AdminDashboardView({ metrics }) {
   useEffect(() => {
     setProfessorsStart((current) => Math.min(current, professorsMaxStart));
   }, [professorsMaxStart]);
+
+  useEffect(() => {
+    setPromotionsStart((current) => Math.min(current, promotionsMaxStart));
+  }, [promotionsMaxStart]);
+
+  useEffect(() => {
+    setBonosStart((current) => Math.min(current, bonosMaxStart));
+  }, [bonosMaxStart]);
 
   const visibleStudents = useMemo(
     () => topStudents.slice(studentsStart, studentsStart + VISIBLE_RANK_ITEMS),
@@ -81,51 +131,209 @@ function AdminDashboardView({ metrics }) {
     [topProfessors, professorsStart],
   );
 
-  const cards = [
+  const visiblePromotions = useMemo(
+    () =>
+      currentPromotions.slice(
+        promotionsStart,
+        promotionsStart + VISIBLE_RANK_ITEMS,
+      ),
+    [currentPromotions, promotionsStart],
+  );
+
+  const visibleBonos = useMemo(
+    () => currentBonos.slice(bonosStart, bonosStart + VISIBLE_RANK_ITEMS),
+    [currentBonos, bonosStart],
+  );
+
+  const cardsMatriculas = [
     {
-      title: "Usuarios Registrados",
-      value: metrics.activeEnrollments ?? 0,
-      icon: <AppRegistrationIcon />,
-      color: "#7c3aed",
-    },
-    {
-      title: "Alumnos Activos",
-      value: metrics.activeStudents ?? 0,
+      title: "Alumnos Registrados",
+      value: matriculasAlumnos.alumnosRegistrados ?? 0,
+      subtitle: "Solo alumnos activos",
       icon: <PeopleIcon />,
       color: "#2563eb",
     },
     {
-      title: "Matrículas Pagadas",
-      value: (
-        <Typography variant="body2" fontWeight={700} sx={{ fontSize: 12 }}>
-          Mes: {metrics.matriculasPagadasMes ?? 0} | Histórico:{" "}
-          {metrics.matriculasPagadasHistorico ?? 0}
-        </Typography>
-      ),
-      icon: <AssignmentIcon />,
-      color: "#15803d",
-      wide: true,
-    },
-    {
-      title: "Matrículas Pendientes",
-      value: (
-        <Typography variant="body2" fontWeight={700} sx={{ fontSize: 14 }}>
-          Mes: {metrics.matriculasPendientesMes ?? 0} | Histórico:{" "}
-          {metrics.matriculasPendientesHistorico ?? 0}
-        </Typography>
-      ),
-      icon: <AccessTimeFilledIcon />,
-      color: "#ea580c",
-      wide: true,
-    },
-
-    {
-      title: "Tasa de Éxito",
-      value: `${Number(metrics.successRate || 0).toFixed(1)}%`,
-      icon: <TrendingUpIcon />,
+      title: "Alumnos Licenciados",
+      value: matriculasAlumnos.alumnosLicenciados ?? 0,
+      subtitle: "Estado expediente LICENCIA_OBTENIDA",
+      icon: <EmojiEventsIcon />,
       color: "#16a34a",
     },
+    {
+      title: "Alumnos Matriculados",
+      value: matriculasAlumnos.alumnosMatriculados ?? 0,
+      subtitle: "Matrícula pagada sin licencia obtenida",
+      icon: <AssignmentIcon />,
+      color: "#7c3aed",
+    },
+    {
+      title: "Matrícula Pendiente de Pago",
+      value: matriculasAlumnos.alumnosMatriculaPendientePago ?? 0,
+      subtitle: "Alumnos activos con matrícula pendiente",
+      icon: <AccessTimeFilledIcon />,
+      color: "#ea580c",
+    },
   ];
+
+  const cardsUsuarios = [
+    {
+      title: "Profesores Registrados",
+      value: usuarios.profesoresRegistrados ?? 0,
+      icon: <SchoolIcon />,
+      color: "#0369a1",
+    },
+    {
+      title: "Administrativos Registrados",
+      value: usuarios.administrativosRegistrados ?? 0,
+      icon: <AppRegistrationIcon />,
+      color: "#475569",
+    },
+    {
+      title: "Soportes Registrados",
+      value: usuarios.soportesRegistrados ?? 0,
+      icon: <GroupIcon />,
+      color: "#0f766e",
+    },
+  ];
+
+  const cardsClases = [
+    {
+      title: "Clases Totales",
+      value: clasesPracticas.clasesTotales ?? 0,
+      subtitle: "Completadas + solicitadas",
+      icon: <DirectionsCarIcon />,
+      color: "#1d4ed8",
+    },
+    {
+      title: "Clases Completadas este Mes",
+      value: clasesPracticas.clasesCompletadasMes ?? 0,
+      subtitle: "Clases prácticas completadas",
+      icon: <EmojiEventsIcon />,
+      color: "#15803d",
+    },
+    {
+      title: "Clases Solicitadas este Mes",
+      value: clasesPracticas.clasesSolicitadasMes ?? 0,
+      subtitle: "Solicitudes programadas y confirmadas",
+      icon: <CalendarMonthIcon />,
+      color: "#7c3aed",
+    },
+    {
+      title: "Pagadas fuera de Bono",
+      value: clasesPracticas.clasesPagadasFueraBono ?? 0,
+      subtitle: "Clases individuales pagadas",
+      icon: <DirectionsCarIcon />,
+      color: "#b45309",
+    },
+  ];
+
+  const cardsEvaluaciones = [
+    {
+      title: "Teórico APTO",
+      value: `Mes: ${evaluacionTeorico.aptoMes ?? 0}`,
+      subtitle: `Histórico: ${evaluacionTeorico.aptoHistorico ?? 0}`,
+      color: "#15803d",
+    },
+    {
+      title: "Teórico NO APTO",
+      value: `Mes: ${evaluacionTeorico.noAptoMes ?? 0}`,
+      subtitle: `Histórico: ${evaluacionTeorico.noAptoHistorico ?? 0}`,
+      color: "#dc2626",
+    },
+    {
+      title: "Tasa Éxito Teórico (Mes)",
+      value: `${Number(evaluacionTeorico.tasaExitoMes || 0).toFixed(1)}%`,
+      subtitle: `Presentados: ${evaluacionTeorico.presentadosMes ?? 0}`,
+      color: "#2563eb",
+    },
+    {
+      title: "Tasa Éxito Teórico (Histórico)",
+      value: `${Number(evaluacionTeorico.tasaExitoHistorico || 0).toFixed(1)}%`,
+      subtitle: `Presentados: ${evaluacionTeorico.presentadosHistorico ?? 0}`,
+      color: "#1e3a8a",
+    },
+    {
+      title: "Práctico APTO",
+      value: `Mes: ${evaluacionPractico.aptoMes ?? 0}`,
+      subtitle: `Histórico: ${evaluacionPractico.aptoHistorico ?? 0}`,
+      color: "#166534",
+    },
+    {
+      title: "Práctico NO APTO",
+      value: `Mes: ${evaluacionPractico.noAptoMes ?? 0}`,
+      subtitle: `Histórico: ${evaluacionPractico.noAptoHistorico ?? 0}`,
+      color: "#be123c",
+    },
+    {
+      title: "Tasa Éxito Práctico (Mes)",
+      value: `${Number(evaluacionPractico.tasaExitoMes || 0).toFixed(1)}%`,
+      subtitle: `Presentados: ${evaluacionPractico.presentadosMes ?? 0}`,
+      color: "#0f766e",
+    },
+    {
+      title: "Tasa Éxito Práctico (Histórico)",
+      value: `${Number(evaluacionPractico.tasaExitoHistorico || 0).toFixed(1)}%`,
+      subtitle: `Presentados: ${evaluacionPractico.presentadosHistorico ?? 0}`,
+      color: "#0f172a",
+    },
+    {
+      title: "Evaluaciones Pendientes Teórico",
+      value: evaluacionTeorico.pendientes ?? 0,
+      subtitle: "Convocatorias futuras con alumnos inscritos",
+      color: "#7c2d12",
+    },
+    {
+      title: "Evaluaciones Pendientes Práctico",
+      value: evaluacionPractico.pendientes ?? 0,
+      subtitle: "Convocatorias futuras con alumnos inscritos",
+      color: "#7f1d1d",
+    },
+  ];
+
+  const StatCard = ({ title, value, subtitle, icon, color }) => (
+    <Card sx={{ borderRadius: 2, height: "100%" }}>
+      <CardContent>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="flex-start"
+        >
+          <Box sx={{ pr: 1 }}>
+            <Typography color="text.secondary" variant="body2">
+              {title}
+            </Typography>
+            <Typography variant="h6" fontWeight={800} sx={{ mt: 0.5 }}>
+              {value}
+            </Typography>
+            {subtitle ? (
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ mt: 0.5 }}
+              >
+                {subtitle}
+              </Typography>
+            ) : null}
+          </Box>
+
+          {icon ? (
+            <Box sx={{ color, fontSize: 30, mt: 0.5 }}>{icon}</Box>
+          ) : (
+            <Box
+              sx={{
+                width: 10,
+                height: 10,
+                borderRadius: 999,
+                mt: 1,
+                background: color,
+              }}
+            />
+          )}
+        </Box>
+      </CardContent>
+    </Card>
+  );
 
   return (
     <Box>
@@ -133,344 +341,54 @@ function AdminDashboardView({ metrics }) {
         Dashboard Ejecutivo
       </Typography>
 
-      <Box sx={{ height: 20 }} />
+      <Box sx={{ height: 24 }} />
 
-      <Grid container spacing={3}>
-        {cards.map((card) => (
-          <Grid
-            xs={12}
-            sm={6}
-            md={card.wide ? 6 : 4}
-            lg={card.wide ? 3 : 2.4}
-            key={card.title}
-          >
-            <Card>
-              <CardContent>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    width: 190,
-                  }}
-                >
-                  <Box sx={{ maxWidth: 170 }}>
-                    <Typography color="text.secondary">{card.title}</Typography>
+      <Typography variant="h5" fontWeight="bold" sx={{ mb: 2 }}>
+        Matrículas y Alumnos
+      </Typography>
 
-                    {typeof card.value === "string" ? (
-                      <Typography variant="h6" fontWeight="bold">
-                        {card.value}
-                      </Typography>
-                    ) : (
-                      card.value
-                    )}
-                  </Box>
+      <Grid container spacing={2} alignItems="stretch">
+        {cardsMatriculas.map((card) => (
+          <Grid key={card.title} item xs={12} sm={6} lg={2}>
+            <StatCard {...card} />
+          </Grid>
+        ))}
 
-                  <Box
-                    sx={{
-                      color: card.color,
-                      fontSize: 40,
-                    }}
-                  >
-                    {card.icon}
-                  </Box>
-                </Box>
-              </CardContent>
-            </Card>
+        <Grid item xs={12} lg={4}>
+          <Card sx={{ height: "100%" }}>
+            <CardContent>
+              <Typography variant="subtitle1" fontWeight={800} sx={{ mb: 1 }}>
+                Alumnos matriculados por mes
+              </Typography>
+              <Box sx={{ width: "100%", height: 190 }}>
+                <ResponsiveContainer>
+                  <BarChart data={matriculasAlumnos.matriculadosPorMes || []}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="mes" />
+                    <YAxis allowDecimals={false} />
+                    <Tooltip />
+                    <Bar dataKey="total" name="Matriculados" fill="#2563eb" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+
+      <Typography variant="h5" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
+        Profesores y Otros Usuarios
+      </Typography>
+
+      <Grid container spacing={2}>
+        {cardsUsuarios.map((card) => (
+          <Grid key={card.title} item xs={12} md={4}>
+            <StatCard {...card} />
           </Grid>
         ))}
       </Grid>
-      <Box sx={{ height: 40 }} />
-
-      <Typography variant="h5" fontWeight="bold">
-        Actividad Académica
-      </Typography>
-
-      <Box sx={{ height: 20 }} />
-
-      <Grid container spacing={3}>
-        {/* Tarjeta 1: Examenes Teóricos APTO */}
-        <Grid xs={12} sm={6} md={4} lg={3} key="profesor-activo">
-          <Card>
-            <CardContent>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  minHeight: 80, // Asegura una altura consistente con tu primer diseño
-                  width: 190,
-                }}
-              >
-                <Box>
-                  <Typography color="text.secondary">Teórico APTO</Typography>
-                  <Typography variant="h6" fontWeight="bold" sx={{ mt: 0.2 }}>
-                    <SchoolIcon sx={{ ml: 20, color: "#0369a1" }} />
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Mes: {metrics.aprobadosTeoricoMes ?? 0} | Histórico:{" "}
-                    {metrics.aprobadosTeoricoHistorico ?? 0}
-                  </Typography>
-                </Box>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-        {/* Tarjeta 2: Examenes Practicos APTO */}
-        <Grid xs={12} sm={6} md={4} lg={3} key="profesor-activo">
-          <Card>
-            <CardContent>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  minHeight: 80, // Asegura una altura consistente con tu primer diseño
-                  width: 190,
-                }}
-              >
-                <Box>
-                  <Typography color="text.secondary">Práctico APTO</Typography>
-                  <Typography variant="h6" fontWeight="bold" sx={{ mt: 0.2 }}>
-                    <EmojiEventsIcon sx={{ ml: 20, color: "#EFBF04" }} />
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Mes: {metrics.aprobadosPracticoMes ?? 0} | Histórico:{" "}
-                    {metrics.aprobadosPracticoHistorico ?? 0}
-                  </Typography>
-                </Box>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        <Grid xs={12} sm={6} md={4} lg={3} key="profesor-activo">
-          <Card>
-            <CardContent>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  minHeight: 80, // Asegura una altura consistente con tu primer diseño
-                  width: 190,
-                }}
-              >
-                <Box>
-                  <Typography color="text.secondary">
-                    Clases sin confirmar
-                  </Typography>
-                  <Typography variant="h6" fontWeight="bold" sx={{ mt: 0.2 }}>
-                    {metrics.pendingClassConfirmations ?? 0}{" "}
-                    <DirectionsCarIcon sx={{ ml: 17, color: "#ea580c" }} />
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    solicitudes programadas
-                  </Typography>
-                </Box>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Tarjeta 2: Profesor con más horas */}
-        <Grid xs={12} sm={6} md={4} lg={3} key="profesor-horas">
-          <Card>
-            <CardContent>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  minHeight: 80,
-                  width: 190,
-                }}
-              >
-                <Box>
-                  <Typography color="text.secondary">
-                    Horas sin confirmar
-                  </Typography>
-                  <Typography variant="h6" fontWeight="bold" sx={{ mt: 0.5 }}>
-                    {Number(metrics.pendingClassHours || 0).toFixed(1)} h{" "}
-                    <AccessTimeFilledIcon sx={{ ml: 12, color: "#ff00ff" }} />
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    total de clases programadas
-                  </Typography>
-                </Box>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Tarjeta 3: Exámenes Programados */}
-        <Grid xs={12} sm={6} md={4} lg={3} key="examenes-programados">
-          <Card>
-            <CardContent>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  minHeight: 80,
-                  width: 190,
-                }}
-              >
-                <Box>
-                  <Typography color="text.secondary">
-                    Numero de Alumnos
-                  </Typography>
-                  <Typography variant="h6" fontWeight="bold">
-                    {metrics.pendingExams ?? 0}{" "}
-                    <DirectionsCarIcon sx={{ ml: 18, color: "#000000" }} />
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    con Exámenes Programados
-                  </Typography>
-                </Box>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Tarjeta 4: Exámenes Este Mes */}
-        <Grid xs={12} sm={6} md={4} lg={3} key="examenes-mes">
-          <Card>
-            <CardContent>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  minHeight: 80,
-                  width: 190,
-                }}
-              >
-                <Box>
-                  <Typography color="text.secondary">
-                    Exámenes Este Mes
-                  </Typography>
-                  <Typography variant="h6" fontWeight="bold">
-                    {metrics.examsThisMonth ?? 0}{" "}
-                    <AssignmentIcon sx={{ ml: 18, color: "#ea580c" }} />
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Programados
-                  </Typography>
-                </Box>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
 
       <Typography variant="h5" fontWeight="bold" sx={{ mt: 4 }}>
-        Analítica DGT
-      </Typography>
-
-      <Box sx={{ height: 20 }} />
-
-      <Grid container spacing={3}>
-        {/* Tarjeta 1: Tests Hoy */}
-        <Grid xs={12} sm={6} md={3} key="tests-hoy">
-          <Card>
-            <CardContent>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  minHeight: 80, // Mantiene la misma altura que los bloques anteriores
-                  width: 100,
-                }}
-              >
-                <Box>
-                  <Typography color="text.secondary">Tests Hoy</Typography>
-                  <Typography variant="h6" fontWeight="bold">
-                    {metrics.dgtTestsToday ?? 0}
-                  </Typography>
-                </Box>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Tarjeta 2: Tests Mes */}
-        <Grid xs={12} sm={6} md={3} key="tests-mes">
-          <Card>
-            <CardContent>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  minHeight: 80,
-                  width: 100,
-                }}
-              >
-                <Box>
-                  <Typography color="text.secondary">Tests Mes</Typography>
-                  <Typography variant="h6" fontWeight="bold">
-                    {metrics.dgtTestsThisMonth ?? 0}
-                  </Typography>
-                </Box>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Tarjeta 3: % Aprobados */}
-        <Grid xs={12} sm={6} md={3} key="porcentaje-aprobados">
-          <Card>
-            <CardContent>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  minHeight: 80,
-                  width: 100,
-                }}
-              >
-                <Box>
-                  <Typography color="text.secondary">% Aprobados</Typography>
-                  <Typography variant="h6" fontWeight="bold">
-                    {metrics.dgtSuccessRate?.toFixed(1)}%
-                  </Typography>
-                </Box>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Tarjeta 4: Total Tests */}
-        <Grid xs={12} sm={6} md={3} key="total-tests">
-          <Card>
-            <CardContent>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  minHeight: 80,
-                  width: 100,
-                }}
-              >
-                <Box>
-                  <Typography color="text.secondary">Total Tests</Typography>
-                  <Typography variant="h6" fontWeight="bold">
-                    {metrics.totalDgtTests ?? 0}
-                  </Typography>
-                </Box>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
-
-      <Box sx={{ height: 40 }} />
-
-      <Typography variant="h5" fontWeight="bold">
         Rankings
       </Typography>
 
@@ -485,7 +403,6 @@ function AdminDashboardView({ metrics }) {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  width: "1600px",
                 }}
               >
                 <Typography variant="h6" fontWeight="bold">
@@ -563,7 +480,6 @@ function AdminDashboardView({ metrics }) {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  width: "1600px",
                 }}
               >
                 <Typography variant="h6" fontWeight="bold">
@@ -634,48 +550,371 @@ function AdminDashboardView({ metrics }) {
         </Grid>
       </Grid>
 
-      <Box sx={{ height: 40 }} />
+      <Typography variant="h5" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
+        Promociones Actuales
+      </Typography>
 
-      <Grid
-        container
-        sx={{
-          display: "grid",
-          gridTemplateColumns: "40% 40%", // 🔥 Ajusta estos valores según tus líneas roja/negra
-          gap: 20,
-          width: "100%",
-          alignItems: "stretch",
-          mb: 10,
-        }}
-      >
-        {/* Columna izquierda: Evolución DGT */}
-        <Box>
-          <Typography variant="h5" fontWeight="bold">
-            Evolución DGT
-          </Typography>
+      <Card>
+        <CardContent>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              mb: 1,
+            }}
+          >
+            <Typography variant="subtitle1" fontWeight={800}>
+              Promociones activas y vigentes
+            </Typography>
+            <Box>
+              <IconButton
+                size="small"
+                onClick={() =>
+                  setPromotionsStart((current) => Math.max(0, current - 1))
+                }
+                disabled={promotionsStart === 0}
+              >
+                <ArrowBackIosNewIcon fontSize="small" />
+              </IconButton>
+              <IconButton
+                size="small"
+                onClick={() =>
+                  setPromotionsStart((current) =>
+                    Math.min(promotionsMaxStart, current + 1),
+                  )
+                }
+                disabled={promotionsStart >= promotionsMaxStart}
+              >
+                <ArrowForwardIosIcon fontSize="small" />
+              </IconButton>
+            </Box>
+          </Box>
 
-          <Box sx={{ height: 20 }} />
+          {visiblePromotions.length === 0 ? (
+            <Typography color="text.secondary">
+              No hay promociones vigentes actualmente.
+            </Typography>
+          ) : (
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: {
+                  xs: "1fr",
+                  sm: "repeat(2, minmax(0, 1fr))",
+                  md: "repeat(3, minmax(0, 1fr))",
+                  lg: "repeat(5, minmax(0, 1fr))",
+                },
+                gap: 2,
+              }}
+            >
+              {visiblePromotions.map((promo) => (
+                <Card key={promo.id} variant="outlined">
+                  <CardContent>
+                    <Typography fontWeight={800}>{promo.nombre}</Typography>
+                    <Box sx={{ mt: 1, mb: 1 }}>
+                      {(promo.licenciasAplicables || []).map((licencia) => (
+                        <LicenseChip
+                          key={`${promo.id}-${licencia}`}
+                          value={licencia}
+                        />
+                      ))}
+                    </Box>
+                    <Typography variant="body2" color="text.secondary">
+                      Original: {Number(promo.precioOriginal || 0).toFixed(2)}{" "}
+                      EUR
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Oferta: {Number(promo.precioPromocional || 0).toFixed(2)}{" "}
+                      EUR
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Vigencia:{" "}
+                      {promo.fechaInicio
+                        ? new Date(promo.fechaInicio).toLocaleDateString(
+                            "es-ES",
+                          )
+                        : "Sin inicio"}{" "}
+                      -{" "}
+                      {promo.fechaFin
+                        ? new Date(promo.fechaFin).toLocaleDateString("es-ES")
+                        : "Sin fin"}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              ))}
+            </Box>
+          )}
+        </CardContent>
+      </Card>
 
-          <Card sx={{ p: 2, height: "100%", width: "100%" }}>
-            <DGTChart data={metrics.dgtEvolution || []} />
+      <Typography variant="h5" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
+        Bonos Actuales
+      </Typography>
+
+      <Card>
+        <CardContent>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              mb: 1,
+            }}
+          >
+            <Typography variant="subtitle1" fontWeight={800}>
+              Bonos activos
+            </Typography>
+            <Box>
+              <IconButton
+                size="small"
+                onClick={() =>
+                  setBonosStart((current) => Math.max(0, current - 1))
+                }
+                disabled={bonosStart === 0}
+              >
+                <ArrowBackIosNewIcon fontSize="small" />
+              </IconButton>
+              <IconButton
+                size="small"
+                onClick={() =>
+                  setBonosStart((current) =>
+                    Math.min(bonosMaxStart, current + 1),
+                  )
+                }
+                disabled={bonosStart >= bonosMaxStart}
+              >
+                <ArrowForwardIosIcon fontSize="small" />
+              </IconButton>
+            </Box>
+          </Box>
+
+          {visibleBonos.length === 0 ? (
+            <Typography color="text.secondary">
+              No hay bonos activos actualmente.
+            </Typography>
+          ) : (
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: {
+                  xs: "1fr",
+                  sm: "repeat(2, minmax(0, 1fr))",
+                  md: "repeat(3, minmax(0, 1fr))",
+                  lg: "repeat(5, minmax(0, 1fr))",
+                },
+                gap: 2,
+              }}
+            >
+              {visibleBonos.map((bono) => (
+                <Card key={bono.id} variant="outlined">
+                  <CardContent>
+                    <Typography fontWeight={800}>{bono.nombre}</Typography>
+                    <Box sx={{ mt: 1, mb: 1 }}>
+                      <LicenseChip value={bono.licencia} />
+                    </Box>
+                    <Typography variant="body2" color="text.secondary">
+                      Precio: {Number(bono.precio || 0).toFixed(2)} EUR
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Clases: {bono.clasesIncluidas ?? 0}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Validez: {bono.validezDias ?? 0} días
+                    </Typography>
+                  </CardContent>
+                </Card>
+              ))}
+            </Box>
+          )}
+        </CardContent>
+      </Card>
+
+      <Grid container spacing={2} sx={{ mt: 0.5 }}>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardContent>
+              <Typography variant="subtitle1" fontWeight={800} sx={{ mb: 1 }}>
+                Compras de promociones pagadas este mes
+              </Typography>
+              <Box sx={{ width: "100%", height: 280 }}>
+                <ResponsiveContainer>
+                  <PieChart>
+                    <Pie
+                      data={promoPurchases}
+                      dataKey="value"
+                      nameKey="name"
+                      outerRadius={95}
+                      label
+                    >
+                      {promoPurchases.map((entry, index) => (
+                        <Cell
+                          key={`${entry.name}-${index}`}
+                          fill={donutColors[index % donutColors.length]}
+                        />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </Box>
+            </CardContent>
           </Card>
-        </Box>
+        </Grid>
 
-        {/* Columna derecha: Distribución DGT */}
-        <Box>
-          <Typography variant="h5" fontWeight="bold">
-            Distribución DGT
-          </Typography>
-
-          <Box sx={{ height: 20 }} />
-
-          <Card sx={{ p: 2, height: "100%", width: "100%" }}>
-            <DGTSummaryChart
-              aprobados={metrics.dgtSummary?.aprobados ?? 0}
-              suspendidos={metrics.dgtSummary?.suspendidos ?? 0}
-            />
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardContent>
+              <Typography variant="subtitle1" fontWeight={800} sx={{ mb: 1 }}>
+                Compras de bonos pagadas este mes
+              </Typography>
+              <Box sx={{ width: "100%", height: 280 }}>
+                <ResponsiveContainer>
+                  <PieChart>
+                    <Pie
+                      data={bonoPurchases}
+                      dataKey="value"
+                      nameKey="name"
+                      outerRadius={95}
+                      label
+                    >
+                      {bonoPurchases.map((entry, index) => (
+                        <Cell
+                          key={`${entry.name}-${index}`}
+                          fill={donutColors[index % donutColors.length]}
+                        />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </Box>
+            </CardContent>
           </Card>
-        </Box>
+        </Grid>
       </Grid>
+
+      <Typography variant="h5" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
+        Clases Prácticas
+      </Typography>
+
+      <Grid container spacing={2}>
+        {cardsClases.map((card) => (
+          <Grid key={card.title} item xs={12} sm={6} lg={3}>
+            <StatCard {...card} />
+          </Grid>
+        ))}
+      </Grid>
+
+      <Typography variant="h5" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
+        Evaluaciones
+      </Typography>
+
+      <Grid container spacing={2}>
+        {cardsEvaluaciones.map((card) => (
+          <Grid key={card.title} item xs={12} sm={6} md={4} lg={3}>
+            <StatCard {...card} />
+          </Grid>
+        ))}
+      </Grid>
+
+      <Grid container spacing={2} sx={{ mt: 0.5 }}>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardContent>
+              <Typography variant="subtitle1" fontWeight={800} sx={{ mb: 1 }}>
+                Evolución Teórico (Apto / No Apto / Tasa)
+              </Typography>
+              <Box sx={{ width: "100%", height: 380 }}>
+                <ResponsiveContainer>
+                  <ComposedChart data={evaluacionTeorico.evolucion || []}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="mes" />
+                    <YAxis yAxisId="left" allowDecimals={false} />
+                    <YAxis
+                      yAxisId="right"
+                      orientation="right"
+                      domain={[0, 100]}
+                    />
+                    <Tooltip />
+                    <Legend />
+                    <Bar
+                      yAxisId="left"
+                      dataKey="apto"
+                      fill="#16a34a"
+                      name="Apto"
+                    />
+                    <Bar
+                      yAxisId="left"
+                      dataKey="noApto"
+                      fill="#dc2626"
+                      name="No apto"
+                    />
+                    <Line
+                      yAxisId="right"
+                      type="monotone"
+                      dataKey="tasaExito"
+                      stroke="#1d4ed8"
+                      name="Tasa %"
+                      strokeWidth={2}
+                    />
+                  </ComposedChart>
+                </ResponsiveContainer>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardContent>
+              <Typography variant="subtitle1" fontWeight={800} sx={{ mb: 1 }}>
+                Evolución Práctico (Apto / No Apto / Tasa)
+              </Typography>
+              <Box sx={{ width: "100%", height: 380 }}>
+                <ResponsiveContainer>
+                  <ComposedChart data={evaluacionPractico.evolucion || []}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="mes" />
+                    <YAxis yAxisId="left" allowDecimals={false} />
+                    <YAxis
+                      yAxisId="right"
+                      orientation="right"
+                      domain={[0, 100]}
+                    />
+                    <Tooltip />
+                    <Legend />
+                    <Bar
+                      yAxisId="left"
+                      dataKey="apto"
+                      fill="#15803d"
+                      name="Apto"
+                    />
+                    <Bar
+                      yAxisId="left"
+                      dataKey="noApto"
+                      fill="#be123c"
+                      name="No apto"
+                    />
+                    <Line
+                      yAxisId="right"
+                      type="monotone"
+                      dataKey="tasaExito"
+                      stroke="#0f766e"
+                      name="Tasa %"
+                      strokeWidth={2}
+                    />
+                  </ComposedChart>
+                </ResponsiveContainer>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+
+      <Box sx={{ height: 40 }} />
     </Box>
   );
 }
@@ -819,20 +1058,9 @@ export default function Dashboard() {
 
         setRole(normalizedRole);
 
-        const endpoint =
-          normalizedRole === "ALUMNO"
-            ? "/dashboard/student"
-            : normalizedRole === "PROFESOR"
-              ? "/dashboard/professor"
-              : normalizedRole === "ADMINISTRATIVO"
-                ? "/dashboard/administrativo"
-                : normalizedRole === "SOPORTE"
-                  ? "/dashboard/soporte"
-                  : "/dashboard/executive";
+        const data = await dashboardService.getByRole(normalizedRole);
 
-        const response = await api.get(endpoint);
-
-        setMetrics(response.data);
+        setMetrics(data);
       } catch (error) {
         console.error(error);
         setErrorMessage(

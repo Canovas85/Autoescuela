@@ -493,17 +493,19 @@ model AlumnoProfesorHistorial {
   id                String   @id @default(uuid())
   alumnoId           String
   profesorAnteriorId String
-  profesorNuevoId    String
+  profesorNuevoId    String?
+  licenciaObtenida   String?
   changedById        String?
   changedAt          DateTime @default(now())
   motivo             String?
   alumno             Alumno   @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
   profesorAnterior   Profesor @relation("HistorialProfesorAnterior", fields: [profesorAnteriorId], references: [id], onDelete: Restrict)
-  profesorNuevo      Profesor @relation("HistorialProfesorNuevo", fields: [profesorNuevoId], references: [id], onDelete: Restrict)
+  profesorNuevo      Profesor? @relation("HistorialProfesorNuevo", fields: [profesorNuevoId], references: [id], onDelete: Restrict)
 
   @@index([alumnoId])
   @@index([profesorAnteriorId])
   @@index([profesorNuevoId])
+  @@index([licenciaObtenida])
   @@index([changedAt])
   @@map("alumnos_profesor_historial")
 }

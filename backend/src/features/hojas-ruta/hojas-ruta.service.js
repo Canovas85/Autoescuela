@@ -733,6 +733,15 @@ export class HojasRutaService {
   async getAdminRegisteredRoadmapsByStudent(profesorId, alumnoId, query) {
     const page = normalizePage(query?.page, 1);
     const pageSize = normalizePageSize(query?.pageSize, 10);
+    const statusFilter = String(query?.estado || "")
+      .trim()
+      .toUpperCase();
+    const vehiculoFilter = String(query?.vehiculoId || "")
+      .trim()
+      .toLowerCase();
+    const dayFilter = String(query?.day || "").trim();
+    const dayStart = toStartOfDay(dayFilter);
+    const dayEnd = toEndOfDay(dayFilter);
 
     const rows =
       await this.repository.findRegisteredRoadmapsByProfessorAndStudent(
@@ -753,6 +762,7 @@ export class HojasRutaService {
       duracion: row.clasePractica?.duracion,
       vehiculo: row.clasePractica?.vehiculo
         ? {
+            id: row.clasePractica.vehiculo.id,
             marca: row.clasePractica.vehiculo.marca,
             modelo: row.clasePractica.vehiculo.modelo,
             matricula: row.clasePractica.vehiculo.matricula,
@@ -777,6 +787,7 @@ export class HojasRutaService {
       sinDatos: true,
       vehiculo: clase.vehiculo
         ? {
+            id: clase.vehiculo.id,
             marca: clase.vehiculo.marca,
             modelo: clase.vehiculo.modelo,
             matricula: clase.vehiculo.matricula,
@@ -790,9 +801,59 @@ export class HojasRutaService {
       updatedAt: clase.fecha,
     }));
 
-    const allRows = [...mapped, ...pendingMapped].sort(
-      (a, b) => new Date(b.fecha || 0) - new Date(a.fecha || 0),
-    );
+    const allRows = [...mapped, ...pendingMapped]
+      .map((row) => {
+        const estadoNormalizado = row.sinDatos
+          ? ROADMAP_STATUS.PENDIENTE
+          : ROADMAP_STATUS.REGISTRADA;
+
+        return {
+          ...row,
+          estado: estadoNormalizado,
+        };
+      })
+      .filter((row) => {
+        if (
+          statusFilter &&
+          statusFilter !== "TODAS" &&
+          row.estado !== statusFilter
+        ) {
+          return false;
+        }
+
+        if (vehiculoFilter) {
+          const vehiculoId = String(row.vehiculo?.id || "")
+            .trim()
+            .toLowerCase();
+          const matricula = String(row.vehiculo?.matricula || "").toLowerCase();
+          const marca = String(row.vehiculo?.marca || "").toLowerCase();
+          const modelo = String(row.vehiculo?.modelo || "").toLowerCase();
+
+          if (
+            vehiculoId !== vehiculoFilter &&
+            !matricula.includes(vehiculoFilter) &&
+            !marca.includes(vehiculoFilter) &&
+            !modelo.includes(vehiculoFilter)
+          ) {
+            return false;
+          }
+        }
+
+        if (dayStart && dayEnd) {
+          const classDate = row?.fecha ? new Date(row.fecha) : null;
+
+          if (!classDate || Number.isNaN(classDate.getTime())) {
+            return false;
+          }
+
+          if (classDate < dayStart || classDate > dayEnd) {
+            return false;
+          }
+        }
+
+        return true;
+      })
+      .sort((a, b) => new Date(b.fecha || 0) - new Date(a.fecha || 0));
 
     const start = (page - 1) * pageSize;
 

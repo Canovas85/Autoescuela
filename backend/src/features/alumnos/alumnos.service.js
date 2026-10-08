@@ -438,6 +438,10 @@ export class AlumnosService {
   }
 
   async getAll() {
+    if (typeof this.repository.detachLicensedAssignedStudents === "function") {
+      await this.repository.detachLicensedAssignedStudents();
+    }
+
     const rows = await this.repository.findAll();
 
     return (rows || []).map((alumno) => {

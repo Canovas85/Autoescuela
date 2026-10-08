@@ -245,10 +245,126 @@ describe("DashboardService", () => {
     });
   });
   it("debe devolver el dashboard ejecutivo", async () => {
+    const now = new Date("2026-10-08T10:00:00.000Z");
+    const monthStart = new Date("2026-10-01T00:00:00.000Z");
+    const monthEnd = new Date("2026-10-31T23:59:59.999Z");
+
     const repositoryMock = {
+      getCurrentMonthRange: vi.fn().mockReturnValue({
+        start: monthStart,
+        end: monthEnd,
+      }),
+
       getTotalAlumnosActivos: vi.fn().mockResolvedValue(100),
 
+      getTotalAlumnosLicenciadosActivos: vi.fn().mockResolvedValue(14),
+
+      getTotalAlumnosMatriculadosPagadaSinLicencia: vi
+        .fn()
+        .mockResolvedValue(56),
+
+      getTotalAlumnosConMatriculaPendientePago: vi.fn().mockResolvedValue(12),
+
       getTotalMatriculasActivas: vi.fn().mockResolvedValue(80),
+
+      getMatriculasPagadasSince: vi.fn().mockResolvedValue([
+        {
+          id: "m1",
+          fechaPago: new Date("2026-09-10T10:00:00.000Z"),
+        },
+      ]),
+
+      getTotalProfesoresActivos: vi.fn().mockResolvedValue(8),
+
+      getTotalAdministrativosActivos: vi.fn().mockResolvedValue(3),
+
+      getTotalSoportesActivos: vi.fn().mockResolvedValue(2),
+
+      getPromocionesActivasVigentes: vi.fn().mockResolvedValue([
+        {
+          id: "promo-1",
+          nombre: "Promo Octubre",
+          precioOriginal: 800,
+          precioPromocional: 650,
+          licenciasAplicables: ["B"],
+          fechaInicio: new Date("2026-10-01T00:00:00.000Z"),
+          fechaFin: new Date("2026-10-31T23:59:59.999Z"),
+        },
+      ]),
+
+      getComprasPromocionPagadasMesActual: vi.fn().mockResolvedValue([
+        {
+          promocion: {
+            nombre: "Promo Octubre",
+          },
+        },
+      ]),
+
+      getBonosActivos: vi.fn().mockResolvedValue([
+        {
+          id: "bono-1",
+          nombre: "Bono 10",
+          licencia: "B",
+          clasesIncluidas: 10,
+          precio: 300,
+          validezDias: 90,
+        },
+      ]),
+
+      getComprasBonoPagadasMesActual: vi.fn().mockResolvedValue([
+        {
+          compraBono: {
+            bono: {
+              nombre: "Bono 10",
+            },
+          },
+        },
+      ]),
+
+      countClasesPracticasCompletadas: vi
+        .fn()
+        .mockResolvedValueOnce(40)
+        .mockResolvedValueOnce(8),
+
+      countClasesPracticasSolicitadas: vi
+        .fn()
+        .mockResolvedValueOnce(22)
+        .mockResolvedValueOnce(5),
+
+      countClasesPagadasFueraBono: vi.fn().mockResolvedValue(11),
+
+      countSolicitudesExamenByResultado: vi
+        .fn()
+        .mockResolvedValueOnce(2)
+        .mockResolvedValueOnce(18)
+        .mockResolvedValueOnce(7)
+        .mockResolvedValueOnce(3)
+        .mockResolvedValueOnce(15)
+        .mockResolvedValueOnce(9),
+
+      countSolicitudesExamenPendientesFuturas: vi
+        .fn()
+        .mockResolvedValueOnce(4)
+        .mockResolvedValueOnce(6),
+
+      getSolicitudesExamenConResultadoDesde: vi
+        .fn()
+        .mockResolvedValueOnce([
+          {
+            estado: "APTO",
+            fechaProgramada: new Date("2026-10-02T10:00:00.000Z"),
+          },
+          {
+            estado: "NO_APTO",
+            fechaProgramada: new Date("2026-10-05T10:00:00.000Z"),
+          },
+        ])
+        .mockResolvedValueOnce([
+          {
+            estado: "APTO",
+            fechaProgramada: new Date("2026-10-03T10:00:00.000Z"),
+          },
+        ]),
 
       getTotalExamenesPendientes: vi.fn().mockResolvedValue(12),
 
@@ -319,13 +435,37 @@ describe("DashboardService", () => {
 
     const service = new DashboardService(repositoryMock);
 
+    vi.useFakeTimers();
+    vi.setSystemTime(now);
+
     const result = await service.getExecutiveDashboard();
+
+    vi.useRealTimers();
 
     expect(result).toMatchObject({
       successRate: 82,
       monthlySuccessRate: 75,
       pendingExams: 12,
       scheduledClasses: 45,
+      adminOverview: {
+        matriculasAlumnos: {
+          alumnosRegistrados: 100,
+          alumnosLicenciados: 14,
+          alumnosMatriculados: 56,
+          alumnosMatriculaPendientePago: 12,
+        },
+        usuarios: {
+          profesoresRegistrados: 8,
+          administrativosRegistrados: 3,
+          soportesRegistrados: 2,
+        },
+        clasesPracticas: {
+          clasesTotales: 62,
+          clasesCompletadasMes: 8,
+          clasesSolicitadasMes: 5,
+          clasesPagadasFueraBono: 11,
+        },
+      },
 
       topProfesorByClasses: {
         profesorId: "profesor-1",
@@ -754,6 +894,8 @@ describe("DashboardService", () => {
           alumno: { usuario: { nombre: "Alumno Uno" } },
         },
       ]),
+      findLatestItvExpenseByVehiculoId: vi.fn().mockResolvedValue(null),
+      countCompletedClassesByVehiculoSince: vi.fn().mockResolvedValue(0),
     };
 
     const service = new DashboardService(repositoryMock);
