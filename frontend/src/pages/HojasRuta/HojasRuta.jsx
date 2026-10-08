@@ -1137,16 +1137,16 @@ export default function HojasRuta() {
                   ),
                 }}
               />
-              <Button
+              {/*<Button
                 variant="outlined"
                 startIcon={<FilterListIcon />}
                 onClick={() => setShowProfessorFilters((prev) => !prev)}
               >
                 Filtros
-              </Button>
+              </Button>*/}
             </Stack>
 
-            {showProfessorFilters ? (
+            {/*{showProfessorFilters ? (
               <Stack
                 direction={{ xs: "column", md: "row" }}
                 spacing={1.5}
@@ -1179,7 +1179,7 @@ export default function HojasRuta() {
                   onChange={(event) => setParam("dateTo", event.target.value)}
                 />
               </Stack>
-            ) : null}
+            ) : null}*/}
 
             <Tabs
               sx={{ mt: 2 }}

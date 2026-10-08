@@ -387,26 +387,62 @@ export default function ProfessorDashboard({ data }) {
                   <Grid container spacing={1.25} sx={{ mt: 0.5 }}>
                     <Grid item xs={12} md={3}>
                       <Chip
-                        color="primary"
+                        variant="outlined"
                         label={`Nombre: ${detail?.perfil?.nombre || "-"}`}
+                        sx={{
+                          backgroundColor: "#e3f2fd", // Fondo celeste suave de la imagen
+                          color: "#2c5270", // Texto azul oscuro/grisáceo
+                          borderColor: "#b3e5fc", // Borde suave a juego
+                          fontWeight: 500,
+                          "&:hover": {
+                            backgroundColor: "#e3f2fd", // Mantiene el color al pasar el mouse
+                          },
+                        }}
                       />
                     </Grid>
                     <Grid item xs={12} md={3}>
                       <Chip
-                        color="info"
+                        variant="outlined"
                         label={`Email: ${detail?.perfil?.email || "-"}`}
+                        sx={{
+                          backgroundColor: "#e3f2fd",
+                          color: "#2c5270",
+                          borderColor: "#b3e5fc",
+                          fontWeight: 500,
+                          "&:hover": {
+                            backgroundColor: "#e3f2fd",
+                          },
+                        }}
                       />
                     </Grid>
                     <Grid item xs={12} md={3}>
                       <Chip
-                        color="warning"
+                        variant="outlined"
                         label={`Teléfono: ${detail?.perfil?.telefono || "-"}`}
+                        sx={{
+                          backgroundColor: "#e3f2fd",
+                          color: "#2c5270",
+                          borderColor: "#b3e5fc",
+                          fontWeight: 500,
+                          "&:hover": {
+                            backgroundColor: "#e3f2fd",
+                          },
+                        }}
                       />
                     </Grid>
                     <Grid item xs={12} md={3}>
                       <Chip
-                        color="secondary"
+                        variant="outlined"
                         label={`DNI: ${detail?.perfil?.dni || "-"}`}
+                        sx={{
+                          backgroundColor: "#e3f2fd",
+                          color: "#2c5270",
+                          borderColor: "#b3e5fc",
+                          fontWeight: 500,
+                          "&:hover": {
+                            backgroundColor: "#e3f2fd",
+                          },
+                        }}
                       />
                     </Grid>
                   </Grid>
@@ -594,16 +630,31 @@ export default function ProfessorDashboard({ data }) {
 
                   <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
                     <Chip
-                      color="success"
+                      variant="outlined"
                       label={`Clases realizadas: ${detail?.practica?.clasesRealizadas ?? 0}`}
+                      sx={{
+                        backgroundColor: "#e8f5e9",
+                        color: "#2e7d32",
+                        borderColor: "#c8e6c9",
+                      }}
                     />
                     <Chip
-                      color="primary"
+                      variant="outlined"
                       label={`Clases reservadas: ${detail?.practica?.clasesReservadas ?? 0}`}
+                      sx={{
+                        backgroundColor: "#e3f2fd",
+                        color: "#1565c0",
+                        borderColor: "#bbdefb",
+                      }}
                     />
                     <Chip
-                      color="default"
+                      variant="outlined"
                       label={`Horas de práctica: ${detail?.practica?.horasCompletadasTexto || "0h 00min"}`}
+                      sx={{
+                        backgroundColor: "#fff3e0", // Fondo naranja muy claro
+                        color: "#e65100", // Texto naranja oscuro
+                        borderColor: "#ffe0b2", // Borde naranja suave
+                      }}
                     />
                   </Stack>
 

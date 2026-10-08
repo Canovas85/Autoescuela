@@ -502,7 +502,25 @@ export default function Examenes() {
                     <Typography variant="body2" color="text.secondary">
                       Tipo
                     </Typography>
-                    <Chip size="small" label={selectedRow.tipo || "-"} />
+                    <Chip
+                      size="small"
+                      label={selectedRow.tipo || "-"}
+                      sx={{
+                        fontWeight: 700,
+                        backgroundColor:
+                          selectedRow.tipo === "PRACTICO"
+                            ? "#ffedd5"
+                            : "#dbeafe",
+                        color:
+                          selectedRow.tipo === "PRACTICO"
+                            ? "#c2410c"
+                            : "#1e40af",
+                        border:
+                          selectedRow.tipo === "PRACTICO"
+                            ? "1px solid #fed7aa"
+                            : "1px solid #93c5fd",
+                      }}
+                    />
                   </Box>
                 </Stack>
               </Paper>
@@ -614,14 +632,32 @@ export default function Examenes() {
                     <Chip
                       size="small"
                       label={`Leves: ${selectedRow.faltasLeves ?? "-"}`}
+                      sx={{
+                        fontWeight: 700,
+                        backgroundColor: "#dcfce7", // Verde claro
+                        color: "#15803d", // Verde oscuro
+                        border: "1px solid #86efac", // Borde verde
+                      }}
                     />
                     <Chip
                       size="small"
                       label={`Deficientes: ${selectedRow.faltasDeficientes ?? "-"}`}
+                      sx={{
+                        fontWeight: 700,
+                        backgroundColor: "#ffedd5", // Naranja claro
+                        color: "#c2410c", // Naranja oscuro
+                        border: "1px solid #fed7aa", // Borde naranja
+                      }}
                     />
                     <Chip
                       size="small"
                       label={`Eliminatorias: ${selectedRow.faltasEliminatorias ?? "-"}`}
+                      sx={{
+                        fontWeight: 700,
+                        backgroundColor: "#fee2e2", // Rojo claro
+                        color: "#b91c1c", // Rojo oscuro
+                        border: "1px solid #fca5a5", // Borde rojo
+                      }}
                     />
                   </Stack>
                 ) : (
@@ -633,10 +669,22 @@ export default function Examenes() {
                     <Chip
                       size="small"
                       label={`Aciertos: ${selectedRow.aciertosExamen ?? "-"}`}
+                      sx={{
+                        fontWeight: 700,
+                        backgroundColor: "#dcfce7", // Verde claro
+                        color: "#15803d", // Verde oscuro
+                        border: "1px solid #86efac", // Borde verde
+                      }}
                     />
                     <Chip
                       size="small"
                       label={`Fallos: ${selectedRow.erroresExamen ?? "-"}`}
+                      sx={{
+                        fontWeight: 700,
+                        backgroundColor: "#fee2e2", // Rojo claro
+                        color: "#b91c1c", // Rojo oscuro
+                        border: "1px solid #fca5a5", // Borde rojo
+                      }}
                     />
                   </Stack>
                 )}

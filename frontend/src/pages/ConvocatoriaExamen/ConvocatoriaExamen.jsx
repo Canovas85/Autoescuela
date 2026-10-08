@@ -552,8 +552,28 @@ export default function ConvocatoriaExamen() {
       renderCell: (params) => (
         <Chip
           size="small"
-          color={getEstadoChipColor(params.value)}
           label={params.value}
+          sx={{
+            fontWeight: 700,
+            backgroundColor:
+              params.value === "APTO"
+                ? "#dcfce7" // Verde claro
+                : params.value === "NO_APTO"
+                  ? "#fee2e2" // Rojo claro
+                  : "#f3f4f6", // Gris por defecto
+            color:
+              params.value === "APTO"
+                ? "#15803d" // Verde oscuro
+                : params.value === "NO_APTO"
+                  ? "#b91c1c" // Rojo oscuro
+                  : "#1f2937", // Gris oscuro
+            border:
+              params.value === "APTO"
+                ? "1px solid #86efac"
+                : params.value === "NO_APTO"
+                  ? "1px solid #fca5a5"
+                  : "1px solid #d1d5db",
+          }}
         />
       ),
     },

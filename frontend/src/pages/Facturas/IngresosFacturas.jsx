@@ -525,15 +525,50 @@ export default function IngresosFacturas() {
       valueGetter: (_, row) => getRowOrigen(row),
       renderCell: (params) => {
         const origen = params.value;
-        const color =
-          origen === "MATRÍCULA"
-            ? "primary"
-            : origen === "PAGO"
-              ? "success"
-              : "default";
+
+        // Configuración de colores personalizados para cada origen
+        const configEstilos = {
+          MATRÍCULA: {
+            bg: "#fff3e0", // Naranja muy claro (Fondo)
+            border: "#ff9800", // Naranja medio (Borde)
+            text: "#e65100", // Naranja oscuro (Texto)
+          },
+          PAGO: {
+            bg: "#e8f5e9", // Verde claro
+            border: "#2e7d32", // Verde oscuro
+            text: "#1b5e20", // Verde texto
+          },
+          DGT: {
+            bg: "#e1f5fe", // Azul DGT claro
+            border: "#0288d1", // Azul DGT oscuro
+            text: "#01579b", // Azul DGT texto
+          },
+          "EXAMEN PRÁCTICO": {
+            bg: "#f3e5f5", // Morado claro
+            border: "#9c27b0", // Morado oscuro
+            text: "#4a148c", // Morado texto
+          },
+        };
+
+        // Estilos por defecto en caso de que aparezca un origen no mapeado
+        const estilos = configEstilos[origen] || {
+          bg: "#f5f5f5",
+          border: "#9e9e9e",
+          text: "#616161",
+        };
 
         return (
-          <Chip size="small" label={origen} color={color} variant="outlined" />
+          <Chip
+            size="small"
+            label={origen}
+            variant="outlined"
+            sx={{
+              backgroundColor: estilos.bg,
+              borderColor: estilos.border,
+              color: estilos.text,
+              fontWeight: "medium", // Hace que el texto sea un poco más legible
+            }}
+          />
         );
       },
     },
@@ -570,21 +605,46 @@ export default function IngresosFacturas() {
       renderCell: (params) => {
         const estado = normalizeEstado(params.row.estado);
 
+        // 1. Definimos los estilos personalizados para cada estado
+        const estilosPorEstado = {
+          PAGADA: {
+            backgroundColor: "#e8f5e9", // Fondo verde claro
+            color: "#2e7d32", // Letra verde oscura
+            borderColor: "#2e7d32", // Borde verde
+          },
+          DEVUELTA: {
+            backgroundColor: "#ffebee", // Fondo rojo claro
+            color: "#c62828", // Letra roja oscura
+            borderColor: "#c62828", // Borde rojo
+          },
+          PENDIENTE: {
+            // O el nombre por defecto que use tu backend/normalizador
+            backgroundColor: "#fff3e0", // Fondo naranja claro
+            color: "#ef6c00", // Letra naranja oscura
+            borderColor: "#ef6c00", // Borde naranja
+          },
+        };
+
+        // 2. Obtenemos el estilo actual o aplicamos el de por defecto (PENDIENTE)
+        const estiloActual =
+          estilosPorEstado[estado] || estilosPorEstado.PENDIENTE;
+
         return (
           <Chip
             size="small"
             label={estado}
-            color={
-              estado === "PAGADA"
-                ? "success"
-                : estado === "ANULADA"
-                  ? "error"
-                  : "warning"
-            }
+            variant="outlined" // Agregamos 'outlined' para que el borde sea visible de forma nativa
+            sx={{
+              backgroundColor: estiloActual.backgroundColor,
+              color: estiloActual.color,
+              borderColor: estiloActual.borderColor,
+              fontWeight: "bold", // Opcional: hace la letra más legible
+            }}
           />
         );
       },
     },
+
     {
       field: "fechaEmision",
       headerName: "Fecha Emisión",
@@ -641,13 +701,13 @@ export default function IngresosFacturas() {
             </Tooltip>
 
             {canMutateMatricula ? (
-              <Tooltip title="Pagar matrícula" arrow>
+              <Tooltip title="Pagar Factura" arrow>
                 <span>
                   <IconButton
                     color="success"
                     size="small"
                     disabled={disableMatriculaActions}
-                    onClick={() => handlePagarMatricula(params.row)}
+                    onClick={() => handlePagarFactura(params.row)}
                   >
                     <CheckCircleIcon fontSize="small" />
                   </IconButton>
@@ -656,13 +716,13 @@ export default function IngresosFacturas() {
             ) : null}
 
             {canMutateMatricula ? (
-              <Tooltip title="Anular matrícula" arrow>
+              <Tooltip title="Anular Factura" arrow>
                 <span>
                   <IconButton
                     color="error"
                     size="small"
                     disabled={disableMatriculaActions}
-                    onClick={() => handleAnularMatricula(params.row)}
+                    onClick={() => handleAnularFactura(params.row)}
                   >
                     <CancelIcon fontSize="small" />
                   </IconButton>

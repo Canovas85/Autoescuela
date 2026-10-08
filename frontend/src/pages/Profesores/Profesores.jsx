@@ -1078,15 +1078,28 @@ export default function Profesores() {
             </Typography>
 
             <Button
-              variant="outlined"
               size="small"
-              startIcon={<CalendarMonthIcon />}
               onClick={
                 detailView === "ALUMNOS_AGENDA"
                   ? () => setDetailView("PERFIL")
                   : openStudentsAndAgendaView
               }
               disabled={loadingDetail}
+              sx={{
+                width: "fit-content",
+                backgroundColor: "#fffbeb",
+                borderColor: "#facc15",
+                borderStyle: "solid",
+                borderRadius: "15px",
+                borderWidth: "2px",
+                color: "#ca8a04",
+                fontWeight: "bold", // Aplicado directamente al texto del botón
+                "&:hover": {
+                  backgroundColor: "#fef08a",
+                  borderColor: "#eab308",
+                  color: "#854d0e",
+                },
+              }}
             >
               {detailView === "ALUMNOS_AGENDA"
                 ? "Volver al detalle"
@@ -1342,27 +1355,58 @@ export default function Profesores() {
                               direction="row"
                               flexWrap="wrap"
                               useFlexGap
-                              gap={1}
+                              gap={1.5} // Aumentado para dar más separación horizontal y vertical entre los chips
+                              sx={{ mr: 1 }} // Margen inferior extra si es necesario para separarlo del contenido de abajo
                             >
                               <Chip
-                                color="success"
+                                variant="outlined"
                                 label={`Clases realizadas este mes: ${overviewData?.resumenProfesor?.clasesRealizadasMes || 0}`}
+                                sx={{
+                                  backgroundColor: "#e8f5e9", // Verde claro
+                                  color: "#2e7d32",
+                                  borderColor: "#c8e6c9",
+                                  mr: 0.5,
+                                }}
                               />
                               <Chip
-                                color="info"
+                                variant="outlined"
                                 label={`Clases realizadas total: ${overviewData?.resumenProfesor?.clasesRealizadasTotal || 0}`}
+                                sx={{
+                                  backgroundColor: "#e3f2fd", // Azul claro
+                                  color: "#1565c0",
+                                  borderColor: "#bbdefb",
+                                  mr: 0.5,
+                                }}
                               />
                               <Chip
-                                color="warning"
+                                variant="outlined"
                                 label={`Pendientes mes: ${overviewData?.resumenProfesor?.clasesPendientesMes || 0}`}
+                                sx={{
+                                  backgroundColor: "#fff3e0", // Naranja claro
+                                  color: "#e65100",
+                                  borderColor: "#ffe0b2",
+                                  mr: 0.5,
+                                }}
                               />
                               <Chip
-                                color="success"
+                                variant="outlined"
                                 label={`Licencia obtenida: ${overviewData?.resumenProfesor?.alumnosLicenciaObtenida || 0}`}
+                                sx={{
+                                  backgroundColor: "#e8f5e9", // Verde claro
+                                  color: "#2e7d32",
+                                  borderColor: "#c8e6c9",
+                                  mr: 0.5,
+                                }}
                               />
                               <Chip
-                                color="primary"
+                                variant="outlined"
                                 label={`Alumnos en progreso: ${overviewData?.resumenProfesor?.alumnosEnProgreso || 0}`}
+                                sx={{
+                                  backgroundColor: "#f3e5f5", // Morado claro
+                                  color: "#6a1b9a",
+                                  borderColor: "#e1bee7",
+                                  mr: 0.5,
+                                }}
                               />
                             </Stack>
 

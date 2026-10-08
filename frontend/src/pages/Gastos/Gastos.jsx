@@ -161,7 +161,21 @@ export default function Gastos() {
       flex: 0.8,
       valueGetter: () => "Combustible",
       renderCell: () => (
-        <Chip label="Combustible" color="warning" size="small" />
+        <Chip
+          label="Combustible"
+          sx={{
+            backgroundColor: "#fffbeb", // Color de fondo (puedes usar HEX, RGB o color de MUI)
+            borderColor: "#facc15", // Color del borde
+            borderRadius: "15px", // Radio del borde (bordes menos redondeados)
+            borderWidth: "1px", // Grosor del borde (opcional)
+            color: "#ca8a04", // Color del texto (opcional)
+            "& .MuiChip-label": {
+              // Estilos para el texto interno (opcional)
+              fontWeight: "bold",
+            },
+          }}
+          size="small"
+        />
       ),
     },
     {

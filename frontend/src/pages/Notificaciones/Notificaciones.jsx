@@ -274,13 +274,41 @@ export default function Notificaciones() {
                   <Stack direction="row" spacing={1} alignItems="center">
                     <Chip
                       label={item.leida ? "Leída" : "Nueva"}
-                      color={item.leida ? "default" : "primary"}
+                      variant="outlined" // Permite visualizar el borde personalizado
                       size="small"
+                      sx={{
+                        ...(item.leida
+                          ? {
+                              backgroundColor: "#fff3e0", // Fondo naranja muy claro
+                              color: "#e65100", // Letra naranja oscuro (alta legibilidad)
+                              borderColor: "#f57c00", // Borde naranja medio
+                            }
+                          : {
+                              backgroundColor: "#e3f2fd", // Fondo azul claro
+                              color: "#0d47a1", // Letra azul oscuro
+                              borderColor: "#1976d2", // Borde azul
+                            }),
+                        fontWeight: "500", // Opcional: mejora la legibilidad
+                      }}
                     />
                     <Chip
                       label={item.archivada ? "Archivada" : "Activa"}
-                      color={item.archivada ? "default" : "success"}
+                      variant="outlined"
                       size="small"
+                      sx={{
+                        ...(item.archivada
+                          ? {
+                              backgroundColor: "#eceff1", // Fondo gris azulado
+                              color: "#455a64", // Letra gris oscuro
+                              borderColor: "#b0bec5", // Borde
+                            }
+                          : {
+                              backgroundColor: "#e8f5e9", // Fondo verde claro
+                              color: "#1b5e20", // Letra verde oscuro
+                              borderColor: "#2e7d32", // Borde verde
+                            }),
+                        fontWeight: "500",
+                      }}
                     />
                   </Stack>
                 </Stack>
