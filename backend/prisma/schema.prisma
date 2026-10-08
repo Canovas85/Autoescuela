@@ -299,6 +299,7 @@ model SolicitudExamen {
   id              String    @id @default(uuid())
   alumnoId        String
   tipo            String
+  fasePractica    Int?
   estado          String    @default("PENDIENTE")
   fechaSolicitud  DateTime  @default(now())
   fechaProgramada DateTime?
@@ -318,6 +319,7 @@ model SolicitudExamen {
 
   @@index([alumnoId])
   @@index([tipo])
+  @@index([fasePractica])
   @@index([estado])
   @@index([pagoGastoPracticoId])
   @@map("solicitudes_examen")
@@ -365,6 +367,7 @@ model ClasePractica {
   profesorId               String
   vehiculoId               String
   compraBonoId             String?
+  tipoClasePractica        String      @default("CIRCULACION")
   fecha                    DateTime
   duracion                 Int
   estado                   String
@@ -384,6 +387,7 @@ model ClasePractica {
   @@index([profesorId])
   @@index([vehiculoId])
   @@index([compraBonoId])
+  @@index([tipoClasePractica])
   @@index([fecha])
   @@map("clases_practicas")
 }

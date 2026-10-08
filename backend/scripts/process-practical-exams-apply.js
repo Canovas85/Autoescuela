@@ -2,6 +2,11 @@ import dotenv from "dotenv";
 
 import prisma from "../src/config/prisma.js";
 import { tasaDgtConfig } from "../src/config/tasa-dgt.config.js";
+import {
+  getPracticalPhaseLabel,
+  normalizeLicenseCode,
+  usesDualPracticalPhaseByLicense,
+} from "../src/shared/domain/exam-license-rules.js";
 
 dotenv.config();
 
@@ -39,6 +44,14 @@ const normalizarLicenciaObjetivo = (valor) =>
   String(valor || "")
     .trim()
     .toUpperCase() || "B";
+
+const shouldMarkLicenseObtained = ({ licenciaObjetivo, fasePractica }) => {
+  if (!usesDualPracticalPhaseByLicense(licenciaObjetivo)) {
+    return true;
+  }
+
+  return Number(fasePractica) === 2;
+};
 
 const FALTAS_CATALOGO_PRACTICO = {
   leves: [
@@ -491,6 +504,7 @@ const construirPlanAplicacion = async (tx, candidatas, randomFn, options) => {
     solicitudes.push({
       solicitudId: solicitud.id,
       alumnoId: solicitud.alumnoId,
+      fasePractica: solicitud.fasePractica,
       beforeEstado: solicitud.estado,
       beforeErrores: solicitud.erroresExamen,
       beforeAciertos: solicitud.aciertosExamen,
@@ -554,6 +568,7 @@ const construirPlanAplicacion = async (tx, candidatas, randomFn, options) => {
     solicitudes.push({
       solicitudId: duplicada.id,
       alumnoId: duplicada.alumnoId,
+      fasePractica: duplicada.fasePractica,
       beforeEstado: duplicada.estado,
       beforeErrores: duplicada.erroresExamen,
       beforeAciertos: duplicada.aciertosExamen,
@@ -763,7 +778,7 @@ async function main() {
             observaciones:
               item.afterEstado === "CANCELADO"
                 ? "Cancelada automáticamente por duplicidad de solicitud práctica en la misma fecha."
-                : undefined,
+                : `[PRACTICO_META] fase=${item.fasePractica || 0}; modalidad=${getPracticalPhaseLabel(item.fasePractica)}; origen=MANUAL_BATCH`,
           },
         });
 
@@ -825,6 +840,19 @@ async function main() {
             },
           });
 
+          const licenciaObjetivo = normalizeLicenseCode(
+            alumno?.matriculas?.[0]?.licencia,
+          );
+
+          if (
+            !shouldMarkLicenseObtained({
+              licenciaObjetivo,
+              fasePractica: updated.fasePractica,
+            })
+          ) {
+            continue;
+          }
+
           await tx.alumno.update({
             where: {
               id: updated.alumnoId,
@@ -842,7 +870,7 @@ async function main() {
                 alumnoId: updated.alumnoId,
                 profesorAnteriorId: alumno.profesorAsignadoId,
                 profesorNuevoId: null,
-                licenciaObtenida: alumno.matriculas?.[0]?.licencia || null,
+                licenciaObtenida: licenciaObjetivo || null,
                 motivo: "LICENCIA_OBTENIDA",
               },
             });

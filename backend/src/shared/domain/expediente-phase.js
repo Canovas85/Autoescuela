@@ -18,6 +18,22 @@ const getLatestExamRequestByType = (solicitudesExamen = [], tipo) => {
     .sort((a, b) => getComparableExamDate(b) - getComparableExamDate(a))[0];
 };
 
+const hasFinalPracticalApto = (solicitudesExamen = []) => {
+  return (solicitudesExamen || []).some((request) => {
+    if (request?.tipo !== "PRACTICO") {
+      return false;
+    }
+
+    const estado = String(request?.estado || "").toUpperCase();
+    if (!["APTO", "APROBADO"].includes(estado)) {
+      return false;
+    }
+
+    const fase = request?.fasePractica;
+    return fase === null || fase === undefined || Number(fase) === 2;
+  });
+};
+
 const countCompletedRoadmaps = (clases = []) => {
   return (clases || []).filter((clase) => {
     const estadoClase = String(clase?.estado || "").toUpperCase();
@@ -108,7 +124,7 @@ export const resolveExpedientePhase = ({
 
   if (
     expedienteNormalizado === EXPEDIENTE_PHASES.LICENCIA_OBTENIDA.code ||
-    practicalStatus === "APTO"
+    hasFinalPracticalApto(solicitudesExamen)
   ) {
     return EXPEDIENTE_PHASES.LICENCIA_OBTENIDA;
   }

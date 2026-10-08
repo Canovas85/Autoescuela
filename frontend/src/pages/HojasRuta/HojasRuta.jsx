@@ -1181,11 +1181,13 @@ export default function HojasRuta() {
       }
 
       if (vehiculo) {
+        const id = String(row.vehiculo?.id || "").toLowerCase();
         const matricula = String(row.vehiculo?.matricula || "").toLowerCase();
         const marca = String(row.vehiculo?.marca || "").toLowerCase();
         const modelo = String(row.vehiculo?.modelo || "").toLowerCase();
 
         if (
+          id !== vehiculo &&
           !matricula.includes(vehiculo) &&
           !marca.includes(vehiculo) &&
           !modelo.includes(vehiculo)

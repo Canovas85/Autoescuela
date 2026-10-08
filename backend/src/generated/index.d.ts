@@ -24424,6 +24424,7 @@ export namespace Prisma {
   }
 
   export type SolicitudExamenAvgAggregateOutputType = {
+    fasePractica: number | null
     erroresExamen: number | null
     aciertosExamen: number | null
     faltasLeves: number | null
@@ -24432,6 +24433,7 @@ export namespace Prisma {
   }
 
   export type SolicitudExamenSumAggregateOutputType = {
+    fasePractica: number | null
     erroresExamen: number | null
     aciertosExamen: number | null
     faltasLeves: number | null
@@ -24443,6 +24445,7 @@ export namespace Prisma {
     id: string | null
     alumnoId: string | null
     tipo: string | null
+    fasePractica: number | null
     estado: string | null
     fechaSolicitud: Date | null
     fechaProgramada: Date | null
@@ -24460,6 +24463,7 @@ export namespace Prisma {
     id: string | null
     alumnoId: string | null
     tipo: string | null
+    fasePractica: number | null
     estado: string | null
     fechaSolicitud: Date | null
     fechaProgramada: Date | null
@@ -24477,6 +24481,7 @@ export namespace Prisma {
     id: number
     alumnoId: number
     tipo: number
+    fasePractica: number
     estado: number
     fechaSolicitud: number
     fechaProgramada: number
@@ -24496,6 +24501,7 @@ export namespace Prisma {
 
 
   export type SolicitudExamenAvgAggregateInputType = {
+    fasePractica?: true
     erroresExamen?: true
     aciertosExamen?: true
     faltasLeves?: true
@@ -24504,6 +24510,7 @@ export namespace Prisma {
   }
 
   export type SolicitudExamenSumAggregateInputType = {
+    fasePractica?: true
     erroresExamen?: true
     aciertosExamen?: true
     faltasLeves?: true
@@ -24515,6 +24522,7 @@ export namespace Prisma {
     id?: true
     alumnoId?: true
     tipo?: true
+    fasePractica?: true
     estado?: true
     fechaSolicitud?: true
     fechaProgramada?: true
@@ -24532,6 +24540,7 @@ export namespace Prisma {
     id?: true
     alumnoId?: true
     tipo?: true
+    fasePractica?: true
     estado?: true
     fechaSolicitud?: true
     fechaProgramada?: true
@@ -24549,6 +24558,7 @@ export namespace Prisma {
     id?: true
     alumnoId?: true
     tipo?: true
+    fasePractica?: true
     estado?: true
     fechaSolicitud?: true
     fechaProgramada?: true
@@ -24656,6 +24666,7 @@ export namespace Prisma {
     id: string
     alumnoId: string
     tipo: string
+    fasePractica: number | null
     estado: string
     fechaSolicitud: Date
     fechaProgramada: Date | null
@@ -24695,6 +24706,7 @@ export namespace Prisma {
     id?: boolean
     alumnoId?: boolean
     tipo?: boolean
+    fasePractica?: boolean
     estado?: boolean
     fechaSolicitud?: boolean
     fechaProgramada?: boolean
@@ -24717,6 +24729,7 @@ export namespace Prisma {
     id?: boolean
     alumnoId?: boolean
     tipo?: boolean
+    fasePractica?: boolean
     estado?: boolean
     fechaSolicitud?: boolean
     fechaProgramada?: boolean
@@ -24739,6 +24752,7 @@ export namespace Prisma {
     id?: boolean
     alumnoId?: boolean
     tipo?: boolean
+    fasePractica?: boolean
     estado?: boolean
     fechaSolicitud?: boolean
     fechaProgramada?: boolean
@@ -24761,6 +24775,7 @@ export namespace Prisma {
     id?: boolean
     alumnoId?: boolean
     tipo?: boolean
+    fasePractica?: boolean
     estado?: boolean
     fechaSolicitud?: boolean
     fechaProgramada?: boolean
@@ -24777,7 +24792,7 @@ export namespace Prisma {
     observaciones?: boolean
   }
 
-  export type SolicitudExamenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "tipo" | "estado" | "fechaSolicitud" | "fechaProgramada" | "pagoGastoPracticoId" | "erroresExamen" | "aciertosExamen" | "faltasLeves" | "faltasDeficientes" | "faltasEliminatorias" | "faltasLevesDetalle" | "faltasDeficientesDetalle" | "faltasEliminatoriasDetalle" | "motivoNoApto" | "observaciones", ExtArgs["result"]["solicitudExamen"]>
+  export type SolicitudExamenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "tipo" | "fasePractica" | "estado" | "fechaSolicitud" | "fechaProgramada" | "pagoGastoPracticoId" | "erroresExamen" | "aciertosExamen" | "faltasLeves" | "faltasDeficientes" | "faltasEliminatorias" | "faltasLevesDetalle" | "faltasDeficientesDetalle" | "faltasEliminatoriasDetalle" | "motivoNoApto" | "observaciones", ExtArgs["result"]["solicitudExamen"]>
   export type SolicitudExamenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     pagoGastoPractico?: boolean | SolicitudExamen$pagoGastoPracticoArgs<ExtArgs>
@@ -24801,6 +24816,7 @@ export namespace Prisma {
       id: string
       alumnoId: string
       tipo: string
+      fasePractica: number | null
       estado: string
       fechaSolicitud: Date
       fechaProgramada: Date | null
@@ -25243,6 +25259,7 @@ export namespace Prisma {
     readonly id: FieldRef<"SolicitudExamen", 'String'>
     readonly alumnoId: FieldRef<"SolicitudExamen", 'String'>
     readonly tipo: FieldRef<"SolicitudExamen", 'String'>
+    readonly fasePractica: FieldRef<"SolicitudExamen", 'Int'>
     readonly estado: FieldRef<"SolicitudExamen", 'String'>
     readonly fechaSolicitud: FieldRef<"SolicitudExamen", 'DateTime'>
     readonly fechaProgramada: FieldRef<"SolicitudExamen", 'DateTime'>
@@ -27964,6 +27981,7 @@ export namespace Prisma {
     profesorId: string | null
     vehiculoId: string | null
     compraBonoId: string | null
+    tipoClasePractica: string | null
     fecha: Date | null
     duracion: number | null
     estado: string | null
@@ -27979,6 +27997,7 @@ export namespace Prisma {
     profesorId: string | null
     vehiculoId: string | null
     compraBonoId: string | null
+    tipoClasePractica: string | null
     fecha: Date | null
     duracion: number | null
     estado: string | null
@@ -27994,6 +28013,7 @@ export namespace Prisma {
     profesorId: number
     vehiculoId: number
     compraBonoId: number
+    tipoClasePractica: number
     fecha: number
     duracion: number
     estado: number
@@ -28019,6 +28039,7 @@ export namespace Prisma {
     profesorId?: true
     vehiculoId?: true
     compraBonoId?: true
+    tipoClasePractica?: true
     fecha?: true
     duracion?: true
     estado?: true
@@ -28034,6 +28055,7 @@ export namespace Prisma {
     profesorId?: true
     vehiculoId?: true
     compraBonoId?: true
+    tipoClasePractica?: true
     fecha?: true
     duracion?: true
     estado?: true
@@ -28049,6 +28071,7 @@ export namespace Prisma {
     profesorId?: true
     vehiculoId?: true
     compraBonoId?: true
+    tipoClasePractica?: true
     fecha?: true
     duracion?: true
     estado?: true
@@ -28151,6 +28174,7 @@ export namespace Prisma {
     profesorId: string
     vehiculoId: string
     compraBonoId: string | null
+    tipoClasePractica: string
     fecha: Date
     duracion: number
     estado: string
@@ -28185,6 +28209,7 @@ export namespace Prisma {
     profesorId?: boolean
     vehiculoId?: boolean
     compraBonoId?: boolean
+    tipoClasePractica?: boolean
     fecha?: boolean
     duracion?: boolean
     estado?: boolean
@@ -28208,6 +28233,7 @@ export namespace Prisma {
     profesorId?: boolean
     vehiculoId?: boolean
     compraBonoId?: boolean
+    tipoClasePractica?: boolean
     fecha?: boolean
     duracion?: boolean
     estado?: boolean
@@ -28227,6 +28253,7 @@ export namespace Prisma {
     profesorId?: boolean
     vehiculoId?: boolean
     compraBonoId?: boolean
+    tipoClasePractica?: boolean
     fecha?: boolean
     duracion?: boolean
     estado?: boolean
@@ -28246,6 +28273,7 @@ export namespace Prisma {
     profesorId?: boolean
     vehiculoId?: boolean
     compraBonoId?: boolean
+    tipoClasePractica?: boolean
     fecha?: boolean
     duracion?: boolean
     estado?: boolean
@@ -28255,7 +28283,7 @@ export namespace Prisma {
     canceladaConPenalizacion?: boolean
   }
 
-  export type ClasePracticaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "profesorId" | "vehiculoId" | "compraBonoId" | "fecha" | "duracion" | "estado" | "metodoPago" | "pagoLimiteAt" | "canceladaPor" | "canceladaConPenalizacion", ExtArgs["result"]["clasePractica"]>
+  export type ClasePracticaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "profesorId" | "vehiculoId" | "compraBonoId" | "tipoClasePractica" | "fecha" | "duracion" | "estado" | "metodoPago" | "pagoLimiteAt" | "canceladaPor" | "canceladaConPenalizacion", ExtArgs["result"]["clasePractica"]>
   export type ClasePracticaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
@@ -28296,6 +28324,7 @@ export namespace Prisma {
       profesorId: string
       vehiculoId: string
       compraBonoId: string | null
+      tipoClasePractica: string
       fecha: Date
       duracion: number
       estado: string
@@ -28738,6 +28767,7 @@ export namespace Prisma {
     readonly profesorId: FieldRef<"ClasePractica", 'String'>
     readonly vehiculoId: FieldRef<"ClasePractica", 'String'>
     readonly compraBonoId: FieldRef<"ClasePractica", 'String'>
+    readonly tipoClasePractica: FieldRef<"ClasePractica", 'String'>
     readonly fecha: FieldRef<"ClasePractica", 'DateTime'>
     readonly duracion: FieldRef<"ClasePractica", 'Int'>
     readonly estado: FieldRef<"ClasePractica", 'String'>
@@ -35197,6 +35227,7 @@ export namespace Prisma {
     alumnoId: string | null
     profesorAnteriorId: string | null
     profesorNuevoId: string | null
+    licenciaObtenida: string | null
     changedById: string | null
     changedAt: Date | null
     motivo: string | null
@@ -35207,6 +35238,7 @@ export namespace Prisma {
     alumnoId: string | null
     profesorAnteriorId: string | null
     profesorNuevoId: string | null
+    licenciaObtenida: string | null
     changedById: string | null
     changedAt: Date | null
     motivo: string | null
@@ -35217,6 +35249,7 @@ export namespace Prisma {
     alumnoId: number
     profesorAnteriorId: number
     profesorNuevoId: number
+    licenciaObtenida: number
     changedById: number
     changedAt: number
     motivo: number
@@ -35229,6 +35262,7 @@ export namespace Prisma {
     alumnoId?: true
     profesorAnteriorId?: true
     profesorNuevoId?: true
+    licenciaObtenida?: true
     changedById?: true
     changedAt?: true
     motivo?: true
@@ -35239,6 +35273,7 @@ export namespace Prisma {
     alumnoId?: true
     profesorAnteriorId?: true
     profesorNuevoId?: true
+    licenciaObtenida?: true
     changedById?: true
     changedAt?: true
     motivo?: true
@@ -35249,6 +35284,7 @@ export namespace Prisma {
     alumnoId?: true
     profesorAnteriorId?: true
     profesorNuevoId?: true
+    licenciaObtenida?: true
     changedById?: true
     changedAt?: true
     motivo?: true
@@ -35331,7 +35367,8 @@ export namespace Prisma {
     id: string
     alumnoId: string
     profesorAnteriorId: string
-    profesorNuevoId: string
+    profesorNuevoId: string | null
+    licenciaObtenida: string | null
     changedById: string | null
     changedAt: Date
     motivo: string | null
@@ -35359,12 +35396,13 @@ export namespace Prisma {
     alumnoId?: boolean
     profesorAnteriorId?: boolean
     profesorNuevoId?: boolean
+    licenciaObtenida?: boolean
     changedById?: boolean
     changedAt?: boolean
     motivo?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     profesorAnterior?: boolean | ProfesorDefaultArgs<ExtArgs>
-    profesorNuevo?: boolean | ProfesorDefaultArgs<ExtArgs>
+    profesorNuevo?: boolean | AlumnoProfesorHistorial$profesorNuevoArgs<ExtArgs>
   }, ExtArgs["result"]["alumnoProfesorHistorial"]>
 
   export type AlumnoProfesorHistorialSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -35372,12 +35410,13 @@ export namespace Prisma {
     alumnoId?: boolean
     profesorAnteriorId?: boolean
     profesorNuevoId?: boolean
+    licenciaObtenida?: boolean
     changedById?: boolean
     changedAt?: boolean
     motivo?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     profesorAnterior?: boolean | ProfesorDefaultArgs<ExtArgs>
-    profesorNuevo?: boolean | ProfesorDefaultArgs<ExtArgs>
+    profesorNuevo?: boolean | AlumnoProfesorHistorial$profesorNuevoArgs<ExtArgs>
   }, ExtArgs["result"]["alumnoProfesorHistorial"]>
 
   export type AlumnoProfesorHistorialSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -35385,12 +35424,13 @@ export namespace Prisma {
     alumnoId?: boolean
     profesorAnteriorId?: boolean
     profesorNuevoId?: boolean
+    licenciaObtenida?: boolean
     changedById?: boolean
     changedAt?: boolean
     motivo?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     profesorAnterior?: boolean | ProfesorDefaultArgs<ExtArgs>
-    profesorNuevo?: boolean | ProfesorDefaultArgs<ExtArgs>
+    profesorNuevo?: boolean | AlumnoProfesorHistorial$profesorNuevoArgs<ExtArgs>
   }, ExtArgs["result"]["alumnoProfesorHistorial"]>
 
   export type AlumnoProfesorHistorialSelectScalar = {
@@ -35398,26 +35438,27 @@ export namespace Prisma {
     alumnoId?: boolean
     profesorAnteriorId?: boolean
     profesorNuevoId?: boolean
+    licenciaObtenida?: boolean
     changedById?: boolean
     changedAt?: boolean
     motivo?: boolean
   }
 
-  export type AlumnoProfesorHistorialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "profesorAnteriorId" | "profesorNuevoId" | "changedById" | "changedAt" | "motivo", ExtArgs["result"]["alumnoProfesorHistorial"]>
+  export type AlumnoProfesorHistorialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "profesorAnteriorId" | "profesorNuevoId" | "licenciaObtenida" | "changedById" | "changedAt" | "motivo", ExtArgs["result"]["alumnoProfesorHistorial"]>
   export type AlumnoProfesorHistorialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     profesorAnterior?: boolean | ProfesorDefaultArgs<ExtArgs>
-    profesorNuevo?: boolean | ProfesorDefaultArgs<ExtArgs>
+    profesorNuevo?: boolean | AlumnoProfesorHistorial$profesorNuevoArgs<ExtArgs>
   }
   export type AlumnoProfesorHistorialIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     profesorAnterior?: boolean | ProfesorDefaultArgs<ExtArgs>
-    profesorNuevo?: boolean | ProfesorDefaultArgs<ExtArgs>
+    profesorNuevo?: boolean | AlumnoProfesorHistorial$profesorNuevoArgs<ExtArgs>
   }
   export type AlumnoProfesorHistorialIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
     profesorAnterior?: boolean | ProfesorDefaultArgs<ExtArgs>
-    profesorNuevo?: boolean | ProfesorDefaultArgs<ExtArgs>
+    profesorNuevo?: boolean | AlumnoProfesorHistorial$profesorNuevoArgs<ExtArgs>
   }
 
   export type $AlumnoProfesorHistorialPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -35425,13 +35466,14 @@ export namespace Prisma {
     objects: {
       alumno: Prisma.$AlumnoPayload<ExtArgs>
       profesorAnterior: Prisma.$ProfesorPayload<ExtArgs>
-      profesorNuevo: Prisma.$ProfesorPayload<ExtArgs>
+      profesorNuevo: Prisma.$ProfesorPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       alumnoId: string
       profesorAnteriorId: string
-      profesorNuevoId: string
+      profesorNuevoId: string | null
+      licenciaObtenida: string | null
       changedById: string | null
       changedAt: Date
       motivo: string | null
@@ -35831,7 +35873,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     alumno<T extends AlumnoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AlumnoDefaultArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     profesorAnterior<T extends ProfesorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfesorDefaultArgs<ExtArgs>>): Prisma__ProfesorClient<$Result.GetResult<Prisma.$ProfesorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    profesorNuevo<T extends ProfesorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfesorDefaultArgs<ExtArgs>>): Prisma__ProfesorClient<$Result.GetResult<Prisma.$ProfesorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    profesorNuevo<T extends AlumnoProfesorHistorial$profesorNuevoArgs<ExtArgs> = {}>(args?: Subset<T, AlumnoProfesorHistorial$profesorNuevoArgs<ExtArgs>>): Prisma__ProfesorClient<$Result.GetResult<Prisma.$ProfesorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -35865,6 +35907,7 @@ export namespace Prisma {
     readonly alumnoId: FieldRef<"AlumnoProfesorHistorial", 'String'>
     readonly profesorAnteriorId: FieldRef<"AlumnoProfesorHistorial", 'String'>
     readonly profesorNuevoId: FieldRef<"AlumnoProfesorHistorial", 'String'>
+    readonly licenciaObtenida: FieldRef<"AlumnoProfesorHistorial", 'String'>
     readonly changedById: FieldRef<"AlumnoProfesorHistorial", 'String'>
     readonly changedAt: FieldRef<"AlumnoProfesorHistorial", 'DateTime'>
     readonly motivo: FieldRef<"AlumnoProfesorHistorial", 'String'>
@@ -36261,6 +36304,25 @@ export namespace Prisma {
      * Limit how many AlumnoProfesorHistorials to delete.
      */
     limit?: number
+  }
+
+  /**
+   * AlumnoProfesorHistorial.profesorNuevo
+   */
+  export type AlumnoProfesorHistorial$profesorNuevoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Profesor
+     */
+    select?: ProfesorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Profesor
+     */
+    omit?: ProfesorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProfesorInclude<ExtArgs> | null
+    where?: ProfesorWhereInput
   }
 
   /**
@@ -55760,6 +55822,7 @@ export namespace Prisma {
     id: 'id',
     alumnoId: 'alumnoId',
     tipo: 'tipo',
+    fasePractica: 'fasePractica',
     estado: 'estado',
     fechaSolicitud: 'fechaSolicitud',
     fechaProgramada: 'fechaProgramada',
@@ -55816,6 +55879,7 @@ export namespace Prisma {
     profesorId: 'profesorId',
     vehiculoId: 'vehiculoId',
     compraBonoId: 'compraBonoId',
+    tipoClasePractica: 'tipoClasePractica',
     fecha: 'fecha',
     duracion: 'duracion',
     estado: 'estado',
@@ -55918,6 +55982,7 @@ export namespace Prisma {
     alumnoId: 'alumnoId',
     profesorAnteriorId: 'profesorAnteriorId',
     profesorNuevoId: 'profesorNuevoId',
+    licenciaObtenida: 'licenciaObtenida',
     changedById: 'changedById',
     changedAt: 'changedAt',
     motivo: 'motivo'
@@ -57639,6 +57704,7 @@ export namespace Prisma {
     id?: StringFilter<"SolicitudExamen"> | string
     alumnoId?: StringFilter<"SolicitudExamen"> | string
     tipo?: StringFilter<"SolicitudExamen"> | string
+    fasePractica?: IntNullableFilter<"SolicitudExamen"> | number | null
     estado?: StringFilter<"SolicitudExamen"> | string
     fechaSolicitud?: DateTimeFilter<"SolicitudExamen"> | Date | string
     fechaProgramada?: DateTimeNullableFilter<"SolicitudExamen"> | Date | string | null
@@ -57661,6 +57727,7 @@ export namespace Prisma {
     id?: SortOrder
     alumnoId?: SortOrder
     tipo?: SortOrder
+    fasePractica?: SortOrderInput | SortOrder
     estado?: SortOrder
     fechaSolicitud?: SortOrder
     fechaProgramada?: SortOrderInput | SortOrder
@@ -57686,6 +57753,7 @@ export namespace Prisma {
     NOT?: SolicitudExamenWhereInput | SolicitudExamenWhereInput[]
     alumnoId?: StringFilter<"SolicitudExamen"> | string
     tipo?: StringFilter<"SolicitudExamen"> | string
+    fasePractica?: IntNullableFilter<"SolicitudExamen"> | number | null
     estado?: StringFilter<"SolicitudExamen"> | string
     fechaSolicitud?: DateTimeFilter<"SolicitudExamen"> | Date | string
     fechaProgramada?: DateTimeNullableFilter<"SolicitudExamen"> | Date | string | null
@@ -57708,6 +57776,7 @@ export namespace Prisma {
     id?: SortOrder
     alumnoId?: SortOrder
     tipo?: SortOrder
+    fasePractica?: SortOrderInput | SortOrder
     estado?: SortOrder
     fechaSolicitud?: SortOrder
     fechaProgramada?: SortOrderInput | SortOrder
@@ -57736,6 +57805,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"SolicitudExamen"> | string
     alumnoId?: StringWithAggregatesFilter<"SolicitudExamen"> | string
     tipo?: StringWithAggregatesFilter<"SolicitudExamen"> | string
+    fasePractica?: IntNullableWithAggregatesFilter<"SolicitudExamen"> | number | null
     estado?: StringWithAggregatesFilter<"SolicitudExamen"> | string
     fechaSolicitud?: DateTimeWithAggregatesFilter<"SolicitudExamen"> | Date | string
     fechaProgramada?: DateTimeNullableWithAggregatesFilter<"SolicitudExamen"> | Date | string | null
@@ -57919,6 +57989,7 @@ export namespace Prisma {
     profesorId?: StringFilter<"ClasePractica"> | string
     vehiculoId?: StringFilter<"ClasePractica"> | string
     compraBonoId?: StringNullableFilter<"ClasePractica"> | string | null
+    tipoClasePractica?: StringFilter<"ClasePractica"> | string
     fecha?: DateTimeFilter<"ClasePractica"> | Date | string
     duracion?: IntFilter<"ClasePractica"> | number
     estado?: StringFilter<"ClasePractica"> | string
@@ -57941,6 +58012,7 @@ export namespace Prisma {
     profesorId?: SortOrder
     vehiculoId?: SortOrder
     compraBonoId?: SortOrderInput | SortOrder
+    tipoClasePractica?: SortOrder
     fecha?: SortOrder
     duracion?: SortOrder
     estado?: SortOrder
@@ -57966,6 +58038,7 @@ export namespace Prisma {
     profesorId?: StringFilter<"ClasePractica"> | string
     vehiculoId?: StringFilter<"ClasePractica"> | string
     compraBonoId?: StringNullableFilter<"ClasePractica"> | string | null
+    tipoClasePractica?: StringFilter<"ClasePractica"> | string
     fecha?: DateTimeFilter<"ClasePractica"> | Date | string
     duracion?: IntFilter<"ClasePractica"> | number
     estado?: StringFilter<"ClasePractica"> | string
@@ -57988,6 +58061,7 @@ export namespace Prisma {
     profesorId?: SortOrder
     vehiculoId?: SortOrder
     compraBonoId?: SortOrderInput | SortOrder
+    tipoClasePractica?: SortOrder
     fecha?: SortOrder
     duracion?: SortOrder
     estado?: SortOrder
@@ -58011,6 +58085,7 @@ export namespace Prisma {
     profesorId?: StringWithAggregatesFilter<"ClasePractica"> | string
     vehiculoId?: StringWithAggregatesFilter<"ClasePractica"> | string
     compraBonoId?: StringNullableWithAggregatesFilter<"ClasePractica"> | string | null
+    tipoClasePractica?: StringWithAggregatesFilter<"ClasePractica"> | string
     fecha?: DateTimeWithAggregatesFilter<"ClasePractica"> | Date | string
     duracion?: IntWithAggregatesFilter<"ClasePractica"> | number
     estado?: StringWithAggregatesFilter<"ClasePractica"> | string
@@ -58472,20 +58547,22 @@ export namespace Prisma {
     id?: StringFilter<"AlumnoProfesorHistorial"> | string
     alumnoId?: StringFilter<"AlumnoProfesorHistorial"> | string
     profesorAnteriorId?: StringFilter<"AlumnoProfesorHistorial"> | string
-    profesorNuevoId?: StringFilter<"AlumnoProfesorHistorial"> | string
+    profesorNuevoId?: StringNullableFilter<"AlumnoProfesorHistorial"> | string | null
+    licenciaObtenida?: StringNullableFilter<"AlumnoProfesorHistorial"> | string | null
     changedById?: StringNullableFilter<"AlumnoProfesorHistorial"> | string | null
     changedAt?: DateTimeFilter<"AlumnoProfesorHistorial"> | Date | string
     motivo?: StringNullableFilter<"AlumnoProfesorHistorial"> | string | null
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
     profesorAnterior?: XOR<ProfesorScalarRelationFilter, ProfesorWhereInput>
-    profesorNuevo?: XOR<ProfesorScalarRelationFilter, ProfesorWhereInput>
+    profesorNuevo?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
   }
 
   export type AlumnoProfesorHistorialOrderByWithRelationInput = {
     id?: SortOrder
     alumnoId?: SortOrder
     profesorAnteriorId?: SortOrder
-    profesorNuevoId?: SortOrder
+    profesorNuevoId?: SortOrderInput | SortOrder
+    licenciaObtenida?: SortOrderInput | SortOrder
     changedById?: SortOrderInput | SortOrder
     changedAt?: SortOrder
     motivo?: SortOrderInput | SortOrder
@@ -58501,20 +58578,22 @@ export namespace Prisma {
     NOT?: AlumnoProfesorHistorialWhereInput | AlumnoProfesorHistorialWhereInput[]
     alumnoId?: StringFilter<"AlumnoProfesorHistorial"> | string
     profesorAnteriorId?: StringFilter<"AlumnoProfesorHistorial"> | string
-    profesorNuevoId?: StringFilter<"AlumnoProfesorHistorial"> | string
+    profesorNuevoId?: StringNullableFilter<"AlumnoProfesorHistorial"> | string | null
+    licenciaObtenida?: StringNullableFilter<"AlumnoProfesorHistorial"> | string | null
     changedById?: StringNullableFilter<"AlumnoProfesorHistorial"> | string | null
     changedAt?: DateTimeFilter<"AlumnoProfesorHistorial"> | Date | string
     motivo?: StringNullableFilter<"AlumnoProfesorHistorial"> | string | null
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
     profesorAnterior?: XOR<ProfesorScalarRelationFilter, ProfesorWhereInput>
-    profesorNuevo?: XOR<ProfesorScalarRelationFilter, ProfesorWhereInput>
+    profesorNuevo?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
   }, "id">
 
   export type AlumnoProfesorHistorialOrderByWithAggregationInput = {
     id?: SortOrder
     alumnoId?: SortOrder
     profesorAnteriorId?: SortOrder
-    profesorNuevoId?: SortOrder
+    profesorNuevoId?: SortOrderInput | SortOrder
+    licenciaObtenida?: SortOrderInput | SortOrder
     changedById?: SortOrderInput | SortOrder
     changedAt?: SortOrder
     motivo?: SortOrderInput | SortOrder
@@ -58530,7 +58609,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"AlumnoProfesorHistorial"> | string
     alumnoId?: StringWithAggregatesFilter<"AlumnoProfesorHistorial"> | string
     profesorAnteriorId?: StringWithAggregatesFilter<"AlumnoProfesorHistorial"> | string
-    profesorNuevoId?: StringWithAggregatesFilter<"AlumnoProfesorHistorial"> | string
+    profesorNuevoId?: StringNullableWithAggregatesFilter<"AlumnoProfesorHistorial"> | string | null
+    licenciaObtenida?: StringNullableWithAggregatesFilter<"AlumnoProfesorHistorial"> | string | null
     changedById?: StringNullableWithAggregatesFilter<"AlumnoProfesorHistorial"> | string | null
     changedAt?: DateTimeWithAggregatesFilter<"AlumnoProfesorHistorial"> | Date | string
     motivo?: StringNullableWithAggregatesFilter<"AlumnoProfesorHistorial"> | string | null
@@ -61366,6 +61446,7 @@ export namespace Prisma {
   export type SolicitudExamenCreateInput = {
     id?: string
     tipo: string
+    fasePractica?: number | null
     estado?: string
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
@@ -61387,6 +61468,7 @@ export namespace Prisma {
     id?: string
     alumnoId: string
     tipo: string
+    fasePractica?: number | null
     estado?: string
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
@@ -61406,6 +61488,7 @@ export namespace Prisma {
   export type SolicitudExamenUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
+    fasePractica?: NullableIntFieldUpdateOperationsInput | number | null
     estado?: StringFieldUpdateOperationsInput | string
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -61427,6 +61510,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
+    fasePractica?: NullableIntFieldUpdateOperationsInput | number | null
     estado?: StringFieldUpdateOperationsInput | string
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -61447,6 +61531,7 @@ export namespace Prisma {
     id?: string
     alumnoId: string
     tipo: string
+    fasePractica?: number | null
     estado?: string
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
@@ -61466,6 +61551,7 @@ export namespace Prisma {
   export type SolicitudExamenUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
+    fasePractica?: NullableIntFieldUpdateOperationsInput | number | null
     estado?: StringFieldUpdateOperationsInput | string
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -61485,6 +61571,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
+    fasePractica?: NullableIntFieldUpdateOperationsInput | number | null
     estado?: StringFieldUpdateOperationsInput | string
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -61686,6 +61773,7 @@ export namespace Prisma {
 
   export type ClasePracticaCreateInput = {
     id?: string
+    tipoClasePractica?: string
     fecha: Date | string
     duracion: number
     estado: string
@@ -61708,6 +61796,7 @@ export namespace Prisma {
     profesorId: string
     vehiculoId: string
     compraBonoId?: string | null
+    tipoClasePractica?: string
     fecha: Date | string
     duracion: number
     estado: string
@@ -61722,6 +61811,7 @@ export namespace Prisma {
 
   export type ClasePracticaUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tipoClasePractica?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
@@ -61744,6 +61834,7 @@ export namespace Prisma {
     profesorId?: StringFieldUpdateOperationsInput | string
     vehiculoId?: StringFieldUpdateOperationsInput | string
     compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoClasePractica?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
@@ -61762,6 +61853,7 @@ export namespace Prisma {
     profesorId: string
     vehiculoId: string
     compraBonoId?: string | null
+    tipoClasePractica?: string
     fecha: Date | string
     duracion: number
     estado: string
@@ -61773,6 +61865,7 @@ export namespace Prisma {
 
   export type ClasePracticaUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tipoClasePractica?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
@@ -61788,6 +61881,7 @@ export namespace Prisma {
     profesorId?: StringFieldUpdateOperationsInput | string
     vehiculoId?: StringFieldUpdateOperationsInput | string
     compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoClasePractica?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
@@ -62295,19 +62389,21 @@ export namespace Prisma {
 
   export type AlumnoProfesorHistorialCreateInput = {
     id?: string
+    licenciaObtenida?: string | null
     changedById?: string | null
     changedAt?: Date | string
     motivo?: string | null
     alumno: AlumnoCreateNestedOneWithoutHistorialProfesoresInput
     profesorAnterior: ProfesorCreateNestedOneWithoutHistorialComoAnteriorInput
-    profesorNuevo: ProfesorCreateNestedOneWithoutHistorialComoNuevoInput
+    profesorNuevo?: ProfesorCreateNestedOneWithoutHistorialComoNuevoInput
   }
 
   export type AlumnoProfesorHistorialUncheckedCreateInput = {
     id?: string
     alumnoId: string
     profesorAnteriorId: string
-    profesorNuevoId: string
+    profesorNuevoId?: string | null
+    licenciaObtenida?: string | null
     changedById?: string | null
     changedAt?: Date | string
     motivo?: string | null
@@ -62315,19 +62411,21 @@ export namespace Prisma {
 
   export type AlumnoProfesorHistorialUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    licenciaObtenida?: NullableStringFieldUpdateOperationsInput | string | null
     changedById?: NullableStringFieldUpdateOperationsInput | string | null
     changedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     motivo?: NullableStringFieldUpdateOperationsInput | string | null
     alumno?: AlumnoUpdateOneRequiredWithoutHistorialProfesoresNestedInput
     profesorAnterior?: ProfesorUpdateOneRequiredWithoutHistorialComoAnteriorNestedInput
-    profesorNuevo?: ProfesorUpdateOneRequiredWithoutHistorialComoNuevoNestedInput
+    profesorNuevo?: ProfesorUpdateOneWithoutHistorialComoNuevoNestedInput
   }
 
   export type AlumnoProfesorHistorialUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
     profesorAnteriorId?: StringFieldUpdateOperationsInput | string
-    profesorNuevoId?: StringFieldUpdateOperationsInput | string
+    profesorNuevoId?: NullableStringFieldUpdateOperationsInput | string | null
+    licenciaObtenida?: NullableStringFieldUpdateOperationsInput | string | null
     changedById?: NullableStringFieldUpdateOperationsInput | string | null
     changedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     motivo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -62337,7 +62435,8 @@ export namespace Prisma {
     id?: string
     alumnoId: string
     profesorAnteriorId: string
-    profesorNuevoId: string
+    profesorNuevoId?: string | null
+    licenciaObtenida?: string | null
     changedById?: string | null
     changedAt?: Date | string
     motivo?: string | null
@@ -62345,6 +62444,7 @@ export namespace Prisma {
 
   export type AlumnoProfesorHistorialUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    licenciaObtenida?: NullableStringFieldUpdateOperationsInput | string | null
     changedById?: NullableStringFieldUpdateOperationsInput | string | null
     changedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     motivo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -62354,7 +62454,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
     profesorAnteriorId?: StringFieldUpdateOperationsInput | string
-    profesorNuevoId?: StringFieldUpdateOperationsInput | string
+    profesorNuevoId?: NullableStringFieldUpdateOperationsInput | string | null
+    licenciaObtenida?: NullableStringFieldUpdateOperationsInput | string | null
     changedById?: NullableStringFieldUpdateOperationsInput | string | null
     changedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     motivo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -65165,6 +65266,7 @@ export namespace Prisma {
     id?: SortOrder
     alumnoId?: SortOrder
     tipo?: SortOrder
+    fasePractica?: SortOrder
     estado?: SortOrder
     fechaSolicitud?: SortOrder
     fechaProgramada?: SortOrder
@@ -65182,6 +65284,7 @@ export namespace Prisma {
   }
 
   export type SolicitudExamenAvgOrderByAggregateInput = {
+    fasePractica?: SortOrder
     erroresExamen?: SortOrder
     aciertosExamen?: SortOrder
     faltasLeves?: SortOrder
@@ -65193,6 +65296,7 @@ export namespace Prisma {
     id?: SortOrder
     alumnoId?: SortOrder
     tipo?: SortOrder
+    fasePractica?: SortOrder
     estado?: SortOrder
     fechaSolicitud?: SortOrder
     fechaProgramada?: SortOrder
@@ -65210,6 +65314,7 @@ export namespace Prisma {
     id?: SortOrder
     alumnoId?: SortOrder
     tipo?: SortOrder
+    fasePractica?: SortOrder
     estado?: SortOrder
     fechaSolicitud?: SortOrder
     fechaProgramada?: SortOrder
@@ -65224,6 +65329,7 @@ export namespace Prisma {
   }
 
   export type SolicitudExamenSumOrderByAggregateInput = {
+    fasePractica?: SortOrder
     erroresExamen?: SortOrder
     aciertosExamen?: SortOrder
     faltasLeves?: SortOrder
@@ -65343,6 +65449,7 @@ export namespace Prisma {
     profesorId?: SortOrder
     vehiculoId?: SortOrder
     compraBonoId?: SortOrder
+    tipoClasePractica?: SortOrder
     fecha?: SortOrder
     duracion?: SortOrder
     estado?: SortOrder
@@ -65362,6 +65469,7 @@ export namespace Prisma {
     profesorId?: SortOrder
     vehiculoId?: SortOrder
     compraBonoId?: SortOrder
+    tipoClasePractica?: SortOrder
     fecha?: SortOrder
     duracion?: SortOrder
     estado?: SortOrder
@@ -65377,6 +65485,7 @@ export namespace Prisma {
     profesorId?: SortOrder
     vehiculoId?: SortOrder
     compraBonoId?: SortOrder
+    tipoClasePractica?: SortOrder
     fecha?: SortOrder
     duracion?: SortOrder
     estado?: SortOrder
@@ -65674,6 +65783,7 @@ export namespace Prisma {
     alumnoId?: SortOrder
     profesorAnteriorId?: SortOrder
     profesorNuevoId?: SortOrder
+    licenciaObtenida?: SortOrder
     changedById?: SortOrder
     changedAt?: SortOrder
     motivo?: SortOrder
@@ -65684,6 +65794,7 @@ export namespace Prisma {
     alumnoId?: SortOrder
     profesorAnteriorId?: SortOrder
     profesorNuevoId?: SortOrder
+    licenciaObtenida?: SortOrder
     changedById?: SortOrder
     changedAt?: SortOrder
     motivo?: SortOrder
@@ -65694,6 +65805,7 @@ export namespace Prisma {
     alumnoId?: SortOrder
     profesorAnteriorId?: SortOrder
     profesorNuevoId?: SortOrder
+    licenciaObtenida?: SortOrder
     changedById?: SortOrder
     changedAt?: SortOrder
     motivo?: SortOrder
@@ -69158,10 +69270,12 @@ export namespace Prisma {
     update?: XOR<XOR<ProfesorUpdateToOneWithWhereWithoutHistorialComoAnteriorInput, ProfesorUpdateWithoutHistorialComoAnteriorInput>, ProfesorUncheckedUpdateWithoutHistorialComoAnteriorInput>
   }
 
-  export type ProfesorUpdateOneRequiredWithoutHistorialComoNuevoNestedInput = {
+  export type ProfesorUpdateOneWithoutHistorialComoNuevoNestedInput = {
     create?: XOR<ProfesorCreateWithoutHistorialComoNuevoInput, ProfesorUncheckedCreateWithoutHistorialComoNuevoInput>
     connectOrCreate?: ProfesorCreateOrConnectWithoutHistorialComoNuevoInput
     upsert?: ProfesorUpsertWithoutHistorialComoNuevoInput
+    disconnect?: ProfesorWhereInput | boolean
+    delete?: ProfesorWhereInput | boolean
     connect?: ProfesorWhereUniqueInput
     update?: XOR<XOR<ProfesorUpdateToOneWithWhereWithoutHistorialComoNuevoInput, ProfesorUpdateWithoutHistorialComoNuevoInput>, ProfesorUncheckedUpdateWithoutHistorialComoNuevoInput>
   }
@@ -70898,17 +71012,19 @@ export namespace Prisma {
 
   export type AlumnoProfesorHistorialCreateWithoutProfesorAnteriorInput = {
     id?: string
+    licenciaObtenida?: string | null
     changedById?: string | null
     changedAt?: Date | string
     motivo?: string | null
     alumno: AlumnoCreateNestedOneWithoutHistorialProfesoresInput
-    profesorNuevo: ProfesorCreateNestedOneWithoutHistorialComoNuevoInput
+    profesorNuevo?: ProfesorCreateNestedOneWithoutHistorialComoNuevoInput
   }
 
   export type AlumnoProfesorHistorialUncheckedCreateWithoutProfesorAnteriorInput = {
     id?: string
     alumnoId: string
-    profesorNuevoId: string
+    profesorNuevoId?: string | null
+    licenciaObtenida?: string | null
     changedById?: string | null
     changedAt?: Date | string
     motivo?: string | null
@@ -70926,6 +71042,7 @@ export namespace Prisma {
 
   export type AlumnoProfesorHistorialCreateWithoutProfesorNuevoInput = {
     id?: string
+    licenciaObtenida?: string | null
     changedById?: string | null
     changedAt?: Date | string
     motivo?: string | null
@@ -70937,6 +71054,7 @@ export namespace Prisma {
     id?: string
     alumnoId: string
     profesorAnteriorId: string
+    licenciaObtenida?: string | null
     changedById?: string | null
     changedAt?: Date | string
     motivo?: string | null
@@ -70988,6 +71106,7 @@ export namespace Prisma {
 
   export type ClasePracticaCreateWithoutProfesorInput = {
     id?: string
+    tipoClasePractica?: string
     fecha: Date | string
     duracion: number
     estado: string
@@ -71008,6 +71127,7 @@ export namespace Prisma {
     alumnoId: string
     vehiculoId: string
     compraBonoId?: string | null
+    tipoClasePractica?: string
     fecha: Date | string
     duracion: number
     estado: string
@@ -71242,7 +71362,8 @@ export namespace Prisma {
     id?: StringFilter<"AlumnoProfesorHistorial"> | string
     alumnoId?: StringFilter<"AlumnoProfesorHistorial"> | string
     profesorAnteriorId?: StringFilter<"AlumnoProfesorHistorial"> | string
-    profesorNuevoId?: StringFilter<"AlumnoProfesorHistorial"> | string
+    profesorNuevoId?: StringNullableFilter<"AlumnoProfesorHistorial"> | string | null
+    licenciaObtenida?: StringNullableFilter<"AlumnoProfesorHistorial"> | string | null
     changedById?: StringNullableFilter<"AlumnoProfesorHistorial"> | string | null
     changedAt?: DateTimeFilter<"AlumnoProfesorHistorial"> | Date | string
     motivo?: StringNullableFilter<"AlumnoProfesorHistorial"> | string | null
@@ -71321,6 +71442,7 @@ export namespace Prisma {
     profesorId?: StringFilter<"ClasePractica"> | string
     vehiculoId?: StringFilter<"ClasePractica"> | string
     compraBonoId?: StringNullableFilter<"ClasePractica"> | string | null
+    tipoClasePractica?: StringFilter<"ClasePractica"> | string
     fecha?: DateTimeFilter<"ClasePractica"> | Date | string
     duracion?: IntFilter<"ClasePractica"> | number
     estado?: StringFilter<"ClasePractica"> | string
@@ -71634,6 +71756,7 @@ export namespace Prisma {
 
   export type ClasePracticaCreateWithoutAlumnoInput = {
     id?: string
+    tipoClasePractica?: string
     fecha: Date | string
     duracion: number
     estado: string
@@ -71654,6 +71777,7 @@ export namespace Prisma {
     profesorId: string
     vehiculoId: string
     compraBonoId?: string | null
+    tipoClasePractica?: string
     fecha: Date | string
     duracion: number
     estado: string
@@ -71871,6 +71995,7 @@ export namespace Prisma {
   export type SolicitudExamenCreateWithoutAlumnoInput = {
     id?: string
     tipo: string
+    fasePractica?: number | null
     estado?: string
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
@@ -71890,6 +72015,7 @@ export namespace Prisma {
   export type SolicitudExamenUncheckedCreateWithoutAlumnoInput = {
     id?: string
     tipo: string
+    fasePractica?: number | null
     estado?: string
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
@@ -72078,17 +72204,19 @@ export namespace Prisma {
 
   export type AlumnoProfesorHistorialCreateWithoutAlumnoInput = {
     id?: string
+    licenciaObtenida?: string | null
     changedById?: string | null
     changedAt?: Date | string
     motivo?: string | null
     profesorAnterior: ProfesorCreateNestedOneWithoutHistorialComoAnteriorInput
-    profesorNuevo: ProfesorCreateNestedOneWithoutHistorialComoNuevoInput
+    profesorNuevo?: ProfesorCreateNestedOneWithoutHistorialComoNuevoInput
   }
 
   export type AlumnoProfesorHistorialUncheckedCreateWithoutAlumnoInput = {
     id?: string
     profesorAnteriorId: string
-    profesorNuevoId: string
+    profesorNuevoId?: string | null
+    licenciaObtenida?: string | null
     changedById?: string | null
     changedAt?: Date | string
     motivo?: string | null
@@ -72395,6 +72523,7 @@ export namespace Prisma {
     id?: StringFilter<"SolicitudExamen"> | string
     alumnoId?: StringFilter<"SolicitudExamen"> | string
     tipo?: StringFilter<"SolicitudExamen"> | string
+    fasePractica?: IntNullableFilter<"SolicitudExamen"> | number | null
     estado?: StringFilter<"SolicitudExamen"> | string
     fechaSolicitud?: DateTimeFilter<"SolicitudExamen"> | Date | string
     fechaProgramada?: DateTimeNullableFilter<"SolicitudExamen"> | Date | string | null
@@ -73652,6 +73781,7 @@ export namespace Prisma {
 
   export type ClasePracticaCreateWithoutCompraBonoInput = {
     id?: string
+    tipoClasePractica?: string
     fecha: Date | string
     duracion: number
     estado: string
@@ -73672,6 +73802,7 @@ export namespace Prisma {
     alumnoId: string
     profesorId: string
     vehiculoId: string
+    tipoClasePractica?: string
     fecha: Date | string
     duracion: number
     estado: string
@@ -74116,6 +74247,7 @@ export namespace Prisma {
 
   export type ClasePracticaCreateWithoutVehiculoInput = {
     id?: string
+    tipoClasePractica?: string
     fecha: Date | string
     duracion: number
     estado: string
@@ -74136,6 +74268,7 @@ export namespace Prisma {
     alumnoId: string
     profesorId: string
     compraBonoId?: string | null
+    tipoClasePractica?: string
     fecha: Date | string
     duracion: number
     estado: string
@@ -74780,6 +74913,7 @@ export namespace Prisma {
 
   export type ClasePracticaCreateWithoutHojaRutaInput = {
     id?: string
+    tipoClasePractica?: string
     fecha: Date | string
     duracion: number
     estado: string
@@ -74801,6 +74935,7 @@ export namespace Prisma {
     profesorId: string
     vehiculoId: string
     compraBonoId?: string | null
+    tipoClasePractica?: string
     fecha: Date | string
     duracion: number
     estado: string
@@ -74950,6 +75085,7 @@ export namespace Prisma {
 
   export type ClasePracticaUpdateWithoutHojaRutaInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tipoClasePractica?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
@@ -74971,6 +75107,7 @@ export namespace Prisma {
     profesorId?: StringFieldUpdateOperationsInput | string
     vehiculoId?: StringFieldUpdateOperationsInput | string
     compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoClasePractica?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
@@ -76428,6 +76565,7 @@ export namespace Prisma {
 
   export type ClasePracticaCreateWithoutPagosInput = {
     id?: string
+    tipoClasePractica?: string
     fecha: Date | string
     duracion: number
     estado: string
@@ -76449,6 +76587,7 @@ export namespace Prisma {
     profesorId: string
     vehiculoId: string
     compraBonoId?: string | null
+    tipoClasePractica?: string
     fecha: Date | string
     duracion: number
     estado: string
@@ -76468,6 +76607,7 @@ export namespace Prisma {
   export type SolicitudExamenCreateWithoutPagoGastoPracticoInput = {
     id?: string
     tipo: string
+    fasePractica?: number | null
     estado?: string
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
@@ -76488,6 +76628,7 @@ export namespace Prisma {
     id?: string
     alumnoId: string
     tipo: string
+    fasePractica?: number | null
     estado?: string
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
@@ -76665,6 +76806,7 @@ export namespace Prisma {
 
   export type ClasePracticaUpdateWithoutPagosInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tipoClasePractica?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
@@ -76686,6 +76828,7 @@ export namespace Prisma {
     profesorId?: StringFieldUpdateOperationsInput | string
     vehiculoId?: StringFieldUpdateOperationsInput | string
     compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoClasePractica?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
@@ -77615,6 +77758,7 @@ export namespace Prisma {
 
   export type ClasePracticaCreateWithoutFacturasInput = {
     id?: string
+    tipoClasePractica?: string
     fecha: Date | string
     duracion: number
     estado: string
@@ -77636,6 +77780,7 @@ export namespace Prisma {
     profesorId: string
     vehiculoId: string
     compraBonoId?: string | null
+    tipoClasePractica?: string
     fecha: Date | string
     duracion: number
     estado: string
@@ -77804,6 +77949,7 @@ export namespace Prisma {
 
   export type ClasePracticaUpdateWithoutFacturasInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tipoClasePractica?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
@@ -77825,6 +77971,7 @@ export namespace Prisma {
     profesorId?: StringFieldUpdateOperationsInput | string
     vehiculoId?: StringFieldUpdateOperationsInput | string
     compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoClasePractica?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
@@ -78417,7 +78564,8 @@ export namespace Prisma {
   export type AlumnoProfesorHistorialCreateManyProfesorAnteriorInput = {
     id?: string
     alumnoId: string
-    profesorNuevoId: string
+    profesorNuevoId?: string | null
+    licenciaObtenida?: string | null
     changedById?: string | null
     changedAt?: Date | string
     motivo?: string | null
@@ -78427,6 +78575,7 @@ export namespace Prisma {
     id?: string
     alumnoId: string
     profesorAnteriorId: string
+    licenciaObtenida?: string | null
     changedById?: string | null
     changedAt?: Date | string
     motivo?: string | null
@@ -78449,6 +78598,7 @@ export namespace Prisma {
     alumnoId: string
     vehiculoId: string
     compraBonoId?: string | null
+    tipoClasePractica?: string
     fecha: Date | string
     duracion: number
     estado: string
@@ -78559,17 +78709,19 @@ export namespace Prisma {
 
   export type AlumnoProfesorHistorialUpdateWithoutProfesorAnteriorInput = {
     id?: StringFieldUpdateOperationsInput | string
+    licenciaObtenida?: NullableStringFieldUpdateOperationsInput | string | null
     changedById?: NullableStringFieldUpdateOperationsInput | string | null
     changedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     motivo?: NullableStringFieldUpdateOperationsInput | string | null
     alumno?: AlumnoUpdateOneRequiredWithoutHistorialProfesoresNestedInput
-    profesorNuevo?: ProfesorUpdateOneRequiredWithoutHistorialComoNuevoNestedInput
+    profesorNuevo?: ProfesorUpdateOneWithoutHistorialComoNuevoNestedInput
   }
 
   export type AlumnoProfesorHistorialUncheckedUpdateWithoutProfesorAnteriorInput = {
     id?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
-    profesorNuevoId?: StringFieldUpdateOperationsInput | string
+    profesorNuevoId?: NullableStringFieldUpdateOperationsInput | string | null
+    licenciaObtenida?: NullableStringFieldUpdateOperationsInput | string | null
     changedById?: NullableStringFieldUpdateOperationsInput | string | null
     changedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     motivo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -78578,7 +78730,8 @@ export namespace Prisma {
   export type AlumnoProfesorHistorialUncheckedUpdateManyWithoutProfesorAnteriorInput = {
     id?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
-    profesorNuevoId?: StringFieldUpdateOperationsInput | string
+    profesorNuevoId?: NullableStringFieldUpdateOperationsInput | string | null
+    licenciaObtenida?: NullableStringFieldUpdateOperationsInput | string | null
     changedById?: NullableStringFieldUpdateOperationsInput | string | null
     changedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     motivo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -78586,6 +78739,7 @@ export namespace Prisma {
 
   export type AlumnoProfesorHistorialUpdateWithoutProfesorNuevoInput = {
     id?: StringFieldUpdateOperationsInput | string
+    licenciaObtenida?: NullableStringFieldUpdateOperationsInput | string | null
     changedById?: NullableStringFieldUpdateOperationsInput | string | null
     changedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     motivo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -78597,6 +78751,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
     profesorAnteriorId?: StringFieldUpdateOperationsInput | string
+    licenciaObtenida?: NullableStringFieldUpdateOperationsInput | string | null
     changedById?: NullableStringFieldUpdateOperationsInput | string | null
     changedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     motivo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -78606,6 +78761,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
     profesorAnteriorId?: StringFieldUpdateOperationsInput | string
+    licenciaObtenida?: NullableStringFieldUpdateOperationsInput | string | null
     changedById?: NullableStringFieldUpdateOperationsInput | string | null
     changedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     motivo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -78649,6 +78805,7 @@ export namespace Prisma {
 
   export type ClasePracticaUpdateWithoutProfesorInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tipoClasePractica?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
@@ -78669,6 +78826,7 @@ export namespace Prisma {
     alumnoId?: StringFieldUpdateOperationsInput | string
     vehiculoId?: StringFieldUpdateOperationsInput | string
     compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoClasePractica?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
@@ -78686,6 +78844,7 @@ export namespace Prisma {
     alumnoId?: StringFieldUpdateOperationsInput | string
     vehiculoId?: StringFieldUpdateOperationsInput | string
     compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoClasePractica?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
@@ -78831,6 +78990,7 @@ export namespace Prisma {
     profesorId: string
     vehiculoId: string
     compraBonoId?: string | null
+    tipoClasePractica?: string
     fecha: Date | string
     duracion: number
     estado: string
@@ -78907,6 +79067,7 @@ export namespace Prisma {
   export type SolicitudExamenCreateManyAlumnoInput = {
     id?: string
     tipo: string
+    fasePractica?: number | null
     estado?: string
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
@@ -78979,7 +79140,8 @@ export namespace Prisma {
   export type AlumnoProfesorHistorialCreateManyAlumnoInput = {
     id?: string
     profesorAnteriorId: string
-    profesorNuevoId: string
+    profesorNuevoId?: string | null
+    licenciaObtenida?: string | null
     changedById?: string | null
     changedAt?: Date | string
     motivo?: string | null
@@ -78987,6 +79149,7 @@ export namespace Prisma {
 
   export type ClasePracticaUpdateWithoutAlumnoInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tipoClasePractica?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
@@ -79007,6 +79170,7 @@ export namespace Prisma {
     profesorId?: StringFieldUpdateOperationsInput | string
     vehiculoId?: StringFieldUpdateOperationsInput | string
     compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoClasePractica?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
@@ -79024,6 +79188,7 @@ export namespace Prisma {
     profesorId?: StringFieldUpdateOperationsInput | string
     vehiculoId?: StringFieldUpdateOperationsInput | string
     compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoClasePractica?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
@@ -79242,6 +79407,7 @@ export namespace Prisma {
   export type SolicitudExamenUpdateWithoutAlumnoInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
+    fasePractica?: NullableIntFieldUpdateOperationsInput | number | null
     estado?: StringFieldUpdateOperationsInput | string
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -79261,6 +79427,7 @@ export namespace Prisma {
   export type SolicitudExamenUncheckedUpdateWithoutAlumnoInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
+    fasePractica?: NullableIntFieldUpdateOperationsInput | number | null
     estado?: StringFieldUpdateOperationsInput | string
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -79280,6 +79447,7 @@ export namespace Prisma {
   export type SolicitudExamenUncheckedUpdateManyWithoutAlumnoInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
+    fasePractica?: NullableIntFieldUpdateOperationsInput | number | null
     estado?: StringFieldUpdateOperationsInput | string
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -79461,17 +79629,19 @@ export namespace Prisma {
 
   export type AlumnoProfesorHistorialUpdateWithoutAlumnoInput = {
     id?: StringFieldUpdateOperationsInput | string
+    licenciaObtenida?: NullableStringFieldUpdateOperationsInput | string | null
     changedById?: NullableStringFieldUpdateOperationsInput | string | null
     changedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     motivo?: NullableStringFieldUpdateOperationsInput | string | null
     profesorAnterior?: ProfesorUpdateOneRequiredWithoutHistorialComoAnteriorNestedInput
-    profesorNuevo?: ProfesorUpdateOneRequiredWithoutHistorialComoNuevoNestedInput
+    profesorNuevo?: ProfesorUpdateOneWithoutHistorialComoNuevoNestedInput
   }
 
   export type AlumnoProfesorHistorialUncheckedUpdateWithoutAlumnoInput = {
     id?: StringFieldUpdateOperationsInput | string
     profesorAnteriorId?: StringFieldUpdateOperationsInput | string
-    profesorNuevoId?: StringFieldUpdateOperationsInput | string
+    profesorNuevoId?: NullableStringFieldUpdateOperationsInput | string | null
+    licenciaObtenida?: NullableStringFieldUpdateOperationsInput | string | null
     changedById?: NullableStringFieldUpdateOperationsInput | string | null
     changedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     motivo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -79480,7 +79650,8 @@ export namespace Prisma {
   export type AlumnoProfesorHistorialUncheckedUpdateManyWithoutAlumnoInput = {
     id?: StringFieldUpdateOperationsInput | string
     profesorAnteriorId?: StringFieldUpdateOperationsInput | string
-    profesorNuevoId?: StringFieldUpdateOperationsInput | string
+    profesorNuevoId?: NullableStringFieldUpdateOperationsInput | string | null
+    licenciaObtenida?: NullableStringFieldUpdateOperationsInput | string | null
     changedById?: NullableStringFieldUpdateOperationsInput | string | null
     changedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     motivo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -79714,6 +79885,7 @@ export namespace Prisma {
     alumnoId: string
     profesorId: string
     vehiculoId: string
+    tipoClasePractica?: string
     fecha: Date | string
     duracion: number
     estado: string
@@ -79826,6 +79998,7 @@ export namespace Prisma {
 
   export type ClasePracticaUpdateWithoutCompraBonoInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tipoClasePractica?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
@@ -79846,6 +80019,7 @@ export namespace Prisma {
     alumnoId?: StringFieldUpdateOperationsInput | string
     profesorId?: StringFieldUpdateOperationsInput | string
     vehiculoId?: StringFieldUpdateOperationsInput | string
+    tipoClasePractica?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
@@ -79863,6 +80037,7 @@ export namespace Prisma {
     alumnoId?: StringFieldUpdateOperationsInput | string
     profesorId?: StringFieldUpdateOperationsInput | string
     vehiculoId?: StringFieldUpdateOperationsInput | string
+    tipoClasePractica?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
@@ -79877,6 +80052,7 @@ export namespace Prisma {
     alumnoId: string
     profesorId: string
     compraBonoId?: string | null
+    tipoClasePractica?: string
     fecha: Date | string
     duracion: number
     estado: string
@@ -79907,6 +80083,7 @@ export namespace Prisma {
 
   export type ClasePracticaUpdateWithoutVehiculoInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tipoClasePractica?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
@@ -79927,6 +80104,7 @@ export namespace Prisma {
     alumnoId?: StringFieldUpdateOperationsInput | string
     profesorId?: StringFieldUpdateOperationsInput | string
     compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoClasePractica?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
@@ -79944,6 +80122,7 @@ export namespace Prisma {
     alumnoId?: StringFieldUpdateOperationsInput | string
     profesorId?: StringFieldUpdateOperationsInput | string
     compraBonoId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoClasePractica?: StringFieldUpdateOperationsInput | string
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     duracion?: IntFieldUpdateOperationsInput | number
     estado?: StringFieldUpdateOperationsInput | string
@@ -80572,6 +80751,7 @@ export namespace Prisma {
     id?: string
     alumnoId: string
     tipo: string
+    fasePractica?: number | null
     estado?: string
     fechaSolicitud?: Date | string
     fechaProgramada?: Date | string | null
@@ -80590,6 +80770,7 @@ export namespace Prisma {
   export type SolicitudExamenUpdateWithoutPagoGastoPracticoInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
+    fasePractica?: NullableIntFieldUpdateOperationsInput | number | null
     estado?: StringFieldUpdateOperationsInput | string
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -80610,6 +80791,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
+    fasePractica?: NullableIntFieldUpdateOperationsInput | number | null
     estado?: StringFieldUpdateOperationsInput | string
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -80629,6 +80811,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     alumnoId?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
+    fasePractica?: NullableIntFieldUpdateOperationsInput | number | null
     estado?: StringFieldUpdateOperationsInput | string
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

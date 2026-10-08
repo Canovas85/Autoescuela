@@ -192,12 +192,17 @@ export class SolicitudesExamenRepository {
     });
   }
 
-  async findUltimoNoAptoPractico(alumnoId) {
+  async findUltimoNoAptoPractico(alumnoId, fasePractica = null) {
     return this.prisma.solicitudExamen.findFirst({
       where: {
         alumnoId,
         tipo: "PRACTICO",
         estado: "NO_APTO",
+        ...(fasePractica
+          ? {
+              fasePractica,
+            }
+          : {}),
       },
       orderBy: {
         fechaProgramada: "desc",
@@ -224,6 +229,21 @@ export class SolicitudesExamenRepository {
       where: {
         alumnoId,
         tipo: "PRACTICO",
+        estado: {
+          in: ["APTO", "APROBADO"],
+        },
+      },
+    });
+
+    return total > 0;
+  }
+
+  async hasPracticalAptoByPhase(alumnoId, fasePractica) {
+    const total = await this.prisma.solicitudExamen.count({
+      where: {
+        alumnoId,
+        tipo: "PRACTICO",
+        fasePractica,
         estado: {
           in: ["APTO", "APROBADO"],
         },
@@ -269,11 +289,16 @@ export class SolicitudesExamenRepository {
     });
   }
 
-  async findSolicitudPracticoActiva(alumnoId) {
+  async findSolicitudPracticoActiva(alumnoId, fasePractica = null) {
     return this.prisma.solicitudExamen.findFirst({
       where: {
         alumnoId,
         tipo: "PRACTICO",
+        ...(fasePractica
+          ? {
+              fasePractica,
+            }
+          : {}),
         estado: {
           in: ["PENDIENTE", "PROGRAMADO", "SOLICITADO"],
         },
@@ -823,6 +848,7 @@ export class SolicitudesExamenRepository {
     estado,
     erroresExamen,
     aciertosExamen,
+    observaciones = null,
   ) {
     return this.prisma.solicitudExamen.update({
       where: { id },
@@ -830,6 +856,11 @@ export class SolicitudesExamenRepository {
         estado,
         erroresExamen,
         aciertosExamen,
+        ...(observaciones
+          ? {
+              observaciones,
+            }
+          : {}),
       },
     });
   }

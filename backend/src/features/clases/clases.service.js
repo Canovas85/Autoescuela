@@ -3,6 +3,7 @@ import {
   evaluateVehicleItvStatus,
   ITV_BLOCK_MESSAGE,
 } from "../../shared/domain/vehiculo-itv.js";
+import { getAllowedPracticalClassTypesByLicense } from "../../shared/domain/exam-license-rules.js";
 
 const DURACION_CLASE_MINUTOS = 45;
 const CONVOCATORIAS_POR_DEFECTO = 2;
@@ -102,6 +103,10 @@ const getDayIndexMondayBased = (date) => {
 const INDIVIDUAL_CLASS_TARIFF_FALLBACK = 35;
 const PAYMENT_24H_NOTIFICATION_MARK = "[NOTIFICADO_PAGO_24H]";
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+const PRACTICAL_CLASS_TYPE_LABELS = {
+  CIRCULACION: "Circulación",
+  PISTA: "Pista",
+};
 
 export class ClasesService {
   constructor(repository) {
@@ -426,6 +431,7 @@ export class ClasesService {
     return {
       alumno,
       permiso,
+      tiposClaseDisponibles: getAllowedPracticalClassTypesByLicense(permiso),
       teoricoApto,
       vidasIncluidas,
       vidasGastadas,
@@ -446,6 +452,7 @@ export class ClasesService {
       id: clase.id,
       fecha: clase.fecha,
       duracion: clase.duracion,
+      tipoClasePractica: clase.tipoClasePractica || "CIRCULACION",
       estado: clase.estado,
       metodoPago: clase.metodoPago,
       pagoClase: pagoClase
@@ -1048,6 +1055,24 @@ export class ClasesService {
     }
 
     const fecha = toDate(payload.fecha);
+    const allowedClassTypes = getAllowedPracticalClassTypesByLicense(
+      eligibility.permiso,
+    );
+    const tipoClasePractica = String(
+      payload.tipoClasePractica || allowedClassTypes[0] || "CIRCULACION",
+    )
+      .trim()
+      .toUpperCase();
+
+    if (!allowedClassTypes.includes(tipoClasePractica)) {
+      const tipos = allowedClassTypes
+        .map((item) => PRACTICAL_CLASS_TYPE_LABELS[item] || item)
+        .join(", ");
+      throw new Error(
+        `El tipo de clase para tu licencia debe ser uno de: ${tipos}`,
+      );
+    }
+
     const metodoPago = String(payload.metodoPago || "INDIVIDUAL")
       .trim()
       .toUpperCase();
@@ -1175,6 +1200,7 @@ export class ClasesService {
       compraBonoId,
       fecha,
       duracion: DURACION_CLASE_MINUTOS,
+      tipoClasePractica,
       estado: "PROGRAMADA",
       metodoPago,
       pagoLimiteAt:

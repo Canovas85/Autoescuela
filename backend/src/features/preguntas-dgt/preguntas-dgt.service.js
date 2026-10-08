@@ -2,6 +2,7 @@
 import path from "path";
 
 import { PREGUNTAS_DGT_UPLOAD_DIR } from "./preguntas-dgt.upload.js";
+import { getTheoreticalRuleByLicense } from "../../shared/domain/exam-license-rules.js";
 
 const LICENCIAS_VALIDAS = ["B", "A1", "A2", "A", "C", "D", "E"];
 const PREGUNTA_DGT_ID_PREFIX = "pregunta-dgt-b-";
@@ -337,15 +338,16 @@ export class PreguntasDGTService {
     }
 
     const licenciaNormalizada = this.validarLicenciaUnica(licencia);
+    const teoricoRule = getTheoreticalRuleByLicense(licenciaNormalizada);
 
     const preguntas = await this.repository.getRandomQuestions(
       licenciaNormalizada,
-      30,
+      teoricoRule.totalPreguntas,
     );
 
-    if (preguntas.length < 30) {
+    if (preguntas.length < teoricoRule.totalPreguntas) {
       throw new Error(
-        "No hay suficientes preguntas activas para esta licencia (mínimo 30)",
+        `No hay suficientes preguntas activas para esta licencia (mínimo ${teoricoRule.totalPreguntas})`,
       );
     }
 
@@ -369,6 +371,7 @@ export class PreguntasDGTService {
     }
 
     const licenciaNormalizada = this.validarLicenciaUnica(licencia);
+    const teoricoRule = getTheoreticalRuleByLicense(licenciaNormalizada);
 
     if (!Array.isArray(respuestasAlumno) || respuestasAlumno.length === 0) {
       throw new Error("Debe existir al menos una respuesta del alumno");
@@ -460,7 +463,7 @@ export class PreguntasDGTService {
 
     const totalPreguntas = preguntasValidas.length;
     const fallos = totalPreguntas - aciertos;
-    const aprobado = fallos <= 3;
+    const aprobado = fallos <= teoricoRule.maxFallos;
 
     const examen = await this.repository.saveExamResult({
       alumnoId,

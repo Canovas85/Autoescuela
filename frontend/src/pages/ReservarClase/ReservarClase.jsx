@@ -255,6 +255,11 @@ const isLessThan24h = (clase) => {
   return classDate.getTime() - Date.now() <= 24 * 60 * 60 * 1000;
 };
 
+const CLASS_TYPE_LABELS = {
+  CIRCULACION: "Circulación",
+  PISTA: "Pista",
+};
+
 export default function ReservarClase() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -269,6 +274,7 @@ export default function ReservarClase() {
   const [selectedHour, setSelectedHour] = useState("");
   const [metodoPago, setMetodoPago] = useState("INDIVIDUAL");
   const [selectedBonoId, setSelectedBonoId] = useState("");
+  const [selectedClassType, setSelectedClassType] = useState("CIRCULACION");
   const [penaltyDialogOpen, setPenaltyDialogOpen] = useState(false);
   const [penaltyTargetClassId, setPenaltyTargetClassId] = useState(null);
 
@@ -280,6 +286,12 @@ export default function ReservarClase() {
       const data =
         await clasesPracticasPortalService.getStudentBookingContext(offset);
       setContext(data);
+      const availableClassTypes = Array.isArray(
+        data?.elegibilidad?.tiposClaseDisponibles,
+      )
+        ? data.elegibilidad.tiposClaseDisponibles
+        : ["CIRCULACION"];
+      setSelectedClassType(availableClassTypes[0] || "CIRCULACION");
 
       const bonos = data?.pago?.bonosDisponibles || [];
       if (bonos.length > 0) {
@@ -446,6 +458,7 @@ export default function ReservarClase() {
         fecha: selectedDate.toISOString(),
         metodoPago,
         compraBonoId: metodoPago === "BONO" ? selectedBonoId : null,
+        tipoClasePractica: selectedClassType,
       });
 
       setSuccess("Solicitud enviada correctamente al profesor");
@@ -761,6 +774,37 @@ export default function ReservarClase() {
               <Typography>
                 Duración: <b>45 minutos</b>
               </Typography>
+              <Typography>
+                Tipo de clase:{" "}
+                <b>
+                  {CLASS_TYPE_LABELS[selectedClassType] || selectedClassType}
+                </b>
+              </Typography>
+
+              <Box sx={{ mt: 1.5 }}>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ mb: 0.8 }}
+                >
+                  Modalidad de clase
+                </Typography>
+                <Select
+                  fullWidth
+                  value={selectedClassType}
+                  onChange={(event) => setSelectedClassType(event.target.value)}
+                >
+                  {(
+                    context?.elegibilidad?.tiposClaseDisponibles || [
+                      "CIRCULACION",
+                    ]
+                  ).map((tipo) => (
+                    <MenuItem key={tipo} value={tipo}>
+                      {CLASS_TYPE_LABELS[tipo] || tipo}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Box>
 
               <Divider sx={{ my: 2 }} />
 

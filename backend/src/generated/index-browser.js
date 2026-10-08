@@ -298,6 +298,7 @@ exports.Prisma.SolicitudExamenScalarFieldEnum = {
   id: 'id',
   alumnoId: 'alumnoId',
   tipo: 'tipo',
+  fasePractica: 'fasePractica',
   estado: 'estado',
   fechaSolicitud: 'fechaSolicitud',
   fechaProgramada: 'fechaProgramada',
@@ -345,6 +346,7 @@ exports.Prisma.ClasePracticaScalarFieldEnum = {
   profesorId: 'profesorId',
   vehiculoId: 'vehiculoId',
   compraBonoId: 'compraBonoId',
+  tipoClasePractica: 'tipoClasePractica',
   fecha: 'fecha',
   duracion: 'duracion',
   estado: 'estado',
@@ -429,6 +431,7 @@ exports.Prisma.AlumnoProfesorHistorialScalarFieldEnum = {
   alumnoId: 'alumnoId',
   profesorAnteriorId: 'profesorAnteriorId',
   profesorNuevoId: 'profesorNuevoId',
+  licenciaObtenida: 'licenciaObtenida',
   changedById: 'changedById',
   changedAt: 'changedAt',
   motivo: 'motivo'

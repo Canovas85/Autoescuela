@@ -234,16 +234,20 @@ describe("SolicitudesExamenService", () => {
       fechaProgramada: "2026-09-02T10:00:00.000Z",
     });
 
-    expect(repositoryMock.update).toHaveBeenCalledWith("solicitud-1", {
-      alumnoId: "alumno-1",
-      tipo: "PRACTICO",
-      estado: "PROGRAMADO",
-      fechaSolicitud: expect.any(Date),
-      fechaProgramada: expect.any(Date),
-      erroresExamen: null,
-      aciertosExamen: null,
-      observaciones: null,
-    });
+    expect(repositoryMock.update).toHaveBeenCalledWith(
+      "solicitud-1",
+      expect.objectContaining({
+        alumnoId: "alumno-1",
+        tipo: "PRACTICO",
+        fasePractica: null,
+        estado: "PROGRAMADO",
+        fechaSolicitud: expect.any(Date),
+        fechaProgramada: expect.any(Date),
+        erroresExamen: null,
+        aciertosExamen: null,
+        observaciones: null,
+      }),
+    );
     expect(result).toEqual(solicitudActualizada);
   });
 
@@ -443,10 +447,54 @@ describe("SolicitudesExamenService", () => {
       "NO_APTO",
       8,
       22,
+      expect.stringContaining("[TEORICO_META]"),
     );
     expect(
       repositoryMock.incrementarConvocatoriasConsumidas,
     ).toHaveBeenCalledWith("pago-1");
+    expect(result.procesadas).toBe(1);
+    expect(result.noAptos).toBe(1);
+  });
+
+  it("debe evaluar teorico de A1 con 20 preguntas y maximo 2 fallos", async () => {
+    const repositoryMock = {
+      findSolicitudesTeoricoPendientesResultado: vi.fn().mockResolvedValue([
+        {
+          id: "sol-a1-1",
+          alumnoId: "alumno-a1",
+        },
+      ]),
+      updateResultadoSolicitudTeorico: vi.fn().mockResolvedValue({
+        id: "sol-a1-1",
+        estado: "NO_APTO",
+      }),
+      findMatriculaPagada: vi.fn().mockResolvedValue({
+        id: "matricula-a1",
+        licencia: "A1",
+      }),
+      findUltimoPagoTasaDGT: vi.fn().mockResolvedValue({
+        id: "pago-a1",
+        convocatoriasIncluidas: 2,
+        convocatoriasConsumidas: 0,
+      }),
+      incrementarConvocatoriasConsumidas: vi.fn().mockResolvedValue({
+        id: "pago-a1",
+      }),
+    };
+
+    const service = new SolicitudesExamenService(repositoryMock);
+
+    const result = await service.processScheduledTheoreticalResults({
+      randomFn: () => 0.95,
+    });
+
+    expect(repositoryMock.updateResultadoSolicitudTeorico).toHaveBeenCalledWith(
+      "sol-a1-1",
+      "NO_APTO",
+      19,
+      1,
+      expect.stringContaining("preguntas=20"),
+    );
     expect(result.procesadas).toBe(1);
     expect(result.noAptos).toBe(1);
   });
@@ -770,5 +818,47 @@ describe("SolicitudesExamenService", () => {
         estado: "CANCELADO",
       }),
     );
+  });
+
+  it("no debe marcar licencia obtenida con APTO en fase 1 para A1", async () => {
+    const repositoryMock = {
+      findSolicitudesPracticoPendientesResultado: vi.fn().mockResolvedValue([
+        {
+          id: "sol-pr-a1-1",
+          alumnoId: "alumno-a1",
+          fasePractica: 1,
+          fechaProgramada: new Date("2026-09-10T10:00:00.000Z"),
+          fechaSolicitud: new Date("2026-09-01T10:00:00.000Z"),
+        },
+      ]),
+      updateResultadoSolicitudPracticoIfPending: vi
+        .fn()
+        .mockResolvedValue(true),
+      createExamenResultadoPractico: vi.fn().mockResolvedValue({
+        id: "ex-pr-a1-1",
+      }),
+      findMatriculaPagada: vi.fn().mockResolvedValue({
+        id: "mat-a1",
+        licencia: "A1",
+      }),
+      markLicenseObtainedAndUnassignProfessor: vi.fn(),
+      findUltimoPagoTasaDGT: vi.fn().mockResolvedValue({
+        id: "pago-a1",
+        convocatoriasIncluidas: 2,
+        convocatoriasConsumidas: 0,
+      }),
+      incrementarConvocatoriasConsumidas: vi.fn(),
+    };
+
+    const service = new SolicitudesExamenService(repositoryMock);
+
+    const result = await service.processScheduledPracticalResults({
+      randomFn: () => 0.1,
+    });
+
+    expect(result.aptos).toBe(1);
+    expect(
+      repositoryMock.markLicenseObtainedAndUnassignProfessor,
+    ).not.toHaveBeenCalled();
   });
 });

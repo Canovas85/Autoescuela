@@ -2,10 +2,13 @@ import dotenv from "dotenv";
 
 import prisma from "../src/config/prisma.js";
 import { tasaDgtConfig } from "../src/config/tasa-dgt.config.js";
+import {
+  getTheoreticalRuleByLicense,
+  normalizeLicenseCode,
+} from "../src/shared/domain/exam-license-rules.js";
 
 dotenv.config();
 
-const TOTAL_PREGUNTAS_EXAMEN_TEORICO = 30;
 const DATE_KEY_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 
 const pad2 = (value) => String(value).padStart(2, "0");
@@ -41,8 +44,8 @@ const normalizarLicenciaObjetivo = (valor) =>
     .trim()
     .toUpperCase() || "B";
 
-const calcularAciertosTeorico = (erroresExamen) =>
-  Math.max(TOTAL_PREGUNTAS_EXAMEN_TEORICO - Number(erroresExamen || 0), 0);
+const calcularAciertosTeorico = (erroresExamen, totalPreguntas) =>
+  Math.max(Number(totalPreguntas || 30) - Number(erroresExamen || 0), 0);
 
 const parseArgs = (argv) => {
   const args = {
@@ -56,6 +59,7 @@ const parseArgs = (argv) => {
     operator: null,
     reason: null,
     noConsumeConvocatoria: false,
+    licenses: null,
   };
 
   for (const token of argv.slice(2)) {
@@ -99,6 +103,13 @@ const parseArgs = (argv) => {
         break;
       case "no-consume-convocatoria":
         args.noConsumeConvocatoria = true;
+        break;
+      case "licenses":
+      case "licencias":
+        args.licenses = (value || "")
+          .split(",")
+          .map((item) => normalizeLicenseCode(item))
+          .filter(Boolean);
         break;
       default:
         break;
@@ -231,18 +242,57 @@ const getPagoTasaInfo = async (tx, alumnoId, conceptoPattern) => {
   return pagoTasa;
 };
 
+const getLicenciaObjetivoAlumno = async (tx, alumnoId) => {
+  const matriculaPagada = await tx.matricula.findFirst({
+    where: {
+      alumnoId,
+      estado: "PAGADA",
+    },
+    orderBy: {
+      fechaPago: "desc",
+    },
+    select: {
+      licencia: true,
+    },
+  });
+
+  return normalizeLicenseCode(matriculaPagada?.licencia);
+};
+
 const construirPlanAplicacion = async (tx, candidatas, randomFn, options) => {
   const solicitudes = [];
   const pagoUpdatesByPagoId = new Map();
 
   for (const solicitud of candidatas) {
-    const erroresExamen = Math.floor(randomFn() * 11);
-    const aciertosExamen = calcularAciertosTeorico(erroresExamen);
-    const afterEstado = erroresExamen <= 3 ? "APTO" : "NO_APTO";
+    const licenciaObjetivo = await getLicenciaObjetivoAlumno(
+      tx,
+      solicitud.alumnoId,
+    );
+
+    if (
+      Array.isArray(options.licenses) &&
+      options.licenses.length > 0 &&
+      !options.licenses.includes(licenciaObjetivo)
+    ) {
+      continue;
+    }
+
+    const teoricoRule = getTheoreticalRuleByLicense(licenciaObjetivo);
+    const erroresExamen =
+      licenciaObjetivo === "B"
+        ? Math.floor(randomFn() * 11)
+        : Math.floor(randomFn() * (teoricoRule.totalPreguntas + 1));
+    const aciertosExamen = calcularAciertosTeorico(
+      erroresExamen,
+      teoricoRule.totalPreguntas,
+    );
+    const afterEstado =
+      erroresExamen <= teoricoRule.maxFallos ? "APTO" : "NO_APTO";
 
     solicitudes.push({
       solicitudId: solicitud.id,
       alumnoId: solicitud.alumnoId,
+      licenciaObjetivo,
       beforeEstado: solicitud.estado,
       beforeErrores: solicitud.erroresExamen,
       beforeAciertos: solicitud.aciertosExamen,
@@ -385,6 +435,7 @@ async function main() {
 
     const plan = await construirPlanAplicacion(tx, candidatas, randomFn, {
       noConsumeConvocatoria: args.noConsumeConvocatoria,
+      licenses: args.licenses,
     });
 
     const mode = args.dryRun ? "DRY_RUN" : "APPLY";
