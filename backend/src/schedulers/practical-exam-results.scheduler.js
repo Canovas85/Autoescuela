@@ -2,6 +2,7 @@ import { tasaDgtConfig } from "../config/tasa-dgt.config.js";
 import prisma from "../config/prisma.js";
 import { SolicitudesExamenRepository } from "../features/solicitudes-examen/solicitudes-examen.repository.js";
 import { SolicitudesExamenService } from "../features/solicitudes-examen/solicitudes-examen.service.js";
+import { normalizeLicenseCode } from "../shared/domain/exam-license-rules.js";
 
 const DEFAULT_HOUR = 23;
 const DEFAULT_MINUTE = 59;
@@ -40,6 +41,15 @@ export const startPracticalExamResultsScheduler = () => {
   const minute = Number(
     process.env.PRACTICAL_EXAM_RESULTS_MINUTE || DEFAULT_MINUTE,
   );
+  const licensesRaw = String(
+    process.env.PRACTICAL_EXAM_RESULTS_LICENSES || "",
+  ).trim();
+  const licenses = licensesRaw
+    ? licensesRaw
+        .split(",")
+        .map((item) => normalizeLicenseCode(item))
+        .filter(Boolean)
+    : null;
   const service = buildService();
 
   const scheduleNextRun = () => {
@@ -48,10 +58,17 @@ export const startPracticalExamResultsScheduler = () => {
 
     setTimeout(async () => {
       try {
-        const result = await service.processScheduledPracticalResults();
+        const result = await service.processScheduledPracticalResults({
+          licenses,
+        });
         console.log(
           `[scheduler] Resultados práctico procesados: ${result.procesadas} (aptos: ${result.aptos}, no aptos: ${result.noAptos}, leves: ${result.faltasLevesTotales}, deficientes: ${result.faltasDeficientesTotales}, eliminatorias: ${result.faltasEliminatoriasTotales})`,
         );
+        if (result?.porLicencia) {
+          console.log(
+            `[scheduler] Resumen práctico por licencia: ${JSON.stringify(result.porLicencia)}`,
+          );
+        }
       } catch (error) {
         console.error(
           "[scheduler] Error procesando resultados prácticos:",

@@ -2,6 +2,7 @@ import { tasaDgtConfig } from "../config/tasa-dgt.config.js";
 import prisma from "../config/prisma.js";
 import { SolicitudesExamenRepository } from "../features/solicitudes-examen/solicitudes-examen.repository.js";
 import { SolicitudesExamenService } from "../features/solicitudes-examen/solicitudes-examen.service.js";
+import { normalizeLicenseCode } from "../shared/domain/exam-license-rules.js";
 
 const DEFAULT_HOUR = 9;
 const DEFAULT_MINUTE = 30;
@@ -85,6 +86,15 @@ export const startTheoreticalExamResultsScheduler = () => {
   );
   const timezone =
     process.env.THEORETICAL_EXAM_RESULTS_TIMEZONE || DEFAULT_TIMEZONE;
+  const licensesRaw = String(
+    process.env.THEORETICAL_EXAM_RESULTS_LICENSES || "",
+  ).trim();
+  const licenses = licensesRaw
+    ? licensesRaw
+        .split(",")
+        .map((item) => normalizeLicenseCode(item))
+        .filter(Boolean)
+    : null;
   const service = buildService();
 
   const scheduleNextRun = () => {
@@ -97,10 +107,17 @@ export const startTheoreticalExamResultsScheduler = () => {
 
     setTimeout(async () => {
       try {
-        const result = await service.processScheduledTheoreticalResults();
+        const result = await service.processScheduledTheoreticalResults({
+          licenses,
+        });
         console.log(
           `[scheduler] Resultados teórico procesados: ${result.procesadas} (aptos: ${result.aptos}, no aptos: ${result.noAptos}, aciertos: ${result.aciertosTotales}, errores: ${result.erroresTotales})`,
         );
+        if (result?.porLicencia) {
+          console.log(
+            `[scheduler] Resumen teórico por licencia: ${JSON.stringify(result.porLicencia)}`,
+          );
+        }
       } catch (error) {
         console.error(
           "[scheduler] Error procesando resultados teóricos:",

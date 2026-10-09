@@ -27,6 +27,8 @@ import { clasesService } from "../../services/clasesService";
 import { alumnosService } from "../../services/alumnosService";
 import { profesoresService } from "../../services/profesoresService";
 import { vehiculosService } from "../../services/vehiculosService";
+import { LicenseChip } from "../../components/common/LicenseChip";
+import { PracticalClassTypeChip } from "../../components/common/PracticalClassTypeChip";
 
 const ESTADOS = ["PROGRAMADA", "REALIZADA", "CANCELADA"];
 
@@ -192,6 +194,24 @@ export default function Clases() {
       headerName: "Vehículo",
       flex: 1,
       valueGetter: (_, row) => row.vehiculo?.matricula || "Sin vehículo",
+    },
+    {
+      field: "licencia",
+      headerName: "Licencia",
+      width: 120,
+      sortable: false,
+      renderCell: (params) => (
+        <LicenseChip value={params.row.vehiculo?.tipoPermiso || "-"} />
+      ),
+    },
+    {
+      field: "tipoClasePractica",
+      headerName: "Tipo clase",
+      width: 170,
+      sortable: false,
+      renderCell: (params) => (
+        <PracticalClassTypeChip value={params.row.tipoClasePractica} />
+      ),
     },
     {
       field: "fecha",

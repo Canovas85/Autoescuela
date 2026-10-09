@@ -30,6 +30,7 @@ import { jwtDecode } from "jwt-decode";
 import { facturasService } from "../../services/facturasService";
 import { matriculasService } from "../../services/matriculasService";
 import { LicenseChip } from "../../components/common/LicenseChip";
+import { PracticalClassTypeChip } from "../../components/common/PracticalClassTypeChip";
 import { exportIngresosExcel } from "../../utils/exportIngresosExcel";
 import { exportIngresosPdf } from "../../utils/exportIngresosPdf";
 
@@ -41,6 +42,8 @@ const CONCEPTO_OPTIONS = [
   { value: "CLASE_PRACTICA", label: "Clase práctica" },
   { value: "OTROS", label: "Otros" },
 ];
+
+const LICENSE_OPTIONS = ["A1", "A2", "A", "B", "C", "D", "E"];
 
 const TASA_DGT_FIJA = 94.05;
 
@@ -115,6 +118,9 @@ const getRowLicencia = (row) =>
   row?.clasePractica?.vehiculo?.tipoPermiso ||
   row?.matricula?.licencia ||
   "-";
+
+const getRowPracticalClassType = (row) =>
+  row?.clasePractica?.tipoClasePractica || null;
 
 const getBaseAmount = (row) => {
   const category = classifyConcepto(row?.concepto);
@@ -204,6 +210,7 @@ export default function IngresosFacturas() {
   const [rows, setRows] = useState([]);
   const [searchAlumno, setSearchAlumno] = useState("");
   const [conceptoFiltro, setConceptoFiltro] = useState("");
+  const [licenciaFiltro, setLicenciaFiltro] = useState("");
   const [fechaDesde, setFechaDesde] = useState("");
   const [fechaHasta, setFechaHasta] = useState("");
   const [focusFechaDesde, setFocusFechaDesde] = useState(false);
@@ -289,6 +296,13 @@ export default function IngresosFacturas() {
         }
       }
 
+      if (licenciaFiltro) {
+        const licenciaRow = String(getRowLicencia(row) || "").toUpperCase();
+        if (licenciaRow !== licenciaFiltro) {
+          return false;
+        }
+      }
+
       const emision = row.fechaEmision ? new Date(row.fechaEmision) : null;
       if (fechaDesde && emision && emision < new Date(fechaDesde)) {
         return false;
@@ -310,6 +324,7 @@ export default function IngresosFacturas() {
     activeStates,
     searchAlumno,
     conceptoFiltro,
+    licenciaFiltro,
     fechaDesde,
     fechaHasta,
   ]);
@@ -477,6 +492,7 @@ export default function IngresosFacturas() {
       "Nº Factura": row.numero || "-",
       Alumno: row.alumno?.usuario?.nombre || "-",
       Licencia: getRowLicencia(row),
+      "Tipo clase práctica": getRowPracticalClassType(row) || "-",
       Origen: getRowOrigen(row),
       Concepto: row.concepto || "-",
       "Precio Base": Number(getBaseAmount(row) || 0).toFixed(2),
@@ -501,7 +517,8 @@ export default function IngresosFacturas() {
     {
       field: "numero",
       headerName: "Nº Factura",
-      flex: 1.05,
+      width: 200, // 💡 Configurable: Cambia este número por los píxeles que necesites
+      minWidth: 120, // Opcional: Asegura un ancho mínimo para que el Chip no se corte
     },
     {
       field: "alumno",
@@ -519,9 +536,24 @@ export default function IngresosFacturas() {
       ),
     },
     {
+      field: "tipoClasePractica",
+      headerName: "Tipo clase",
+      width: 160,
+      sortable: false,
+      valueGetter: (_, row) => getRowPracticalClassType(row),
+      renderCell: (params) => {
+        if (!params.value) {
+          return "-";
+        }
+
+        return <PracticalClassTypeChip value={params.value} />;
+      },
+    },
+    {
       field: "origen",
       headerName: "Origen",
-      flex: 0.8,
+      width: 180, // 💡 Configurable: Cambia este número por los píxeles que necesites
+      minWidth: 120, // Opcional: Asegura un ancho mínimo para que el Chip no se corte
       valueGetter: (_, row) => getRowOrigen(row),
       renderCell: (params) => {
         const origen = params.value;
@@ -529,24 +561,24 @@ export default function IngresosFacturas() {
         // Configuración de colores personalizados para cada origen
         const configEstilos = {
           MATRÍCULA: {
-            bg: "#fff3e0", // Naranja muy claro (Fondo)
-            border: "#ff9800", // Naranja medio (Borde)
-            text: "#e65100", // Naranja oscuro (Texto)
+            bg: "#fff3e0", // Naranja pastel muy suave
+            border: "#ff9800", // Naranja vibrante
+            text: "#e65100", // Naranja oscuro / Óxido
           },
           PAGO: {
-            bg: "#e8f5e9", // Verde claro
-            border: "#2e7d32", // Verde oscuro
-            text: "#1b5e20", // Verde texto
+            bg: "#fce4ec", // Rosa/Fucsia pastel muy suave (Fondo)
+            border: "#f06292", // Rosa medio (Borde)
+            text: "#880e4f", // Vino/Fucsia profundo (Texto para máxima legibilidad)
           },
           DGT: {
-            bg: "#e1f5fe", // Azul DGT claro
-            border: "#0288d1", // Azul DGT oscuro
-            text: "#01579b", // Azul DGT texto
+            bg: "#e1f5fe", // Azul cielo muy claro
+            border: "#0288d1", // Azul océano medio
+            text: "#01579b", // Azul marino profundo
           },
           "EXAMEN PRÁCTICO": {
-            bg: "#f3e5f5", // Morado claro
-            border: "#9c27b0", // Morado oscuro
-            text: "#4a148c", // Morado texto
+            bg: "#f1f8e9", // Verde lima / Manzana muy suave
+            border: "#8bc34a", // Verde hoja medio
+            text: "#33691e", // Verde bosque profundo
           },
         };
 
@@ -561,6 +593,8 @@ export default function IngresosFacturas() {
           <Chip
             size="small"
             label={origen}
+            align="center" // 🎯 Centra el Chip horizontalmente dentro de la celda
+            headerAlign="center" // 🎯 Centra también el texto del encabezado "Origen"
             variant="outlined"
             sx={{
               backgroundColor: estilos.bg,
@@ -577,20 +611,20 @@ export default function IngresosFacturas() {
       headerName: "Concepto",
       flex: 1.9,
     },
-    {
+    /*
       field: "baseImponible",
       headerName: "Precio Base",
       flex: 0.8,
       valueGetter: (_, row) => getBaseAmount(row),
       valueFormatter: (value) => formatCurrency(value),
-    },
-    {
+    
+    
       field: "descuento",
       headerName: "Descuento",
       flex: 0.8,
       valueGetter: (_, row) => getDiscountAmount(row),
       valueFormatter: (value) => formatCurrency(value),
-    },
+    */
     {
       field: "total",
       headerName: "Precio Final",
@@ -645,12 +679,12 @@ export default function IngresosFacturas() {
       },
     },
 
-    {
+    /*
       field: "fechaEmision",
       headerName: "Fecha Emisión",
       flex: 1,
       valueGetter: (_, row) => formatDate(row.fechaEmision),
-    },
+    */
     {
       field: "fechaPago",
       headerName: "Fecha Pago",
@@ -799,6 +833,22 @@ export default function IngresosFacturas() {
           {CONCEPTO_OPTIONS.map((option) => (
             <MenuItem key={option.value} value={option.value}>
               {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+
+        <TextField
+          select
+          size="small"
+          label="Licencia"
+          value={licenciaFiltro}
+          onChange={(event) => setLicenciaFiltro(event.target.value)}
+          sx={{ minWidth: 180 }}
+        >
+          <MenuItem value="">Todas</MenuItem>
+          {LICENSE_OPTIONS.map((license) => (
+            <MenuItem key={license} value={license}>
+              {license}
             </MenuItem>
           ))}
         </TextField>

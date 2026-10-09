@@ -35,6 +35,11 @@ async function main() {
   console.log(`- No aptos: ${result.noAptos}`);
   console.log(`- Aciertos totales: ${result.aciertosTotales}`);
   console.log(`- Errores totales: ${result.erroresTotales}`);
+  if (result?.porLicencia) {
+    console.log(
+      `- Resumen por licencia: ${JSON.stringify(result.porLicencia)}`,
+    );
+  }
 }
 
 main()

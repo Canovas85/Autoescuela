@@ -97,6 +97,7 @@ const parseArgs = (argv) => {
     operator: null,
     reason: null,
     noConsumeConvocatoria: false,
+    licenses: null,
   };
 
   for (const token of argv.slice(2)) {
@@ -140,6 +141,13 @@ const parseArgs = (argv) => {
         break;
       case "no-consume-convocatoria":
         args.noConsumeConvocatoria = true;
+        break;
+      case "licenses":
+      case "licencias":
+        args.licenses = (value || "")
+          .split(",")
+          .map((item) => normalizeLicenseCode(item))
+          .filter(Boolean);
         break;
       default:
         break;
@@ -405,6 +413,30 @@ const getPagoTasaInfo = async (tx, alumnoId, conceptoPattern) => {
   return pagoTasa;
 };
 
+const getLicenciaObjetivoByAlumno = async (tx, alumnoId, cache) => {
+  if (cache.has(alumnoId)) {
+    return cache.get(alumnoId);
+  }
+
+  const matriculaPagada = await tx.matricula.findFirst({
+    where: {
+      alumnoId,
+      estado: "PAGADA",
+    },
+    orderBy: {
+      fechaPago: "desc",
+    },
+    select: {
+      licencia: true,
+    },
+  });
+
+  const licenciaObjetivo = normalizeLicenseCode(matriculaPagada?.licencia);
+  cache.set(alumnoId, licenciaObjetivo);
+
+  return licenciaObjetivo;
+};
+
 const cleanupPendingPracticalExpenseAfterApto = async (tx, alumnoId) => {
   const pagosPendientes = await tx.pago.findMany({
     where: {
@@ -471,11 +503,32 @@ const cleanupPendingPracticalExpenseAfterApto = async (tx, alumnoId) => {
 };
 
 const construirPlanAplicacion = async (tx, candidatas, randomFn, options) => {
+  const licenciaByAlumnoCache = new Map();
+  const candidatasFiltradas = [];
+
+  for (const solicitud of candidatas) {
+    const licenciaObjetivo = await getLicenciaObjetivoByAlumno(
+      tx,
+      solicitud.alumnoId,
+      licenciaByAlumnoCache,
+    );
+
+    if (
+      Array.isArray(options.licenses) &&
+      options.licenses.length > 0 &&
+      !options.licenses.includes(licenciaObjetivo)
+    ) {
+      continue;
+    }
+
+    candidatasFiltradas.push(solicitud);
+  }
+
   const candidatasUnicas = [];
   const candidatasDuplicadas = [];
   const seenPerDay = new Set();
 
-  for (const solicitud of candidatas) {
+  for (const solicitud of candidatasFiltradas) {
     const key = `${solicitud.alumnoId}|${getDateKey(
       solicitud.fechaProgramada || solicitud.fechaSolicitud,
     )}`;
@@ -690,6 +743,7 @@ async function main() {
 
     const plan = await construirPlanAplicacion(tx, candidatas, randomFn, {
       noConsumeConvocatoria: args.noConsumeConvocatoria,
+      licenses: args.licenses,
     });
 
     const mode = args.dryRun ? "DRY_RUN" : "APPLY";

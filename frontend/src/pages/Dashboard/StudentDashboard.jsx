@@ -42,6 +42,8 @@ import { Button } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
 import { pagosService } from "../../services/pagosService";
+import { LicenseChip } from "../../components/common/LicenseChip";
+import { PracticalClassTypeChip } from "../../components/common/PracticalClassTypeChip";
 
 const statusStyles = {
   PAGADA: {
@@ -1227,9 +1229,31 @@ export default function StudentDashboard({ data }) {
                         <ListItemText
                           primary={`${formatDate(reserva.fecha)} · ${reserva.vehiculo?.matricula ?? "Sin vehículo"}`}
                           secondary={
-                            reserva.profesor?.usuario?.nombre
-                              ? `Profesor: ${reserva.profesor.usuario.nombre}`
-                              : "Profesor no asignado"
+                            <Stack
+                              direction="row"
+                              spacing={0.75}
+                              alignItems="center"
+                              useFlexGap
+                              flexWrap="wrap"
+                              sx={{ mt: 0.4 }}
+                            >
+                              <Typography
+                                variant="caption"
+                                color="text.secondary"
+                              >
+                                {reserva.profesor?.usuario?.nombre
+                                  ? `Profesor: ${reserva.profesor.usuario.nombre}`
+                                  : "Profesor no asignado"}
+                              </Typography>
+                              <LicenseChip
+                                value={reserva.vehiculo?.tipoPermiso || "-"}
+                              />
+                              <PracticalClassTypeChip
+                                value={
+                                  reserva.tipoClasePractica || "CIRCULACION"
+                                }
+                              />
+                            </Stack>
                           }
                         />
                       </ListItem>
@@ -1459,7 +1483,7 @@ export default function StudentDashboard({ data }) {
                                 </Stack>
                               </Stack>
 
-                              {/* Sección Opcional de Observaciones */}
+                              {/* Sección Opcional de Observaciones 
                               {examen.observaciones ? (
                                 <Typography
                                   variant="body2"
@@ -1468,7 +1492,7 @@ export default function StudentDashboard({ data }) {
                                 >
                                   {examen.observaciones}
                                 </Typography>
-                              ) : null}
+                              ) : null}*/}
 
                               {/* Separador entre elementos (evita duplicar al final de la lista) */}
                               {index < examenes.teoricos.length - 1 && (
@@ -1540,14 +1564,17 @@ export default function StudentDashboard({ data }) {
                                     variant="body2"
                                     color="text.secondary"
                                   ></Typography>
-                                  {examen.observaciones ? (
-                                    <Typography
-                                      variant="body2"
-                                      color="text.secondary"
-                                    >
-                                      {examen.observaciones}
-                                    </Typography>
-                                  ) : null}
+
+                                  {/* ─── COMENTADO DESDE AQUÍ ───
+                                      {examen.observaciones ? (
+                                      <Typography
+                                        variant="body2"
+                                        color="text.secondary"
+                                      >
+                                        {examen.observaciones}
+                                      </Typography>
+                                    ) : null}
+                                    ─── HASTA AQUÍ ─── */}
                                 </Stack>
 
                                 {/* Bloque Derecho: Chip de estado y Botón de detalles */}

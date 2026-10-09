@@ -16,6 +16,8 @@ import RouteIcon from "@mui/icons-material/Route";
 import { useNavigate } from "react-router-dom";
 
 import { clasesPracticasPortalService } from "../../services/clasesPracticasPortalService";
+import { LicenseChip } from "../../components/common/LicenseChip";
+import { PracticalClassTypeChip } from "../../components/common/PracticalClassTypeChip";
 
 const formatDate = (value) =>
   new Date(value).toLocaleString("es-ES", {
@@ -217,6 +219,12 @@ export default function ClasesPracticasProfesor() {
                     <Typography variant="body2">
                       Vehículo: {item.vehiculo?.marca} {item.vehiculo?.modelo}
                     </Typography>
+                    <Stack direction="row" spacing={0.75} sx={{ mt: 0.75 }}>
+                      <LicenseChip value={item.vehiculo?.tipoPermiso || "-"} />
+                      <PracticalClassTypeChip
+                        value={item.tipoClasePractica || "CIRCULACION"}
+                      />
+                    </Stack>
                     <Typography variant="body2">
                       Pago: {item.metodoPago}
                     </Typography>
@@ -325,6 +333,12 @@ export default function ClasesPracticasProfesor() {
                     <Typography variant="body2">
                       Vehículo: {item.vehiculo?.matricula}
                     </Typography>
+                    <Stack direction="row" spacing={0.75} sx={{ mt: 0.75 }}>
+                      <LicenseChip value={item.vehiculo?.tipoPermiso || "-"} />
+                      <PracticalClassTypeChip
+                        value={item.tipoClasePractica || "CIRCULACION"}
+                      />
+                    </Stack>
                     <Typography variant="body2">
                       Pago: {item.metodoPago}
                     </Typography>
@@ -392,6 +406,11 @@ export default function ClasesPracticasProfesor() {
                         {/* 5 espacios de separación aproximados (24px) */}·{" "}
                         {item.alumno?.nombre}
                       </Typography>
+
+                      <LicenseChip value={item.vehiculo?.tipoPermiso || "-"} />
+                      <PracticalClassTypeChip
+                        value={item.tipoClasePractica || "CIRCULACION"}
+                      />
 
                       {/* 4. ESTADO (CHIP) */}
                       <Chip

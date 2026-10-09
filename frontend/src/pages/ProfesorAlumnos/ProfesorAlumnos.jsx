@@ -29,6 +29,7 @@ import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
 import { profesorPortalService } from "../../services/profesorPortalService";
 import { LicenseChip } from "../../components/common/LicenseChip";
+import { PracticalClassTypeChip } from "../../components/common/PracticalClassTypeChip";
 import { ExpedientePhaseChip } from "../../components/common/ExpedientePhaseChip";
 import { exportProfesorAlumnosExcel } from "../../utils/exportProfesorAlumnosExcel";
 import { exportProfesorAlumnosPdf } from "../../utils/exportProfesorAlumnosPdf";
@@ -875,13 +876,23 @@ export default function ProfesorAlumnos() {
                 {detail?.practica?.proximasClases?.length ? (
                   <Stack spacing={1}>
                     {detail.practica.proximasClases.map((clase) => (
-                      <Typography key={clase.id} variant="body2">
-                        Fecha: {formatDateTime(clase.fecha)} | Duración:{" "}
-                        {clase.duracion} min | Vehículo:{" "}
-                        {clase.vehiculo?.marca || "Sin vehículo"}{" "}
-                        {clase.vehiculo?.modelo || ""}{" "}
-                        {clase.vehiculo?.matricula || ""}
-                      </Typography>
+                      <Paper key={clase.id} variant="outlined" sx={{ p: 1.25 }}>
+                        <Typography variant="body2">
+                          Fecha: {formatDateTime(clase.fecha)} | Duración:{" "}
+                          {clase.duracion} min | Vehículo:{" "}
+                          {clase.vehiculo?.marca || "Sin vehículo"}{" "}
+                          {clase.vehiculo?.modelo || ""}{" "}
+                          {clase.vehiculo?.matricula || ""}
+                        </Typography>
+                        <Stack direction="row" spacing={0.75} sx={{ mt: 0.75 }}>
+                          <LicenseChip
+                            value={clase.vehiculo?.tipoPermiso || "-"}
+                          />
+                          <PracticalClassTypeChip
+                            value={clase.tipoClasePractica || "CIRCULACION"}
+                          />
+                        </Stack>
+                      </Paper>
                     ))}
                   </Stack>
                 ) : (
@@ -986,7 +997,15 @@ export default function ProfesorAlumnos() {
                           fontWeight={700}
                           sx={{ textAlign: "right" }}
                         >
-                          {formatHistoryFieldValue(value)}
+                          {["permiso", "licenciaVehiculo"].includes(key) ? (
+                            <LicenseChip value={value} />
+                          ) : ["tipoClasePractica", "tipoClase"].includes(
+                              key,
+                            ) ? (
+                            <PracticalClassTypeChip value={value} />
+                          ) : (
+                            formatHistoryFieldValue(value)
+                          )}
                         </Typography>
                       </Box>
                     ),

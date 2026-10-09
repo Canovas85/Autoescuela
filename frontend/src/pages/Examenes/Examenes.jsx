@@ -691,12 +691,12 @@ export default function Examenes() {
               </Paper>
 
               <Paper variant="outlined" sx={{ p: 2 }}>
-                <Typography variant="subtitle2" color="text.secondary">
+                {/*<Typography variant="subtitle2" color="text.secondary">
                   Observaciones
                 </Typography>
                 <Typography sx={{ mt: 1 }}>
                   {selectedRow.observaciones || "Sin observaciones"}
-                </Typography>
+                </Typography>*/}
                 {selectedRow.motivoNoApto ? (
                   <Typography sx={{ mt: 1 }}>
                     <strong>Motivo no apto:</strong> {selectedRow.motivoNoApto}

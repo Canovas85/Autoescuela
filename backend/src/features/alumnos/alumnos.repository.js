@@ -228,6 +228,11 @@ export class AlumnosRepository {
             fecha: "desc",
           },
           include: {
+            hojaRuta: {
+              select: {
+                estado: true,
+              },
+            },
             profesor: {
               include: {
                 usuario: true,

@@ -23,6 +23,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import DownloadIcon from "@mui/icons-material/Download";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { LicenseChip } from "../../components/common/LicenseChip";
+import { PracticalClassTypeChip } from "../../components/common/PracticalClassTypeChip";
 import { useNavigate } from "react-router-dom";
 
 import { facturasService } from "../../services/facturasService";
@@ -112,6 +113,9 @@ const getRowLicencia = (row) =>
   row?.clasePractica?.vehiculo?.tipoPermiso ||
   row?.matricula?.licencia ||
   "-";
+
+const getRowPracticalClassType = (row) =>
+  row?.clasePractica?.tipoClasePractica || null;
 
 const getBaseAmount = (row) => {
   const category = classifyConcepto(row?.concepto);
@@ -357,6 +361,7 @@ export default function MisFacturas() {
     filteredRows.map((row) => ({
       "Nº Factura": row.numero || "-",
       Licencia: getRowLicencia(row),
+      "Tipo clase práctica": getRowPracticalClassType(row) || "-",
       Origen: getRowOrigen(row),
       Concepto: row.concepto || "-",
       "Precio Base": Number(getBaseAmount(row) || 0).toFixed(2),
@@ -391,6 +396,20 @@ export default function MisFacturas() {
       renderCell: (params) => (
         <LicenseChip value={getRowLicencia(params.row)} />
       ),
+    },
+    {
+      field: "tipoClasePractica",
+      headerName: "Tipo clase",
+      width: 160,
+      sortable: false,
+      valueGetter: (_, row) => getRowPracticalClassType(row),
+      renderCell: (params) => {
+        if (!params.value) {
+          return "-";
+        }
+
+        return <PracticalClassTypeChip value={params.value} />;
+      },
     },
     {
       field: "origen",

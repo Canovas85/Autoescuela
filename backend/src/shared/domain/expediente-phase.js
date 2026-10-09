@@ -78,7 +78,7 @@ export const EXPEDIENTE_PHASES = {
   },
   PREPARANDO_PRACTICO: {
     code: "PREPARANDO_PRACTICO",
-    label: "Preparándose Examen Práctico",
+    label: "Realizando clases prácticas",
   },
   PENDIENTE_EXAMEN_PRACTICO: {
     code: "PENDIENTE_EXAMEN_PRACTICO",

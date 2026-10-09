@@ -30,6 +30,8 @@ import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 
 import { clasesPracticasPortalService } from "../../services/clasesPracticasPortalService";
 import { useNavigate } from "react-router-dom";
+import { LicenseChip } from "../../components/common/LicenseChip";
+import { PracticalClassTypeChip } from "../../components/common/PracticalClassTypeChip";
 import {
   addDaysToDateKey,
   dateFromKeyAtNoon,
@@ -1005,6 +1007,17 @@ export default function ReservarClase() {
                                 spacing={0.5}
                                 sx={{ mt: 0.5 }}
                               >
+                                <LicenseChip
+                                  value={item.vehiculo?.tipoPermiso || "-"}
+                                  size="small"
+                                />
+                                <PracticalClassTypeChip
+                                  value={
+                                    item.tipoClasePractica || "CIRCULACION"
+                                  }
+                                  size="small"
+                                  sx={{ height: 20, fontSize: 10 }}
+                                />
                                 <Chip
                                   size="small"
                                   color={typeChip.color}

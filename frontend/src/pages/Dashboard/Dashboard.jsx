@@ -9,6 +9,7 @@ import {
   Paper,
   Stack,
   Typography,
+  Chip,
 } from "@mui/material";
 import {
   Bar,
@@ -147,84 +148,133 @@ function AdminDashboardView({ metrics }) {
 
   const cardsMatriculas = [
     {
+      id: "registrados", // Añadimos un id único seguro para la key
       title: "Alumnos Registrados",
       value: matriculasAlumnos.alumnosRegistrados ?? 0,
-      subtitle: "Solo alumnos activos",
       icon: <PeopleIcon />,
       color: "#2563eb",
+      height: "125px",
+      width: "220px",
     },
     {
+      id: "licenciados",
       title: "Alumnos Licenciados",
       value: matriculasAlumnos.alumnosLicenciados ?? 0,
-      subtitle: "Estado expediente LICENCIA_OBTENIDA",
       icon: <EmojiEventsIcon />,
       color: "#16a34a",
+      height: "125px",
+      width: "220px",
     },
     {
+      id: "matriculados",
       title: "Alumnos Matriculados",
       value: matriculasAlumnos.alumnosMatriculados ?? 0,
-      subtitle: "Matrícula pagada sin licencia obtenida",
       icon: <AssignmentIcon />,
       color: "#7c3aed",
+      height: "125px",
+      width: "220px",
     },
     {
+      id: "pendiente",
       title: "Matrícula Pendiente de Pago",
       value: matriculasAlumnos.alumnosMatriculaPendientePago ?? 0,
-      subtitle: "Alumnos activos con matrícula pendiente",
       icon: <AccessTimeFilledIcon />,
       color: "#ea580c",
+      height: "125px",
+      width: "220px",
+    },
+    {
+      id: "profesores", // Añadamos un id único seguro para la key
+      title: "Profesores Registrados",
+      value: usuarios.profesoresRegistrados ?? 0,
+      icon: <SchoolIcon />,
+      color: "#2563eb",
+      height: "125px",
+      width: "220px",
+    },
+    {
+      id: "administrativos",
+      title: "Administrativos Registrados",
+      value: usuarios.administrativosRegistrados ?? 0,
+      icon: <AppRegistrationIcon />,
+      color: "#ff0000",
+      height: "125px",
+      width: "220px",
+    },
+    {
+      id: "soportes",
+      title: "Soportes Registrados",
+      value: usuarios.soportesRegistrados ?? 0,
+      icon: <GroupIcon />,
+      color: "#16a34a",
+      height: "125px",
+      width: "220px",
     },
   ];
 
   const cardsUsuarios = [
     {
+      id: "profesores", // Añadamos un id único seguro para la key
       title: "Profesores Registrados",
       value: usuarios.profesoresRegistrados ?? 0,
       icon: <SchoolIcon />,
-      color: "#0369a1",
+      color: "#2563eb",
+      height: "125px",
     },
     {
+      id: "administrativos",
       title: "Administrativos Registrados",
       value: usuarios.administrativosRegistrados ?? 0,
       icon: <AppRegistrationIcon />,
-      color: "#475569",
+      color: "#ff0000",
+      height: "125px",
     },
     {
+      id: "soportes",
       title: "Soportes Registrados",
       value: usuarios.soportesRegistrados ?? 0,
       icon: <GroupIcon />,
-      color: "#0f766e",
+      color: "#16a34a",
+      height: "125px",
     },
   ];
 
   const cardsClases = [
     {
+      id: "clases_totales",
       title: "Clases Totales",
       value: clasesPracticas.clasesTotales ?? 0,
       subtitle: "Completadas + solicitadas",
       icon: <DirectionsCarIcon />,
       color: "#1d4ed8",
+      height: "150px",
     },
     {
+      id: "clases_completadas_mes",
       title: "Clases Completadas este Mes",
       value: clasesPracticas.clasesCompletadasMes ?? 0,
       subtitle: "Clases prácticas completadas",
       icon: <EmojiEventsIcon />,
       color: "#15803d",
+      height: "150px",
     },
     {
+      id: "clases_solicitadas_mes",
       title: "Clases Solicitadas este Mes",
       value: clasesPracticas.clasesSolicitadasMes ?? 0,
       subtitle: "Solicitudes programadas y confirmadas",
       icon: <CalendarMonthIcon />,
       color: "#7c3aed",
+      height: "150px",
     },
     {
+      id: "pagadas_fuera_bono",
       title: "Pagadas fuera de Bono",
       value: clasesPracticas.clasesPagadasFueraBono ?? 0,
       subtitle: "Clases individuales pagadas",
       icon: <DirectionsCarIcon />,
       color: "#b45309",
+      height: "150px",
     },
   ];
 
@@ -282,6 +332,7 @@ function AdminDashboardView({ metrics }) {
       value: evaluacionTeorico.pendientes ?? 0,
       subtitle: "Convocatorias futuras con alumnos inscritos",
       color: "#7c2d12",
+      width: "500px",
     },
     {
       title: "Evaluaciones Pendientes Práctico",
@@ -349,44 +400,134 @@ function AdminDashboardView({ metrics }) {
 
       <Grid container spacing={2} alignItems="stretch">
         {cardsMatriculas.map((card) => (
-          <Grid key={card.title} item xs={12} sm={6} lg={2}>
-            <StatCard {...card} />
+          <Grid key={card.id} item xs={12} sm={6} lg={2}>
+            {/* Contenedor principal que controla el tamaño y centra los textos */}
+            <Box
+              sx={{
+                width: card.width || "100%",
+                height: card.height || "auto",
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                // ─── ESTILOS PARA FORZAR EL CENTRADO DE TEXTOS ───
+                textAlign: "center", // Centra textos nativos o tipografías estándar
+                "& *": {
+                  // Fuerza a todos los elementos hijos internos a centrarse
+                  textAlign: "center",
+                  justifyContent: "center",
+                  alignItems: "center",
+                },
+              }}
+            >
+              {/* Pasamos un string vacío en value para no romper el tipo de dato */}
+              <StatCard {...card} value=" " />
+
+              {/* Contenedor para el Chip centrado horizontalmente */}
+              <Box
+                sx={{
+                  position: "absolute",
+                  bottom: "12px", // Distancia desde el borde inferior de la tarjeta
+                  left: "50%", // Lo mueve al centro horizontal
+                  transform: "translateX(-50%)", // Centrado perfecto compensando su propio ancho
+                  zIndex: 2,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Chip
+                  label={card.value}
+                  variant="outlined"
+                  sx={{
+                    backgroundColor: `${card.color}15`,
+                    borderColor: card.color,
+                    color: card.color,
+                    fontWeight: "bold",
+                    fontSize: "1.1rem",
+                  }}
+                />
+              </Box>
+            </Box>
           </Grid>
         ))}
-
-        <Grid item xs={12} lg={4}>
-          <Card sx={{ height: "100%" }}>
-            <CardContent>
-              <Typography variant="subtitle1" fontWeight={800} sx={{ mb: 1 }}>
-                Alumnos matriculados por mes
-              </Typography>
-              <Box sx={{ width: "100%", height: 190 }}>
-                <ResponsiveContainer>
-                  <BarChart data={matriculasAlumnos.matriculadosPorMes || []}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="mes" />
-                    <YAxis allowDecimals={false} />
-                    <Tooltip />
-                    <Bar dataKey="total" name="Matriculados" fill="#2563eb" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
       </Grid>
 
-      <Typography variant="h5" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
+      <Grid item xs={12} lg={4}>
+        <Card sx={{ height: "100%", mt: 3, width: "65%" }}>
+          <CardContent>
+            <Typography variant="subtitle1" fontWeight={800} sx={{ mb: 1 }}>
+              Alumnos matriculados por mes
+            </Typography>
+            <Box sx={{ width: 900, height: 240 }}>
+              <ResponsiveContainer>
+                <BarChart data={matriculasAlumnos.matriculadosPorMes || []}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="mes" />
+                  <YAxis allowDecimals={false} />
+                  <Tooltip />
+                  <Bar dataKey="total" name="Matriculados" fill="#2563eb" />
+                </BarChart>
+              </ResponsiveContainer>
+            </Box>
+          </CardContent>
+        </Card>
+      </Grid>
+
+      {/*<Typography variant="h5" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
         Profesores y Otros Usuarios
       </Typography>
 
       <Grid container spacing={2}>
         {cardsUsuarios.map((card) => (
-          <Grid key={card.title} item xs={12} md={4}>
-            <StatCard {...card} />
+          // Usamos card.id si lo tienes, o card.title como respaldo para la key
+          <Grid key={card.id || card.title} item xs={12} md={4}>
+            
+            <Box
+              sx={{
+                width: card.width || "100%",
+                height: card.height || "auto",
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                textAlign: "center", // Centra textos estándar
+                "& *": {
+                  // Fuerza el centrado en todos los subcomponentes de StatCard
+                  textAlign: "center",
+                  justifyContent: "center",
+                  alignItems: "center",
+                },
+              }}
+            >
+              
+              <StatCard {...card} value=" " />
+
+              
+              <Box
+                sx={{
+                  position: "absolute",
+                  bottom: "12px", // Distancia desde la base de la tarjeta
+                  left: "50%", // Desplazamiento al medio
+                  transform: "translateX(-50%)", // Ajuste matemático de centrado exacto
+                  zIndex: 2,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Chip
+                  label={card.value} // Mostramos el valor real aquí de forma externa
+                  variant="outlined"
+                  sx={{
+                    backgroundColor: `${card.color || "#2563eb"}15`, // Fondo sutil (15% opacidad) o azul por defecto
+                    borderColor: card.color || "#2563eb", // Borde dinámico
+                    color: card.color || "#2563eb", // Texto dinámico
+                    fontWeight: "bold",
+                    fontSize: "1.1rem",
+                  }}
+                />
+              </Box>
+            </Box>
           </Grid>
         ))}
-      </Grid>
+      </Grid>*/}
 
       <Typography variant="h5" fontWeight="bold" sx={{ mt: 4 }}>
         Rankings
@@ -403,6 +544,7 @@ function AdminDashboardView({ metrics }) {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
+                  width: "1650px",
                 }}
               >
                 <Typography variant="h6" fontWeight="bold">
@@ -480,6 +622,7 @@ function AdminDashboardView({ metrics }) {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
+                  width: "1650px",
                 }}
               >
                 <Typography variant="h6" fontWeight="bold">
@@ -732,12 +875,12 @@ function AdminDashboardView({ metrics }) {
 
       <Grid container spacing={2} sx={{ mt: 0.5 }}>
         <Grid item xs={12} md={6}>
-          <Card>
+          <Card sx={{ mt: 2 }}>
             <CardContent>
               <Typography variant="subtitle1" fontWeight={800} sx={{ mb: 1 }}>
                 Compras de promociones pagadas este mes
               </Typography>
-              <Box sx={{ width: "100%", height: 280 }}>
+              <Box sx={{ width: 770, height: 300 }}>
                 <ResponsiveContainer>
                   <PieChart>
                     <Pie
@@ -764,12 +907,12 @@ function AdminDashboardView({ metrics }) {
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <Card>
+          <Card sx={{ mt: 2, ml: 5 }}>
             <CardContent>
               <Typography variant="subtitle1" fontWeight={800} sx={{ mb: 1 }}>
                 Compras de bonos pagadas este mes
               </Typography>
-              <Box sx={{ width: "100%", height: 280 }}>
+              <Box sx={{ width: 770, height: 300 }}>
                 <ResponsiveContainer>
                   <PieChart>
                     <Pie
@@ -802,8 +945,53 @@ function AdminDashboardView({ metrics }) {
 
       <Grid container spacing={2}>
         {cardsClases.map((card) => (
-          <Grid key={card.title} item xs={12} sm={6} lg={3}>
-            <StatCard {...card} />
+          // Usamos card.id si lo tienes en el array, o card.title como respaldo
+          <Grid key={card.id || card.title} item xs={12} sm={6} lg={3}>
+            {/* Contenedor principal: aplica dimensiones configurables y fuerza el centrado */}
+            <Box
+              sx={{
+                width: card.width || "100%",
+                height: card.height || "auto",
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                textAlign: "center", // Centra textos nativos
+                "& *": {
+                  // Fuerza el centrado de todos los elementos internos de StatCard
+                  textAlign: "center",
+                  justifyContent: "center",
+                  alignItems: "center",
+                },
+              }}
+            >
+              {/* Pasamos un espacio vacío en 'value' para evitar errores de tipo en el componente original */}
+              <StatCard {...card} value=" " />
+
+              {/* Contenedor del Chip centrado horizontalmente en la parte inferior */}
+              <Box
+                sx={{
+                  position: "absolute",
+                  bottom: "12px", // Separación desde el fondo de la tarjeta
+                  left: "50%", // Desplazamiento al medio horizontal
+                  transform: "translateX(-50%)", // Centrado matemático perfecto
+                  zIndex: 2,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Chip
+                  label={card.value} // Renderiza aquí el número original
+                  variant="outlined"
+                  sx={{
+                    backgroundColor: `${card.color || "#2563eb"}15`, // Fondo sutil con 15% de opacidad
+                    borderColor: card.color || "#2563eb", // Borde con el color de la tarjeta
+                    color: card.color || "#2563eb", // Texto con el color de la tarjeta
+                    fontWeight: "bold",
+                    fontSize: "1.1rem",
+                  }}
+                />
+              </Box>
+            </Box>
           </Grid>
         ))}
       </Grid>
@@ -822,12 +1010,12 @@ function AdminDashboardView({ metrics }) {
 
       <Grid container spacing={2} sx={{ mt: 0.5 }}>
         <Grid item xs={12} md={6}>
-          <Card>
+          <Card sx={{ mt: 2 }}>
             <CardContent>
               <Typography variant="subtitle1" fontWeight={800} sx={{ mb: 1 }}>
                 Evolución Teórico (Apto / No Apto / Tasa)
               </Typography>
-              <Box sx={{ width: "100%", height: 380 }}>
+              <Box sx={{ width: 770, height: 380 }}>
                 <ResponsiveContainer>
                   <ComposedChart data={evaluacionTeorico.evolucion || []}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -868,12 +1056,12 @@ function AdminDashboardView({ metrics }) {
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <Card>
+          <Card sx={{ mt: 2, ml: 5 }}>
             <CardContent>
               <Typography variant="subtitle1" fontWeight={800} sx={{ mb: 1 }}>
                 Evolución Práctico (Apto / No Apto / Tasa)
               </Typography>
-              <Box sx={{ width: "100%", height: 380 }}>
+              <Box sx={{ width: 770, height: 380 }}>
                 <ResponsiveContainer>
                   <ComposedChart data={evaluacionPractico.evolucion || []}>
                     <CartesianGrid strokeDasharray="3 3" />

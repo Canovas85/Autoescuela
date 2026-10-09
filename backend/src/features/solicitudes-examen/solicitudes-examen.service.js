@@ -1710,6 +1710,7 @@ export class SolicitudesExamenService {
     let noAptos = 0;
     let aciertosTotales = 0;
     let erroresTotales = 0;
+    const porLicencia = {};
 
     for (const solicitud of solicitudesPendientes) {
       const matriculaPagada = await this.repository.findMatriculaPagada(
@@ -1723,6 +1724,14 @@ export class SolicitudesExamenService {
         !licenses.includes(licenciaObjetivo)
       ) {
         continue;
+      }
+
+      if (!porLicencia[licenciaObjetivo]) {
+        porLicencia[licenciaObjetivo] = {
+          procesadas: 0,
+          aptos: 0,
+          noAptos: 0,
+        };
       }
 
       const teoricoRule = getTheoreticalRuleByLicense(licenciaObjetivo);
@@ -1750,11 +1759,14 @@ export class SolicitudesExamenService {
       erroresTotales += erroresExamen;
 
       procesadas += 1;
+      porLicencia[licenciaObjetivo].procesadas += 1;
 
       if (estado === "APTO") {
         aptos += 1;
+        porLicencia[licenciaObjetivo].aptos += 1;
       } else {
         noAptos += 1;
+        porLicencia[licenciaObjetivo].noAptos += 1;
 
         if (!matriculaPagada) {
           continue;
@@ -1773,6 +1785,7 @@ export class SolicitudesExamenService {
       noAptos,
       aciertosTotales,
       erroresTotales,
+      porLicencia,
       fechaEjecucion: new Date(),
     };
   }
@@ -1780,6 +1793,7 @@ export class SolicitudesExamenService {
   async processScheduledPracticalResults({
     today = new Date(),
     randomFn = Math.random,
+    licenses = null,
   } = {}) {
     const solicitudesPendientesRaw =
       await this.repository.findSolicitudesPracticoPendientesResultado(
@@ -1789,8 +1803,26 @@ export class SolicitudesExamenService {
     const seenPerDay = new Set();
     const solicitudesPendientes = [];
     const solicitudesDuplicadas = [];
+    const licenciasByAlumnoId = new Map();
+    const matriculasByAlumnoId = new Map();
 
     for (const solicitud of solicitudesPendientesRaw) {
+      const matriculaPagada = await this.repository.findMatriculaPagada(
+        solicitud.alumnoId,
+      );
+      const licenciaObjetivo = normalizeLicenseCode(matriculaPagada?.licencia);
+
+      licenciasByAlumnoId.set(solicitud.alumnoId, licenciaObjetivo);
+      matriculasByAlumnoId.set(solicitud.alumnoId, matriculaPagada || null);
+
+      if (
+        Array.isArray(licenses) &&
+        licenses.length > 0 &&
+        !licenses.includes(licenciaObjetivo)
+      ) {
+        continue;
+      }
+
       const key = `${solicitud.alumnoId}|${getDateKey(
         solicitud.fechaProgramada || solicitud.fechaSolicitud,
       )}`;
@@ -1821,8 +1853,22 @@ export class SolicitudesExamenService {
     let faltasLevesTotales = 0;
     let faltasDeficientesTotales = 0;
     let faltasEliminatoriasTotales = 0;
+    const porLicencia = {};
 
     for (const solicitud of solicitudesPendientes) {
+      const licenciaObjetivo =
+        licenciasByAlumnoId.get(solicitud.alumnoId) || "B";
+      const matriculaPagada =
+        matriculasByAlumnoId.get(solicitud.alumnoId) || null;
+
+      if (!porLicencia[licenciaObjetivo]) {
+        porLicencia[licenciaObjetivo] = {
+          procesadas: 0,
+          aptos: 0,
+          noAptos: 0,
+        };
+      }
+
       const isAptoTarget = randomFn() < 0.6;
       const faltasBase = isAptoTarget
         ? generarFaltasApto(randomFn)
@@ -1865,11 +1911,7 @@ export class SolicitudesExamenService {
       faltasEliminatoriasTotales += faltas.faltasEliminatorias;
 
       procesadas += 1;
-
-      const matriculaPagada = await this.repository.findMatriculaPagada(
-        solicitud.alumnoId,
-      );
-      const licenciaObjetivo = normalizeLicenseCode(matriculaPagada?.licencia);
+      porLicencia[licenciaObjetivo].procesadas += 1;
 
       if (estado === "APTO") {
         await this.markLicenseObtainedIfPracticalApto({
@@ -1880,10 +1922,12 @@ export class SolicitudesExamenService {
           fasePractica: solicitud.fasePractica,
         });
         aptos += 1;
+        porLicencia[licenciaObjetivo].aptos += 1;
         continue;
       }
 
       noAptos += 1;
+      porLicencia[licenciaObjetivo].noAptos += 1;
 
       if (!matriculaPagada) {
         continue;
@@ -1902,6 +1946,7 @@ export class SolicitudesExamenService {
       faltasLevesTotales,
       faltasDeficientesTotales,
       faltasEliminatoriasTotales,
+      porLicencia,
       fechaEjecucion: new Date(),
     };
   }

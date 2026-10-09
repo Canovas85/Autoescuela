@@ -40,7 +40,7 @@ const EXPEDIENTE_PHASE_META = {
     },
   },
   PREPARANDO_PRACTICO: {
-    label: "Preparándose para examen práctico",
+    label: "Realizando clases prácticas",
     sx: {
       backgroundColor: "#ede9fe",
       color: "#5b21b6",
@@ -93,6 +93,8 @@ const LEGACY_CODE_BY_LABEL = {
   "licencia aprobada": "LICENCIA_OBTENIDA",
   "preparándose para examen práctico": "PREPARANDO_PRACTICO",
   "preparandose para examen practico": "PREPARANDO_PRACTICO",
+  "realizando clases prácticas": "PREPARANDO_PRACTICO",
+  "realizando clases practicas": "PREPARANDO_PRACTICO",
 };
 
 const normalizeCode = (value) =>
