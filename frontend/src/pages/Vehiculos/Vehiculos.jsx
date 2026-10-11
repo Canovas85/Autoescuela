@@ -9,6 +9,7 @@ import {
   DialogContent,
   DialogTitle,
   DialogContentText,
+  FormControlLabel,
   FormControl,
   IconButton,
   InputLabel,
@@ -16,6 +17,8 @@ import {
   Paper,
   Select,
   Snackbar,
+  Radio,
+  RadioGroup,
   Stack,
   TextField,
   Typography,
@@ -104,6 +107,7 @@ export default function Vehiculos() {
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [selectedVehiculo, setSelectedVehiculo] = useState(null);
   const [permisoFiltro, setPermisoFiltro] = useState("all");
+  const [estadoFiltro, setEstadoFiltro] = useState("activos");
 
   const [exportAnchor, setExportAnchor] = useState(null);
 
@@ -185,12 +189,23 @@ export default function Vehiculos() {
   }, [previewImage]);
 
   const filteredRows = useMemo(() => {
-    if (!permisoFiltro || permisoFiltro === "all") {
-      return rows;
-    }
+    return rows.filter((row) => {
+      const matchesPermiso =
+        !permisoFiltro || permisoFiltro === "all"
+          ? true
+          : row.tipoPermiso === permisoFiltro;
 
-    return rows.filter((row) => row.tipoPermiso === permisoFiltro);
-  }, [rows, permisoFiltro]);
+      const isActive = row.activo !== false;
+      const matchesEstado =
+        estadoFiltro === "todos"
+          ? true
+          : estadoFiltro === "activos"
+            ? isActive
+            : !isActive;
+
+      return matchesPermiso && matchesEstado;
+    });
+  }, [rows, permisoFiltro, estadoFiltro]);
 
   const resetForm = () => {
     setNuevoVehiculo({
@@ -627,32 +642,16 @@ export default function Vehiculos() {
       renderCell: (params) => <LicenseChip value={params.value} />,
     },
     {
-      field: "combustibleActualPct",
-      headerName: "Combustible",
-      width: 170,
-      renderCell: (params) => {
-        const value = Number(params.row.combustibleActualPct ?? 0);
-
-        return (
-          <Stack sx={{ width: "100%", py: 1 }} spacing={0.4}>
-            <Typography variant="caption" fontWeight={700}>
-              {Math.max(0, Math.min(100, value))}%
-            </Typography>
-            <LinearProgress
-              variant="determinate"
-              value={Math.max(0, Math.min(100, value))}
-              color={value < 20 ? "error" : value < 40 ? "warning" : "success"}
-              sx={{ height: 7, borderRadius: 999 }}
-            />
-          </Stack>
-        );
-      },
-    },
-    {
       field: "numeroClasesRealizadas",
       headerName: "Nº Clases",
       width: 120,
       valueGetter: (_, row) => Number(row.numeroClasesRealizadas || 0),
+    },
+    {
+      field: "kmActuales",
+      headerName: "KMs actuales",
+      width: 140,
+      valueGetter: (_, row) => row.kmActuales ?? 0,
     },
     {
       field: "fechaUltimaItv",
@@ -690,6 +689,28 @@ export default function Vehiculos() {
             }}
           />
         ),
+    },
+    {
+      field: "combustibleActualPct",
+      headerName: "Combustible",
+      width: 170,
+      renderCell: (params) => {
+        const value = Number(params.row.combustibleActualPct ?? 0);
+
+        return (
+          <Stack sx={{ width: "100%", py: 1 }} spacing={0.4}>
+            <Typography variant="caption" fontWeight={700}>
+              {Math.max(0, Math.min(100, value))}%
+            </Typography>
+            <LinearProgress
+              variant="determinate"
+              value={Math.max(0, Math.min(100, value))}
+              color={value < 20 ? "error" : value < 40 ? "warning" : "success"}
+              sx={{ height: 7, borderRadius: 999 }}
+            />
+          </Stack>
+        );
+      },
     },
 
     {
@@ -831,6 +852,25 @@ export default function Vehiculos() {
         >
           Nuevo Vehículo
         </Button>
+
+        <RadioGroup
+          row
+          value={estadoFiltro}
+          onChange={(event) => setEstadoFiltro(event.target.value)}
+          sx={{ alignItems: "center" }}
+        >
+          <FormControlLabel
+            value="activos"
+            control={<Radio />}
+            label="Activos"
+          />
+          <FormControlLabel
+            value="inactivos"
+            control={<Radio />}
+            label="Inactivos"
+          />
+          <FormControlLabel value="todos" control={<Radio />} label="Todos" />
+        </RadioGroup>
 
         <FormControl size="small" sx={{ minWidth: 220, mt: 0.5 }}>
           <InputLabel>Permiso</InputLabel>

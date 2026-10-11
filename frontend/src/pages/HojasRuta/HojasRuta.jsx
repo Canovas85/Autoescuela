@@ -7,6 +7,7 @@ import {
   Button,
   Card,
   CardContent,
+  Checkbox,
   Chip,
   Dialog,
   DialogActions,
@@ -14,6 +15,8 @@ import {
   DialogTitle,
   Divider,
   Grid,
+  FormControlLabel,
+  FormGroup,
   IconButton,
   InputAdornment,
   LinearProgress,
@@ -154,6 +157,153 @@ const statCardSx = {
   boxShadow: "none",
 };
 
+const ROADMAP_EXERCISES = [
+  {
+    id: "F1_COMPROBACIONES_PREVIAS",
+    fase: "Fase 1",
+    titulo: "Comprobaciones previas",
+    descripcion:
+      "Regulacion de asiento, reposacabezas y espejos. Localizacion de mandos basicos.",
+  },
+  {
+    id: "F1_AGARRE_VOLANTE",
+    fase: "Fase 1",
+    titulo: "Agarre del volante",
+    descripcion:
+      "Posicion de manos 9 y 3, giros fluidos y control del volante sin tension.",
+  },
+  {
+    id: "F1_TACTO_PEDALES_INICIO_MARCHA",
+    fase: "Fase 1",
+    titulo: "Tacto de pedales e inicio de marcha",
+    descripcion:
+      "Coordinacion de embrague y acelerador para arrancar suave y detener con precision.",
+  },
+  {
+    id: "F1_UTILIZACION_MARCHAS",
+    fase: "Fase 1",
+    titulo: "Utilizacion de marchas",
+    descripcion:
+      "Progresion ascendente y descendente de marchas segun regimen del motor.",
+  },
+  {
+    id: "F1_LINEA_RECTA_GIROS_CERRADOS",
+    fase: "Fase 1",
+    titulo: "Linea recta y giros cerrados",
+    descripcion:
+      "Estabilidad en recta y giros de 90 grados a baja velocidad en espacio delimitado.",
+  },
+  {
+    id: "F2_MARCHA_ATRAS",
+    fase: "Fase 2",
+    titulo: "Marcha atras",
+    descripcion:
+      "Desplazamiento en recta y curva usando retrovisores y observacion directa.",
+  },
+  {
+    id: "F2_CAMBIO_SENTIDO",
+    fase: "Fase 2",
+    titulo: "Cambio de sentido",
+    descripcion:
+      "Vuelta en vias estrechas con tecnicas permitidas y marcha atras si es necesario.",
+  },
+  {
+    id: "F2_ESTACIONAMIENTO_MODALIDADES",
+    fase: "Fase 2",
+    titulo: "Estacionamiento",
+    descripcion:
+      "Aparcamiento en linea, bateria y diagonal usando referencias visuales.",
+  },
+  {
+    id: "F2_PARADAS_INMOVILIZACION",
+    fase: "Fase 2",
+    titulo: "Paradas e inmovilizacion",
+    descripcion:
+      "Detencion voluntaria al borde de la calzada simulando parada tecnica o emergencia.",
+  },
+  {
+    id: "F3_INCORPORACIONES_SALIDAS",
+    fase: "Fase 3",
+    titulo: "Incorporaciones y salidas",
+    descripcion:
+      "Aceleracion y deceleracion en carriles de incorporacion de autovia/autopista.",
+  },
+  {
+    id: "F3_POSICION_VELOCIDAD",
+    fase: "Fase 3",
+    titulo: "Posicion y velocidad",
+    descripcion:
+      "Centrado en carril a alta velocidad y mantenimiento de distancia de seguridad.",
+  },
+  {
+    id: "F3_ADELANTAMIENTOS",
+    fase: "Fase 3",
+    titulo: "Adelantamientos",
+    descripcion:
+      "Evaluacion de velocidad, senalizacion, desplazamiento lateral y regreso seguro.",
+  },
+  {
+    id: "F3_MONTANA_CURVAS_ABIERTAS",
+    fase: "Fase 3",
+    titulo: "Montana y curvas abiertas",
+    descripcion:
+      "Control del vehiculo en tramos revirados y uso del freno motor.",
+  },
+  {
+    id: "F3_CONDUCCION_EFICIENTE",
+    fase: "Fase 3",
+    titulo: "Conduccion eficiente",
+    descripcion: "Uso de marchas largas y anticipacion para optimizar consumo.",
+  },
+  {
+    id: "F4_INTERSECCIONES",
+    fase: "Fase 4",
+    titulo: "Franqueo de intersecciones",
+    descripcion:
+      "Gestion de prioridades, giros urbanos y cumplimiento de semaforos y stop.",
+  },
+  {
+    id: "F4_GLORIETAS",
+    fase: "Fase 4",
+    titulo: "Circulacion en glorietas",
+    descripcion:
+      "Entrada, posicionamiento por carril y salida con senalizacion correcta.",
+  },
+  {
+    id: "F4_OBSERVACION_DIRECTA_INDIRECTA",
+    fase: "Fase 4",
+    titulo: "Observacion directa e indirecta",
+    descripcion:
+      "Uso sistematico de espejos y control de angulo muerto antes de maniobras.",
+  },
+  {
+    id: "F4_VIAS_SATURADAS",
+    fase: "Fase 4",
+    titulo: "Conduccion en vias saturadas",
+    descripcion:
+      "Gestion de embrague en stop and go y pasos de peatones con visibilidad reducida.",
+  },
+  {
+    id: "F4_CONDUCCION_AUTONOMA",
+    fase: "Fase 4",
+    titulo: "Conduccion autonoma",
+    descripcion:
+      "Simulacro de examen con instrucciones generales y toma de decisiones independiente.",
+  },
+];
+
+const ROADMAP_EXERCISES_BY_ID = new Map(
+  ROADMAP_EXERCISES.map((item) => [item.id, item]),
+);
+
+const ROADMAP_EXERCISES_BY_PHASE = ROADMAP_EXERCISES.reduce((acc, item) => {
+  if (!acc[item.fase]) {
+    acc[item.fase] = [];
+  }
+  acc[item.fase].push(item);
+  return acc;
+}, {});
+
 function RoadmapDetail({
   title,
   readonly,
@@ -183,6 +333,17 @@ function RoadmapDetail({
   }
 
   const faultCounts = countFaults(value.faltas || []);
+  const selectedExerciseIds = Array.isArray(value.ejerciciosRealizados)
+    ? value.ejerciciosRealizados
+    : [];
+  const selectedExercises =
+    Array.isArray(value.ejerciciosRealizadosDetalle) &&
+    value.ejerciciosRealizadosDetalle.length > 0
+      ? value.ejerciciosRealizadosDetalle
+      : selectedExerciseIds
+          .map((id) => ROADMAP_EXERCISES_BY_ID.get(id))
+          .filter(Boolean);
+  const hasSelectedExercises = selectedExerciseIds.length > 0;
   const kmHechos =
     value.kilometrosInicio !== null && value.kilometrosFin !== null
       ? value.kilometrosFin - value.kilometrosInicio
@@ -211,6 +372,21 @@ function RoadmapDetail({
     onChange({
       ...value,
       faltas: (value.faltas || []).filter((_, i) => i !== index),
+    });
+  };
+
+  const toggleExercise = (exerciseId) => {
+    if (readonly) {
+      return;
+    }
+
+    const next = selectedExerciseIds.includes(exerciseId)
+      ? selectedExerciseIds.filter((id) => id !== exerciseId)
+      : [...selectedExerciseIds, exerciseId];
+
+    onChange({
+      ...value,
+      ejerciciosRealizados: next,
     });
   };
 
@@ -502,6 +678,297 @@ function RoadmapDetail({
           </Card>
         </Grid>
       </Grid>
+
+      <Card sx={statCardSx}>
+        <CardContent>
+          <Stack
+            direction={{ xs: "column", md: "row" }}
+            justifyContent="space-between"
+            alignItems={{ xs: "flex-start", md: "center" }}
+            spacing={1}
+            sx={{ mb: 1.5 }}
+          >
+            <Typography variant="h6" fontWeight={800}>
+              Ejercicios realizados
+            </Typography>
+            <Chip
+              size="small"
+              color={hasSelectedExercises ? "success" : "warning"}
+              label={`${selectedExerciseIds.length} seleccionados`}
+            />
+          </Stack>
+
+          {!readonly ? (
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ mb: 1.5, display: "block" }}
+            >
+              Seleccion multiple. Para finalizar la clase debes seleccionar al
+              menos un ejercicio.
+            </Typography>
+          ) : null}
+
+          {/* REJILLA PRINCIPAL: Mayor separación por defecto (spacing={3}) */}
+          <Grid container spacing={3}>
+            {/* --- BLOQUE DE FASES (Ocupa 8 de 12 columnas en pantallas medianas) --- */}
+            <Grid item xs={12} md={8}>
+              <Grid container spacing={1.5}>
+                {/* COLUMNA VERTICAL 1: Fase 1 y Fase 3 justo debajo */}
+                <Grid item xs={12} sm={6}>
+                  <Stack spacing={1.5}>
+                    {/* Fase 1 */}
+                    {!readonly && ROADMAP_EXERCISES_BY_PHASE["Fase 1"] && (
+                      <Paper
+                        variant="outlined"
+                        sx={{ p: 1.2, borderRadius: 1 }}
+                      >
+                        <Typography
+                          variant="subtitle2"
+                          fontWeight={800}
+                          sx={{ mb: 0.8 }}
+                        >
+                          Fase 1
+                        </Typography>
+                        <FormGroup>
+                          {ROADMAP_EXERCISES_BY_PHASE["Fase 1"].map(
+                            (exercise) => (
+                              <Box key={exercise.id} sx={{ mb: 0.8 }}>
+                                <FormControlLabel
+                                  control={
+                                    <Checkbox
+                                      checked={selectedExerciseIds.includes(
+                                        exercise.id,
+                                      )}
+                                      onChange={() =>
+                                        toggleExercise(exercise.id)
+                                      }
+                                    />
+                                  }
+                                  label={exercise.titulo}
+                                />
+                                <Typography
+                                  variant="caption"
+                                  color="text.secondary"
+                                  sx={{ display: "block", ml: 4.5 }}
+                                >
+                                  {exercise.descripcion}
+                                </Typography>
+                              </Box>
+                            ),
+                          )}
+                        </FormGroup>
+                      </Paper>
+                    )}
+
+                    {/* Fase 3 (Pegada inmediatamente debajo de Fase 1) */}
+                    {!readonly && ROADMAP_EXERCISES_BY_PHASE["Fase 3"] && (
+                      <Paper
+                        variant="outlined"
+                        sx={{ p: 1.2, borderRadius: 1 }}
+                      >
+                        <Typography
+                          variant="subtitle2"
+                          fontWeight={800}
+                          sx={{ mb: 0.8 }}
+                        >
+                          Fase 3
+                        </Typography>
+                        <FormGroup>
+                          {ROADMAP_EXERCISES_BY_PHASE["Fase 3"].map(
+                            (exercise) => (
+                              <Box key={exercise.id} sx={{ mb: 0.8 }}>
+                                <FormControlLabel
+                                  control={
+                                    <Checkbox
+                                      checked={selectedExerciseIds.includes(
+                                        exercise.id,
+                                      )}
+                                      onChange={() =>
+                                        toggleExercise(exercise.id)
+                                      }
+                                    />
+                                  }
+                                  label={exercise.titulo}
+                                />
+                                <Typography
+                                  variant="caption"
+                                  color="text.secondary"
+                                  sx={{ display: "block", ml: 4.5 }}
+                                >
+                                  {exercise.descripcion}
+                                </Typography>
+                              </Box>
+                            ),
+                          )}
+                        </FormGroup>
+                      </Paper>
+                    )}
+                  </Stack>
+                </Grid>
+
+                {/* COLUMNA VERTICAL 2: Fase 2 y Fase 4 justo debajo con padding derecho para alejar el siguiente bloque */}
+                <Grid item xs={12} sm={6} sx={{ pr: { md: 3 } }}>
+                  <Stack spacing={1.5}>
+                    {/* Fase 2 */}
+                    {!readonly && ROADMAP_EXERCISES_BY_PHASE["Fase 2"] && (
+                      <Paper
+                        variant="outlined"
+                        sx={{
+                          p: 1.2,
+                          borderRadius: 1,
+                          width: 530,
+                          height: 392,
+                        }}
+                      >
+                        <Typography
+                          variant="subtitle2"
+                          fontWeight={800}
+                          sx={{ mb: 0.8 }}
+                        >
+                          Fase 2
+                        </Typography>
+                        <FormGroup>
+                          {ROADMAP_EXERCISES_BY_PHASE["Fase 2"].map(
+                            (exercise) => (
+                              <Box key={exercise.id} sx={{ mb: 0.8 }}>
+                                <FormControlLabel
+                                  control={
+                                    <Checkbox
+                                      checked={selectedExerciseIds.includes(
+                                        exercise.id,
+                                      )}
+                                      onChange={() =>
+                                        toggleExercise(exercise.id)
+                                      }
+                                    />
+                                  }
+                                  label={exercise.titulo}
+                                />
+                                <Typography
+                                  variant="caption"
+                                  color="text.secondary"
+                                  sx={{ display: "block", ml: 4.5 }}
+                                >
+                                  {exercise.descripcion}
+                                </Typography>
+                              </Box>
+                            ),
+                          )}
+                        </FormGroup>
+                      </Paper>
+                    )}
+
+                    {/* Fase 4 (Pegada inmediatamente debajo de Fase 2) */}
+                    {!readonly && ROADMAP_EXERCISES_BY_PHASE["Fase 4"] && (
+                      <Paper
+                        variant="outlined"
+                        sx={{ p: 1.2, borderRadius: 1 }}
+                      >
+                        <Typography
+                          variant="subtitle2"
+                          fontWeight={800}
+                          sx={{ mb: 0.8 }}
+                        >
+                          Fase 4
+                        </Typography>
+                        <FormGroup>
+                          {ROADMAP_EXERCISES_BY_PHASE["Fase 4"].map(
+                            (exercise) => (
+                              <Box key={exercise.id} sx={{ mb: 0.8 }}>
+                                <FormControlLabel
+                                  control={
+                                    <Checkbox
+                                      checked={selectedExerciseIds.includes(
+                                        exercise.id,
+                                      )}
+                                      onChange={() =>
+                                        toggleExercise(exercise.id)
+                                      }
+                                    />
+                                  }
+                                  label={exercise.titulo}
+                                />
+                                <Typography
+                                  variant="caption"
+                                  color="text.secondary"
+                                  sx={{ display: "block", ml: 4.5 }}
+                                >
+                                  {exercise.descripcion}
+                                </Typography>
+                              </Box>
+                            ),
+                          )}
+                        </FormGroup>
+                      </Paper>
+                    )}
+                  </Stack>
+                </Grid>
+              </Grid>
+            </Grid>
+
+            {/* --- BLOQUE TOTALMENTE INDEPENDIENTE: EJERCICIOS SELECCIONADOS (Derecha) --- */}
+            <Grid item xs={12} md={4}>
+              <Paper
+                variant="outlined"
+                sx={{
+                  p: 1.2,
+                  borderRadius: 1,
+                  height: "auto",
+                  bgcolor: "#fff3e0", // Fondo anaranjado suave
+                  borderColor: "#ffe0b2",
+                }}
+              >
+                <Typography
+                  variant="subtitle2"
+                  fontWeight={800}
+                  sx={{ mb: 1.2, color: "#e65100" }}
+                >
+                  Ejercicios Seleccionados
+                </Typography>
+                <Stack spacing={1}>
+                  {selectedExercises.length === 0 ? (
+                    <Typography variant="body2" color="text.secondary">
+                      No hay ejercicios seleccionados.
+                    </Typography>
+                  ) : (
+                    selectedExercises.map((exercise) => (
+                      <Paper
+                        key={exercise.id}
+                        variant="outlined"
+                        sx={{
+                          p: 1.1,
+                          borderRadius: 2,
+                          bgcolor: "background.paper",
+                        }}
+                      >
+                        <Stack
+                          direction="row"
+                          spacing={1}
+                          alignItems="center"
+                          sx={{ mb: 0.4 }}
+                        >
+                          <Chip
+                            size="small"
+                            label={exercise.fase}
+                            color="info"
+                          />
+                          <Typography variant="body2" fontWeight={700}>
+                            {exercise.titulo}
+                          </Typography>
+                        </Stack>
+                        <Typography variant="caption" color="text.secondary">
+                          {exercise.descripcion}
+                        </Typography>
+                      </Paper>
+                    ))
+                  )}
+                </Stack>
+              </Paper>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
 
       <Card sx={statCardSx}>
         <CardContent>
@@ -814,7 +1281,11 @@ function RoadmapDetail({
           <Button
             variant="contained"
             onClick={onFinalize}
-            disabled={loading || Boolean(value?.requiereRepostaje)}
+            disabled={
+              loading ||
+              Boolean(value?.requiereRepostaje) ||
+              !hasSelectedExercises
+            }
             sx={{ minWidth: 170 }}
           >
             Finalizar clase

@@ -13,6 +13,7 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import PersonIcon from "@mui/icons-material/Person";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
+import { LicenseChip } from "../common/LicenseChip";
 
 const WEEK_DAYS = [
   { id: 1, label: "Lunes" },
@@ -230,6 +231,10 @@ function DayColumn({ day, classes, showStudentName, emptyMessage }) {
                   <Typography variant="caption" color="text.secondary">
                     {clase.vehiculo?.matricula || "Sin matricula"}
                   </Typography>
+                </Stack>
+
+                <Stack sx={{ mt: 0.45 }}>
+                  <LicenseChip value={clase.vehiculo?.tipoPermiso || "-"} />
                 </Stack>
 
                 <Chip

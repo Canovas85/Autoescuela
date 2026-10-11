@@ -9,8 +9,12 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControlLabel,
   LinearProgress,
+  MenuItem,
   Paper,
+  Radio,
+  RadioGroup,
   Stack,
   TextField,
   Typography,
@@ -24,6 +28,7 @@ import { gastosCombustibleService } from "../../services/gastosCombustibleServic
 
 const TITULAR_TARJETA = "Autoescuela Eguzkilore";
 const NUMERO_TARJETA = "5102 1234 4321 5015";
+const PERMISOS = ["B", "A1", "A2", "A", "C", "D", "E"];
 
 const formatDateTime = (value) => {
   if (!value) {
@@ -44,10 +49,26 @@ const formatDateTime = (value) => {
   });
 };
 
+const formatDateLabel = (value) => {
+  if (!value) {
+    return "-";
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "-";
+  }
+
+  return date.toLocaleDateString("es-ES");
+};
+
 export default function ProfesorVehiculos() {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [estadoFiltro, setEstadoFiltro] = useState("activos");
+  const [permisoFiltro, setPermisoFiltro] = useState("all");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -83,20 +104,32 @@ export default function ProfesorVehiculos() {
   }, []);
 
   const filteredRows = useMemo(() => {
-    if (!search.trim()) {
-      return rows;
-    }
-
     const q = search.trim().toLowerCase();
 
-    return rows.filter(
-      (row) =>
+    return rows.filter((row) => {
+      const matchesSearch =
+        !q ||
         row.matricula?.toLowerCase().includes(q) ||
         row.marca?.toLowerCase().includes(q) ||
         row.modelo?.toLowerCase().includes(q) ||
-        row.tipoPermiso?.toLowerCase().includes(q),
-    );
-  }, [rows, search]);
+        row.tipoPermiso?.toLowerCase().includes(q);
+
+      const matchesPermiso =
+        !permisoFiltro || permisoFiltro === "all"
+          ? true
+          : row.tipoPermiso === permisoFiltro;
+
+      const isActive = row.activo !== false;
+      const matchesEstado =
+        estadoFiltro === "todos"
+          ? true
+          : estadoFiltro === "activos"
+            ? isActive
+            : !isActive;
+
+      return matchesSearch && matchesPermiso && matchesEstado;
+    });
+  }, [rows, search, permisoFiltro, estadoFiltro]);
 
   const columns = [
     {
@@ -123,10 +156,33 @@ export default function ProfesorVehiculos() {
       renderCell: (params) => <LicenseChip value={params.value} />,
     },
     {
+      field: "numeroClasesRealizadas",
+      headerName: "Nº Clases",
+      width: 120,
+      valueGetter: (_, row) => Number(row.numeroClasesRealizadas || 0),
+    },
+    {
       field: "kmActuales",
       headerName: "KMs actuales",
       width: 140,
       valueGetter: (_, row) => row.kmActuales ?? 0,
+    },
+    {
+      field: "fechaUltimaItv",
+      headerName: "Fecha ultima ITV",
+      width: 160,
+      valueGetter: (_, row) => formatDateLabel(row.fechaUltimaItv),
+    },
+    {
+      field: "itvPendiente",
+      headerName: "Revision ITV",
+      width: 150,
+      renderCell: (params) =>
+        params.row.itvPendiente ? (
+          <Chip label="Pendiente" color="warning" size="small" />
+        ) : (
+          <Chip label="Vigente" color="success" size="small" />
+        ),
     },
     {
       field: "combustibleActualPct",
@@ -151,15 +207,32 @@ export default function ProfesorVehiculos() {
       },
     },
     {
-      field: "itvPendiente",
-      headerName: "ITV",
+      field: "activo",
+      headerName: "Estado",
       width: 130,
-      renderCell: (params) =>
-        params.row.itvPendiente ? (
-          <Chip label="Pendiente" color="warning" size="small" />
-        ) : (
-          <Chip label="Al día" color="success" size="small" />
-        ),
+      renderCell: (params) => {
+        const active = params.row.activo !== false;
+        return (
+          <Chip
+            label={active ? "Activo" : "Inactivo"}
+            size="small"
+            sx={{
+              ...(active
+                ? {
+                    backgroundColor: "#e8f5e9",
+                    color: "#2e7d32",
+                    border: "1px solid #2e7d32",
+                  }
+                : {
+                    backgroundColor: "#ffebee",
+                    color: "#c62828",
+                    border: "1px solid #c62828",
+                  }),
+              fontWeight: "bold",
+            }}
+          />
+        );
+      },
     },
     {
       field: "acciones",
@@ -169,6 +242,10 @@ export default function ProfesorVehiculos() {
       filterable: false,
       disableColumnMenu: true,
       renderCell: (params) => {
+        if (params.row.activo === false) {
+          return <Chip label="Sin acciones" size="small" />;
+        }
+
         const combustibleActual = Number(params.row.combustibleActualPct ?? 0);
         const canRefuel = combustibleActual < 20;
         const hasItvPending = Boolean(params.row.itvPendiente);
@@ -346,6 +423,40 @@ export default function ProfesorVehiculos() {
       )}
 
       <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ mb: 2 }}>
+        <RadioGroup
+          row
+          value={estadoFiltro}
+          onChange={(event) => setEstadoFiltro(event.target.value)}
+        >
+          <FormControlLabel
+            value="activos"
+            control={<Radio />}
+            label="Activos"
+          />
+          <FormControlLabel
+            value="inactivos"
+            control={<Radio />}
+            label="Inactivos"
+          />
+          <FormControlLabel value="todos" control={<Radio />} label="Todos" />
+        </RadioGroup>
+
+        <TextField
+          select
+          size="small"
+          label="Permiso"
+          value={permisoFiltro}
+          onChange={(event) => setPermisoFiltro(event.target.value)}
+          sx={{ minWidth: 200 }}
+        >
+          <MenuItem value="all">Todos</MenuItem>
+          {PERMISOS.map((permiso) => (
+            <MenuItem key={permiso} value={permiso}>
+              {permiso}
+            </MenuItem>
+          ))}
+        </TextField>
+
         <TextField
           size="small"
           label="Buscar vehículo"

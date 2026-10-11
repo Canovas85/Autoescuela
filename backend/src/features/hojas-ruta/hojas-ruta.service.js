@@ -2,6 +2,7 @@ import {
   evaluateVehicleItvStatus,
   ITV_BLOCK_MESSAGE,
 } from "../../shared/domain/vehiculo-itv.js";
+import { HOJA_RUTA_EJERCICIOS_CATALOGO } from "../../shared/domain/hoja-ruta-ejercicios.js";
 
 const ROADMAP_STATUS = {
   PENDIENTE: "PENDIENTE",
@@ -13,6 +14,9 @@ const ROADMAP_STATUS = {
 const COMBUSTIBLE_UMBRAL_REPOSTAJE = 20;
 
 const FAULT_TYPES = ["LEVE", "DEFICIENTE", "ELIMINATORIA"];
+const EXERCISES_BY_ID = new Map(
+  HOJA_RUTA_EJERCICIOS_CATALOGO.map((item) => [item.id, item]),
+);
 
 const STATUS_FILTERS = [
   "TODAS",
@@ -108,6 +112,50 @@ const normalizeFault = (fault, index) => {
   };
 };
 
+const normalizeExercises = (value) => {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  const unique = [];
+  const seen = new Set();
+
+  for (const rawItem of value) {
+    const id = String(rawItem || "")
+      .trim()
+      .toUpperCase();
+
+    if (!id) {
+      continue;
+    }
+
+    if (!EXERCISES_BY_ID.has(id)) {
+      throw new Error("Existe un ejercicio realizado no valido");
+    }
+
+    if (seen.has(id)) {
+      continue;
+    }
+
+    seen.add(id);
+    unique.push(id);
+  }
+
+  return unique;
+};
+
+const mapRoadmapExercises = (selectedIds = []) => {
+  return selectedIds
+    .map((id) => EXERCISES_BY_ID.get(String(id || "").toUpperCase()))
+    .filter(Boolean)
+    .map((item) => ({
+      id: item.id,
+      fase: item.fase,
+      titulo: item.titulo,
+      descripcion: item.descripcion,
+    }));
+};
+
 const normalizeEditablePayload = (payload) => {
   const faltas = Array.isArray(payload?.faltas) ? payload.faltas : [];
 
@@ -164,6 +212,9 @@ const normalizeEditablePayload = (payload) => {
 
   return {
     observacionesProfesor: String(payload?.observacionesProfesor || "").trim(),
+    ejerciciosRealizadosNormalizados: normalizeExercises(
+      payload?.ejerciciosRealizados,
+    ),
     kilometrosInicio:
       kilometrosInicio === null ? null : Math.round(kilometrosInicio),
     kilometrosFin: kilometrosFin === null ? null : Math.round(kilometrosFin),
@@ -247,6 +298,14 @@ const mapClassRoadmap = (clase, now) => {
       matricula: clase.vehiculo?.matricula || "",
     },
     observacionesProfesor: hoja?.observacionesProfesor || "",
+    ejerciciosRealizados: Array.isArray(hoja?.ejerciciosRealizados)
+      ? hoja.ejerciciosRealizados
+      : [],
+    ejerciciosRealizadosDetalle: mapRoadmapExercises(
+      Array.isArray(hoja?.ejerciciosRealizados)
+        ? hoja.ejerciciosRealizados
+        : [],
+    ),
     kilometrosInicio: hoja?.kilometrosInicio ?? kilometrosVehiculoActuales,
     kilometrosFin: hoja?.kilometrosFin ?? kilometrosVehiculoActuales,
     combustibleInicioPct:
@@ -526,6 +585,7 @@ export class HojasRutaService {
     const roadmap = await this.repository.upsertRoadmapByClass(clase, {
       estado: ROADMAP_STATUS.EN_CURSO,
       observacionesProfesor: normalized.observacionesProfesor || null,
+      ejerciciosRealizados: normalized.ejerciciosRealizadosNormalizados,
       kilometrosInicio: normalized.kilometrosInicio,
       kilometrosFin: normalized.kilometrosFin,
       combustibleInicioPct: normalized.combustibleInicioPct,
@@ -585,9 +645,16 @@ export class HojasRutaService {
       throw new Error("El combustible actual es obligatorio para finalizar");
     }
 
+    if (!normalized.ejerciciosRealizadosNormalizados.length) {
+      throw new Error(
+        "Debes seleccionar al menos un ejercicio realizado para finalizar",
+      );
+    }
+
     const roadmap = await this.repository.upsertRoadmapByClass(clase, {
       estado: ROADMAP_STATUS.REGISTRADA,
       observacionesProfesor: normalized.observacionesProfesor || null,
+      ejerciciosRealizados: normalized.ejerciciosRealizadosNormalizados,
       kilometrosInicio: normalized.kilometrosInicio,
       kilometrosFin: normalized.kilometrosFin,
       combustibleInicioPct: normalized.combustibleInicioPct,
@@ -893,6 +960,12 @@ export class HojasRutaService {
           }
         : null,
       observacionesProfesor: row.observacionesProfesor || "",
+      ejerciciosRealizados: Array.isArray(row.ejerciciosRealizados)
+        ? row.ejerciciosRealizados
+        : [],
+      ejerciciosRealizadosDetalle: mapRoadmapExercises(
+        Array.isArray(row.ejerciciosRealizados) ? row.ejerciciosRealizados : [],
+      ),
       kilometrosInicio: row.kilometrosInicio,
       kilometrosFin: row.kilometrosFin,
       combustibleInicioPct: row.combustibleInicioPct,
@@ -1058,6 +1131,12 @@ export class HojasRutaService {
           }
         : null,
       observacionesProfesor: row.observacionesProfesor || "",
+      ejerciciosRealizados: Array.isArray(row.ejerciciosRealizados)
+        ? row.ejerciciosRealizados
+        : [],
+      ejerciciosRealizadosDetalle: mapRoadmapExercises(
+        Array.isArray(row.ejerciciosRealizados) ? row.ejerciciosRealizados : [],
+      ),
       kilometrosInicio: row.kilometrosInicio,
       kilometrosFin: row.kilometrosFin,
       combustibleInicioPct: row.combustibleInicioPct,

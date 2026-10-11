@@ -39,6 +39,7 @@ import {
   getWeekDayIdFromValue,
   toDateKeyFromDate,
 } from "../../utils/calendarDate";
+import { LicenseChip } from "../../components/common/LicenseChip";
 
 const DAYS = [
   { id: 1, short: "Lun", label: "Lunes" },
@@ -787,7 +788,7 @@ export default function ProfesorAgenda() {
                               minHeight: 154,
                               height: 154,
                               p: 1,
-                              borderRadius: 2,
+                              borderRadius: 1,
                               border: `1px solid ${color.border}`,
                               backgroundColor: color.bg,
                               overflow: "visible",
@@ -795,12 +796,42 @@ export default function ProfesorAgenda() {
                               boxShadow: "0 4px 10px rgba(15,23,42,0.06)",
                             }}
                           >
+                            {/* Fecha y Hora de la clase */}
                             <Typography
                               variant="caption"
-                              sx={{ fontWeight: 700, color: color.title }}
+                              sx={{
+                                fontWeight: 700,
+                                color: color.title,
+                                display: "block",
+                                pr: 4,
+                              }} // Añadimos padding derecho para que el texto largo no choque con el chip
                             >
                               {`${formatHour(clase.fecha)} - ${minutesToTime(startMinute + duration)}`}
                             </Typography>
+
+                            {/* CHIP DE LICENCIA: Posicionado de forma absoluta arriba a la derecha */}
+                            <Box
+                              sx={{ position: "absolute", top: 7, right: 12 }}
+                            >
+                              <LicenseChip
+                                value={clase.vehiculo?.tipoPermiso || "-"}
+                                size="small"
+                                sx={{
+                                  width: 22, // Tamaño pequeño y discreto
+                                  height: 22, // Mismo ancho y alto para círculo perfecto
+                                  borderRadius: "50%", // Lo convierte en un círculo
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  p: 0,
+                                  fontSize: 10, // Letra compacta para que quepa en el círculo pequeño
+                                  fontWeight: 700,
+                                  "& .MuiChip-label": {
+                                    p: 0, // Quita márgenes internos del texto para centrarlo
+                                  },
+                                }}
+                              />
+                            </Box>
 
                             <Stack
                               direction="row"
@@ -850,6 +881,8 @@ export default function ProfesorAgenda() {
                                 border: "1px solid #dbe5f2",
                               }}
                             />
+
+                            {/* Eliminamos el Stack antiguo del LicenseChip que rompía la línea */}
 
                             <Stack
                               direction="row"

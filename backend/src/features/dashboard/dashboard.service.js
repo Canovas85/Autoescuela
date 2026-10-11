@@ -3,6 +3,7 @@ import { resolveExpedientePhase } from "../../shared/domain/expediente-phase.js"
 import {
   evaluateVehicleItvStatus,
   getItvPriceByPermiso,
+  isCompletedClass,
 } from "../../shared/domain/vehiculo-itv.js";
 
 export class DashboardService {
@@ -1950,6 +1951,9 @@ export class DashboardService {
     return Promise.all(
       vehiculos.map(async (vehiculo) => {
         const itv = await this.buildVehicleItvStatus(vehiculo);
+        const numeroClasesRealizadas = (vehiculo.clases || []).filter((clase) =>
+          isCompletedClass(clase, new Date()),
+        ).length;
 
         return {
           id: vehiculo.id,
@@ -1957,8 +1961,11 @@ export class DashboardService {
           marca: vehiculo.marca,
           modelo: vehiculo.modelo,
           tipoPermiso: vehiculo.tipoPermiso,
+          fechaUltimaItv: vehiculo.fechaUltimaItv,
+          numeroClasesRealizadas,
           kmActuales: vehiculo.kmActuales,
           combustibleActualPct: vehiculo.combustibleActualPct,
+          activo: vehiculo.activo !== false,
           capacidadCombustibleLitros: getCapacidadCombustibleByPermiso(
             vehiculo.tipoPermiso,
           ),

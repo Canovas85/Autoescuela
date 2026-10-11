@@ -29340,6 +29340,7 @@ export namespace Prisma {
     alumnoId: number
     estado: number
     observacionesProfesor: number
+    ejerciciosRealizados: number
     kilometrosInicio: number
     kilometrosFin: number
     combustibleInicioPct: number
@@ -29404,6 +29405,7 @@ export namespace Prisma {
     alumnoId?: true
     estado?: true
     observacionesProfesor?: true
+    ejerciciosRealizados?: true
     kilometrosInicio?: true
     kilometrosFin?: true
     combustibleInicioPct?: true
@@ -29507,6 +29509,7 @@ export namespace Prisma {
     alumnoId: string
     estado: string
     observacionesProfesor: string | null
+    ejerciciosRealizados: string[]
     kilometrosInicio: number | null
     kilometrosFin: number | null
     combustibleInicioPct: number | null
@@ -29542,6 +29545,7 @@ export namespace Prisma {
     alumnoId?: boolean
     estado?: boolean
     observacionesProfesor?: boolean
+    ejerciciosRealizados?: boolean
     kilometrosInicio?: boolean
     kilometrosFin?: boolean
     combustibleInicioPct?: boolean
@@ -29563,6 +29567,7 @@ export namespace Prisma {
     alumnoId?: boolean
     estado?: boolean
     observacionesProfesor?: boolean
+    ejerciciosRealizados?: boolean
     kilometrosInicio?: boolean
     kilometrosFin?: boolean
     combustibleInicioPct?: boolean
@@ -29582,6 +29587,7 @@ export namespace Prisma {
     alumnoId?: boolean
     estado?: boolean
     observacionesProfesor?: boolean
+    ejerciciosRealizados?: boolean
     kilometrosInicio?: boolean
     kilometrosFin?: boolean
     combustibleInicioPct?: boolean
@@ -29601,6 +29607,7 @@ export namespace Prisma {
     alumnoId?: boolean
     estado?: boolean
     observacionesProfesor?: boolean
+    ejerciciosRealizados?: boolean
     kilometrosInicio?: boolean
     kilometrosFin?: boolean
     combustibleInicioPct?: boolean
@@ -29610,7 +29617,7 @@ export namespace Prisma {
     finalizedAt?: boolean
   }
 
-  export type HojaRutaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clasePracticaId" | "profesorId" | "alumnoId" | "estado" | "observacionesProfesor" | "kilometrosInicio" | "kilometrosFin" | "combustibleInicioPct" | "combustibleFinPct" | "createdAt" | "updatedAt" | "finalizedAt", ExtArgs["result"]["hojaRuta"]>
+  export type HojaRutaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clasePracticaId" | "profesorId" | "alumnoId" | "estado" | "observacionesProfesor" | "ejerciciosRealizados" | "kilometrosInicio" | "kilometrosFin" | "combustibleInicioPct" | "combustibleFinPct" | "createdAt" | "updatedAt" | "finalizedAt", ExtArgs["result"]["hojaRuta"]>
   export type HojaRutaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     clasePractica?: boolean | ClasePracticaDefaultArgs<ExtArgs>
     profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
@@ -29644,6 +29651,7 @@ export namespace Prisma {
       alumnoId: string
       estado: string
       observacionesProfesor: string | null
+      ejerciciosRealizados: string[]
       kilometrosInicio: number | null
       kilometrosFin: number | null
       combustibleInicioPct: number | null
@@ -30084,6 +30092,7 @@ export namespace Prisma {
     readonly alumnoId: FieldRef<"HojaRuta", 'String'>
     readonly estado: FieldRef<"HojaRuta", 'String'>
     readonly observacionesProfesor: FieldRef<"HojaRuta", 'String'>
+    readonly ejerciciosRealizados: FieldRef<"HojaRuta", 'String[]'>
     readonly kilometrosInicio: FieldRef<"HojaRuta", 'Int'>
     readonly kilometrosFin: FieldRef<"HojaRuta", 'Int'>
     readonly combustibleInicioPct: FieldRef<"HojaRuta", 'Int'>
@@ -55899,6 +55908,7 @@ export namespace Prisma {
     alumnoId: 'alumnoId',
     estado: 'estado',
     observacionesProfesor: 'observacionesProfesor',
+    ejerciciosRealizados: 'ejerciciosRealizados',
     kilometrosInicio: 'kilometrosInicio',
     kilometrosFin: 'kilometrosFin',
     combustibleInicioPct: 'combustibleInicioPct',
@@ -58105,6 +58115,7 @@ export namespace Prisma {
     alumnoId?: StringFilter<"HojaRuta"> | string
     estado?: StringFilter<"HojaRuta"> | string
     observacionesProfesor?: StringNullableFilter<"HojaRuta"> | string | null
+    ejerciciosRealizados?: StringNullableListFilter<"HojaRuta">
     kilometrosInicio?: IntNullableFilter<"HojaRuta"> | number | null
     kilometrosFin?: IntNullableFilter<"HojaRuta"> | number | null
     combustibleInicioPct?: IntNullableFilter<"HojaRuta"> | number | null
@@ -58125,6 +58136,7 @@ export namespace Prisma {
     alumnoId?: SortOrder
     estado?: SortOrder
     observacionesProfesor?: SortOrderInput | SortOrder
+    ejerciciosRealizados?: SortOrder
     kilometrosInicio?: SortOrderInput | SortOrder
     kilometrosFin?: SortOrderInput | SortOrder
     combustibleInicioPct?: SortOrderInput | SortOrder
@@ -58148,6 +58160,7 @@ export namespace Prisma {
     alumnoId?: StringFilter<"HojaRuta"> | string
     estado?: StringFilter<"HojaRuta"> | string
     observacionesProfesor?: StringNullableFilter<"HojaRuta"> | string | null
+    ejerciciosRealizados?: StringNullableListFilter<"HojaRuta">
     kilometrosInicio?: IntNullableFilter<"HojaRuta"> | number | null
     kilometrosFin?: IntNullableFilter<"HojaRuta"> | number | null
     combustibleInicioPct?: IntNullableFilter<"HojaRuta"> | number | null
@@ -58168,6 +58181,7 @@ export namespace Prisma {
     alumnoId?: SortOrder
     estado?: SortOrder
     observacionesProfesor?: SortOrderInput | SortOrder
+    ejerciciosRealizados?: SortOrder
     kilometrosInicio?: SortOrderInput | SortOrder
     kilometrosFin?: SortOrderInput | SortOrder
     combustibleInicioPct?: SortOrderInput | SortOrder
@@ -58192,6 +58206,7 @@ export namespace Prisma {
     alumnoId?: StringWithAggregatesFilter<"HojaRuta"> | string
     estado?: StringWithAggregatesFilter<"HojaRuta"> | string
     observacionesProfesor?: StringNullableWithAggregatesFilter<"HojaRuta"> | string | null
+    ejerciciosRealizados?: StringNullableListFilter<"HojaRuta">
     kilometrosInicio?: IntNullableWithAggregatesFilter<"HojaRuta"> | number | null
     kilometrosFin?: IntNullableWithAggregatesFilter<"HojaRuta"> | number | null
     combustibleInicioPct?: IntNullableWithAggregatesFilter<"HojaRuta"> | number | null
@@ -61895,6 +61910,7 @@ export namespace Prisma {
     id?: string
     estado?: string
     observacionesProfesor?: string | null
+    ejerciciosRealizados?: HojaRutaCreateejerciciosRealizadosInput | string[]
     kilometrosInicio?: number | null
     kilometrosFin?: number | null
     combustibleInicioPct?: number | null
@@ -61915,6 +61931,7 @@ export namespace Prisma {
     alumnoId: string
     estado?: string
     observacionesProfesor?: string | null
+    ejerciciosRealizados?: HojaRutaCreateejerciciosRealizadosInput | string[]
     kilometrosInicio?: number | null
     kilometrosFin?: number | null
     combustibleInicioPct?: number | null
@@ -61929,6 +61946,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     estado?: StringFieldUpdateOperationsInput | string
     observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    ejerciciosRealizados?: HojaRutaUpdateejerciciosRealizadosInput | string[]
     kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
     kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
     combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
@@ -61949,6 +61967,7 @@ export namespace Prisma {
     alumnoId?: StringFieldUpdateOperationsInput | string
     estado?: StringFieldUpdateOperationsInput | string
     observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    ejerciciosRealizados?: HojaRutaUpdateejerciciosRealizadosInput | string[]
     kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
     kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
     combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
@@ -61966,6 +61985,7 @@ export namespace Prisma {
     alumnoId: string
     estado?: string
     observacionesProfesor?: string | null
+    ejerciciosRealizados?: HojaRutaCreateejerciciosRealizadosInput | string[]
     kilometrosInicio?: number | null
     kilometrosFin?: number | null
     combustibleInicioPct?: number | null
@@ -61979,6 +61999,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     estado?: StringFieldUpdateOperationsInput | string
     observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    ejerciciosRealizados?: HojaRutaUpdateejerciciosRealizadosInput | string[]
     kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
     kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
     combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
@@ -61995,6 +62016,7 @@ export namespace Prisma {
     alumnoId?: StringFieldUpdateOperationsInput | string
     estado?: StringFieldUpdateOperationsInput | string
     observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    ejerciciosRealizados?: HojaRutaUpdateejerciciosRealizadosInput | string[]
     kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
     kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
     combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
@@ -65521,6 +65543,7 @@ export namespace Prisma {
     alumnoId?: SortOrder
     estado?: SortOrder
     observacionesProfesor?: SortOrder
+    ejerciciosRealizados?: SortOrder
     kilometrosInicio?: SortOrder
     kilometrosFin?: SortOrder
     combustibleInicioPct?: SortOrder
@@ -69015,6 +69038,10 @@ export namespace Prisma {
     update?: XOR<XOR<HojaRutaUpdateToOneWithWhereWithoutClasePracticaInput, HojaRutaUpdateWithoutClasePracticaInput>, HojaRutaUncheckedUpdateWithoutClasePracticaInput>
   }
 
+  export type HojaRutaCreateejerciciosRealizadosInput = {
+    set: string[]
+  }
+
   export type ClasePracticaCreateNestedOneWithoutHojaRutaInput = {
     create?: XOR<ClasePracticaCreateWithoutHojaRutaInput, ClasePracticaUncheckedCreateWithoutHojaRutaInput>
     connectOrCreate?: ClasePracticaCreateOrConnectWithoutHojaRutaInput
@@ -69045,6 +69072,11 @@ export namespace Prisma {
     connectOrCreate?: HojaRutaFaltaCreateOrConnectWithoutHojaRutaInput | HojaRutaFaltaCreateOrConnectWithoutHojaRutaInput[]
     createMany?: HojaRutaFaltaCreateManyHojaRutaInputEnvelope
     connect?: HojaRutaFaltaWhereUniqueInput | HojaRutaFaltaWhereUniqueInput[]
+  }
+
+  export type HojaRutaUpdateejerciciosRealizadosInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type ClasePracticaUpdateOneRequiredWithoutHojaRutaNestedInput = {
@@ -71202,6 +71234,7 @@ export namespace Prisma {
     id?: string
     estado?: string
     observacionesProfesor?: string | null
+    ejerciciosRealizados?: HojaRutaCreateejerciciosRealizadosInput | string[]
     kilometrosInicio?: number | null
     kilometrosFin?: number | null
     combustibleInicioPct?: number | null
@@ -71220,6 +71253,7 @@ export namespace Prisma {
     alumnoId: string
     estado?: string
     observacionesProfesor?: string | null
+    ejerciciosRealizados?: HojaRutaCreateejerciciosRealizadosInput | string[]
     kilometrosInicio?: number | null
     kilometrosFin?: number | null
     combustibleInicioPct?: number | null
@@ -71517,6 +71551,7 @@ export namespace Prisma {
     alumnoId?: StringFilter<"HojaRuta"> | string
     estado?: StringFilter<"HojaRuta"> | string
     observacionesProfesor?: StringNullableFilter<"HojaRuta"> | string | null
+    ejerciciosRealizados?: StringNullableListFilter<"HojaRuta">
     kilometrosInicio?: IntNullableFilter<"HojaRuta"> | number | null
     kilometrosFin?: IntNullableFilter<"HojaRuta"> | number | null
     combustibleInicioPct?: IntNullableFilter<"HojaRuta"> | number | null
@@ -72164,6 +72199,7 @@ export namespace Prisma {
     id?: string
     estado?: string
     observacionesProfesor?: string | null
+    ejerciciosRealizados?: HojaRutaCreateejerciciosRealizadosInput | string[]
     kilometrosInicio?: number | null
     kilometrosFin?: number | null
     combustibleInicioPct?: number | null
@@ -72182,6 +72218,7 @@ export namespace Prisma {
     profesorId: string
     estado?: string
     observacionesProfesor?: string | null
+    ejerciciosRealizados?: HojaRutaCreateejerciciosRealizadosInput | string[]
     kilometrosInicio?: number | null
     kilometrosFin?: number | null
     combustibleInicioPct?: number | null
@@ -74621,6 +74658,7 @@ export namespace Prisma {
     id?: string
     estado?: string
     observacionesProfesor?: string | null
+    ejerciciosRealizados?: HojaRutaCreateejerciciosRealizadosInput | string[]
     kilometrosInicio?: number | null
     kilometrosFin?: number | null
     combustibleInicioPct?: number | null
@@ -74639,6 +74677,7 @@ export namespace Prisma {
     alumnoId: string
     estado?: string
     observacionesProfesor?: string | null
+    ejerciciosRealizados?: HojaRutaCreateejerciciosRealizadosInput | string[]
     kilometrosInicio?: number | null
     kilometrosFin?: number | null
     combustibleInicioPct?: number | null
@@ -74883,6 +74922,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     estado?: StringFieldUpdateOperationsInput | string
     observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    ejerciciosRealizados?: HojaRutaUpdateejerciciosRealizadosInput | string[]
     kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
     kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
     combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
@@ -74901,6 +74941,7 @@ export namespace Prisma {
     alumnoId?: StringFieldUpdateOperationsInput | string
     estado?: StringFieldUpdateOperationsInput | string
     observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    ejerciciosRealizados?: HojaRutaUpdateejerciciosRealizadosInput | string[]
     kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
     kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
     combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
@@ -75253,6 +75294,7 @@ export namespace Prisma {
     id?: string
     estado?: string
     observacionesProfesor?: string | null
+    ejerciciosRealizados?: HojaRutaCreateejerciciosRealizadosInput | string[]
     kilometrosInicio?: number | null
     kilometrosFin?: number | null
     combustibleInicioPct?: number | null
@@ -75272,6 +75314,7 @@ export namespace Prisma {
     alumnoId: string
     estado?: string
     observacionesProfesor?: string | null
+    ejerciciosRealizados?: HojaRutaCreateejerciciosRealizadosInput | string[]
     kilometrosInicio?: number | null
     kilometrosFin?: number | null
     combustibleInicioPct?: number | null
@@ -75328,6 +75371,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     estado?: StringFieldUpdateOperationsInput | string
     observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    ejerciciosRealizados?: HojaRutaUpdateejerciciosRealizadosInput | string[]
     kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
     kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
     combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
@@ -75347,6 +75391,7 @@ export namespace Prisma {
     alumnoId?: StringFieldUpdateOperationsInput | string
     estado?: StringFieldUpdateOperationsInput | string
     observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    ejerciciosRealizados?: HojaRutaUpdateejerciciosRealizadosInput | string[]
     kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
     kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
     combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
@@ -78633,6 +78678,7 @@ export namespace Prisma {
     alumnoId: string
     estado?: string
     observacionesProfesor?: string | null
+    ejerciciosRealizados?: HojaRutaCreateejerciciosRealizadosInput | string[]
     kilometrosInicio?: number | null
     kilometrosFin?: number | null
     combustibleInicioPct?: number | null
@@ -78915,6 +78961,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     estado?: StringFieldUpdateOperationsInput | string
     observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    ejerciciosRealizados?: HojaRutaUpdateejerciciosRealizadosInput | string[]
     kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
     kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
     combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
@@ -78933,6 +78980,7 @@ export namespace Prisma {
     alumnoId?: StringFieldUpdateOperationsInput | string
     estado?: StringFieldUpdateOperationsInput | string
     observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    ejerciciosRealizados?: HojaRutaUpdateejerciciosRealizadosInput | string[]
     kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
     kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
     combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
@@ -78949,6 +78997,7 @@ export namespace Prisma {
     alumnoId?: StringFieldUpdateOperationsInput | string
     estado?: StringFieldUpdateOperationsInput | string
     observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    ejerciciosRealizados?: HojaRutaUpdateejerciciosRealizadosInput | string[]
     kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
     kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
     combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
@@ -79128,6 +79177,7 @@ export namespace Prisma {
     profesorId: string
     estado?: string
     observacionesProfesor?: string | null
+    ejerciciosRealizados?: HojaRutaCreateejerciciosRealizadosInput | string[]
     kilometrosInicio?: number | null
     kilometrosFin?: number | null
     combustibleInicioPct?: number | null
@@ -79584,6 +79634,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     estado?: StringFieldUpdateOperationsInput | string
     observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    ejerciciosRealizados?: HojaRutaUpdateejerciciosRealizadosInput | string[]
     kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
     kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
     combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
@@ -79602,6 +79653,7 @@ export namespace Prisma {
     profesorId?: StringFieldUpdateOperationsInput | string
     estado?: StringFieldUpdateOperationsInput | string
     observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    ejerciciosRealizados?: HojaRutaUpdateejerciciosRealizadosInput | string[]
     kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
     kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
     combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null
@@ -79618,6 +79670,7 @@ export namespace Prisma {
     profesorId?: StringFieldUpdateOperationsInput | string
     estado?: StringFieldUpdateOperationsInput | string
     observacionesProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    ejerciciosRealizados?: HojaRutaUpdateejerciciosRealizadosInput | string[]
     kilometrosInicio?: NullableIntFieldUpdateOperationsInput | number | null
     kilometrosFin?: NullableIntFieldUpdateOperationsInput | number | null
     combustibleInicioPct?: NullableIntFieldUpdateOperationsInput | number | null

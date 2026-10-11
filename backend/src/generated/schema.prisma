@@ -398,6 +398,7 @@ model HojaRuta {
   alumnoId              String
   estado                String          @default("EN_CURSO")
   observacionesProfesor String?
+  ejerciciosRealizados  String[]        @default([])
   kilometrosInicio      Int?
   kilometrosFin         Int?
   combustibleInicioPct  Int?

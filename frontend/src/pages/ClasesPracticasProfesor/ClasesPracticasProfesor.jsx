@@ -30,7 +30,8 @@ const formatDate = (value) =>
 
 const colorByState = (state) => {
   if (state === "PROGRAMADA") return "warning";
-  if (state === "CONFIRMADA") return "success";
+  if (state === "CONFIRMADA") return "info";
+  if (state === "REALIZADA") return "success";
   if (state.includes("CANCELADA")) return "error";
   return "default";
 };
@@ -321,7 +322,7 @@ export default function ClasesPracticasProfesor() {
                         {formatDate(item.fecha)}
                       </Typography>
                       <Chip
-                        sx={{ ml: 5 }}
+                        sx={{ ml: 13 }}
                         label={item.estado}
                         color={colorByState(item.estado)}
                         size="small"
@@ -330,23 +331,23 @@ export default function ClasesPracticasProfesor() {
                     <Typography variant="body2">
                       Alumno: {item.alumno?.nombre}
                     </Typography>
-                    <Typography variant="body2">
+                    <Typography variant="body2" sx={{ mt: 0.75 }}>
                       Vehículo: {item.vehiculo?.matricula}
                     </Typography>
-                    <Stack direction="row" spacing={0.75} sx={{ mt: 0.75 }}>
+
+                    <Typography variant="body2" sx={{ mt: 0.75 }}>
+                      Pago: {item.metodoPago}
+                    </Typography>
+                    <Stack direction="row" spacing={0.75} sx={{ mt: 1 }}>
                       <LicenseChip value={item.vehiculo?.tipoPermiso || "-"} />
                       <PracticalClassTypeChip
                         value={item.tipoClasePractica || "CIRCULACION"}
                       />
                     </Stack>
-                    <Typography variant="body2">
-                      Pago: {item.metodoPago}
-                    </Typography>
                     {canProfessorCancelClass(item) ? (
                       <Button
                         size="small"
                         color="error"
-                        sx={{ mt: 1 }}
                         onClick={() => cancel(item.id)}
                       >
                         Cancelar clase
@@ -407,10 +408,19 @@ export default function ClasesPracticasProfesor() {
                         {item.alumno?.nombre}
                       </Typography>
 
-                      <LicenseChip value={item.vehiculo?.tipoPermiso || "-"} />
-                      <PracticalClassTypeChip
-                        value={item.tipoClasePractica || "CIRCULACION"}
-                      />
+                      {/* CHIP DE LICENCIA + ESPACIO */}
+                      <Box sx={{ mr: "20px", display: "inline-flex" }}>
+                        <LicenseChip
+                          value={item.vehiculo?.tipoPermiso || "-"}
+                        />
+                      </Box>
+
+                      {/* TIPO DE CLASE + ESPACIO */}
+                      <Box sx={{ mr: "20px", display: "inline-flex" }}>
+                        <PracticalClassTypeChip
+                          value={item.tipoClasePractica || "CIRCULACION"}
+                        />
+                      </Box>
 
                       {/* 4. ESTADO (CHIP) */}
                       <Chip

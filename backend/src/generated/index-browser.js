@@ -363,6 +363,7 @@ exports.Prisma.HojaRutaScalarFieldEnum = {
   alumnoId: 'alumnoId',
   estado: 'estado',
   observacionesProfesor: 'observacionesProfesor',
+  ejerciciosRealizados: 'ejerciciosRealizados',
   kilometrosInicio: 'kilometrosInicio',
   kilometrosFin: 'kilometrosFin',
   combustibleInicioPct: 'combustibleInicioPct',

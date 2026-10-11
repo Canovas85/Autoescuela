@@ -1062,9 +1062,22 @@ export class DashboardRepository {
 
     return this.prisma.vehiculo.findMany({
       where: {
-        activo: true,
         tipoPermiso: {
           in: permisosLicencias,
+        },
+      },
+      include: {
+        clases: {
+          select: {
+            id: true,
+            fecha: true,
+            estado: true,
+            hojaRuta: {
+              select: {
+                estado: true,
+              },
+            },
+          },
         },
       },
       orderBy: [{ tipoPermiso: "asc" }, { matricula: "asc" }],
@@ -1079,7 +1092,6 @@ export class DashboardRepository {
     return this.prisma.vehiculo.findFirst({
       where: {
         id: vehiculoId,
-        activo: true,
         tipoPermiso: {
           in: permisosLicencias,
         },
