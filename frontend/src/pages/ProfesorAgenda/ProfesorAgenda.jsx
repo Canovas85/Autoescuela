@@ -1130,8 +1130,8 @@ export default function ProfesorAgenda() {
                                 position: "absolute",
                                 right: 8,
                                 bottom: 8,
-                                width: 40,
-                                height: 30,
+                                width: 80,
+                                height: 70,
                                 borderRadius: 1,
                                 overflow: "hidden",
                                 border: "1px solid #cbd5e1",
@@ -1155,7 +1155,7 @@ export default function ProfesorAgenda() {
                                 />
                               ) : (
                                 <DirectionsCarIcon
-                                  sx={{ fontSize: 14, color: "#64748b" }}
+                                  sx={{ fontSize: 100, color: "#64748b" }}
                                 />
                               )}
                             </Box>

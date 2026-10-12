@@ -136,8 +136,8 @@ function VehiclePhoto({ src, alt }) {
     return (
       <Box
         sx={{
-          width: 92,
-          height: 70,
+          width: 112,
+          height: 90,
           borderRadius: 1.5,
           border: "1px dashed #cbd5e1",
           display: "grid",
@@ -158,8 +158,8 @@ function VehiclePhoto({ src, alt }) {
       src={src}
       alt={alt}
       sx={{
-        width: 92,
-        height: 70,
+        width: 112,
+        height: 90,
         borderRadius: 1.5,
         objectFit: "cover",
         objectPosition: "center",
