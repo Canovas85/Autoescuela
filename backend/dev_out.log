@@ -1,0 +1,19 @@
+
+> autodrive-admin-backend@1.0.0 dev
+> nodemon src/server.js
+
+[33m[nodemon] 3.1.14[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: js,mjs,cjs,json[39m
+[32m[nodemon] starting `node src/server.js`[39m
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+[scheduler] Teórico programado para 13/10/26, 15:40:00 (Europe/Madrid) [hora=15, minuto=40]
+[scheduler] Práctico programado para 13/10/26, 15:40:00 (Europe/Madrid) [hora=15, minuto=40]
+🚀 Servidor ejecutándose en http://localhost:5000
+[32m[nodemon] restarting child process[39m
+[32m[nodemon] starting `node src/server.js`[39m
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+[scheduler] Teórico programado para 13/10/26, 15:40:00 (Europe/Madrid) [hora=15, minuto=40]
+[scheduler] Práctico programado para 13/10/26, 15:40:00 (Europe/Madrid) [hora=15, minuto=40]
+🚀 Servidor ejecutándose en http://localhost:5000

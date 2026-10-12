@@ -6,17 +6,100 @@ import { normalizeLicenseCode } from "../shared/domain/exam-license-rules.js";
 
 const DEFAULT_HOUR = 23;
 const DEFAULT_MINUTE = 59;
+const DEFAULT_TIMEZONE = "Europe/Madrid";
 
-const getNextExecutionDate = (hour, minute) => {
-  const now = new Date();
-  const next = new Date(now);
-  next.setHours(hour, minute, 0, 0);
-
-  if (next <= now) {
-    next.setDate(next.getDate() + 1);
+const parseScheduleNumber = ({ value, min, max, fallback }) => {
+  const parsed = Number(value);
+  if (!Number.isInteger(parsed) || parsed < min || parsed > max) {
+    return fallback;
   }
 
-  return next;
+  return parsed;
+};
+
+const formatDateForLog = (date, timeZone) =>
+  new Intl.DateTimeFormat("es-ES", {
+    timeZone,
+    dateStyle: "short",
+    timeStyle: "medium",
+  }).format(date);
+
+const getZonedDateTimeParts = (date, timeZone) => {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(date);
+
+  const year = Number(parts.find((item) => item.type === "year")?.value || 0);
+  const month = Number(parts.find((item) => item.type === "month")?.value || 1);
+  const day = Number(parts.find((item) => item.type === "day")?.value || 1);
+  const hour = Number(parts.find((item) => item.type === "hour")?.value || 0);
+  const minute = Number(
+    parts.find((item) => item.type === "minute")?.value || 0,
+  );
+
+  return { year, month, day, hour, minute };
+};
+
+const zonedTimeToUtcDate = ({ year, month, day, hour, minute, timeZone }) => {
+  const desiredUtcLike = Date.UTC(year, month - 1, day, hour, minute, 0);
+  let candidate = new Date(desiredUtcLike);
+
+  for (let i = 0; i < 3; i += 1) {
+    const zoned = getZonedDateTimeParts(candidate, timeZone);
+    const zonedUtcLike = Date.UTC(
+      zoned.year,
+      zoned.month - 1,
+      zoned.day,
+      zoned.hour,
+      zoned.minute,
+      0,
+    );
+
+    const diffMs = desiredUtcLike - zonedUtcLike;
+    if (diffMs === 0) {
+      break;
+    }
+
+    candidate = new Date(candidate.getTime() + diffMs);
+  }
+
+  return candidate;
+};
+
+const getNextExecutionDate = ({ hour, minute, timeZone }) => {
+  const now = new Date();
+  const todayInZone = getZonedDateTimeParts(now, timeZone);
+  let nextRun = zonedTimeToUtcDate({
+    year: todayInZone.year,
+    month: todayInZone.month,
+    day: todayInZone.day,
+    hour,
+    minute,
+    timeZone,
+  });
+
+  if (nextRun <= now) {
+    const tomorrow = new Date(
+      Date.UTC(todayInZone.year, todayInZone.month - 1, todayInZone.day + 1),
+    );
+    const tomorrowInZone = getZonedDateTimeParts(tomorrow, timeZone);
+    nextRun = zonedTimeToUtcDate({
+      year: tomorrowInZone.year,
+      month: tomorrowInZone.month,
+      day: tomorrowInZone.day,
+      hour,
+      minute,
+      timeZone,
+    });
+  }
+
+  return nextRun;
 };
 
 const buildService = () => {
@@ -37,10 +120,22 @@ export const startPracticalExamResultsScheduler = () => {
     return;
   }
 
-  const hour = Number(process.env.PRACTICAL_EXAM_RESULTS_HOUR || DEFAULT_HOUR);
-  const minute = Number(
-    process.env.PRACTICAL_EXAM_RESULTS_MINUTE || DEFAULT_MINUTE,
-  );
+  const hour = parseScheduleNumber({
+    value: process.env.PRACTICAL_EXAM_RESULTS_HOUR,
+    min: 0,
+    max: 23,
+    fallback: DEFAULT_HOUR,
+  });
+  const minute = parseScheduleNumber({
+    value: process.env.PRACTICAL_EXAM_RESULTS_MINUTE,
+    min: 0,
+    max: 59,
+    fallback: DEFAULT_MINUTE,
+  });
+  const timezone =
+    process.env.PRACTICAL_EXAM_RESULTS_TIMEZONE ||
+    process.env.TZ ||
+    DEFAULT_TIMEZONE;
   const licensesRaw = String(
     process.env.PRACTICAL_EXAM_RESULTS_LICENSES || "",
   ).trim();
@@ -53,8 +148,16 @@ export const startPracticalExamResultsScheduler = () => {
   const service = buildService();
 
   const scheduleNextRun = () => {
-    const nextRun = getNextExecutionDate(hour, minute);
+    const nextRun = getNextExecutionDate({
+      hour,
+      minute,
+      timeZone: timezone,
+    });
     const delayMs = nextRun.getTime() - Date.now();
+
+    console.log(
+      `[scheduler] Práctico programado para ${formatDateForLog(nextRun, timezone)} (${timezone}) [hora=${hour}, minuto=${minute}]`,
+    );
 
     setTimeout(async () => {
       try {

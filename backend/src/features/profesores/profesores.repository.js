@@ -24,6 +24,9 @@ export class ProfesoresRepository {
         licenciaConducir: data.licenciaConducir,
         permisosLicencias: data.permisosLicencias ?? [data.licenciaConducir],
         telefono: data.telefono,
+        fechaAlta: data.fechaAlta || new Date(),
+        fechaBaja: data.fechaBaja || null,
+        salarioBaseMensual: data.salarioBaseMensual ?? 1253.5,
       },
 
       include: {
@@ -94,6 +97,15 @@ export class ProfesoresRepository {
     if (data.permisosLicencias !== undefined) {
       profesorData.permisosLicencias = data.permisosLicencias;
     }
+    if (data.fechaAlta !== undefined) {
+      profesorData.fechaAlta = data.fechaAlta;
+    }
+    if (data.fechaBaja !== undefined) {
+      profesorData.fechaBaja = data.fechaBaja;
+    }
+    if (data.salarioBaseMensual !== undefined) {
+      profesorData.salarioBaseMensual = data.salarioBaseMensual;
+    }
 
     return this.prisma.$transaction(async (tx) => {
       if (Object.keys(usuarioData).length > 0) {
@@ -135,6 +147,7 @@ export class ProfesoresRepository {
       },
       data: {
         activo: false,
+        fechaBaja: new Date(),
       },
     });
   }
@@ -146,6 +159,7 @@ export class ProfesoresRepository {
       },
       data: {
         activo: false,
+        fechaBaja: new Date(),
       },
     });
   }
@@ -157,6 +171,8 @@ export class ProfesoresRepository {
       },
       data: {
         activo: true,
+        fechaAlta: new Date(),
+        fechaBaja: null,
       },
     });
   }

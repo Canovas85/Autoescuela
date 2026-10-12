@@ -214,6 +214,11 @@ export type Factura = $Result.DefaultSelection<Prisma.$FacturaPayload>
  */
 export type GastoCombustible = $Result.DefaultSelection<Prisma.$GastoCombustiblePayload>
 /**
+ * Model Nomina
+ * 
+ */
+export type Nomina = $Result.DefaultSelection<Prisma.$NominaPayload>
+/**
  * Model Notificacion
  * 
  */
@@ -777,6 +782,16 @@ export class PrismaClient<
   get gastoCombustible(): Prisma.GastoCombustibleDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.nomina`: Exposes CRUD operations for the **Nomina** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Nominas
+    * const nominas = await prisma.nomina.findMany()
+    * ```
+    */
+  get nomina(): Prisma.NominaDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.notificacion`: Exposes CRUD operations for the **Notificacion** model.
     * Example usage:
     * ```ts
@@ -1276,6 +1291,7 @@ export namespace Prisma {
     MatriculaConcepto: 'MatriculaConcepto',
     Factura: 'Factura',
     GastoCombustible: 'GastoCombustible',
+    Nomina: 'Nomina',
     Notificacion: 'Notificacion',
     PasswordResetAudit: 'PasswordResetAudit'
   };
@@ -1296,7 +1312,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "usuario" | "activacionCuenta" | "profesor" | "profesorHorarioBloque" | "alumno" | "documentoAlumno" | "documentoAlumnoArchivo" | "temario" | "temarioProgreso" | "claseDirecto" | "testPractica" | "preguntaDGT" | "respuestaPreguntaDGT" | "examenDGTAlumno" | "bono" | "compraBono" | "solicitudExamen" | "convocatoriaExamen" | "vehiculo" | "clasePractica" | "hojaRuta" | "hojaRutaFalta" | "hojaRutaFaltaCatalogo" | "examen" | "promocion" | "alumnoProfesorHistorial" | "tarifaConcepto" | "tarifaConceptoHistorial" | "tarifaMatricula" | "matricula" | "pago" | "practicalExamProcessBatch" | "practicalExamProcessSolicitud" | "practicalExamProcessPago" | "theoreticalExamProcessBatch" | "theoreticalExamProcessSolicitud" | "theoreticalExamProcessPago" | "matriculaConcepto" | "factura" | "gastoCombustible" | "notificacion" | "passwordResetAudit"
+      modelProps: "usuario" | "activacionCuenta" | "profesor" | "profesorHorarioBloque" | "alumno" | "documentoAlumno" | "documentoAlumnoArchivo" | "temario" | "temarioProgreso" | "claseDirecto" | "testPractica" | "preguntaDGT" | "respuestaPreguntaDGT" | "examenDGTAlumno" | "bono" | "compraBono" | "solicitudExamen" | "convocatoriaExamen" | "vehiculo" | "clasePractica" | "hojaRuta" | "hojaRutaFalta" | "hojaRutaFaltaCatalogo" | "examen" | "promocion" | "alumnoProfesorHistorial" | "tarifaConcepto" | "tarifaConceptoHistorial" | "tarifaMatricula" | "matricula" | "pago" | "practicalExamProcessBatch" | "practicalExamProcessSolicitud" | "practicalExamProcessPago" | "theoreticalExamProcessBatch" | "theoreticalExamProcessSolicitud" | "theoreticalExamProcessPago" | "matriculaConcepto" | "factura" | "gastoCombustible" | "nomina" | "notificacion" | "passwordResetAudit"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4260,6 +4276,80 @@ export namespace Prisma {
           }
         }
       }
+      Nomina: {
+        payload: Prisma.$NominaPayload<ExtArgs>
+        fields: Prisma.NominaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.NominaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NominaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.NominaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NominaPayload>
+          }
+          findFirst: {
+            args: Prisma.NominaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NominaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.NominaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NominaPayload>
+          }
+          findMany: {
+            args: Prisma.NominaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NominaPayload>[]
+          }
+          create: {
+            args: Prisma.NominaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NominaPayload>
+          }
+          createMany: {
+            args: Prisma.NominaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.NominaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NominaPayload>[]
+          }
+          delete: {
+            args: Prisma.NominaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NominaPayload>
+          }
+          update: {
+            args: Prisma.NominaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NominaPayload>
+          }
+          deleteMany: {
+            args: Prisma.NominaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.NominaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.NominaUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NominaPayload>[]
+          }
+          upsert: {
+            args: Prisma.NominaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NominaPayload>
+          }
+          aggregate: {
+            args: Prisma.NominaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNomina>
+          }
+          groupBy: {
+            args: Prisma.NominaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NominaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.NominaCountArgs<ExtArgs>
+            result: $Utils.Optional<NominaCountAggregateOutputType> | number
+          }
+        }
+      }
       Notificacion: {
         payload: Prisma.$NotificacionPayload<ExtArgs>
         fields: Prisma.NotificacionFieldRefs
@@ -4544,6 +4634,7 @@ export namespace Prisma {
     matriculaConcepto?: MatriculaConceptoOmit
     factura?: FacturaOmit
     gastoCombustible?: GastoCombustibleOmit
+    nomina?: NominaOmit
     notificacion?: NotificacionOmit
     passwordResetAudit?: PasswordResetAuditOmit
   }
@@ -4690,7 +4781,9 @@ export namespace Prisma {
     clasesDirecto: number
     clases: number
     gastosCombustible: number
+    nominas: number
     hojasRuta: number
+    solicitudesResueltas: number
     horarioBloques: number
   }
 
@@ -4701,7 +4794,9 @@ export namespace Prisma {
     clasesDirecto?: boolean | ProfesorCountOutputTypeCountClasesDirectoArgs
     clases?: boolean | ProfesorCountOutputTypeCountClasesArgs
     gastosCombustible?: boolean | ProfesorCountOutputTypeCountGastosCombustibleArgs
+    nominas?: boolean | ProfesorCountOutputTypeCountNominasArgs
     hojasRuta?: boolean | ProfesorCountOutputTypeCountHojasRutaArgs
+    solicitudesResueltas?: boolean | ProfesorCountOutputTypeCountSolicitudesResueltasArgs
     horarioBloques?: boolean | ProfesorCountOutputTypeCountHorarioBloquesArgs
   }
 
@@ -4761,8 +4856,22 @@ export namespace Prisma {
   /**
    * ProfesorCountOutputType without action
    */
+  export type ProfesorCountOutputTypeCountNominasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NominaWhereInput
+  }
+
+  /**
+   * ProfesorCountOutputType without action
+   */
   export type ProfesorCountOutputTypeCountHojasRutaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: HojaRutaWhereInput
+  }
+
+  /**
+   * ProfesorCountOutputType without action
+   */
+  export type ProfesorCountOutputTypeCountSolicitudesResueltasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SolicitudExamenWhereInput
   }
 
   /**
@@ -7873,8 +7982,18 @@ export namespace Prisma {
 
   export type AggregateProfesor = {
     _count: ProfesorCountAggregateOutputType | null
+    _avg: ProfesorAvgAggregateOutputType | null
+    _sum: ProfesorSumAggregateOutputType | null
     _min: ProfesorMinAggregateOutputType | null
     _max: ProfesorMaxAggregateOutputType | null
+  }
+
+  export type ProfesorAvgAggregateOutputType = {
+    salarioBaseMensual: Decimal | null
+  }
+
+  export type ProfesorSumAggregateOutputType = {
+    salarioBaseMensual: Decimal | null
   }
 
   export type ProfesorMinAggregateOutputType = {
@@ -7882,6 +8001,9 @@ export namespace Prisma {
     licenciaConducir: string | null
     telefono: string | null
     activo: boolean | null
+    fechaAlta: Date | null
+    fechaBaja: Date | null
+    salarioBaseMensual: Decimal | null
   }
 
   export type ProfesorMaxAggregateOutputType = {
@@ -7889,6 +8011,9 @@ export namespace Prisma {
     licenciaConducir: string | null
     telefono: string | null
     activo: boolean | null
+    fechaAlta: Date | null
+    fechaBaja: Date | null
+    salarioBaseMensual: Decimal | null
   }
 
   export type ProfesorCountAggregateOutputType = {
@@ -7896,16 +8021,30 @@ export namespace Prisma {
     licenciaConducir: number
     telefono: number
     activo: number
+    fechaAlta: number
+    fechaBaja: number
+    salarioBaseMensual: number
     permisosLicencias: number
     _all: number
   }
 
+
+  export type ProfesorAvgAggregateInputType = {
+    salarioBaseMensual?: true
+  }
+
+  export type ProfesorSumAggregateInputType = {
+    salarioBaseMensual?: true
+  }
 
   export type ProfesorMinAggregateInputType = {
     id?: true
     licenciaConducir?: true
     telefono?: true
     activo?: true
+    fechaAlta?: true
+    fechaBaja?: true
+    salarioBaseMensual?: true
   }
 
   export type ProfesorMaxAggregateInputType = {
@@ -7913,6 +8052,9 @@ export namespace Prisma {
     licenciaConducir?: true
     telefono?: true
     activo?: true
+    fechaAlta?: true
+    fechaBaja?: true
+    salarioBaseMensual?: true
   }
 
   export type ProfesorCountAggregateInputType = {
@@ -7920,6 +8062,9 @@ export namespace Prisma {
     licenciaConducir?: true
     telefono?: true
     activo?: true
+    fechaAlta?: true
+    fechaBaja?: true
+    salarioBaseMensual?: true
     permisosLicencias?: true
     _all?: true
   }
@@ -7962,6 +8107,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: ProfesorAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ProfesorSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: ProfesorMinAggregateInputType
@@ -7992,6 +8149,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ProfesorCountAggregateInputType | true
+    _avg?: ProfesorAvgAggregateInputType
+    _sum?: ProfesorSumAggregateInputType
     _min?: ProfesorMinAggregateInputType
     _max?: ProfesorMaxAggregateInputType
   }
@@ -8001,8 +8160,13 @@ export namespace Prisma {
     licenciaConducir: string
     telefono: string
     activo: boolean
+    fechaAlta: Date | null
+    fechaBaja: Date | null
+    salarioBaseMensual: Decimal
     permisosLicencias: string[]
     _count: ProfesorCountAggregateOutputType | null
+    _avg: ProfesorAvgAggregateOutputType | null
+    _sum: ProfesorSumAggregateOutputType | null
     _min: ProfesorMinAggregateOutputType | null
     _max: ProfesorMaxAggregateOutputType | null
   }
@@ -8026,6 +8190,9 @@ export namespace Prisma {
     licenciaConducir?: boolean
     telefono?: boolean
     activo?: boolean
+    fechaAlta?: boolean
+    fechaBaja?: boolean
+    salarioBaseMensual?: boolean
     permisosLicencias?: boolean
     alumnosAsignados?: boolean | Profesor$alumnosAsignadosArgs<ExtArgs>
     historialComoAnterior?: boolean | Profesor$historialComoAnteriorArgs<ExtArgs>
@@ -8033,7 +8200,9 @@ export namespace Prisma {
     clasesDirecto?: boolean | Profesor$clasesDirectoArgs<ExtArgs>
     clases?: boolean | Profesor$clasesArgs<ExtArgs>
     gastosCombustible?: boolean | Profesor$gastosCombustibleArgs<ExtArgs>
+    nominas?: boolean | Profesor$nominasArgs<ExtArgs>
     hojasRuta?: boolean | Profesor$hojasRutaArgs<ExtArgs>
+    solicitudesResueltas?: boolean | Profesor$solicitudesResueltasArgs<ExtArgs>
     horarioBloques?: boolean | Profesor$horarioBloquesArgs<ExtArgs>
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     _count?: boolean | ProfesorCountOutputTypeDefaultArgs<ExtArgs>
@@ -8044,6 +8213,9 @@ export namespace Prisma {
     licenciaConducir?: boolean
     telefono?: boolean
     activo?: boolean
+    fechaAlta?: boolean
+    fechaBaja?: boolean
+    salarioBaseMensual?: boolean
     permisosLicencias?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["profesor"]>
@@ -8053,6 +8225,9 @@ export namespace Prisma {
     licenciaConducir?: boolean
     telefono?: boolean
     activo?: boolean
+    fechaAlta?: boolean
+    fechaBaja?: boolean
+    salarioBaseMensual?: boolean
     permisosLicencias?: boolean
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["profesor"]>
@@ -8062,10 +8237,13 @@ export namespace Prisma {
     licenciaConducir?: boolean
     telefono?: boolean
     activo?: boolean
+    fechaAlta?: boolean
+    fechaBaja?: boolean
+    salarioBaseMensual?: boolean
     permisosLicencias?: boolean
   }
 
-  export type ProfesorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "licenciaConducir" | "telefono" | "activo" | "permisosLicencias", ExtArgs["result"]["profesor"]>
+  export type ProfesorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "licenciaConducir" | "telefono" | "activo" | "fechaAlta" | "fechaBaja" | "salarioBaseMensual" | "permisosLicencias", ExtArgs["result"]["profesor"]>
   export type ProfesorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumnosAsignados?: boolean | Profesor$alumnosAsignadosArgs<ExtArgs>
     historialComoAnterior?: boolean | Profesor$historialComoAnteriorArgs<ExtArgs>
@@ -8073,7 +8251,9 @@ export namespace Prisma {
     clasesDirecto?: boolean | Profesor$clasesDirectoArgs<ExtArgs>
     clases?: boolean | Profesor$clasesArgs<ExtArgs>
     gastosCombustible?: boolean | Profesor$gastosCombustibleArgs<ExtArgs>
+    nominas?: boolean | Profesor$nominasArgs<ExtArgs>
     hojasRuta?: boolean | Profesor$hojasRutaArgs<ExtArgs>
+    solicitudesResueltas?: boolean | Profesor$solicitudesResueltasArgs<ExtArgs>
     horarioBloques?: boolean | Profesor$horarioBloquesArgs<ExtArgs>
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
     _count?: boolean | ProfesorCountOutputTypeDefaultArgs<ExtArgs>
@@ -8094,7 +8274,9 @@ export namespace Prisma {
       clasesDirecto: Prisma.$ClaseDirectoPayload<ExtArgs>[]
       clases: Prisma.$ClasePracticaPayload<ExtArgs>[]
       gastosCombustible: Prisma.$GastoCombustiblePayload<ExtArgs>[]
+      nominas: Prisma.$NominaPayload<ExtArgs>[]
       hojasRuta: Prisma.$HojaRutaPayload<ExtArgs>[]
+      solicitudesResueltas: Prisma.$SolicitudExamenPayload<ExtArgs>[]
       horarioBloques: Prisma.$ProfesorHorarioBloquePayload<ExtArgs>[]
       usuario: Prisma.$UsuarioPayload<ExtArgs>
     }
@@ -8103,6 +8285,9 @@ export namespace Prisma {
       licenciaConducir: string
       telefono: string
       activo: boolean
+      fechaAlta: Date | null
+      fechaBaja: Date | null
+      salarioBaseMensual: Prisma.Decimal
       permisosLicencias: string[]
     }, ExtArgs["result"]["profesor"]>
     composites: {}
@@ -8504,7 +8689,9 @@ export namespace Prisma {
     clasesDirecto<T extends Profesor$clasesDirectoArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$clasesDirectoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClaseDirectoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     clases<T extends Profesor$clasesArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$clasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClasePracticaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     gastosCombustible<T extends Profesor$gastosCombustibleArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$gastosCombustibleArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GastoCombustiblePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    nominas<T extends Profesor$nominasArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$nominasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NominaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     hojasRuta<T extends Profesor$hojasRutaArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$hojasRutaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HojaRutaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    solicitudesResueltas<T extends Profesor$solicitudesResueltasArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$solicitudesResueltasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SolicitudExamenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     horarioBloques<T extends Profesor$horarioBloquesArgs<ExtArgs> = {}>(args?: Subset<T, Profesor$horarioBloquesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProfesorHorarioBloquePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     usuario<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
@@ -8540,6 +8727,9 @@ export namespace Prisma {
     readonly licenciaConducir: FieldRef<"Profesor", 'String'>
     readonly telefono: FieldRef<"Profesor", 'String'>
     readonly activo: FieldRef<"Profesor", 'Boolean'>
+    readonly fechaAlta: FieldRef<"Profesor", 'DateTime'>
+    readonly fechaBaja: FieldRef<"Profesor", 'DateTime'>
+    readonly salarioBaseMensual: FieldRef<"Profesor", 'Decimal'>
     readonly permisosLicencias: FieldRef<"Profesor", 'String[]'>
   }
     
@@ -9081,6 +9271,30 @@ export namespace Prisma {
   }
 
   /**
+   * Profesor.nominas
+   */
+  export type Profesor$nominasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Nomina
+     */
+    select?: NominaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Nomina
+     */
+    omit?: NominaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NominaInclude<ExtArgs> | null
+    where?: NominaWhereInput
+    orderBy?: NominaOrderByWithRelationInput | NominaOrderByWithRelationInput[]
+    cursor?: NominaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NominaScalarFieldEnum | NominaScalarFieldEnum[]
+  }
+
+  /**
    * Profesor.hojasRuta
    */
   export type Profesor$hojasRutaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9102,6 +9316,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: HojaRutaScalarFieldEnum | HojaRutaScalarFieldEnum[]
+  }
+
+  /**
+   * Profesor.solicitudesResueltas
+   */
+  export type Profesor$solicitudesResueltasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SolicitudExamen
+     */
+    select?: SolicitudExamenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SolicitudExamen
+     */
+    omit?: SolicitudExamenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SolicitudExamenInclude<ExtArgs> | null
+    where?: SolicitudExamenWhereInput
+    orderBy?: SolicitudExamenOrderByWithRelationInput | SolicitudExamenOrderByWithRelationInput[]
+    cursor?: SolicitudExamenWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SolicitudExamenScalarFieldEnum | SolicitudExamenScalarFieldEnum[]
   }
 
   /**
@@ -24457,6 +24695,8 @@ export namespace Prisma {
     faltasEliminatorias: number | null
     motivoNoApto: string | null
     observaciones: string | null
+    fechaResolucion: Date | null
+    profesorResolucionId: string | null
   }
 
   export type SolicitudExamenMaxAggregateOutputType = {
@@ -24475,6 +24715,8 @@ export namespace Prisma {
     faltasEliminatorias: number | null
     motivoNoApto: string | null
     observaciones: string | null
+    fechaResolucion: Date | null
+    profesorResolucionId: string | null
   }
 
   export type SolicitudExamenCountAggregateOutputType = {
@@ -24496,6 +24738,8 @@ export namespace Prisma {
     faltasEliminatoriasDetalle: number
     motivoNoApto: number
     observaciones: number
+    fechaResolucion: number
+    profesorResolucionId: number
     _all: number
   }
 
@@ -24534,6 +24778,8 @@ export namespace Prisma {
     faltasEliminatorias?: true
     motivoNoApto?: true
     observaciones?: true
+    fechaResolucion?: true
+    profesorResolucionId?: true
   }
 
   export type SolicitudExamenMaxAggregateInputType = {
@@ -24552,6 +24798,8 @@ export namespace Prisma {
     faltasEliminatorias?: true
     motivoNoApto?: true
     observaciones?: true
+    fechaResolucion?: true
+    profesorResolucionId?: true
   }
 
   export type SolicitudExamenCountAggregateInputType = {
@@ -24573,6 +24821,8 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: true
     motivoNoApto?: true
     observaciones?: true
+    fechaResolucion?: true
+    profesorResolucionId?: true
     _all?: true
   }
 
@@ -24681,6 +24931,8 @@ export namespace Prisma {
     faltasEliminatoriasDetalle: string[]
     motivoNoApto: string | null
     observaciones: string | null
+    fechaResolucion: Date | null
+    profesorResolucionId: string | null
     _count: SolicitudExamenCountAggregateOutputType | null
     _avg: SolicitudExamenAvgAggregateOutputType | null
     _sum: SolicitudExamenSumAggregateOutputType | null
@@ -24721,7 +24973,10 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: boolean
     motivoNoApto?: boolean
     observaciones?: boolean
+    fechaResolucion?: boolean
+    profesorResolucionId?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    profesorResolucion?: boolean | SolicitudExamen$profesorResolucionArgs<ExtArgs>
     pagoGastoPractico?: boolean | SolicitudExamen$pagoGastoPracticoArgs<ExtArgs>
   }, ExtArgs["result"]["solicitudExamen"]>
 
@@ -24744,7 +24999,10 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: boolean
     motivoNoApto?: boolean
     observaciones?: boolean
+    fechaResolucion?: boolean
+    profesorResolucionId?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    profesorResolucion?: boolean | SolicitudExamen$profesorResolucionArgs<ExtArgs>
     pagoGastoPractico?: boolean | SolicitudExamen$pagoGastoPracticoArgs<ExtArgs>
   }, ExtArgs["result"]["solicitudExamen"]>
 
@@ -24767,7 +25025,10 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: boolean
     motivoNoApto?: boolean
     observaciones?: boolean
+    fechaResolucion?: boolean
+    profesorResolucionId?: boolean
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    profesorResolucion?: boolean | SolicitudExamen$profesorResolucionArgs<ExtArgs>
     pagoGastoPractico?: boolean | SolicitudExamen$pagoGastoPracticoArgs<ExtArgs>
   }, ExtArgs["result"]["solicitudExamen"]>
 
@@ -24790,19 +25051,24 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: boolean
     motivoNoApto?: boolean
     observaciones?: boolean
+    fechaResolucion?: boolean
+    profesorResolucionId?: boolean
   }
 
-  export type SolicitudExamenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "tipo" | "fasePractica" | "estado" | "fechaSolicitud" | "fechaProgramada" | "pagoGastoPracticoId" | "erroresExamen" | "aciertosExamen" | "faltasLeves" | "faltasDeficientes" | "faltasEliminatorias" | "faltasLevesDetalle" | "faltasDeficientesDetalle" | "faltasEliminatoriasDetalle" | "motivoNoApto" | "observaciones", ExtArgs["result"]["solicitudExamen"]>
+  export type SolicitudExamenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alumnoId" | "tipo" | "fasePractica" | "estado" | "fechaSolicitud" | "fechaProgramada" | "pagoGastoPracticoId" | "erroresExamen" | "aciertosExamen" | "faltasLeves" | "faltasDeficientes" | "faltasEliminatorias" | "faltasLevesDetalle" | "faltasDeficientesDetalle" | "faltasEliminatoriasDetalle" | "motivoNoApto" | "observaciones" | "fechaResolucion" | "profesorResolucionId", ExtArgs["result"]["solicitudExamen"]>
   export type SolicitudExamenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    profesorResolucion?: boolean | SolicitudExamen$profesorResolucionArgs<ExtArgs>
     pagoGastoPractico?: boolean | SolicitudExamen$pagoGastoPracticoArgs<ExtArgs>
   }
   export type SolicitudExamenIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    profesorResolucion?: boolean | SolicitudExamen$profesorResolucionArgs<ExtArgs>
     pagoGastoPractico?: boolean | SolicitudExamen$pagoGastoPracticoArgs<ExtArgs>
   }
   export type SolicitudExamenIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alumno?: boolean | AlumnoDefaultArgs<ExtArgs>
+    profesorResolucion?: boolean | SolicitudExamen$profesorResolucionArgs<ExtArgs>
     pagoGastoPractico?: boolean | SolicitudExamen$pagoGastoPracticoArgs<ExtArgs>
   }
 
@@ -24810,6 +25076,7 @@ export namespace Prisma {
     name: "SolicitudExamen"
     objects: {
       alumno: Prisma.$AlumnoPayload<ExtArgs>
+      profesorResolucion: Prisma.$ProfesorPayload<ExtArgs> | null
       pagoGastoPractico: Prisma.$PagoPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -24831,6 +25098,8 @@ export namespace Prisma {
       faltasEliminatoriasDetalle: string[]
       motivoNoApto: string | null
       observaciones: string | null
+      fechaResolucion: Date | null
+      profesorResolucionId: string | null
     }, ExtArgs["result"]["solicitudExamen"]>
     composites: {}
   }
@@ -25226,6 +25495,7 @@ export namespace Prisma {
   export interface Prisma__SolicitudExamenClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     alumno<T extends AlumnoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AlumnoDefaultArgs<ExtArgs>>): Prisma__AlumnoClient<$Result.GetResult<Prisma.$AlumnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    profesorResolucion<T extends SolicitudExamen$profesorResolucionArgs<ExtArgs> = {}>(args?: Subset<T, SolicitudExamen$profesorResolucionArgs<ExtArgs>>): Prisma__ProfesorClient<$Result.GetResult<Prisma.$ProfesorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     pagoGastoPractico<T extends SolicitudExamen$pagoGastoPracticoArgs<ExtArgs> = {}>(args?: Subset<T, SolicitudExamen$pagoGastoPracticoArgs<ExtArgs>>): Prisma__PagoClient<$Result.GetResult<Prisma.$PagoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -25274,6 +25544,8 @@ export namespace Prisma {
     readonly faltasEliminatoriasDetalle: FieldRef<"SolicitudExamen", 'String[]'>
     readonly motivoNoApto: FieldRef<"SolicitudExamen", 'String'>
     readonly observaciones: FieldRef<"SolicitudExamen", 'String'>
+    readonly fechaResolucion: FieldRef<"SolicitudExamen", 'DateTime'>
+    readonly profesorResolucionId: FieldRef<"SolicitudExamen", 'String'>
   }
     
 
@@ -25667,6 +25939,25 @@ export namespace Prisma {
      * Limit how many SolicitudExamen to delete.
      */
     limit?: number
+  }
+
+  /**
+   * SolicitudExamen.profesorResolucion
+   */
+  export type SolicitudExamen$profesorResolucionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Profesor
+     */
+    select?: ProfesorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Profesor
+     */
+    omit?: ProfesorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProfesorInclude<ExtArgs> | null
+    where?: ProfesorWhereInput
   }
 
   /**
@@ -53395,6 +53686,1520 @@ export namespace Prisma {
 
 
   /**
+   * Model Nomina
+   */
+
+  export type AggregateNomina = {
+    _count: NominaCountAggregateOutputType | null
+    _avg: NominaAvgAggregateOutputType | null
+    _sum: NominaSumAggregateOutputType | null
+    _min: NominaMinAggregateOutputType | null
+    _max: NominaMaxAggregateOutputType | null
+  }
+
+  export type NominaAvgAggregateOutputType = {
+    anio: number | null
+    mes: number | null
+    diasMes: number | null
+    diasTrabajados: number | null
+    salarioBaseMensual: Decimal | null
+    importeSalarioBase: Decimal | null
+    plusTransporte: Decimal | null
+    plusProductividad: Decimal | null
+    presentadosApto: number | null
+    presentadosNoApto: number | null
+    totalPresentados: number | null
+    prorrataPagasExtra: Decimal | null
+    deduccionContingenciasComunes: Decimal | null
+    deduccionDesempleo: Decimal | null
+    deduccionFormacionProfesional: Decimal | null
+    deduccionIrpf: Decimal | null
+    totalDevengos: Decimal | null
+    totalDeducciones: Decimal | null
+    liquidoPercibir: Decimal | null
+    baseCotizacionComunes: Decimal | null
+    baseCotizacionProfesionales: Decimal | null
+    baseRetencionIrpf: Decimal | null
+  }
+
+  export type NominaSumAggregateOutputType = {
+    anio: number | null
+    mes: number | null
+    diasMes: number | null
+    diasTrabajados: number | null
+    salarioBaseMensual: Decimal | null
+    importeSalarioBase: Decimal | null
+    plusTransporte: Decimal | null
+    plusProductividad: Decimal | null
+    presentadosApto: number | null
+    presentadosNoApto: number | null
+    totalPresentados: number | null
+    prorrataPagasExtra: Decimal | null
+    deduccionContingenciasComunes: Decimal | null
+    deduccionDesempleo: Decimal | null
+    deduccionFormacionProfesional: Decimal | null
+    deduccionIrpf: Decimal | null
+    totalDevengos: Decimal | null
+    totalDeducciones: Decimal | null
+    liquidoPercibir: Decimal | null
+    baseCotizacionComunes: Decimal | null
+    baseCotizacionProfesionales: Decimal | null
+    baseRetencionIrpf: Decimal | null
+  }
+
+  export type NominaMinAggregateOutputType = {
+    id: string | null
+    numero: string | null
+    profesorId: string | null
+    anio: number | null
+    mes: number | null
+    periodoInicio: Date | null
+    periodoFin: Date | null
+    diasMes: number | null
+    diasTrabajados: number | null
+    salarioBaseMensual: Decimal | null
+    importeSalarioBase: Decimal | null
+    plusTransporte: Decimal | null
+    plusProductividad: Decimal | null
+    presentadosApto: number | null
+    presentadosNoApto: number | null
+    totalPresentados: number | null
+    prorrataPagasExtra: Decimal | null
+    deduccionContingenciasComunes: Decimal | null
+    deduccionDesempleo: Decimal | null
+    deduccionFormacionProfesional: Decimal | null
+    deduccionIrpf: Decimal | null
+    totalDevengos: Decimal | null
+    totalDeducciones: Decimal | null
+    liquidoPercibir: Decimal | null
+    baseCotizacionComunes: Decimal | null
+    baseCotizacionProfesionales: Decimal | null
+    baseRetencionIrpf: Decimal | null
+    estado: string | null
+    fechaGeneracion: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type NominaMaxAggregateOutputType = {
+    id: string | null
+    numero: string | null
+    profesorId: string | null
+    anio: number | null
+    mes: number | null
+    periodoInicio: Date | null
+    periodoFin: Date | null
+    diasMes: number | null
+    diasTrabajados: number | null
+    salarioBaseMensual: Decimal | null
+    importeSalarioBase: Decimal | null
+    plusTransporte: Decimal | null
+    plusProductividad: Decimal | null
+    presentadosApto: number | null
+    presentadosNoApto: number | null
+    totalPresentados: number | null
+    prorrataPagasExtra: Decimal | null
+    deduccionContingenciasComunes: Decimal | null
+    deduccionDesempleo: Decimal | null
+    deduccionFormacionProfesional: Decimal | null
+    deduccionIrpf: Decimal | null
+    totalDevengos: Decimal | null
+    totalDeducciones: Decimal | null
+    liquidoPercibir: Decimal | null
+    baseCotizacionComunes: Decimal | null
+    baseCotizacionProfesionales: Decimal | null
+    baseRetencionIrpf: Decimal | null
+    estado: string | null
+    fechaGeneracion: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type NominaCountAggregateOutputType = {
+    id: number
+    numero: number
+    profesorId: number
+    anio: number
+    mes: number
+    periodoInicio: number
+    periodoFin: number
+    diasMes: number
+    diasTrabajados: number
+    salarioBaseMensual: number
+    importeSalarioBase: number
+    plusTransporte: number
+    plusProductividad: number
+    presentadosApto: number
+    presentadosNoApto: number
+    totalPresentados: number
+    prorrataPagasExtra: number
+    deduccionContingenciasComunes: number
+    deduccionDesempleo: number
+    deduccionFormacionProfesional: number
+    deduccionIrpf: number
+    totalDevengos: number
+    totalDeducciones: number
+    liquidoPercibir: number
+    baseCotizacionComunes: number
+    baseCotizacionProfesionales: number
+    baseRetencionIrpf: number
+    estado: number
+    fechaGeneracion: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type NominaAvgAggregateInputType = {
+    anio?: true
+    mes?: true
+    diasMes?: true
+    diasTrabajados?: true
+    salarioBaseMensual?: true
+    importeSalarioBase?: true
+    plusTransporte?: true
+    plusProductividad?: true
+    presentadosApto?: true
+    presentadosNoApto?: true
+    totalPresentados?: true
+    prorrataPagasExtra?: true
+    deduccionContingenciasComunes?: true
+    deduccionDesempleo?: true
+    deduccionFormacionProfesional?: true
+    deduccionIrpf?: true
+    totalDevengos?: true
+    totalDeducciones?: true
+    liquidoPercibir?: true
+    baseCotizacionComunes?: true
+    baseCotizacionProfesionales?: true
+    baseRetencionIrpf?: true
+  }
+
+  export type NominaSumAggregateInputType = {
+    anio?: true
+    mes?: true
+    diasMes?: true
+    diasTrabajados?: true
+    salarioBaseMensual?: true
+    importeSalarioBase?: true
+    plusTransporte?: true
+    plusProductividad?: true
+    presentadosApto?: true
+    presentadosNoApto?: true
+    totalPresentados?: true
+    prorrataPagasExtra?: true
+    deduccionContingenciasComunes?: true
+    deduccionDesempleo?: true
+    deduccionFormacionProfesional?: true
+    deduccionIrpf?: true
+    totalDevengos?: true
+    totalDeducciones?: true
+    liquidoPercibir?: true
+    baseCotizacionComunes?: true
+    baseCotizacionProfesionales?: true
+    baseRetencionIrpf?: true
+  }
+
+  export type NominaMinAggregateInputType = {
+    id?: true
+    numero?: true
+    profesorId?: true
+    anio?: true
+    mes?: true
+    periodoInicio?: true
+    periodoFin?: true
+    diasMes?: true
+    diasTrabajados?: true
+    salarioBaseMensual?: true
+    importeSalarioBase?: true
+    plusTransporte?: true
+    plusProductividad?: true
+    presentadosApto?: true
+    presentadosNoApto?: true
+    totalPresentados?: true
+    prorrataPagasExtra?: true
+    deduccionContingenciasComunes?: true
+    deduccionDesempleo?: true
+    deduccionFormacionProfesional?: true
+    deduccionIrpf?: true
+    totalDevengos?: true
+    totalDeducciones?: true
+    liquidoPercibir?: true
+    baseCotizacionComunes?: true
+    baseCotizacionProfesionales?: true
+    baseRetencionIrpf?: true
+    estado?: true
+    fechaGeneracion?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type NominaMaxAggregateInputType = {
+    id?: true
+    numero?: true
+    profesorId?: true
+    anio?: true
+    mes?: true
+    periodoInicio?: true
+    periodoFin?: true
+    diasMes?: true
+    diasTrabajados?: true
+    salarioBaseMensual?: true
+    importeSalarioBase?: true
+    plusTransporte?: true
+    plusProductividad?: true
+    presentadosApto?: true
+    presentadosNoApto?: true
+    totalPresentados?: true
+    prorrataPagasExtra?: true
+    deduccionContingenciasComunes?: true
+    deduccionDesempleo?: true
+    deduccionFormacionProfesional?: true
+    deduccionIrpf?: true
+    totalDevengos?: true
+    totalDeducciones?: true
+    liquidoPercibir?: true
+    baseCotizacionComunes?: true
+    baseCotizacionProfesionales?: true
+    baseRetencionIrpf?: true
+    estado?: true
+    fechaGeneracion?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type NominaCountAggregateInputType = {
+    id?: true
+    numero?: true
+    profesorId?: true
+    anio?: true
+    mes?: true
+    periodoInicio?: true
+    periodoFin?: true
+    diasMes?: true
+    diasTrabajados?: true
+    salarioBaseMensual?: true
+    importeSalarioBase?: true
+    plusTransporte?: true
+    plusProductividad?: true
+    presentadosApto?: true
+    presentadosNoApto?: true
+    totalPresentados?: true
+    prorrataPagasExtra?: true
+    deduccionContingenciasComunes?: true
+    deduccionDesempleo?: true
+    deduccionFormacionProfesional?: true
+    deduccionIrpf?: true
+    totalDevengos?: true
+    totalDeducciones?: true
+    liquidoPercibir?: true
+    baseCotizacionComunes?: true
+    baseCotizacionProfesionales?: true
+    baseRetencionIrpf?: true
+    estado?: true
+    fechaGeneracion?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type NominaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Nomina to aggregate.
+     */
+    where?: NominaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Nominas to fetch.
+     */
+    orderBy?: NominaOrderByWithRelationInput | NominaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: NominaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Nominas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Nominas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Nominas
+    **/
+    _count?: true | NominaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: NominaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: NominaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NominaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NominaMaxAggregateInputType
+  }
+
+  export type GetNominaAggregateType<T extends NominaAggregateArgs> = {
+        [P in keyof T & keyof AggregateNomina]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNomina[P]>
+      : GetScalarType<T[P], AggregateNomina[P]>
+  }
+
+
+
+
+  export type NominaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NominaWhereInput
+    orderBy?: NominaOrderByWithAggregationInput | NominaOrderByWithAggregationInput[]
+    by: NominaScalarFieldEnum[] | NominaScalarFieldEnum
+    having?: NominaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NominaCountAggregateInputType | true
+    _avg?: NominaAvgAggregateInputType
+    _sum?: NominaSumAggregateInputType
+    _min?: NominaMinAggregateInputType
+    _max?: NominaMaxAggregateInputType
+  }
+
+  export type NominaGroupByOutputType = {
+    id: string
+    numero: string
+    profesorId: string
+    anio: number
+    mes: number
+    periodoInicio: Date
+    periodoFin: Date
+    diasMes: number
+    diasTrabajados: number
+    salarioBaseMensual: Decimal
+    importeSalarioBase: Decimal
+    plusTransporte: Decimal
+    plusProductividad: Decimal
+    presentadosApto: number
+    presentadosNoApto: number
+    totalPresentados: number
+    prorrataPagasExtra: Decimal
+    deduccionContingenciasComunes: Decimal
+    deduccionDesempleo: Decimal
+    deduccionFormacionProfesional: Decimal
+    deduccionIrpf: Decimal
+    totalDevengos: Decimal
+    totalDeducciones: Decimal
+    liquidoPercibir: Decimal
+    baseCotizacionComunes: Decimal
+    baseCotizacionProfesionales: Decimal
+    baseRetencionIrpf: Decimal
+    estado: string
+    fechaGeneracion: Date
+    createdAt: Date
+    updatedAt: Date
+    _count: NominaCountAggregateOutputType | null
+    _avg: NominaAvgAggregateOutputType | null
+    _sum: NominaSumAggregateOutputType | null
+    _min: NominaMinAggregateOutputType | null
+    _max: NominaMaxAggregateOutputType | null
+  }
+
+  type GetNominaGroupByPayload<T extends NominaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NominaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NominaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NominaGroupByOutputType[P]>
+            : GetScalarType<T[P], NominaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type NominaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    numero?: boolean
+    profesorId?: boolean
+    anio?: boolean
+    mes?: boolean
+    periodoInicio?: boolean
+    periodoFin?: boolean
+    diasMes?: boolean
+    diasTrabajados?: boolean
+    salarioBaseMensual?: boolean
+    importeSalarioBase?: boolean
+    plusTransporte?: boolean
+    plusProductividad?: boolean
+    presentadosApto?: boolean
+    presentadosNoApto?: boolean
+    totalPresentados?: boolean
+    prorrataPagasExtra?: boolean
+    deduccionContingenciasComunes?: boolean
+    deduccionDesempleo?: boolean
+    deduccionFormacionProfesional?: boolean
+    deduccionIrpf?: boolean
+    totalDevengos?: boolean
+    totalDeducciones?: boolean
+    liquidoPercibir?: boolean
+    baseCotizacionComunes?: boolean
+    baseCotizacionProfesionales?: boolean
+    baseRetencionIrpf?: boolean
+    estado?: boolean
+    fechaGeneracion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["nomina"]>
+
+  export type NominaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    numero?: boolean
+    profesorId?: boolean
+    anio?: boolean
+    mes?: boolean
+    periodoInicio?: boolean
+    periodoFin?: boolean
+    diasMes?: boolean
+    diasTrabajados?: boolean
+    salarioBaseMensual?: boolean
+    importeSalarioBase?: boolean
+    plusTransporte?: boolean
+    plusProductividad?: boolean
+    presentadosApto?: boolean
+    presentadosNoApto?: boolean
+    totalPresentados?: boolean
+    prorrataPagasExtra?: boolean
+    deduccionContingenciasComunes?: boolean
+    deduccionDesempleo?: boolean
+    deduccionFormacionProfesional?: boolean
+    deduccionIrpf?: boolean
+    totalDevengos?: boolean
+    totalDeducciones?: boolean
+    liquidoPercibir?: boolean
+    baseCotizacionComunes?: boolean
+    baseCotizacionProfesionales?: boolean
+    baseRetencionIrpf?: boolean
+    estado?: boolean
+    fechaGeneracion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["nomina"]>
+
+  export type NominaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    numero?: boolean
+    profesorId?: boolean
+    anio?: boolean
+    mes?: boolean
+    periodoInicio?: boolean
+    periodoFin?: boolean
+    diasMes?: boolean
+    diasTrabajados?: boolean
+    salarioBaseMensual?: boolean
+    importeSalarioBase?: boolean
+    plusTransporte?: boolean
+    plusProductividad?: boolean
+    presentadosApto?: boolean
+    presentadosNoApto?: boolean
+    totalPresentados?: boolean
+    prorrataPagasExtra?: boolean
+    deduccionContingenciasComunes?: boolean
+    deduccionDesempleo?: boolean
+    deduccionFormacionProfesional?: boolean
+    deduccionIrpf?: boolean
+    totalDevengos?: boolean
+    totalDeducciones?: boolean
+    liquidoPercibir?: boolean
+    baseCotizacionComunes?: boolean
+    baseCotizacionProfesionales?: boolean
+    baseRetencionIrpf?: boolean
+    estado?: boolean
+    fechaGeneracion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["nomina"]>
+
+  export type NominaSelectScalar = {
+    id?: boolean
+    numero?: boolean
+    profesorId?: boolean
+    anio?: boolean
+    mes?: boolean
+    periodoInicio?: boolean
+    periodoFin?: boolean
+    diasMes?: boolean
+    diasTrabajados?: boolean
+    salarioBaseMensual?: boolean
+    importeSalarioBase?: boolean
+    plusTransporte?: boolean
+    plusProductividad?: boolean
+    presentadosApto?: boolean
+    presentadosNoApto?: boolean
+    totalPresentados?: boolean
+    prorrataPagasExtra?: boolean
+    deduccionContingenciasComunes?: boolean
+    deduccionDesempleo?: boolean
+    deduccionFormacionProfesional?: boolean
+    deduccionIrpf?: boolean
+    totalDevengos?: boolean
+    totalDeducciones?: boolean
+    liquidoPercibir?: boolean
+    baseCotizacionComunes?: boolean
+    baseCotizacionProfesionales?: boolean
+    baseRetencionIrpf?: boolean
+    estado?: boolean
+    fechaGeneracion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type NominaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "numero" | "profesorId" | "anio" | "mes" | "periodoInicio" | "periodoFin" | "diasMes" | "diasTrabajados" | "salarioBaseMensual" | "importeSalarioBase" | "plusTransporte" | "plusProductividad" | "presentadosApto" | "presentadosNoApto" | "totalPresentados" | "prorrataPagasExtra" | "deduccionContingenciasComunes" | "deduccionDesempleo" | "deduccionFormacionProfesional" | "deduccionIrpf" | "totalDevengos" | "totalDeducciones" | "liquidoPercibir" | "baseCotizacionComunes" | "baseCotizacionProfesionales" | "baseRetencionIrpf" | "estado" | "fechaGeneracion" | "createdAt" | "updatedAt", ExtArgs["result"]["nomina"]>
+  export type NominaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+  }
+  export type NominaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+  }
+  export type NominaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    profesor?: boolean | ProfesorDefaultArgs<ExtArgs>
+  }
+
+  export type $NominaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Nomina"
+    objects: {
+      profesor: Prisma.$ProfesorPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      numero: string
+      profesorId: string
+      anio: number
+      mes: number
+      periodoInicio: Date
+      periodoFin: Date
+      diasMes: number
+      diasTrabajados: number
+      salarioBaseMensual: Prisma.Decimal
+      importeSalarioBase: Prisma.Decimal
+      plusTransporte: Prisma.Decimal
+      plusProductividad: Prisma.Decimal
+      presentadosApto: number
+      presentadosNoApto: number
+      totalPresentados: number
+      prorrataPagasExtra: Prisma.Decimal
+      deduccionContingenciasComunes: Prisma.Decimal
+      deduccionDesempleo: Prisma.Decimal
+      deduccionFormacionProfesional: Prisma.Decimal
+      deduccionIrpf: Prisma.Decimal
+      totalDevengos: Prisma.Decimal
+      totalDeducciones: Prisma.Decimal
+      liquidoPercibir: Prisma.Decimal
+      baseCotizacionComunes: Prisma.Decimal
+      baseCotizacionProfesionales: Prisma.Decimal
+      baseRetencionIrpf: Prisma.Decimal
+      estado: string
+      fechaGeneracion: Date
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["nomina"]>
+    composites: {}
+  }
+
+  type NominaGetPayload<S extends boolean | null | undefined | NominaDefaultArgs> = $Result.GetResult<Prisma.$NominaPayload, S>
+
+  type NominaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<NominaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NominaCountAggregateInputType | true
+    }
+
+  export interface NominaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Nomina'], meta: { name: 'Nomina' } }
+    /**
+     * Find zero or one Nomina that matches the filter.
+     * @param {NominaFindUniqueArgs} args - Arguments to find a Nomina
+     * @example
+     * // Get one Nomina
+     * const nomina = await prisma.nomina.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends NominaFindUniqueArgs>(args: SelectSubset<T, NominaFindUniqueArgs<ExtArgs>>): Prisma__NominaClient<$Result.GetResult<Prisma.$NominaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Nomina that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {NominaFindUniqueOrThrowArgs} args - Arguments to find a Nomina
+     * @example
+     * // Get one Nomina
+     * const nomina = await prisma.nomina.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends NominaFindUniqueOrThrowArgs>(args: SelectSubset<T, NominaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NominaClient<$Result.GetResult<Prisma.$NominaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Nomina that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NominaFindFirstArgs} args - Arguments to find a Nomina
+     * @example
+     * // Get one Nomina
+     * const nomina = await prisma.nomina.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends NominaFindFirstArgs>(args?: SelectSubset<T, NominaFindFirstArgs<ExtArgs>>): Prisma__NominaClient<$Result.GetResult<Prisma.$NominaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Nomina that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NominaFindFirstOrThrowArgs} args - Arguments to find a Nomina
+     * @example
+     * // Get one Nomina
+     * const nomina = await prisma.nomina.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends NominaFindFirstOrThrowArgs>(args?: SelectSubset<T, NominaFindFirstOrThrowArgs<ExtArgs>>): Prisma__NominaClient<$Result.GetResult<Prisma.$NominaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Nominas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NominaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Nominas
+     * const nominas = await prisma.nomina.findMany()
+     * 
+     * // Get first 10 Nominas
+     * const nominas = await prisma.nomina.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const nominaWithIdOnly = await prisma.nomina.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends NominaFindManyArgs>(args?: SelectSubset<T, NominaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NominaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Nomina.
+     * @param {NominaCreateArgs} args - Arguments to create a Nomina.
+     * @example
+     * // Create one Nomina
+     * const Nomina = await prisma.nomina.create({
+     *   data: {
+     *     // ... data to create a Nomina
+     *   }
+     * })
+     * 
+     */
+    create<T extends NominaCreateArgs>(args: SelectSubset<T, NominaCreateArgs<ExtArgs>>): Prisma__NominaClient<$Result.GetResult<Prisma.$NominaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Nominas.
+     * @param {NominaCreateManyArgs} args - Arguments to create many Nominas.
+     * @example
+     * // Create many Nominas
+     * const nomina = await prisma.nomina.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends NominaCreateManyArgs>(args?: SelectSubset<T, NominaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Nominas and returns the data saved in the database.
+     * @param {NominaCreateManyAndReturnArgs} args - Arguments to create many Nominas.
+     * @example
+     * // Create many Nominas
+     * const nomina = await prisma.nomina.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Nominas and only return the `id`
+     * const nominaWithIdOnly = await prisma.nomina.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends NominaCreateManyAndReturnArgs>(args?: SelectSubset<T, NominaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NominaPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Nomina.
+     * @param {NominaDeleteArgs} args - Arguments to delete one Nomina.
+     * @example
+     * // Delete one Nomina
+     * const Nomina = await prisma.nomina.delete({
+     *   where: {
+     *     // ... filter to delete one Nomina
+     *   }
+     * })
+     * 
+     */
+    delete<T extends NominaDeleteArgs>(args: SelectSubset<T, NominaDeleteArgs<ExtArgs>>): Prisma__NominaClient<$Result.GetResult<Prisma.$NominaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Nomina.
+     * @param {NominaUpdateArgs} args - Arguments to update one Nomina.
+     * @example
+     * // Update one Nomina
+     * const nomina = await prisma.nomina.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends NominaUpdateArgs>(args: SelectSubset<T, NominaUpdateArgs<ExtArgs>>): Prisma__NominaClient<$Result.GetResult<Prisma.$NominaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Nominas.
+     * @param {NominaDeleteManyArgs} args - Arguments to filter Nominas to delete.
+     * @example
+     * // Delete a few Nominas
+     * const { count } = await prisma.nomina.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends NominaDeleteManyArgs>(args?: SelectSubset<T, NominaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Nominas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NominaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Nominas
+     * const nomina = await prisma.nomina.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends NominaUpdateManyArgs>(args: SelectSubset<T, NominaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Nominas and returns the data updated in the database.
+     * @param {NominaUpdateManyAndReturnArgs} args - Arguments to update many Nominas.
+     * @example
+     * // Update many Nominas
+     * const nomina = await prisma.nomina.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Nominas and only return the `id`
+     * const nominaWithIdOnly = await prisma.nomina.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends NominaUpdateManyAndReturnArgs>(args: SelectSubset<T, NominaUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NominaPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Nomina.
+     * @param {NominaUpsertArgs} args - Arguments to update or create a Nomina.
+     * @example
+     * // Update or create a Nomina
+     * const nomina = await prisma.nomina.upsert({
+     *   create: {
+     *     // ... data to create a Nomina
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Nomina we want to update
+     *   }
+     * })
+     */
+    upsert<T extends NominaUpsertArgs>(args: SelectSubset<T, NominaUpsertArgs<ExtArgs>>): Prisma__NominaClient<$Result.GetResult<Prisma.$NominaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Nominas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NominaCountArgs} args - Arguments to filter Nominas to count.
+     * @example
+     * // Count the number of Nominas
+     * const count = await prisma.nomina.count({
+     *   where: {
+     *     // ... the filter for the Nominas we want to count
+     *   }
+     * })
+    **/
+    count<T extends NominaCountArgs>(
+      args?: Subset<T, NominaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NominaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Nomina.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NominaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NominaAggregateArgs>(args: Subset<T, NominaAggregateArgs>): Prisma.PrismaPromise<GetNominaAggregateType<T>>
+
+    /**
+     * Group by Nomina.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NominaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends NominaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: NominaGroupByArgs['orderBy'] }
+        : { orderBy?: NominaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, NominaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNominaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Nomina model
+   */
+  readonly fields: NominaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Nomina.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__NominaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    profesor<T extends ProfesorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfesorDefaultArgs<ExtArgs>>): Prisma__ProfesorClient<$Result.GetResult<Prisma.$ProfesorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Nomina model
+   */
+  interface NominaFieldRefs {
+    readonly id: FieldRef<"Nomina", 'String'>
+    readonly numero: FieldRef<"Nomina", 'String'>
+    readonly profesorId: FieldRef<"Nomina", 'String'>
+    readonly anio: FieldRef<"Nomina", 'Int'>
+    readonly mes: FieldRef<"Nomina", 'Int'>
+    readonly periodoInicio: FieldRef<"Nomina", 'DateTime'>
+    readonly periodoFin: FieldRef<"Nomina", 'DateTime'>
+    readonly diasMes: FieldRef<"Nomina", 'Int'>
+    readonly diasTrabajados: FieldRef<"Nomina", 'Int'>
+    readonly salarioBaseMensual: FieldRef<"Nomina", 'Decimal'>
+    readonly importeSalarioBase: FieldRef<"Nomina", 'Decimal'>
+    readonly plusTransporte: FieldRef<"Nomina", 'Decimal'>
+    readonly plusProductividad: FieldRef<"Nomina", 'Decimal'>
+    readonly presentadosApto: FieldRef<"Nomina", 'Int'>
+    readonly presentadosNoApto: FieldRef<"Nomina", 'Int'>
+    readonly totalPresentados: FieldRef<"Nomina", 'Int'>
+    readonly prorrataPagasExtra: FieldRef<"Nomina", 'Decimal'>
+    readonly deduccionContingenciasComunes: FieldRef<"Nomina", 'Decimal'>
+    readonly deduccionDesempleo: FieldRef<"Nomina", 'Decimal'>
+    readonly deduccionFormacionProfesional: FieldRef<"Nomina", 'Decimal'>
+    readonly deduccionIrpf: FieldRef<"Nomina", 'Decimal'>
+    readonly totalDevengos: FieldRef<"Nomina", 'Decimal'>
+    readonly totalDeducciones: FieldRef<"Nomina", 'Decimal'>
+    readonly liquidoPercibir: FieldRef<"Nomina", 'Decimal'>
+    readonly baseCotizacionComunes: FieldRef<"Nomina", 'Decimal'>
+    readonly baseCotizacionProfesionales: FieldRef<"Nomina", 'Decimal'>
+    readonly baseRetencionIrpf: FieldRef<"Nomina", 'Decimal'>
+    readonly estado: FieldRef<"Nomina", 'String'>
+    readonly fechaGeneracion: FieldRef<"Nomina", 'DateTime'>
+    readonly createdAt: FieldRef<"Nomina", 'DateTime'>
+    readonly updatedAt: FieldRef<"Nomina", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Nomina findUnique
+   */
+  export type NominaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Nomina
+     */
+    select?: NominaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Nomina
+     */
+    omit?: NominaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NominaInclude<ExtArgs> | null
+    /**
+     * Filter, which Nomina to fetch.
+     */
+    where: NominaWhereUniqueInput
+  }
+
+  /**
+   * Nomina findUniqueOrThrow
+   */
+  export type NominaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Nomina
+     */
+    select?: NominaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Nomina
+     */
+    omit?: NominaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NominaInclude<ExtArgs> | null
+    /**
+     * Filter, which Nomina to fetch.
+     */
+    where: NominaWhereUniqueInput
+  }
+
+  /**
+   * Nomina findFirst
+   */
+  export type NominaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Nomina
+     */
+    select?: NominaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Nomina
+     */
+    omit?: NominaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NominaInclude<ExtArgs> | null
+    /**
+     * Filter, which Nomina to fetch.
+     */
+    where?: NominaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Nominas to fetch.
+     */
+    orderBy?: NominaOrderByWithRelationInput | NominaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Nominas.
+     */
+    cursor?: NominaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Nominas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Nominas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Nominas.
+     */
+    distinct?: NominaScalarFieldEnum | NominaScalarFieldEnum[]
+  }
+
+  /**
+   * Nomina findFirstOrThrow
+   */
+  export type NominaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Nomina
+     */
+    select?: NominaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Nomina
+     */
+    omit?: NominaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NominaInclude<ExtArgs> | null
+    /**
+     * Filter, which Nomina to fetch.
+     */
+    where?: NominaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Nominas to fetch.
+     */
+    orderBy?: NominaOrderByWithRelationInput | NominaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Nominas.
+     */
+    cursor?: NominaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Nominas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Nominas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Nominas.
+     */
+    distinct?: NominaScalarFieldEnum | NominaScalarFieldEnum[]
+  }
+
+  /**
+   * Nomina findMany
+   */
+  export type NominaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Nomina
+     */
+    select?: NominaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Nomina
+     */
+    omit?: NominaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NominaInclude<ExtArgs> | null
+    /**
+     * Filter, which Nominas to fetch.
+     */
+    where?: NominaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Nominas to fetch.
+     */
+    orderBy?: NominaOrderByWithRelationInput | NominaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Nominas.
+     */
+    cursor?: NominaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Nominas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Nominas.
+     */
+    skip?: number
+    distinct?: NominaScalarFieldEnum | NominaScalarFieldEnum[]
+  }
+
+  /**
+   * Nomina create
+   */
+  export type NominaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Nomina
+     */
+    select?: NominaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Nomina
+     */
+    omit?: NominaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NominaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Nomina.
+     */
+    data: XOR<NominaCreateInput, NominaUncheckedCreateInput>
+  }
+
+  /**
+   * Nomina createMany
+   */
+  export type NominaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Nominas.
+     */
+    data: NominaCreateManyInput | NominaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Nomina createManyAndReturn
+   */
+  export type NominaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Nomina
+     */
+    select?: NominaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Nomina
+     */
+    omit?: NominaOmit<ExtArgs> | null
+    /**
+     * The data used to create many Nominas.
+     */
+    data: NominaCreateManyInput | NominaCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NominaIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Nomina update
+   */
+  export type NominaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Nomina
+     */
+    select?: NominaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Nomina
+     */
+    omit?: NominaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NominaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Nomina.
+     */
+    data: XOR<NominaUpdateInput, NominaUncheckedUpdateInput>
+    /**
+     * Choose, which Nomina to update.
+     */
+    where: NominaWhereUniqueInput
+  }
+
+  /**
+   * Nomina updateMany
+   */
+  export type NominaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Nominas.
+     */
+    data: XOR<NominaUpdateManyMutationInput, NominaUncheckedUpdateManyInput>
+    /**
+     * Filter which Nominas to update
+     */
+    where?: NominaWhereInput
+    /**
+     * Limit how many Nominas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Nomina updateManyAndReturn
+   */
+  export type NominaUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Nomina
+     */
+    select?: NominaSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Nomina
+     */
+    omit?: NominaOmit<ExtArgs> | null
+    /**
+     * The data used to update Nominas.
+     */
+    data: XOR<NominaUpdateManyMutationInput, NominaUncheckedUpdateManyInput>
+    /**
+     * Filter which Nominas to update
+     */
+    where?: NominaWhereInput
+    /**
+     * Limit how many Nominas to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NominaIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Nomina upsert
+   */
+  export type NominaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Nomina
+     */
+    select?: NominaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Nomina
+     */
+    omit?: NominaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NominaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Nomina to update in case it exists.
+     */
+    where: NominaWhereUniqueInput
+    /**
+     * In case the Nomina found by the `where` argument doesn't exist, create a new Nomina with this data.
+     */
+    create: XOR<NominaCreateInput, NominaUncheckedCreateInput>
+    /**
+     * In case the Nomina was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<NominaUpdateInput, NominaUncheckedUpdateInput>
+  }
+
+  /**
+   * Nomina delete
+   */
+  export type NominaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Nomina
+     */
+    select?: NominaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Nomina
+     */
+    omit?: NominaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NominaInclude<ExtArgs> | null
+    /**
+     * Filter which Nomina to delete.
+     */
+    where: NominaWhereUniqueInput
+  }
+
+  /**
+   * Nomina deleteMany
+   */
+  export type NominaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Nominas to delete
+     */
+    where?: NominaWhereInput
+    /**
+     * Limit how many Nominas to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Nomina without action
+   */
+  export type NominaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Nomina
+     */
+    select?: NominaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Nomina
+     */
+    omit?: NominaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NominaInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Notificacion
    */
 
@@ -55641,6 +57446,9 @@ export namespace Prisma {
     licenciaConducir: 'licenciaConducir',
     telefono: 'telefono',
     activo: 'activo',
+    fechaAlta: 'fechaAlta',
+    fechaBaja: 'fechaBaja',
+    salarioBaseMensual: 'salarioBaseMensual',
     permisosLicencias: 'permisosLicencias'
   };
 
@@ -55845,7 +57653,9 @@ export namespace Prisma {
     faltasDeficientesDetalle: 'faltasDeficientesDetalle',
     faltasEliminatoriasDetalle: 'faltasEliminatoriasDetalle',
     motivoNoApto: 'motivoNoApto',
-    observaciones: 'observaciones'
+    observaciones: 'observaciones',
+    fechaResolucion: 'fechaResolucion',
+    profesorResolucionId: 'profesorResolucionId'
   };
 
   export type SolicitudExamenScalarFieldEnum = (typeof SolicitudExamenScalarFieldEnum)[keyof typeof SolicitudExamenScalarFieldEnum]
@@ -56256,6 +58066,43 @@ export namespace Prisma {
   export type GastoCombustibleScalarFieldEnum = (typeof GastoCombustibleScalarFieldEnum)[keyof typeof GastoCombustibleScalarFieldEnum]
 
 
+  export const NominaScalarFieldEnum: {
+    id: 'id',
+    numero: 'numero',
+    profesorId: 'profesorId',
+    anio: 'anio',
+    mes: 'mes',
+    periodoInicio: 'periodoInicio',
+    periodoFin: 'periodoFin',
+    diasMes: 'diasMes',
+    diasTrabajados: 'diasTrabajados',
+    salarioBaseMensual: 'salarioBaseMensual',
+    importeSalarioBase: 'importeSalarioBase',
+    plusTransporte: 'plusTransporte',
+    plusProductividad: 'plusProductividad',
+    presentadosApto: 'presentadosApto',
+    presentadosNoApto: 'presentadosNoApto',
+    totalPresentados: 'totalPresentados',
+    prorrataPagasExtra: 'prorrataPagasExtra',
+    deduccionContingenciasComunes: 'deduccionContingenciasComunes',
+    deduccionDesempleo: 'deduccionDesempleo',
+    deduccionFormacionProfesional: 'deduccionFormacionProfesional',
+    deduccionIrpf: 'deduccionIrpf',
+    totalDevengos: 'totalDevengos',
+    totalDeducciones: 'totalDeducciones',
+    liquidoPercibir: 'liquidoPercibir',
+    baseCotizacionComunes: 'baseCotizacionComunes',
+    baseCotizacionProfesionales: 'baseCotizacionProfesionales',
+    baseRetencionIrpf: 'baseRetencionIrpf',
+    estado: 'estado',
+    fechaGeneracion: 'fechaGeneracion',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type NominaScalarFieldEnum = (typeof NominaScalarFieldEnum)[keyof typeof NominaScalarFieldEnum]
+
+
   export const NotificacionScalarFieldEnum: {
     id: 'id',
     usuarioId: 'usuarioId',
@@ -56648,6 +58495,9 @@ export namespace Prisma {
     licenciaConducir?: StringFilter<"Profesor"> | string
     telefono?: StringFilter<"Profesor"> | string
     activo?: BoolFilter<"Profesor"> | boolean
+    fechaAlta?: DateTimeNullableFilter<"Profesor"> | Date | string | null
+    fechaBaja?: DateTimeNullableFilter<"Profesor"> | Date | string | null
+    salarioBaseMensual?: DecimalFilter<"Profesor"> | Decimal | DecimalJsLike | number | string
     permisosLicencias?: StringNullableListFilter<"Profesor">
     alumnosAsignados?: AlumnoListRelationFilter
     historialComoAnterior?: AlumnoProfesorHistorialListRelationFilter
@@ -56655,7 +58505,9 @@ export namespace Prisma {
     clasesDirecto?: ClaseDirectoListRelationFilter
     clases?: ClasePracticaListRelationFilter
     gastosCombustible?: GastoCombustibleListRelationFilter
+    nominas?: NominaListRelationFilter
     hojasRuta?: HojaRutaListRelationFilter
+    solicitudesResueltas?: SolicitudExamenListRelationFilter
     horarioBloques?: ProfesorHorarioBloqueListRelationFilter
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
   }
@@ -56665,6 +58517,9 @@ export namespace Prisma {
     licenciaConducir?: SortOrder
     telefono?: SortOrder
     activo?: SortOrder
+    fechaAlta?: SortOrderInput | SortOrder
+    fechaBaja?: SortOrderInput | SortOrder
+    salarioBaseMensual?: SortOrder
     permisosLicencias?: SortOrder
     alumnosAsignados?: AlumnoOrderByRelationAggregateInput
     historialComoAnterior?: AlumnoProfesorHistorialOrderByRelationAggregateInput
@@ -56672,7 +58527,9 @@ export namespace Prisma {
     clasesDirecto?: ClaseDirectoOrderByRelationAggregateInput
     clases?: ClasePracticaOrderByRelationAggregateInput
     gastosCombustible?: GastoCombustibleOrderByRelationAggregateInput
+    nominas?: NominaOrderByRelationAggregateInput
     hojasRuta?: HojaRutaOrderByRelationAggregateInput
+    solicitudesResueltas?: SolicitudExamenOrderByRelationAggregateInput
     horarioBloques?: ProfesorHorarioBloqueOrderByRelationAggregateInput
     usuario?: UsuarioOrderByWithRelationInput
   }
@@ -56685,6 +58542,9 @@ export namespace Prisma {
     licenciaConducir?: StringFilter<"Profesor"> | string
     telefono?: StringFilter<"Profesor"> | string
     activo?: BoolFilter<"Profesor"> | boolean
+    fechaAlta?: DateTimeNullableFilter<"Profesor"> | Date | string | null
+    fechaBaja?: DateTimeNullableFilter<"Profesor"> | Date | string | null
+    salarioBaseMensual?: DecimalFilter<"Profesor"> | Decimal | DecimalJsLike | number | string
     permisosLicencias?: StringNullableListFilter<"Profesor">
     alumnosAsignados?: AlumnoListRelationFilter
     historialComoAnterior?: AlumnoProfesorHistorialListRelationFilter
@@ -56692,7 +58552,9 @@ export namespace Prisma {
     clasesDirecto?: ClaseDirectoListRelationFilter
     clases?: ClasePracticaListRelationFilter
     gastosCombustible?: GastoCombustibleListRelationFilter
+    nominas?: NominaListRelationFilter
     hojasRuta?: HojaRutaListRelationFilter
+    solicitudesResueltas?: SolicitudExamenListRelationFilter
     horarioBloques?: ProfesorHorarioBloqueListRelationFilter
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
   }, "id">
@@ -56702,10 +58564,15 @@ export namespace Prisma {
     licenciaConducir?: SortOrder
     telefono?: SortOrder
     activo?: SortOrder
+    fechaAlta?: SortOrderInput | SortOrder
+    fechaBaja?: SortOrderInput | SortOrder
+    salarioBaseMensual?: SortOrder
     permisosLicencias?: SortOrder
     _count?: ProfesorCountOrderByAggregateInput
+    _avg?: ProfesorAvgOrderByAggregateInput
     _max?: ProfesorMaxOrderByAggregateInput
     _min?: ProfesorMinOrderByAggregateInput
+    _sum?: ProfesorSumOrderByAggregateInput
   }
 
   export type ProfesorScalarWhereWithAggregatesInput = {
@@ -56716,6 +58583,9 @@ export namespace Prisma {
     licenciaConducir?: StringWithAggregatesFilter<"Profesor"> | string
     telefono?: StringWithAggregatesFilter<"Profesor"> | string
     activo?: BoolWithAggregatesFilter<"Profesor"> | boolean
+    fechaAlta?: DateTimeNullableWithAggregatesFilter<"Profesor"> | Date | string | null
+    fechaBaja?: DateTimeNullableWithAggregatesFilter<"Profesor"> | Date | string | null
+    salarioBaseMensual?: DecimalWithAggregatesFilter<"Profesor"> | Decimal | DecimalJsLike | number | string
     permisosLicencias?: StringNullableListFilter<"Profesor">
   }
 
@@ -57729,7 +59599,10 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: StringNullableListFilter<"SolicitudExamen">
     motivoNoApto?: StringNullableFilter<"SolicitudExamen"> | string | null
     observaciones?: StringNullableFilter<"SolicitudExamen"> | string | null
+    fechaResolucion?: DateTimeNullableFilter<"SolicitudExamen"> | Date | string | null
+    profesorResolucionId?: StringNullableFilter<"SolicitudExamen"> | string | null
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+    profesorResolucion?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
     pagoGastoPractico?: XOR<PagoNullableScalarRelationFilter, PagoWhereInput> | null
   }
 
@@ -57752,7 +59625,10 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: SortOrder
     motivoNoApto?: SortOrderInput | SortOrder
     observaciones?: SortOrderInput | SortOrder
+    fechaResolucion?: SortOrderInput | SortOrder
+    profesorResolucionId?: SortOrderInput | SortOrder
     alumno?: AlumnoOrderByWithRelationInput
+    profesorResolucion?: ProfesorOrderByWithRelationInput
     pagoGastoPractico?: PagoOrderByWithRelationInput
   }
 
@@ -57778,7 +59654,10 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: StringNullableListFilter<"SolicitudExamen">
     motivoNoApto?: StringNullableFilter<"SolicitudExamen"> | string | null
     observaciones?: StringNullableFilter<"SolicitudExamen"> | string | null
+    fechaResolucion?: DateTimeNullableFilter<"SolicitudExamen"> | Date | string | null
+    profesorResolucionId?: StringNullableFilter<"SolicitudExamen"> | string | null
     alumno?: XOR<AlumnoScalarRelationFilter, AlumnoWhereInput>
+    profesorResolucion?: XOR<ProfesorNullableScalarRelationFilter, ProfesorWhereInput> | null
     pagoGastoPractico?: XOR<PagoNullableScalarRelationFilter, PagoWhereInput> | null
   }, "id">
 
@@ -57801,6 +59680,8 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: SortOrder
     motivoNoApto?: SortOrderInput | SortOrder
     observaciones?: SortOrderInput | SortOrder
+    fechaResolucion?: SortOrderInput | SortOrder
+    profesorResolucionId?: SortOrderInput | SortOrder
     _count?: SolicitudExamenCountOrderByAggregateInput
     _avg?: SolicitudExamenAvgOrderByAggregateInput
     _max?: SolicitudExamenMaxOrderByAggregateInput
@@ -57830,6 +59711,8 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: StringNullableListFilter<"SolicitudExamen">
     motivoNoApto?: StringNullableWithAggregatesFilter<"SolicitudExamen"> | string | null
     observaciones?: StringNullableWithAggregatesFilter<"SolicitudExamen"> | string | null
+    fechaResolucion?: DateTimeNullableWithAggregatesFilter<"SolicitudExamen"> | Date | string | null
+    profesorResolucionId?: StringNullableWithAggregatesFilter<"SolicitudExamen"> | string | null
   }
 
   export type ConvocatoriaExamenWhereInput = {
@@ -59980,6 +61863,194 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"GastoCombustible"> | Date | string
   }
 
+  export type NominaWhereInput = {
+    AND?: NominaWhereInput | NominaWhereInput[]
+    OR?: NominaWhereInput[]
+    NOT?: NominaWhereInput | NominaWhereInput[]
+    id?: StringFilter<"Nomina"> | string
+    numero?: StringFilter<"Nomina"> | string
+    profesorId?: StringFilter<"Nomina"> | string
+    anio?: IntFilter<"Nomina"> | number
+    mes?: IntFilter<"Nomina"> | number
+    periodoInicio?: DateTimeFilter<"Nomina"> | Date | string
+    periodoFin?: DateTimeFilter<"Nomina"> | Date | string
+    diasMes?: IntFilter<"Nomina"> | number
+    diasTrabajados?: IntFilter<"Nomina"> | number
+    salarioBaseMensual?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    importeSalarioBase?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    plusTransporte?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    plusProductividad?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    presentadosApto?: IntFilter<"Nomina"> | number
+    presentadosNoApto?: IntFilter<"Nomina"> | number
+    totalPresentados?: IntFilter<"Nomina"> | number
+    prorrataPagasExtra?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    deduccionContingenciasComunes?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    deduccionDesempleo?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    deduccionFormacionProfesional?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    deduccionIrpf?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    totalDevengos?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    totalDeducciones?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    liquidoPercibir?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    baseCotizacionComunes?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    baseCotizacionProfesionales?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    baseRetencionIrpf?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    estado?: StringFilter<"Nomina"> | string
+    fechaGeneracion?: DateTimeFilter<"Nomina"> | Date | string
+    createdAt?: DateTimeFilter<"Nomina"> | Date | string
+    updatedAt?: DateTimeFilter<"Nomina"> | Date | string
+    profesor?: XOR<ProfesorScalarRelationFilter, ProfesorWhereInput>
+  }
+
+  export type NominaOrderByWithRelationInput = {
+    id?: SortOrder
+    numero?: SortOrder
+    profesorId?: SortOrder
+    anio?: SortOrder
+    mes?: SortOrder
+    periodoInicio?: SortOrder
+    periodoFin?: SortOrder
+    diasMes?: SortOrder
+    diasTrabajados?: SortOrder
+    salarioBaseMensual?: SortOrder
+    importeSalarioBase?: SortOrder
+    plusTransporte?: SortOrder
+    plusProductividad?: SortOrder
+    presentadosApto?: SortOrder
+    presentadosNoApto?: SortOrder
+    totalPresentados?: SortOrder
+    prorrataPagasExtra?: SortOrder
+    deduccionContingenciasComunes?: SortOrder
+    deduccionDesempleo?: SortOrder
+    deduccionFormacionProfesional?: SortOrder
+    deduccionIrpf?: SortOrder
+    totalDevengos?: SortOrder
+    totalDeducciones?: SortOrder
+    liquidoPercibir?: SortOrder
+    baseCotizacionComunes?: SortOrder
+    baseCotizacionProfesionales?: SortOrder
+    baseRetencionIrpf?: SortOrder
+    estado?: SortOrder
+    fechaGeneracion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    profesor?: ProfesorOrderByWithRelationInput
+  }
+
+  export type NominaWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    numero?: string
+    profesorId_anio_mes?: NominaProfesorIdAnioMesCompoundUniqueInput
+    AND?: NominaWhereInput | NominaWhereInput[]
+    OR?: NominaWhereInput[]
+    NOT?: NominaWhereInput | NominaWhereInput[]
+    profesorId?: StringFilter<"Nomina"> | string
+    anio?: IntFilter<"Nomina"> | number
+    mes?: IntFilter<"Nomina"> | number
+    periodoInicio?: DateTimeFilter<"Nomina"> | Date | string
+    periodoFin?: DateTimeFilter<"Nomina"> | Date | string
+    diasMes?: IntFilter<"Nomina"> | number
+    diasTrabajados?: IntFilter<"Nomina"> | number
+    salarioBaseMensual?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    importeSalarioBase?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    plusTransporte?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    plusProductividad?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    presentadosApto?: IntFilter<"Nomina"> | number
+    presentadosNoApto?: IntFilter<"Nomina"> | number
+    totalPresentados?: IntFilter<"Nomina"> | number
+    prorrataPagasExtra?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    deduccionContingenciasComunes?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    deduccionDesempleo?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    deduccionFormacionProfesional?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    deduccionIrpf?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    totalDevengos?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    totalDeducciones?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    liquidoPercibir?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    baseCotizacionComunes?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    baseCotizacionProfesionales?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    baseRetencionIrpf?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    estado?: StringFilter<"Nomina"> | string
+    fechaGeneracion?: DateTimeFilter<"Nomina"> | Date | string
+    createdAt?: DateTimeFilter<"Nomina"> | Date | string
+    updatedAt?: DateTimeFilter<"Nomina"> | Date | string
+    profesor?: XOR<ProfesorScalarRelationFilter, ProfesorWhereInput>
+  }, "id" | "numero" | "profesorId_anio_mes">
+
+  export type NominaOrderByWithAggregationInput = {
+    id?: SortOrder
+    numero?: SortOrder
+    profesorId?: SortOrder
+    anio?: SortOrder
+    mes?: SortOrder
+    periodoInicio?: SortOrder
+    periodoFin?: SortOrder
+    diasMes?: SortOrder
+    diasTrabajados?: SortOrder
+    salarioBaseMensual?: SortOrder
+    importeSalarioBase?: SortOrder
+    plusTransporte?: SortOrder
+    plusProductividad?: SortOrder
+    presentadosApto?: SortOrder
+    presentadosNoApto?: SortOrder
+    totalPresentados?: SortOrder
+    prorrataPagasExtra?: SortOrder
+    deduccionContingenciasComunes?: SortOrder
+    deduccionDesempleo?: SortOrder
+    deduccionFormacionProfesional?: SortOrder
+    deduccionIrpf?: SortOrder
+    totalDevengos?: SortOrder
+    totalDeducciones?: SortOrder
+    liquidoPercibir?: SortOrder
+    baseCotizacionComunes?: SortOrder
+    baseCotizacionProfesionales?: SortOrder
+    baseRetencionIrpf?: SortOrder
+    estado?: SortOrder
+    fechaGeneracion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: NominaCountOrderByAggregateInput
+    _avg?: NominaAvgOrderByAggregateInput
+    _max?: NominaMaxOrderByAggregateInput
+    _min?: NominaMinOrderByAggregateInput
+    _sum?: NominaSumOrderByAggregateInput
+  }
+
+  export type NominaScalarWhereWithAggregatesInput = {
+    AND?: NominaScalarWhereWithAggregatesInput | NominaScalarWhereWithAggregatesInput[]
+    OR?: NominaScalarWhereWithAggregatesInput[]
+    NOT?: NominaScalarWhereWithAggregatesInput | NominaScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Nomina"> | string
+    numero?: StringWithAggregatesFilter<"Nomina"> | string
+    profesorId?: StringWithAggregatesFilter<"Nomina"> | string
+    anio?: IntWithAggregatesFilter<"Nomina"> | number
+    mes?: IntWithAggregatesFilter<"Nomina"> | number
+    periodoInicio?: DateTimeWithAggregatesFilter<"Nomina"> | Date | string
+    periodoFin?: DateTimeWithAggregatesFilter<"Nomina"> | Date | string
+    diasMes?: IntWithAggregatesFilter<"Nomina"> | number
+    diasTrabajados?: IntWithAggregatesFilter<"Nomina"> | number
+    salarioBaseMensual?: DecimalWithAggregatesFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    importeSalarioBase?: DecimalWithAggregatesFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    plusTransporte?: DecimalWithAggregatesFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    plusProductividad?: DecimalWithAggregatesFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    presentadosApto?: IntWithAggregatesFilter<"Nomina"> | number
+    presentadosNoApto?: IntWithAggregatesFilter<"Nomina"> | number
+    totalPresentados?: IntWithAggregatesFilter<"Nomina"> | number
+    prorrataPagasExtra?: DecimalWithAggregatesFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    deduccionContingenciasComunes?: DecimalWithAggregatesFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    deduccionDesempleo?: DecimalWithAggregatesFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    deduccionFormacionProfesional?: DecimalWithAggregatesFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    deduccionIrpf?: DecimalWithAggregatesFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    totalDevengos?: DecimalWithAggregatesFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    totalDeducciones?: DecimalWithAggregatesFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    liquidoPercibir?: DecimalWithAggregatesFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    baseCotizacionComunes?: DecimalWithAggregatesFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    baseCotizacionProfesionales?: DecimalWithAggregatesFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    baseRetencionIrpf?: DecimalWithAggregatesFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    estado?: StringWithAggregatesFilter<"Nomina"> | string
+    fechaGeneracion?: DateTimeWithAggregatesFilter<"Nomina"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"Nomina"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Nomina"> | Date | string
+  }
+
   export type NotificacionWhereInput = {
     AND?: NotificacionWhereInput | NotificacionWhereInput[]
     OR?: NotificacionWhereInput[]
@@ -60318,6 +62389,9 @@ export namespace Prisma {
     licenciaConducir: string
     telefono: string
     activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     historialComoAnterior?: AlumnoProfesorHistorialCreateNestedManyWithoutProfesorAnteriorInput
@@ -60325,7 +62399,9 @@ export namespace Prisma {
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
     gastosCombustible?: GastoCombustibleCreateNestedManyWithoutProfesorInput
+    nominas?: NominaCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
+    solicitudesResueltas?: SolicitudExamenCreateNestedManyWithoutProfesorResolucionInput
     horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
@@ -60335,6 +62411,9 @@ export namespace Prisma {
     licenciaConducir: string
     telefono: string
     activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     historialComoAnterior?: AlumnoProfesorHistorialUncheckedCreateNestedManyWithoutProfesorAnteriorInput
@@ -60342,7 +62421,9 @@ export namespace Prisma {
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
     gastosCombustible?: GastoCombustibleUncheckedCreateNestedManyWithoutProfesorInput
+    nominas?: NominaUncheckedCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
+    solicitudesResueltas?: SolicitudExamenUncheckedCreateNestedManyWithoutProfesorResolucionInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
 
@@ -60350,6 +62431,9 @@ export namespace Prisma {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     historialComoAnterior?: AlumnoProfesorHistorialUpdateManyWithoutProfesorAnteriorNestedInput
@@ -60357,7 +62441,9 @@ export namespace Prisma {
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
     gastosCombustible?: GastoCombustibleUpdateManyWithoutProfesorNestedInput
+    nominas?: NominaUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
+    solicitudesResueltas?: SolicitudExamenUpdateManyWithoutProfesorResolucionNestedInput
     horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
@@ -60367,6 +62453,9 @@ export namespace Prisma {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     historialComoAnterior?: AlumnoProfesorHistorialUncheckedUpdateManyWithoutProfesorAnteriorNestedInput
@@ -60374,7 +62463,9 @@ export namespace Prisma {
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
     gastosCombustible?: GastoCombustibleUncheckedUpdateManyWithoutProfesorNestedInput
+    nominas?: NominaUncheckedUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
+    solicitudesResueltas?: SolicitudExamenUncheckedUpdateManyWithoutProfesorResolucionNestedInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
@@ -60383,6 +62474,9 @@ export namespace Prisma {
     licenciaConducir: string
     telefono: string
     activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
   }
 
@@ -60390,6 +62484,9 @@ export namespace Prisma {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
   }
 
@@ -60398,6 +62495,9 @@ export namespace Prisma {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
   }
 
@@ -61475,7 +63575,9 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: SolicitudExamenCreatefaltasEliminatoriasDetalleInput | string[]
     motivoNoApto?: string | null
     observaciones?: string | null
+    fechaResolucion?: Date | string | null
     alumno: AlumnoCreateNestedOneWithoutSolicitudesExamenInput
+    profesorResolucion?: ProfesorCreateNestedOneWithoutSolicitudesResueltasInput
     pagoGastoPractico?: PagoCreateNestedOneWithoutSolicitudesExamenPracticoInput
   }
 
@@ -61498,6 +63600,8 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: SolicitudExamenCreatefaltasEliminatoriasDetalleInput | string[]
     motivoNoApto?: string | null
     observaciones?: string | null
+    fechaResolucion?: Date | string | null
+    profesorResolucionId?: string | null
   }
 
   export type SolicitudExamenUpdateInput = {
@@ -61517,7 +63621,9 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
     motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaResolucion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alumno?: AlumnoUpdateOneRequiredWithoutSolicitudesExamenNestedInput
+    profesorResolucion?: ProfesorUpdateOneWithoutSolicitudesResueltasNestedInput
     pagoGastoPractico?: PagoUpdateOneWithoutSolicitudesExamenPracticoNestedInput
   }
 
@@ -61540,6 +63646,8 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
     motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaResolucion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profesorResolucionId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SolicitudExamenCreateManyInput = {
@@ -61561,6 +63669,8 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: SolicitudExamenCreatefaltasEliminatoriasDetalleInput | string[]
     motivoNoApto?: string | null
     observaciones?: string | null
+    fechaResolucion?: Date | string | null
+    profesorResolucionId?: string | null
   }
 
   export type SolicitudExamenUpdateManyMutationInput = {
@@ -61580,6 +63690,7 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
     motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaResolucion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SolicitudExamenUncheckedUpdateManyInput = {
@@ -61601,6 +63712,8 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
     motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaResolucion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profesorResolucionId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ConvocatoriaExamenCreateInput = {
@@ -63995,6 +66108,243 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type NominaCreateInput = {
+    id?: string
+    numero: string
+    anio: number
+    mes: number
+    periodoInicio: Date | string
+    periodoFin: Date | string
+    diasMes: number
+    diasTrabajados: number
+    salarioBaseMensual: Decimal | DecimalJsLike | number | string
+    importeSalarioBase: Decimal | DecimalJsLike | number | string
+    plusTransporte: Decimal | DecimalJsLike | number | string
+    plusProductividad: Decimal | DecimalJsLike | number | string
+    presentadosApto?: number
+    presentadosNoApto?: number
+    totalPresentados?: number
+    prorrataPagasExtra: Decimal | DecimalJsLike | number | string
+    deduccionContingenciasComunes: Decimal | DecimalJsLike | number | string
+    deduccionDesempleo: Decimal | DecimalJsLike | number | string
+    deduccionFormacionProfesional: Decimal | DecimalJsLike | number | string
+    deduccionIrpf: Decimal | DecimalJsLike | number | string
+    totalDevengos: Decimal | DecimalJsLike | number | string
+    totalDeducciones: Decimal | DecimalJsLike | number | string
+    liquidoPercibir: Decimal | DecimalJsLike | number | string
+    baseCotizacionComunes: Decimal | DecimalJsLike | number | string
+    baseCotizacionProfesionales: Decimal | DecimalJsLike | number | string
+    baseRetencionIrpf: Decimal | DecimalJsLike | number | string
+    estado?: string
+    fechaGeneracion?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    profesor: ProfesorCreateNestedOneWithoutNominasInput
+  }
+
+  export type NominaUncheckedCreateInput = {
+    id?: string
+    numero: string
+    profesorId: string
+    anio: number
+    mes: number
+    periodoInicio: Date | string
+    periodoFin: Date | string
+    diasMes: number
+    diasTrabajados: number
+    salarioBaseMensual: Decimal | DecimalJsLike | number | string
+    importeSalarioBase: Decimal | DecimalJsLike | number | string
+    plusTransporte: Decimal | DecimalJsLike | number | string
+    plusProductividad: Decimal | DecimalJsLike | number | string
+    presentadosApto?: number
+    presentadosNoApto?: number
+    totalPresentados?: number
+    prorrataPagasExtra: Decimal | DecimalJsLike | number | string
+    deduccionContingenciasComunes: Decimal | DecimalJsLike | number | string
+    deduccionDesempleo: Decimal | DecimalJsLike | number | string
+    deduccionFormacionProfesional: Decimal | DecimalJsLike | number | string
+    deduccionIrpf: Decimal | DecimalJsLike | number | string
+    totalDevengos: Decimal | DecimalJsLike | number | string
+    totalDeducciones: Decimal | DecimalJsLike | number | string
+    liquidoPercibir: Decimal | DecimalJsLike | number | string
+    baseCotizacionComunes: Decimal | DecimalJsLike | number | string
+    baseCotizacionProfesionales: Decimal | DecimalJsLike | number | string
+    baseRetencionIrpf: Decimal | DecimalJsLike | number | string
+    estado?: string
+    fechaGeneracion?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NominaUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    anio?: IntFieldUpdateOperationsInput | number
+    mes?: IntFieldUpdateOperationsInput | number
+    periodoInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    periodoFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    diasMes?: IntFieldUpdateOperationsInput | number
+    diasTrabajados?: IntFieldUpdateOperationsInput | number
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    importeSalarioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    plusTransporte?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    plusProductividad?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    presentadosApto?: IntFieldUpdateOperationsInput | number
+    presentadosNoApto?: IntFieldUpdateOperationsInput | number
+    totalPresentados?: IntFieldUpdateOperationsInput | number
+    prorrataPagasExtra?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionContingenciasComunes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionDesempleo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionFormacionProfesional?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionIrpf?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalDevengos?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalDeducciones?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    liquidoPercibir?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCotizacionComunes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCotizacionProfesionales?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseRetencionIrpf?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaGeneracion?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    profesor?: ProfesorUpdateOneRequiredWithoutNominasNestedInput
+  }
+
+  export type NominaUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    profesorId?: StringFieldUpdateOperationsInput | string
+    anio?: IntFieldUpdateOperationsInput | number
+    mes?: IntFieldUpdateOperationsInput | number
+    periodoInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    periodoFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    diasMes?: IntFieldUpdateOperationsInput | number
+    diasTrabajados?: IntFieldUpdateOperationsInput | number
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    importeSalarioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    plusTransporte?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    plusProductividad?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    presentadosApto?: IntFieldUpdateOperationsInput | number
+    presentadosNoApto?: IntFieldUpdateOperationsInput | number
+    totalPresentados?: IntFieldUpdateOperationsInput | number
+    prorrataPagasExtra?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionContingenciasComunes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionDesempleo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionFormacionProfesional?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionIrpf?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalDevengos?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalDeducciones?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    liquidoPercibir?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCotizacionComunes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCotizacionProfesionales?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseRetencionIrpf?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaGeneracion?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NominaCreateManyInput = {
+    id?: string
+    numero: string
+    profesorId: string
+    anio: number
+    mes: number
+    periodoInicio: Date | string
+    periodoFin: Date | string
+    diasMes: number
+    diasTrabajados: number
+    salarioBaseMensual: Decimal | DecimalJsLike | number | string
+    importeSalarioBase: Decimal | DecimalJsLike | number | string
+    plusTransporte: Decimal | DecimalJsLike | number | string
+    plusProductividad: Decimal | DecimalJsLike | number | string
+    presentadosApto?: number
+    presentadosNoApto?: number
+    totalPresentados?: number
+    prorrataPagasExtra: Decimal | DecimalJsLike | number | string
+    deduccionContingenciasComunes: Decimal | DecimalJsLike | number | string
+    deduccionDesempleo: Decimal | DecimalJsLike | number | string
+    deduccionFormacionProfesional: Decimal | DecimalJsLike | number | string
+    deduccionIrpf: Decimal | DecimalJsLike | number | string
+    totalDevengos: Decimal | DecimalJsLike | number | string
+    totalDeducciones: Decimal | DecimalJsLike | number | string
+    liquidoPercibir: Decimal | DecimalJsLike | number | string
+    baseCotizacionComunes: Decimal | DecimalJsLike | number | string
+    baseCotizacionProfesionales: Decimal | DecimalJsLike | number | string
+    baseRetencionIrpf: Decimal | DecimalJsLike | number | string
+    estado?: string
+    fechaGeneracion?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NominaUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    anio?: IntFieldUpdateOperationsInput | number
+    mes?: IntFieldUpdateOperationsInput | number
+    periodoInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    periodoFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    diasMes?: IntFieldUpdateOperationsInput | number
+    diasTrabajados?: IntFieldUpdateOperationsInput | number
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    importeSalarioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    plusTransporte?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    plusProductividad?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    presentadosApto?: IntFieldUpdateOperationsInput | number
+    presentadosNoApto?: IntFieldUpdateOperationsInput | number
+    totalPresentados?: IntFieldUpdateOperationsInput | number
+    prorrataPagasExtra?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionContingenciasComunes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionDesempleo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionFormacionProfesional?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionIrpf?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalDevengos?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalDeducciones?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    liquidoPercibir?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCotizacionComunes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCotizacionProfesionales?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseRetencionIrpf?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaGeneracion?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NominaUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    profesorId?: StringFieldUpdateOperationsInput | string
+    anio?: IntFieldUpdateOperationsInput | number
+    mes?: IntFieldUpdateOperationsInput | number
+    periodoInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    periodoFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    diasMes?: IntFieldUpdateOperationsInput | number
+    diasTrabajados?: IntFieldUpdateOperationsInput | number
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    importeSalarioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    plusTransporte?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    plusProductividad?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    presentadosApto?: IntFieldUpdateOperationsInput | number
+    presentadosNoApto?: IntFieldUpdateOperationsInput | number
+    totalPresentados?: IntFieldUpdateOperationsInput | number
+    prorrataPagasExtra?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionContingenciasComunes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionDesempleo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionFormacionProfesional?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionIrpf?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalDevengos?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalDeducciones?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    liquidoPercibir?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCotizacionComunes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCotizacionProfesionales?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseRetencionIrpf?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaGeneracion?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type NotificacionCreateInput = {
     id?: string
     tipo: string
@@ -64449,6 +66799,17 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type DecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
   export type StringNullableListFilter<$PrismaModel = never> = {
     equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     has?: string | StringFieldRefInput<$PrismaModel> | null
@@ -64487,10 +66848,22 @@ export namespace Prisma {
     none?: GastoCombustibleWhereInput
   }
 
+  export type NominaListRelationFilter = {
+    every?: NominaWhereInput
+    some?: NominaWhereInput
+    none?: NominaWhereInput
+  }
+
   export type HojaRutaListRelationFilter = {
     every?: HojaRutaWhereInput
     some?: HojaRutaWhereInput
     none?: HojaRutaWhereInput
+  }
+
+  export type SolicitudExamenListRelationFilter = {
+    every?: SolicitudExamenWhereInput
+    some?: SolicitudExamenWhereInput
+    none?: SolicitudExamenWhereInput
   }
 
   export type ProfesorHorarioBloqueListRelationFilter = {
@@ -64519,7 +66892,15 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type NominaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type HojaRutaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SolicitudExamenOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -64532,7 +66913,14 @@ export namespace Prisma {
     licenciaConducir?: SortOrder
     telefono?: SortOrder
     activo?: SortOrder
+    fechaAlta?: SortOrder
+    fechaBaja?: SortOrder
+    salarioBaseMensual?: SortOrder
     permisosLicencias?: SortOrder
+  }
+
+  export type ProfesorAvgOrderByAggregateInput = {
+    salarioBaseMensual?: SortOrder
   }
 
   export type ProfesorMaxOrderByAggregateInput = {
@@ -64540,6 +66928,9 @@ export namespace Prisma {
     licenciaConducir?: SortOrder
     telefono?: SortOrder
     activo?: SortOrder
+    fechaAlta?: SortOrder
+    fechaBaja?: SortOrder
+    salarioBaseMensual?: SortOrder
   }
 
   export type ProfesorMinOrderByAggregateInput = {
@@ -64547,6 +66938,29 @@ export namespace Prisma {
     licenciaConducir?: SortOrder
     telefono?: SortOrder
     activo?: SortOrder
+    fechaAlta?: SortOrder
+    fechaBaja?: SortOrder
+    salarioBaseMensual?: SortOrder
+  }
+
+  export type ProfesorSumOrderByAggregateInput = {
+    salarioBaseMensual?: SortOrder
+  }
+
+  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
   }
 
   export type ProfesorScalarRelationFilter = {
@@ -64622,12 +67036,6 @@ export namespace Prisma {
     none?: MatriculaWhereInput
   }
 
-  export type SolicitudExamenListRelationFilter = {
-    every?: SolicitudExamenWhereInput
-    some?: SolicitudExamenWhereInput
-    none?: SolicitudExamenWhereInput
-  }
-
   export type TemarioProgresoListRelationFilter = {
     every?: TemarioProgresoWhereInput
     some?: TemarioProgresoWhereInput
@@ -64669,10 +67077,6 @@ export namespace Prisma {
   }
 
   export type MatriculaOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type SolicitudExamenOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -65150,17 +67554,6 @@ export namespace Prisma {
     duracionSegundos?: SortOrder
   }
 
-  export type DecimalFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-  }
-
   export type BonoCountOrderByAggregateInput = {
     id?: SortOrder
     nombre?: SortOrder
@@ -65207,22 +67600,6 @@ export namespace Prisma {
     clasesIncluidas?: SortOrder
     precio?: SortOrder
     validezDias?: SortOrder
-  }
-
-  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedDecimalFilter<$PrismaModel>
-    _sum?: NestedDecimalFilter<$PrismaModel>
-    _min?: NestedDecimalFilter<$PrismaModel>
-    _max?: NestedDecimalFilter<$PrismaModel>
   }
 
   export type BonoScalarRelationFilter = {
@@ -65303,6 +67680,8 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: SortOrder
     motivoNoApto?: SortOrder
     observaciones?: SortOrder
+    fechaResolucion?: SortOrder
+    profesorResolucionId?: SortOrder
   }
 
   export type SolicitudExamenAvgOrderByAggregateInput = {
@@ -65330,6 +67709,8 @@ export namespace Prisma {
     faltasEliminatorias?: SortOrder
     motivoNoApto?: SortOrder
     observaciones?: SortOrder
+    fechaResolucion?: SortOrder
+    profesorResolucionId?: SortOrder
   }
 
   export type SolicitudExamenMinOrderByAggregateInput = {
@@ -65348,6 +67729,8 @@ export namespace Prisma {
     faltasEliminatorias?: SortOrder
     motivoNoApto?: SortOrder
     observaciones?: SortOrder
+    fechaResolucion?: SortOrder
+    profesorResolucionId?: SortOrder
   }
 
   export type SolicitudExamenSumOrderByAggregateInput = {
@@ -66854,6 +69237,164 @@ export namespace Prisma {
     total?: SortOrder
     kilometrosVehiculo?: SortOrder
   }
+
+  export type NominaProfesorIdAnioMesCompoundUniqueInput = {
+    profesorId: string
+    anio: number
+    mes: number
+  }
+
+  export type NominaCountOrderByAggregateInput = {
+    id?: SortOrder
+    numero?: SortOrder
+    profesorId?: SortOrder
+    anio?: SortOrder
+    mes?: SortOrder
+    periodoInicio?: SortOrder
+    periodoFin?: SortOrder
+    diasMes?: SortOrder
+    diasTrabajados?: SortOrder
+    salarioBaseMensual?: SortOrder
+    importeSalarioBase?: SortOrder
+    plusTransporte?: SortOrder
+    plusProductividad?: SortOrder
+    presentadosApto?: SortOrder
+    presentadosNoApto?: SortOrder
+    totalPresentados?: SortOrder
+    prorrataPagasExtra?: SortOrder
+    deduccionContingenciasComunes?: SortOrder
+    deduccionDesempleo?: SortOrder
+    deduccionFormacionProfesional?: SortOrder
+    deduccionIrpf?: SortOrder
+    totalDevengos?: SortOrder
+    totalDeducciones?: SortOrder
+    liquidoPercibir?: SortOrder
+    baseCotizacionComunes?: SortOrder
+    baseCotizacionProfesionales?: SortOrder
+    baseRetencionIrpf?: SortOrder
+    estado?: SortOrder
+    fechaGeneracion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type NominaAvgOrderByAggregateInput = {
+    anio?: SortOrder
+    mes?: SortOrder
+    diasMes?: SortOrder
+    diasTrabajados?: SortOrder
+    salarioBaseMensual?: SortOrder
+    importeSalarioBase?: SortOrder
+    plusTransporte?: SortOrder
+    plusProductividad?: SortOrder
+    presentadosApto?: SortOrder
+    presentadosNoApto?: SortOrder
+    totalPresentados?: SortOrder
+    prorrataPagasExtra?: SortOrder
+    deduccionContingenciasComunes?: SortOrder
+    deduccionDesempleo?: SortOrder
+    deduccionFormacionProfesional?: SortOrder
+    deduccionIrpf?: SortOrder
+    totalDevengos?: SortOrder
+    totalDeducciones?: SortOrder
+    liquidoPercibir?: SortOrder
+    baseCotizacionComunes?: SortOrder
+    baseCotizacionProfesionales?: SortOrder
+    baseRetencionIrpf?: SortOrder
+  }
+
+  export type NominaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    numero?: SortOrder
+    profesorId?: SortOrder
+    anio?: SortOrder
+    mes?: SortOrder
+    periodoInicio?: SortOrder
+    periodoFin?: SortOrder
+    diasMes?: SortOrder
+    diasTrabajados?: SortOrder
+    salarioBaseMensual?: SortOrder
+    importeSalarioBase?: SortOrder
+    plusTransporte?: SortOrder
+    plusProductividad?: SortOrder
+    presentadosApto?: SortOrder
+    presentadosNoApto?: SortOrder
+    totalPresentados?: SortOrder
+    prorrataPagasExtra?: SortOrder
+    deduccionContingenciasComunes?: SortOrder
+    deduccionDesempleo?: SortOrder
+    deduccionFormacionProfesional?: SortOrder
+    deduccionIrpf?: SortOrder
+    totalDevengos?: SortOrder
+    totalDeducciones?: SortOrder
+    liquidoPercibir?: SortOrder
+    baseCotizacionComunes?: SortOrder
+    baseCotizacionProfesionales?: SortOrder
+    baseRetencionIrpf?: SortOrder
+    estado?: SortOrder
+    fechaGeneracion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type NominaMinOrderByAggregateInput = {
+    id?: SortOrder
+    numero?: SortOrder
+    profesorId?: SortOrder
+    anio?: SortOrder
+    mes?: SortOrder
+    periodoInicio?: SortOrder
+    periodoFin?: SortOrder
+    diasMes?: SortOrder
+    diasTrabajados?: SortOrder
+    salarioBaseMensual?: SortOrder
+    importeSalarioBase?: SortOrder
+    plusTransporte?: SortOrder
+    plusProductividad?: SortOrder
+    presentadosApto?: SortOrder
+    presentadosNoApto?: SortOrder
+    totalPresentados?: SortOrder
+    prorrataPagasExtra?: SortOrder
+    deduccionContingenciasComunes?: SortOrder
+    deduccionDesempleo?: SortOrder
+    deduccionFormacionProfesional?: SortOrder
+    deduccionIrpf?: SortOrder
+    totalDevengos?: SortOrder
+    totalDeducciones?: SortOrder
+    liquidoPercibir?: SortOrder
+    baseCotizacionComunes?: SortOrder
+    baseCotizacionProfesionales?: SortOrder
+    baseRetencionIrpf?: SortOrder
+    estado?: SortOrder
+    fechaGeneracion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type NominaSumOrderByAggregateInput = {
+    anio?: SortOrder
+    mes?: SortOrder
+    diasMes?: SortOrder
+    diasTrabajados?: SortOrder
+    salarioBaseMensual?: SortOrder
+    importeSalarioBase?: SortOrder
+    plusTransporte?: SortOrder
+    plusProductividad?: SortOrder
+    presentadosApto?: SortOrder
+    presentadosNoApto?: SortOrder
+    totalPresentados?: SortOrder
+    prorrataPagasExtra?: SortOrder
+    deduccionContingenciasComunes?: SortOrder
+    deduccionDesempleo?: SortOrder
+    deduccionFormacionProfesional?: SortOrder
+    deduccionIrpf?: SortOrder
+    totalDevengos?: SortOrder
+    totalDeducciones?: SortOrder
+    liquidoPercibir?: SortOrder
+    baseCotizacionComunes?: SortOrder
+    baseCotizacionProfesionales?: SortOrder
+    baseRetencionIrpf?: SortOrder
+  }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -67292,11 +69833,25 @@ export namespace Prisma {
     connect?: GastoCombustibleWhereUniqueInput | GastoCombustibleWhereUniqueInput[]
   }
 
+  export type NominaCreateNestedManyWithoutProfesorInput = {
+    create?: XOR<NominaCreateWithoutProfesorInput, NominaUncheckedCreateWithoutProfesorInput> | NominaCreateWithoutProfesorInput[] | NominaUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: NominaCreateOrConnectWithoutProfesorInput | NominaCreateOrConnectWithoutProfesorInput[]
+    createMany?: NominaCreateManyProfesorInputEnvelope
+    connect?: NominaWhereUniqueInput | NominaWhereUniqueInput[]
+  }
+
   export type HojaRutaCreateNestedManyWithoutProfesorInput = {
     create?: XOR<HojaRutaCreateWithoutProfesorInput, HojaRutaUncheckedCreateWithoutProfesorInput> | HojaRutaCreateWithoutProfesorInput[] | HojaRutaUncheckedCreateWithoutProfesorInput[]
     connectOrCreate?: HojaRutaCreateOrConnectWithoutProfesorInput | HojaRutaCreateOrConnectWithoutProfesorInput[]
     createMany?: HojaRutaCreateManyProfesorInputEnvelope
     connect?: HojaRutaWhereUniqueInput | HojaRutaWhereUniqueInput[]
+  }
+
+  export type SolicitudExamenCreateNestedManyWithoutProfesorResolucionInput = {
+    create?: XOR<SolicitudExamenCreateWithoutProfesorResolucionInput, SolicitudExamenUncheckedCreateWithoutProfesorResolucionInput> | SolicitudExamenCreateWithoutProfesorResolucionInput[] | SolicitudExamenUncheckedCreateWithoutProfesorResolucionInput[]
+    connectOrCreate?: SolicitudExamenCreateOrConnectWithoutProfesorResolucionInput | SolicitudExamenCreateOrConnectWithoutProfesorResolucionInput[]
+    createMany?: SolicitudExamenCreateManyProfesorResolucionInputEnvelope
+    connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
   }
 
   export type ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput = {
@@ -67354,6 +69909,13 @@ export namespace Prisma {
     connect?: GastoCombustibleWhereUniqueInput | GastoCombustibleWhereUniqueInput[]
   }
 
+  export type NominaUncheckedCreateNestedManyWithoutProfesorInput = {
+    create?: XOR<NominaCreateWithoutProfesorInput, NominaUncheckedCreateWithoutProfesorInput> | NominaCreateWithoutProfesorInput[] | NominaUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: NominaCreateOrConnectWithoutProfesorInput | NominaCreateOrConnectWithoutProfesorInput[]
+    createMany?: NominaCreateManyProfesorInputEnvelope
+    connect?: NominaWhereUniqueInput | NominaWhereUniqueInput[]
+  }
+
   export type HojaRutaUncheckedCreateNestedManyWithoutProfesorInput = {
     create?: XOR<HojaRutaCreateWithoutProfesorInput, HojaRutaUncheckedCreateWithoutProfesorInput> | HojaRutaCreateWithoutProfesorInput[] | HojaRutaUncheckedCreateWithoutProfesorInput[]
     connectOrCreate?: HojaRutaCreateOrConnectWithoutProfesorInput | HojaRutaCreateOrConnectWithoutProfesorInput[]
@@ -67361,11 +69923,26 @@ export namespace Prisma {
     connect?: HojaRutaWhereUniqueInput | HojaRutaWhereUniqueInput[]
   }
 
+  export type SolicitudExamenUncheckedCreateNestedManyWithoutProfesorResolucionInput = {
+    create?: XOR<SolicitudExamenCreateWithoutProfesorResolucionInput, SolicitudExamenUncheckedCreateWithoutProfesorResolucionInput> | SolicitudExamenCreateWithoutProfesorResolucionInput[] | SolicitudExamenUncheckedCreateWithoutProfesorResolucionInput[]
+    connectOrCreate?: SolicitudExamenCreateOrConnectWithoutProfesorResolucionInput | SolicitudExamenCreateOrConnectWithoutProfesorResolucionInput[]
+    createMany?: SolicitudExamenCreateManyProfesorResolucionInputEnvelope
+    connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+  }
+
   export type ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput = {
     create?: XOR<ProfesorHorarioBloqueCreateWithoutProfesorInput, ProfesorHorarioBloqueUncheckedCreateWithoutProfesorInput> | ProfesorHorarioBloqueCreateWithoutProfesorInput[] | ProfesorHorarioBloqueUncheckedCreateWithoutProfesorInput[]
     connectOrCreate?: ProfesorHorarioBloqueCreateOrConnectWithoutProfesorInput | ProfesorHorarioBloqueCreateOrConnectWithoutProfesorInput[]
     createMany?: ProfesorHorarioBloqueCreateManyProfesorInputEnvelope
     connect?: ProfesorHorarioBloqueWhereUniqueInput | ProfesorHorarioBloqueWhereUniqueInput[]
+  }
+
+  export type DecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
   }
 
   export type ProfesorUpdatepermisosLicenciasInput = {
@@ -67457,6 +70034,20 @@ export namespace Prisma {
     deleteMany?: GastoCombustibleScalarWhereInput | GastoCombustibleScalarWhereInput[]
   }
 
+  export type NominaUpdateManyWithoutProfesorNestedInput = {
+    create?: XOR<NominaCreateWithoutProfesorInput, NominaUncheckedCreateWithoutProfesorInput> | NominaCreateWithoutProfesorInput[] | NominaUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: NominaCreateOrConnectWithoutProfesorInput | NominaCreateOrConnectWithoutProfesorInput[]
+    upsert?: NominaUpsertWithWhereUniqueWithoutProfesorInput | NominaUpsertWithWhereUniqueWithoutProfesorInput[]
+    createMany?: NominaCreateManyProfesorInputEnvelope
+    set?: NominaWhereUniqueInput | NominaWhereUniqueInput[]
+    disconnect?: NominaWhereUniqueInput | NominaWhereUniqueInput[]
+    delete?: NominaWhereUniqueInput | NominaWhereUniqueInput[]
+    connect?: NominaWhereUniqueInput | NominaWhereUniqueInput[]
+    update?: NominaUpdateWithWhereUniqueWithoutProfesorInput | NominaUpdateWithWhereUniqueWithoutProfesorInput[]
+    updateMany?: NominaUpdateManyWithWhereWithoutProfesorInput | NominaUpdateManyWithWhereWithoutProfesorInput[]
+    deleteMany?: NominaScalarWhereInput | NominaScalarWhereInput[]
+  }
+
   export type HojaRutaUpdateManyWithoutProfesorNestedInput = {
     create?: XOR<HojaRutaCreateWithoutProfesorInput, HojaRutaUncheckedCreateWithoutProfesorInput> | HojaRutaCreateWithoutProfesorInput[] | HojaRutaUncheckedCreateWithoutProfesorInput[]
     connectOrCreate?: HojaRutaCreateOrConnectWithoutProfesorInput | HojaRutaCreateOrConnectWithoutProfesorInput[]
@@ -67469,6 +70060,20 @@ export namespace Prisma {
     update?: HojaRutaUpdateWithWhereUniqueWithoutProfesorInput | HojaRutaUpdateWithWhereUniqueWithoutProfesorInput[]
     updateMany?: HojaRutaUpdateManyWithWhereWithoutProfesorInput | HojaRutaUpdateManyWithWhereWithoutProfesorInput[]
     deleteMany?: HojaRutaScalarWhereInput | HojaRutaScalarWhereInput[]
+  }
+
+  export type SolicitudExamenUpdateManyWithoutProfesorResolucionNestedInput = {
+    create?: XOR<SolicitudExamenCreateWithoutProfesorResolucionInput, SolicitudExamenUncheckedCreateWithoutProfesorResolucionInput> | SolicitudExamenCreateWithoutProfesorResolucionInput[] | SolicitudExamenUncheckedCreateWithoutProfesorResolucionInput[]
+    connectOrCreate?: SolicitudExamenCreateOrConnectWithoutProfesorResolucionInput | SolicitudExamenCreateOrConnectWithoutProfesorResolucionInput[]
+    upsert?: SolicitudExamenUpsertWithWhereUniqueWithoutProfesorResolucionInput | SolicitudExamenUpsertWithWhereUniqueWithoutProfesorResolucionInput[]
+    createMany?: SolicitudExamenCreateManyProfesorResolucionInputEnvelope
+    set?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    disconnect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    delete?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    update?: SolicitudExamenUpdateWithWhereUniqueWithoutProfesorResolucionInput | SolicitudExamenUpdateWithWhereUniqueWithoutProfesorResolucionInput[]
+    updateMany?: SolicitudExamenUpdateManyWithWhereWithoutProfesorResolucionInput | SolicitudExamenUpdateManyWithWhereWithoutProfesorResolucionInput[]
+    deleteMany?: SolicitudExamenScalarWhereInput | SolicitudExamenScalarWhereInput[]
   }
 
   export type ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput = {
@@ -67577,6 +70182,20 @@ export namespace Prisma {
     deleteMany?: GastoCombustibleScalarWhereInput | GastoCombustibleScalarWhereInput[]
   }
 
+  export type NominaUncheckedUpdateManyWithoutProfesorNestedInput = {
+    create?: XOR<NominaCreateWithoutProfesorInput, NominaUncheckedCreateWithoutProfesorInput> | NominaCreateWithoutProfesorInput[] | NominaUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: NominaCreateOrConnectWithoutProfesorInput | NominaCreateOrConnectWithoutProfesorInput[]
+    upsert?: NominaUpsertWithWhereUniqueWithoutProfesorInput | NominaUpsertWithWhereUniqueWithoutProfesorInput[]
+    createMany?: NominaCreateManyProfesorInputEnvelope
+    set?: NominaWhereUniqueInput | NominaWhereUniqueInput[]
+    disconnect?: NominaWhereUniqueInput | NominaWhereUniqueInput[]
+    delete?: NominaWhereUniqueInput | NominaWhereUniqueInput[]
+    connect?: NominaWhereUniqueInput | NominaWhereUniqueInput[]
+    update?: NominaUpdateWithWhereUniqueWithoutProfesorInput | NominaUpdateWithWhereUniqueWithoutProfesorInput[]
+    updateMany?: NominaUpdateManyWithWhereWithoutProfesorInput | NominaUpdateManyWithWhereWithoutProfesorInput[]
+    deleteMany?: NominaScalarWhereInput | NominaScalarWhereInput[]
+  }
+
   export type HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput = {
     create?: XOR<HojaRutaCreateWithoutProfesorInput, HojaRutaUncheckedCreateWithoutProfesorInput> | HojaRutaCreateWithoutProfesorInput[] | HojaRutaUncheckedCreateWithoutProfesorInput[]
     connectOrCreate?: HojaRutaCreateOrConnectWithoutProfesorInput | HojaRutaCreateOrConnectWithoutProfesorInput[]
@@ -67589,6 +70208,20 @@ export namespace Prisma {
     update?: HojaRutaUpdateWithWhereUniqueWithoutProfesorInput | HojaRutaUpdateWithWhereUniqueWithoutProfesorInput[]
     updateMany?: HojaRutaUpdateManyWithWhereWithoutProfesorInput | HojaRutaUpdateManyWithWhereWithoutProfesorInput[]
     deleteMany?: HojaRutaScalarWhereInput | HojaRutaScalarWhereInput[]
+  }
+
+  export type SolicitudExamenUncheckedUpdateManyWithoutProfesorResolucionNestedInput = {
+    create?: XOR<SolicitudExamenCreateWithoutProfesorResolucionInput, SolicitudExamenUncheckedCreateWithoutProfesorResolucionInput> | SolicitudExamenCreateWithoutProfesorResolucionInput[] | SolicitudExamenUncheckedCreateWithoutProfesorResolucionInput[]
+    connectOrCreate?: SolicitudExamenCreateOrConnectWithoutProfesorResolucionInput | SolicitudExamenCreateOrConnectWithoutProfesorResolucionInput[]
+    upsert?: SolicitudExamenUpsertWithWhereUniqueWithoutProfesorResolucionInput | SolicitudExamenUpsertWithWhereUniqueWithoutProfesorResolucionInput[]
+    createMany?: SolicitudExamenCreateManyProfesorResolucionInputEnvelope
+    set?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    disconnect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    delete?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    connect?: SolicitudExamenWhereUniqueInput | SolicitudExamenWhereUniqueInput[]
+    update?: SolicitudExamenUpdateWithWhereUniqueWithoutProfesorResolucionInput | SolicitudExamenUpdateWithWhereUniqueWithoutProfesorResolucionInput[]
+    updateMany?: SolicitudExamenUpdateManyWithWhereWithoutProfesorResolucionInput | SolicitudExamenUpdateManyWithWhereWithoutProfesorResolucionInput[]
+    deleteMany?: SolicitudExamenScalarWhereInput | SolicitudExamenScalarWhereInput[]
   }
 
   export type ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput = {
@@ -68533,14 +71166,6 @@ export namespace Prisma {
     connect?: CompraBonoWhereUniqueInput | CompraBonoWhereUniqueInput[]
   }
 
-  export type DecimalFieldUpdateOperationsInput = {
-    set?: Decimal | DecimalJsLike | number | string
-    increment?: Decimal | DecimalJsLike | number | string
-    decrement?: Decimal | DecimalJsLike | number | string
-    multiply?: Decimal | DecimalJsLike | number | string
-    divide?: Decimal | DecimalJsLike | number | string
-  }
-
   export type CompraBonoUpdateManyWithoutBonoNestedInput = {
     create?: XOR<CompraBonoCreateWithoutBonoInput, CompraBonoUncheckedCreateWithoutBonoInput> | CompraBonoCreateWithoutBonoInput[] | CompraBonoUncheckedCreateWithoutBonoInput[]
     connectOrCreate?: CompraBonoCreateOrConnectWithoutBonoInput | CompraBonoCreateOrConnectWithoutBonoInput[]
@@ -68741,6 +71366,12 @@ export namespace Prisma {
     connect?: AlumnoWhereUniqueInput
   }
 
+  export type ProfesorCreateNestedOneWithoutSolicitudesResueltasInput = {
+    create?: XOR<ProfesorCreateWithoutSolicitudesResueltasInput, ProfesorUncheckedCreateWithoutSolicitudesResueltasInput>
+    connectOrCreate?: ProfesorCreateOrConnectWithoutSolicitudesResueltasInput
+    connect?: ProfesorWhereUniqueInput
+  }
+
   export type PagoCreateNestedOneWithoutSolicitudesExamenPracticoInput = {
     create?: XOR<PagoCreateWithoutSolicitudesExamenPracticoInput, PagoUncheckedCreateWithoutSolicitudesExamenPracticoInput>
     connectOrCreate?: PagoCreateOrConnectWithoutSolicitudesExamenPracticoInput
@@ -68768,6 +71399,16 @@ export namespace Prisma {
     upsert?: AlumnoUpsertWithoutSolicitudesExamenInput
     connect?: AlumnoWhereUniqueInput
     update?: XOR<XOR<AlumnoUpdateToOneWithWhereWithoutSolicitudesExamenInput, AlumnoUpdateWithoutSolicitudesExamenInput>, AlumnoUncheckedUpdateWithoutSolicitudesExamenInput>
+  }
+
+  export type ProfesorUpdateOneWithoutSolicitudesResueltasNestedInput = {
+    create?: XOR<ProfesorCreateWithoutSolicitudesResueltasInput, ProfesorUncheckedCreateWithoutSolicitudesResueltasInput>
+    connectOrCreate?: ProfesorCreateOrConnectWithoutSolicitudesResueltasInput
+    upsert?: ProfesorUpsertWithoutSolicitudesResueltasInput
+    disconnect?: ProfesorWhereInput | boolean
+    delete?: ProfesorWhereInput | boolean
+    connect?: ProfesorWhereUniqueInput
+    update?: XOR<XOR<ProfesorUpdateToOneWithWhereWithoutSolicitudesResueltasInput, ProfesorUpdateWithoutSolicitudesResueltasInput>, ProfesorUncheckedUpdateWithoutSolicitudesResueltasInput>
   }
 
   export type PagoUpdateOneWithoutSolicitudesExamenPracticoNestedInput = {
@@ -70090,6 +72731,20 @@ export namespace Prisma {
     update?: XOR<XOR<VehiculoUpdateToOneWithWhereWithoutGastosCombustibleInput, VehiculoUpdateWithoutGastosCombustibleInput>, VehiculoUncheckedUpdateWithoutGastosCombustibleInput>
   }
 
+  export type ProfesorCreateNestedOneWithoutNominasInput = {
+    create?: XOR<ProfesorCreateWithoutNominasInput, ProfesorUncheckedCreateWithoutNominasInput>
+    connectOrCreate?: ProfesorCreateOrConnectWithoutNominasInput
+    connect?: ProfesorWhereUniqueInput
+  }
+
+  export type ProfesorUpdateOneRequiredWithoutNominasNestedInput = {
+    create?: XOR<ProfesorCreateWithoutNominasInput, ProfesorUncheckedCreateWithoutNominasInput>
+    connectOrCreate?: ProfesorCreateOrConnectWithoutNominasInput
+    upsert?: ProfesorUpsertWithoutNominasInput
+    connect?: ProfesorWhereUniqueInput
+    update?: XOR<XOR<ProfesorUpdateToOneWithWhereWithoutNominasInput, ProfesorUpdateWithoutNominasInput>, ProfesorUncheckedUpdateWithoutNominasInput>
+  }
+
   export type UsuarioCreateNestedOneWithoutNotificacionesInput = {
     create?: XOR<UsuarioCreateWithoutNotificacionesInput, UsuarioUncheckedCreateWithoutNotificacionesInput>
     connectOrCreate?: UsuarioCreateOrConnectWithoutNotificacionesInput
@@ -70323,33 +72978,6 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedDecimalFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
@@ -70375,6 +73003,33 @@ export namespace Prisma {
     _sum?: NestedDecimalFilter<$PrismaModel>
     _min?: NestedDecimalFilter<$PrismaModel>
     _max?: NestedDecimalFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedEnumTipoPrecioFilter<$PrismaModel = never> = {
@@ -70663,6 +73318,9 @@ export namespace Prisma {
     licenciaConducir: string
     telefono: string
     activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     historialComoAnterior?: AlumnoProfesorHistorialCreateNestedManyWithoutProfesorAnteriorInput
@@ -70670,7 +73328,9 @@ export namespace Prisma {
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
     gastosCombustible?: GastoCombustibleCreateNestedManyWithoutProfesorInput
+    nominas?: NominaCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
+    solicitudesResueltas?: SolicitudExamenCreateNestedManyWithoutProfesorResolucionInput
     horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
   }
 
@@ -70678,6 +73338,9 @@ export namespace Prisma {
     licenciaConducir: string
     telefono: string
     activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     historialComoAnterior?: AlumnoProfesorHistorialUncheckedCreateNestedManyWithoutProfesorAnteriorInput
@@ -70685,7 +73348,9 @@ export namespace Prisma {
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
     gastosCombustible?: GastoCombustibleUncheckedCreateNestedManyWithoutProfesorInput
+    nominas?: NominaUncheckedCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
+    solicitudesResueltas?: SolicitudExamenUncheckedCreateNestedManyWithoutProfesorResolucionInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
 
@@ -70872,6 +73537,9 @@ export namespace Prisma {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     historialComoAnterior?: AlumnoProfesorHistorialUpdateManyWithoutProfesorAnteriorNestedInput
@@ -70879,7 +73547,9 @@ export namespace Prisma {
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
     gastosCombustible?: GastoCombustibleUpdateManyWithoutProfesorNestedInput
+    nominas?: NominaUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
+    solicitudesResueltas?: SolicitudExamenUpdateManyWithoutProfesorResolucionNestedInput
     horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
   }
 
@@ -70887,6 +73557,9 @@ export namespace Prisma {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     historialComoAnterior?: AlumnoProfesorHistorialUncheckedUpdateManyWithoutProfesorAnteriorNestedInput
@@ -70894,7 +73567,9 @@ export namespace Prisma {
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
     gastosCombustible?: GastoCombustibleUncheckedUpdateManyWithoutProfesorNestedInput
+    nominas?: NominaUncheckedUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
+    solicitudesResueltas?: SolicitudExamenUncheckedUpdateManyWithoutProfesorResolucionNestedInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
@@ -71230,6 +73905,82 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type NominaCreateWithoutProfesorInput = {
+    id?: string
+    numero: string
+    anio: number
+    mes: number
+    periodoInicio: Date | string
+    periodoFin: Date | string
+    diasMes: number
+    diasTrabajados: number
+    salarioBaseMensual: Decimal | DecimalJsLike | number | string
+    importeSalarioBase: Decimal | DecimalJsLike | number | string
+    plusTransporte: Decimal | DecimalJsLike | number | string
+    plusProductividad: Decimal | DecimalJsLike | number | string
+    presentadosApto?: number
+    presentadosNoApto?: number
+    totalPresentados?: number
+    prorrataPagasExtra: Decimal | DecimalJsLike | number | string
+    deduccionContingenciasComunes: Decimal | DecimalJsLike | number | string
+    deduccionDesempleo: Decimal | DecimalJsLike | number | string
+    deduccionFormacionProfesional: Decimal | DecimalJsLike | number | string
+    deduccionIrpf: Decimal | DecimalJsLike | number | string
+    totalDevengos: Decimal | DecimalJsLike | number | string
+    totalDeducciones: Decimal | DecimalJsLike | number | string
+    liquidoPercibir: Decimal | DecimalJsLike | number | string
+    baseCotizacionComunes: Decimal | DecimalJsLike | number | string
+    baseCotizacionProfesionales: Decimal | DecimalJsLike | number | string
+    baseRetencionIrpf: Decimal | DecimalJsLike | number | string
+    estado?: string
+    fechaGeneracion?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NominaUncheckedCreateWithoutProfesorInput = {
+    id?: string
+    numero: string
+    anio: number
+    mes: number
+    periodoInicio: Date | string
+    periodoFin: Date | string
+    diasMes: number
+    diasTrabajados: number
+    salarioBaseMensual: Decimal | DecimalJsLike | number | string
+    importeSalarioBase: Decimal | DecimalJsLike | number | string
+    plusTransporte: Decimal | DecimalJsLike | number | string
+    plusProductividad: Decimal | DecimalJsLike | number | string
+    presentadosApto?: number
+    presentadosNoApto?: number
+    totalPresentados?: number
+    prorrataPagasExtra: Decimal | DecimalJsLike | number | string
+    deduccionContingenciasComunes: Decimal | DecimalJsLike | number | string
+    deduccionDesempleo: Decimal | DecimalJsLike | number | string
+    deduccionFormacionProfesional: Decimal | DecimalJsLike | number | string
+    deduccionIrpf: Decimal | DecimalJsLike | number | string
+    totalDevengos: Decimal | DecimalJsLike | number | string
+    totalDeducciones: Decimal | DecimalJsLike | number | string
+    liquidoPercibir: Decimal | DecimalJsLike | number | string
+    baseCotizacionComunes: Decimal | DecimalJsLike | number | string
+    baseCotizacionProfesionales: Decimal | DecimalJsLike | number | string
+    baseRetencionIrpf: Decimal | DecimalJsLike | number | string
+    estado?: string
+    fechaGeneracion?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NominaCreateOrConnectWithoutProfesorInput = {
+    where: NominaWhereUniqueInput
+    create: XOR<NominaCreateWithoutProfesorInput, NominaUncheckedCreateWithoutProfesorInput>
+  }
+
+  export type NominaCreateManyProfesorInputEnvelope = {
+    data: NominaCreateManyProfesorInput | NominaCreateManyProfesorInput[]
+    skipDuplicates?: boolean
+  }
+
   export type HojaRutaCreateWithoutProfesorInput = {
     id?: string
     estado?: string
@@ -71271,6 +74022,60 @@ export namespace Prisma {
 
   export type HojaRutaCreateManyProfesorInputEnvelope = {
     data: HojaRutaCreateManyProfesorInput | HojaRutaCreateManyProfesorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SolicitudExamenCreateWithoutProfesorResolucionInput = {
+    id?: string
+    tipo: string
+    fasePractica?: number | null
+    estado?: string
+    fechaSolicitud?: Date | string
+    fechaProgramada?: Date | string | null
+    erroresExamen?: number | null
+    aciertosExamen?: number | null
+    faltasLeves?: number | null
+    faltasDeficientes?: number | null
+    faltasEliminatorias?: number | null
+    faltasLevesDetalle?: SolicitudExamenCreatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenCreatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenCreatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: string | null
+    observaciones?: string | null
+    fechaResolucion?: Date | string | null
+    alumno: AlumnoCreateNestedOneWithoutSolicitudesExamenInput
+    pagoGastoPractico?: PagoCreateNestedOneWithoutSolicitudesExamenPracticoInput
+  }
+
+  export type SolicitudExamenUncheckedCreateWithoutProfesorResolucionInput = {
+    id?: string
+    alumnoId: string
+    tipo: string
+    fasePractica?: number | null
+    estado?: string
+    fechaSolicitud?: Date | string
+    fechaProgramada?: Date | string | null
+    pagoGastoPracticoId?: string | null
+    erroresExamen?: number | null
+    aciertosExamen?: number | null
+    faltasLeves?: number | null
+    faltasDeficientes?: number | null
+    faltasEliminatorias?: number | null
+    faltasLevesDetalle?: SolicitudExamenCreatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenCreatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenCreatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: string | null
+    observaciones?: string | null
+    fechaResolucion?: Date | string | null
+  }
+
+  export type SolicitudExamenCreateOrConnectWithoutProfesorResolucionInput = {
+    where: SolicitudExamenWhereUniqueInput
+    create: XOR<SolicitudExamenCreateWithoutProfesorResolucionInput, SolicitudExamenUncheckedCreateWithoutProfesorResolucionInput>
+  }
+
+  export type SolicitudExamenCreateManyProfesorResolucionInputEnvelope = {
+    data: SolicitudExamenCreateManyProfesorResolucionInput | SolicitudExamenCreateManyProfesorResolucionInput[]
     skipDuplicates?: boolean
   }
 
@@ -71525,6 +74330,59 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"GastoCombustible"> | Date | string
   }
 
+  export type NominaUpsertWithWhereUniqueWithoutProfesorInput = {
+    where: NominaWhereUniqueInput
+    update: XOR<NominaUpdateWithoutProfesorInput, NominaUncheckedUpdateWithoutProfesorInput>
+    create: XOR<NominaCreateWithoutProfesorInput, NominaUncheckedCreateWithoutProfesorInput>
+  }
+
+  export type NominaUpdateWithWhereUniqueWithoutProfesorInput = {
+    where: NominaWhereUniqueInput
+    data: XOR<NominaUpdateWithoutProfesorInput, NominaUncheckedUpdateWithoutProfesorInput>
+  }
+
+  export type NominaUpdateManyWithWhereWithoutProfesorInput = {
+    where: NominaScalarWhereInput
+    data: XOR<NominaUpdateManyMutationInput, NominaUncheckedUpdateManyWithoutProfesorInput>
+  }
+
+  export type NominaScalarWhereInput = {
+    AND?: NominaScalarWhereInput | NominaScalarWhereInput[]
+    OR?: NominaScalarWhereInput[]
+    NOT?: NominaScalarWhereInput | NominaScalarWhereInput[]
+    id?: StringFilter<"Nomina"> | string
+    numero?: StringFilter<"Nomina"> | string
+    profesorId?: StringFilter<"Nomina"> | string
+    anio?: IntFilter<"Nomina"> | number
+    mes?: IntFilter<"Nomina"> | number
+    periodoInicio?: DateTimeFilter<"Nomina"> | Date | string
+    periodoFin?: DateTimeFilter<"Nomina"> | Date | string
+    diasMes?: IntFilter<"Nomina"> | number
+    diasTrabajados?: IntFilter<"Nomina"> | number
+    salarioBaseMensual?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    importeSalarioBase?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    plusTransporte?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    plusProductividad?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    presentadosApto?: IntFilter<"Nomina"> | number
+    presentadosNoApto?: IntFilter<"Nomina"> | number
+    totalPresentados?: IntFilter<"Nomina"> | number
+    prorrataPagasExtra?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    deduccionContingenciasComunes?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    deduccionDesempleo?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    deduccionFormacionProfesional?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    deduccionIrpf?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    totalDevengos?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    totalDeducciones?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    liquidoPercibir?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    baseCotizacionComunes?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    baseCotizacionProfesionales?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    baseRetencionIrpf?: DecimalFilter<"Nomina"> | Decimal | DecimalJsLike | number | string
+    estado?: StringFilter<"Nomina"> | string
+    fechaGeneracion?: DateTimeFilter<"Nomina"> | Date | string
+    createdAt?: DateTimeFilter<"Nomina"> | Date | string
+    updatedAt?: DateTimeFilter<"Nomina"> | Date | string
+  }
+
   export type HojaRutaUpsertWithWhereUniqueWithoutProfesorInput = {
     where: HojaRutaWhereUniqueInput
     update: XOR<HojaRutaUpdateWithoutProfesorInput, HojaRutaUncheckedUpdateWithoutProfesorInput>
@@ -71559,6 +74417,48 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"HojaRuta"> | Date | string
     updatedAt?: DateTimeFilter<"HojaRuta"> | Date | string
     finalizedAt?: DateTimeNullableFilter<"HojaRuta"> | Date | string | null
+  }
+
+  export type SolicitudExamenUpsertWithWhereUniqueWithoutProfesorResolucionInput = {
+    where: SolicitudExamenWhereUniqueInput
+    update: XOR<SolicitudExamenUpdateWithoutProfesorResolucionInput, SolicitudExamenUncheckedUpdateWithoutProfesorResolucionInput>
+    create: XOR<SolicitudExamenCreateWithoutProfesorResolucionInput, SolicitudExamenUncheckedCreateWithoutProfesorResolucionInput>
+  }
+
+  export type SolicitudExamenUpdateWithWhereUniqueWithoutProfesorResolucionInput = {
+    where: SolicitudExamenWhereUniqueInput
+    data: XOR<SolicitudExamenUpdateWithoutProfesorResolucionInput, SolicitudExamenUncheckedUpdateWithoutProfesorResolucionInput>
+  }
+
+  export type SolicitudExamenUpdateManyWithWhereWithoutProfesorResolucionInput = {
+    where: SolicitudExamenScalarWhereInput
+    data: XOR<SolicitudExamenUpdateManyMutationInput, SolicitudExamenUncheckedUpdateManyWithoutProfesorResolucionInput>
+  }
+
+  export type SolicitudExamenScalarWhereInput = {
+    AND?: SolicitudExamenScalarWhereInput | SolicitudExamenScalarWhereInput[]
+    OR?: SolicitudExamenScalarWhereInput[]
+    NOT?: SolicitudExamenScalarWhereInput | SolicitudExamenScalarWhereInput[]
+    id?: StringFilter<"SolicitudExamen"> | string
+    alumnoId?: StringFilter<"SolicitudExamen"> | string
+    tipo?: StringFilter<"SolicitudExamen"> | string
+    fasePractica?: IntNullableFilter<"SolicitudExamen"> | number | null
+    estado?: StringFilter<"SolicitudExamen"> | string
+    fechaSolicitud?: DateTimeFilter<"SolicitudExamen"> | Date | string
+    fechaProgramada?: DateTimeNullableFilter<"SolicitudExamen"> | Date | string | null
+    pagoGastoPracticoId?: StringNullableFilter<"SolicitudExamen"> | string | null
+    erroresExamen?: IntNullableFilter<"SolicitudExamen"> | number | null
+    aciertosExamen?: IntNullableFilter<"SolicitudExamen"> | number | null
+    faltasLeves?: IntNullableFilter<"SolicitudExamen"> | number | null
+    faltasDeficientes?: IntNullableFilter<"SolicitudExamen"> | number | null
+    faltasEliminatorias?: IntNullableFilter<"SolicitudExamen"> | number | null
+    faltasLevesDetalle?: StringNullableListFilter<"SolicitudExamen">
+    faltasDeficientesDetalle?: StringNullableListFilter<"SolicitudExamen">
+    faltasEliminatoriasDetalle?: StringNullableListFilter<"SolicitudExamen">
+    motivoNoApto?: StringNullableFilter<"SolicitudExamen"> | string | null
+    observaciones?: StringNullableFilter<"SolicitudExamen"> | string | null
+    fechaResolucion?: DateTimeNullableFilter<"SolicitudExamen"> | Date | string | null
+    profesorResolucionId?: StringNullableFilter<"SolicitudExamen"> | string | null
   }
 
   export type ProfesorHorarioBloqueUpsertWithWhereUniqueWithoutProfesorInput = {
@@ -71641,6 +74541,9 @@ export namespace Prisma {
     licenciaConducir: string
     telefono: string
     activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     historialComoAnterior?: AlumnoProfesorHistorialCreateNestedManyWithoutProfesorAnteriorInput
@@ -71648,7 +74551,9 @@ export namespace Prisma {
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
     gastosCombustible?: GastoCombustibleCreateNestedManyWithoutProfesorInput
+    nominas?: NominaCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
+    solicitudesResueltas?: SolicitudExamenCreateNestedManyWithoutProfesorResolucionInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
 
@@ -71657,6 +74562,9 @@ export namespace Prisma {
     licenciaConducir: string
     telefono: string
     activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     historialComoAnterior?: AlumnoProfesorHistorialUncheckedCreateNestedManyWithoutProfesorAnteriorInput
@@ -71664,7 +74572,9 @@ export namespace Prisma {
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
     gastosCombustible?: GastoCombustibleUncheckedCreateNestedManyWithoutProfesorInput
+    nominas?: NominaUncheckedCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
+    solicitudesResueltas?: SolicitudExamenUncheckedCreateNestedManyWithoutProfesorResolucionInput
   }
 
   export type ProfesorCreateOrConnectWithoutHorarioBloquesInput = {
@@ -71687,6 +74597,9 @@ export namespace Prisma {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     historialComoAnterior?: AlumnoProfesorHistorialUpdateManyWithoutProfesorAnteriorNestedInput
@@ -71694,7 +74607,9 @@ export namespace Prisma {
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
     gastosCombustible?: GastoCombustibleUpdateManyWithoutProfesorNestedInput
+    nominas?: NominaUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
+    solicitudesResueltas?: SolicitudExamenUpdateManyWithoutProfesorResolucionNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
 
@@ -71703,6 +74618,9 @@ export namespace Prisma {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     historialComoAnterior?: AlumnoProfesorHistorialUncheckedUpdateManyWithoutProfesorAnteriorNestedInput
@@ -71710,7 +74628,9 @@ export namespace Prisma {
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
     gastosCombustible?: GastoCombustibleUncheckedUpdateManyWithoutProfesorNestedInput
+    nominas?: NominaUncheckedUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
+    solicitudesResueltas?: SolicitudExamenUncheckedUpdateManyWithoutProfesorResolucionNestedInput
   }
 
   export type UsuarioCreateWithoutAlumnoInput = {
@@ -71758,13 +74678,18 @@ export namespace Prisma {
     licenciaConducir: string
     telefono: string
     activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     historialComoAnterior?: AlumnoProfesorHistorialCreateNestedManyWithoutProfesorAnteriorInput
     historialComoNuevo?: AlumnoProfesorHistorialCreateNestedManyWithoutProfesorNuevoInput
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
     gastosCombustible?: GastoCombustibleCreateNestedManyWithoutProfesorInput
+    nominas?: NominaCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
+    solicitudesResueltas?: SolicitudExamenCreateNestedManyWithoutProfesorResolucionInput
     horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
@@ -71774,13 +74699,18 @@ export namespace Prisma {
     licenciaConducir: string
     telefono: string
     activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     historialComoAnterior?: AlumnoProfesorHistorialUncheckedCreateNestedManyWithoutProfesorAnteriorInput
     historialComoNuevo?: AlumnoProfesorHistorialUncheckedCreateNestedManyWithoutProfesorNuevoInput
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
     gastosCombustible?: GastoCombustibleUncheckedCreateNestedManyWithoutProfesorInput
+    nominas?: NominaUncheckedCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
+    solicitudesResueltas?: SolicitudExamenUncheckedCreateNestedManyWithoutProfesorResolucionInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
 
@@ -72044,6 +74974,8 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: SolicitudExamenCreatefaltasEliminatoriasDetalleInput | string[]
     motivoNoApto?: string | null
     observaciones?: string | null
+    fechaResolucion?: Date | string | null
+    profesorResolucion?: ProfesorCreateNestedOneWithoutSolicitudesResueltasInput
     pagoGastoPractico?: PagoCreateNestedOneWithoutSolicitudesExamenPracticoInput
   }
 
@@ -72065,6 +74997,8 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: SolicitudExamenCreatefaltasEliminatoriasDetalleInput | string[]
     motivoNoApto?: string | null
     observaciones?: string | null
+    fechaResolucion?: Date | string | null
+    profesorResolucionId?: string | null
   }
 
   export type SolicitudExamenCreateOrConnectWithoutAlumnoInput = {
@@ -72331,13 +75265,18 @@ export namespace Prisma {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     historialComoAnterior?: AlumnoProfesorHistorialUpdateManyWithoutProfesorAnteriorNestedInput
     historialComoNuevo?: AlumnoProfesorHistorialUpdateManyWithoutProfesorNuevoNestedInput
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
     gastosCombustible?: GastoCombustibleUpdateManyWithoutProfesorNestedInput
+    nominas?: NominaUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
+    solicitudesResueltas?: SolicitudExamenUpdateManyWithoutProfesorResolucionNestedInput
     horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
@@ -72347,13 +75286,18 @@ export namespace Prisma {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     historialComoAnterior?: AlumnoProfesorHistorialUncheckedUpdateManyWithoutProfesorAnteriorNestedInput
     historialComoNuevo?: AlumnoProfesorHistorialUncheckedUpdateManyWithoutProfesorNuevoNestedInput
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
     gastosCombustible?: GastoCombustibleUncheckedUpdateManyWithoutProfesorNestedInput
+    nominas?: NominaUncheckedUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
+    solicitudesResueltas?: SolicitudExamenUncheckedUpdateManyWithoutProfesorResolucionNestedInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
@@ -72551,30 +75495,6 @@ export namespace Prisma {
   export type SolicitudExamenUpdateManyWithWhereWithoutAlumnoInput = {
     where: SolicitudExamenScalarWhereInput
     data: XOR<SolicitudExamenUpdateManyMutationInput, SolicitudExamenUncheckedUpdateManyWithoutAlumnoInput>
-  }
-
-  export type SolicitudExamenScalarWhereInput = {
-    AND?: SolicitudExamenScalarWhereInput | SolicitudExamenScalarWhereInput[]
-    OR?: SolicitudExamenScalarWhereInput[]
-    NOT?: SolicitudExamenScalarWhereInput | SolicitudExamenScalarWhereInput[]
-    id?: StringFilter<"SolicitudExamen"> | string
-    alumnoId?: StringFilter<"SolicitudExamen"> | string
-    tipo?: StringFilter<"SolicitudExamen"> | string
-    fasePractica?: IntNullableFilter<"SolicitudExamen"> | number | null
-    estado?: StringFilter<"SolicitudExamen"> | string
-    fechaSolicitud?: DateTimeFilter<"SolicitudExamen"> | Date | string
-    fechaProgramada?: DateTimeNullableFilter<"SolicitudExamen"> | Date | string | null
-    pagoGastoPracticoId?: StringNullableFilter<"SolicitudExamen"> | string | null
-    erroresExamen?: IntNullableFilter<"SolicitudExamen"> | number | null
-    aciertosExamen?: IntNullableFilter<"SolicitudExamen"> | number | null
-    faltasLeves?: IntNullableFilter<"SolicitudExamen"> | number | null
-    faltasDeficientes?: IntNullableFilter<"SolicitudExamen"> | number | null
-    faltasEliminatorias?: IntNullableFilter<"SolicitudExamen"> | number | null
-    faltasLevesDetalle?: StringNullableListFilter<"SolicitudExamen">
-    faltasDeficientesDetalle?: StringNullableListFilter<"SolicitudExamen">
-    faltasEliminatoriasDetalle?: StringNullableListFilter<"SolicitudExamen">
-    motivoNoApto?: StringNullableFilter<"SolicitudExamen"> | string | null
-    observaciones?: StringNullableFilter<"SolicitudExamen"> | string | null
   }
 
   export type TemarioProgresoUpsertWithWhereUniqueWithoutAlumnoInput = {
@@ -73213,13 +76133,18 @@ export namespace Prisma {
     licenciaConducir: string
     telefono: string
     activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     historialComoAnterior?: AlumnoProfesorHistorialCreateNestedManyWithoutProfesorAnteriorInput
     historialComoNuevo?: AlumnoProfesorHistorialCreateNestedManyWithoutProfesorNuevoInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
     gastosCombustible?: GastoCombustibleCreateNestedManyWithoutProfesorInput
+    nominas?: NominaCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
+    solicitudesResueltas?: SolicitudExamenCreateNestedManyWithoutProfesorResolucionInput
     horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
@@ -73229,13 +76154,18 @@ export namespace Prisma {
     licenciaConducir: string
     telefono: string
     activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     historialComoAnterior?: AlumnoProfesorHistorialUncheckedCreateNestedManyWithoutProfesorAnteriorInput
     historialComoNuevo?: AlumnoProfesorHistorialUncheckedCreateNestedManyWithoutProfesorNuevoInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
     gastosCombustible?: GastoCombustibleUncheckedCreateNestedManyWithoutProfesorInput
+    nominas?: NominaUncheckedCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
+    solicitudesResueltas?: SolicitudExamenUncheckedCreateNestedManyWithoutProfesorResolucionInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
 
@@ -73259,13 +76189,18 @@ export namespace Prisma {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     historialComoAnterior?: AlumnoProfesorHistorialUpdateManyWithoutProfesorAnteriorNestedInput
     historialComoNuevo?: AlumnoProfesorHistorialUpdateManyWithoutProfesorNuevoNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
     gastosCombustible?: GastoCombustibleUpdateManyWithoutProfesorNestedInput
+    nominas?: NominaUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
+    solicitudesResueltas?: SolicitudExamenUpdateManyWithoutProfesorResolucionNestedInput
     horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
@@ -73275,13 +76210,18 @@ export namespace Prisma {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     historialComoAnterior?: AlumnoProfesorHistorialUncheckedUpdateManyWithoutProfesorAnteriorNestedInput
     historialComoNuevo?: AlumnoProfesorHistorialUncheckedUpdateManyWithoutProfesorNuevoNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
     gastosCombustible?: GastoCombustibleUncheckedUpdateManyWithoutProfesorNestedInput
+    nominas?: NominaUncheckedUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
+    solicitudesResueltas?: SolicitudExamenUncheckedUpdateManyWithoutProfesorResolucionNestedInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
@@ -74133,6 +77073,51 @@ export namespace Prisma {
     create: XOR<AlumnoCreateWithoutSolicitudesExamenInput, AlumnoUncheckedCreateWithoutSolicitudesExamenInput>
   }
 
+  export type ProfesorCreateWithoutSolicitudesResueltasInput = {
+    licenciaConducir: string
+    telefono: string
+    activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
+    historialComoAnterior?: AlumnoProfesorHistorialCreateNestedManyWithoutProfesorAnteriorInput
+    historialComoNuevo?: AlumnoProfesorHistorialCreateNestedManyWithoutProfesorNuevoInput
+    clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
+    clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    gastosCombustible?: GastoCombustibleCreateNestedManyWithoutProfesorInput
+    nominas?: NominaCreateNestedManyWithoutProfesorInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
+    horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
+    usuario: UsuarioCreateNestedOneWithoutProfesorInput
+  }
+
+  export type ProfesorUncheckedCreateWithoutSolicitudesResueltasInput = {
+    id: string
+    licenciaConducir: string
+    telefono: string
+    activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
+    historialComoAnterior?: AlumnoProfesorHistorialUncheckedCreateNestedManyWithoutProfesorAnteriorInput
+    historialComoNuevo?: AlumnoProfesorHistorialUncheckedCreateNestedManyWithoutProfesorNuevoInput
+    clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    gastosCombustible?: GastoCombustibleUncheckedCreateNestedManyWithoutProfesorInput
+    nominas?: NominaUncheckedCreateNestedManyWithoutProfesorInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
+    horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
+  }
+
+  export type ProfesorCreateOrConnectWithoutSolicitudesResueltasInput = {
+    where: ProfesorWhereUniqueInput
+    create: XOR<ProfesorCreateWithoutSolicitudesResueltasInput, ProfesorUncheckedCreateWithoutSolicitudesResueltasInput>
+  }
+
   export type PagoCreateWithoutSolicitudesExamenPracticoInput = {
     id?: string
     tipo: string
@@ -74231,6 +77216,57 @@ export namespace Prisma {
     documentosAlumno?: DocumentoAlumnoUncheckedUpdateManyWithoutAlumnoNestedInput
     hojasRuta?: HojaRutaUncheckedUpdateManyWithoutAlumnoNestedInput
     historialProfesores?: AlumnoProfesorHistorialUncheckedUpdateManyWithoutAlumnoNestedInput
+  }
+
+  export type ProfesorUpsertWithoutSolicitudesResueltasInput = {
+    update: XOR<ProfesorUpdateWithoutSolicitudesResueltasInput, ProfesorUncheckedUpdateWithoutSolicitudesResueltasInput>
+    create: XOR<ProfesorCreateWithoutSolicitudesResueltasInput, ProfesorUncheckedCreateWithoutSolicitudesResueltasInput>
+    where?: ProfesorWhereInput
+  }
+
+  export type ProfesorUpdateToOneWithWhereWithoutSolicitudesResueltasInput = {
+    where?: ProfesorWhereInput
+    data: XOR<ProfesorUpdateWithoutSolicitudesResueltasInput, ProfesorUncheckedUpdateWithoutSolicitudesResueltasInput>
+  }
+
+  export type ProfesorUpdateWithoutSolicitudesResueltasInput = {
+    licenciaConducir?: StringFieldUpdateOperationsInput | string
+    telefono?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
+    historialComoAnterior?: AlumnoProfesorHistorialUpdateManyWithoutProfesorAnteriorNestedInput
+    historialComoNuevo?: AlumnoProfesorHistorialUpdateManyWithoutProfesorNuevoNestedInput
+    clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
+    clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    gastosCombustible?: GastoCombustibleUpdateManyWithoutProfesorNestedInput
+    nominas?: NominaUpdateManyWithoutProfesorNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
+    horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
+    usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
+  }
+
+  export type ProfesorUncheckedUpdateWithoutSolicitudesResueltasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    licenciaConducir?: StringFieldUpdateOperationsInput | string
+    telefono?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
+    historialComoAnterior?: AlumnoProfesorHistorialUncheckedUpdateManyWithoutProfesorAnteriorNestedInput
+    historialComoNuevo?: AlumnoProfesorHistorialUncheckedUpdateManyWithoutProfesorNuevoNestedInput
+    clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
+    clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    gastosCombustible?: GastoCombustibleUncheckedUpdateManyWithoutProfesorNestedInput
+    nominas?: NominaUncheckedUpdateManyWithoutProfesorNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
+    horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
   export type PagoUpsertWithoutSolicitudesExamenPracticoInput = {
@@ -74463,13 +77499,18 @@ export namespace Prisma {
     licenciaConducir: string
     telefono: string
     activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     historialComoAnterior?: AlumnoProfesorHistorialCreateNestedManyWithoutProfesorAnteriorInput
     historialComoNuevo?: AlumnoProfesorHistorialCreateNestedManyWithoutProfesorNuevoInput
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     gastosCombustible?: GastoCombustibleCreateNestedManyWithoutProfesorInput
+    nominas?: NominaCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
+    solicitudesResueltas?: SolicitudExamenCreateNestedManyWithoutProfesorResolucionInput
     horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
@@ -74479,13 +77520,18 @@ export namespace Prisma {
     licenciaConducir: string
     telefono: string
     activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     historialComoAnterior?: AlumnoProfesorHistorialUncheckedCreateNestedManyWithoutProfesorAnteriorInput
     historialComoNuevo?: AlumnoProfesorHistorialUncheckedCreateNestedManyWithoutProfesorNuevoInput
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
     gastosCombustible?: GastoCombustibleUncheckedCreateNestedManyWithoutProfesorInput
+    nominas?: NominaUncheckedCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
+    solicitudesResueltas?: SolicitudExamenUncheckedCreateNestedManyWithoutProfesorResolucionInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
 
@@ -74765,13 +77811,18 @@ export namespace Prisma {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     historialComoAnterior?: AlumnoProfesorHistorialUpdateManyWithoutProfesorAnteriorNestedInput
     historialComoNuevo?: AlumnoProfesorHistorialUpdateManyWithoutProfesorNuevoNestedInput
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     gastosCombustible?: GastoCombustibleUpdateManyWithoutProfesorNestedInput
+    nominas?: NominaUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
+    solicitudesResueltas?: SolicitudExamenUpdateManyWithoutProfesorResolucionNestedInput
     horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
@@ -74781,13 +77832,18 @@ export namespace Prisma {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     historialComoAnterior?: AlumnoProfesorHistorialUncheckedUpdateManyWithoutProfesorAnteriorNestedInput
     historialComoNuevo?: AlumnoProfesorHistorialUncheckedUpdateManyWithoutProfesorNuevoNestedInput
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
     gastosCombustible?: GastoCombustibleUncheckedUpdateManyWithoutProfesorNestedInput
+    nominas?: NominaUncheckedUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
+    solicitudesResueltas?: SolicitudExamenUncheckedUpdateManyWithoutProfesorResolucionNestedInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
@@ -74997,6 +78053,9 @@ export namespace Prisma {
     licenciaConducir: string
     telefono: string
     activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     historialComoAnterior?: AlumnoProfesorHistorialCreateNestedManyWithoutProfesorAnteriorInput
@@ -75004,6 +78063,8 @@ export namespace Prisma {
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
     gastosCombustible?: GastoCombustibleCreateNestedManyWithoutProfesorInput
+    nominas?: NominaCreateNestedManyWithoutProfesorInput
+    solicitudesResueltas?: SolicitudExamenCreateNestedManyWithoutProfesorResolucionInput
     horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
@@ -75013,6 +78074,9 @@ export namespace Prisma {
     licenciaConducir: string
     telefono: string
     activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     historialComoAnterior?: AlumnoProfesorHistorialUncheckedCreateNestedManyWithoutProfesorAnteriorInput
@@ -75020,6 +78084,8 @@ export namespace Prisma {
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
     gastosCombustible?: GastoCombustibleUncheckedCreateNestedManyWithoutProfesorInput
+    nominas?: NominaUncheckedCreateNestedManyWithoutProfesorInput
+    solicitudesResueltas?: SolicitudExamenUncheckedCreateNestedManyWithoutProfesorResolucionInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
 
@@ -75175,6 +78241,9 @@ export namespace Prisma {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     historialComoAnterior?: AlumnoProfesorHistorialUpdateManyWithoutProfesorAnteriorNestedInput
@@ -75182,6 +78251,8 @@ export namespace Prisma {
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
     gastosCombustible?: GastoCombustibleUpdateManyWithoutProfesorNestedInput
+    nominas?: NominaUpdateManyWithoutProfesorNestedInput
+    solicitudesResueltas?: SolicitudExamenUpdateManyWithoutProfesorResolucionNestedInput
     horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
@@ -75191,6 +78262,9 @@ export namespace Prisma {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     historialComoAnterior?: AlumnoProfesorHistorialUncheckedUpdateManyWithoutProfesorAnteriorNestedInput
@@ -75198,6 +78272,8 @@ export namespace Prisma {
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
     gastosCombustible?: GastoCombustibleUncheckedUpdateManyWithoutProfesorNestedInput
+    nominas?: NominaUncheckedUpdateManyWithoutProfesorNestedInput
+    solicitudesResueltas?: SolicitudExamenUncheckedUpdateManyWithoutProfesorResolucionNestedInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
@@ -75703,13 +78779,18 @@ export namespace Prisma {
     licenciaConducir: string
     telefono: string
     activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     historialComoNuevo?: AlumnoProfesorHistorialCreateNestedManyWithoutProfesorNuevoInput
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
     gastosCombustible?: GastoCombustibleCreateNestedManyWithoutProfesorInput
+    nominas?: NominaCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
+    solicitudesResueltas?: SolicitudExamenCreateNestedManyWithoutProfesorResolucionInput
     horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
@@ -75719,13 +78800,18 @@ export namespace Prisma {
     licenciaConducir: string
     telefono: string
     activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     historialComoNuevo?: AlumnoProfesorHistorialUncheckedCreateNestedManyWithoutProfesorNuevoInput
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
     gastosCombustible?: GastoCombustibleUncheckedCreateNestedManyWithoutProfesorInput
+    nominas?: NominaUncheckedCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
+    solicitudesResueltas?: SolicitudExamenUncheckedCreateNestedManyWithoutProfesorResolucionInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
 
@@ -75738,13 +78824,18 @@ export namespace Prisma {
     licenciaConducir: string
     telefono: string
     activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     historialComoAnterior?: AlumnoProfesorHistorialCreateNestedManyWithoutProfesorAnteriorInput
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
     gastosCombustible?: GastoCombustibleCreateNestedManyWithoutProfesorInput
+    nominas?: NominaCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
+    solicitudesResueltas?: SolicitudExamenCreateNestedManyWithoutProfesorResolucionInput
     horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
@@ -75754,13 +78845,18 @@ export namespace Prisma {
     licenciaConducir: string
     telefono: string
     activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     historialComoAnterior?: AlumnoProfesorHistorialUncheckedCreateNestedManyWithoutProfesorAnteriorInput
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
     gastosCombustible?: GastoCombustibleUncheckedCreateNestedManyWithoutProfesorInput
+    nominas?: NominaUncheckedCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
+    solicitudesResueltas?: SolicitudExamenUncheckedCreateNestedManyWithoutProfesorResolucionInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
 
@@ -75841,13 +78937,18 @@ export namespace Prisma {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     historialComoNuevo?: AlumnoProfesorHistorialUpdateManyWithoutProfesorNuevoNestedInput
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
     gastosCombustible?: GastoCombustibleUpdateManyWithoutProfesorNestedInput
+    nominas?: NominaUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
+    solicitudesResueltas?: SolicitudExamenUpdateManyWithoutProfesorResolucionNestedInput
     horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
@@ -75857,13 +78958,18 @@ export namespace Prisma {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     historialComoNuevo?: AlumnoProfesorHistorialUncheckedUpdateManyWithoutProfesorNuevoNestedInput
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
     gastosCombustible?: GastoCombustibleUncheckedUpdateManyWithoutProfesorNestedInput
+    nominas?: NominaUncheckedUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
+    solicitudesResueltas?: SolicitudExamenUncheckedUpdateManyWithoutProfesorResolucionNestedInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
@@ -75882,13 +78988,18 @@ export namespace Prisma {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     historialComoAnterior?: AlumnoProfesorHistorialUpdateManyWithoutProfesorAnteriorNestedInput
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
     gastosCombustible?: GastoCombustibleUpdateManyWithoutProfesorNestedInput
+    nominas?: NominaUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
+    solicitudesResueltas?: SolicitudExamenUpdateManyWithoutProfesorResolucionNestedInput
     horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
@@ -75898,13 +79009,18 @@ export namespace Prisma {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     historialComoAnterior?: AlumnoProfesorHistorialUncheckedUpdateManyWithoutProfesorAnteriorNestedInput
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
     gastosCombustible?: GastoCombustibleUncheckedUpdateManyWithoutProfesorNestedInput
+    nominas?: NominaUncheckedUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
+    solicitudesResueltas?: SolicitudExamenUncheckedUpdateManyWithoutProfesorResolucionNestedInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
@@ -76666,7 +79782,9 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: SolicitudExamenCreatefaltasEliminatoriasDetalleInput | string[]
     motivoNoApto?: string | null
     observaciones?: string | null
+    fechaResolucion?: Date | string | null
     alumno: AlumnoCreateNestedOneWithoutSolicitudesExamenInput
+    profesorResolucion?: ProfesorCreateNestedOneWithoutSolicitudesResueltasInput
   }
 
   export type SolicitudExamenUncheckedCreateWithoutPagoGastoPracticoInput = {
@@ -76687,6 +79805,8 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: SolicitudExamenCreatefaltasEliminatoriasDetalleInput | string[]
     motivoNoApto?: string | null
     observaciones?: string | null
+    fechaResolucion?: Date | string | null
+    profesorResolucionId?: string | null
   }
 
   export type SolicitudExamenCreateOrConnectWithoutPagoGastoPracticoInput = {
@@ -78032,13 +81152,18 @@ export namespace Prisma {
     licenciaConducir: string
     telefono: string
     activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
     historialComoAnterior?: AlumnoProfesorHistorialCreateNestedManyWithoutProfesorAnteriorInput
     historialComoNuevo?: AlumnoProfesorHistorialCreateNestedManyWithoutProfesorNuevoInput
     clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    nominas?: NominaCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
+    solicitudesResueltas?: SolicitudExamenCreateNestedManyWithoutProfesorResolucionInput
     horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
     usuario: UsuarioCreateNestedOneWithoutProfesorInput
   }
@@ -78048,13 +81173,18 @@ export namespace Prisma {
     licenciaConducir: string
     telefono: string
     activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
     historialComoAnterior?: AlumnoProfesorHistorialUncheckedCreateNestedManyWithoutProfesorAnteriorInput
     historialComoNuevo?: AlumnoProfesorHistorialUncheckedCreateNestedManyWithoutProfesorNuevoInput
     clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
     clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    nominas?: NominaUncheckedCreateNestedManyWithoutProfesorInput
     hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
+    solicitudesResueltas?: SolicitudExamenUncheckedCreateNestedManyWithoutProfesorResolucionInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
   }
 
@@ -78115,13 +81245,18 @@ export namespace Prisma {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
     historialComoAnterior?: AlumnoProfesorHistorialUpdateManyWithoutProfesorAnteriorNestedInput
     historialComoNuevo?: AlumnoProfesorHistorialUpdateManyWithoutProfesorNuevoNestedInput
     clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    nominas?: NominaUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
+    solicitudesResueltas?: SolicitudExamenUpdateManyWithoutProfesorResolucionNestedInput
     horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
   }
@@ -78131,13 +81266,18 @@ export namespace Prisma {
     licenciaConducir?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
     alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
     historialComoAnterior?: AlumnoProfesorHistorialUncheckedUpdateManyWithoutProfesorAnteriorNestedInput
     historialComoNuevo?: AlumnoProfesorHistorialUncheckedUpdateManyWithoutProfesorNuevoNestedInput
     clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
     clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    nominas?: NominaUncheckedUpdateManyWithoutProfesorNestedInput
     hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
+    solicitudesResueltas?: SolicitudExamenUncheckedUpdateManyWithoutProfesorResolucionNestedInput
     horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
@@ -78182,6 +81322,102 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clases?: ClasePracticaUncheckedUpdateManyWithoutVehiculoNestedInput
+  }
+
+  export type ProfesorCreateWithoutNominasInput = {
+    licenciaConducir: string
+    telefono: string
+    activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoCreateNestedManyWithoutProfesorAsignadoInput
+    historialComoAnterior?: AlumnoProfesorHistorialCreateNestedManyWithoutProfesorAnteriorInput
+    historialComoNuevo?: AlumnoProfesorHistorialCreateNestedManyWithoutProfesorNuevoInput
+    clasesDirecto?: ClaseDirectoCreateNestedManyWithoutProfesorInput
+    clases?: ClasePracticaCreateNestedManyWithoutProfesorInput
+    gastosCombustible?: GastoCombustibleCreateNestedManyWithoutProfesorInput
+    hojasRuta?: HojaRutaCreateNestedManyWithoutProfesorInput
+    solicitudesResueltas?: SolicitudExamenCreateNestedManyWithoutProfesorResolucionInput
+    horarioBloques?: ProfesorHorarioBloqueCreateNestedManyWithoutProfesorInput
+    usuario: UsuarioCreateNestedOneWithoutProfesorInput
+  }
+
+  export type ProfesorUncheckedCreateWithoutNominasInput = {
+    id: string
+    licenciaConducir: string
+    telefono: string
+    activo?: boolean
+    fechaAlta?: Date | string | null
+    fechaBaja?: Date | string | null
+    salarioBaseMensual?: Decimal | DecimalJsLike | number | string
+    permisosLicencias?: ProfesorCreatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoUncheckedCreateNestedManyWithoutProfesorAsignadoInput
+    historialComoAnterior?: AlumnoProfesorHistorialUncheckedCreateNestedManyWithoutProfesorAnteriorInput
+    historialComoNuevo?: AlumnoProfesorHistorialUncheckedCreateNestedManyWithoutProfesorNuevoInput
+    clasesDirecto?: ClaseDirectoUncheckedCreateNestedManyWithoutProfesorInput
+    clases?: ClasePracticaUncheckedCreateNestedManyWithoutProfesorInput
+    gastosCombustible?: GastoCombustibleUncheckedCreateNestedManyWithoutProfesorInput
+    hojasRuta?: HojaRutaUncheckedCreateNestedManyWithoutProfesorInput
+    solicitudesResueltas?: SolicitudExamenUncheckedCreateNestedManyWithoutProfesorResolucionInput
+    horarioBloques?: ProfesorHorarioBloqueUncheckedCreateNestedManyWithoutProfesorInput
+  }
+
+  export type ProfesorCreateOrConnectWithoutNominasInput = {
+    where: ProfesorWhereUniqueInput
+    create: XOR<ProfesorCreateWithoutNominasInput, ProfesorUncheckedCreateWithoutNominasInput>
+  }
+
+  export type ProfesorUpsertWithoutNominasInput = {
+    update: XOR<ProfesorUpdateWithoutNominasInput, ProfesorUncheckedUpdateWithoutNominasInput>
+    create: XOR<ProfesorCreateWithoutNominasInput, ProfesorUncheckedCreateWithoutNominasInput>
+    where?: ProfesorWhereInput
+  }
+
+  export type ProfesorUpdateToOneWithWhereWithoutNominasInput = {
+    where?: ProfesorWhereInput
+    data: XOR<ProfesorUpdateWithoutNominasInput, ProfesorUncheckedUpdateWithoutNominasInput>
+  }
+
+  export type ProfesorUpdateWithoutNominasInput = {
+    licenciaConducir?: StringFieldUpdateOperationsInput | string
+    telefono?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoUpdateManyWithoutProfesorAsignadoNestedInput
+    historialComoAnterior?: AlumnoProfesorHistorialUpdateManyWithoutProfesorAnteriorNestedInput
+    historialComoNuevo?: AlumnoProfesorHistorialUpdateManyWithoutProfesorNuevoNestedInput
+    clasesDirecto?: ClaseDirectoUpdateManyWithoutProfesorNestedInput
+    clases?: ClasePracticaUpdateManyWithoutProfesorNestedInput
+    gastosCombustible?: GastoCombustibleUpdateManyWithoutProfesorNestedInput
+    hojasRuta?: HojaRutaUpdateManyWithoutProfesorNestedInput
+    solicitudesResueltas?: SolicitudExamenUpdateManyWithoutProfesorResolucionNestedInput
+    horarioBloques?: ProfesorHorarioBloqueUpdateManyWithoutProfesorNestedInput
+    usuario?: UsuarioUpdateOneRequiredWithoutProfesorNestedInput
+  }
+
+  export type ProfesorUncheckedUpdateWithoutNominasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    licenciaConducir?: StringFieldUpdateOperationsInput | string
+    telefono?: StringFieldUpdateOperationsInput | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaAlta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaBaja?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    permisosLicencias?: ProfesorUpdatepermisosLicenciasInput | string[]
+    alumnosAsignados?: AlumnoUncheckedUpdateManyWithoutProfesorAsignadoNestedInput
+    historialComoAnterior?: AlumnoProfesorHistorialUncheckedUpdateManyWithoutProfesorAnteriorNestedInput
+    historialComoNuevo?: AlumnoProfesorHistorialUncheckedUpdateManyWithoutProfesorNuevoNestedInput
+    clasesDirecto?: ClaseDirectoUncheckedUpdateManyWithoutProfesorNestedInput
+    clases?: ClasePracticaUncheckedUpdateManyWithoutProfesorNestedInput
+    gastosCombustible?: GastoCombustibleUncheckedUpdateManyWithoutProfesorNestedInput
+    hojasRuta?: HojaRutaUncheckedUpdateManyWithoutProfesorNestedInput
+    solicitudesResueltas?: SolicitudExamenUncheckedUpdateManyWithoutProfesorResolucionNestedInput
+    horarioBloques?: ProfesorHorarioBloqueUncheckedUpdateManyWithoutProfesorNestedInput
   }
 
   export type UsuarioCreateWithoutNotificacionesInput = {
@@ -78672,6 +81908,39 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type NominaCreateManyProfesorInput = {
+    id?: string
+    numero: string
+    anio: number
+    mes: number
+    periodoInicio: Date | string
+    periodoFin: Date | string
+    diasMes: number
+    diasTrabajados: number
+    salarioBaseMensual: Decimal | DecimalJsLike | number | string
+    importeSalarioBase: Decimal | DecimalJsLike | number | string
+    plusTransporte: Decimal | DecimalJsLike | number | string
+    plusProductividad: Decimal | DecimalJsLike | number | string
+    presentadosApto?: number
+    presentadosNoApto?: number
+    totalPresentados?: number
+    prorrataPagasExtra: Decimal | DecimalJsLike | number | string
+    deduccionContingenciasComunes: Decimal | DecimalJsLike | number | string
+    deduccionDesempleo: Decimal | DecimalJsLike | number | string
+    deduccionFormacionProfesional: Decimal | DecimalJsLike | number | string
+    deduccionIrpf: Decimal | DecimalJsLike | number | string
+    totalDevengos: Decimal | DecimalJsLike | number | string
+    totalDeducciones: Decimal | DecimalJsLike | number | string
+    liquidoPercibir: Decimal | DecimalJsLike | number | string
+    baseCotizacionComunes: Decimal | DecimalJsLike | number | string
+    baseCotizacionProfesionales: Decimal | DecimalJsLike | number | string
+    baseRetencionIrpf: Decimal | DecimalJsLike | number | string
+    estado?: string
+    fechaGeneracion?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type HojaRutaCreateManyProfesorInput = {
     id?: string
     clasePracticaId: string
@@ -78686,6 +81955,28 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     finalizedAt?: Date | string | null
+  }
+
+  export type SolicitudExamenCreateManyProfesorResolucionInput = {
+    id?: string
+    alumnoId: string
+    tipo: string
+    fasePractica?: number | null
+    estado?: string
+    fechaSolicitud?: Date | string
+    fechaProgramada?: Date | string | null
+    pagoGastoPracticoId?: string | null
+    erroresExamen?: number | null
+    aciertosExamen?: number | null
+    faltasLeves?: number | null
+    faltasDeficientes?: number | null
+    faltasEliminatorias?: number | null
+    faltasLevesDetalle?: SolicitudExamenCreatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenCreatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenCreatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: string | null
+    observaciones?: string | null
+    fechaResolucion?: Date | string | null
   }
 
   export type ProfesorHorarioBloqueCreateManyProfesorInput = {
@@ -78957,6 +82248,105 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type NominaUpdateWithoutProfesorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    anio?: IntFieldUpdateOperationsInput | number
+    mes?: IntFieldUpdateOperationsInput | number
+    periodoInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    periodoFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    diasMes?: IntFieldUpdateOperationsInput | number
+    diasTrabajados?: IntFieldUpdateOperationsInput | number
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    importeSalarioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    plusTransporte?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    plusProductividad?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    presentadosApto?: IntFieldUpdateOperationsInput | number
+    presentadosNoApto?: IntFieldUpdateOperationsInput | number
+    totalPresentados?: IntFieldUpdateOperationsInput | number
+    prorrataPagasExtra?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionContingenciasComunes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionDesempleo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionFormacionProfesional?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionIrpf?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalDevengos?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalDeducciones?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    liquidoPercibir?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCotizacionComunes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCotizacionProfesionales?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseRetencionIrpf?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaGeneracion?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NominaUncheckedUpdateWithoutProfesorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    anio?: IntFieldUpdateOperationsInput | number
+    mes?: IntFieldUpdateOperationsInput | number
+    periodoInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    periodoFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    diasMes?: IntFieldUpdateOperationsInput | number
+    diasTrabajados?: IntFieldUpdateOperationsInput | number
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    importeSalarioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    plusTransporte?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    plusProductividad?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    presentadosApto?: IntFieldUpdateOperationsInput | number
+    presentadosNoApto?: IntFieldUpdateOperationsInput | number
+    totalPresentados?: IntFieldUpdateOperationsInput | number
+    prorrataPagasExtra?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionContingenciasComunes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionDesempleo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionFormacionProfesional?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionIrpf?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalDevengos?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalDeducciones?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    liquidoPercibir?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCotizacionComunes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCotizacionProfesionales?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseRetencionIrpf?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaGeneracion?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NominaUncheckedUpdateManyWithoutProfesorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    anio?: IntFieldUpdateOperationsInput | number
+    mes?: IntFieldUpdateOperationsInput | number
+    periodoInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    periodoFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    diasMes?: IntFieldUpdateOperationsInput | number
+    diasTrabajados?: IntFieldUpdateOperationsInput | number
+    salarioBaseMensual?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    importeSalarioBase?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    plusTransporte?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    plusProductividad?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    presentadosApto?: IntFieldUpdateOperationsInput | number
+    presentadosNoApto?: IntFieldUpdateOperationsInput | number
+    totalPresentados?: IntFieldUpdateOperationsInput | number
+    prorrataPagasExtra?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionContingenciasComunes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionDesempleo?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionFormacionProfesional?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    deduccionIrpf?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalDevengos?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalDeducciones?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    liquidoPercibir?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCotizacionComunes?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseCotizacionProfesionales?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    baseRetencionIrpf?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaGeneracion?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type HojaRutaUpdateWithoutProfesorInput = {
     id?: StringFieldUpdateOperationsInput | string
     estado?: StringFieldUpdateOperationsInput | string
@@ -79005,6 +82395,72 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     finalizedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SolicitudExamenUpdateWithoutProfesorResolucionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    fasePractica?: NullableIntFieldUpdateOperationsInput | number | null
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    aciertosExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLeves?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasDeficientes?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasEliminatorias?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLevesDetalle?: SolicitudExamenUpdatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenUpdatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaResolucion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    alumno?: AlumnoUpdateOneRequiredWithoutSolicitudesExamenNestedInput
+    pagoGastoPractico?: PagoUpdateOneWithoutSolicitudesExamenPracticoNestedInput
+  }
+
+  export type SolicitudExamenUncheckedUpdateWithoutProfesorResolucionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    fasePractica?: NullableIntFieldUpdateOperationsInput | number | null
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pagoGastoPracticoId?: NullableStringFieldUpdateOperationsInput | string | null
+    erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    aciertosExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLeves?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasDeficientes?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasEliminatorias?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLevesDetalle?: SolicitudExamenUpdatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenUpdatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaResolucion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SolicitudExamenUncheckedUpdateManyWithoutProfesorResolucionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alumnoId?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    fasePractica?: NullableIntFieldUpdateOperationsInput | number | null
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaProgramada?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pagoGastoPracticoId?: NullableStringFieldUpdateOperationsInput | string | null
+    erroresExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    aciertosExamen?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLeves?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasDeficientes?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasEliminatorias?: NullableIntFieldUpdateOperationsInput | number | null
+    faltasLevesDetalle?: SolicitudExamenUpdatefaltasLevesDetalleInput | string[]
+    faltasDeficientesDetalle?: SolicitudExamenUpdatefaltasDeficientesDetalleInput | string[]
+    faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
+    motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaResolucion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ProfesorHorarioBloqueUpdateWithoutProfesorInput = {
@@ -79131,6 +82587,8 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: SolicitudExamenCreatefaltasEliminatoriasDetalleInput | string[]
     motivoNoApto?: string | null
     observaciones?: string | null
+    fechaResolucion?: Date | string | null
+    profesorResolucionId?: string | null
   }
 
   export type TemarioProgresoCreateManyAlumnoInput = {
@@ -79471,6 +82929,8 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
     motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaResolucion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profesorResolucion?: ProfesorUpdateOneWithoutSolicitudesResueltasNestedInput
     pagoGastoPractico?: PagoUpdateOneWithoutSolicitudesExamenPracticoNestedInput
   }
 
@@ -79492,6 +82952,8 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
     motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaResolucion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profesorResolucionId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SolicitudExamenUncheckedUpdateManyWithoutAlumnoInput = {
@@ -79512,6 +82974,8 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
     motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaResolucion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profesorResolucionId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TemarioProgresoUpdateWithoutAlumnoInput = {
@@ -80818,6 +84282,8 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: SolicitudExamenCreatefaltasEliminatoriasDetalleInput | string[]
     motivoNoApto?: string | null
     observaciones?: string | null
+    fechaResolucion?: Date | string | null
+    profesorResolucionId?: string | null
   }
 
   export type SolicitudExamenUpdateWithoutPagoGastoPracticoInput = {
@@ -80837,7 +84303,9 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
     motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaResolucion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alumno?: AlumnoUpdateOneRequiredWithoutSolicitudesExamenNestedInput
+    profesorResolucion?: ProfesorUpdateOneWithoutSolicitudesResueltasNestedInput
   }
 
   export type SolicitudExamenUncheckedUpdateWithoutPagoGastoPracticoInput = {
@@ -80858,6 +84326,8 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
     motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaResolucion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profesorResolucionId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SolicitudExamenUncheckedUpdateManyWithoutPagoGastoPracticoInput = {
@@ -80878,6 +84348,8 @@ export namespace Prisma {
     faltasEliminatoriasDetalle?: SolicitudExamenUpdatefaltasEliminatoriasDetalleInput | string[]
     motivoNoApto?: NullableStringFieldUpdateOperationsInput | string | null
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaResolucion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profesorResolucionId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PracticalExamProcessSolicitudCreateManyBatchInput = {

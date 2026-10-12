@@ -52,6 +52,9 @@ model Profesor {
   licenciaConducir  String
   telefono          String
   activo            Boolean         @default(true)
+  fechaAlta         DateTime?
+  fechaBaja         DateTime?
+  salarioBaseMensual Decimal        @default(1253.50) @db.Decimal(10, 2)
   permisosLicencias String[]        @default([])
   alumnosAsignados  Alumno[]
   historialComoAnterior AlumnoProfesorHistorial[] @relation("HistorialProfesorAnterior")
@@ -59,7 +62,9 @@ model Profesor {
   clasesDirecto     ClaseDirecto[]
   clases            ClasePractica[]
   gastosCombustible GastoCombustible[]
+  nominas           Nomina[]
   hojasRuta         HojaRuta[]
+  solicitudesResueltas SolicitudExamen[] @relation("ProfesorResolucionSolicitudExamen")
   horarioBloques    ProfesorHorarioBloque[]
   usuario           Usuario         @relation(fields: [id], references: [id], onDelete: Cascade)
 
@@ -314,13 +319,18 @@ model SolicitudExamen {
   faltasEliminatoriasDetalle String[] @default([])
   motivoNoApto    String?
   observaciones   String?
+  fechaResolucion DateTime?
+  profesorResolucionId String?
   alumno          Alumno    @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  profesorResolucion Profesor? @relation("ProfesorResolucionSolicitudExamen", fields: [profesorResolucionId], references: [id], onDelete: SetNull)
   pagoGastoPractico Pago?   @relation(fields: [pagoGastoPracticoId], references: [id], onDelete: SetNull)
 
   @@index([alumnoId])
   @@index([tipo])
   @@index([fasePractica])
   @@index([estado])
+  @@index([fechaResolucion])
+  @@index([profesorResolucionId])
   @@index([pagoGastoPracticoId])
   @@map("solicitudes_examen")
 }
@@ -834,6 +844,47 @@ model GastoCombustible {
   @@index([tipoGasto])
   @@index([createdAt])
   @@map("gastos_combustible")
+}
+
+model Nomina {
+  id                            String    @id @default(uuid())
+  numero                        String    @unique
+  profesorId                    String
+  anio                          Int
+  mes                           Int
+  periodoInicio                 DateTime
+  periodoFin                    DateTime
+  diasMes                       Int
+  diasTrabajados                Int
+  salarioBaseMensual            Decimal   @db.Decimal(10, 2)
+  importeSalarioBase            Decimal   @db.Decimal(10, 2)
+  plusTransporte                Decimal   @db.Decimal(10, 2)
+  plusProductividad             Decimal   @db.Decimal(10, 2)
+  presentadosApto               Int       @default(0)
+  presentadosNoApto             Int       @default(0)
+  totalPresentados              Int       @default(0)
+  prorrataPagasExtra            Decimal   @db.Decimal(10, 2)
+  deduccionContingenciasComunes Decimal   @db.Decimal(10, 2)
+  deduccionDesempleo            Decimal   @db.Decimal(10, 2)
+  deduccionFormacionProfesional Decimal   @db.Decimal(10, 2)
+  deduccionIrpf                 Decimal   @db.Decimal(10, 2)
+  totalDevengos                 Decimal   @db.Decimal(10, 2)
+  totalDeducciones              Decimal   @db.Decimal(10, 2)
+  liquidoPercibir               Decimal   @db.Decimal(10, 2)
+  baseCotizacionComunes         Decimal   @db.Decimal(10, 2)
+  baseCotizacionProfesionales   Decimal   @db.Decimal(10, 2)
+  baseRetencionIrpf             Decimal   @db.Decimal(10, 2)
+  estado                        String    @default("GENERADA")
+  fechaGeneracion               DateTime  @default(now())
+  createdAt                     DateTime  @default(now())
+  updatedAt                     DateTime  @updatedAt
+  profesor                      Profesor  @relation(fields: [profesorId], references: [id], onDelete: Restrict)
+
+  @@unique([profesorId, anio, mes])
+  @@index([anio, mes])
+  @@index([profesorId])
+  @@index([fechaGeneracion])
+  @@map("nominas")
 }
 
 model Notificacion {

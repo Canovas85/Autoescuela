@@ -214,6 +214,11 @@ const menus = {
           icon: <ReceiptIcon fontSize="small" />,
         },
         {
+          label: "Nominas",
+          path: "/nominas",
+          icon: <ArticleIcon fontSize="small" />,
+        },
+        {
           label: "Informes",
           path: "/informes",
           icon: <AssessmentIcon fontSize="small" />,
@@ -342,6 +347,11 @@ const menus = {
           path: "/facturas",
           icon: <ReceiptLongIcon fontSize="small" />,
         },
+        {
+          label: "Nominas",
+          path: "/nominas",
+          icon: <ArticleIcon fontSize="small" />,
+        },
       ],
     },
   ],
@@ -410,6 +420,11 @@ const menus = {
       label: "Gastos",
       icon: <ReceiptIcon />,
       path: "/gastos",
+    },
+    {
+      label: "Nominas",
+      icon: <ArticleIcon />,
+      path: "/nominas",
     },
   ],
 

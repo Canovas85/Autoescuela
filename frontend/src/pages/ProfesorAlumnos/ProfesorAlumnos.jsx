@@ -149,6 +149,7 @@ export default function ProfesorAlumnos() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [faseExpedienteFiltro, setFaseExpedienteFiltro] = useState("");
+  const [licenciaFiltro, setLicenciaFiltro] = useState("");
   const [error, setError] = useState("");
 
   const [openDetail, setOpenDetail] = useState(false);
@@ -181,6 +182,16 @@ export default function ProfesorAlumnos() {
     loadStudents();
   }, []);
 
+  const licenciasDisponibles = useMemo(() => {
+    const unique = new Set(
+      rows
+        .map((row) => String(row?.tipoLicenciaObjetivo || "").trim())
+        .filter((value) => Boolean(value)),
+    );
+
+    return Array.from(unique).sort((a, b) => a.localeCompare(b, "es"));
+  }, [rows]);
+
   const filteredRows = useMemo(() => {
     const q = search.trim().toLowerCase();
 
@@ -196,7 +207,7 @@ export default function ProfesorAlumnos() {
       }
 
       if (!faseExpedienteFiltro) {
-        return true;
+        return !licenciaFiltro || row.tipoLicenciaObjetivo === licenciaFiltro;
       }
 
       const code = resolveExpedientePhaseCode({
@@ -204,9 +215,17 @@ export default function ProfesorAlumnos() {
         label: row.estadoAlumno?.label,
       });
 
-      return code === faseExpedienteFiltro;
+      if (code !== faseExpedienteFiltro) {
+        return false;
+      }
+
+      if (!licenciaFiltro) {
+        return true;
+      }
+
+      return row.tipoLicenciaObjetivo === licenciaFiltro;
     });
-  }, [rows, search, faseExpedienteFiltro]);
+  }, [rows, search, faseExpedienteFiltro, licenciaFiltro]);
 
   const columns = [
     {
@@ -380,6 +399,22 @@ export default function ProfesorAlumnos() {
           {EXPEDIENTE_PHASE_OPTIONS.map((estado) => (
             <MenuItem key={estado.code} value={estado.code}>
               {estado.label}
+            </MenuItem>
+          ))}
+        </TextField>
+
+        <TextField
+          select
+          size="small"
+          label="Licencias"
+          value={licenciaFiltro}
+          onChange={(event) => setLicenciaFiltro(event.target.value)}
+          sx={{ width: { xs: "100%", sm: 220 } }}
+        >
+          <MenuItem value="">Todas las licencias</MenuItem>
+          {licenciasDisponibles.map((licencia) => (
+            <MenuItem key={licencia} value={licencia}>
+              {licencia}
             </MenuItem>
           ))}
         </TextField>
@@ -886,7 +921,11 @@ export default function ProfesorAlumnos() {
                         </Typography>
                         <Stack direction="row" spacing={0.75} sx={{ mt: 0.75 }}>
                           <LicenseChip
-                            value={clase.vehiculo?.tipoPermiso || "-"}
+                            value={
+                              clase.vehiculo?.tipoPermiso ||
+                              detail?.perfil?.tipoLicenciaObjetivo ||
+                              "-"
+                            }
                           />
                           <PracticalClassTypeChip
                             value={clase.tipoClasePractica || "CIRCULACION"}

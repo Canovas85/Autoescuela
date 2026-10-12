@@ -484,6 +484,7 @@ export class DashboardRepository {
             marca: true,
             modelo: true,
             tipoPermiso: true,
+            imagenRuta: true,
           },
         },
         hojaRuta: {

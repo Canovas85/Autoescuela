@@ -45,6 +45,7 @@ import { informesService } from "../../services/informesService";
 import { exportInformesExcel } from "../../utils/exportInformesExcel";
 import { exportInformesPdf } from "../../utils/exportInformesPdf";
 import { facturasService } from "../../services/facturasService";
+import { nominasService } from "../../services/nominasService";
 
 const PERIOD_OPTIONS = [
   { value: "MONTH", label: "Mes" },
@@ -183,6 +184,9 @@ export default function Informes() {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewLoading, setPreviewLoading] = useState(false);
   const [selectedFactura, setSelectedFactura] = useState(null);
+  const [nominaPreviewOpen, setNominaPreviewOpen] = useState(false);
+  const [nominaPreviewLoading, setNominaPreviewLoading] = useState(false);
+  const [selectedNomina, setSelectedNomina] = useState(null);
 
   const loadReport = async () => {
     setLoading(true);
@@ -304,6 +308,55 @@ export default function Informes() {
     }
   };
 
+  const handleOpenNominaModal = async (movement) => {
+    const movementId = String(movement?.id || "");
+
+    if (!movementId.startsWith("nomina-")) {
+      return;
+    }
+
+    const nominaId = movementId.replace("nomina-", "");
+
+    try {
+      setNominaPreviewOpen(true);
+      setNominaPreviewLoading(true);
+      const preview = await nominasService.getPreview(nominaId);
+      setSelectedNomina(preview);
+    } catch (error) {
+      setNominaPreviewOpen(false);
+      setSelectedNomina(null);
+      setError(
+        error.response?.data?.message ||
+          "No se pudo cargar el detalle de la nómina",
+      );
+    } finally {
+      setNominaPreviewLoading(false);
+    }
+  };
+
+  const handleDownloadNominaModalPdf = async () => {
+    if (!selectedNomina?.id) {
+      return;
+    }
+
+    try {
+      const { blob, fileName } = await nominasService.downloadPdf(
+        selectedNomina.id,
+      );
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      setError(error.response?.data?.message || "No se pudo descargar el PDF");
+    }
+  };
+
   const movementColumns = useMemo(
     () => [
       { field: "tipo", headerName: "Tipo", width: 110 },
@@ -330,8 +383,24 @@ export default function Informes() {
         filterable: false,
         disableColumnMenu: true,
         renderCell: (params) => {
-          if (params.row.tipo !== "FACTURA") {
+          if (!["FACTURA", "NOMINA"].includes(params.row.tipo)) {
             return <Typography variant="caption">-</Typography>;
+          }
+
+          if (params.row.tipo === "NOMINA") {
+            return (
+              <Stack direction="row" spacing={0.25}>
+                <Tooltip title="Ver nómina" arrow>
+                  <IconButton
+                    color="primary"
+                    size="small"
+                    onClick={() => handleOpenNominaModal(params.row)}
+                  >
+                    <VisibilityIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </Stack>
+            );
           }
 
           return (
@@ -839,6 +908,59 @@ export default function Informes() {
             startIcon={<DownloadIcon />}
             onClick={handleDownloadFacturaModalPdf}
             disabled={!selectedFactura?.id}
+          >
+            Descargar PDF
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={nominaPreviewOpen}
+        onClose={() => {
+          setNominaPreviewOpen(false);
+          setSelectedNomina(null);
+        }}
+        fullWidth
+        maxWidth="md"
+      >
+        <DialogTitle>Nómina</DialogTitle>
+        <DialogContent>
+          {nominaPreviewLoading ? (
+            <Typography>Cargando nómina...</Typography>
+          ) : selectedNomina ? (
+            <Stack spacing={1} sx={{ pt: 0.5 }}>
+              <Typography fontWeight={700}>
+                Nº {selectedNomina.numero || "-"}
+              </Typography>
+              <Typography variant="body2">
+                Profesor: {selectedNomina.profesor?.usuario?.nombre || "-"}
+              </Typography>
+              <Typography variant="body2">
+                Periodo: {String(selectedNomina.mes).padStart(2, "0")}/
+                {selectedNomina.anio}
+              </Typography>
+              <Typography variant="body2" fontWeight={700}>
+                Neto: {formatCurrency(selectedNomina.liquidoPercibir || 0)}
+              </Typography>
+            </Stack>
+          ) : (
+            <Alert severity="warning">No hay nómina para mostrar</Alert>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              setNominaPreviewOpen(false);
+              setSelectedNomina(null);
+            }}
+          >
+            Cerrar
+          </Button>
+          <Button
+            variant="contained"
+            startIcon={<DownloadIcon />}
+            onClick={handleDownloadNominaModalPdf}
+            disabled={!selectedNomina?.id}
           >
             Descargar PDF
           </Button>

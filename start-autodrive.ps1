@@ -1,3 +1,9 @@
+param(
+  [switch]$FullReset,
+  [switch]$Rebuild,
+  [switch]$GeneratePrisma
+)
+
 $ErrorActionPreference = "Stop"
 
 Set-Location $PSScriptRoot
@@ -15,62 +21,71 @@ Write-Host ""
 Write-Host "[1/7] Verificando Docker Desktop..." -ForegroundColor Yellow
 
 try {
-docker ps | Out-Null
-Write-Host "Docker Desktop disponible." -ForegroundColor Green
+  docker ps | Out-Null
+  Write-Host "Docker Desktop disponible." -ForegroundColor Green
 }
 catch {
-Write-Host "Docker Desktop no esta iniciado." -ForegroundColor Yellow
+  Write-Host "Docker Desktop no esta iniciado." -ForegroundColor Yellow
 
-$dockerDesktop = "C:\Program Files\Docker\Docker\Docker Desktop.exe"
+  $dockerDesktop = "C:\Program Files\Docker\Docker\Docker Desktop.exe"
 
-if (Test-Path $dockerDesktop) {
-Start-Process $dockerDesktop
+  if (Test-Path $dockerDesktop) {
+    Start-Process $dockerDesktop
 
-Write-Host "Esperando a Docker Desktop..." -ForegroundColor Yellow
+    Write-Host "Esperando a Docker Desktop..." -ForegroundColor Yellow
 
-$dockerReady = $false
+    $dockerReady = $false
 
-for ($i = 1; $i -le 60; $i++) {
-try {
-docker ps | Out-Null
-$dockerReady = $true
-break
-}
-catch {
-Start-Sleep -Seconds 2
-}
-}
+    for ($i = 1; $i -le 60; $i++) {
+      try {
+        docker ps | Out-Null
+        $dockerReady = $true
+        break
+      }
+      catch {
+        Start-Sleep -Seconds 2
+      }
+    }
 
-if (-not $dockerReady) {
-Write-Error "Docker Desktop no ha arrancado correctamente."
-exit 1
-}
-}
-else {
-Write-Error "No se encontro Docker Desktop."
-exit 1
-}
+    if (-not $dockerReady) {
+      Write-Error "Docker Desktop no ha arrancado correctamente."
+      exit 1
+    }
+  }
+  else {
+    Write-Error "No se encontro Docker Desktop."
+    exit 1
+  }
 }
 
 # -------------------------------------------------------
-# 2. Parar Compose anterior
+# 2. Levantar Compose (rapido por defecto)
 # -------------------------------------------------------
 
 Write-Host ""
-Write-Host "[2/7] Reiniciando Docker Compose..." -ForegroundColor Yellow
+Write-Host "[2/7] Levantando Docker Compose..." -ForegroundColor Yellow
 
-try {
-docker compose down --remove-orphans
-}
-catch {
+if ($FullReset) {
+  Write-Host "Full reset activado: apagando stack actual..." -ForegroundColor DarkYellow
+  try {
+    docker compose down --remove-orphans
+  }
+  catch {
+  }
 }
 
-docker compose up -d --build
+if ($Rebuild) {
+  Write-Host "Rebuild activado: reconstruyendo imagenes..." -ForegroundColor DarkYellow
+  docker compose up -d --build
+}
+else {
+  docker compose up -d
+}
 
 Write-Host "Docker Compose activo." -ForegroundColor Green
 
 # -------------------------------------------------------
-# 3. Esperar PostgreSQL
+# 3. Esperar PostgreSQL listo
 # -------------------------------------------------------
 
 Write-Host ""
@@ -79,20 +94,22 @@ Write-Host "[3/7] Esperando PostgreSQL..." -ForegroundColor Yellow
 $postgresReady = $false
 
 for ($i = 1; $i -le 60; $i++) {
+  try {
+    $null = docker compose exec -T postgres pg_isready -U postgres -d autodrive_db
+    if ($LASTEXITCODE -eq 0) {
+      $postgresReady = $true
+      break
+    }
+  }
+  catch {
+  }
 
-$check = netstat -ano | Select-String ":5433"
-
-if ($check) {
-$postgresReady = $true
-break
-}
-
-Start-Sleep -Seconds 2
+  Start-Sleep -Seconds 1
 }
 
 if (-not $postgresReady) {
-Write-Error "PostgreSQL no responde en localhost:5433"
-exit 1
+  Write-Error "PostgreSQL no esta listo."
+  exit 1
 }
 
 Write-Host "PostgreSQL disponible." -ForegroundColor Green
@@ -106,7 +123,9 @@ Write-Host "[4/7] Aplicando migraciones Prisma..." -ForegroundColor Yellow
 
 docker compose exec -T backend npx prisma migrate deploy
 
-docker compose exec -T backend npx prisma generate
+if ($GeneratePrisma) {
+  docker compose exec -T backend npx prisma generate
+}
 
 Write-Host "Prisma sincronizado." -ForegroundColor Green
 
@@ -118,29 +137,43 @@ Write-Host ""
 Write-Host "[5/7] Esperando Backend..." -ForegroundColor Yellow
 
 $backendReady = $false
+$backendContainerId = docker compose ps -q backend
 
 for ($i = 1; $i -le 60; $i++) {
+  if ($backendContainerId) {
+    $backendStatus = docker inspect -f "{{.State.Status}}" $backendContainerId 2>$null
+    if ($backendStatus -in @("exited", "dead")) {
+      Write-Host "El contenedor backend se ha detenido ($backendStatus)." -ForegroundColor Red
+      Write-Host "Mostrando ultimos logs del backend:" -ForegroundColor Yellow
+      docker compose logs --tail=120 backend
+      exit 1
+    }
+  }
 
-try {
+  try {
+    $response = Invoke-WebRequest `
+      -Uri "http://localhost:5000/api/health" `
+      -UseBasicParsing `
+      -TimeoutSec 3
 
-$response = Invoke-WebRequest `
--Uri "http://localhost:5000/api/health" `
--UseBasicParsing `
--TimeoutSec 3
-
-if ($response.StatusCode -eq 200) {
-$backendReady = $true
-break
-}
-}
-catch {
-Start-Sleep -Seconds 2
-}
+    if ($response.StatusCode -eq 200) {
+      $backendReady = $true
+      break
+    }
+  }
+  catch {
+    if (($i % 10) -eq 0) {
+      Write-Host "Esperando backend... intento $i/60" -ForegroundColor DarkYellow
+    }
+    Start-Sleep -Seconds 1
+  }
 }
 
 if (-not $backendReady) {
-Write-Error "Backend no disponible."
-exit 1
+  Write-Host "Backend no disponible tras 60 intentos. Ultimos logs:" -ForegroundColor Red
+  docker compose logs --tail=120 backend
+  Write-Error "Backend no disponible."
+  exit 1
 }
 
 Write-Host "Backend operativo." -ForegroundColor Green
@@ -153,32 +186,31 @@ Write-Host ""
 Write-Host "[6/7] Levantando Frontend..." -ForegroundColor Yellow
 
 $viteProcesses =
-Get-CimInstance Win32_Process -ErrorAction SilentlyContinue |
-Where-Object {
-$_.Name -eq "node.exe" -and
-$_.CommandLine -match "vite"
-}
+  Get-CimInstance Win32_Process -ErrorAction SilentlyContinue |
+  Where-Object {
+    $_.Name -eq "node.exe" -and
+    $_.CommandLine -match "vite"
+  }
 
 foreach ($proc in $viteProcesses) {
-Stop-Process -Id $proc.ProcessId -Force -ErrorAction SilentlyContinue
+  Stop-Process -Id $proc.ProcessId -Force -ErrorAction SilentlyContinue
 }
 
 $frontendPath = Join-Path $PSScriptRoot "frontend"
 
 if (-not (Test-Path (Join-Path $frontendPath "node_modules"))) {
-
-Push-Location $frontendPath
-npm install
-Pop-Location
+  Push-Location $frontendPath
+  npm install
+  Pop-Location
 }
 
 $frontendCommand =
-"Set-Location '$frontendPath'; npm run dev -- --host 0.0.0.0"
+  "Set-Location '$frontendPath'; npm run dev -- --host 0.0.0.0"
 
 Start-Process powershell `
--ArgumentList "-NoExit", "-Command", $frontendCommand
+  -ArgumentList "-NoExit", "-Command", $frontendCommand
 
-Start-Sleep -Seconds 6
+Start-Sleep -Seconds 2
 
 # -------------------------------------------------------
 # 7. Abrir navegador
@@ -201,3 +233,5 @@ Write-Host "Backend : http://localhost:5000" -ForegroundColor Green
 Write-Host "Swagger : http://localhost:5000/api-docs" -ForegroundColor Green
 Write-Host "Health : http://localhost:5000/api/health" -ForegroundColor Green
 Write-Host ""
+Write-Host "Modo rapido activo por defecto." -ForegroundColor DarkGray
+Write-Host "Opciones disponibles: -FullReset -Rebuild -GeneratePrisma" -ForegroundColor DarkGray

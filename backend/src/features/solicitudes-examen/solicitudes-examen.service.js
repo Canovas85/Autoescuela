@@ -233,9 +233,14 @@ const getMotivoNoAptoPractico = ({
 const randomIntBetween = (randomFn, min, max) =>
   Math.floor(randomFn() * (max - min + 1)) + min;
 
+const pad2 = (value) => String(value).padStart(2, "0");
+
+const formatDateKeyLocal = (date) =>
+  `${date.getFullYear()}-${pad2(date.getMonth() + 1)}-${pad2(date.getDate())}`;
+
 const getDateKey = (value) => {
   const date = new Date(value || Date.now());
-  return date.toISOString().slice(0, 10);
+  return formatDateKeyLocal(date);
 };
 
 const pickFaultDetails = (randomFn, catalog, count, prefix) => {
@@ -1747,13 +1752,27 @@ export class SolicitudesExamenService {
         erroresExamen <= teoricoRule.maxFallos ? "APTO" : "NO_APTO";
       const metadata = `[TEORICO_META] licencia=${licenciaObjetivo}; preguntas=${teoricoRule.totalPreguntas}; maxFallos=${teoricoRule.maxFallos}; duracionMin=${teoricoRule.duracionMinutos}; origen=AUTO_BATCH`;
 
-      await this.repository.updateResultadoSolicitudTeorico(
-        solicitud.id,
-        estado,
-        erroresExamen,
-        aciertosExamen,
-        metadata,
-      );
+      const updatedTeoricoPendingOnly =
+        typeof this.repository.updateResultadoSolicitudTeoricoIfPending ===
+        "function"
+          ? await this.repository.updateResultadoSolicitudTeoricoIfPending(
+              solicitud.id,
+              estado,
+              erroresExamen,
+              aciertosExamen,
+              metadata,
+            )
+          : await this.repository.updateResultadoSolicitudTeorico(
+              solicitud.id,
+              estado,
+              erroresExamen,
+              aciertosExamen,
+              metadata,
+            );
+
+      if (!updatedTeoricoPendingOnly) {
+        continue;
+      }
 
       aciertosTotales += aciertosExamen || 0;
       erroresTotales += erroresExamen;
@@ -1877,12 +1896,20 @@ export class SolicitudesExamenService {
       const noApto = shouldBeNoAptoPractico(faltas);
       const estado = noApto ? "NO_APTO" : "APTO";
       const motivoNoApto = noApto ? getMotivoNoAptoPractico(faltas) : null;
+      const profesorResolucionId =
+        typeof this.repository.findAlumnoAssignedProfessorId === "function"
+          ? await this.repository.findAlumnoAssignedProfessorId(
+              solicitud.alumnoId,
+            )
+          : null;
 
       const updated =
         await this.repository.updateResultadoSolicitudPracticoIfPending(
           solicitud.id,
           {
             estado,
+            fechaResolucion: new Date(),
+            profesorResolucionId,
             faltasLeves: faltas.faltasLeves,
             faltasDeficientes: faltas.faltasDeficientes,
             faltasEliminatorias: faltas.faltasEliminatorias,
@@ -1986,6 +2013,19 @@ export class SolicitudesExamenService {
 
     const payload = this.validarPayload(data);
     const licenciaObjetivo = normalizarLicenciaObjetivo(data.licenciaObjetivo);
+
+    if (
+      ["APTO", "NO_APTO"].includes(String(payload.estado || "").toUpperCase())
+    ) {
+      payload.fechaResolucion = new Date();
+
+      if (typeof this.repository.findAlumnoAssignedProfessorId === "function") {
+        payload.profesorResolucionId =
+          (await this.repository.findAlumnoAssignedProfessorId(
+            payload.alumnoId,
+          )) || null;
+      }
+    }
 
     await this.validarDerechoExamenPorTasaDGT(
       payload.alumnoId,

@@ -499,6 +499,45 @@ describe("SolicitudesExamenService", () => {
     expect(result.noAptos).toBe(1);
   });
 
+  it("no debe consumir convocatoria si la solicitud teorica ya no esta pendiente", async () => {
+    const repositoryMock = {
+      findSolicitudesTeoricoPendientesResultado: vi.fn().mockResolvedValue([
+        {
+          id: "sol-race-1",
+          alumnoId: "alumno-race-1",
+        },
+      ]),
+      updateResultadoSolicitudTeoricoIfPending: vi
+        .fn()
+        .mockResolvedValue(false),
+      findMatriculaPagada: vi.fn().mockResolvedValue({
+        id: "matricula-race-1",
+        licencia: "C",
+      }),
+      findUltimoPagoTasaDGT: vi.fn().mockResolvedValue({
+        id: "pago-race-1",
+        convocatoriasIncluidas: 2,
+        convocatoriasConsumidas: 0,
+      }),
+      incrementarConvocatoriasConsumidas: vi.fn(),
+    };
+
+    const service = new SolicitudesExamenService(repositoryMock);
+
+    const result = await service.processScheduledTheoreticalResults({
+      randomFn: () => 0.99,
+    });
+
+    expect(
+      repositoryMock.updateResultadoSolicitudTeoricoIfPending,
+    ).toHaveBeenCalled();
+    expect(
+      repositoryMock.incrementarConvocatoriasConsumidas,
+    ).not.toHaveBeenCalled();
+    expect(result.procesadas).toBe(0);
+    expect(result.noAptos).toBe(0);
+  });
+
   it("debe construir la evaluacion admin mezclando solicitudes y examenes", async () => {
     const repositoryMock = {
       findEvaluacionSolicitudesByTipo: vi.fn().mockResolvedValue([

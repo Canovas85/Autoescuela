@@ -1830,6 +1830,26 @@ export default function HojasRuta() {
                   ),
                 }}
               />
+
+              <TextField
+                label="Fecha desde"
+                size="small"
+                type="date"
+                InputLabelProps={{ shrink: true }}
+                value={searchParams.get("dateFrom") || ""}
+                onChange={(event) => setParam("dateFrom", event.target.value)}
+                sx={{ minWidth: { xs: "100%", md: 185 } }}
+              />
+
+              <TextField
+                label="Fecha hasta"
+                size="small"
+                type="date"
+                InputLabelProps={{ shrink: true }}
+                value={searchParams.get("dateTo") || ""}
+                onChange={(event) => setParam("dateTo", event.target.value)}
+                sx={{ minWidth: { xs: "100%", md: 185 } }}
+              />
               {/*<Button
                 variant="outlined"
                 startIcon={<FilterListIcon />}

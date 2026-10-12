@@ -124,6 +124,39 @@ export class ProfesoresService {
 
     const passwordHash = await bcrypt.hash(data.password, 10);
 
+    let fechaAlta = null;
+    if (data.fechaAlta) {
+      fechaAlta = new Date(data.fechaAlta);
+      if (Number.isNaN(fechaAlta.getTime())) {
+        throw new Error("La fecha de alta no es valida");
+      }
+    }
+
+    let fechaBaja = null;
+    if (data.fechaBaja) {
+      fechaBaja = new Date(data.fechaBaja);
+      if (Number.isNaN(fechaBaja.getTime())) {
+        throw new Error("La fecha de baja no es valida");
+      }
+    }
+
+    const salarioBaseMensualRaw =
+      data.salarioBaseMensual === undefined || data.salarioBaseMensual === null
+        ? 1253.5
+        : Number(data.salarioBaseMensual);
+
+    if (Number.isNaN(salarioBaseMensualRaw) || salarioBaseMensualRaw <= 0) {
+      throw new Error("El salario base mensual debe ser mayor que 0");
+    }
+
+    const salarioBaseMensual = Number(salarioBaseMensualRaw.toFixed(2));
+
+    if (fechaAlta && fechaBaja && fechaBaja < fechaAlta) {
+      throw new Error(
+        "La fecha de baja no puede ser anterior a la fecha de alta",
+      );
+    }
+
     const profesor = await this.repository.create({
       ...data,
       nombre,
@@ -131,6 +164,9 @@ export class ProfesoresService {
       telefono,
       permisosLicencias,
       licenciaConducir: permisosLicencias[0],
+      fechaAlta,
+      fechaBaja,
+      salarioBaseMensual,
       passwordHash,
       rol: "PROFESOR",
       activo: true,
@@ -700,6 +736,50 @@ export class ProfesoresService {
       }
 
       payload.passwordHash = await bcrypt.hash(data.password, 10);
+    }
+
+    if (Object.prototype.hasOwnProperty.call(data, "fechaAlta")) {
+      if (!data.fechaAlta) {
+        payload.fechaAlta = null;
+      } else {
+        const parsed = new Date(data.fechaAlta);
+        if (Number.isNaN(parsed.getTime())) {
+          throw new Error("La fecha de alta no es valida");
+        }
+        payload.fechaAlta = parsed;
+      }
+    }
+
+    if (Object.prototype.hasOwnProperty.call(data, "fechaBaja")) {
+      if (!data.fechaBaja) {
+        payload.fechaBaja = null;
+      } else {
+        const parsed = new Date(data.fechaBaja);
+        if (Number.isNaN(parsed.getTime())) {
+          throw new Error("La fecha de baja no es valida");
+        }
+        payload.fechaBaja = parsed;
+      }
+    }
+
+    if (Object.prototype.hasOwnProperty.call(data, "salarioBaseMensual")) {
+      const salario = Number(data.salarioBaseMensual);
+      if (Number.isNaN(salario) || salario <= 0) {
+        throw new Error("El salario base mensual debe ser mayor que 0");
+      }
+      payload.salarioBaseMensual = Number(salario.toFixed(2));
+    }
+
+    if (
+      payload.fechaAlta !== undefined &&
+      payload.fechaBaja !== undefined &&
+      payload.fechaAlta &&
+      payload.fechaBaja &&
+      payload.fechaBaja < payload.fechaAlta
+    ) {
+      throw new Error(
+        "La fecha de baja no puede ser anterior a la fecha de alta",
+      );
     }
 
     return this.repository.update(id, payload);

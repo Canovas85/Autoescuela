@@ -190,7 +190,28 @@ export class InformesService {
     }));
   }
 
-  buildCashFlowSeries(facturasPagadas = [], gastos = [], startDate, endDate) {
+  toMovementNominas(nominas = []) {
+    return (nominas || []).map((item) => ({
+      id: `nomina-${item.id}`,
+      tipo: "NOMINA",
+      concepto: "Nomina profesor",
+      categoria: "Nominas",
+      estado: item.estado || "GENERADA",
+      fecha: item.fechaGeneracion,
+      importe: round2(Number(item.liquidoPercibir || 0) * -1),
+      alumno: "-",
+      referencia: item.numero || item.id,
+      detalle: item.profesor?.usuario?.nombre || "Profesor",
+    }));
+  }
+
+  buildCashFlowSeries(
+    facturasPagadas = [],
+    gastos = [],
+    nominas = [],
+    startDate,
+    endDate,
+  ) {
     const incomeByDate = new Map();
     const expenseByDate = new Map();
 
@@ -213,6 +234,19 @@ export class InformesService {
       expenseByDate.set(
         key,
         round2((expenseByDate.get(key) || 0) + Number(item.total || 0)),
+      );
+    }
+
+    for (const item of nominas) {
+      const key = toDateKey(item.fechaGeneracion);
+      if (!key) {
+        continue;
+      }
+      expenseByDate.set(
+        key,
+        round2(
+          (expenseByDate.get(key) || 0) + Number(item.liquidoPercibir || 0),
+        ),
       );
     }
 
@@ -269,10 +303,11 @@ export class InformesService {
   async getAdminAccountingReport(filters = {}) {
     const { period, startDate, endDate } = this.resolveDateRange(filters);
 
-    const [facturas, pagos, gastos] = await Promise.all([
+    const [facturas, pagos, gastos, nominas] = await Promise.all([
       this.repository.findFacturasBetween(startDate, endDate),
       this.repository.findPagosBetween(startDate, endDate),
       this.repository.findGastosCombustibleBetween(startDate, endDate),
+      this.repository.findNominasBetween(startDate, endDate),
     ]);
 
     const facturasPagadas = (facturas || []).filter(
@@ -293,8 +328,19 @@ export class InformesService {
       facturasPagadas.reduce((acc, item) => acc + Number(item.total || 0), 0),
     );
 
-    const gastosTotales = round2(
+    const gastosCombustibleTotales = round2(
       (gastos || []).reduce((acc, item) => acc + Number(item.total || 0), 0),
+    );
+
+    const gastosNominaTotales = round2(
+      (nominas || []).reduce(
+        (acc, item) => acc + Number(item.liquidoPercibir || 0),
+        0,
+      ),
+    );
+
+    const gastosTotales = round2(
+      gastosCombustibleTotales + gastosNominaTotales,
     );
 
     const cobrosPendientesMatricula = round2(
@@ -308,6 +354,7 @@ export class InformesService {
       ...this.toMovementFacturas(facturas),
       ...this.toMovementPagos(pagos),
       ...this.toMovementGastos(gastos),
+      ...this.toMovementNominas(nominas),
     ].sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
 
     return {
@@ -329,6 +376,7 @@ export class InformesService {
       flujoCaja: this.buildCashFlowSeries(
         facturasPagadas,
         gastos,
+        nominas,
         startDate,
         endDate,
       ),

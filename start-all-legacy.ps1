@@ -44,9 +44,20 @@ try {
 }
 
 Write-Host ""
-Write-Host "[4/4] Esperando a que el backend responda..." -ForegroundColor Yellow
+Write-Host "[4/5] Esperando a que el backend responda..." -ForegroundColor Yellow
 $backendReady = $false
+$backendContainerId = docker compose ps -q backend
 for ($i = 1; $i -le 60; $i++) {
+    if ($backendContainerId) {
+        $backendStatus = docker inspect -f "{{.State.Status}}" $backendContainerId 2>$null
+        if ($backendStatus -in @("exited", "dead")) {
+            Write-Host "El contenedor backend se ha detenido ($backendStatus)." -ForegroundColor Red
+            Write-Host "Mostrando ultimos logs del backend:" -ForegroundColor Yellow
+            docker compose logs --tail=120 backend
+            exit 1
+        }
+    }
+
     try {
         $response = Invoke-WebRequest -Uri "http://localhost:5000/api/health" -UseBasicParsing -TimeoutSec 3
         if ($response.StatusCode -eq 200) {
@@ -54,11 +65,16 @@ for ($i = 1; $i -le 60; $i++) {
             break
         }
     } catch {
+        if (($i % 10) -eq 0) {
+            Write-Host "Esperando backend... intento $i/60" -ForegroundColor DarkYellow
+        }
         Start-Sleep -Seconds 2
     }
 }
 
 if (-not $backendReady) {
+    Write-Host "Backend no disponible tras 60 intentos. Ultimos logs:" -ForegroundColor Red
+    docker compose logs --tail=120 backend
     Write-Error "El backend no ha respondido en http://localhost:5000/api/health. Revisa logs con: docker compose logs -f"
     exit 1
 }

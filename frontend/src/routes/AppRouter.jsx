@@ -51,6 +51,7 @@ import Informes from "../pages/Informes/Informes";
 import Agendas from "../pages/Agendas/Agendas";
 import OtrosUsuarios from "../pages/OtrosUsuarios/OtrosUsuarios";
 import NuevaLicencia from "../pages/NuevaLicencia/NuevaLicencia";
+import Nominas from "../pages/Nominas/Nominas";
 
 function RequireAuth() {
   const token = localStorage.getItem("token");
@@ -158,6 +159,7 @@ export default function AppRouter() {
 
               <Route path="/facturas" element={<IngresosFacturas />} />
               <Route path="/gastos" element={<Gastos />} />
+              <Route path="/nominas" element={<Nominas />} />
               <Route path="/informes" element={<Informes />} />
               <Route path="/agendas" element={<Agendas />} />
               <Route path="/otros-usuarios" element={<OtrosUsuarios />} />

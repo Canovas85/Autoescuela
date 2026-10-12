@@ -90,4 +90,29 @@ export class InformesRepository {
       },
     });
   }
+
+  async findNominasBetween(startDate, endDate) {
+    return this.prisma.nomina.findMany({
+      where: {
+        fechaGeneracion: {
+          gte: startDate,
+          lte: endDate,
+        },
+      },
+      include: {
+        profesor: {
+          include: {
+            usuario: {
+              select: {
+                nombre: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        fechaGeneracion: "desc",
+      },
+    });
+  }
 }

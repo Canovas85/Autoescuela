@@ -31,6 +31,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import PersonIcon from "@mui/icons-material/Person";
 import { profesorPortalService } from "../../services/profesorPortalService";
+import { clasesPracticasPortalService } from "../../services/clasesPracticasPortalService";
 import {
   addDaysToDateKey,
   dateFromKeyAtNoon,
@@ -203,6 +204,84 @@ const getAgendaStatusChipConfig = (status) => {
   return { label: normalized || "SIN ESTADO", color: "default" };
 };
 
+const COMPLETED_STATUSES = [
+  "REALIZADA",
+  "COMPLETADA",
+  "FINALIZADA",
+  "REGISTRADA",
+];
+
+const PROGRAMMED_STATUSES = ["PROGRAMADA", "CONFIRMADA"];
+
+const buildImageSrc = (ruta) => {
+  if (!ruta) {
+    return "";
+  }
+
+  if (ruta.startsWith("http://") || ruta.startsWith("https://")) {
+    return ruta;
+  }
+
+  if (ruta.startsWith("/api/")) {
+    return ruta;
+  }
+
+  if (ruta.startsWith("api/")) {
+    return `/${ruta}`;
+  }
+
+  if (ruta.startsWith("/uploads/")) {
+    return `/api${ruta}`;
+  }
+
+  if (ruta.startsWith("uploads/")) {
+    return `/api/${ruta}`;
+  }
+
+  return ruta;
+};
+
+const isDateInRange = (value, from, to) => {
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return false;
+  }
+
+  return date >= from && date <= to;
+};
+
+const summarizeClassesByPeriod = (rows, from, to) => {
+  return (rows || []).reduce(
+    (acc, row) => {
+      if (!isDateInRange(row?.fecha, from, to)) {
+        return acc;
+      }
+
+      const estado = String(row?.estado || "").toUpperCase();
+
+      if (PROGRAMMED_STATUSES.includes(estado)) {
+        acc.programadasConfirmadas += 1;
+      }
+
+      if (estado === "PROGRAMADA") {
+        acc.pendientesConfirmar += 1;
+      }
+
+      if (COMPLETED_STATUSES.includes(estado)) {
+        acc.completadasRegistradas += 1;
+      }
+
+      return acc;
+    },
+    {
+      programadasConfirmadas: 0,
+      pendientesConfirmar: 0,
+      completadasRegistradas: 0,
+    },
+  );
+};
+
 export default function ProfesorAgenda() {
   const [weekOffset, setWeekOffset] = useState(0);
   const [agenda, setAgenda] = useState(null);
@@ -213,6 +292,7 @@ export default function ProfesorAgenda() {
   const [openScheduleModal, setOpenScheduleModal] = useState(false);
   const [viewMenuAnchor, setViewMenuAnchor] = useState(null);
   const [showOnlyToday, setShowOnlyToday] = useState(false);
+  const [classRows, setClassRows] = useState([]);
 
   const [scheduleBlocks, setScheduleBlocks] = useState([]);
   const [newBlock, setNewBlock] = useState({
@@ -226,8 +306,12 @@ export default function ProfesorAgenda() {
     setError("");
 
     try {
-      const data = await profesorPortalService.getAgenda(offset);
+      const [data, professorClasses] = await Promise.all([
+        profesorPortalService.getAgenda(offset),
+        clasesPracticasPortalService.getProfessorRequests(),
+      ]);
       setAgenda(data);
+      setClassRows(Array.isArray(professorClasses) ? professorClasses : []);
 
       const flattened = (data?.horario || []).flatMap((day) =>
         (day?.bloques || []).map((block) => ({
@@ -381,6 +465,29 @@ export default function ProfesorAgenda() {
     };
   }, [agenda?.clases]);
 
+  const periodSummary = useMemo(() => {
+    const now = new Date();
+
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    endOfMonth.setHours(23, 59, 59, 999);
+
+    const weekStart = new Date(now);
+    weekStart.setHours(0, 0, 0, 0);
+    const dayIndex = weekStart.getDay();
+    const distanceFromMonday = (dayIndex + 6) % 7;
+    weekStart.setDate(weekStart.getDate() - distanceFromMonday);
+
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekEnd.getDate() + 6);
+    weekEnd.setHours(23, 59, 59, 999);
+
+    return {
+      mes: summarizeClassesByPeriod(classRows, startOfMonth, endOfMonth),
+      semana: summarizeClassesByPeriod(classRows, weekStart, weekEnd),
+    };
+  }, [classRows]);
+
   const addBlock = () => {
     const startMinutes = timeToMinutes(newBlock.horaInicio);
     const endMinutes = timeToMinutes(newBlock.horaFin);
@@ -463,18 +570,99 @@ export default function ProfesorAgenda() {
     <Box>
       <Stack
         direction={{ xs: "column", md: "row" }}
-        spacing={1.5}
+        spacing={1.25}
         justifyContent="space-between"
-        alignItems={{ xs: "stretch", md: "center" }}
+        alignItems={{ xs: "stretch", md: "flex-start" }}
         sx={{ mb: 2 }}
       >
-        <Typography variant="h4" fontWeight={800}>
-          Mi agenda
-        </Typography>
+        <Stack spacing={1} sx={{ width: "100%" }}>
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={1}
+            alignItems={{ xs: "flex-start", sm: "center" }}
+          >
+            <Typography variant="h4" fontWeight={800}>
+              Mi agenda
+            </Typography>
 
-        <Button variant="outlined" onClick={() => setOpenScheduleModal(true)}>
-          Configurar horario
-        </Button>
+            <Button
+              variant="outlined"
+              onClick={() => setOpenScheduleModal(true)}
+            >
+              Configurar horario
+            </Button>
+          </Stack>
+
+          <Stack
+            direction={{ xs: "column", lg: "row" }}
+            spacing={1}
+            sx={{ width: "100%" }}
+          >
+            <Paper
+              variant="outlined"
+              sx={{
+                p: 1,
+                borderRadius: 2,
+                flex: 1,
+                minWidth: 300,
+                backgroundColor: "#f8fbff",
+              }}
+            >
+              <Typography variant="caption" color="text.secondary">
+                Clases del mes actual
+              </Typography>
+              <Stack direction="row" spacing={0.75} sx={{ mt: 0.7 }} useFlexGap>
+                <Chip
+                  size="small"
+                  color="primary"
+                  label={`Prog./Conf.: ${periodSummary.mes.programadasConfirmadas}`}
+                />
+                <Chip
+                  size="small"
+                  color="warning"
+                  label={`Pend. confirmar: ${periodSummary.mes.pendientesConfirmar}`}
+                />
+                <Chip
+                  size="small"
+                  color="success"
+                  label={`Complet./Reg.: ${periodSummary.mes.completadasRegistradas}`}
+                />
+              </Stack>
+            </Paper>
+
+            <Paper
+              variant="outlined"
+              sx={{
+                p: 1,
+                borderRadius: 2,
+                flex: 1,
+                minWidth: 300,
+                backgroundColor: "#f7fcf9",
+              }}
+            >
+              <Typography variant="caption" color="text.secondary">
+                Clases de esta semana
+              </Typography>
+              <Stack direction="row" spacing={0.75} sx={{ mt: 0.7 }} useFlexGap>
+                <Chip
+                  size="small"
+                  color="primary"
+                  label={`Prog./Conf.: ${periodSummary.semana.programadasConfirmadas}`}
+                />
+                <Chip
+                  size="small"
+                  color="warning"
+                  label={`Pend. confirmar: ${periodSummary.semana.pendientesConfirmar}`}
+                />
+                <Chip
+                  size="small"
+                  color="success"
+                  label={`Complet./Reg.: ${periodSummary.semana.completadasRegistradas}`}
+                />
+              </Stack>
+            </Paper>
+          </Stack>
+        </Stack>
       </Stack>
 
       {error && (
@@ -887,7 +1075,7 @@ export default function ProfesorAgenda() {
                             <Stack
                               direction="row"
                               spacing={0.6}
-                              sx={{ mt: 0.55, flexWrap: "wrap" }}
+                              sx={{ mt: 0.55, flexWrap: "wrap", pr: 5 }}
                               useFlexGap
                             >
                               {(() => {
@@ -910,7 +1098,7 @@ export default function ProfesorAgenda() {
                               <Stack
                                 direction="row"
                                 spacing={0.6}
-                                sx={{ mt: 0.45 }}
+                                sx={{ mt: 0.45, pr: 5 }}
                               >
                                 <Chip
                                   size="small"
@@ -936,6 +1124,41 @@ export default function ProfesorAgenda() {
                                 />
                               </Stack>
                             )}
+
+                            <Box
+                              sx={{
+                                position: "absolute",
+                                right: 8,
+                                bottom: 8,
+                                width: 40,
+                                height: 30,
+                                borderRadius: 1,
+                                overflow: "hidden",
+                                border: "1px solid #cbd5e1",
+                                backgroundColor: "#fff",
+                                display: "grid",
+                                placeItems: "center",
+                              }}
+                            >
+                              {buildImageSrc(clase.vehiculo?.imagenRuta) ? (
+                                <Box
+                                  component="img"
+                                  src={buildImageSrc(
+                                    clase.vehiculo?.imagenRuta,
+                                  )}
+                                  alt={clase.vehiculo?.matricula || "Vehiculo"}
+                                  sx={{
+                                    width: "100%",
+                                    height: "100%",
+                                    objectFit: "cover",
+                                  }}
+                                />
+                              ) : (
+                                <DirectionsCarIcon
+                                  sx={{ fontSize: 14, color: "#64748b" }}
+                                />
+                              )}
+                            </Box>
                           </Box>
                         );
                       })}

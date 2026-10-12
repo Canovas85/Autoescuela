@@ -849,6 +849,7 @@ export class SolicitudesExamenRepository {
     erroresExamen,
     aciertosExamen,
     observaciones = null,
+    fechaResolucion = null,
   ) {
     return this.prisma.solicitudExamen.update({
       where: { id },
@@ -856,6 +857,7 @@ export class SolicitudesExamenRepository {
         estado,
         erroresExamen,
         aciertosExamen,
+        fechaResolucion: fechaResolucion || new Date(),
         ...(observaciones
           ? {
               observaciones,
@@ -865,10 +867,45 @@ export class SolicitudesExamenRepository {
     });
   }
 
+  async updateResultadoSolicitudTeoricoIfPending(
+    id,
+    estado,
+    erroresExamen,
+    aciertosExamen,
+    observaciones = null,
+    fechaResolucion = null,
+  ) {
+    const updated = await this.prisma.solicitudExamen.updateMany({
+      where: {
+        id,
+        tipo: "TEORICO",
+        estado: {
+          in: ["SOLICITADO", "PROGRAMADO", "PENDIENTE"],
+        },
+      },
+      data: {
+        estado,
+        erroresExamen,
+        aciertosExamen,
+        fechaResolucion: fechaResolucion || new Date(),
+        ...(observaciones
+          ? {
+              observaciones,
+            }
+          : {}),
+      },
+    });
+
+    return updated.count > 0;
+  }
+
   async updateResultadoSolicitudPractico(id, data) {
     return this.prisma.solicitudExamen.update({
       where: { id },
-      data,
+      data: {
+        ...data,
+        fechaResolucion: data?.fechaResolucion || new Date(),
+      },
     });
   }
 
@@ -881,10 +918,26 @@ export class SolicitudesExamenRepository {
           in: ["SOLICITADO", "PROGRAMADO", "PENDIENTE"],
         },
       },
-      data,
+      data: {
+        ...data,
+        fechaResolucion: data?.fechaResolucion || new Date(),
+      },
     });
 
     return updated.count > 0;
+  }
+
+  async findAlumnoAssignedProfessorId(alumnoId) {
+    const alumno = await this.prisma.alumno.findUnique({
+      where: {
+        id: alumnoId,
+      },
+      select: {
+        profesorAsignadoId: true,
+      },
+    });
+
+    return alumno?.profesorAsignadoId || null;
   }
 
   async createExamenResultadoPractico({ alumnoId, fecha, estado }) {

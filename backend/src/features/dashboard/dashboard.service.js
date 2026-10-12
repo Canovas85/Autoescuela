@@ -1498,6 +1498,7 @@ export class DashboardService {
       marca: vehiculo.marca,
       modelo: vehiculo.modelo,
       tipoPermiso: vehiculo.tipoPermiso,
+      imagenRuta: vehiculo.imagenRuta || null,
       kmActuales: vehiculo.kmActuales,
       combustibleActualPct: vehiculo.combustibleActualPct,
       capacidadCombustibleLitros: getCapacidadCombustibleByPermiso(
@@ -1670,6 +1671,8 @@ export class DashboardService {
               matricula: clase.vehiculo.matricula,
               marca: clase.vehiculo.marca,
               modelo: clase.vehiculo.modelo,
+              tipoPermiso: clase.vehiculo.tipoPermiso,
+              imagenRuta: clase.vehiculo.imagenRuta || null,
             }
           : null,
       }));
@@ -2241,6 +2244,7 @@ export class DashboardService {
             marca: clase.vehiculo.marca,
             modelo: clase.vehiculo.modelo,
             tipoPermiso: clase.vehiculo.tipoPermiso,
+            imagenRuta: clase.vehiculo.imagenRuta || null,
           }
         : null,
     };

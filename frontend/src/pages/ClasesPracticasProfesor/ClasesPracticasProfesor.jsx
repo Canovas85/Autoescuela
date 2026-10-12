@@ -8,6 +8,7 @@ import {
   Chip,
   IconButton,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
@@ -56,6 +57,9 @@ export default function ClasesPracticasProfesor() {
   const [success, setSuccess] = useState("");
   const [pendingStart, setPendingStart] = useState(0);
   const [confirmedStart, setConfirmedStart] = useState(0);
+  const [historyDateFrom, setHistoryDateFrom] = useState("");
+  const [historyDateTo, setHistoryDateTo] = useState("");
+  const [historyStudentSearch, setHistoryStudentSearch] = useState("");
 
   const loadData = async () => {
     setLoading(true);
@@ -95,6 +99,36 @@ export default function ClasesPracticasProfesor() {
       ),
     [rows],
   );
+
+  const historicoFiltrado = useMemo(() => {
+    const search = historyStudentSearch.trim().toLowerCase();
+    const fromDate = historyDateFrom
+      ? new Date(`${historyDateFrom}T00:00:00`)
+      : null;
+    const toDate = historyDateTo ? new Date(`${historyDateTo}T23:59:59`) : null;
+
+    return historico.filter((item) => {
+      const alumno = String(item?.alumno?.nombre || "").toLowerCase();
+      if (search && !alumno.includes(search)) {
+        return false;
+      }
+
+      const fecha = new Date(item.fecha);
+      if (Number.isNaN(fecha.getTime())) {
+        return false;
+      }
+
+      if (fromDate && fecha < fromDate) {
+        return false;
+      }
+
+      if (toDate && fecha > toDate) {
+        return false;
+      }
+
+      return true;
+    });
+  }, [historico, historyStudentSearch, historyDateFrom, historyDateTo]);
 
   const pendingMaxStart = Math.max(0, pendientes.length - VISIBLE_ITEMS);
   const confirmedMaxStart = Math.max(0, confirmadas.length - VISIBLE_ITEMS);
@@ -366,13 +400,46 @@ export default function ClasesPracticasProfesor() {
           <Typography variant="h6" fontWeight={800}>
             Histórico reciente
           </Typography>
+
+          <Stack
+            direction={{ xs: "column", md: "row" }}
+            spacing={1.25}
+            sx={{ mt: 1.5, mb: 1 }}
+          >
+            <TextField
+              size="small"
+              label="Alumno"
+              value={historyStudentSearch}
+              onChange={(event) => setHistoryStudentSearch(event.target.value)}
+              sx={{ minWidth: { xs: "100%", md: 260 } }}
+            />
+            <TextField
+              size="small"
+              type="date"
+              label="Fecha desde"
+              InputLabelProps={{ shrink: true }}
+              value={historyDateFrom}
+              onChange={(event) => setHistoryDateFrom(event.target.value)}
+              sx={{ minWidth: { xs: "100%", md: 185 } }}
+            />
+            <TextField
+              size="small"
+              type="date"
+              label="Fecha hasta"
+              InputLabelProps={{ shrink: true }}
+              value={historyDateTo}
+              onChange={(event) => setHistoryDateTo(event.target.value)}
+              sx={{ minWidth: { xs: "100%", md: 185 } }}
+            />
+          </Stack>
+
           <Stack spacing={1} sx={{ mt: 1.5 }}>
-            {historico.length === 0 ? (
+            {historicoFiltrado.length === 0 ? (
               <Typography color="text.secondary">
                 Sin movimientos recientes.
               </Typography>
             ) : (
-              historico.slice(0, 12).map((item) => (
+              historicoFiltrado.slice(0, 12).map((item) => (
                 <Card key={item.id} variant="outlined">
                   <CardContent sx={{ py: 1.5 }}>
                     <Stack

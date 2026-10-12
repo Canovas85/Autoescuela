@@ -29,47 +29,166 @@ import { LicenseChip } from "../../components/common/LicenseChip";
 import { ExpedientePhaseChip } from "../../components/common/ExpedientePhaseChip";
 import { profesorPortalService } from "../../services/profesorPortalService";
 
+function buildImageSrc(ruta) {
+  if (!ruta) {
+    return "";
+  }
+
+  if (ruta.startsWith("http://") || ruta.startsWith("https://")) {
+    return ruta;
+  }
+
+  if (ruta.startsWith("/api/")) {
+    return ruta;
+  }
+
+  if (ruta.startsWith("api/")) {
+    return `/${ruta}`;
+  }
+
+  if (ruta.startsWith("/uploads/")) {
+    return `/api${ruta}`;
+  }
+
+  if (ruta.startsWith("uploads/")) {
+    return `/api/${ruta}`;
+  }
+
+  return ruta;
+}
+
 function StatCard({ title, value, subtitle, color, icon }) {
   return (
     <Card
       sx={{
         borderRadius: 3,
-        border: "1px solid #e2e8f0",
-        boxShadow: "0 10px 24px rgba(15,23,42,0.06)",
+        border: "1px solid #e5e7eb",
+        boxShadow: "0 8px 24px rgba(15,23,42,0.06)",
+        minHeight: 128,
+        position: "relative",
       }}
     >
-      <CardContent>
-        <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Box>
-            <Typography variant="body2" color="text.secondary">
-              {title}
-            </Typography>
-            <Typography variant="h4" fontWeight={800} sx={{ mt: 0.5 }}>
-              {value}
-            </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-              {subtitle}
-            </Typography>
-          </Box>
+      <CardContent
+        sx={{
+          py: 1.5,
+          px: 2,
+          textAlign: "center",
+          "&:last-child": { pb: 1.5 },
+        }}
+      >
+        <Typography variant="body2" color="text.secondary">
+          {title}
+        </Typography>
 
-          <Box
+        <Box
+          sx={{
+            mt: 0.75,
+            mb: 0.5,
+            color,
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          {icon}
+        </Box>
+
+        <Typography
+          variant="caption"
+          color="text.secondary"
+          sx={{
+            display: "block",
+            lineHeight: 1.25,
+            minHeight: 30,
+            px: 1,
+          }}
+        >
+          {subtitle}
+        </Typography>
+
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: 10,
+            left: "50%",
+            transform: "translateX(-50%)",
+          }}
+        >
+          <Chip
+            size="small"
+            label={value}
+            variant="outlined"
             sx={{
-              width: 46,
-              height: 46,
-              borderRadius: 999,
-              display: "grid",
-              placeItems: "center",
-              backgroundColor: color,
-              color: "#fff",
+              backgroundColor: `${color}14`,
+              borderColor: color,
+              color,
+              fontWeight: 700,
+              minWidth: 44,
             }}
-          >
-            {icon}
-          </Box>
+          />
         </Box>
       </CardContent>
     </Card>
   );
 }
+
+function VehiclePhoto({ src, alt }) {
+  if (!src) {
+    return (
+      <Box
+        sx={{
+          width: 92,
+          height: 70,
+          borderRadius: 1.5,
+          border: "1px dashed #cbd5e1",
+          display: "grid",
+          placeItems: "center",
+          color: "#94a3b8",
+          backgroundColor: "#f8fafc",
+          flexShrink: 0,
+        }}
+      >
+        <CommuteIcon fontSize="small" />
+      </Box>
+    );
+  }
+
+  return (
+    <Box
+      component="img"
+      src={src}
+      alt={alt}
+      sx={{
+        width: 92,
+        height: 70,
+        borderRadius: 1.5,
+        objectFit: "cover",
+        objectPosition: "center",
+        border: "1px solid #e2e8f0",
+        flexShrink: 0,
+      }}
+    />
+  );
+}
+
+const getVehicleLicenseColor = (tipoPermiso) => {
+  if (["A", "A1", "A2"].includes(tipoPermiso)) {
+    return "primary";
+  }
+
+  if (tipoPermiso === "B") {
+    return "success";
+  }
+
+  if (tipoPermiso === "C") {
+    return "warning";
+  }
+
+  if (tipoPermiso === "E") {
+    return "secondary";
+  }
+
+  return "default";
+};
 
 const getExamResultMeta = (estado) => {
   const normalized = String(estado || "").toUpperCase();
@@ -177,7 +296,7 @@ export default function ProfessorDashboard({ data }) {
       </Box>
 
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} lg={4} sx={{ width: 365 }}>
+        <Grid item xs={12} sm={6} lg={3}>
           <StatCard
             title="Alumnos Asignados"
             value={resumen.alumnosAsignados ?? 0}
@@ -187,7 +306,7 @@ export default function ProfessorDashboard({ data }) {
           />
         </Grid>
 
-        <Grid item xs={12} sm={6} lg={4} sx={{ width: 365 }}>
+        <Grid item xs={12} sm={6} lg={3}>
           <StatCard
             title="Vehículos Disponibles"
             value={resumen.vehiculosDisponibles ?? 0}
@@ -197,7 +316,7 @@ export default function ProfessorDashboard({ data }) {
           />
         </Grid>
 
-        <Grid item xs={12} sm={6} lg={4} sx={{ width: 365 }}>
+        <Grid item xs={12} sm={6} lg={3}>
           <StatCard
             title="Clases Confirmadas para hoy"
             value={resumen.clasesConfirmadasHoy ?? 0}
@@ -207,7 +326,7 @@ export default function ProfessorDashboard({ data }) {
           />
         </Grid>
 
-        <Grid item xs={12} sm={6} lg={4} sx={{ width: 365 }}>
+        <Grid item xs={12} sm={6} lg={3}>
           <StatCard
             title="Hojas de Ruta pendientes y en curso"
             value={resumen.hojasRutaPendientesEnCurso ?? 0}
@@ -308,38 +427,33 @@ export default function ProfessorDashboard({ data }) {
                   }}
                 >
                   <CardContent>
-                    <Typography fontWeight={700}>
-                      {vehiculo.marca} {vehiculo.modelo}
-                    </Typography>
+                    <Stack direction="row" spacing={1.25} alignItems="center">
+                      <Box sx={{ minWidth: 0, flex: 1 }}>
+                        <Typography fontWeight={700}>
+                          {vehiculo.marca} {vehiculo.modelo}
+                        </Typography>
 
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      sx={{ mt: 1 }}
-                    >
-                      Matricula: {vehiculo.matricula}
-                    </Typography>
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          sx={{ mt: 0.5 }}
+                        >
+                          Matricula: {vehiculo.matricula}
+                        </Typography>
 
-                    <Chip
-                      sx={{ mt: 1 }}
-                      label={`Permiso ${vehiculo.tipoPermiso || "-"}`}
-                      color={
-                        vehiculo.tipoPermiso === "A" ||
-                        vehiculo.tipoPermiso === "A1" ||
-                        vehiculo.tipoPermiso === "A2"
-                          ? "primary"
-                          : vehiculo.tipoPermiso === "B"
-                            ? "success"
-                            : vehiculo.tipoPermiso === "C"
-                              ? "warning"
-                              : vehiculo.tipoPermiso === "D"
-                                ? "default"
-                                : vehiculo.tipoPermiso === "E"
-                                  ? "secondary"
-                                  : "error"
-                      }
-                      size="small"
-                    />
+                        <Chip
+                          sx={{ mt: 1 }}
+                          label={`Permiso ${vehiculo.tipoPermiso || "-"}`}
+                          color={getVehicleLicenseColor(vehiculo.tipoPermiso)}
+                          size="small"
+                        />
+                      </Box>
+
+                      <VehiclePhoto
+                        src={buildImageSrc(vehiculo.imagenRuta)}
+                        alt={`Vehiculo ${vehiculo.matricula || ""}`}
+                      />
+                    </Stack>
                   </CardContent>
                 </Card>
               </Grid>

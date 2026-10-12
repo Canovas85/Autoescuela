@@ -150,6 +150,9 @@ exports.Prisma.ProfesorScalarFieldEnum = {
   licenciaConducir: 'licenciaConducir',
   telefono: 'telefono',
   activo: 'activo',
+  fechaAlta: 'fechaAlta',
+  fechaBaja: 'fechaBaja',
+  salarioBaseMensual: 'salarioBaseMensual',
   permisosLicencias: 'permisosLicencias'
 };
 
@@ -312,7 +315,9 @@ exports.Prisma.SolicitudExamenScalarFieldEnum = {
   faltasDeficientesDetalle: 'faltasDeficientesDetalle',
   faltasEliminatoriasDetalle: 'faltasEliminatoriasDetalle',
   motivoNoApto: 'motivoNoApto',
-  observaciones: 'observaciones'
+  observaciones: 'observaciones',
+  fechaResolucion: 'fechaResolucion',
+  profesorResolucionId: 'profesorResolucionId'
 };
 
 exports.Prisma.ConvocatoriaExamenScalarFieldEnum = {
@@ -651,6 +656,40 @@ exports.Prisma.GastoCombustibleScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.NominaScalarFieldEnum = {
+  id: 'id',
+  numero: 'numero',
+  profesorId: 'profesorId',
+  anio: 'anio',
+  mes: 'mes',
+  periodoInicio: 'periodoInicio',
+  periodoFin: 'periodoFin',
+  diasMes: 'diasMes',
+  diasTrabajados: 'diasTrabajados',
+  salarioBaseMensual: 'salarioBaseMensual',
+  importeSalarioBase: 'importeSalarioBase',
+  plusTransporte: 'plusTransporte',
+  plusProductividad: 'plusProductividad',
+  presentadosApto: 'presentadosApto',
+  presentadosNoApto: 'presentadosNoApto',
+  totalPresentados: 'totalPresentados',
+  prorrataPagasExtra: 'prorrataPagasExtra',
+  deduccionContingenciasComunes: 'deduccionContingenciasComunes',
+  deduccionDesempleo: 'deduccionDesempleo',
+  deduccionFormacionProfesional: 'deduccionFormacionProfesional',
+  deduccionIrpf: 'deduccionIrpf',
+  totalDevengos: 'totalDevengos',
+  totalDeducciones: 'totalDeducciones',
+  liquidoPercibir: 'liquidoPercibir',
+  baseCotizacionComunes: 'baseCotizacionComunes',
+  baseCotizacionProfesionales: 'baseCotizacionProfesionales',
+  baseRetencionIrpf: 'baseRetencionIrpf',
+  estado: 'estado',
+  fechaGeneracion: 'fechaGeneracion',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.NotificacionScalarFieldEnum = {
   id: 'id',
   usuarioId: 'usuarioId',
@@ -758,6 +797,7 @@ exports.Prisma.ModelName = {
   MatriculaConcepto: 'MatriculaConcepto',
   Factura: 'Factura',
   GastoCombustible: 'GastoCombustible',
+  Nomina: 'Nomina',
   Notificacion: 'Notificacion',
   PasswordResetAudit: 'PasswordResetAudit'
 };
