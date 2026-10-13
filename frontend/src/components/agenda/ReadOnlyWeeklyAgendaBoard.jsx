@@ -199,6 +199,12 @@ function DayColumn({ day, classes, showStudentName, emptyMessage }) {
                   sx={{ color: palette.title, display: "block" }}
                 >
                   {formatHourRange(clase.fecha, clase.duracion)}
+                  <Box sx={{ flex: 1, textAlign: "right", mt: -2.5 }}>
+                    <LicenseChip
+                      value={clase.vehiculo?.tipoPermiso || "-"}
+                      size="small"
+                    />
+                  </Box>
                 </Typography>
 
                 {showStudentName ? (
@@ -231,10 +237,6 @@ function DayColumn({ day, classes, showStudentName, emptyMessage }) {
                   <Typography variant="caption" color="text.secondary">
                     {clase.vehiculo?.matricula || "Sin matricula"}
                   </Typography>
-                </Stack>
-
-                <Stack sx={{ mt: 0.45 }}>
-                  <LicenseChip value={clase.vehiculo?.tipoPermiso || "-"} />
                 </Stack>
 
                 <Chip
