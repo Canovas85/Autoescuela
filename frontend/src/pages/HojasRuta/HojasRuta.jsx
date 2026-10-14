@@ -1838,7 +1838,16 @@ export default function HojasRuta() {
                 InputLabelProps={{ shrink: true }}
                 value={searchParams.get("dateFrom") || ""}
                 onChange={(event) => setParam("dateFrom", event.target.value)}
-                sx={{ minWidth: { xs: "100%", md: 185 } }}
+                sx={{
+                  minWidth: { xs: "100%", md: 185 },
+                  // Oculta las letras dd/mm/aaaa nativas si no hay ningún valor seleccionado en la URL
+                  "& input::-webkit-datetime-edit-text, & input::-webkit-datetime-edit-month-field, & input::-webkit-datetime-edit-day-field, & input::-webkit-datetime-edit-year-field":
+                    {
+                      color: searchParams.get("dateFrom")
+                        ? "inherit"
+                        : "transparent",
+                    },
+                }}
               />
 
               <TextField
@@ -1848,8 +1857,18 @@ export default function HojasRuta() {
                 InputLabelProps={{ shrink: true }}
                 value={searchParams.get("dateTo") || ""}
                 onChange={(event) => setParam("dateTo", event.target.value)}
-                sx={{ minWidth: { xs: "100%", md: 185 } }}
+                sx={{
+                  minWidth: { xs: "100%", md: 185 },
+                  // Oculta las letras dd/mm/aaaa nativas si no hay ningún valor seleccionado en la URL
+                  "& input::-webkit-datetime-edit-text, & input::-webkit-datetime-edit-month-field, & input::-webkit-datetime-edit-day-field, & input::-webkit-datetime-edit-year-field":
+                    {
+                      color: searchParams.get("dateTo")
+                        ? "inherit"
+                        : "transparent",
+                    },
+                }}
               />
+
               {/*<Button
                 variant="outlined"
                 startIcon={<FilterListIcon />}
@@ -2523,17 +2542,36 @@ export default function HojasRuta() {
                 label="Desde"
                 type="date"
                 InputLabelProps={{ shrink: true }}
-                sx={{ minWidth: 180 }}
                 value={searchParams.get("dateFrom") || ""}
                 onChange={(event) => setParam("dateFrom", event.target.value)}
+                sx={{
+                  minWidth: 180,
+                  // Oculta el formato nativo gris (dd/mm/aaaa) cuando no hay fecha seleccionada
+                  "& input::-webkit-datetime-edit-text, & input::-webkit-datetime-edit-month-field, & input::-webkit-datetime-edit-day-field, & input::-webkit-datetime-edit-year-field":
+                    {
+                      color: searchParams.get("dateFrom")
+                        ? "inherit"
+                        : "transparent",
+                    },
+                }}
               />
+
               <TextField
                 label="Hasta"
                 type="date"
                 InputLabelProps={{ shrink: true }}
-                sx={{ minWidth: 180 }}
                 value={searchParams.get("dateTo") || ""}
                 onChange={(event) => setParam("dateTo", event.target.value)}
+                sx={{
+                  minWidth: 180,
+                  // Oculta el formato nativo gris (dd/mm/aaaa) cuando no hay fecha seleccionada
+                  "& input::-webkit-datetime-edit-text, & input::-webkit-datetime-edit-month-field, & input::-webkit-datetime-edit-day-field, & input::-webkit-datetime-edit-year-field":
+                    {
+                      color: searchParams.get("dateTo")
+                        ? "inherit"
+                        : "transparent",
+                    },
+                }}
               />
             </Stack>
           </CardContent>

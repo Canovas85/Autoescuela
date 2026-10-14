@@ -1477,7 +1477,7 @@ export default function Alumnos() {
                         borderColor: "divider",
                         display: "grid",
                         gap: 1.5,
-                        maxHeight: "260px", // Limita el alto del contenedor para que no estire el modal
+                        maxHeight: "300px", // Limita el alto del contenedor para que no estire el modal
                         overflowY: "auto", // Añade scroll interno si hay muchas tarjetas de descuento
                       }}
                     >

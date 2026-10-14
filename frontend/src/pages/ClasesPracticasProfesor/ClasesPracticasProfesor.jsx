@@ -420,8 +420,16 @@ export default function ClasesPracticasProfesor() {
               InputLabelProps={{ shrink: true }}
               value={historyDateFrom}
               onChange={(event) => setHistoryDateFrom(event.target.value)}
-              sx={{ minWidth: { xs: "100%", md: 185 } }}
+              sx={{
+                minWidth: { xs: "100%", md: 185 },
+                // Oculta el placeholder interno nativo del navegador para evitar el solape
+                "& input::-webkit-datetime-edit-text, & input::-webkit-datetime-edit-month-field, & input::-webkit-datetime-edit-day-field, & input::-webkit-datetime-edit-year-field":
+                  {
+                    color: historyDateFrom ? "inherit" : "transparent",
+                  },
+              }}
             />
+
             <TextField
               size="small"
               type="date"
@@ -429,7 +437,14 @@ export default function ClasesPracticasProfesor() {
               InputLabelProps={{ shrink: true }}
               value={historyDateTo}
               onChange={(event) => setHistoryDateTo(event.target.value)}
-              sx={{ minWidth: { xs: "100%", md: 185 } }}
+              sx={{
+                minWidth: { xs: "100%", md: 185 },
+                // Oculta el placeholder interno nativo del navegador para evitar el solape
+                "& input::-webkit-datetime-edit-text, & input::-webkit-datetime-edit-month-field, & input::-webkit-datetime-edit-day-field, & input::-webkit-datetime-edit-year-field":
+                  {
+                    color: historyDateTo ? "inherit" : "transparent",
+                  },
+              }}
             />
           </Stack>
 

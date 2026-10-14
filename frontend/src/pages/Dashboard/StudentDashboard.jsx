@@ -371,35 +371,46 @@ export default function StudentDashboard({ data }) {
         <Card
           sx={{
             borderRadius: 2,
-            border: "2px solid #f59e0b",
-            backgroundColor: "#fef3c7",
-            borderLeft: "6px solid #f59e0b",
+            border: "2px solid #2563eb",
+            backgroundColor: "#eff6ff",
+            borderLeft: "6px solid #2563eb",
             boxShadow: "none",
           }}
         >
           <CardContent>
-            <Typography variant="h5" fontWeight={800} color="warning.main">
-              Matrícula pendiente de pago
-            </Typography>
+            {/* Contenedor Flex para alinear Título y Botón */}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+                gap: 2, // Evita que se peguen en pantallas pequeñas
+              }}
+            >
+              <Typography variant="h5" fontWeight={800} color="warning.main">
+                Matrícula pendiente de pago
+              </Typography>
 
+              <Button
+                variant="contained"
+                color="success"
+                startIcon={<CreditCardIcon />}
+                onClick={() => navigate("/pago-matricula")}
+                sx={{ whiteSpace: "nowrap" }} // Evita que el texto del botón se rompa en dos líneas
+              >
+                Pagar matrícula
+              </Button>
+            </Box>
+
+            {/* El texto descriptivo queda abajo de ambos */}
             <Typography
               sx={{
-                mt: 1,
-                mb: 2,
+                mt: -1, // Ajustado el margen superior para separar del bloque del título
               }}
             >
               Debes completar el pago de tu matrícula para acceder a todos los
               contenidos formativos de la plataforma.
             </Typography>
-
-            <Button
-              variant="contained"
-              color="success"
-              startIcon={<CreditCardIcon />}
-              onClick={() => navigate("/pago-matricula")}
-            >
-              Pagar matrícula
-            </Button>
           </CardContent>
         </Card>
       )}
@@ -415,23 +426,35 @@ export default function StudentDashboard({ data }) {
           }}
         >
           <CardContent>
-            <Typography variant="h5" fontWeight={800} color="primary.main">
-              Tasa DGT pendiente de pago
-            </Typography>
+            {/* Contenedor Flex para alinear el título y el botón en la misma línea */}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+                gap: 2,
+              }}
+            >
+              <Typography variant="h5" fontWeight={800} color="primary.main">
+                Tasa DGT pendiente de pago
+              </Typography>
 
-            <Typography sx={{ mt: 1, mb: 2 }}>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<CreditCardIcon />}
+                onClick={handlePayPendingDgt}
+                sx={{ whiteSpace: "nowrap" }} // Evita que el texto del botón se divida en dos líneas
+              >
+                Pagar tasa DGT
+              </Button>
+            </Box>
+
+            {/* El texto descriptivo se mantiene abajo */}
+            <Typography sx={{ mt: -1 }}>
               Para activar tus convocatorias de examen debes abonar la tasa DGT
               pendiente ({dgtMetrics.tasa21.pagoPendiente?.importe} EUR).
             </Typography>
-
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<CreditCardIcon />}
-              onClick={handlePayPendingDgt}
-            >
-              Pagar tasa DGT
-            </Button>
           </CardContent>
         </Card>
       )}
