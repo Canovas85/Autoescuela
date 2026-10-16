@@ -275,6 +275,29 @@ export class ClasesRepository {
     return solicitudApta > 0 || examenApto > 0;
   }
 
+  async hasPracticalAptoByPhase(alumnoId, fasePractica) {
+    const normalizedPhase = Number(fasePractica);
+
+    const total = await this.prisma.solicitudExamen.count({
+      where: {
+        alumnoId,
+        tipo: "PRACTICO",
+        ...(normalizedPhase === 1
+          ? {
+              OR: [{ fasePractica: 1 }, { fasePractica: null }],
+            }
+          : {
+              fasePractica,
+            }),
+        estado: {
+          in: ["APTO", "APROBADO"],
+        },
+      },
+    });
+
+    return total > 0;
+  }
+
   async getProfessorWorkSchedule(profesorId) {
     return this.prisma.profesorHorarioBloque.findMany({
       where: {

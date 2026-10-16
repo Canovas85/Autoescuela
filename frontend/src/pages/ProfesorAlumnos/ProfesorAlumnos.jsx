@@ -37,6 +37,10 @@ import {
   EXPEDIENTE_PHASE_OPTIONS,
   resolveExpedientePhaseCode,
 } from "../../utils/expedientePhase";
+import {
+  getPracticalExamTypeLabel,
+  isDualPracticalLicense,
+} from "../../utils/practicalExamType";
 
 const formatDateTime = (value) => {
   if (!value) {
@@ -828,74 +832,136 @@ export default function ProfesorAlumnos() {
                     variant="outlined"
                     sx={{ p: 2, borderRadius: 2, width: "550px" }}
                   >
-                    <Typography
-                      fontWeight={700}
-                      color="text.secondary"
-                      gutterBottom
-                    >
-                      Exámenes prácticos
-                    </Typography>
+                    {(() => {
+                      const practicalLicense =
+                        detail?.perfil?.tipoLicenciaObjetivo || "B";
+                      const usesDualPractical =
+                        isDualPracticalLicense(practicalLicense);
+                      const practicalExams = Array.isArray(
+                        detail?.examenes?.practicos,
+                      )
+                        ? detail.examenes.practicos
+                        : [];
+                      const practicalCirculacion = practicalExams.filter(
+                        (item) => item?.tipoPractico === "CIRCULACION",
+                      );
+                      const practicalPista = practicalExams.filter(
+                        (item) => item?.tipoPractico === "PISTA",
+                      );
 
-                    {detail?.examenes?.practicos?.length ? (
-                      <Stack spacing={1}>
-                        {detail.examenes.practicos.map((examen) => {
-                          const state = examStateMeta(examen.estado);
+                      const renderExamCard = (examen) => {
+                        const state = examStateMeta(examen.estado);
 
-                          return (
-                            <Box
-                              key={examen.id}
-                              sx={{
-                                p: 1.25,
-                                borderRadius: 2,
-                                border: "1px solid #e2e8f0",
-                                backgroundColor: "#ffffff",
-                              }}
+                        return (
+                          <Box
+                            key={examen.id}
+                            sx={{
+                              p: 1.25,
+                              borderRadius: 2,
+                              border: "1px solid #e2e8f0",
+                              backgroundColor: "#ffffff",
+                            }}
+                          >
+                            <Stack
+                              direction="row"
+                              justifyContent="space-between"
+                              alignItems="center"
+                              sx={{ mb: 0.5 }}
                             >
-                              <Stack
-                                direction="row"
-                                justifyContent="space-between"
-                                alignItems="center"
-                                sx={{ mb: 0.5 }}
-                              >
-                                <Typography
-                                  variant="subtitle2"
-                                  fontWeight={700}
-                                  sx={{ mr: 35 }}
-                                >
-                                  Fecha:{" "}
-                                  {formatExamDate(
-                                    examen.fechaProgramada ||
-                                      examen.fechaSolicitud,
-                                  )}
-                                </Typography>
-                                <Box sx={{ flex: 1, textAlign: "right" }}>
-                                  <Chip
-                                    icon={state.icon}
-                                    size="small"
-                                    color={state.color}
-                                    label={state.label}
-                                  />
-                                </Box>
-                              </Stack>
-
                               <Typography
-                                variant="body2"
-                                color="text.secondary"
+                                variant="subtitle2"
+                                fontWeight={700}
+                                sx={{ mr: 35 }}
                               >
-                                Faltas leves: {examen.faltasLeves ?? "-"} |
-                                Deficientes: {examen.faltasDeficientes ?? "-"} |
-                                Eliminatorias:{" "}
-                                {examen.faltasEliminatorias ?? "-"}
+                                Fecha:{" "}
+                                {formatExamDate(
+                                  examen.fechaProgramada ||
+                                    examen.fechaSolicitud,
+                                )}
                               </Typography>
-                            </Box>
-                          );
-                        })}
-                      </Stack>
-                    ) : (
-                      <Typography variant="body2" color="text.secondary">
-                        El alumno no se ha presentado al examen práctico.
-                      </Typography>
-                    )}
+                              <Box sx={{ flex: 1, textAlign: "right" }}>
+                                <Chip
+                                  icon={state.icon}
+                                  size="small"
+                                  color={state.color}
+                                  label={state.label}
+                                />
+                              </Box>
+                            </Stack>
+
+                            <Typography variant="body2" color="text.secondary">
+                              Subtipo:{" "}
+                              {getPracticalExamTypeLabel({
+                                license: practicalLicense,
+                                phase: examen?.fasePractica,
+                              })}
+                            </Typography>
+
+                            <Typography variant="body2" color="text.secondary">
+                              Faltas leves: {examen.faltasLeves ?? "-"} |
+                              Deficientes: {examen.faltasDeficientes ?? "-"} |
+                              Eliminatorias: {examen.faltasEliminatorias ?? "-"}
+                            </Typography>
+                          </Box>
+                        );
+                      };
+
+                      return (
+                        <>
+                          <Typography
+                            fontWeight={700}
+                            color="text.secondary"
+                            gutterBottom
+                          >
+                            Exámenes prácticos: Circulacion
+                          </Typography>
+
+                          {practicalCirculacion.length ? (
+                            <Stack
+                              spacing={1}
+                              sx={{ mb: usesDualPractical ? 2 : 0 }}
+                            >
+                              {practicalCirculacion.map(renderExamCard)}
+                            </Stack>
+                          ) : (
+                            <Typography
+                              variant="body2"
+                              color="text.secondary"
+                              sx={{ mb: usesDualPractical ? 2 : 0 }}
+                            >
+                              El alumno no se ha presentado al examen práctico
+                              de Circulacion.
+                            </Typography>
+                          )}
+
+                          {usesDualPractical ? (
+                            <>
+                              <Typography
+                                fontWeight={700}
+                                color="text.secondary"
+                                gutterBottom
+                              >
+                                Exámenes prácticos: Pista (Circuito)
+                              </Typography>
+
+                              {practicalPista.length ? (
+                                <Stack spacing={1}>
+                                  {practicalPista.map(renderExamCard)}
+                                </Stack>
+                              ) : (
+                                <Typography
+                                  variant="body2"
+                                  color="text.secondary"
+                                >
+                                  El alumno no se ha presentado al examen
+                                  práctico de pista.
+                                </Typography>
+                              )}
+                            </>
+                          ) : null}
+                        </>
+                      );
+                    })()}
                   </Paper>
                 </Grid>
               </Grid>
@@ -1031,10 +1097,14 @@ export default function ProfesorAlumnos() {
                         <Typography variant="body2" color="text.secondary">
                           {HISTORY_DETAIL_LABELS[key] || key}
                         </Typography>
-                        <Typography
-                          variant="body2"
-                          fontWeight={700}
-                          sx={{ textAlign: "right" }}
+                        <Box
+                          sx={{
+                            textAlign: "right",
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            alignItems: "center",
+                            minHeight: 22,
+                          }}
                         >
                           {["permiso", "licenciaVehiculo"].includes(key) ? (
                             <LicenseChip value={value} />
@@ -1043,9 +1113,11 @@ export default function ProfesorAlumnos() {
                             ) ? (
                             <PracticalClassTypeChip value={value} />
                           ) : (
-                            formatHistoryFieldValue(value)
+                            <Typography variant="body2" fontWeight={700}>
+                              {formatHistoryFieldValue(value)}
+                            </Typography>
                           )}
-                        </Typography>
+                        </Box>
                       </Box>
                     ),
                   )

@@ -78,11 +78,11 @@ export class DocumentosAlumnoService {
       archivos,
     });
 
-    if (this.notificacionesRepository) {
-      await this.notificacionesRepository.createForRole("ADMIN", {
+    if (this.notificacionesRepository && tipo === "CERTIFICADO_PSICOTECNICO") {
+      await this.notificacionesRepository.createForRole("ADMINISTRATIVO", {
         tipo: "DOCUMENTO_PENDIENTE_VALIDACION",
-        titulo: "Documento pendiente de validar",
-        mensaje: `Nuevo documento ${tipo} pendiente de validar para ${documento.alumno?.usuario?.nombre || "alumno"}`,
+        titulo: "Psicotécnico pendiente de validar",
+        mensaje: `Nuevo psicotécnico pendiente de validar para ${documento.alumno?.usuario?.nombre || "alumno"}`,
         metadata: {
           documentoId: documento.id,
           alumnoId,

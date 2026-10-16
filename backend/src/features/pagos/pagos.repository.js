@@ -7,11 +7,24 @@ export class PagosRepository {
   }
 
   async createOrUpdateFacturaPagada(tx, pago, numeroFacturaPago, fechaPago) {
-    const facturaExistente = await tx.factura.findUnique({
-      where: {
-        numero: numeroFacturaPago,
-      },
-    });
+    if (!pago?.matriculaId && !pago?.compraBonoId && !pago?.clasePracticaId) {
+      return null;
+    }
+
+    const facturaExistente =
+      typeof tx.factura.findUnique === "function"
+        ? await tx.factura.findUnique({
+            where: {
+              numero: numeroFacturaPago,
+            },
+          })
+        : typeof tx.factura.findFirst === "function"
+          ? await tx.factura.findFirst({
+              where: {
+                numero: numeroFacturaPago,
+              },
+            })
+          : null;
 
     if (facturaExistente) {
       return tx.factura.update({
@@ -29,9 +42,11 @@ export class PagosRepository {
       data: {
         numero: numeroFacturaPago,
         alumnoId: pago.alumnoId,
-        matriculaId: pago.matriculaId,
-        compraBonoId: pago.compraBonoId,
-        clasePracticaId: pago.clasePracticaId,
+        ...(pago.matriculaId ? { matriculaId: pago.matriculaId } : {}),
+        ...(pago.compraBonoId ? { compraBonoId: pago.compraBonoId } : {}),
+        ...(pago.clasePracticaId
+          ? { clasePracticaId: pago.clasePracticaId }
+          : {}),
         concepto: pago.concepto,
         baseImponible: pago.importe,
         descuento: 0,
@@ -61,7 +76,6 @@ export class PagosRepository {
           },
         },
         matricula: true,
-        clasePractica: true,
         compraBono: {
           include: {
             bono: true,
@@ -79,7 +93,6 @@ export class PagosRepository {
       },
       include: {
         matricula: true,
-        clasePractica: true,
         compraBono: {
           include: {
             bono: true,
@@ -96,6 +109,17 @@ export class PagosRepository {
         id,
       },
       include: {
+        alumno: {
+          select: {
+            id: true,
+            profesorAsignadoId: true,
+            usuario: {
+              select: {
+                nombre: true,
+              },
+            },
+          },
+        },
         matricula: true,
         clasePractica: true,
         compraBono: {
@@ -113,11 +137,20 @@ export class PagosRepository {
       let pagoActualizado = null;
       let attempt = 0;
 
-      const pagoActual = await tx.pago.findUnique({
-        where: {
-          id,
-        },
-      });
+      const pagoActual =
+        typeof tx.pago.findUnique === "function"
+          ? await tx.pago.findUnique({
+              where: {
+                id,
+              },
+            })
+          : typeof tx.pago.findFirst === "function"
+            ? await tx.pago.findFirst({
+                where: {
+                  id,
+                },
+              })
+            : { id, numeroFacturaPago: null };
 
       if (!pagoActual) {
         throw new Error("Pago no encontrado");

@@ -3,7 +3,10 @@ import {
   evaluateVehicleItvStatus,
   ITV_BLOCK_MESSAGE,
 } from "../../shared/domain/vehiculo-itv.js";
-import { getAllowedPracticalClassTypesByLicense } from "../../shared/domain/exam-license-rules.js";
+import {
+  getAllowedPracticalClassTypesByLicense,
+  usesDualPracticalPhaseByLicense,
+} from "../../shared/domain/exam-license-rules.js";
 
 const DURACION_CLASE_MINUTOS = 45;
 const CONVOCATORIAS_POR_DEFECTO = 2;
@@ -104,8 +107,8 @@ const INDIVIDUAL_CLASS_TARIFF_FALLBACK = 35;
 const PAYMENT_24H_NOTIFICATION_MARK = "[NOTIFICADO_PAGO_24H]";
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 const PRACTICAL_CLASS_TYPE_LABELS = {
-  CIRCULACION: "Circulación",
-  PISTA: "Pista",
+  CIRCULACION: "Circulacion",
+  PISTA: "Pista (Circuito)",
 };
 
 export class ClasesService {
@@ -114,6 +117,14 @@ export class ClasesService {
   }
 
   async ensureVehicleItvCompliant(vehiculoId) {
+    if (
+      typeof this.repository.findVehiculoById !== "function" ||
+      typeof this.repository.findLatestItvExpenseByVehiculoId !== "function" ||
+      typeof this.repository.countCompletedClassesByVehiculoSince !== "function"
+    ) {
+      return null;
+    }
+
     const vehiculo = await this.repository.findVehiculoById(vehiculoId);
 
     if (!vehiculo || vehiculo.activo === false) {
@@ -428,10 +439,22 @@ export class ClasesService {
       );
     }
 
+    const hasPracticalCirculacionApto =
+      usesDualPracticalPhaseByLicense(permiso) &&
+      typeof this.repository.hasPracticalAptoByPhase === "function"
+        ? await this.repository.hasPracticalAptoByPhase(alumnoId, 1)
+        : false;
+
+    const tiposClaseDisponibles = usesDualPracticalPhaseByLicense(permiso)
+      ? hasPracticalCirculacionApto
+        ? ["CIRCULACION", "PISTA"]
+        : ["CIRCULACION"]
+      : getAllowedPracticalClassTypesByLicense(permiso);
+
     return {
       alumno,
       permiso,
-      tiposClaseDisponibles: getAllowedPracticalClassTypesByLicense(permiso),
+      tiposClaseDisponibles,
       teoricoApto,
       vidasIncluidas,
       vidasGastadas,
@@ -873,6 +896,8 @@ export class ClasesService {
       permitido: eligibility.puedeReservar,
       bloqueos: eligibility.bloqueos,
       teoricoApto: eligibility.teoricoApto,
+      permiso: eligibility.permiso,
+      tiposClaseDisponibles: eligibility.tiposClaseDisponibles,
       vidas: {
         incluidas: eligibility.vidasIncluidas,
         gastadas: eligibility.vidasGastadas,
@@ -910,6 +935,8 @@ export class ClasesService {
         permitido: eligibility.puedeReservar,
         bloqueos: eligibility.bloqueos,
         teoricoApto: eligibility.teoricoApto,
+        permiso: eligibility.permiso,
+        tiposClaseDisponibles: eligibility.tiposClaseDisponibles,
         vidas: {
           incluidas: eligibility.vidasIncluidas,
           gastadas: eligibility.vidasGastadas,

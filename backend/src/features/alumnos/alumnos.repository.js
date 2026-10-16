@@ -25,7 +25,11 @@ export class AlumnosRepository {
         tipoLicenciaObjetivo: data.tipoLicenciaObjetivo ?? data.tipoLicencia,
         fechaNacimiento: data.fechaNacimiento ?? null,
         activo: data.activo ?? true,
-        estadoExpediente: data.estadoExpediente ?? "PENDIENTE_MATRICULA",
+        ...(data.estadoExpediente
+          ? {
+              estadoExpediente: data.estadoExpediente,
+            }
+          : {}),
         horasPracticasCompletadas: 0,
         profesorAsignadoId: data.profesorAsignadoId || null,
       },

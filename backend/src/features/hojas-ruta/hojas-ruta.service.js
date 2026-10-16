@@ -12,6 +12,10 @@ const ROADMAP_STATUS = {
 };
 
 const COMBUSTIBLE_UMBRAL_REPOSTAJE = 20;
+const PRACTICAL_CLASS_TYPE_LABELS = {
+  CIRCULACION: "Circulacion",
+  PISTA: "Pista (Circuito)",
+};
 
 const FAULT_TYPES = ["LEVE", "DEFICIENTE", "ELIMINATORIA"];
 const EXERCISES_BY_ID = new Map(
@@ -74,6 +78,27 @@ const normalizeFaultType = (value) => {
   return String(value || "")
     .trim()
     .toUpperCase();
+};
+
+const normalizePracticalClassType = (value) => {
+  const normalized = String(value || "")
+    .trim()
+    .toUpperCase();
+
+  return normalized === "PISTA" ? "PISTA" : "CIRCULACION";
+};
+
+const getClassPracticalTypeValue = (source) => {
+  if (!source || typeof source !== "object") {
+    return source;
+  }
+
+  return source.tipoClasePractica || source.tipo || null;
+};
+
+const getPracticalClassTypeLabel = (value) => {
+  const normalized = normalizePracticalClassType(value);
+  return PRACTICAL_CLASS_TYPE_LABELS[normalized];
 };
 
 const normalizeFault = (fault, index) => {
@@ -282,6 +307,12 @@ const mapClassRoadmap = (clase, now) => {
     estado: status,
     fecha: clase.fecha,
     duracion: clase.duracion,
+    tipoClasePractica: normalizePracticalClassType(
+      getClassPracticalTypeValue(clase),
+    ),
+    tipoClasePracticaLabel: getPracticalClassTypeLabel(
+      getClassPracticalTypeValue(clase),
+    ),
     canceladaConPenalizacion: Boolean(clase.canceladaConPenalizacion),
     alumno: {
       id: clase.alumno?.id,
@@ -368,9 +399,15 @@ const buildPagination = (total, page, pageSize) => {
   };
 };
 
-const hasLowFuel = (clase) =>
-  Number(clase?.vehiculo?.combustibleActualPct ?? 0) <
-  COMBUSTIBLE_UMBRAL_REPOSTAJE;
+const hasLowFuel = (clase) => {
+  const combustibleActualPct = clase?.vehiculo?.combustibleActualPct;
+
+  if (combustibleActualPct === null || combustibleActualPct === undefined) {
+    return false;
+  }
+
+  return Number(combustibleActualPct) < COMBUSTIBLE_UMBRAL_REPOSTAJE;
+};
 
 export class HojasRutaService {
   constructor(repository) {
@@ -379,6 +416,13 @@ export class HojasRutaService {
 
   async ensureVehicleItvCompliant(vehiculo) {
     if (!vehiculo?.id) {
+      return;
+    }
+
+    if (
+      typeof this.repository.findLatestItvExpenseByVehiculoId !== "function" ||
+      typeof this.repository.countCompletedClassesByVehiculoSince !== "function"
+    ) {
       return;
     }
 
@@ -572,6 +616,8 @@ export class HojasRutaService {
       );
     }
 
+    const normalized = normalizeEditablePayload(payload);
+
     await this.ensureVehicleItvCompliant(clase.vehiculo);
 
     if (hasLowFuel(clase)) {
@@ -580,12 +626,17 @@ export class HojasRutaService {
       );
     }
 
-    const normalized = normalizeEditablePayload(payload);
-
     const roadmap = await this.repository.upsertRoadmapByClass(clase, {
       estado: ROADMAP_STATUS.EN_CURSO,
       observacionesProfesor: normalized.observacionesProfesor || null,
-      ejerciciosRealizados: normalized.ejerciciosRealizadosNormalizados,
+      ...(Object.prototype.hasOwnProperty.call(
+        payload || {},
+        "ejerciciosRealizados",
+      )
+        ? {
+            ejerciciosRealizados: normalized.ejerciciosRealizadosNormalizados,
+          }
+        : {}),
       kilometrosInicio: normalized.kilometrosInicio,
       kilometrosFin: normalized.kilometrosFin,
       combustibleInicioPct: normalized.combustibleInicioPct,
@@ -625,6 +676,8 @@ export class HojasRutaService {
       );
     }
 
+    const normalized = normalizeEditablePayload(payload);
+
     await this.ensureVehicleItvCompliant(clase.vehiculo);
 
     if (hasLowFuel(clase)) {
@@ -632,8 +685,6 @@ export class HojasRutaService {
         "El vehículo tiene menos del 20% de combustible. Debes repostar antes de finalizar la hoja de ruta.",
       );
     }
-
-    const normalized = normalizeEditablePayload(payload);
 
     if (normalized.kilometrosFin === null) {
       throw new Error(
@@ -827,6 +878,12 @@ export class HojasRutaService {
       claseId: row.clasePracticaId,
       fecha: row.clasePractica?.fecha,
       duracion: row.clasePractica?.duracion,
+      tipoClasePractica: normalizePracticalClassType(
+        getClassPracticalTypeValue(row.clasePractica),
+      ),
+      tipoClasePracticaLabel: getPracticalClassTypeLabel(
+        getClassPracticalTypeValue(row.clasePractica),
+      ),
       vehiculo: row.clasePractica?.vehiculo
         ? {
             id: row.clasePractica.vehiculo.id,
@@ -850,6 +907,12 @@ export class HojasRutaService {
       claseId: clase.id,
       fecha: clase.fecha,
       duracion: clase.duracion,
+      tipoClasePractica: normalizePracticalClassType(
+        getClassPracticalTypeValue(clase),
+      ),
+      tipoClasePracticaLabel: getPracticalClassTypeLabel(
+        getClassPracticalTypeValue(clase),
+      ),
       estado: ROADMAP_STATUS.PENDIENTE,
       sinDatos: true,
       vehiculo: clase.vehiculo
@@ -943,6 +1006,12 @@ export class HojasRutaService {
       estado: row.estado,
       fecha: row.clasePractica?.fecha,
       duracion: row.clasePractica?.duracion,
+      tipoClasePractica: normalizePracticalClassType(
+        getClassPracticalTypeValue(row.clasePractica),
+      ),
+      tipoClasePracticaLabel: getPracticalClassTypeLabel(
+        getClassPracticalTypeValue(row.clasePractica),
+      ),
       alumno: {
         id: row.alumnoId,
         nombre: row.clasePractica?.alumno?.usuario?.nombre || "Alumno",
@@ -1025,6 +1094,12 @@ export class HojasRutaService {
       claseId: row.clasePracticaId,
       fecha: row.clasePractica?.fecha,
       duracion: row.clasePractica?.duracion,
+      tipoClasePractica: normalizePracticalClassType(
+        getClassPracticalTypeValue(row.clasePractica),
+      ),
+      tipoClasePracticaLabel: getPracticalClassTypeLabel(
+        getClassPracticalTypeValue(row.clasePractica),
+      ),
       estado: ROADMAP_STATUS.REGISTRADA,
       sinDatos: false,
       profesorNombre:
@@ -1071,6 +1146,12 @@ export class HojasRutaService {
       claseId: row.id,
       fecha: row.fecha,
       duracion: row.duracion,
+      tipoClasePractica: normalizePracticalClassType(
+        getClassPracticalTypeValue(row),
+      ),
+      tipoClasePracticaLabel: getPracticalClassTypeLabel(
+        getClassPracticalTypeValue(row),
+      ),
       estado: ROADMAP_STATUS.PENDIENTE,
       sinDatos: true,
       profesorNombre: row?.profesor?.usuario?.nombre || "Profesor",
@@ -1114,6 +1195,12 @@ export class HojasRutaService {
       estado: row.estado,
       fecha: row.clasePractica?.fecha,
       duracion: row.clasePractica?.duracion,
+      tipoClasePractica: normalizePracticalClassType(
+        getClassPracticalTypeValue(row.clasePractica),
+      ),
+      tipoClasePracticaLabel: getPracticalClassTypeLabel(
+        getClassPracticalTypeValue(row.clasePractica),
+      ),
       alumno: {
         id: row.alumnoId,
         nombre: row.clasePractica?.alumno?.usuario?.nombre || "Alumno",

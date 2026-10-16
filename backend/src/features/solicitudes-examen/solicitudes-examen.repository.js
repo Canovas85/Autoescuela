@@ -163,13 +163,22 @@ export class SolicitudesExamenRepository {
     }));
   }
 
-  async countClasesCompletadasDesdeFecha(alumnoId, fechaDesde) {
+  async countClasesCompletadasDesdeFecha(
+    alumnoId,
+    fechaDesde,
+    tipoClasePractica = null,
+  ) {
     return this.prisma.clasePractica.count({
       where: {
         alumnoId,
         fecha: {
           gte: fechaDesde,
         },
+        ...(tipoClasePractica
+          ? {
+              tipoClasePractica,
+            }
+          : {}),
         estado: {
           in: ["COMPLETADA", "REALIZADA", "FINALIZADA"],
         },
@@ -239,11 +248,19 @@ export class SolicitudesExamenRepository {
   }
 
   async hasPracticalAptoByPhase(alumnoId, fasePractica) {
+    const normalizedPhase = Number(fasePractica);
+
     const total = await this.prisma.solicitudExamen.count({
       where: {
         alumnoId,
         tipo: "PRACTICO",
-        fasePractica,
+        ...(normalizedPhase === 1
+          ? {
+              OR: [{ fasePractica: 1 }, { fasePractica: null }],
+            }
+          : {
+              fasePractica,
+            }),
         estado: {
           in: ["APTO", "APROBADO"],
         },
@@ -253,28 +270,47 @@ export class SolicitudesExamenRepository {
     return total > 0;
   }
 
-  async countHojasRutaRegistradas(alumnoId) {
+  async countHojasRutaRegistradas(alumnoId, tipoClasePractica = null) {
     return this.prisma.hojaRuta.count({
       where: {
         alumnoId,
         estado: "REGISTRADA",
+        ...(tipoClasePractica
+          ? {
+              clasePractica: {
+                is: {
+                  tipoClasePractica,
+                },
+              },
+            }
+          : {}),
       },
     });
   }
 
-  async countHojasRutaRegistradasConClase(alumnoId) {
+  async countHojasRutaRegistradasConClase(alumnoId, tipoClasePractica = null) {
     return this.prisma.hojaRuta.count({
       where: {
         alumnoId,
         estado: "REGISTRADA",
         clasePractica: {
-          is: {},
+          is: {
+            ...(tipoClasePractica
+              ? {
+                  tipoClasePractica,
+                }
+              : {}),
+          },
         },
       },
     });
   }
 
-  async countHojasRutaRegistradasConClaseDesdeFecha(alumnoId, fechaDesde) {
+  async countHojasRutaRegistradasConClaseDesdeFecha(
+    alumnoId,
+    fechaDesde,
+    tipoClasePractica = null,
+  ) {
     return this.prisma.hojaRuta.count({
       where: {
         alumnoId,
@@ -283,7 +319,13 @@ export class SolicitudesExamenRepository {
           gte: fechaDesde,
         },
         clasePractica: {
-          is: {},
+          is: {
+            ...(tipoClasePractica
+              ? {
+                  tipoClasePractica,
+                }
+              : {}),
+          },
         },
       },
     });
@@ -303,10 +345,114 @@ export class SolicitudesExamenRepository {
           in: ["PENDIENTE", "PROGRAMADO", "SOLICITADO"],
         },
       },
+      include: {
+        pagoGastoPractico: {
+          select: {
+            id: true,
+            estado: true,
+            tipo: true,
+          },
+        },
+      },
       orderBy: {
         fechaSolicitud: "desc",
       },
     });
+  }
+
+  async updateActivePracticalRequestsMissingPhase(alumnoId, fasePractica) {
+    return this.prisma.solicitudExamen.updateMany({
+      where: {
+        alumnoId,
+        tipo: "PRACTICO",
+        fasePractica: null,
+        estado: {
+          in: ["PENDIENTE", "SOLICITADO", "PROGRAMADO"],
+        },
+      },
+      data: {
+        fasePractica,
+      },
+    });
+  }
+
+  async resolveAssignedProfessorNameAtDate(alumnoId, referenceDate) {
+    const ref = new Date(referenceDate || Date.now());
+
+    const nextHistory = await this.prisma.alumnoProfesorHistorial.findFirst({
+      where: {
+        alumnoId,
+        changedAt: {
+          gte: ref,
+        },
+      },
+      orderBy: {
+        changedAt: "asc",
+      },
+      select: {
+        profesorAnterior: {
+          select: {
+            usuario: {
+              select: {
+                nombre: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (nextHistory?.profesorAnterior?.usuario?.nombre) {
+      return nextHistory.profesorAnterior.usuario.nombre;
+    }
+
+    const previousHistory = await this.prisma.alumnoProfesorHistorial.findFirst(
+      {
+        where: {
+          alumnoId,
+          changedAt: {
+            lte: ref,
+          },
+        },
+        orderBy: {
+          changedAt: "desc",
+        },
+        select: {
+          profesorNuevo: {
+            select: {
+              usuario: {
+                select: {
+                  nombre: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    );
+
+    if (previousHistory?.profesorNuevo?.usuario?.nombre) {
+      return previousHistory.profesorNuevo.usuario.nombre;
+    }
+
+    const alumno = await this.prisma.alumno.findUnique({
+      where: {
+        id: alumnoId,
+      },
+      select: {
+        profesorAsignado: {
+          select: {
+            usuario: {
+              select: {
+                nombre: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return alumno?.profesorAsignado?.usuario?.nombre || null;
   }
 
   async findConvocatoriasPracticoDisponibles(licencia, desdeFecha) {
@@ -974,6 +1120,17 @@ export class SolicitudesExamenRepository {
         id: alumnoId,
       },
       data,
+    });
+  }
+
+  async updateAlumnoEstadoExpedienteByResult(alumnoId, estadoExpediente) {
+    return this.prisma.alumno.update({
+      where: {
+        id: alumnoId,
+      },
+      data: {
+        estadoExpediente,
+      },
     });
   }
 

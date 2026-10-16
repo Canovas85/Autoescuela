@@ -1,14 +1,66 @@
 import { getCapacidadCombustibleByPermiso } from "../../shared/utils/vehiculo-combustible.js";
 import { resolveExpedientePhase } from "../../shared/domain/expediente-phase.js";
 import {
+  normalizeLicenseCode,
+  usesDualPracticalPhaseByLicense,
+} from "../../shared/domain/exam-license-rules.js";
+import {
   evaluateVehicleItvStatus,
   getItvPriceByPermiso,
   isCompletedClass,
 } from "../../shared/domain/vehiculo-itv.js";
 
+const PROFESSOR_FIRST_ACCESS_SCHEDULE_NOTIFICATION_TYPE =
+  "PROFESOR_CONFIGURAR_HORARIO";
+
+const getPracticalExamTypeCode = ({ licencia, fasePractica }) => {
+  if (!usesDualPracticalPhaseByLicense(licencia)) {
+    return "CIRCULACION";
+  }
+
+  return Number(fasePractica) === 2 ? "PISTA" : "CIRCULACION";
+};
+
+const getPracticalExamTypeLabel = ({ licencia, fasePractica }) => {
+  const code = getPracticalExamTypeCode({ licencia, fasePractica });
+  return code === "PISTA" ? "Pista (Circuito)" : "Circulacion";
+};
+
 export class DashboardService {
-  constructor(repository) {
+  constructor(repository, notificacionesRepository = null) {
     this.repository = repository;
+    this.notificacionesRepository = notificacionesRepository;
+  }
+
+  async ensureProfessorFirstAccessScheduleNotification(userId, profile) {
+    if (!this.notificacionesRepository || !userId) {
+      return;
+    }
+
+    if (profile?.usuario?.requiereCambioPassword) {
+      return;
+    }
+
+    const existing =
+      await this.notificacionesRepository.findLatestByUserAndType(
+        userId,
+        PROFESSOR_FIRST_ACCESS_SCHEDULE_NOTIFICATION_TYPE,
+      );
+
+    if (existing) {
+      return;
+    }
+
+    await this.notificacionesRepository.create({
+      usuarioId: userId,
+      tipo: PROFESSOR_FIRST_ACCESS_SCHEDULE_NOTIFICATION_TYPE,
+      titulo: "Configura tu horario de clases",
+      mensaje:
+        "Accede a Agenda para configurar tu horario de clases y activar tus reservas.",
+      metadata: {
+        route: "/agenda",
+      },
+    });
   }
 
   async buildVehicleItvStatus(vehiculo) {
@@ -454,6 +506,27 @@ export class DashboardService {
     const evolucion = this.agruparEvolucion(actividadMensual, "fecha");
 
     const examenes = dashboard.examenes || [];
+    const licenciaObjetivo = normalizeLicenseCode(
+      dashboard.profile.alumno?.tipoLicenciaObjetivo ||
+        dashboard.profile.alumno?.matriculas?.[0]?.licencia,
+    );
+    const mapStudentExamResult = (examen) => {
+      if (String(examen?.tipo || "").toUpperCase() !== "PRACTICO") {
+        return examen;
+      }
+
+      return {
+        ...examen,
+        tipoPractico: getPracticalExamTypeCode({
+          licencia: licenciaObjetivo,
+          fasePractica: examen?.fasePractica,
+        }),
+        tipoPracticoLabel: getPracticalExamTypeLabel({
+          licencia: licenciaObjetivo,
+          fasePractica: examen?.fasePractica,
+        }),
+      };
+    };
     const examenesDGT = dashboard.examenesDGT || [];
     const pagosDgt = dashboard.pagosDgt || [];
     const dgtRealizados = examenesDGT.length;
@@ -609,8 +682,12 @@ export class DashboardService {
       },
       bonos,
       examenes: {
-        teoricos: examenes.filter((examen) => examen.tipo === "TEORICO"),
-        practicos: examenes.filter((examen) => examen.tipo === "PRACTICO"),
+        teoricos: examenes
+          .filter((examen) => examen.tipo === "TEORICO")
+          .map(mapStudentExamResult),
+        practicos: examenes
+          .filter((examen) => examen.tipo === "PRACTICO")
+          .map(mapStudentExamResult),
       },
       reservas: [...clasesConfirmadasProfesor, ...clasesPendientesConfirmacion],
       estadoAlumno,
@@ -785,6 +862,7 @@ export class DashboardService {
       dgtEvolution,
       totalAlumnosActivos,
       totalAlumnosLicenciados,
+      totalAlumnosMatriculadosPagadaSinLicencia,
       totalAlumnosMatriculaPendientePago,
       matriculasPagadasUltimosMeses,
       totalProfesoresActivos,
@@ -839,6 +917,10 @@ export class DashboardService {
       this.getDgtEvolution(),
       this.repository.getTotalAlumnosActivos(),
       this.repository.getTotalAlumnosLicenciadosActivos(),
+      typeof this.repository.getTotalAlumnosMatriculadosPagadaSinLicencia ===
+      "function"
+        ? this.repository.getTotalAlumnosMatriculadosPagadaSinLicencia()
+        : Promise.resolve(null),
       this.repository.getTotalAlumnosConMatriculaPendientePago(),
       this.repository.getMatriculasPagadasSince(startSixMonths),
       this.repository.getTotalProfesoresActivos(),
@@ -904,12 +986,11 @@ export class DashboardService {
       teoricoAptoHistorico + teoricoNoAptoHistorico;
     const practicoPresentadosHistorico =
       practicoAptoHistorico + practicoNoAptoHistorico;
-    const alumnosMatriculadosExclusivos = Math.max(
-      Number(totalAlumnosActivos || 0) -
-        Number(totalAlumnosLicenciados || 0) -
-        Number(totalAlumnosMatriculaPendientePago || 0),
-      0,
-    );
+    const alumnosMatriculadosExclusivos = Number.isFinite(
+      Number(totalAlumnosMatriculadosPagadaSinLicencia),
+    )
+      ? Number(totalAlumnosMatriculadosPagadaSinLicencia)
+      : Number(activeEnrollments || 0);
 
     return {
       activeStudents,
@@ -1092,6 +1173,7 @@ export class DashboardService {
       ok: [
         "TEORICO_APROBADO",
         "PREPARANDO_PRACTICO",
+        "PRACTICO_CIRCULACION_APROBADO",
         "LICENCIA_OBTENIDA",
       ].includes(phase.code),
     };
@@ -1418,6 +1500,9 @@ export class DashboardService {
       alumno.estadoExpediente,
       matriculaActual?.estado,
     );
+    const licenciaObjetivo = normalizeLicenseCode(
+      matriculaActual?.licencia || alumno.tipoLicenciaObjetivo,
+    );
 
     return {
       id: alumno.id,
@@ -1448,6 +1533,8 @@ export class DashboardService {
       throw new Error("Profesor no encontrado");
     }
 
+    await this.ensureProfessorFirstAccessScheduleNotification(userId, profile);
+
     const permisosLicencias = Array.isArray(profile.permisosLicencias)
       ? profile.permisosLicencias
       : [];
@@ -1466,7 +1553,10 @@ export class DashboardService {
       roadmapTrackingRows,
     ] = await Promise.all([
       this.repository.getProfessorAssignedStudents(userId),
-      this.repository.getProfessorHistoricalLicensedStudents(userId),
+      typeof this.repository.getProfessorHistoricalLicensedStudents ===
+      "function"
+        ? this.repository.getProfessorHistoricalLicensedStudents(userId)
+        : Promise.resolve([]),
       this.repository.getProfessorAvailableVehicles(permisosLicencias),
       this.repository.getProfessorTodayConfirmedClasses(
         userId,
@@ -1612,6 +1702,9 @@ export class DashboardService {
     }
 
     const matriculaActual = alumno.matriculas?.[0] ?? null;
+    const licenciaObjetivo = normalizeLicenseCode(
+      matriculaActual?.licencia || alumno.tipoLicenciaObjetivo,
+    );
     const tests = Array.isArray(alumno.testsPractica)
       ? alumno.testsPractica
       : [];
@@ -1807,6 +1900,21 @@ export class DashboardService {
             ? null
             : Number(solicitud.faltasEliminatorias),
         motivoNoApto: solicitud?.motivoNoApto || null,
+        fasePractica: solicitud?.fasePractica ?? null,
+        tipoPractico:
+          toUpper(solicitud?.tipo) === "PRACTICO"
+            ? getPracticalExamTypeCode({
+                licencia: licenciaObjetivo,
+                fasePractica: solicitud?.fasePractica,
+              })
+            : null,
+        tipoPracticoLabel:
+          toUpper(solicitud?.tipo) === "PRACTICO"
+            ? getPracticalExamTypeLabel({
+                licencia: licenciaObjetivo,
+                fasePractica: solicitud?.fasePractica,
+              })
+            : null,
       };
     };
 
@@ -1823,6 +1931,12 @@ export class DashboardService {
           toUpper(solicitud?.tipo) === "PRACTICO" && isPresentedExam(solicitud),
       )
       .map(mapExamResult);
+    const examenesPracticosCirculacion = examenesPracticos.filter(
+      (item) => item.tipoPractico === "CIRCULACION",
+    );
+    const examenesPracticosPista = examenesPracticos.filter(
+      (item) => item.tipoPractico === "PISTA",
+    );
 
     const proximoTeoricoPendiente = solicitudesExamen
       .filter(
@@ -1924,6 +2038,8 @@ export class DashboardService {
       examenes: {
         teoricos: examenesTeoricos,
         practicos: examenesPracticos,
+        practicosCirculacion: examenesPracticosCirculacion,
+        practicosPista: examenesPracticosPista,
         ultimoTeorico: examenesTeoricos[0] || null,
         ultimoPractico: examenesPracticos[0] || null,
         proximoTeoricoPendiente: proximoTeoricoPendiente
@@ -2297,6 +2413,17 @@ export class DashboardService {
       userId,
       normalizedBlocks,
     );
+
+    if (
+      this.notificacionesRepository &&
+      Array.isArray(normalizedBlocks) &&
+      normalizedBlocks.length > 0
+    ) {
+      await this.notificacionesRepository.markLatestAsReadByUserAndType(
+        userId,
+        PROFESSOR_FIRST_ACCESS_SCHEDULE_NOTIFICATION_TYPE,
+      );
+    }
 
     return {
       horario: this.normalizeProfessorScheduleRows(saved),

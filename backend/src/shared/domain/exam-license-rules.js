@@ -16,6 +16,11 @@ const THEORETICAL_RULES_BY_LICENSE = {
     maxFallos: 2,
     duracionMinutos: 20,
   },
+  A: {
+    totalPreguntas: 20,
+    maxFallos: 2,
+    duracionMinutos: 20,
+  },
   C: {
     totalPreguntas: 20,
     maxFallos: 2,
@@ -26,16 +31,23 @@ const THEORETICAL_RULES_BY_LICENSE = {
     maxFallos: 2,
     duracionMinutos: 20,
   },
+  E: {
+    totalPreguntas: 20,
+    maxFallos: 2,
+    duracionMinutos: 20,
+  },
 };
 
-const DUAL_PRACTICAL_PHASE_LICENSES = new Set(["A1", "A2", "C", "D"]);
+const DUAL_PRACTICAL_PHASE_LICENSES = new Set(["A", "A1", "A2", "C", "D", "E"]);
 
 const PRACTICAL_CLASS_TYPES_BY_LICENSE = {
   B: ["CIRCULACION"],
-  A1: ["PISTA", "CIRCULACION"],
-  A2: ["PISTA", "CIRCULACION"],
-  C: ["PISTA", "CIRCULACION"],
-  D: ["PISTA", "CIRCULACION"],
+  A1: ["CIRCULACION", "PISTA"],
+  A2: ["CIRCULACION", "PISTA"],
+  A: ["CIRCULACION", "PISTA"],
+  C: ["CIRCULACION", "PISTA"],
+  D: ["CIRCULACION", "PISTA"],
+  E: ["CIRCULACION", "PISTA"],
 };
 
 export const normalizeLicenseCode = (value) =>
@@ -55,11 +67,11 @@ export const usesDualPracticalPhaseByLicense = (license) => {
 
 export const getPracticalPhaseLabel = (phase) => {
   if (Number(phase) === 1) {
-    return "MANIOBRAS_PISTA";
+    return "CIRCULACION_VIA_PUBLICA";
   }
 
   if (Number(phase) === 2) {
-    return "CIRCULACION_VIA_PUBLICA";
+    return "MANIOBRAS_CIRCUITO";
   }
 
   return "CIRCULACION";
@@ -68,4 +80,17 @@ export const getPracticalPhaseLabel = (phase) => {
 export const getAllowedPracticalClassTypesByLicense = (license) => {
   const normalized = normalizeLicenseCode(license);
   return PRACTICAL_CLASS_TYPES_BY_LICENSE[normalized] || ["CIRCULACION"];
+};
+
+export const getRequiredPracticalClassTypeForPhase = ({
+  license,
+  practicalPhase,
+}) => {
+  const normalized = normalizeLicenseCode(license);
+
+  if (!usesDualPracticalPhaseByLicense(normalized)) {
+    return "CIRCULACION";
+  }
+
+  return Number(practicalPhase) === 2 ? "PISTA" : "CIRCULACION";
 };

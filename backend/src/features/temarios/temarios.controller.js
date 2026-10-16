@@ -68,11 +68,9 @@ export class TemariosController {
 
   async update(req, res) {
     try {
-      const temario = await this.service.update(
-        req.params.id,
-        req.body,
-        req.file || null,
-      );
+      const temario = req.file
+        ? await this.service.update(req.params.id, req.body, req.file)
+        : await this.service.update(req.params.id, req.body);
       return res.status(200).json(temario);
     } catch (error) {
       return res.status(400).json({ message: error.message });

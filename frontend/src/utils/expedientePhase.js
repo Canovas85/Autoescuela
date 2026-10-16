@@ -63,6 +63,30 @@ const EXPEDIENTE_PHASE_META = {
       border: "1px solid #fca5a5",
     },
   },
+  PRACTICO_CIRCULACION_APROBADO: {
+    label: "Práctico circulación aprobado",
+    sx: {
+      backgroundColor: "#dbeafe",
+      color: "#1e3a8a",
+      border: "1px solid #93c5fd",
+    },
+  },
+  PRACTICO_CIRCULACION_SUSPENSO: {
+    label: "Práctico circulación suspenso",
+    sx: {
+      backgroundColor: "#fee2e2",
+      color: "#991b1b",
+      border: "1px solid #fca5a5",
+    },
+  },
+  PRACTICO_CIRCUITO_SUSPENSO: {
+    label: "Práctico circuito suspenso",
+    sx: {
+      backgroundColor: "#fee2e2",
+      color: "#991b1b",
+      border: "1px solid #fca5a5",
+    },
+  },
   LICENCIA_OBTENIDA: {
     label: "Licencia obtenida",
     sx: {
@@ -75,26 +99,39 @@ const EXPEDIENTE_PHASE_META = {
 
 const LEGACY_CODE_BY_LABEL = {
   "en formación": "PENDIENTE_MATRICULA",
+  "en formacion": "PENDIENTE_MATRICULA",
   "pendiente matrícula": "PENDIENTE_MATRICULA",
+  "pendiente matricula": "PENDIENTE_MATRICULA",
   "estudiando teórico": "ESTUDIANDO_TEORICO",
   "estudiando teorico": "ESTUDIANDO_TEORICO",
+  "pendiente examen teórico": "PENDIENTE_EXAMEN_TEORICO",
+  "pendiente examen teorico": "PENDIENTE_EXAMEN_TEORICO",
   "pendiente de examen teórico": "PENDIENTE_EXAMEN_TEORICO",
+  "pendiente de examen teorico": "PENDIENTE_EXAMEN_TEORICO",
   "teórico suspenso": "TEORICO_SUSPENSO",
   "teorico suspenso": "TEORICO_SUSPENSO",
   "teórico aprobado": "TEORICO_APROBADO",
   "teorico aprobado": "TEORICO_APROBADO",
   "preparándose para el práctico": "PREPARANDO_PRACTICO",
   "preparandose para el practico": "PREPARANDO_PRACTICO",
+  "realizando clases prácticas": "PREPARANDO_PRACTICO",
+  "realizando clases practicas": "PREPARANDO_PRACTICO",
+  "pendiente examen práctico": "PENDIENTE_EXAMEN_PRACTICO",
+  "pendiente examen practico": "PENDIENTE_EXAMEN_PRACTICO",
   "pendiente de examen práctico": "PENDIENTE_EXAMEN_PRACTICO",
   "pendiente de examen practico": "PENDIENTE_EXAMEN_PRACTICO",
   "práctico suspenso": "PRACTICO_SUSPENSO",
   "practico suspenso": "PRACTICO_SUSPENSO",
+  "práctico circulación aprobado": "PRACTICO_CIRCULACION_APROBADO",
+  "practico circulacion aprobado": "PRACTICO_CIRCULACION_APROBADO",
+  "práctico circulación suspenso": "PRACTICO_CIRCULACION_SUSPENSO",
+  "practico circulacion suspenso": "PRACTICO_CIRCULACION_SUSPENSO",
+  "práctico circuito suspenso": "PRACTICO_CIRCUITO_SUSPENSO",
+  "practico circuito suspenso": "PRACTICO_CIRCUITO_SUSPENSO",
   "licencia obtenida": "LICENCIA_OBTENIDA",
   "licencia aprobada": "LICENCIA_OBTENIDA",
   "preparándose para examen práctico": "PREPARANDO_PRACTICO",
   "preparandose para examen practico": "PREPARANDO_PRACTICO",
-  "realizando clases prácticas": "PREPARANDO_PRACTICO",
-  "realizando clases practicas": "PREPARANDO_PRACTICO",
 };
 
 const normalizeCode = (value) =>

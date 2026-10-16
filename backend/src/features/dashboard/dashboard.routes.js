@@ -8,11 +8,13 @@ import { authorize } from "../../shared/middleware/role.middleware.js";
 import { DashboardRepository } from "./dashboard.repository.js";
 import { DashboardService } from "./dashboard.service.js";
 import { DashboardController } from "./dashboard.controller.js";
+import { NotificacionesRepository } from "../notificaciones/notificaciones.repository.js";
 
 const router = Router();
 
 const repository = new DashboardRepository(prisma);
-const service = new DashboardService(repository);
+const notificacionesRepository = new NotificacionesRepository(prisma);
+const service = new DashboardService(repository, notificacionesRepository);
 const controller = new DashboardController(service);
 
 /**

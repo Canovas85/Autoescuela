@@ -501,11 +501,13 @@ export class ProfesoresService {
     const { weekStart, weekEnd } = this.getWeekBounds(weekOffset);
     const { monthStart, monthEnd } = this.getMonthBounds(weekStart);
 
-    const [assignedStudents, allClasses, scheduleRows] = await Promise.all([
-      this.repository.findAssignedAlumnosDetailed(id),
-      this.repository.findProfesorClassesAll(id),
-      this.repository.findProfesorWorkSchedule(id),
-    ]);
+    const [assignedStudents, allClasses, scheduleRows, licenciasHistoricas] =
+      await Promise.all([
+        this.repository.findAssignedAlumnosDetailed(id),
+        this.repository.findProfesorClassesAll(id),
+        this.repository.findProfesorWorkSchedule(id),
+        this.repository.countHistoricalLicensesObtainedByProfessor(id),
+      ]);
 
     const now = new Date();
 
@@ -585,9 +587,12 @@ export class ProfesoresService {
       this.isFutureProgrammedClass(clase, now),
     ).length;
 
-    const alumnosLicenciaObtenida = alumnos.filter(
+    const alumnosLicenciaObtenidaActivos = alumnos.filter(
       (alumno) => alumno.estadoExpedienteCode === "LICENCIA_OBTENIDA",
     ).length;
+
+    const alumnosLicenciaObtenida =
+      alumnosLicenciaObtenidaActivos + Number(licenciasHistoricas || 0);
 
     const alumnosEnProgreso = Math.max(
       alumnos.length - alumnosLicenciaObtenida,

@@ -741,7 +741,7 @@ export default function IngresosFacturas() {
                     color="success"
                     size="small"
                     disabled={disableMatriculaActions}
-                    onClick={() => handlePagarFactura(params.row)}
+                    onClick={() => handlePagarMatricula(params.row)}
                   >
                     <CheckCircleIcon fontSize="small" />
                   </IconButton>
@@ -756,7 +756,7 @@ export default function IngresosFacturas() {
                     color="error"
                     size="small"
                     disabled={disableMatriculaActions}
-                    onClick={() => handleAnularFactura(params.row)}
+                    onClick={() => handleAnularMatricula(params.row)}
                   >
                     <CancelIcon fontSize="small" />
                   </IconButton>

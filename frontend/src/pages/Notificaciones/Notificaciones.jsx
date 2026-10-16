@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 import { notificacionesService } from "../../services/notificacionesService";
 
@@ -61,9 +62,13 @@ const shouldOpenInFacturas = (item) => {
   return ["BONO_COMPRADO", "MATRICULA_PAGADA"].includes(tipo);
 };
 
-const buildFacturasRoute = (item) => {
+const buildFacturasRoute = (item, role) => {
   const params = new URLSearchParams();
   const metadata = item?.metadata || {};
+  const normalizedRole = String(role || "")
+    .trim()
+    .toUpperCase();
+  const isAlumno = normalizedRole === "ALUMNO";
 
   params.set("openFactura", "1");
 
@@ -84,11 +89,12 @@ const buildFacturasRoute = (item) => {
 
   params.set("notificationType", upper(item?.tipo));
 
-  return `/facturas?${params.toString()}`;
+  return `${isAlumno ? "/mis-facturas" : "/facturas"}?${params.toString()}`;
 };
 
 export default function Notificaciones() {
   const navigate = useNavigate();
+  const [role, setRole] = useState("");
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [onlyUnread, setOnlyUnread] = useState(true);
@@ -111,6 +117,16 @@ export default function Notificaciones() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    try {
+      const token = localStorage.getItem("token") || "";
+      const decoded = jwtDecode(token);
+      setRole(String(decoded?.rol || "").toUpperCase());
+    } catch {
+      setRole("");
+    }
+  }, []);
 
   useEffect(() => {
     loadData(onlyUnread, includeArchived);
@@ -187,7 +203,7 @@ export default function Notificaciones() {
     }
 
     if (shouldOpenInFacturas(item)) {
-      navigate(buildFacturasRoute(item));
+      navigate(buildFacturasRoute(item, role));
       return;
     }
 

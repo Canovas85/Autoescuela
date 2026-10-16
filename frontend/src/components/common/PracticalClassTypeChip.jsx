@@ -2,13 +2,13 @@ import { Chip } from "@mui/material";
 
 const TYPE_STYLES = {
   CIRCULACION: {
-    label: "Circulación",
+    label: "Circulacion",
     bg: "#dbeafe",
     text: "#1e3a8a",
     border: "#93c5fd",
   },
   PISTA: {
-    label: "Maniobras",
+    label: "Pista (Circuito)",
     bg: "#ffedd5",
     text: "#9a3412",
     border: "#fdba74",

@@ -1,3 +1,22 @@
+const DUAL_PRACTICAL_PHASE_LICENSES = new Set(["A", "A1", "A2", "C", "D", "E"]);
+
+const normalizeLicense = (value) =>
+  String(value || "")
+    .trim()
+    .toUpperCase();
+
+const getPracticalSubtype = ({ licencia, fasePractica }) => {
+  if (!DUAL_PRACTICAL_PHASE_LICENSES.has(normalizeLicense(licencia))) {
+    return { code: "CIRCULACION", label: "Circulacion" };
+  }
+
+  if (Number(fasePractica) === 2) {
+    return { code: "PISTA", label: "Pista (Circuito)" };
+  }
+
+  return { code: "CIRCULACION", label: "Circulacion" };
+};
+
 export class ConvocatoriasExamenRepository {
   constructor(prisma) {
     this.prisma = prisma;
@@ -277,28 +296,42 @@ export class ConvocatoriasExamenRepository {
           ...convocatoria,
           estadosMostrados: estadosConvocatoria,
           totalAlumnos: solicitudes.length,
-          alumnos: solicitudes.map((solicitud) => ({
-            solicitudId: solicitud.id,
-            alumnoId: solicitud.alumnoId,
-            nombre: solicitud.alumno?.usuario?.nombre || "Sin nombre",
-            email: solicitud.alumno?.usuario?.email || "",
-            estado: solicitud.estado,
-            licencia: convocatoria.licencia,
-            tipoExamen: convocatoria.tipoExamen,
-            fechaProgramada: solicitud.fechaProgramada,
-            fechaSolicitud: solicitud.fechaSolicitud,
-            erroresExamen: solicitud.erroresExamen,
-            aciertosExamen: solicitud.aciertosExamen,
-            faltasLeves: solicitud.faltasLeves,
-            faltasDeficientes: solicitud.faltasDeficientes,
-            faltasEliminatorias: solicitud.faltasEliminatorias,
-            faltasLevesDetalle: solicitud.faltasLevesDetalle || [],
-            faltasDeficientesDetalle: solicitud.faltasDeficientesDetalle || [],
-            faltasEliminatoriasDetalle:
-              solicitud.faltasEliminatoriasDetalle || [],
-            motivoNoApto: solicitud.motivoNoApto || null,
-            observaciones: solicitud.observaciones || null,
-          })),
+          alumnos: solicitudes.map((solicitud) => {
+            const practicalSubtype =
+              convocatoria.tipoExamen === "PRACTICO"
+                ? getPracticalSubtype({
+                    licencia: convocatoria.licencia,
+                    fasePractica: solicitud.fasePractica,
+                  })
+                : { code: null, label: null };
+
+            return {
+              solicitudId: solicitud.id,
+              alumnoId: solicitud.alumnoId,
+              nombre: solicitud.alumno?.usuario?.nombre || "Sin nombre",
+              email: solicitud.alumno?.usuario?.email || "",
+              estado: solicitud.estado,
+              licencia: convocatoria.licencia,
+              tipoExamen: convocatoria.tipoExamen,
+              fechaProgramada: solicitud.fechaProgramada,
+              fechaSolicitud: solicitud.fechaSolicitud,
+              erroresExamen: solicitud.erroresExamen,
+              aciertosExamen: solicitud.aciertosExamen,
+              faltasLeves: solicitud.faltasLeves,
+              faltasDeficientes: solicitud.faltasDeficientes,
+              faltasEliminatorias: solicitud.faltasEliminatorias,
+              fasePractica: solicitud.fasePractica ?? null,
+              tipoPractico: practicalSubtype.code,
+              tipoPracticoLabel: practicalSubtype.label,
+              faltasLevesDetalle: solicitud.faltasLevesDetalle || [],
+              faltasDeficientesDetalle:
+                solicitud.faltasDeficientesDetalle || [],
+              faltasEliminatoriasDetalle:
+                solicitud.faltasEliminatoriasDetalle || [],
+              motivoNoApto: solicitud.motivoNoApto || null,
+              observaciones: solicitud.observaciones || null,
+            };
+          }),
         };
       }),
     );

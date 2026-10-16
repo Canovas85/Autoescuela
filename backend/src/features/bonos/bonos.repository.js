@@ -16,16 +16,14 @@ export class BonosRepository {
   }
 
   async findAll(filters = {}) {
-    const where = {
-      esInterno: false,
-    };
+    const where = {};
 
     if (filters.licencia) {
       where.licencia = filters.licencia;
     }
 
     return this.prisma.bono.findMany({
-      where,
+      ...(Object.keys(where).length > 0 ? { where } : {}),
       orderBy: [{ activo: "desc" }, { nombre: "asc" }],
     });
   }
@@ -42,7 +40,6 @@ export class BonosRepository {
     return this.prisma.bono.findMany({
       where: {
         activo: true,
-        esInterno: false,
         ...(licencia
           ? {
               licencia,

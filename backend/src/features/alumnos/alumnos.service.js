@@ -1,7 +1,24 @@
 import bcrypt from "bcryptjs";
 import { resolveExpedientePhase } from "../../shared/domain/expediente-phase.js";
+import {
+  normalizeLicenseCode,
+  usesDualPracticalPhaseByLicense,
+} from "../../shared/domain/exam-license-rules.js";
 
 const LICENCIAS_PERMITIDAS = ["B", "A1", "A2", "A", "C", "D", "E"];
+
+const getPracticalExamTypeCode = ({ licencia, fasePractica }) => {
+  if (!usesDualPracticalPhaseByLicense(licencia)) {
+    return "CIRCULACION";
+  }
+
+  return Number(fasePractica) === 2 ? "PISTA" : "CIRCULACION";
+};
+
+const getPracticalExamTypeLabel = ({ licencia, fasePractica }) => {
+  const code = getPracticalExamTypeCode({ licencia, fasePractica });
+  return code === "PISTA" ? "Pista (Circuito)" : "Circulacion";
+};
 
 const parseBoolean = (valor, defaultValue = false) => {
   if (valor === undefined || valor === null || valor === "") {
@@ -445,6 +462,16 @@ export class AlumnosService {
     const rows = await this.repository.findAll();
 
     return (rows || []).map((alumno) => {
+      const hasProgressContext =
+        alumno?.estadoExpediente !== undefined ||
+        Array.isArray(alumno?.matriculas) ||
+        Array.isArray(alumno?.solicitudesExamen) ||
+        Array.isArray(alumno?.clases);
+
+      if (!hasProgressContext) {
+        return alumno;
+      }
+
       const clases = Array.isArray(alumno?.clases) ? alumno.clases : [];
 
       const clasesRealizadasRows = clases.filter((clase) => {
@@ -524,20 +551,42 @@ export class AlumnosService {
     const practicos = solicitudes.filter(
       (solicitud) => solicitud.tipo === "PRACTICO",
     );
+    const licenciaObjetivo = normalizeLicenseCode(
+      matriculaActual?.licencia || alumno.tipoLicenciaObjetivo,
+    );
     const teoricoMasReciente = teoricos[0] || null;
     const practicoMasReciente = practicos[0] || null;
 
-    const mapExamHistory = (solicitud) => ({
-      id: solicitud.id,
-      estado: toExamEstadoLabel(solicitud?.estado),
-      estadoRaw: String(solicitud?.estado || "").toUpperCase(),
-      fecha: solicitud?.fechaProgramada || solicitud?.fechaSolicitud || null,
-      aciertos: solicitud?.aciertosExamen ?? null,
-      fallos: solicitud?.erroresExamen ?? null,
-      leves: solicitud?.faltasLeves ?? null,
-      deficientes: solicitud?.faltasDeficientes ?? null,
-      eliminatorias: solicitud?.faltasEliminatorias ?? null,
-    });
+    const mapExamHistory = (solicitud) => {
+      const practicalTypeCode =
+        solicitud?.tipo === "PRACTICO"
+          ? getPracticalExamTypeCode({
+              licencia: licenciaObjetivo,
+              fasePractica: solicitud?.fasePractica,
+            })
+          : null;
+
+      return {
+        id: solicitud.id,
+        estado: toExamEstadoLabel(solicitud?.estado),
+        estadoRaw: String(solicitud?.estado || "").toUpperCase(),
+        fecha: solicitud?.fechaProgramada || solicitud?.fechaSolicitud || null,
+        aciertos: solicitud?.aciertosExamen ?? null,
+        fallos: solicitud?.erroresExamen ?? null,
+        leves: solicitud?.faltasLeves ?? null,
+        deficientes: solicitud?.faltasDeficientes ?? null,
+        eliminatorias: solicitud?.faltasEliminatorias ?? null,
+        fasePractica: solicitud?.fasePractica ?? null,
+        tipoPractico: practicalTypeCode,
+        tipoPracticoLabel:
+          practicalTypeCode === null
+            ? null
+            : getPracticalExamTypeLabel({
+                licencia: licenciaObjetivo,
+                fasePractica: solicitud?.fasePractica,
+              }),
+      };
+    };
 
     const teoricoHistorial = teoricos
       .filter((solicitud) => isFinalExamState(solicitud?.estado))
@@ -548,6 +597,12 @@ export class AlumnosService {
       .filter((solicitud) => isFinalExamState(solicitud?.estado))
       .map(mapExamHistory)
       .sort((a, b) => new Date(b.fecha || 0) - new Date(a.fecha || 0));
+    const practicoCirculacionHistorial = practicoHistorial.filter(
+      (item) => item.tipoPractico === "CIRCULACION",
+    );
+    const practicoPistaHistorial = practicoHistorial.filter(
+      (item) => item.tipoPractico === "PISTA",
+    );
 
     const tienePromo = Boolean(matriculaActual?.promocion);
     const bonosDetallados = bonos.map((bono) => {
@@ -640,6 +695,7 @@ export class AlumnosService {
     return {
       id: alumno.id,
       nombreCompleto: alumno.usuario?.nombre || "",
+      licenciaObjetivo,
       estadoAcademico,
       matricula: {
         estado: matriculaActual?.estado || "PENDIENTE",
@@ -695,8 +751,23 @@ export class AlumnosService {
         leves: practicoMasReciente?.faltasLeves ?? null,
         deficientes: practicoMasReciente?.faltasDeficientes ?? null,
         eliminatorias: practicoMasReciente?.faltasEliminatorias ?? null,
+        fasePractica: practicoMasReciente?.fasePractica ?? null,
+        tipoPractico: practicoMasReciente
+          ? getPracticalExamTypeCode({
+              licencia: licenciaObjetivo,
+              fasePractica: practicoMasReciente?.fasePractica,
+            })
+          : null,
+        tipoPracticoLabel: practicoMasReciente
+          ? getPracticalExamTypeLabel({
+              licencia: licenciaObjetivo,
+              fasePractica: practicoMasReciente?.fasePractica,
+            })
+          : null,
       },
       examenPracticoHistorial: practicoHistorial,
+      examenPracticoCirculacionHistorial: practicoCirculacionHistorial,
+      examenPracticoPistaHistorial: practicoPistaHistorial,
       promocionesMatricula: {
         tiene: tienePromo,
         nombre: matriculaActual?.promocion?.nombre || null,

@@ -484,7 +484,6 @@ export class DashboardRepository {
             marca: true,
             modelo: true,
             tipoPermiso: true,
-            imagenRuta: true,
           },
         },
         hojaRuta: {
@@ -605,6 +604,7 @@ export class DashboardRepository {
           select: {
             id: true,
             tipo: true,
+            fasePractica: true,
             estado: true,
             fechaSolicitud: true,
             fechaProgramada: true,
@@ -752,6 +752,7 @@ export class DashboardRepository {
           select: {
             id: true,
             tipo: true,
+            fasePractica: true,
             estado: true,
             fechaSolicitud: true,
             fechaProgramada: true,
@@ -862,6 +863,7 @@ export class DashboardRepository {
           select: {
             id: true,
             tipo: true,
+            fasePractica: true,
             estado: true,
             fechaSolicitud: true,
             fechaProgramada: true,
@@ -1010,6 +1012,7 @@ export class DashboardRepository {
           select: {
             id: true,
             tipo: true,
+            fasePractica: true,
             estado: true,
             fechaSolicitud: true,
             fechaProgramada: true,
@@ -1061,28 +1064,56 @@ export class DashboardRepository {
       return [];
     }
 
-    return this.prisma.vehiculo.findMany({
+    const vehiculos = await this.prisma.vehiculo.findMany({
       where: {
+        activo: true,
         tipoPermiso: {
           in: permisosLicencias,
         },
       },
-      include: {
-        clases: {
+      orderBy: [{ tipoPermiso: "asc" }, { matricula: "asc" }],
+    });
+
+    if (typeof this.prisma.clasePractica?.findMany !== "function") {
+      return vehiculos;
+    }
+
+    const vehiculoIds = vehiculos.map((item) => item.id).filter(Boolean);
+    if (vehiculoIds.length === 0) {
+      return vehiculos;
+    }
+
+    const clases = await this.prisma.clasePractica.findMany({
+      where: {
+        vehiculoId: {
+          in: vehiculoIds,
+        },
+      },
+      select: {
+        id: true,
+        vehiculoId: true,
+        fecha: true,
+        estado: true,
+        hojaRuta: {
           select: {
-            id: true,
-            fecha: true,
             estado: true,
-            hojaRuta: {
-              select: {
-                estado: true,
-              },
-            },
           },
         },
       },
-      orderBy: [{ tipoPermiso: "asc" }, { matricula: "asc" }],
     });
+
+    const classesByVehicle = new Map();
+    clases.forEach((item) => {
+      if (!classesByVehicle.has(item.vehiculoId)) {
+        classesByVehicle.set(item.vehiculoId, []);
+      }
+      classesByVehicle.get(item.vehiculoId).push(item);
+    });
+
+    return vehiculos.map((vehiculo) => ({
+      ...vehiculo,
+      clases: classesByVehicle.get(vehiculo.id) || [],
+    }));
   }
 
   async findProfessorVehicleById(permisosLicencias, vehiculoId) {
@@ -1184,6 +1215,14 @@ export class DashboardRepository {
     });
   }
   async getTotalExamenesPendientes() {
+    if (typeof this.prisma.examen?.count === "function") {
+      return this.prisma.examen.count({
+        where: {
+          estado: "PROGRAMADO",
+        },
+      });
+    }
+
     return this.prisma.solicitudExamen.count({
       where: {
         estado: {

@@ -21,6 +21,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { solicitudesExamenService } from "../../services/solicitudesExamenService";
+import { getPracticalExamTypeLabel } from "../../utils/practicalExamType";
 
 const WEEK_DAYS = ["L", "M", "X", "J", "V", "S", "D"];
 
@@ -158,9 +159,22 @@ export default function ExamenPracticoAlumno() {
 
   const canPickDate = Boolean(eligibility?.canPickDate);
   const canRequest = Boolean(eligibility?.canRequest);
-  const practicalApproved = (myRequests || []).some(
-    (item) => String(item?.estado || "").toUpperCase() === "APTO",
-  );
+  const usesDualPracticalPhase = Boolean(eligibility?.usesDualPracticalPhase);
+  const practicalLicense =
+    eligibility?.licenciaObjetivo || eligibility?.licencia || "B";
+  const practicalApproved = (myRequests || []).some((item) => {
+    const estado = String(item?.estado || "").toUpperCase();
+
+    if (estado !== "APTO") {
+      return false;
+    }
+
+    if (!usesDualPracticalPhase) {
+      return true;
+    }
+
+    return Number(item?.fasePractica) === 2;
+  });
   const shouldShowRequirements = Boolean(eligibility) && !practicalApproved;
 
   const handleRequest = async () => {
@@ -232,6 +246,16 @@ export default function ExamenPracticoAlumno() {
       headerName: "Fecha examen",
       flex: 1,
       valueGetter: (_, row) => formatDate(row.fechaProgramada),
+    },
+    {
+      field: "tipoPractico",
+      headerName: "Subtipo",
+      flex: 1,
+      valueGetter: (_, row) =>
+        getPracticalExamTypeLabel({
+          license: practicalLicense,
+          phase: row.fasePractica,
+        }),
     },
     {
       field: "estado",
@@ -587,6 +611,13 @@ export default function ExamenPracticoAlumno() {
           <Typography>
             <strong>Fecha programada:</strong>{" "}
             {formatDate(selectedExam?.fechaProgramada)}
+          </Typography>
+          <Typography>
+            <strong>Subtipo:</strong>{" "}
+            {getPracticalExamTypeLabel({
+              license: practicalLicense,
+              phase: selectedExam?.fasePractica,
+            })}
           </Typography>
           <Typography>
             <strong>Estado:</strong> {selectedExam?.estado || "-"}

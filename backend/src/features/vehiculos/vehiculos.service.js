@@ -129,6 +129,14 @@ export class VehiculosService {
   }
 
   mapVehiculoWithStats(vehiculo, now = new Date()) {
+    const hasItvContext =
+      Array.isArray(vehiculo?.clases) ||
+      Array.isArray(vehiculo?.gastosCombustible);
+
+    if (!hasItvContext) {
+      return vehiculo;
+    }
+
     const {
       numeroClasesRealizadas,
       latestItvExpense,

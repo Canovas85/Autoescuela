@@ -147,6 +147,25 @@ export class PagosService {
       });
     }
 
+    if (
+      this.notificacionesRepository &&
+      isTasaDgt21 &&
+      String(paid?.matricula?.estado || "").toUpperCase() === "PAGADA" &&
+      !paid?.alumno?.profesorAsignadoId
+    ) {
+      await this.notificacionesRepository.createForRole("ADMINISTRATIVO", {
+        tipo: "ALUMNO_LISTO_ASIGNACION",
+        titulo: "Alumno listo para asignación",
+        mensaje: `${paid?.alumno?.usuario?.nombre || "Alumno"} ya tiene matrícula y Tasa DGT pagadas. Asigna profesor y revisa documentación psicotécnica.`,
+        metadata: {
+          alumnoId: paid.alumnoId,
+          matriculaId: paid.matriculaId,
+          pagoId: paid.id,
+          route: "/alumnos",
+        },
+      });
+    }
+
     return paid;
   }
 }

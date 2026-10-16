@@ -121,6 +121,8 @@ export class PreguntasDGTController {
 
         licencia: req.body.licencia,
 
+        duracionSegundos: req.body.duracionSegundos,
+
         preguntas: req.body.preguntas,
 
         respuestasAlumno: req.body.respuestasAlumno,

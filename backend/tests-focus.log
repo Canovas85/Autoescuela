@@ -1,0 +1,123 @@
+﻿
+ RUN  v4.1.10 C:/Users/cano0/Desktop/Sergio_proyecto_master/Autoescuela/backend
+
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe devolver el n├║mero total de alumnos 4ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe devolver el n├║mero total de profesores 2ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe devolver el n├║mero total de veh├¡culos 1ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe devolver el n├║mero total de veh├¡culos 0ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe devolver el n├║mero total de clases pr├ícticas 1ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe devolver el n├║mero total de ex├ímenes 0ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe devolver el n├║mero total de ex├ímenes aprobados 3ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe devolver el n├║mero total de ex├ímenes suspendidos 1ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe devolver todas las m├®tricas del dashboard 2ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe devolver el n├║mero de clases agrupadas por profesor 1ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe devolver las horas impartidas agrupadas por profesor 1ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe devolver el n├║mero total de ex├ímenes pendientes 0ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe devolver el n├║mero total de clases programadas 0ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe devolver el n├║mero total de clases canceladas 0ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe devolver el n├║mero de clases realizadas este mes 2ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe devolver el n├║mero de ex├ímenes realizados este mes 0ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe devolver el n├║mero de ex├ímenes aprobados este mes 2ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe devolver el n├║mero de ex├ímenes suspendidos este mes 1ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe devolver el dashboard del alumno con sus bloques de informaci├│n 9ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe consultar el perfil del profesor 1ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe consultar veh├¡culos disponibles por permisos 1ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe consultar el horario laboral del profesor 0ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.repository.test.js > DashboardRepository > debe consultar clases del profesor en rango semanal 1ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe crear una clase pr├íctica cuando los datos son v├ílidos 5ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe lanzar un error cuando el alumno es obligatorio 3ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe lanzar un error cuando el profesor es obligatorio 1ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe lanzar un error cuando el veh├¡culo es obligatorio 1ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe lanzar un error cuando la fecha es obligatoria 1ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe lanzar un error cuando la duraci├│n es obligatoria 1ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe crear siempre la clase con estado PROGRAMADA 1ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe devolver el listado completo de clases pr├ícticas 1ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe devolver una clase pr├íctica cuando existe el id 3ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe actualizar una clase pr├íctica existente 2ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe cancelar una clase pr├íctica existente 3ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe lanzar un error cuando el profesor ya tiene una clase a esa hora 1ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe lanzar un error cuando el veh├¡culo ya tiene una clase a esa hora 4ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe lanzar un error cuando el alumno ya tiene una clase a esa hora 1ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe bloquear solicitud individual con menos de 24h 3ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe pedir confirmaci├│n de penalizaci├│n si el alumno cancela pagada con <=24h 1ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe permitir la cancelaci├│n del alumno con m├ís de 24h y cancelar pago pendiente 1ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe crear pago pendiente e invoice para clase individual realizada sin pago 87ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe notificar pago pendiente cuando se alcanza el l├¡mite de 24h 2ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe devolver 0 notificaciones si el repositorio no expone findAll 0ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe crear factura al confirmar una clase individual 3ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe cancelar por impago y anular pago al llegar hora de clase 1ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe permitir cancelaci├│n profesor <=24h devolviendo pago si estaba pagado 1ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe aplicar penalizaci├│n al cancelar alumno <=24h con pago confirmado 1ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe devolver pago e invoice al cancelar con m├ís de 24h una clase pagada 0ms
+ Ô£ô src/features/clases/__tests__/clases.service.test.js > ClasesService > debe descontar consumidas y solicitadas al informar bonos en reserva 1ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.service.test.js > DashboardService > debe devolver las m├®tricas generales del dashboard 5ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.service.test.js > DashboardService > debe calcular el porcentaje de ex├ímenes aprobados 1ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.service.test.js > DashboardService > debe calcular el porcentaje de ex├ímenes suspendidos 0ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.service.test.js > DashboardService > debe devolver todas las m├®tricas enriquecidas del dashboard 0ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.service.test.js > DashboardService > debe devolver la tasa de ├®xito 0ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.service.test.js > DashboardService > debe calcular el ratio alumnos por profesor 1ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.service.test.js > DashboardService > debe calcular el ratio veh├¡culos por profesor 0ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.service.test.js > DashboardService > debe devolver las m├®tricas avanzadas del dashboard 1ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.service.test.js > DashboardService > debe calcular el porcentaje de ├®xito mensual 1ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.service.test.js > DashboardService > debe devolver el profesor con m├ís clases 2ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.service.test.js > DashboardService > debe devolver el profesor con m├ís horas impartidas 1ms
+ ├ù src/features/dashboard/__tests__/dashboard.service.test.js > DashboardService > debe devolver el dashboard ejecutivo 126ms
+   ÔåÆ expected { activeStudents: 100, ÔÇª(27) } to match object { successRate: 82, ÔÇª(6) }
+(34 matching properties omitted from actual)
+ Ô£ô src/features/dashboard/__tests__/dashboard.service.test.js > DashboardService > debe devolver el dashboard del alumno con m├®tricas calculadas 9ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.service.test.js > DashboardService > debe devolver el dashboard del profesor con alumnos y veh├¡culos 2ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.service.test.js > DashboardService > debe devolver el detalle de un alumno asignado a profesor 2ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.service.test.js > DashboardService > debe devolver reservas de un veh├¡culo compatible del profesor 1ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.service.test.js > DashboardService > debe devolver la agenda semanal del profesor con horario y clases 1ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.service.test.js > DashboardService > debe rechazar horario con m├ís de 8 horas en un d├¡a 2ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.service.test.js > DashboardService > debe confirmar una clase PROGRAMADA del profesor 0ms
+ Ô£ô src/features/dashboard/__tests__/dashboard.service.test.js > DashboardService > debe rechazar actualizaci├│n de clase si no est├í PROGRAMADA 2ms
+node.exe : 
+En línea: 1 Carácter: 1
++ & "C:\nvm4w\nodejs/node.exe" "C:\nvm4w\nodejs/node_modules/npm/bin/np ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ» Failed Tests 1 ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»
+
+ FAIL  src/features/dashboard/__tests__/dashboard.service.test.js > 
+DashboardService > debe devolver el dashboard ejecutivo
+AssertionError: expected { activeStudents: 100, ÔÇª(27) } to match object { 
+successRate: 82, ÔÇª(6) }
+(34 matching properties omitted from actual)
+
+- Expected
++ Received
+
+@@ -7,11 +7,11 @@
+        "clasesTotales": 62,
+      },
+      "matriculasAlumnos": {
+        "alumnosLicenciados": 14,
+        "alumnosMatriculaPendientePago": 12,
+-       "alumnosMatriculados": 56,
++       "alumnosMatriculados": 80,
+        "alumnosRegistrados": 100,
+      },
+      "usuarios": {
+        "administrativosRegistrados": 3,
+        "profesoresRegistrados": 8,
+
+ ÔØ» src/features/dashboard/__tests__/dashboard.service.test.js:445:20
+    443|     vi.useRealTimers();
+    444|
+    445|     expect(result).toMatchObject({
+       |                    ^
+    446|       successRate: 82,
+    447|       monthlySuccessRate: 75,
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[1/1]ÔÄ
+»
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 68 passed (69)
+   Start at  14:39:22
+   Duration  1.29s (transform 617ms, setup 0ms, import 929ms, tests 320ms, environment 1ms)
+

@@ -1152,6 +1152,12 @@ export default function ConvocatoriaExamen() {
           <Typography>
             <strong>Tipo:</strong> {selectedAgendaExam?.tipoExamen || "-"}
           </Typography>
+          {selectedAgendaExam?.tipoExamen === "PRACTICO" ? (
+            <Typography>
+              <strong>Subtipo:</strong>{" "}
+              {selectedAgendaExam?.tipoPracticoLabel || "Circulacion"}
+            </Typography>
+          ) : null}
 
           <Typography>
             <strong>Fecha convocatoria:</strong>{" "}

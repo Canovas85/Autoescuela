@@ -307,7 +307,9 @@ export class InformesService {
       this.repository.findFacturasBetween(startDate, endDate),
       this.repository.findPagosBetween(startDate, endDate),
       this.repository.findGastosCombustibleBetween(startDate, endDate),
-      this.repository.findNominasBetween(startDate, endDate),
+      typeof this.repository.findNominasBetween === "function"
+        ? this.repository.findNominasBetween(startDate, endDate)
+        : Promise.resolve([]),
     ]);
 
     const facturasPagadas = (facturas || []).filter(

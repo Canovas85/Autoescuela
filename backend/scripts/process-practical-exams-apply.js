@@ -45,12 +45,39 @@ const normalizarLicenciaObjetivo = (valor) =>
     .trim()
     .toUpperCase() || "B";
 
-const shouldMarkLicenseObtained = ({ licenciaObjetivo, fasePractica }) => {
-  if (!usesDualPracticalPhaseByLicense(licenciaObjetivo)) {
-    return true;
+const PRACTICAL_FAILURE_STATES = ["NO_APTO", "SUSPENDIDO", "NO_PRESENTADO"];
+
+const resolvePracticalExpedienteState = ({
+  licenciaObjetivo,
+  estadoSolicitud,
+  fasePractica,
+}) => {
+  const estado = String(estadoSolicitud || "")
+    .trim()
+    .toUpperCase();
+  const dual = usesDualPracticalPhaseByLicense(licenciaObjetivo);
+
+  if (["APTO", "APROBADO"].includes(estado)) {
+    if (!dual) {
+      return "LICENCIA_OBTENIDA";
+    }
+
+    return Number(fasePractica) === 2
+      ? "LICENCIA_OBTENIDA"
+      : "PRACTICO_CIRCULACION_APROBADO";
   }
 
-  return Number(fasePractica) === 2;
+  if (!PRACTICAL_FAILURE_STATES.includes(estado)) {
+    return null;
+  }
+
+  if (!dual) {
+    return "PRACTICO_SUSPENSO";
+  }
+
+  return Number(fasePractica) === 2
+    ? "PRACTICO_CIRCUITO_SUSPENSO"
+    : "PRACTICO_CIRCULACION_SUSPENSO";
 };
 
 const FALTAS_CATALOGO_PRACTICO = {
@@ -869,44 +896,46 @@ async function main() {
           },
         });
 
+        const alumno = await tx.alumno.findUnique({
+          where: {
+            id: updated.alumnoId,
+          },
+          select: {
+            profesorAsignadoId: true,
+            matriculas: {
+              where: {
+                estado: "PAGADA",
+              },
+              orderBy: {
+                fechaPago: "desc",
+              },
+              take: 1,
+              select: {
+                licencia: true,
+              },
+            },
+          },
+        });
+
+        const licenciaObjetivo = normalizeLicenseCode(
+          alumno?.matriculas?.[0]?.licencia,
+        );
+        const estadoExpediente = resolvePracticalExpedienteState({
+          licenciaObjetivo,
+          estadoSolicitud: item.afterEstado,
+          fasePractica: updated.fasePractica,
+        });
+
         if (item.afterEstado === "APTO") {
           pagosPracticoCanceladosPorApto +=
             await cleanupPendingPracticalExpenseAfterApto(tx, updated.alumnoId);
+        }
 
-          const alumno = await tx.alumno.findUnique({
-            where: {
-              id: updated.alumnoId,
-            },
-            select: {
-              profesorAsignadoId: true,
-              matriculas: {
-                where: {
-                  estado: "PAGADA",
-                },
-                orderBy: {
-                  fechaPago: "desc",
-                },
-                take: 1,
-                select: {
-                  licencia: true,
-                },
-              },
-            },
-          });
+        if (!estadoExpediente) {
+          continue;
+        }
 
-          const licenciaObjetivo = normalizeLicenseCode(
-            alumno?.matriculas?.[0]?.licencia,
-          );
-
-          if (
-            !shouldMarkLicenseObtained({
-              licenciaObjetivo,
-              fasePractica: updated.fasePractica,
-            })
-          ) {
-            continue;
-          }
-
+        if (estadoExpediente === "LICENCIA_OBTENIDA") {
           await tx.alumno.update({
             where: {
               id: updated.alumnoId,
@@ -929,7 +958,19 @@ async function main() {
               },
             });
           }
+
+          continue;
         }
+
+        await tx.alumno.update({
+          where: {
+            id: updated.alumnoId,
+          },
+          data: {
+            estadoExpediente,
+            licenciaObtenidaAt: null,
+          },
+        });
       }
     }
 

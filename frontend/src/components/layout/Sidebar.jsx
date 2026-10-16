@@ -544,6 +544,7 @@ export default function Sidebar({ navigate, location }) {
 
   const [matriculaPagada, setMatriculaPagada] = useState(true);
   const [licenciaObtenida, setLicenciaObtenida] = useState(false);
+  const [teoricoAptoHistorico, setTeoricoAptoHistorico] = useState(false);
   const [unreadNotifications, setUnreadNotifications] = useState(0);
 
   const loadUnreadNotifications = async () => {
@@ -594,9 +595,20 @@ export default function Sidebar({ navigate, location }) {
           String(dashboard?.estadoAlumno?.codigo || "").toUpperCase() ===
             "LICENCIA_OBTENIDA",
         );
+
+        const hasTheoreticalApto = Array.isArray(dashboard?.examenes?.teoricos)
+          ? dashboard.examenes.teoricos.some((item) =>
+              ["APTO", "APROBADO"].includes(
+                String(item?.estado || "").toUpperCase(),
+              ),
+            )
+          : false;
+
+        setTeoricoAptoHistorico(hasTheoreticalApto);
       } catch (error) {
         console.error(error);
         setLicenciaObtenida(false);
+        setTeoricoAptoHistorico(false);
       }
     };
 
@@ -720,6 +732,10 @@ export default function Sidebar({ navigate, location }) {
         path: "/pago-matricula",
       },
     ];
+  }
+
+  if (role === "ALUMNO" && matriculaPagada && !teoricoAptoHistorico) {
+    menu = (menu || []).filter((item) => item.label !== "Clases prácticas");
   }
 
   const renderPrimaryLabel = (label) => {

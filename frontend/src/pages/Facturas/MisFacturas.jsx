@@ -24,7 +24,7 @@ import DownloadIcon from "@mui/icons-material/Download";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { LicenseChip } from "../../components/common/LicenseChip";
 import { PracticalClassTypeChip } from "../../components/common/PracticalClassTypeChip";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { facturasService } from "../../services/facturasService";
 import { pagosService } from "../../services/pagosService";
@@ -161,8 +161,37 @@ const getFinalAmount = (row) => {
   return Number(row.total || 0);
 };
 
+const matchesValue = (left, right) =>
+  String(left || "").trim() !== "" &&
+  String(right || "").trim() !== "" &&
+  String(left).trim() === String(right).trim();
+
+const resolveFacturaFromSearch = (rows, search) => {
+  const params = new URLSearchParams(search);
+
+  if (params.get("openFactura") !== "1") {
+    return null;
+  }
+
+  const facturaId = params.get("facturaId");
+  const numeroFactura = params.get("numeroFactura");
+  const matriculaId = params.get("matriculaId");
+  const compraBonoId = params.get("compraBonoId");
+  const clasePracticaId = params.get("clasePracticaId");
+
+  return (
+    rows.find((row) => matchesValue(row.id, facturaId)) ||
+    rows.find((row) => matchesValue(row.numero, numeroFactura)) ||
+    rows.find((row) => matchesValue(row.compraBonoId, compraBonoId)) ||
+    rows.find((row) => matchesValue(row.matriculaId, matriculaId)) ||
+    rows.find((row) => matchesValue(row.clasePracticaId, clasePracticaId)) ||
+    null
+  );
+};
+
 export default function MisFacturas() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [rows, setRows] = useState([]);
   const [searchConcepto, setSearchConcepto] = useState("");
   const [conceptoFiltro, setConceptoFiltro] = useState("");
@@ -202,6 +231,26 @@ export default function MisFacturas() {
   useEffect(() => {
     loadFacturas();
   }, []);
+
+  useEffect(() => {
+    if (!rows.length) {
+      return;
+    }
+
+    const params = new URLSearchParams(location.search);
+
+    if (params.get("openFactura") !== "1") {
+      return;
+    }
+
+    const targetRow = resolveFacturaFromSearch(rows, location.search);
+
+    if (targetRow) {
+      handleOpenPreview(targetRow);
+    }
+
+    navigate("/mis-facturas", { replace: true });
+  }, [rows, location.search]);
 
   const toggleStateChip = (state) => {
     setActiveStates((prev) =>

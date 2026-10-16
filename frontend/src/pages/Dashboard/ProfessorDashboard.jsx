@@ -28,6 +28,10 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import { LicenseChip } from "../../components/common/LicenseChip";
 import { ExpedientePhaseChip } from "../../components/common/ExpedientePhaseChip";
 import { profesorPortalService } from "../../services/profesorPortalService";
+import {
+  getPracticalExamTypeLabel,
+  isDualPracticalLicense,
+} from "../../utils/practicalExamType";
 
 function buildImageSrc(ruta) {
   if (!ruta) {
@@ -223,6 +227,18 @@ export default function ProfessorDashboard({ data }) {
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [detail, setDetail] = useState(null);
   const [error, setError] = useState("");
+  const practicalLicense =
+    detail?.perfil?.tipoLicenciaObjetivo || detail?.perfil?.licencia || "B";
+  const usesDualPractical = isDualPracticalLicense(practicalLicense);
+  const practicalExams = Array.isArray(detail?.examenes?.practicos)
+    ? detail.examenes.practicos
+    : [];
+  const practicalExamsCirculacion = practicalExams.filter(
+    (item) => item?.tipoPractico === "CIRCULACION",
+  );
+  const practicalExamsPista = practicalExams.filter(
+    (item) => item?.tipoPractico === "PISTA",
+  );
 
   const openStudentDetail = async (alumnoId) => {
     setOpenDetail(true);
@@ -709,11 +725,11 @@ export default function ProfessorDashboard({ data }) {
                     fontWeight={700}
                     sx={{ mb: 1 }}
                   >
-                    Convocatorias examen práctico
+                    Convocatorias examen práctico: Circulacion
                   </Typography>
-                  {detail?.examenes?.practicos?.length ? (
+                  {practicalExamsCirculacion.length ? (
                     <Stack spacing={1} sx={{ mb: 1.5 }}>
-                      {detail.examenes.practicos.map((examen) => (
+                      {practicalExamsCirculacion.map((examen) => (
                         <Box
                           key={`pra-${examen.id}`}
                           sx={{
@@ -743,6 +759,13 @@ export default function ProfessorDashboard({ data }) {
                             </Box>
                           </Stack>
                           <Typography variant="body2" color="text.secondary">
+                            Subtipo:{" "}
+                            {getPracticalExamTypeLabel({
+                              license: practicalLicense,
+                              phase: examen?.fasePractica,
+                            })}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
                             Leves: {examen.faltasLeves ?? "-"} | Deficientes:{" "}
                             {examen.faltasDeficientes ?? "-"} | Eliminatorias:{" "}
                             {examen.faltasEliminatorias ?? "-"}
@@ -752,9 +775,72 @@ export default function ProfessorDashboard({ data }) {
                     </Stack>
                   ) : (
                     <Alert severity="info" sx={{ mb: 1.5 }}>
-                      El alumno no tiene convocatorias prácticas presentadas.
+                      El alumno no tiene convocatorias prácticas de Circulacion
+                      presentadas.
                     </Alert>
                   )}
+
+                  {usesDualPractical ? (
+                    <Typography
+                      variant="subtitle2"
+                      fontWeight={700}
+                      sx={{ mb: 1 }}
+                    >
+                      Convocatorias examen práctico: Pista (Circuito)
+                    </Typography>
+                  ) : null}
+                  {usesDualPractical && practicalExamsPista.length ? (
+                    <Stack spacing={1} sx={{ mb: 1.5 }}>
+                      {practicalExamsPista.map((examen) => (
+                        <Box
+                          key={`pra-pista-${examen.id}`}
+                          sx={{
+                            p: 1.25,
+                            borderRadius: 2,
+                            border: "1px solid #e2e8f0",
+                            backgroundColor: "#ffffff",
+                          }}
+                        >
+                          <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="center"
+                          >
+                            <Typography variant="subtitle2" fontWeight={700}>
+                              {new Date(
+                                examen.fechaProgramada || examen.fechaSolicitud,
+                              ).toLocaleDateString("es-ES")}
+                            </Typography>
+                            <Box sx={{ flex: 1, textAlign: "right" }}>
+                              <Chip
+                                size="small"
+                                color={getExamResultMeta(examen.estado).color}
+                                icon={getExamResultMeta(examen.estado).icon}
+                                label={getExamResultMeta(examen.estado).label}
+                              />
+                            </Box>
+                          </Stack>
+                          <Typography variant="body2" color="text.secondary">
+                            Subtipo:{" "}
+                            {getPracticalExamTypeLabel({
+                              license: practicalLicense,
+                              phase: examen?.fasePractica,
+                            })}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            Leves: {examen.faltasLeves ?? "-"} | Deficientes:{" "}
+                            {examen.faltasDeficientes ?? "-"} | Eliminatorias:{" "}
+                            {examen.faltasEliminatorias ?? "-"}
+                          </Typography>
+                        </Box>
+                      ))}
+                    </Stack>
+                  ) : usesDualPractical ? (
+                    <Alert severity="info" sx={{ mb: 1.5 }}>
+                      El alumno no tiene convocatorias prácticas de pista
+                      presentadas.
+                    </Alert>
+                  ) : null}
 
                   <Grid container spacing={1.5}>
                     <Grid item xs={12} md={6}>

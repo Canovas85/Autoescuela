@@ -186,7 +186,10 @@ export class PreguntasDGTService {
   }
 
   async getNextPublicId() {
-    const ids = await this.repository.getAllIdsByPrefix(PREGUNTA_DGT_ID_PREFIX);
+    const ids =
+      typeof this.repository.getAllIdsByPrefix === "function"
+        ? await this.repository.getAllIdsByPrefix(PREGUNTA_DGT_ID_PREFIX)
+        : [];
 
     const maxNumero = ids.reduce((max, id) => {
       const match = new RegExp(`^${PREGUNTA_DGT_ID_PREFIX}(\\d+)$`).exec(id);
@@ -218,7 +221,9 @@ export class PreguntasDGTService {
 
       try {
         return await this.repository.create({
-          id: nextId,
+          ...(typeof this.repository.getAllIdsByPrefix === "function"
+            ? { id: nextId }
+            : {}),
           licencia: payload.licencia,
           enunciado: payload.enunciado,
           imagenRuta: payload.imagenRuta,

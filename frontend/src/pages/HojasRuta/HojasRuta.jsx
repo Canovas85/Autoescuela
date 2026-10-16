@@ -24,6 +24,7 @@ import {
   MenuItem,
   Pagination,
   Paper,
+  Snackbar,
   Stack,
   Tab,
   Tabs,
@@ -52,6 +53,7 @@ import { exportHojasRutaAlumnosProfesorExcel } from "../../utils/exportHojasRuta
 import { exportHojasRutaAlumnosProfesorPdf } from "../../utils/exportHojasRutaAlumnosProfesorPdf";
 import { exportHojasRutaAlumnoDetalleExcel } from "../../utils/exportHojasRutaAlumnoDetalleExcel";
 import { exportHojasRutaAlumnoDetallePdf } from "../../utils/exportHojasRutaAlumnoDetallePdf";
+import { PracticalClassTypeChip } from "../../components/common/PracticalClassTypeChip";
 
 const formatDateTime = (value) => {
   if (!value) return "-";
@@ -463,6 +465,22 @@ function RoadmapDetail({
                     {value.vehiculo?.marca} {value.vehiculo?.modelo}{" "}
                     {value.vehiculo?.matricula}
                   </Typography>
+                </Box>
+              </Stack>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Stack
+                direction="row"
+                spacing={1.25}
+                alignItems="center"
+                sx={{ mt: 2 }}
+              >
+                <RouteIcon fontSize="small" />
+                <Box>
+                  <Typography color="text.secondary">Tipo clase</Typography>
+                  <PracticalClassTypeChip
+                    value={value?.tipoClasePractica || "CIRCULACION"}
+                  />
                 </Box>
               </Stack>
             </Grid>
@@ -1408,7 +1426,10 @@ export default function HojasRuta() {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [notification, setNotification] = useState("");
+  const [notification, setNotification] = useState({
+    open: false,
+    message: "",
+  });
 
   const [profData, setProfData] = useState(null);
   const [detailData, setDetailData] = useState(null);
@@ -1760,7 +1781,10 @@ export default function HojasRuta() {
         detailData,
       );
       setDetailData(result.hojaRuta);
-      setNotification(result.message || "Borrador guardado");
+      setNotification({
+        open: true,
+        message: result.message || "Borrador guardado",
+      });
     } catch (saveError) {
       setError(
         saveError.response?.data?.message || "No se pudo guardar el borrador",
@@ -1780,7 +1804,10 @@ export default function HojasRuta() {
         detailData,
       );
       setDetailData(result.hojaRuta);
-      setNotification(result.message || "Clase finalizada");
+      setNotification({
+        open: true,
+        message: result.message || "Clase finalizada",
+      });
     } catch (saveError) {
       setError(
         saveError.response?.data?.message || "No se pudo finalizar la clase",
@@ -1989,6 +2016,11 @@ export default function HojasRuta() {
                             {item.vehiculo?.marca} {item.vehiculo?.modelo} -{" "}
                             {item.vehiculo?.matricula}
                           </Typography>
+                          <Box sx={{ mt: 0.5 }}>
+                            <PracticalClassTypeChip
+                              value={item?.tipoClasePractica || "CIRCULACION"}
+                            />
+                          </Box>
                           <Typography variant="body2" color="text.secondary">
                             {formatDateTime(item.fecha)}
                           </Typography>
@@ -2064,6 +2096,11 @@ export default function HojasRuta() {
                             {item.vehiculo?.marca} {item.vehiculo?.modelo} -{" "}
                             {item.vehiculo?.matricula}
                           </Typography>
+                          <Box sx={{ mt: 0.5 }}>
+                            <PracticalClassTypeChip
+                              value={item?.tipoClasePractica || "CIRCULACION"}
+                            />
+                          </Box>
                           <Typography variant="body2" color="text.secondary">
                             {formatDateTime(item.fecha)}
                           </Typography>
@@ -2228,6 +2265,16 @@ export default function HojasRuta() {
                       headerName: "Duración",
                       flex: 0.7,
                       valueGetter: (_, row) => `${row.duracion || 0} min`,
+                    },
+                    {
+                      field: "tipoClasePractica",
+                      headerName: "Tipo",
+                      flex: 0.9,
+                      renderCell: (params) => (
+                        <PracticalClassTypeChip
+                          value={params.row?.tipoClasePractica || "CIRCULACION"}
+                        />
+                      ),
                     },
                     {
                       field: "vehiculo",
@@ -2588,6 +2635,16 @@ export default function HojasRuta() {
                   flex: 1,
                   valueGetter: (_, row) => formatDateTime(row.fecha),
                 },
+                {
+                  field: "tipoClasePractica",
+                  headerName: "Tipo",
+                  flex: 0.9,
+                  renderCell: (params) => (
+                    <PracticalClassTypeChip
+                      value={params.row?.tipoClasePractica || "CIRCULACION"}
+                    />
+                  ),
+                },
                 { field: "profesorNombre", headerName: "Profesor", flex: 1.2 },
                 { field: "vehiculo", headerName: "Vehículo", flex: 1.2 },
                 {
@@ -2653,11 +2710,33 @@ export default function HojasRuta() {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
       {error ? <Alert severity="error">{error}</Alert> : null}
-      {notification ? (
-        <Alert severity="success" onClose={() => setNotification("")}>
-          {notification}
+      <Snackbar
+        open={notification.open}
+        autoHideDuration={4000}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        onClose={() =>
+          setNotification({
+            open: false,
+            message: "",
+          })
+        }
+      >
+        <Alert
+          severity="success"
+          variant="filled"
+          onClose={() =>
+            setNotification({
+              open: false,
+              message: "",
+            })
+          }
+        >
+          {notification.message}
         </Alert>
-      ) : null}
+      </Snackbar>
 
       {role === "PROFESOR" && viewClaseId ? (
         <RoadmapDetail

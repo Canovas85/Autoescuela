@@ -51,6 +51,7 @@ import {
   EXPEDIENTE_PHASE_OPTIONS,
   resolveExpedientePhaseCode,
 } from "../../utils/expedientePhase";
+import { isDualPracticalLicense } from "../../utils/practicalExamType";
 
 import {
   Dialog,
@@ -2335,26 +2336,65 @@ export default function Alumnos() {
                           variant="body2"
                           sx={{ mt: 1, fontWeight: 700 }}
                         >
-                          Convocatorias examen práctico
+                          Convocatorias examen práctico: Circulacion
                         </Typography>
-                        {(extendedSummary.examenPracticoHistorial || [])
-                          .length ? (
-                          (extendedSummary.examenPracticoHistorial || []).map(
-                            (item) => (
-                              <Typography
-                                variant="body2"
-                                key={`practico-${item.id}`}
-                              >
-                                {formatDateLabel(item.fecha)} | {item.estado} |
-                                Faltas (L/D/E): {item.leves ?? "-"} /{" "}
-                                {item.deficientes ?? "-"} /{" "}
-                                {item.eliminatorias ?? "-"}
-                              </Typography>
-                            ),
-                          )
+                        {(
+                          extendedSummary.examenPracticoCirculacionHistorial ||
+                          []
+                        )?.length ? (
+                          (
+                            extendedSummary.examenPracticoCirculacionHistorial ||
+                            []
+                          ).map((item) => (
+                            <Typography
+                              variant="body2"
+                              key={`practico-${item.id}`}
+                            >
+                              {formatDateLabel(item.fecha)} | {item.estado} |
+                              Faltas (L/D/E): {item.leves ?? "-"} /{" "}
+                              {item.deficientes ?? "-"} /{" "}
+                              {item.eliminatorias ?? "-"}
+                            </Typography>
+                          ))
                         ) : (
                           <Typography variant="body2">No presentado</Typography>
                         )}
+
+                        {isDualPracticalLicense(
+                          extendedSummary?.licenciaObjetivo ||
+                            selectedAlumno?.tipoLicenciaObjetivo,
+                        ) ? (
+                          <>
+                            <Typography
+                              variant="body2"
+                              sx={{ mt: 1, fontWeight: 700 }}
+                            >
+                              Convocatorias examen práctico: Pista (Circuito)
+                            </Typography>
+                            {(
+                              extendedSummary.examenPracticoPistaHistorial || []
+                            ).length ? (
+                              (
+                                extendedSummary.examenPracticoPistaHistorial ||
+                                []
+                              ).map((item) => (
+                                <Typography
+                                  variant="body2"
+                                  key={`practico-pista-${item.id}`}
+                                >
+                                  {formatDateLabel(item.fecha)} | {item.estado}{" "}
+                                  | Faltas (L/D/E): {item.leves ?? "-"} /{" "}
+                                  {item.deficientes ?? "-"} /{" "}
+                                  {item.eliminatorias ?? "-"}
+                                </Typography>
+                              ))
+                            ) : (
+                              <Typography variant="body2">
+                                No presentado
+                              </Typography>
+                            )}
+                          </>
+                        ) : null}
                       </Box>
 
                       <Box

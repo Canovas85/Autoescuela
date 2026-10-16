@@ -39,9 +39,21 @@ Se usa en backend para calcular el estado y en frontend para pintar chips con el
 
 - Ultimo resultado practico final en no apto/suspenso.
 
-9. `LICENCIA_OBTENIDA`
+9. `PRACTICO_CIRCULACION_APROBADO`
 
-- Resultado practico apto o expediente marcado como licencia obtenida.
+- Solo licencias con doble fase (A, A1, A2, C, D, E): aprobado en práctico de circulacion y pendiente de fase de circuito.
+
+10. `PRACTICO_CIRCULACION_SUSPENSO`
+
+- Solo licencias con doble fase: suspenso/no presentado en práctico de circulacion.
+
+11. `PRACTICO_CIRCUITO_SUSPENSO`
+
+- Solo licencias con doble fase: suspenso/no presentado en práctico de circuito.
+
+12. `LICENCIA_OBTENIDA`
+
+- Resultado practico apto final o expediente marcado como licencia obtenida.
 
 ## Paleta de color de chip
 
@@ -53,6 +65,9 @@ Se usa en backend para calcular el estado y en frontend para pintar chips con el
 - `PREPARANDO_PRACTICO`: fondo `#ede9fe`, texto `#5b21b6`, borde `#c4b5fd`
 - `PENDIENTE_EXAMEN_PRACTICO`: fondo `#fef3c7`, texto `#92400e`, borde `#fcd34d`
 - `PRACTICO_SUSPENSO`: fondo `#fee2e2`, texto `#991b1b`, borde `#fca5a5`
+- `PRACTICO_CIRCULACION_APROBADO`: fondo `#dbeafe`, texto `#1e3a8a`, borde `#93c5fd`
+- `PRACTICO_CIRCULACION_SUSPENSO`: fondo `#fee2e2`, texto `#991b1b`, borde `#fca5a5`
+- `PRACTICO_CIRCUITO_SUSPENSO`: fondo `#fee2e2`, texto `#991b1b`, borde `#fca5a5`
 - `LICENCIA_OBTENIDA`: fondo `#dcfce7`, texto `#166534`, borde `#86efac`
 
 ## Implementacion

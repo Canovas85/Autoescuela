@@ -94,6 +94,12 @@ export default function EvaluacionExamenPractico() {
         renderCell: (params) => <LicenseChip value={params.value} />,
       },
       {
+        field: "tipoPracticoLabel",
+        headerName: "Subtipo",
+        flex: 1,
+        valueGetter: (_, row) => row.tipoPracticoLabel || "Circulacion",
+      },
+      {
         field: "estado",
         headerName: "Estado / Resultado",
         flex: 1,
@@ -187,6 +193,10 @@ export default function EvaluacionExamenPractico() {
           <Typography>
             <strong>Permiso/Licencia:</strong>{" "}
             {selectedRow?.permisoLicencia || "-"}
+          </Typography>
+          <Typography>
+            <strong>Subtipo:</strong>{" "}
+            {selectedRow?.tipoPracticoLabel || "Circulacion"}
           </Typography>
           <Typography>
             <strong>Estado / Resultado:</strong> {selectedRow?.estado || "-"}

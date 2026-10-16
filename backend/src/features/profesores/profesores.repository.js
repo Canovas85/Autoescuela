@@ -147,7 +147,6 @@ export class ProfesoresRepository {
       },
       data: {
         activo: false,
-        fechaBaja: new Date(),
       },
     });
   }
@@ -276,6 +275,15 @@ export class ProfesoresRepository {
         usuario: {
           nombre: "asc",
         },
+      },
+    });
+  }
+
+  async countHistoricalLicensesObtainedByProfessor(profesorId) {
+    return this.prisma.alumnoProfesorHistorial.count({
+      where: {
+        profesorAnteriorId: profesorId,
+        motivo: "LICENCIA_OBTENIDA",
       },
     });
   }

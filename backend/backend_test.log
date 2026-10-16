@@ -1,0 +1,759 @@
+﻿
+> autodrive-admin-backend@1.0.0 test
+> vitest run
+
+
+ RUN  v4.1.10 C:/Users/cano0/Desktop/Sergio_proyecto_master/Autoescuela/backend
+
+ ÔØ» src/features/vehiculos/__tests__/vehiculos.service.test.js (11 tests | 2 failed) 39ms
+     ├ù debe devolver el listado completo de veh├¡culos 21ms
+     ├ù debe devolver un veh├¡culo cuando existe el id 2ms
+ ÔØ» src/features/promociones/__tests__/promociones.service.test.js (17 tests | 2 failed) 85ms
+     ├ù debe crear una promoci├│n cuando los datos son v├ílidos 32ms
+     ├ù debe actualizar una promoci├│n y borrar la imagen anterior cuando se elimina 11ms
+ ÔØ» src/features/alumnos/__tests__/alumnos.repository.test.js (6 tests | 1 failed) 32ms
+     ├ù debe crear un alumno utilizando Prisma 24ms
+ ÔØ» src/features/preguntas-dgt/__tests__/preguntas-dgt.service.test.js (9 tests | 2 failed) 36ms
+     ├ù debe crear una pregunta con payload normalizado 15ms
+     ├ù debe aceptar una pregunta con 3 respuestas 1ms
+ ÔØ» src/features/hojas-ruta/__tests__/hojas-ruta.service.test.js (3 tests | 2 failed) 39ms
+     ├ù debe guardar borrador EN_CURSO con faltas normalizadas 18ms
+     ├ù debe lanzar error cuando el tipo de falta no es v├ílido 14ms
+ ÔØ» src/features/preguntas-dgt/__tests__/preguntas-dgt.controller.test.js (6 tests | 1 failed) 27ms
+     ├ù debe corregir examen y devolver resultado 13ms
+ ÔØ» src/features/alumnos/__tests__/alumnos.service.test.js (29 tests | 1 failed) 1253ms
+     ├ù debe devolver el listado completo de alumnos 23ms
+ ÔØ» src/features/profesores/__tests__/profesores.repository.test.js (7 tests | 1 failed) 35ms
+     ├ù debe realizar la baja l├│gica de un profesor 16ms
+ ÔØ» src/features/bonos/__tests__/bonos.repository.test.js (9 tests | 2 failed) 35ms
+     ├ù debe devolver todos los bonos ordenados por activo y nombre 14ms
+     ├ù debe listar bonos activos 2ms
+ ÔØ» src/features/pagos/__tests__/pagos.repository.test.js (5 tests | 5 failed) 42ms
+     ├ù debe listar todos los pagos con relaciones 23ms
+     ├ù debe listar pagos por alumno 5ms
+     ├ù debe marcar pago como pagado y crear factura asociada 7ms
+     ├ù no debe crear factura si el pago no tiene matr├¡cula 1ms
+     ├ù debe pagar compra de bono, actualizar compra y emitir factura 2ms
+ ÔØ» src/features/temarios/__tests__/temarios.controller.test.js (10 tests | 1 failed) 32ms
+     ├ù debe actualizar un temario existente 15ms
+ ÔØ» src/features/vehiculos/__tests__/vehiculos.repository.test.js (6 tests | 1 failed) 25ms
+     ├ù debe devolver un veh├¡culo por id 13ms
+ ÔØ» src/features/informes/__tests__/informes.service.test.js (2 tests | 1 failed) 19ms
+     ├ù calcula KPIs y movimientos del informe contable 13ms
+node.exe : 
+En línea: 1 Carácter: 1
++ & "C:\nvm4w\nodejs/node.exe" "C:\nvm4w\nodejs/node_modules/npm/bin/np ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ» Failed Tests 22 ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»
+
+ FAIL  src/features/bonos/__tests__/bonos.repository.test.js > BonosRepository 
+> debe devolver todos los bonos ordenados por activo y nombre
+AssertionError: expected "vi.fn()" to be called with arguments: [ { orderBy: [ 
+ÔÇª(2) ] } ]
+
+Received:
+
+  1st vi.fn() call:
+
+@@ -6,7 +6,10 @@
+        },
+        {
+          "nombre": "asc",
+        },
+      ],
++     "where": {
++       "esInterno": false,
++     },
+    },
+  ]
+
+
+Number of calls: 1
+
+ ÔØ» src/features/bonos/__tests__/bonos.repository.test.js:68:38
+     66|     const result = await repository.findAll();
+     67|
+     68|     expect(prismaMock.bono.findMany).toHaveBeenCalledWith({
+       |                                      ^
+     69|       orderBy: [{ activo: "desc" }, { nombre: "asc" }],
+     70|     });
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[1/22]ÔÄ»
+
+ FAIL  src/features/bonos/__tests__/bonos.repository.test.js > BonosRepository 
+> debe listar bonos activos
+AssertionError: expected "vi.fn()" to be called with arguments: [ { where: { 
+activo: true }, ÔÇª(1) } ]
+
+Received:
+
+  1st vi.fn() call:
+
+@@ -3,8 +3,9 @@
+      "orderBy": {
+        "nombre": "asc",
+      },
+      "where": {
+        "activo": true,
++       "esInterno": false,
+      },
+    },
+  ]
+
+
+Number of calls: 1
+
+ ÔØ» src/features/bonos/__tests__/bonos.repository.test.js:199:38
+    197|     const result = await repository.findActivos();
+    198|
+    199|     expect(prismaMock.bono.findMany).toHaveBeenCalledWith({
+       |                                      ^
+    200|       where: {
+    201|         activo: true,
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[2/22]ÔÄ»
+
+ FAIL  src/features/alumnos/__tests__/alumnos.repository.test.js > 
+AlumnosRepository > debe crear un alumno utilizando Prisma
+AssertionError: expected "vi.fn()" to be called with arguments: [ { data: { 
+ÔÇª(6) }, ÔÇª(1) } ]
+
+Received:
+
+  1st vi.fn() call:
+
+@@ -1,9 +1,10 @@
+  [
+    {
+      "data": {
+        "activo": true,
++       "estadoExpediente": "PENDIENTE_MATRICULA",
+        "fechaNacimiento": 1998-06-14T22:00:00.000Z,
+        "horasPracticasCompletadas": 0,
+        "id": "usuario-id",
+        "profesorAsignadoId": null,
+        "tipoLicenciaObjetivo": "B",
+
+
+Number of calls: 1
+
+ ÔØ» src/features/alumnos/__tests__/alumnos.repository.test.js:64:38
+     62|     });
+     63|
+     64|     expect(prismaMock.alumno.create).toHaveBeenCalledWith({
+       |                                      ^
+     65|       data: {
+     66|         id: "usuario-id",
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[3/22]ÔÄ»
+
+ FAIL  src/features/alumnos/__tests__/alumnos.service.test.js > AlumnosService 
+> debe devolver el listado completo de alumnos
+AssertionError: expected [ { id: 'alumno-1', ÔÇª(8) }, ÔÇª(1) ] to deeply 
+equal [ { id: 'alumno-1', ÔÇª(4) }, ÔÇª(1) ]
+
+- Expected
++ Received
+
+  [
+    {
+      "activo": true,
+      "email": "pedro@autodrive.com",
++     "faseActual": "Pendiente Matr├¡cula",
++     "faseActualCodigo": "PENDIENTE_MATRICULA",
++     "horasPracticasCompletadas": 0,
++     "horasPracticasCompletadasTexto": "0h 00min",
+      "id": "alumno-1",
+      "nombre": "Pedro S├ínchez",
+      "rol": "ALUMNO",
+    },
+    {
+      "activo": true,
+      "email": "laura@autodrive.com",
++     "faseActual": "Pendiente Matr├¡cula",
++     "faseActualCodigo": "PENDIENTE_MATRICULA",
++     "horasPracticasCompletadas": 0,
++     "horasPracticasCompletadasTexto": "0h 00min",
+      "id": "alumno-2",
+      "nombre": "Laura Mart├¡n",
+      "rol": "ALUMNO",
+    },
+  ]
+
+ ÔØ» src/features/alumnos/__tests__/alumnos.service.test.js:478:20
+    476|     expect(repositoryMock.findAll).toHaveBeenCalledOnce();
+    477|
+    478|     expect(result).toEqual(alumnos);
+       |                    ^
+    479|   });
+    480|   it("debe devolver un alumno cuando existe el id", async () => {
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[4/22]ÔÄ»
+
+ FAIL  src/features/hojas-ruta/__tests__/hojas-ruta.service.test.js > 
+HojasRutaService > debe guardar borrador EN_CURSO con faltas normalizadas
+TypeError: this.repository.findLatestItvExpenseByVehiculoId is not a function
+ ÔØ» HojasRutaService.ensureVehicleItvCompliant 
+src/features/hojas-ruta/hojas-ruta.service.js:406:29
+    404|     const now = new Date();
+    405|     const latestItvExpense =
+    406|       await 
+this.repository.findLatestItvExpenseByVehiculoId(vehiculo.ÔÇª
+       |                             ^
+    407|     const referenceDate =
+    408|       latestItvExpense?.createdAt || vehiculo?.createdAt || now;
+ ÔØ» HojasRutaService.saveProfessorDraft 
+src/features/hojas-ruta/hojas-ruta.service.js:594:16
+ ÔØ» src/features/hojas-ruta/__tests__/hojas-ruta.service.test.js:88:20
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[5/22]ÔÄ»
+
+ FAIL  src/features/hojas-ruta/__tests__/hojas-ruta.service.test.js > 
+HojasRutaService > debe lanzar error cuando el tipo de falta no es v├ílido
+AssertionError: expected [Function] to throw error including 'El tipo de falta 
+debe ser LEVE, DEFICÔÇª' but got 'El veh├¡culo tiene menos del 20% de coÔÇª'
+
+Expected: "El tipo de falta debe ser LEVE, DEFICIENTE o ELIMINATORIA"
+Received: "El veh├¡culo tiene menos del 20% de combustible. Debes repostar 
+antes de guardar la hoja de ruta."
+
+ ÔØ» src/features/hojas-ruta/__tests__/hojas-ruta.service.test.js:157:6
+    155|         ],
+    156|       }),
+    157|     ).rejects.toThrow(
+       |      ^
+    158|       "El tipo de falta debe ser LEVE, DEFICIENTE o ELIMINATORIA",
+    159|     );
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[6/22]ÔÄ»
+
+ FAIL  src/features/informes/__tests__/informes.service.test.js > 
+InformesService > calcula KPIs y movimientos del informe contable
+TypeError: this.repository.findNominasBetween is not a function
+ ÔØ» InformesService.getAdminAccountingReport 
+src/features/informes/informes.service.js:310:23
+    308|       this.repository.findPagosBetween(startDate, endDate),
+    309|       this.repository.findGastosCombustibleBetween(startDate, 
+endDate),
+    310|       this.repository.findNominasBetween(startDate, endDate),
+       |                       ^
+    311|     ]);
+    312|
+ ÔØ» src/features/informes/__tests__/informes.service.test.js:54:34
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[7/22]ÔÄ»
+
+ FAIL  src/features/pagos/__tests__/pagos.repository.test.js > PagosRepository 
+> debe listar todos los pagos con relaciones
+AssertionError: expected "vi.fn()" to be called with arguments: [ { include: { 
+ÔÇª(3) }, ÔÇª(1) } ]
+
+Received:
+
+  1st vi.fn() call:
+
+@@ -4,10 +4,11 @@
+        "alumno": {
+          "include": {
+            "usuario": true,
+          },
+        },
++       "clasePractica": true,
+        "compraBono": {
+          "include": {
+            "bono": true,
+          },
+        },
+
+
+Number of calls: 1
+
+ ÔØ» src/features/pagos/__tests__/pagos.repository.test.js:19:38
+     17|     const result = await repository.findAll();
+     18|
+     19|     expect(prismaMock.pago.findMany).toHaveBeenCalledWith({
+       |                                      ^
+     20|       include: {
+     21|         alumno: {
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[8/22]ÔÄ»
+
+ FAIL  src/features/pagos/__tests__/pagos.repository.test.js > PagosRepository 
+> debe listar pagos por alumno
+AssertionError: expected "vi.fn()" to be called with arguments: [ { ÔÇª(3) } ]
+
+Received:
+
+  1st vi.fn() call:
+
+@@ -1,8 +1,20 @@
+  [
+    {
+      "include": {
++       "alumno": {
++         "select": {
++           "id": true,
++           "profesorAsignadoId": true,
++           "usuario": {
++             "select": {
++               "nombre": true,
++             },
++           },
++         },
++       },
++       "clasePractica": true,
+        "compraBono": {
+          "include": {
+            "bono": true,
+          },
+        },
+
+
+Number of calls: 1
+
+ ÔØ» src/features/pagos/__tests__/pagos.repository.test.js:51:38
+     49|     const result = await repository.findByAlumnoId("alumno-1");
+     50|
+     51|     expect(prismaMock.pago.findMany).toHaveBeenCalledWith({
+       |                                      ^
+     52|       where: {
+     53|         alumnoId: "alumno-1",
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[9/22]ÔÄ»
+
+ FAIL  src/features/pagos/__tests__/pagos.repository.test.js > PagosRepository 
+> debe marcar pago como pagado y crear factura asociada
+TypeError: tx.pago.findUnique is not a function
+ ÔØ» runPay src/features/pagos/pagos.repository.js:138:40
+    136|       let attempt = 0;
+    137|
+    138|       const pagoActual = await tx.pago.findUnique({
+       |                                        ^
+    139|         where: {
+    140|           id,
+ ÔØ» src/features/pagos/pagos.repository.js:229:45
+ ÔØ» Object.<anonymous> 
+src/features/pagos/__tests__/pagos.repository.test.js:91:47
+ ÔØ» PagosRepository.pay src/features/pagos/pagos.repository.js:229:24
+ ÔØ» src/features/pagos/__tests__/pagos.repository.test.js:96:37
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[10/22]ÔÄ»
+
+ FAIL  src/features/pagos/__tests__/pagos.repository.test.js > PagosRepository 
+> no debe crear factura si el pago no tiene matr├¡cula
+TypeError: tx.pago.findUnique is not a function
+ ÔØ» runPay src/features/pagos/pagos.repository.js:138:40
+    136|       let attempt = 0;
+    137|
+    138|       const pagoActual = await tx.pago.findUnique({
+       |                                        ^
+    139|         where: {
+    140|           id,
+ ÔØ» src/features/pagos/pagos.repository.js:229:45
+ ÔØ» Object.<anonymous> 
+src/features/pagos/__tests__/pagos.repository.test.js:153:47
+ ÔØ» PagosRepository.pay src/features/pagos/pagos.repository.js:229:24
+ ÔØ» src/features/pagos/__tests__/pagos.repository.test.js:158:22
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[11/22]ÔÄ»
+
+ FAIL  src/features/pagos/__tests__/pagos.repository.test.js > PagosRepository 
+> debe pagar compra de bono, actualizar compra y emitir factura
+TypeError: tx.pago.findUnique is not a function
+ ÔØ» runPay src/features/pagos/pagos.repository.js:138:40
+    136|       let attempt = 0;
+    137|
+    138|       const pagoActual = await tx.pago.findUnique({
+       |                                        ^
+    139|         where: {
+    140|           id,
+ ÔØ» src/features/pagos/pagos.repository.js:229:45
+ ÔØ» Object.<anonymous> 
+src/features/pagos/__tests__/pagos.repository.test.js:195:47
+ ÔØ» PagosRepository.pay src/features/pagos/pagos.repository.js:229:24
+ ÔØ» src/features/pagos/__tests__/pagos.repository.test.js:199:22
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[12/22]ÔÄ»
+
+ FAIL  src/features/preguntas-dgt/__tests__/preguntas-dgt.controller.test.js > 
+PreguntasDGTController > debe corregir examen y devolver resultado
+AssertionError: expected "vi.fn()" to be called with arguments: [ { alumnoId: 
+'alumno-1', ÔÇª(4) } ]
+
+Received:
+
+  1st vi.fn() call:
+
+@@ -1,9 +1,8 @@
+  [
+    {
+      "alumnoId": "alumno-1",
+-     "duracionSegundos": 1200,
+      "licencia": "B",
+      "preguntas": [
+        {
+          "id": "preg-1",
+        },
+
+
+Number of calls: 1
+
+ ÔØ» 
+src/features/preguntas-dgt/__tests__/preguntas-dgt.controller.test.js:174:40
+    172|     await controller.corregirExamen(req, res);
+    173|
+    174|     expect(serviceMock.corregirExamen).toHaveBeenCalledWith({
+       |                                        ^
+    175|       alumnoId: "alumno-1",
+    176|       licencia: "B",
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[13/22]ÔÄ»
+
+ FAIL  src/features/preguntas-dgt/__tests__/preguntas-dgt.service.test.js > 
+PreguntasDGTService > debe crear una pregunta con payload normalizado
+TypeError: this.repository.getAllIdsByPrefix is not a function
+ ÔØ» PreguntasDGTService.getNextPublicId 
+src/features/preguntas-dgt/preguntas-dgt.service.js:189:39
+    187|
+    188|   async getNextPublicId() {
+    189|     const ids = await 
+this.repository.getAllIdsByPrefix(PREGUNTA_DGT_IÔÇª
+       |                                       ^
+    190|
+    191|     const maxNumero = ids.reduce((max, id) => {
+ ÔØ» PreguntasDGTService.create 
+src/features/preguntas-dgt/preguntas-dgt.service.js:217:33
+ ÔØ» src/features/preguntas-dgt/__tests__/preguntas-dgt.service.test.js:18:34
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[14/22]ÔÄ»
+
+ FAIL  src/features/preguntas-dgt/__tests__/preguntas-dgt.service.test.js > 
+PreguntasDGTService > debe aceptar una pregunta con 3 respuestas
+TypeError: this.repository.getAllIdsByPrefix is not a function
+ ÔØ» PreguntasDGTService.getNextPublicId 
+src/features/preguntas-dgt/preguntas-dgt.service.js:189:39
+    187|
+    188|   async getNextPublicId() {
+    189|     const ids = await 
+this.repository.getAllIdsByPrefix(PREGUNTA_DGT_IÔÇª
+       |                                       ^
+    190|
+    191|     const maxNumero = ids.reduce((max, id) => {
+ ÔØ» PreguntasDGTService.create 
+src/features/preguntas-dgt/preguntas-dgt.service.js:217:33
+ ÔØ» src/features/preguntas-dgt/__tests__/preguntas-dgt.service.test.js:142:19
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[15/22]ÔÄ»
+
+ FAIL  src/features/profesores/__tests__/profesores.repository.test.js > 
+ProfesoresRepository > debe realizar la baja l├│gica de un profesor
+AssertionError: expected "vi.fn()" to be called with arguments: [ { ÔÇª(2) } ]
+
+Received:
+
+  1st vi.fn() call:
+
+@@ -1,9 +1,10 @@
+  [
+    {
+      "data": {
+        "activo": false,
++       "fechaBaja": 2026-10-15T12:40:29.742Z,
+      },
+      "where": {
+        "id": "profesor-1",
+      },
+    },
+
+
+Number of calls: 1
+
+ ÔØ» src/features/profesores/__tests__/profesores.repository.test.js:251:40
+    249|     const result = await repository.deactivate("profesor-1");
+    250|
+    251|     expect(prismaMock.profesor.update).toHaveBeenCalledWith({
+       |                                        ^
+    252|       where: {
+    253|         id: "profesor-1",
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[16/22]ÔÄ»
+
+ FAIL  src/features/promociones/__tests__/promociones.service.test.js > 
+PromocionesService > debe crear una promoci├│n cuando los datos son v├ílidos
+AssertionError: expected "vi.fn()" to be called with arguments: [ { ÔÇª(13) } ]
+
+Received:
+
+  1st vi.fn() call:
+
+@@ -1,14 +1,17 @@
+  [
+    {
+      "activa": true,
++     "clasesGratisIncluidas": 0,
+      "descripcion": "Descuento de verano",
+      "edadMaxima": null,
+      "edadMinima": null,
+      "fechaFin": 2026-09-30T00:00:00.000Z,
+      "fechaInicio": 2026-09-01T00:00:00.000Z,
+      "imagenRuta": null,
++     "incluyePagoExamenGratis": false,
++     "licenciaClasesGratis": null,
+      "licenciasAplicables": [
+        "B",
+        "A1",
+      ],
+      "nombre": "Promoci├│n verano",
+
+
+Number of calls: 1
+
+ ÔØ» src/features/promociones/__tests__/promociones.service.test.js:39:35
+     37|     );
+     38|
+     39|     expect(repositoryMock.create).toHaveBeenCalledWith({
+       |                                   ^
+     40|       nombre: "Promoci├│n verano",
+     41|       descripcion: "Descuento de verano",
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[17/22]ÔÄ»
+
+ FAIL  src/features/promociones/__tests__/promociones.service.test.js > 
+PromocionesService > debe actualizar una promoci├│n y borrar la imagen 
+anterior cuando se elimina
+AssertionError: expected "vi.fn()" to be called with arguments: [ 'promo-1', 
+ÔÇª(1) ]
+
+Received:
+
+  1st vi.fn() call:
+
+@@ -1,15 +1,18 @@
+  [
+    "promo-1",
+    {
+      "activa": true,
++     "clasesGratisIncluidas": 0,
+      "descripcion": null,
+      "edadMaxima": null,
+      "edadMinima": null,
+      "fechaFin": null,
+      "fechaInicio": null,
+      "imagenRuta": null,
++     "incluyePagoExamenGratis": false,
++     "licenciaClasesGratis": null,
+      "licenciasAplicables": [
+        "B",
+      ],
+      "nombre": "Nueva promo",
+      "precioOriginal": 500,
+
+
+Number of calls: 1
+
+ ÔØ» src/features/promociones/__tests__/promociones.service.test.js:243:35
+    241|     );
+    242|
+    243|     expect(repositoryMock.update).toHaveBeenCalledWith("promo-1", {
+       |                                   ^
+    244|       nombre: "Nueva promo",
+    245|       descripcion: null,
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[18/22]ÔÄ»
+
+ FAIL  src/features/temarios/__tests__/temarios.controller.test.js > 
+TemariosController > debe actualizar un temario existente
+AssertionError: expected "vi.fn()" to be called with arguments: [ 'temario-1', 
+ÔÇª(1) ]
+
+Received:
+
+  1st vi.fn() call:
+
+@@ -4,6 +4,7 @@
+      "descripcion": "Temario actualizado",
+      "orden": 2,
+      "tipoLicenciaObjetivo": "B",
+      "titulo": "Prioridad",
+    },
++   null,
+  ]
+
+
+Number of calls: 1
+
+ ÔØ» src/features/temarios/__tests__/temarios.controller.test.js:258:32
+    256|     await controller.update(req, res);
+    257|
+    258|     expect(serviceMock.update).toHaveBeenCalledWith("temario-1", 
+req.bÔÇª
+       |                                ^
+    259|     expect(res.status).toHaveBeenCalledWith(200);
+    260|     expect(res.json).toHaveBeenCalledWith(temarioActualizado);
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[19/22]ÔÄ»
+
+ FAIL  src/features/vehiculos/__tests__/vehiculos.repository.test.js > 
+VehiculosRepository > debe devolver un veh├¡culo por id
+AssertionError: expected "vi.fn()" to be called with arguments: [ { where: { 
+id: 'vehiculo-1' } } ]
+
+Received:
+
+  1st vi.fn() call:
+
+  [
+    {
++     "include": {
++       "clases": {
++         "select": {
++           "estado": true,
++           "fecha": true,
++           "hojaRuta": {
++             "select": {
++               "estado": true,
++             },
++           },
++           "id": true,
++         },
++       },
++       "gastosCombustible": {
++         "orderBy": {
++           "createdAt": "desc",
++         },
++         "select": {
++           "createdAt": true,
++           "id": true,
++           "kilometrosVehiculo": true,
++           "numeroFactura": true,
++           "total": true,
++         },
++         "take": 1,
++         "where": {
++           "tipoGasto": "REVISION_ITV",
++         },
++       },
++     },
+      "where": {
+        "id": "vehiculo-1",
+      },
+    },
+  ]
+
+
+Number of calls: 1
+
+ ÔØ» src/features/vehiculos/__tests__/vehiculos.repository.test.js:129:44
+    127|     const result = await repository.findById("vehiculo-1");
+    128|
+    129|     expect(prismaMock.vehiculo.findUnique).toHaveBeenCalledWith({
+       |                                            ^
+    130|       where: {
+    131|         id: "vehiculo-1",
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[20/22]ÔÄ»
+
+ FAIL  src/features/vehiculos/__tests__/vehiculos.service.test.js > 
+VehiculosService > debe devolver el listado completo de veh├¡culos
+AssertionError: expected [ { id: 'vehiculo-1', ÔÇª(15) }, ÔÇª(1) ] to deeply 
+equal [ { id: 'vehiculo-1', ÔÇª(5) }, ÔÇª(1) ]
+
+- Expected
++ Received
+
+  [
+    {
+      "activo": true,
+      "id": "vehiculo-1",
++     "itvClasesEfectuadasDesdeUltimaRevision": 0,
++     "itvFechaLimite": 2027-01-15T13:40:28.351Z,
++     "itvFechaReferencia": 2026-10-15T12:40:28.351Z,
++     "itvKmRecorridosDesdeUltimaRevision": 0,
++     "itvMotivos": [],
++     "itvPendiente": false,
++     "itvPrecioRevision": 45,
+      "marca": "Seat",
+      "matricula": "1234ABC",
+      "modelo": "Ibiza",
++     "numeroClasesRealizadas": 0,
+      "tipoPermiso": "B",
++     "ultimaRevisionItvNumeroFactura": null,
++     "ultimaRevisionItvRegistradaAt": null,
+    },
+    {
+      "activo": true,
+      "id": "vehiculo-2",
++     "itvClasesEfectuadasDesdeUltimaRevision": 0,
++     "itvFechaLimite": 2027-01-15T13:40:28.351Z,
++     "itvFechaReferencia": 2026-10-15T12:40:28.351Z,
++     "itvKmRecorridosDesdeUltimaRevision": 0,
++     "itvMotivos": [],
++     "itvPendiente": false,
++     "itvPrecioRevision": 45,
+      "marca": "Toyota",
+      "matricula": "5678DEF",
+      "modelo": "Corolla",
++     "numeroClasesRealizadas": 0,
+      "tipoPermiso": "B",
++     "ultimaRevisionItvNumeroFactura": null,
++     "ultimaRevisionItvRegistradaAt": null,
+    },
+  ]
+
+ ÔØ» src/features/vehiculos/__tests__/vehiculos.service.test.js:147:20
+    145|     expect(repositoryMock.findAll).toHaveBeenCalledOnce();
+    146|
+    147|     expect(result).toEqual(vehiculos);
+       |                    ^
+    148|   });
+    149|
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[21/22]ÔÄ»
+
+ FAIL  src/features/vehiculos/__tests__/vehiculos.service.test.js > 
+VehiculosService > debe devolver un veh├¡culo cuando existe el id
+AssertionError: expected { id: 'vehiculo-1', ÔÇª(15) } to deeply equal { id: 
+'vehiculo-1', ÔÇª(5) }
+
+- Expected
++ Received
+
+  {
+    "activo": true,
+    "id": "vehiculo-1",
++   "itvClasesEfectuadasDesdeUltimaRevision": 0,
++   "itvFechaLimite": 2027-01-15T13:40:28.372Z,
++   "itvFechaReferencia": 2026-10-15T12:40:28.372Z,
++   "itvKmRecorridosDesdeUltimaRevision": 0,
++   "itvMotivos": [],
++   "itvPendiente": false,
++   "itvPrecioRevision": 45,
+    "marca": "Seat",
+    "matricula": "1234ABC",
+    "modelo": "Ibiza",
++   "numeroClasesRealizadas": 0,
+    "tipoPermiso": "B",
++   "ultimaRevisionItvNumeroFactura": null,
++   "ultimaRevisionItvRegistradaAt": null,
+  }
+
+ ÔØ» src/features/vehiculos/__tests__/vehiculos.service.test.js:170:20
+    168|     
+expect(repositoryMock.findById).toHaveBeenCalledWith("vehiculo-1");
+    169|
+    170|     expect(result).toEqual(vehiculo);
+       |                    ^
+    171|   });
+    172|
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[22/22]ÔÄ»
+
+
+ Test Files  13 failed | 68 passed (81)
+      Tests  22 failed | 659 passed (681)
+   Start at  14:40:27
+   Duration  19.42s (transform 2.63s, setup 0ms, import 18.77s, tests 7.14s, environment 19ms)
+

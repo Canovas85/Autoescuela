@@ -86,40 +86,56 @@ export class PromocionesService {
     const edadMinima = parseOptionalPositiveInt(data.edadMinima);
     const edadMaxima = parseOptionalPositiveInt(data.edadMaxima);
 
-    const incluyePagoExamenGratis = parseBoolean(
-      data.incluyePagoExamenGratis,
-      false,
-    );
+    const includesAdvancedPromoFields = [
+      "incluyePagoExamenGratis",
+      "clasesGratisIncluidas",
+      "licenciaClasesGratis",
+      "incluirClasesGratis",
+    ].some((field) => Object.prototype.hasOwnProperty.call(data, field));
 
-    const clasesGratisIncluidasRaw = Number(data.clasesGratisIncluidas ?? 0);
-    const clasesGratisIncluidas = Number.isInteger(clasesGratisIncluidasRaw)
-      ? clasesGratisIncluidasRaw
-      : Number.NaN;
+    let incluyePagoExamenGratis = false;
+    let clasesGratisIncluidas = 0;
+    let licenciaClasesGratis = null;
 
-    if (!Number.isInteger(clasesGratisIncluidas) || clasesGratisIncluidas < 0) {
-      throw new Error(
-        "Las clases gratis deben ser un entero mayor o igual a 0",
+    if (includesAdvancedPromoFields) {
+      incluyePagoExamenGratis = parseBoolean(
+        data.incluyePagoExamenGratis,
+        false,
       );
-    }
 
-    if (
-      parseBoolean(data.incluirClasesGratis, false) &&
-      clasesGratisIncluidas <= 0
-    ) {
-      throw new Error(
-        "Si activas clases gratis, debes indicar un número mayor que 0",
-      );
-    }
+      const clasesGratisIncluidasRaw = Number(data.clasesGratisIncluidas ?? 0);
+      clasesGratisIncluidas = Number.isInteger(clasesGratisIncluidasRaw)
+        ? clasesGratisIncluidasRaw
+        : Number.NaN;
 
-    const licenciaClasesGratis = normalizarTexto(
-      data.licenciaClasesGratis || licenciasAplicables[0] || "",
-    ).toUpperCase();
+      if (
+        !Number.isInteger(clasesGratisIncluidas) ||
+        clasesGratisIncluidas < 0
+      ) {
+        throw new Error(
+          "Las clases gratis deben ser un entero mayor o igual a 0",
+        );
+      }
 
-    if (
-      clasesGratisIncluidas > 0 &&
-      !LICENCIAS_VALIDAS.includes(licenciaClasesGratis)
-    ) {
-      throw new Error("La licencia de clases gratis no es válida");
+      if (
+        parseBoolean(data.incluirClasesGratis, false) &&
+        clasesGratisIncluidas <= 0
+      ) {
+        throw new Error(
+          "Si activas clases gratis, debes indicar un número mayor que 0",
+        );
+      }
+
+      licenciaClasesGratis = normalizarTexto(
+        data.licenciaClasesGratis || licenciasAplicables[0] || "",
+      ).toUpperCase();
+
+      if (
+        clasesGratisIncluidas > 0 &&
+        !LICENCIAS_VALIDAS.includes(licenciaClasesGratis)
+      ) {
+        throw new Error("La licencia de clases gratis no es válida");
+      }
     }
 
     if (edadMinima !== null && edadMaxima !== null && edadMinima > edadMaxima) {
@@ -155,10 +171,14 @@ export class PromocionesService {
       edadMaxima,
 
       requiereFidelidad: parseBoolean(data.requiereFidelidad, false),
-      incluyePagoExamenGratis,
-      clasesGratisIncluidas,
-      licenciaClasesGratis:
-        clasesGratisIncluidas > 0 ? licenciaClasesGratis : null,
+      ...(includesAdvancedPromoFields
+        ? {
+            incluyePagoExamenGratis,
+            clasesGratisIncluidas,
+            licenciaClasesGratis:
+              clasesGratisIncluidas > 0 ? licenciaClasesGratis : null,
+          }
+        : {}),
     };
   }
 

@@ -258,8 +258,8 @@ const isLessThan24h = (clase) => {
 };
 
 const CLASS_TYPE_LABELS = {
-  CIRCULACION: "Circulación",
-  PISTA: "Pista",
+  CIRCULACION: "Circulacion",
+  PISTA: "Pista (Circuito)",
 };
 
 export default function ReservarClase() {

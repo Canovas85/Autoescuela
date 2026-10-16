@@ -1,4 +1,5 @@
 import {
+  getRequiredPracticalClassTypeForPhase,
   getPracticalPhaseLabel,
   getTheoreticalRuleByLicense,
   normalizeLicenseCode,
@@ -38,15 +39,21 @@ const ESTADOS_CONSUMEN_CONVOCATORIA = [
   "SUSPENDIDO",
   "NO_PRESENTADO",
 ];
+const PRACTICAL_FAILURE_STATES = ["NO_APTO", "SUSPENDIDO", "NO_PRESENTADO"];
+const PRACTICAL_CLASS_TYPE_LABELS = {
+  CIRCULACION: "Circulacion",
+  PISTA: "Pista (Circuito)",
+};
 
 const CLASES_POST_NO_APTO_PRACTICO = {
-  A: 3,
+  A: 5,
   A1: 3,
   A2: 3,
   A3: 3,
   B: 5,
   C: 2,
   D: 2,
+  E: 5,
 };
 
 const FALTAS_CATALOGO_PRACTICO = {
@@ -230,6 +237,39 @@ const getMotivoNoAptoPractico = ({
   return null;
 };
 
+const getPracticalExpedienteStatusFromResult = ({
+  licenciaObjetivo,
+  estado,
+  fasePractica,
+}) => {
+  const status = String(estado || "")
+    .trim()
+    .toUpperCase();
+  const isDual = usesDualPracticalPhaseByLicense(licenciaObjetivo);
+
+  if (["APTO", "APROBADO"].includes(status)) {
+    if (!isDual) {
+      return "LICENCIA_OBTENIDA";
+    }
+
+    return Number(fasePractica) === 2
+      ? "LICENCIA_OBTENIDA"
+      : "PRACTICO_CIRCULACION_APROBADO";
+  }
+
+  if (!PRACTICAL_FAILURE_STATES.includes(status)) {
+    return null;
+  }
+
+  if (!isDual) {
+    return "PRACTICO_SUSPENSO";
+  }
+
+  return Number(fasePractica) === 2
+    ? "PRACTICO_CIRCUITO_SUSPENSO"
+    : "PRACTICO_CIRCULACION_SUSPENSO";
+};
+
 const randomIntBetween = (randomFn, min, max) =>
   Math.floor(randomFn() * (max - min + 1)) + min;
 
@@ -391,19 +431,17 @@ export class SolicitudesExamenService {
     }
   }
 
-  async markLicenseObtainedIfPracticalApto({
+  async syncStudentExpedienteStateFromPracticalResult({
     alumnoId,
     tipo,
     estado,
     licenciaObjetivo,
     fasePractica,
   }) {
-    const isPracticalApto =
-      String(tipo || "").toUpperCase() === "PRACTICO" &&
-      String(estado || "").toUpperCase() === "APTO" &&
-      Boolean(alumnoId);
+    const isPracticalResult =
+      String(tipo || "").toUpperCase() === "PRACTICO" && Boolean(alumnoId);
 
-    if (!isPracticalApto) {
+    if (!isPracticalResult) {
       return false;
     }
 
@@ -414,11 +452,25 @@ export class SolicitudesExamenService {
     const licenciaNormalizada = normalizeLicenseCode(
       licenciaObjetivo || matriculaPagada?.licencia,
     );
+    const estadoExpediente = getPracticalExpedienteStatusFromResult({
+      licenciaObjetivo: licenciaNormalizada,
+      estado,
+      fasePractica,
+    });
 
-    if (
-      usesDualPracticalPhaseByLicense(licenciaNormalizada) &&
-      Number(fasePractica) !== 2
-    ) {
+    if (!estadoExpediente) {
+      return false;
+    }
+
+    if (estadoExpediente !== "LICENCIA_OBTENIDA") {
+      if (typeof this.repository.updateAlumnoEstadoExpediente === "function") {
+        await this.repository.updateAlumnoEstadoExpediente(alumnoId, {
+          estadoExpediente,
+          licenciaObtenidaAt: null,
+        });
+        return true;
+      }
+
       return false;
     }
 
@@ -442,6 +494,10 @@ export class SolicitudesExamenService {
     }
 
     return true;
+  }
+
+  async markLicenseObtainedIfPracticalApto(payload) {
+    return this.syncStudentExpedienteStateFromPracticalResult(payload);
   }
 
   async resolveConvocatoriasFromPago({ alumnoId, pagoTasa, fechaInicio }) {
@@ -1068,17 +1124,30 @@ export class SolicitudesExamenService {
       hasPhase1Apto,
       hasPhase2Apto,
     });
+    const tipoClasePracticaRequerida = getRequiredPracticalClassTypeForPhase({
+      license: licenciaObjetivo,
+      practicalPhase: fasePracticaObjetivo,
+    });
+    const tipoClasePracticaRequeridaLabel =
+      PRACTICAL_CLASS_TYPE_LABELS[tipoClasePracticaRequerida] ||
+      tipoClasePracticaRequerida.toLowerCase();
 
     const [hojasRegistradas, hojasConClase] = await Promise.all([
-      this.repository.countHojasRutaRegistradas(alumnoId),
-      this.repository.countHojasRutaRegistradasConClase(alumnoId),
+      this.repository.countHojasRutaRegistradas(
+        alumnoId,
+        tipoClasePracticaRequerida,
+      ),
+      this.repository.countHojasRutaRegistradasConClase(
+        alumnoId,
+        tipoClasePracticaRequerida,
+      ),
     ]);
 
     if (hojasRegistradas >= HOJAS_RUTA_REQUERIDAS_PRACTICO) {
       checks.hojasRutaMinimas = true;
     } else {
       bloqueos.push(
-        `Debes tener al menos ${HOJAS_RUTA_REQUERIDAS_PRACTICO} hojas de ruta en estado REGISTRADA para solicitar examen práctico.`,
+        `Debes tener al menos ${HOJAS_RUTA_REQUERIDAS_PRACTICO} hojas de ruta de ${tipoClasePracticaRequeridaLabel} en estado REGISTRADA para solicitar examen práctico.`,
       );
     }
 
@@ -1090,16 +1159,46 @@ export class SolicitudesExamenService {
       );
     }
 
-    const solicitudActiva = await this.repository.findSolicitudPracticoActiva(
+    let pagoGastoPractico = null;
+
+    let solicitudActiva = await this.repository.findSolicitudPracticoActiva(
       alumnoId,
       fasePracticaObjetivo,
     );
+
+    if (
+      !solicitudActiva &&
+      usesDualPracticalPhase &&
+      fasePracticaObjetivo &&
+      typeof this.repository.updateActivePracticalRequestsMissingPhase ===
+        "function"
+    ) {
+      await this.repository.updateActivePracticalRequestsMissingPhase(
+        alumnoId,
+        fasePracticaObjetivo,
+      );
+
+      solicitudActiva = await this.repository.findSolicitudPracticoActiva(
+        alumnoId,
+        fasePracticaObjetivo,
+      );
+    }
     const horasRestantesSolicitudActiva = solicitudActiva?.fechaProgramada
       ? horasHasta(solicitudActiva.fechaProgramada)
       : null;
 
     if (solicitudActiva) {
       checks.solicitudActiva = true;
+
+      const estadoPagoSolicitud = String(
+        solicitudActiva?.pagoGastoPractico?.estado || "",
+      ).toUpperCase();
+
+      if (estadoPagoSolicitud === "PAGADO") {
+        pagoGastoPractico = solicitudActiva.pagoGastoPractico;
+        checks.pagoGastoPracticoGenerado = true;
+        checks.pagoGastoPracticoPagado = true;
+      }
     }
 
     let convocatoriasIncluidas = 0;
@@ -1168,12 +1267,13 @@ export class SolicitudesExamenService {
         await this.repository.countClasesCompletadasDesdeFecha(
           alumnoId,
           ultimoNoApto.fechaProgramada,
+          tipoClasePracticaRequerida,
         );
 
       if (clasesPostNoAptoCompletadas < clasesPostNoAptoRequeridas) {
         checks.clasesPostNoAptoCompletadas = false;
         bloqueos.push(
-          `Tras un NO_APTO práctico debes completar ${clasesPostNoAptoRequeridas} clases prácticas antes de pedir nueva fecha.`,
+          `Tras un NO_APTO práctico debes completar ${clasesPostNoAptoRequeridas} clases prácticas de ${tipoClasePracticaRequeridaLabel} antes de pedir nueva fecha.`,
         );
       }
 
@@ -1187,6 +1287,7 @@ export class SolicitudesExamenService {
           await this.repository.countHojasRutaRegistradasConClaseDesdeFecha(
             alumnoId,
             ultimoNoApto.fechaProgramada,
+            tipoClasePracticaRequerida,
           );
       } else {
         hojasPostNoAptoRegistradas = hojasPostNoAptoRequeridas;
@@ -1195,19 +1296,21 @@ export class SolicitudesExamenService {
       if (hojasPostNoAptoRegistradas < hojasPostNoAptoRequeridas) {
         checks.hojasRutaPostNoAptoMinimas = false;
         bloqueos.push(
-          `Tras un NO_APTO práctico debes registrar al menos ${hojasPostNoAptoRequeridas} hojas de ruta antes de solicitar nueva convocatoria.`,
+          `Tras un NO_APTO práctico debes registrar al menos ${hojasPostNoAptoRequeridas} hojas de ruta de ${tipoClasePracticaRequeridaLabel} antes de solicitar nueva convocatoria.`,
         );
       }
     }
 
-    let pagoGastoPractico =
-      typeof this.repository.findPagoGastoPracticoPagadoReutilizable ===
-      "function"
-        ? await this.repository.findPagoGastoPracticoPagadoReutilizable(
-            alumnoId,
-            licenciaObjetivo,
-          )
-        : null;
+    if (!pagoGastoPractico) {
+      pagoGastoPractico =
+        typeof this.repository.findPagoGastoPracticoPagadoReutilizable ===
+        "function"
+          ? await this.repository.findPagoGastoPracticoPagadoReutilizable(
+              alumnoId,
+              licenciaObjetivo,
+            )
+          : null;
+    }
     let canPickDate = false;
 
     if (pagoGastoPractico?.estado === "PAGADO") {
@@ -1221,7 +1324,8 @@ export class SolicitudesExamenService {
       checks.teoricoAprobado &&
       checks.psicotecnicoValidado &&
       checks.hojasRutaMinimas &&
-      checks.hojasRutaConsistentes
+      checks.hojasRutaConsistentes &&
+      !checks.solicitudActiva
     ) {
       if (!checks.pagoGastoPracticoPagado) {
         pagoGastoPractico =
@@ -1281,6 +1385,9 @@ export class SolicitudesExamenService {
     return {
       alumnoId,
       licenciaObjetivo,
+      licencia: licenciaObjetivo,
+      usesDualPracticalPhase,
+      tipoClasePracticaRequerida,
       fasePracticaObjetivo,
       canPickDate,
       canRequest,
@@ -1525,6 +1632,18 @@ export class SolicitudesExamenService {
         const estadoEvaluacion = normalizarEstadoEvaluacion(solicitud.estado);
         const licencia = solicitud.alumno?.tipoLicenciaObjetivo || "-";
         const teoricoRule = getTheoreticalRuleByLicense(licencia);
+        const licenciaNormalizada = normalizeLicenseCode(licencia);
+        const fasePractica =
+          tipoNormalizado === "PRACTICO"
+            ? toNumberOrNull(solicitud.fasePractica)
+            : null;
+        const tipoPracticoCodigo =
+          tipoNormalizado === "PRACTICO"
+            ? Number(fasePractica) === 2 &&
+              usesDualPracticalPhaseByLicense(licenciaNormalizada)
+              ? "PISTA"
+              : "CIRCULACION"
+            : null;
 
         return {
           id: `SOL-${solicitud.id}`,
@@ -1558,6 +1677,14 @@ export class SolicitudesExamenService {
           faltasEliminatorias:
             tipoNormalizado === "PRACTICO"
               ? toNumberOrNull(solicitud.faltasEliminatorias)
+              : null,
+          fasePractica,
+          tipoPractico: tipoPracticoCodigo,
+          tipoPracticoLabel:
+            tipoNormalizado === "PRACTICO"
+              ? tipoPracticoCodigo === "PISTA"
+                ? "Pista (Circuito)"
+                : "Circulacion"
               : null,
           faltasLevesDetalle:
             tipoNormalizado === "PRACTICO"
@@ -1602,6 +1729,9 @@ export class SolicitudesExamenService {
           faltasLeves: null,
           faltasDeficientes: null,
           faltasEliminatorias: null,
+          fasePractica: null,
+          tipoPractico: null,
+          tipoPracticoLabel: null,
           faltasLevesDetalle: [],
           faltasDeficientesDetalle: [],
           faltasEliminatoriasDetalle: [],
@@ -1617,6 +1747,35 @@ export class SolicitudesExamenService {
       tipoNormalizado === "PRACTICO"
         ? mergedAll.filter((item) => item.source === "SOLICITUD")
         : mergedAll;
+
+    const professorNameCache = new Map();
+
+    const resolveProfessorName = async (item) => {
+      const referenceDate = item.fechaConvocatoria || item.fechaSolicitud;
+      const cacheKey = `${item.alumnoId}|${new Date(referenceDate || 0).toISOString()}`;
+
+      if (professorNameCache.has(cacheKey)) {
+        return professorNameCache.get(cacheKey);
+      }
+
+      const resolved =
+        (typeof this.repository.resolveAssignedProfessorNameAtDate ===
+        "function"
+          ? await this.repository.resolveAssignedProfessorNameAtDate(
+              item.alumnoId,
+              referenceDate,
+            )
+          : null) ||
+        item.profesorAsignado ||
+        "Sin asignar";
+
+      professorNameCache.set(cacheKey, resolved);
+      return resolved;
+    };
+
+    for (const item of merged) {
+      item.profesorAsignado = await resolveProfessorName(item);
+    }
 
     merged.sort((a, b) => {
       const dateA =
@@ -1941,7 +2100,7 @@ export class SolicitudesExamenService {
       porLicencia[licenciaObjetivo].procesadas += 1;
 
       if (estado === "APTO") {
-        await this.markLicenseObtainedIfPracticalApto({
+        await this.syncStudentExpedienteStateFromPracticalResult({
           alumnoId: solicitud.alumnoId,
           tipo: "PRACTICO",
           estado,
@@ -1955,6 +2114,14 @@ export class SolicitudesExamenService {
 
       noAptos += 1;
       porLicencia[licenciaObjetivo].noAptos += 1;
+
+      await this.syncStudentExpedienteStateFromPracticalResult({
+        alumnoId: solicitud.alumnoId,
+        tipo: "PRACTICO",
+        estado,
+        licenciaObjetivo,
+        fasePractica: solicitud.fasePractica,
+      });
 
       if (!matriculaPagada) {
         continue;
@@ -2051,7 +2218,7 @@ export class SolicitudesExamenService {
       }
     }
 
-    await this.markLicenseObtainedIfPracticalApto({
+    await this.syncStudentExpedienteStateFromPracticalResult({
       alumnoId: updated.alumnoId,
       tipo: updated.tipo,
       estado: updated.estado,

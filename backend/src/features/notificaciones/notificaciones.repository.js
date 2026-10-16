@@ -164,4 +164,26 @@ export class NotificacionesRepository {
       })),
     );
   }
+
+  async findLatestByUserAndType(usuarioId, tipo) {
+    return this.prisma.notificacion.findFirst({
+      where: {
+        usuarioId,
+        tipo,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  }
+
+  async markLatestAsReadByUserAndType(usuarioId, tipo) {
+    const notification = await this.findLatestByUserAndType(usuarioId, tipo);
+
+    if (!notification || notification.leida) {
+      return notification;
+    }
+
+    return this.markAsRead(notification.id);
+  }
 }

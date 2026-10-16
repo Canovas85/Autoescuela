@@ -28,10 +28,7 @@ import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
-import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
-import TimelineIcon from "@mui/icons-material/Timeline";
 import BookIcon from "@mui/icons-material/Book";
-import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import EventNoteIcon from "@mui/icons-material/EventNote";
@@ -44,6 +41,7 @@ import { useNavigate } from "react-router-dom";
 import { pagosService } from "../../services/pagosService";
 import { LicenseChip } from "../../components/common/LicenseChip";
 import { PracticalClassTypeChip } from "../../components/common/PracticalClassTypeChip";
+import { getPracticalExamTypeLabel } from "../../utils/practicalExamType";
 
 const statusStyles = {
   PAGADA: {
@@ -246,11 +244,14 @@ function SectionTitle({ icon, title, subtitle }) {
 }
 
 export default function StudentDashboard({ data }) {
+  const navigate = useNavigate();
+  const [temarioIndex, setTemarioIndex] = useState(0);
+  const [selectedExam, setSelectedExam] = useState(null);
+  const [openExamModal, setOpenExamModal] = useState(false);
+
   if (!data) {
     return <p>Cargando dashboard...</p>;
   }
-
-  const navigate = useNavigate();
 
   const {
     perfil,
@@ -264,6 +265,7 @@ export default function StudentDashboard({ data }) {
     evolucion,
     resumen,
   } = data;
+  const practicalLicense = perfil?.tipoLicenciaObjetivo || "B";
 
   const dgtMetrics = dgt || {
     testsTotales: 0,
@@ -315,7 +317,6 @@ export default function StudentDashboard({ data }) {
   );
 
   const temariosRevisados = temarios.filter((temario) => temario.revisado);
-  const [temarioIndex, setTemarioIndex] = useState(0);
   const temarioMaxIndex = Math.max(0, temariosRevisados.length - 1);
   const temarioCurrentIndex = Math.min(temarioIndex, temarioMaxIndex);
   const temarioVisible = temariosRevisados[temarioCurrentIndex] || null;
@@ -324,9 +325,6 @@ export default function StudentDashboard({ data }) {
     1,
     ...evolucion.map((periodo) => Math.max(periodo.tests, periodo.clases)),
   );
-
-  const [selectedExam, setSelectedExam] = useState(null);
-  const [openExamModal, setOpenExamModal] = useState(false);
 
   const handleOpenExamModal = (examen) => {
     setSelectedExam(examen);
@@ -1586,7 +1584,13 @@ export default function StudentDashboard({ data }) {
                                   <Typography
                                     variant="body2"
                                     color="text.secondary"
-                                  ></Typography>
+                                  >
+                                    Subtipo:{" "}
+                                    {getPracticalExamTypeLabel({
+                                      license: practicalLicense,
+                                      phase: examen?.fasePractica,
+                                    })}
+                                  </Typography>
 
                                   {/* ─── COMENTADO DESDE AQUÍ ───
                                       {examen.observaciones ? (
@@ -1724,6 +1728,15 @@ export default function StudentDashboard({ data }) {
                     <Typography>
                       <strong>Tipo:</strong> {selectedExam?.tipo || "-"}
                     </Typography>
+                    {selectedExam?.tipo === "PRACTICO" ? (
+                      <Typography>
+                        <strong>Subtipo:</strong>{" "}
+                        {getPracticalExamTypeLabel({
+                          license: practicalLicense,
+                          phase: selectedExam?.fasePractica,
+                        })}
+                      </Typography>
+                    ) : null}
                     <Typography>
                       <strong>Fecha:</strong>{" "}
                       {formatDate(selectedExam?.fechaProgramada)}
