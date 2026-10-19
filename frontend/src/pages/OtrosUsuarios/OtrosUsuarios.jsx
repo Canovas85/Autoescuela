@@ -397,6 +397,11 @@ export default function OtrosUsuarios() {
         const coloresPorRol = {
           SOPORTE: { fondo: "#e3f2fd", texto: "#0d47a1" }, // Azul claro y oscuro
           ADMINISTRATIVO: { fondo: "#fff3e0", texto: "#e65100" }, // Naranja claro y oscuro
+
+          // Nuevos roles añadidos
+          ADMIN: { fondo: "#f3e5f5", texto: "#4a148c" }, // Morado / Púrpura (Refleja autoridad/gestión)
+          ALUMNO: { fondo: "#fffde7", texto: "#f57f17" }, // Amarillo pastel y Dorado oscuro
+          PROFESOR: { fondo: "#e0f7fa", texto: "#006064" }, // Turquesa / Cian (Profesional y fácil de distinguir)
         };
 
         // 2. Obtenemos los colores correspondientes o asignamos unos por defecto
@@ -543,7 +548,7 @@ export default function OtrosUsuarios() {
           </Typography>
           <Typography color="text.secondary">
             {isSupport
-              ? "Gestión de usuarios (ADMIN, PROFESOR, ALUMNO y ADMINISTRATIVO)."
+              ? "Administra los usuarios y las contraseñas de administradores, administrativos, profesores y alumnos."
               : "Administra los perfiles de usuario Administrativo y Soporte en la Autoescuela Eguskilore."}
           </Typography>
         </Box>

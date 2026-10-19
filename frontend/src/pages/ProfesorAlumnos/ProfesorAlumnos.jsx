@@ -240,7 +240,7 @@ export default function ProfesorAlumnos() {
     {
       field: "email",
       headerName: "Email",
-      flex: 1.4,
+      flex: 0.8, // Se reduce el flex para hacerla más pequeña
     },
     {
       field: "tipoLicenciaObjetivo",
@@ -251,7 +251,7 @@ export default function ProfesorAlumnos() {
     {
       field: "estadoAlumno",
       headerName: "Estado",
-      width: 240,
+      width: 320, // Se aumenta el ancho de 240 a 320 para ver la información completa
       renderCell: (params) => (
         <ExpedientePhaseChip
           code={params.value?.codigo}

@@ -210,8 +210,7 @@ export default function TestDGTAlumno({ defaultLicencia = "B" }) {
                 Simulador Test DGT
               </Typography>
               <Typography sx={{ opacity: 0.9, mt: 1 }}>
-                Genera un examen oficial de 30 preguntas y corrígelo al
-                instante.
+                Genera un examen oficial y corrígelo al instante.
               </Typography>
             </Box>
 

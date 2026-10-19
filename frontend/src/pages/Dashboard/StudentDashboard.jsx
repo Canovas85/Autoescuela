@@ -169,8 +169,11 @@ function statusChip(status, fallbackLabel) {
       foreground: "#1B5E20", // Verde oscuro
     };
   } else if (normalizedStatus === "NO APTO" || normalizedStatus === "NO_APTO") {
+    // Si viene fallbackLabel, le quitamos el guion bajo. Si no, forzamos "NO APTO"
     customConfig = {
-      label: fallbackLabel ?? "No Apto",
+      label: fallbackLabel
+        ? String(fallbackLabel).replace("_", " ")
+        : "NO APTO",
       background: "#FFEBEE", // Rojo claro
       foreground: "#C62828", // Rojo oscuro
     };
@@ -179,7 +182,10 @@ function statusChip(status, fallbackLabel) {
   // 3. Si no es ninguno de los anteriores, busca en statusStyles o usa el fallback por defecto
   const config = customConfig ??
     statusStyles[status] ?? {
-      label: fallbackLabel ?? status,
+      // Limpia también el texto por defecto en caso de que entre cualquier otro estado con guion bajo
+      label: fallbackLabel
+        ? String(fallbackLabel).replace("_", " ")
+        : String(status).replace("_", " "),
       background: "#F1F5F9", // Gris claro neutral
       foreground: "#475569", // Gris oscuro neutral
     };
@@ -192,7 +198,7 @@ function statusChip(status, fallbackLabel) {
         backgroundColor: config.background,
         color: config.foreground,
         fontWeight: 700,
-        textTransform: "uppercase", // Opcional: fuerza el texto a mayúsculas
+        textTransform: "uppercase", // Fuerza a que "No Apto" se dibuje en pantalla como "NO APTO"
       }}
     />
   );
@@ -460,7 +466,7 @@ export default function StudentDashboard({ data }) {
       <Box
         sx={{
           p: 3,
-          borderRadius: 2,
+          borderRadius: 1.5,
           background:
             "linear-gradient(135deg, rgba(15,23,42,1) 0%, rgba(30,64,175,1) 100%)",
           color: "#fff",
@@ -522,7 +528,7 @@ export default function StudentDashboard({ data }) {
         <Grid item xs={12} md={8}>
           <Card
             sx={{
-              borderRadius: 2,
+              borderRadius: 1.5,
               height: "100%",
               border: "1px solid rgba(148, 163, 184, 0.18)",
               boxShadow: "0 14px 32px rgba(15, 23, 42, 0.04)",
@@ -692,7 +698,7 @@ export default function StudentDashboard({ data }) {
                   </Box>
                 }
                 value={`${practica.clasesCompradas} Clases`}
-                subtitle={`${clasesSolicitadasTotales} solicitadas · ${clasesConfirmadasProfesor} confirmadas · ${clasesPendientesConfirmacion} pendientes`}
+                subtitle={`${clasesSolicitadasTotales} solicitadas · ${clasesConfirmadasProfesor} confirmadas`}
               />
             </Grid>
             <Grid item xs={12} sm={6} sx={{ width: 230, height: 110 }}>
@@ -708,7 +714,7 @@ export default function StudentDashboard({ data }) {
                   </Box>
                 }
                 value={`${clasesSolicitadasTotales} Solicitudes`}
-                subtitle={`${clasesConfirmadasProfesor} confirmadas por profesor y ${clasesPendientesConfirmacion} pendientes`}
+                subtitle={`${clasesPendientesConfirmacion} pendientes de confirmación`}
               />
             </Grid>
           </Grid>
@@ -1450,70 +1456,62 @@ export default function StudentDashboard({ data }) {
                                 },
                               }}
                             >
-                              {/* Fila Principal: Fecha Programada, Estado y Botón de Acción */}
+                              {/* Fila Principal Unificada Completa */}
                               <Stack
                                 direction="row"
                                 spacing={2}
                                 alignItems="center"
-                                justifyContent="space-between"
-                                sx={{ width: "100%", mb: 1 }}
+                                justifyContent="flex-start" // Alineación lineal consecutiva hacia la izquierda
+                                sx={{
+                                  width: "100%",
+                                  flexWrap: "nowrap !important", // Prohíbe terminantemente dividirse en dos líneas
+                                  overflowX: "auto", // Previene deformaciones en layouts estrechos
+                                }}
                               >
-                                {/* Contenedor Izquierdo: Fechas de Programación y Solicitud */}
-                                <Stack spacing={0.5}>
-                                  <Typography
-                                    variant="body1"
-                                    fontWeight={700}
-                                    noWrap
-                                  >
-                                    Fecha del Examen:{" "}
-                                    {formatDate(examen.fechaProgramada)}
-                                  </Typography>
-                                  <Typography
-                                    variant="body2"
-                                    color="text.secondary"
-                                    noWrap
-                                  ></Typography>
-                                </Stack>
+                                {/* 1. Elemento Fecha (Sin Stacks contenedores intermedios) */}
+                                <Typography
+                                  variant="body1"
+                                  fontWeight={700}
+                                  sx={{ whiteSpace: "nowrap", flexShrink: 0 }}
+                                >
+                                  Fecha del Examen:{" "}
+                                  {formatDate(examen.fechaProgramada)}
+                                </Typography>
 
-                                {/* Contenedor Derecho: Estado y Botón Detalle */}
-                                <Stack
-                                  direction="row"
-                                  spacing={1.5}
-                                  alignItems="center"
-                                  sx={{ flexShrink: 0 }}
+                                {/* 2. Elemento Estado */}
+                                <Box
+                                  sx={{
+                                    flexShrink: 0,
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                  }}
                                 >
                                   {statusChip(examen.estado, examen.estado)}
+                                </Box>
 
-                                  <Typography
-                                    variant="caption"
-                                    sx={{
-                                      display: "inline-block",
-                                      backgroundColor: "#fffbeb",
-                                      borderColor: "#facc15",
-                                      borderRadius: "15px",
-                                      borderWidth: "1px",
-                                      borderStyle: "solid",
-                                      px: 1.5,
-                                      py: 0.5,
-                                      fontWeight: 500,
-                                      color: "#b45309",
-                                    }}
-                                  >
-                                    Pulsa para ver detalle de examen
-                                  </Typography>
-                                </Stack>
-                              </Stack>
-
-                              {/* Sección Opcional de Observaciones 
-                              {examen.observaciones ? (
+                                {/* 3. Elemento Botón Detalle */}
                                 <Typography
-                                  variant="body2"
-                                  color="text.secondary"
-                                  sx={{ mt: 1, px: 0.5 }}
+                                  variant="caption"
+                                  sx={{
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    whiteSpace: "nowrap",
+                                    flexShrink: 0,
+                                    backgroundColor: "#fffbeb",
+                                    borderColor: "#facc15",
+                                    borderRadius: "15px",
+                                    borderWidth: "1px",
+                                    borderStyle: "solid",
+                                    px: 1.5,
+                                    py: 0.5,
+                                    fontWeight: 500,
+                                    color: "#b45309",
+                                    lineHeight: 1,
+                                  }}
                                 >
-                                  {examen.observaciones}
+                                  Pulsa para ver detalle de examen
                                 </Typography>
-                              ) : null}*/}
+                              </Stack>
 
                               {/* Separador entre elementos (evita duplicar al final de la lista) */}
                               {index < examenes.teoricos.length - 1 && (
@@ -1567,69 +1565,66 @@ export default function StudentDashboard({ data }) {
                                 },
                               }}
                             >
-                              {/* Contenedor principal alineado horizontalmente */}
+                              {/* Única Fila Principal Plana Corregida */}
                               <Stack
                                 direction="row"
                                 spacing={2}
                                 alignItems="center"
-                                justifyContent="space-between"
-                                sx={{ width: "100%", mb: 1 }}
+                                justifyContent="flex-start" // Alineación lineal consecutiva sin saltos
+                                sx={{
+                                  width: "100%",
+                                  flexWrap: "nowrap !important", // Bloquea estrictamente cualquier división de línea
+                                  overflowX: "auto",
+                                }}
                               >
-                                {/* Bloque Izquierdo: Fechas apiladas verticalmente */}
-                                <Stack spacing={0.5}>
-                                  <Typography fontWeight={700} variant="body1">
-                                    Fecha del Examen:{" "}
-                                    {formatDate(examen.fechaProgramada)}
-                                  </Typography>
-                                  <Typography
-                                    variant="body2"
-                                    color="text.secondary"
-                                  >
-                                    Subtipo:{" "}
-                                    {getPracticalExamTypeLabel({
-                                      license: practicalLicense,
-                                      phase: examen?.fasePractica,
-                                    })}
-                                  </Typography>
+                                {/* 1. Elemento Texto (Fecha y Subtipo en una sola línea horizontal) */}
+                                <Typography
+                                  fontWeight={700}
+                                  variant="body1"
+                                  sx={{ whiteSpace: "nowrap", flexShrink: 0 }}
+                                >
+                                  Fecha del Examen:{" "}
+                                  {formatDate(examen.fechaProgramada)} (Subtipo:{" "}
+                                  {getPracticalExamTypeLabel({
+                                    license: practicalLicense,
+                                    phase: examen?.fasePractica,
+                                  })}
+                                  )
+                                </Typography>
 
-                                  {/* ─── COMENTADO DESDE AQUÍ ───
-                                      {examen.observaciones ? (
-                                      <Typography
-                                        variant="body2"
-                                        color="text.secondary"
-                                      >
-                                        {examen.observaciones}
-                                      </Typography>
-                                    ) : null}
-                                    ─── HASTA AQUÍ ─── */}
-                                </Stack>
-
-                                {/* Bloque Derecho: Chip de estado y Botón de detalles */}
-                                <Stack
-                                  direction="row"
-                                  spacing={1.5}
-                                  alignItems="center"
+                                {/* 2. Elemento Estado (Chip) */}
+                                <Box
+                                  sx={{
+                                    flexShrink: 0,
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                  }}
                                 >
                                   {statusChip(examen.estado, examen.estado)}
-                                  <Typography
-                                    variant="caption"
-                                    sx={{
-                                      display: "inline-block",
-                                      backgroundColor: "#fffbeb",
-                                      borderColor: "#facc15",
-                                      borderRadius: "15px",
-                                      borderWidth: "1px",
-                                      borderStyle: "solid",
-                                      px: 1.5,
-                                      py: 0.5,
-                                      fontWeight: 500,
-                                      color: "#b45309",
-                                      whiteSpace: "nowrap", // Evita que el texto del botón se rompa en dos líneas
-                                    }}
-                                  >
-                                    Pulsa para ver detalle de faltas
-                                  </Typography>
-                                </Stack>
+                                </Box>
+
+                                {/* 3. Elemento Botón Detalle */}
+                                <Typography
+                                  variant="caption"
+                                  sx={{
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    whiteSpace: "nowrap",
+                                    flexShrink: 0,
+                                    backgroundColor: "#fffbeb",
+                                    borderColor: "#facc15",
+                                    borderRadius: "15px",
+                                    borderWidth: "1px",
+                                    borderStyle: "solid",
+                                    px: 1.5,
+                                    py: 0.5,
+                                    fontWeight: 500,
+                                    color: "#b45309",
+                                    lineHeight: 1,
+                                  }}
+                                >
+                                  Pulsa para ver detalle de faltas
+                                </Typography>
                               </Stack>
 
                               <Divider sx={{ mt: 2 }} />
@@ -1683,7 +1678,12 @@ export default function StudentDashboard({ data }) {
                   >
                     <span>Detalle de evaluación</span>
                     <Chip
-                      label={selectedExam?.estado || "-"}
+                      // Reemplaza el guion bajo por un espacio en blanco en la visualización
+                      label={
+                        selectedExam?.estado
+                          ? selectedExam.estado.replace("_", " ")
+                          : "-"
+                      }
                       variant="outlined"
                       sx={{
                         borderRadius: "15px",
@@ -1699,7 +1699,7 @@ export default function StudentDashboard({ data }) {
                             NO_APTO: "#fef2f2",
                             PENDIENTE: "#fffbeb",
                             CANCELADO: "#eae9e9",
-                          }[selectedExam?.estado] || "#f3f4f6", // Color por defecto si no coincide
+                          }[selectedExam?.estado] || "#f3f4f6",
 
                         // Modifica el BORDE según el estado
                         borderColor:
@@ -1709,7 +1709,7 @@ export default function StudentDashboard({ data }) {
                             NO_APTO: "#f87171",
                             PENDIENTE: "#facc15",
                             CANCELADO: "#000000",
-                          }[selectedExam?.estado] || "#d1d5db", // Color por defecto si no coincide
+                          }[selectedExam?.estado] || "#d1d5db",
 
                         // Modifica la LETRA según el estado
                         color:
@@ -1719,15 +1719,22 @@ export default function StudentDashboard({ data }) {
                             NO_APTO: "#991b1b",
                             PENDIENTE: "#854d0e",
                             CANCELADO: "#000000",
-                          }[selectedExam?.estado] || "#374151", // Color por defecto si no coincide
+                          }[selectedExam?.estado] || "#374151",
                       }}
                     />
                   </DialogTitle>
 
                   <DialogContent sx={{ display: "grid", gap: 1, pt: 1 }}>
                     <Typography>
-                      <strong>Tipo:</strong> {selectedExam?.tipo || "-"}
+                      <strong>Tipo:</strong>{" "}
+                      <Box
+                        component="span"
+                        sx={{ textTransform: "capitalize" }}
+                      >
+                        {(selectedExam?.tipo || "-").toLowerCase()}
+                      </Box>
                     </Typography>
+
                     {selectedExam?.tipo === "PRACTICO" ? (
                       <Typography>
                         <strong>Subtipo:</strong>{" "}

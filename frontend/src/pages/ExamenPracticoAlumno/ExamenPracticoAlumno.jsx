@@ -380,14 +380,16 @@ export default function ExamenPracticoAlumno() {
                   : "warning"
               }
             />
-            <Chip
-              label={`Clases post NO_APTO: ${eligibility.postNoApto?.clasesCompletadas || 0}/${eligibility.postNoApto?.clasesRequeridas || 0}`}
-              color={
-                eligibility.checks?.clasesPostNoAptoCompletadas
-                  ? "success"
-                  : "warning"
-              }
-            />
+            {/* 
+              <Chip
+                label={`Clases post NO_APTO: ${eligibility.postNoApto?.clasesCompletadas || 0}/${eligibility.postNoApto?.clasesRequeridas || 0}`}
+                color={
+                    eligibility.checks?.clasesPostNoAptoCompletadas
+                    ? "success"
+                    : "warning"
+                }
+              /> 
+            */}
           </Stack>
 
           {!eligibility.checks?.pagoGastoPracticoPagado &&

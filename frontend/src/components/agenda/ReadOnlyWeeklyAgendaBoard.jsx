@@ -235,7 +235,9 @@ function DayColumn({ day, classes, showStudentName, emptyMessage }) {
                     sx={{ fontSize: 12, color: "text.secondary" }}
                   />
                   <Typography variant="caption" color="text.secondary">
-                    {clase.vehiculo?.matricula || "Sin matricula"}
+                    {clase.vehiculo
+                      ? `${clase.vehiculo.marca || "Sin marca"} ${clase.vehiculo.modelo || ""}`.trim()
+                      : "Sin vehículo"}
                   </Typography>
                 </Stack>
 
@@ -361,15 +363,24 @@ export default function ReadOnlyWeeklyAgendaBoard({
           </Typography>
         </Box>
 
-        <Stack direction="row" alignItems="center" spacing={0.2}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          spacing={1} // Aumentado ligeramente para dar aire al texto más grande
+          sx={{ flexWrap: "nowrap" }} // Garantiza que nunca se rompa en dos líneas
+        >
           <IconButton size="small" onClick={onPrevWeek} disabled={loading}>
             <NavigateBeforeIcon fontSize="small" />
           </IconButton>
 
           <Typography
-            variant="body2"
+            variant="h7" // Cambiado de body2 a h6 para aumentar significativamente el tamaño
             fontWeight={700}
-            sx={{ minWidth: 180, textAlign: "center" }}
+            sx={{
+              minWidth: 260, // Aumentado de 180 a 260 para dar cabida al texto más grande sin romper la línea
+              textAlign: "center",
+              whiteSpace: "nowrap",
+            }}
           >
             {formatDate(data?.semana?.inicio, true)} -{" "}
             {formatDate(data?.semana?.fin, true)}

@@ -1830,14 +1830,16 @@ export default function Alumnos() {
               sx={{
                 perspective: "1400px",
                 mt: 2,
-                minHeight: 620,
-                overflow: "hidden",
+                minHeight: 660,
+                width: "100%", // Asegura que no se estire más allá del contenedor padre
+                overflow: "hidden", // Corta el desbordamiento general
+                overflowX: "hidden", // Elimina específicamente el scroll horizontal/lateral
               }}
             >
               <Box
                 sx={{
                   position: "relative",
-                  minHeight: 620,
+                  minHeight: 660,
                   transition: "transform 700ms ease",
                   transformStyle: "preserve-3d",
                   transform: showExtendedSummary

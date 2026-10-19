@@ -440,39 +440,40 @@ export default function MisFacturas() {
     {
       field: "licencia",
       headerName: "Licencia",
-      flex: 0.8,
+      flex: 0.5,
+      align: "center", // Centra el Chip en las celdas de la columna
       sortable: false,
       renderCell: (params) => (
         <LicenseChip value={getRowLicencia(params.row)} />
       ),
     },
-    /*{
-      field: "tipoClasePractica",
-      headerName: "Tipo clase",
-      width: 160,
-      sortable: false,
-      valueGetter: (_, row) => getRowPracticalClassType(row),
-      renderCell: (params) => {
-        if (!params.value) {
-          return "-";
-        }
-
-        return <PracticalClassTypeChip value={params.value} />;
-      },
-    },*/
     {
       field: "origen",
-      headerName: "Origen",
-      flex: 0.8,
+      headerName: "Concepto",
+      flex: 1.0,
+      align: "left ", // Centra el Chip en las celdas de la columna
+      headerAlign: "left", // Centra el texto del título en la cabecera
       valueGetter: (_, row) => getRowOrigen(row),
       renderCell: (params) => {
         const origen = params.value;
-        const color =
-          origen === "MATRÍCULA"
-            ? "primary"
-            : origen === "PAGO"
-              ? "success"
-              : "default";
+
+        // Mapeo exhaustivo basado en las opciones reales de tu filtro
+        let color = "default";
+
+        if (origen === "MATRÍCULA") {
+          color = "primary"; // Azul corporativo
+        } else if (origen === "DGT") {
+          color = "secondary"; // Morado/Rosa
+        } else if (origen === "Bono") {
+          color = "info"; // Azul claro
+        } else if (
+          origen === "Examen práctico" ||
+          origen === "Clase práctica"
+        ) {
+          color = "warning"; // Naranja/Amarillo
+        } else if (origen === "PAGO") {
+          color = "success"; // Verde (Mantenido por si acaso)
+        }
 
         return (
           <Chip size="small" label={origen} color={color} variant="outlined" />
@@ -481,7 +482,7 @@ export default function MisFacturas() {
     },
     {
       field: "concepto",
-      headerName: "Concepto",
+      headerName: "Descripción",
       flex: 1.9,
     },
     {
@@ -491,13 +492,13 @@ export default function MisFacturas() {
       valueGetter: (_, row) => getBaseAmount(row),
       valueFormatter: (value) => formatCurrency(value),
     },
-    {
-      field: "descuento",
-      headerName: "Descuento",
-      flex: 0.8,
-      valueGetter: (_, row) => getDiscountAmount(row),
-      valueFormatter: (value) => formatCurrency(value),
-    },
+    /*{
+    field: "descuento",
+    headerName: "Descuento",
+    flex: 0.8,
+    valueGetter: (_, row) => getDiscountAmount(row),
+    valueFormatter: (value) => formatCurrency(value),
+  },*/
     {
       field: "total",
       headerName: "Precio Final",
@@ -537,12 +538,12 @@ export default function MisFacturas() {
       flex: 1,
       valueGetter: (_, row) => formatDate(row.fechaEmision),
     },
-    {
-      field: "fechaPago",
-      headerName: "Fecha Pago",
-      flex: 1,
-      valueGetter: (_, row) => formatDate(row.fechaPago),
-    },
+    /*{
+    field: "fechaPago",
+    headerName: "Fecha Pago",
+    flex: 1,
+    valueGetter: (_, row) => formatDate(row.fechaPago),
+  },*/
     {
       field: "acciones",
       headerName: "Acciones",
