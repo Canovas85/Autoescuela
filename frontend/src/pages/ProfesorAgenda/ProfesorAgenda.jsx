@@ -615,17 +615,17 @@ export default function ProfesorAgenda() {
                 <Chip
                   size="small"
                   color="primary"
-                  label={`Prog./Conf.: ${periodSummary.mes.programadasConfirmadas}`}
+                  label={`Programada / Confirmada: ${periodSummary.mes.programadasConfirmadas}`}
                 />
                 <Chip
                   size="small"
                   color="warning"
-                  label={`Pend. confirmar: ${periodSummary.mes.pendientesConfirmar}`}
+                  label={`Pendiente Confirmar: ${periodSummary.mes.pendientesConfirmar}`}
                 />
                 <Chip
                   size="small"
                   color="success"
-                  label={`Complet./Reg.: ${periodSummary.mes.completadasRegistradas}`}
+                  label={`Completadas / Registradas: ${periodSummary.mes.completadasRegistradas}`}
                 />
               </Stack>
             </Paper>
@@ -647,17 +647,17 @@ export default function ProfesorAgenda() {
                 <Chip
                   size="small"
                   color="primary"
-                  label={`Prog./Conf.: ${periodSummary.semana.programadasConfirmadas}`}
+                  label={`Programada / Confirmada: ${periodSummary.semana.programadasConfirmadas}`}
                 />
                 <Chip
                   size="small"
                   color="warning"
-                  label={`Pend. confirmar: ${periodSummary.semana.pendientesConfirmar}`}
+                  label={`Pendiente Confirmar: ${periodSummary.semana.pendientesConfirmar}`}
                 />
                 <Chip
                   size="small"
                   color="success"
-                  label={`Complet./Reg.: ${periodSummary.semana.completadasRegistradas}`}
+                  label={`Completadas / Registradas: ${periodSummary.semana.completadasRegistradas}`}
                 />
               </Stack>
             </Paper>
@@ -1124,41 +1124,6 @@ export default function ProfesorAgenda() {
                                 />
                               </Stack>
                             )}
-
-                            <Box
-                              sx={{
-                                position: "absolute",
-                                right: 8,
-                                bottom: 8,
-                                width: 80,
-                                height: 70,
-                                borderRadius: 1,
-                                overflow: "hidden",
-                                border: "1px solid #cbd5e1",
-                                backgroundColor: "#fff",
-                                display: "grid",
-                                placeItems: "center",
-                              }}
-                            >
-                              {buildImageSrc(clase.vehiculo?.imagenRuta) ? (
-                                <Box
-                                  component="img"
-                                  src={buildImageSrc(
-                                    clase.vehiculo?.imagenRuta,
-                                  )}
-                                  alt={clase.vehiculo?.matricula || "Vehiculo"}
-                                  sx={{
-                                    width: "100%",
-                                    height: "100%",
-                                    objectFit: "cover",
-                                  }}
-                                />
-                              ) : (
-                                <DirectionsCarIcon
-                                  sx={{ fontSize: 100, color: "#64748b" }}
-                                />
-                              )}
-                            </Box>
                           </Box>
                         );
                       })}

@@ -668,16 +668,17 @@ export default function Alumnos() {
     {
       field: "tipoLicenciaObjetivo",
       headerName: "Licencia",
-      flex: 1,
+      flex: 0.6, // Reducido de 1 a 0.6 para que ocupe menos espacio
+      minWidth: 100, // Evita que se encoja demasiado en pantallas pequeñas
       renderCell: (params) => (
         <LicenseChip value={params.row.tipoLicenciaObjetivo} />
       ),
     },
-
     {
       field: "faseActual",
       headerName: "Estado Expediente",
-      flex: 1.2,
+      flex: 1.8, // Aumentado de 1.2 a 1.8 para darle más espacio al texto
+      minWidth: 200, // Asegura espacio suficiente para ver la información
       renderCell: (params) => (
         <ExpedientePhaseChip
           code={params.row.faseActualCodigo}
@@ -1478,7 +1479,7 @@ export default function Alumnos() {
                         borderColor: "divider",
                         display: "grid",
                         gap: 1.5,
-                        maxHeight: "300px", // Limita el alto del contenedor para que no estire el modal
+                        maxHeight: "310px", // Limita el alto del contenedor para que no estire el modal
                         overflowY: "auto", // Añade scroll interno si hay muchas tarjetas de descuento
                       }}
                     >

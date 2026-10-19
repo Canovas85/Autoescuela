@@ -668,6 +668,75 @@ export default function ProfessorDashboard({ data }) {
                   <Typography variant="h6" fontWeight={800} sx={{ mb: 1 }}>
                     Test práctica
                   </Typography>
+                  <Grid container spacing={1.5}>
+                    <Grid item xs={12} md={6}>
+                      <Box
+                        sx={{
+                          p: 1.5,
+                          borderRadius: 2,
+                          backgroundColor: "#fff7ed",
+                        }}
+                      >
+                        <Typography variant="subtitle2" fontWeight={700}>
+                          Tests internos
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          sx={{ mt: 0.5 }}
+                        >
+                          Total: {detail?.tests?.total ?? 0} | Aprobados:{" "}
+                          {detail?.tests?.aprobados ?? 0} | Suspendidos:{" "}
+                          {detail?.tests?.suspendidos ?? 0}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Éxito:{" "}
+                          {Number(
+                            detail?.tests?.porcentajeAprobado || 0,
+                          ).toFixed(1)}
+                          %
+                        </Typography>
+                      </Box>
+                    </Grid>
+
+                    <Grid item xs={12} md={6}>
+                      <Box
+                        sx={{
+                          p: 1.5,
+                          borderRadius: 2,
+                          backgroundColor: "#f0f9ff",
+                        }}
+                      >
+                        <Typography variant="subtitle2" fontWeight={700}>
+                          Exámenes DGT
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          sx={{ mt: 0.5 }}
+                        >
+                          Total: {detail?.dgt?.total ?? 0} | Aprobados:{" "}
+                          {detail?.dgt?.aprobados ?? 0} | Suspendidos:{" "}
+                          {detail?.dgt?.suspendidos ?? 0}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Éxito:{" "}
+                          {Number(detail?.dgt?.porcentajeAprobado || 0).toFixed(
+                            1,
+                          )}
+                          %
+                        </Typography>
+                      </Box>
+                    </Grid>
+                  </Grid>
+
+                  <Typography
+                    variant="h6"
+                    fontWeight={800}
+                    sx={{ mb: 1, mt: 1 }}
+                  >
+                    Convocatorias Exámenes
+                  </Typography>
 
                   <Typography
                     variant="subtitle2"
@@ -841,68 +910,6 @@ export default function ProfessorDashboard({ data }) {
                       presentadas.
                     </Alert>
                   ) : null}
-
-                  <Grid container spacing={1.5}>
-                    <Grid item xs={12} md={6}>
-                      <Box
-                        sx={{
-                          p: 1.5,
-                          borderRadius: 2,
-                          backgroundColor: "#f8fafc",
-                        }}
-                      >
-                        <Typography variant="subtitle2" fontWeight={700}>
-                          Tests internos
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          color="text.secondary"
-                          sx={{ mt: 0.5 }}
-                        >
-                          Total: {detail?.tests?.total ?? 0} | Aprobados:{" "}
-                          {detail?.tests?.aprobados ?? 0} | Suspendidos:{" "}
-                          {detail?.tests?.suspendidos ?? 0}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Éxito:{" "}
-                          {Number(
-                            detail?.tests?.porcentajeAprobado || 0,
-                          ).toFixed(1)}
-                          %
-                        </Typography>
-                      </Box>
-                    </Grid>
-
-                    <Grid item xs={12} md={6}>
-                      <Box
-                        sx={{
-                          p: 1.5,
-                          borderRadius: 2,
-                          backgroundColor: "#f0f9ff",
-                        }}
-                      >
-                        <Typography variant="subtitle2" fontWeight={700}>
-                          Exámenes DGT
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          color="text.secondary"
-                          sx={{ mt: 0.5 }}
-                        >
-                          Total: {detail?.dgt?.total ?? 0} | Aprobados:{" "}
-                          {detail?.dgt?.aprobados ?? 0} | Suspendidos:{" "}
-                          {detail?.dgt?.suspendidos ?? 0}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Éxito:{" "}
-                          {Number(detail?.dgt?.porcentajeAprobado || 0).toFixed(
-                            1,
-                          )}
-                          %
-                        </Typography>
-                      </Box>
-                    </Grid>
-                  </Grid>
                 </CardContent>
               </Card>
 
