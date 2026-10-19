@@ -2013,17 +2013,16 @@ export default function HojasRuta() {
                             />
                           </Stack>
                           <Typography variant="body2" color="text.secondary">
-                            {item.vehiculo?.marca} {item.vehiculo?.modelo} -{" "}
-                            {item.vehiculo?.matricula}
+                            Fecha: {formatDateTime(item.fecha)}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            {item.vehiculo?.marca} {item.vehiculo?.modelo}
                           </Typography>
                           <Box sx={{ mt: 0.5 }}>
                             <PracticalClassTypeChip
                               value={item?.tipoClasePractica || "CIRCULACION"}
                             />
                           </Box>
-                          <Typography variant="body2" color="text.secondary">
-                            {formatDateTime(item.fecha)}
-                          </Typography>
                         </Box>
                       </Box>
 
@@ -2093,21 +2092,25 @@ export default function HojasRuta() {
                             {item.alumno?.nombre}
                           </Typography>
                           <Typography variant="body2" color="text.secondary">
-                            {item.vehiculo?.marca} {item.vehiculo?.modelo} -{" "}
-                            {item.vehiculo?.matricula}
+                            Fecha: {formatDateTime(item.fecha)}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            {item.vehiculo?.marca} {item.vehiculo?.modelo}
                           </Typography>
                           <Box sx={{ mt: 0.5 }}>
                             <PracticalClassTypeChip
                               value={item?.tipoClasePractica || "CIRCULACION"}
                             />
                           </Box>
-                          <Typography variant="body2" color="text.secondary">
-                            {formatDateTime(item.fecha)}
-                          </Typography>
                         </Box>
                       </Box>
 
-                      <Stack direction="row" spacing={1} alignItems="center">
+                      <Stack
+                        direction="row"
+                        spacing={1}
+                        alignItems="center"
+                        width="100%"
+                      >
                         <Chip
                           size="small"
                           label={item.estado}
@@ -2116,11 +2119,15 @@ export default function HojasRuta() {
                         <Typography variant="caption" color="text.secondary">
                           {`${item.resumenFaltas?.leves || 0} leves · ${item.resumenFaltas?.deficientes || 0} deficientes · ${item.resumenFaltas?.eliminatorias || 0} eliminatorias`}
                         </Typography>
+
+                        {/* Este Box vacío empuja todo lo que viene después hacia la derecha */}
+                        <Box sx={{ flexGrow: 1 }} />
+
                         <Button
                           size="small"
                           onClick={() => setParam("claseId", item.claseId)}
                         >
-                          Abrir
+                          Ver Hoja de Ruta
                         </Button>
                       </Stack>
                     </Stack>
@@ -2281,7 +2288,7 @@ export default function HojasRuta() {
                       headerName: "Vehículo",
                       flex: 1,
                       valueGetter: (_, row) =>
-                        `${row.vehiculo?.marca || ""} ${row.vehiculo?.modelo || ""} ${row.vehiculo?.matricula || ""}`,
+                        `${row.vehiculo?.marca || ""} ${row.vehiculo?.modelo || ""}`,
                     },
                     {
                       field: "faltasResumen",

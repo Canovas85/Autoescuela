@@ -382,39 +382,53 @@ export default function Informes() {
         sortable: false,
         filterable: false,
         disableColumnMenu: true,
+        align: "center", // Centra el contenido horizontalmente en la celda
+        headerAlign: "center", // Centra el texto del encabezado "Acciones"
         renderCell: (params) => {
           if (!["FACTURA", "NOMINA"].includes(params.row.tipo)) {
-            return <Typography variant="caption">-</Typography>;
+            // Box para centrar el guion y darle el mismo margen superior
+            return (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  mt: 1,
+                  width: "100%",
+                }}
+              >
+                <Typography variant="caption">-</Typography>
+              </Box>
+            );
           }
 
-          if (params.row.tipo === "NOMINA") {
-            return (
+          // Definimos la acción según el tipo
+          const isNomina = params.row.tipo === "NOMINA";
+          const title = isNomina ? "Ver nómina" : "Ver factura";
+          const onClickHandler = isNomina
+            ? handleOpenNominaModal
+            : handleOpenFacturaModal;
+
+          return (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                mt: 1,
+                width: "100%",
+              }}
+            >
               <Stack direction="row" spacing={0.25}>
-                <Tooltip title="Ver nómina" arrow>
+                <Tooltip title={title} arrow>
                   <IconButton
                     color="primary"
                     size="small"
-                    onClick={() => handleOpenNominaModal(params.row)}
+                    onClick={() => onClickHandler(params.row)}
                   >
                     <VisibilityIcon fontSize="small" />
                   </IconButton>
                 </Tooltip>
               </Stack>
-            );
-          }
-
-          return (
-            <Stack direction="row" spacing={0.25}>
-              <Tooltip title="Ver factura" arrow>
-                <IconButton
-                  color="primary"
-                  size="small"
-                  onClick={() => handleOpenFacturaModal(params.row)}
-                >
-                  <VisibilityIcon fontSize="small" />
-                </IconButton>
-              </Tooltip>
-            </Stack>
+            </Box>
           );
         },
       },

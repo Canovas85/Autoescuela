@@ -183,9 +183,9 @@ export default function Gastos() {
       headerName: "Vehículo",
       flex: 1.4,
       valueGetter: (_, row) =>
-        `${row.vehiculo?.matricula || "-"} ${row.vehiculo?.marca || ""} ${row.vehiculo?.modelo || ""}`,
+        ` ${row.vehiculo?.marca || ""} ${row.vehiculo?.modelo || ""}`,
     },
-    {
+    /*{
       field: "combustibleAntesPct",
       headerName: "Antes",
       flex: 0.7,
@@ -196,10 +196,10 @@ export default function Gastos() {
       headerName: "Después",
       flex: 0.7,
       valueGetter: (_, row) => `${row.combustibleDespuesPct ?? 0}%`,
-    },
+    },*/
     {
       field: "litrosRepostados",
-      headerName: "Litros",
+      headerName: "Litros Repostados",
       flex: 0.7,
       valueGetter: (_, row) =>
         `${Number(row.litrosRepostados || 0).toFixed(2)} L`,

@@ -433,7 +433,7 @@ export default function Bonos() {
       valueFormatter: (value) => formatPrice(value),
     },
     { field: "validezDias", headerName: "Validez (dias)", flex: 0.8 },
-    {
+    /*{
       field: "descripcion",
       headerName: "Descripcion",
       flex: 1.4,
@@ -451,7 +451,7 @@ export default function Bonos() {
           </Typography>
         </Box>
       ),
-    },
+    },*/
     {
       field: "activo",
       headerName: "Estado",

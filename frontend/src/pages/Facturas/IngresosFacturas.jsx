@@ -535,7 +535,7 @@ export default function IngresosFacturas() {
         <LicenseChip value={getRowLicencia(params.row)} />
       ),
     },
-    {
+    /*{
       field: "tipoClasePractica",
       headerName: "Tipo clase",
       width: 160,
@@ -548,7 +548,7 @@ export default function IngresosFacturas() {
 
         return <PracticalClassTypeChip value={params.value} />;
       },
-    },
+    },*/
     {
       field: "origen",
       headerName: "Origen",
