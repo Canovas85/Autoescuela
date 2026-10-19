@@ -45,7 +45,12 @@ const normalizarLicenciaObjetivo = (valor) =>
     .trim()
     .toUpperCase() || "B";
 
-const PRACTICAL_FAILURE_STATES = ["NO_APTO", "SUSPENDIDO", "NO_PRESENTADO"];
+const PRACTICAL_FAILURE_STATES = [
+  "NO_APTO",
+  "SUSPENDIDO",
+  "SUSPENSO",
+  "NO_PRESENTADO",
+];
 
 const resolvePracticalExpedienteState = ({
   licenciaObjetivo,
@@ -72,11 +77,11 @@ const resolvePracticalExpedienteState = ({
   }
 
   if (!dual) {
-    return "PRACTICO_SUSPENSO";
+    return "PRACTICO_CIRCULACION_SUSPENSO";
   }
 
   return Number(fasePractica) === 2
-    ? "PRACTICO_CIRCUITO_SUSPENSO"
+    ? "PRACTICO_PISTA_SUSPENSO"
     : "PRACTICO_CIRCULACION_SUSPENSO";
 };
 

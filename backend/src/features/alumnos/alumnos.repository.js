@@ -154,6 +154,7 @@ export class AlumnosRepository {
           select: {
             id: true,
             tipo: true,
+            fasePractica: true,
             estado: true,
             fechaSolicitud: true,
             fechaProgramada: true,
@@ -167,6 +168,7 @@ export class AlumnosRepository {
             id: true,
             duracion: true,
             estado: true,
+            tipoClasePractica: true,
             hojaRuta: {
               select: {
                 estado: true,

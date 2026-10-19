@@ -346,7 +346,7 @@ export default function TarifasConcepto() {
       >
         <Box>
           <Typography variant="h4" fontWeight="bold">
-            Tarifas por permisos
+            Tarifas Concepto
           </Typography>
           <Typography color="text.secondary">
             Establece y revisa las tasas correspondientes a la formación y

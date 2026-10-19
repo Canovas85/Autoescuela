@@ -39,24 +39,24 @@ const EXPEDIENTE_PHASE_META = {
       border: "1px solid #7dd3fc",
     },
   },
-  PREPARANDO_PRACTICO: {
-    label: "Realizando clases prácticas",
+  REALIZANDO_CLASES_PRACTICAS_CIRCULACION: {
+    label: "Realizando clases prácticas circulación",
     sx: {
       backgroundColor: "#ede9fe",
       color: "#5b21b6",
       border: "1px solid #c4b5fd",
     },
   },
-  PENDIENTE_EXAMEN_PRACTICO: {
-    label: "Pendiente de examen práctico",
+  PENDIENTE_EXAMEN_PRACTICO_CIRCULACION: {
+    label: "Pendiente examen práctico circulación",
     sx: {
       backgroundColor: "#fef3c7",
       color: "#92400e",
       border: "1px solid #fcd34d",
     },
   },
-  PRACTICO_SUSPENSO: {
-    label: "Práctico suspenso",
+  PRACTICO_CIRCULACION_SUSPENSO: {
+    label: "Práctico circulación suspenso",
     sx: {
       backgroundColor: "#fee2e2",
       color: "#991b1b",
@@ -71,16 +71,24 @@ const EXPEDIENTE_PHASE_META = {
       border: "1px solid #93c5fd",
     },
   },
-  PRACTICO_CIRCULACION_SUSPENSO: {
-    label: "Práctico circulación suspenso",
+  REALIZANDO_CLASES_PRACTICAS_PISTA: {
+    label: "Realizando clases prácticas en pista",
     sx: {
-      backgroundColor: "#fee2e2",
-      color: "#991b1b",
-      border: "1px solid #fca5a5",
+      backgroundColor: "#ede9fe",
+      color: "#5b21b6",
+      border: "1px solid #c4b5fd",
     },
   },
-  PRACTICO_CIRCUITO_SUSPENSO: {
-    label: "Práctico circuito suspenso",
+  PENDIENTE_EXAMEN_PRACTICO_PISTA: {
+    label: "Pendiente examen práctico en pista",
+    sx: {
+      backgroundColor: "#fef3c7",
+      color: "#92400e",
+      border: "1px solid #fcd34d",
+    },
+  },
+  PRACTICO_PISTA_SUSPENSO: {
+    label: "Práctico pista suspenso",
     sx: {
       backgroundColor: "#fee2e2",
       color: "#991b1b",
@@ -95,6 +103,13 @@ const EXPEDIENTE_PHASE_META = {
       border: "1px solid #86efac",
     },
   },
+};
+
+const LEGACY_CODE_ALIASES = {
+  PREPARANDO_PRACTICO: "REALIZANDO_CLASES_PRACTICAS_CIRCULACION",
+  PENDIENTE_EXAMEN_PRACTICO: "PENDIENTE_EXAMEN_PRACTICO_CIRCULACION",
+  PRACTICO_SUSPENSO: "PRACTICO_CIRCULACION_SUSPENSO",
+  PRACTICO_CIRCUITO_SUSPENSO: "PRACTICO_PISTA_SUSPENSO",
 };
 
 const LEGACY_CODE_BY_LABEL = {
@@ -112,26 +127,42 @@ const LEGACY_CODE_BY_LABEL = {
   "teorico suspenso": "TEORICO_SUSPENSO",
   "teórico aprobado": "TEORICO_APROBADO",
   "teorico aprobado": "TEORICO_APROBADO",
-  "preparándose para el práctico": "PREPARANDO_PRACTICO",
-  "preparandose para el practico": "PREPARANDO_PRACTICO",
-  "realizando clases prácticas": "PREPARANDO_PRACTICO",
-  "realizando clases practicas": "PREPARANDO_PRACTICO",
-  "pendiente examen práctico": "PENDIENTE_EXAMEN_PRACTICO",
-  "pendiente examen practico": "PENDIENTE_EXAMEN_PRACTICO",
-  "pendiente de examen práctico": "PENDIENTE_EXAMEN_PRACTICO",
-  "pendiente de examen practico": "PENDIENTE_EXAMEN_PRACTICO",
-  "práctico suspenso": "PRACTICO_SUSPENSO",
-  "practico suspenso": "PRACTICO_SUSPENSO",
+  "preparándose para el práctico": "REALIZANDO_CLASES_PRACTICAS_CIRCULACION",
+  "preparandose para el practico": "REALIZANDO_CLASES_PRACTICAS_CIRCULACION",
+  "realizando clases prácticas": "REALIZANDO_CLASES_PRACTICAS_CIRCULACION",
+  "realizando clases practicas": "REALIZANDO_CLASES_PRACTICAS_CIRCULACION",
+  "realizando clases prácticas circulación":
+    "REALIZANDO_CLASES_PRACTICAS_CIRCULACION",
+  "realizando clases practicas circulacion":
+    "REALIZANDO_CLASES_PRACTICAS_CIRCULACION",
+  "pendiente examen práctico": "PENDIENTE_EXAMEN_PRACTICO_CIRCULACION",
+  "pendiente examen practico": "PENDIENTE_EXAMEN_PRACTICO_CIRCULACION",
+  "pendiente de examen práctico": "PENDIENTE_EXAMEN_PRACTICO_CIRCULACION",
+  "pendiente de examen practico": "PENDIENTE_EXAMEN_PRACTICO_CIRCULACION",
+  "pendiente examen práctico circulación":
+    "PENDIENTE_EXAMEN_PRACTICO_CIRCULACION",
+  "pendiente examen practico circulacion":
+    "PENDIENTE_EXAMEN_PRACTICO_CIRCULACION",
+  "práctico suspenso": "PRACTICO_CIRCULACION_SUSPENSO",
+  "practico suspenso": "PRACTICO_CIRCULACION_SUSPENSO",
   "práctico circulación aprobado": "PRACTICO_CIRCULACION_APROBADO",
   "practico circulacion aprobado": "PRACTICO_CIRCULACION_APROBADO",
   "práctico circulación suspenso": "PRACTICO_CIRCULACION_SUSPENSO",
   "practico circulacion suspenso": "PRACTICO_CIRCULACION_SUSPENSO",
-  "práctico circuito suspenso": "PRACTICO_CIRCUITO_SUSPENSO",
-  "practico circuito suspenso": "PRACTICO_CIRCUITO_SUSPENSO",
+  "realizando clases prácticas en pista": "REALIZANDO_CLASES_PRACTICAS_PISTA",
+  "realizando clases practicas en pista": "REALIZANDO_CLASES_PRACTICAS_PISTA",
+  "pendiente examen práctico en pista": "PENDIENTE_EXAMEN_PRACTICO_PISTA",
+  "pendiente examen practico en pista": "PENDIENTE_EXAMEN_PRACTICO_PISTA",
+  "práctico pista suspenso": "PRACTICO_PISTA_SUSPENSO",
+  "practico pista suspenso": "PRACTICO_PISTA_SUSPENSO",
+  "práctico circuito suspenso": "PRACTICO_PISTA_SUSPENSO",
+  "practico circuito suspenso": "PRACTICO_PISTA_SUSPENSO",
   "licencia obtenida": "LICENCIA_OBTENIDA",
   "licencia aprobada": "LICENCIA_OBTENIDA",
-  "preparándose para examen práctico": "PREPARANDO_PRACTICO",
-  "preparandose para examen practico": "PREPARANDO_PRACTICO",
+  "preparándose para examen práctico":
+    "REALIZANDO_CLASES_PRACTICAS_CIRCULACION",
+  "preparandose para examen practico":
+    "REALIZANDO_CLASES_PRACTICAS_CIRCULACION",
 };
 
 const normalizeCode = (value) =>
@@ -141,9 +172,11 @@ const normalizeCode = (value) =>
 
 export const resolveExpedientePhaseCode = ({ code, label }) => {
   const normalizedCode = normalizeCode(code);
+  const mappedLegacyCode =
+    LEGACY_CODE_ALIASES[normalizedCode] || normalizedCode;
 
-  if (EXPEDIENTE_PHASE_META[normalizedCode]) {
-    return normalizedCode;
+  if (EXPEDIENTE_PHASE_META[mappedLegacyCode]) {
+    return mappedLegacyCode;
   }
 
   const normalizedLabel = String(label || "")

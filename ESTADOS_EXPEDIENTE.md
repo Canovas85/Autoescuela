@@ -27,31 +27,35 @@ Se usa en backend para calcular el estado y en frontend para pintar chips con el
 
 - Ultimo resultado teorico en apto.
 
-6. `PREPARANDO_PRACTICO`
+6. `REALIZANDO_CLASES_PRACTICAS_CIRCULACION`
 
-- Teorico apto y con al menos una clase practica programada o confirmada.
+- Teorico apto y existe al menos una clase practica de circulacion no cancelada.
 
-7. `PENDIENTE_EXAMEN_PRACTICO`
+7. `PENDIENTE_EXAMEN_PRACTICO_CIRCULACION`
 
-- Solicitud practica activa (solicitado/programado/pendiente).
+- Solicitud practica de circulacion activa (solicitado/programado/pendiente).
 
-8. `PRACTICO_SUSPENSO`
+8. `PRACTICO_CIRCULACION_SUSPENSO`
 
-- Ultimo resultado practico final en no apto/suspenso.
+- Ultimo resultado practico de circulacion final en no apto/suspenso/no presentado.
 
 9. `PRACTICO_CIRCULACION_APROBADO`
 
 - Solo licencias con doble fase (A, A1, A2, C, D, E): aprobado en práctico de circulacion y pendiente de fase de circuito.
 
-10. `PRACTICO_CIRCULACION_SUSPENSO`
+10. `REALIZANDO_CLASES_PRACTICAS_PISTA`
 
-- Solo licencias con doble fase: suspenso/no presentado en práctico de circulacion.
+- Solo licencias con doble fase: aprobado en circulacion y existe al menos una clase practica de pista no cancelada.
 
-11. `PRACTICO_CIRCUITO_SUSPENSO`
+11. `PENDIENTE_EXAMEN_PRACTICO_PISTA`
 
-- Solo licencias con doble fase: suspenso/no presentado en práctico de circuito.
+- Solo licencias con doble fase: solicitud practica de pista activa (solicitado/programado/pendiente).
 
-12. `LICENCIA_OBTENIDA`
+12. `PRACTICO_PISTA_SUSPENSO`
+
+- Solo licencias con doble fase: suspenso/no presentado en práctico de pista.
+
+13. `LICENCIA_OBTENIDA`
 
 - Resultado practico apto final o expediente marcado como licencia obtenida.
 
@@ -62,12 +66,13 @@ Se usa en backend para calcular el estado y en frontend para pintar chips con el
 - `PENDIENTE_EXAMEN_TEORICO`: fondo `#ffedd5`, texto `#9a3412`, borde `#fdba74`
 - `TEORICO_SUSPENSO`: fondo `#fef2f2`, texto `#b91c1c`, borde `#fca5a5`
 - `TEORICO_APROBADO`: fondo `#e0f2fe`, texto `#0c4a6e`, borde `#7dd3fc`
-- `PREPARANDO_PRACTICO`: fondo `#ede9fe`, texto `#5b21b6`, borde `#c4b5fd`
-- `PENDIENTE_EXAMEN_PRACTICO`: fondo `#fef3c7`, texto `#92400e`, borde `#fcd34d`
-- `PRACTICO_SUSPENSO`: fondo `#fee2e2`, texto `#991b1b`, borde `#fca5a5`
-- `PRACTICO_CIRCULACION_APROBADO`: fondo `#dbeafe`, texto `#1e3a8a`, borde `#93c5fd`
+- `REALIZANDO_CLASES_PRACTICAS_CIRCULACION`: fondo `#ede9fe`, texto `#5b21b6`, borde `#c4b5fd`
+- `PENDIENTE_EXAMEN_PRACTICO_CIRCULACION`: fondo `#fef3c7`, texto `#92400e`, borde `#fcd34d`
 - `PRACTICO_CIRCULACION_SUSPENSO`: fondo `#fee2e2`, texto `#991b1b`, borde `#fca5a5`
-- `PRACTICO_CIRCUITO_SUSPENSO`: fondo `#fee2e2`, texto `#991b1b`, borde `#fca5a5`
+- `PRACTICO_CIRCULACION_APROBADO`: fondo `#dbeafe`, texto `#1e3a8a`, borde `#93c5fd`
+- `REALIZANDO_CLASES_PRACTICAS_PISTA`: fondo `#ede9fe`, texto `#5b21b6`, borde `#c4b5fd`
+- `PENDIENTE_EXAMEN_PRACTICO_PISTA`: fondo `#fef3c7`, texto `#92400e`, borde `#fcd34d`
+- `PRACTICO_PISTA_SUSPENSO`: fondo `#fee2e2`, texto `#991b1b`, borde `#fca5a5`
 - `LICENCIA_OBTENIDA`: fondo `#dcfce7`, texto `#166534`, borde `#86efac`
 
 ## Implementacion

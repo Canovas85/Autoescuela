@@ -625,6 +625,7 @@ export class DashboardRepository {
             fecha: true,
             estado: true,
             duracion: true,
+            tipoClasePractica: true,
             hojaRuta: {
               select: {
                 id: true,
@@ -773,6 +774,7 @@ export class DashboardRepository {
             fecha: true,
             estado: true,
             duracion: true,
+            tipoClasePractica: true,
             hojaRuta: {
               select: {
                 id: true,
@@ -992,6 +994,7 @@ export class DashboardRepository {
             fecha: true,
             duracion: true,
             estado: true,
+            tipoClasePractica: true,
             vehiculo: {
               select: {
                 matricula: true,

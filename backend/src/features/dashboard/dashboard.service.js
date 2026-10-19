@@ -588,6 +588,8 @@ export class DashboardService {
       clases,
       dashboard.profile.alumno.estadoExpediente,
       matriculaActual?.estado,
+      matriculaActual?.licencia ||
+        dashboard.profile.alumno.tipoLicenciaObjetivo,
     );
 
     return {
@@ -1159,10 +1161,12 @@ export class DashboardService {
     clases = [],
     estadoExpediente = null,
     matriculaEstado = null,
+    licenciaObjetivo = null,
   ) {
     const phase = resolveExpedientePhase({
       estadoExpediente,
       matriculaEstado,
+      licenciaObjetivo,
       solicitudesExamen,
       clases,
     });
@@ -1172,8 +1176,9 @@ export class DashboardService {
       codigo: phase.code,
       ok: [
         "TEORICO_APROBADO",
-        "PREPARANDO_PRACTICO",
+        "REALIZANDO_CLASES_PRACTICAS_CIRCULACION",
         "PRACTICO_CIRCULACION_APROBADO",
+        "REALIZANDO_CLASES_PRACTICAS_PISTA",
         "LICENCIA_OBTENIDA",
       ].includes(phase.code),
     };
@@ -1499,6 +1504,7 @@ export class DashboardService {
       clases,
       alumno.estadoExpediente,
       matriculaActual?.estado,
+      matriculaActual?.licencia || alumno.tipoLicenciaObjetivo,
     );
     const licenciaObjetivo = normalizeLicenseCode(
       matriculaActual?.licencia || alumno.tipoLicenciaObjetivo,
@@ -1792,6 +1798,7 @@ export class DashboardService {
       clases,
       alumno.estadoExpediente,
       matriculaActual?.estado,
+      matriculaActual?.licencia || alumno.tipoLicenciaObjetivo,
     );
 
     const preparadoParaTeorico = testsTotales >= 10 && porcentajeAprobado >= 80;

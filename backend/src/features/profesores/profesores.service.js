@@ -512,9 +512,13 @@ export class ProfesoresService {
     const now = new Date();
 
     const alumnos = (assignedStudents || []).map((alumno) => {
+      const licenciaObjetivo =
+        alumno?.matriculas?.[0]?.licencia || alumno?.tipoLicenciaObjetivo;
+
       const fase = resolveExpedientePhase({
         estadoExpediente: alumno?.estadoExpediente,
         matriculaEstado: alumno?.matriculas?.[0]?.estado,
+        licenciaObjetivo,
         solicitudesExamen: alumno?.solicitudesExamen || [],
         clases: alumno?.clases || [],
       });

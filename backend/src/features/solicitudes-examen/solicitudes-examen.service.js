@@ -39,7 +39,12 @@ const ESTADOS_CONSUMEN_CONVOCATORIA = [
   "SUSPENDIDO",
   "NO_PRESENTADO",
 ];
-const PRACTICAL_FAILURE_STATES = ["NO_APTO", "SUSPENDIDO", "NO_PRESENTADO"];
+const PRACTICAL_FAILURE_STATES = [
+  "NO_APTO",
+  "SUSPENDIDO",
+  "SUSPENSO",
+  "NO_PRESENTADO",
+];
 const PRACTICAL_CLASS_TYPE_LABELS = {
   CIRCULACION: "Circulacion",
   PISTA: "Pista (Circuito)",
@@ -262,11 +267,11 @@ const getPracticalExpedienteStatusFromResult = ({
   }
 
   if (!isDual) {
-    return "PRACTICO_SUSPENSO";
+    return "PRACTICO_CIRCULACION_SUSPENSO";
   }
 
   return Number(fasePractica) === 2
-    ? "PRACTICO_CIRCUITO_SUSPENSO"
+    ? "PRACTICO_PISTA_SUSPENSO"
     : "PRACTICO_CIRCULACION_SUSPENSO";
 };
 

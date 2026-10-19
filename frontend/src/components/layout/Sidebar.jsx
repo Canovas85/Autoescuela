@@ -126,7 +126,7 @@ const menus = {
           icon: <LocalOfferIcon fontSize="small" />,
         },
         {
-          label: "Tarifas por permisos",
+          label: "Tarifas por concepto",
           path: "/tarifas-concepto",
           icon: <LocalOfferIcon fontSize="small" />,
         },
@@ -279,7 +279,7 @@ const menus = {
           icon: <LocalOfferIcon fontSize="small" />,
         },
         {
-          label: "Tarifas por permisos",
+          label: "Tarifas por concepto",
           path: "/tarifas-concepto",
           icon: <LocalOfferIcon fontSize="small" />,
         },

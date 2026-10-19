@@ -250,6 +250,7 @@ export class ProfesoresRepository {
           select: {
             id: true,
             tipo: true,
+            fasePractica: true,
             estado: true,
             fechaSolicitud: true,
             fechaProgramada: true,
@@ -263,6 +264,7 @@ export class ProfesoresRepository {
             id: true,
             estado: true,
             duracion: true,
+            tipoClasePractica: true,
             hojaRuta: {
               select: {
                 estado: true,

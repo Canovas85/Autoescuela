@@ -489,10 +489,14 @@ export class AlumnosService {
         (acc, clase) => acc + (Number(clase?.duracion) || 45),
         0,
       );
+      const licenciaObjetivo = normalizeLicenseCode(
+        alumno?.matriculas?.[0]?.licencia || alumno?.tipoLicenciaObjetivo,
+      );
 
       const fase = resolveExpedientePhase({
         estadoExpediente: alumno?.estadoExpediente,
         matriculaEstado: alumno?.matriculas?.[0]?.estado,
+        licenciaObjetivo,
         solicitudesExamen: alumno?.solicitudesExamen || [],
         clases,
       });
@@ -647,6 +651,7 @@ export class AlumnosService {
     const estadoAcademico = resolveExpedientePhase({
       estadoExpediente: alumno.estadoExpediente,
       matriculaEstado: matriculaActual?.estado,
+      licenciaObjetivo,
       solicitudesExamen: solicitudes,
       clases: alumno.clases || [],
     });
