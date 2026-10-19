@@ -418,13 +418,14 @@ export default function Bonos() {
   };
 
   const columns = [
-    { field: "nombre", headerName: "Nombre", flex: 1.1 },
     {
       field: "licencia",
       headerName: "Licencia",
       flex: 0.6,
       renderCell: (params) => <LicenseChip value={params.value} />,
     },
+    { field: "nombre", headerName: "Nombre", flex: 1.1 },
+
     { field: "clasesIncluidas", headerName: "Clases", flex: 0.6 },
     {
       field: "precio",

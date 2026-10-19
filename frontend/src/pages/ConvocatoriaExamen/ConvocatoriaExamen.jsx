@@ -59,6 +59,17 @@ const formatDate = (value) => {
   return `${day}/${month}/${year}`;
 };
 
+const formatearEstado = (estado) => {
+  if (!estado) return "";
+
+  const estadoUpper = estado.toUpperCase();
+  if (estadoUpper === "NO_APTO") return "No Apto";
+  if (estadoUpper === "NO_PRESENTADO") return "No Presentado";
+
+  // Para los demás estados, los pasa a minúsculas y el CSS se encarga de capitalizarlo
+  return estado.toLowerCase();
+};
+
 const toLocalDateKey = (date) => {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -597,8 +608,9 @@ export default function ConvocatoriaExamen() {
           </Typography>
 
           <Typography color="text.secondary">
-            Gestiona convocatorias teóricas y prácticas. Consulta la agenda
-            mensual con alumnos confirmados.
+            Gestiona convocatorias teóricas y prácticas para cada licencia.
+            Consulta la agenda mensual con alumnos confirmados para las
+            convocatorias de examen.
           </Typography>
         </Box>
 
@@ -651,12 +663,19 @@ export default function ConvocatoriaExamen() {
             label="Estado alumnos"
             value={estadoAlumnoFilter}
             onChange={(event) => setEstadoAlumnoFilter(event.target.value)}
-            sx={{ minWidth: 210 }}
+            sx={{
+              minWidth: 210,
+              "& .MuiSelect-select": { textTransform: "capitalize" },
+            }}
           >
             <MenuItem value="ALL">Todos</MenuItem>
             {ESTADOS_ALUMNO.map((estado) => (
-              <MenuItem key={estado} value={estado}>
-                {estado}
+              <MenuItem
+                key={estado}
+                value={estado}
+                sx={{ textTransform: "capitalize" }}
+              >
+                {formatearEstado(estado)}
               </MenuItem>
             ))}
           </TextField>

@@ -350,7 +350,7 @@ export default function TarifasConcepto() {
           </Typography>
           <Typography color="text.secondary">
             Establece y revisa las tasas correspondientes a la formación y
-            gestión específica de cada tipo de carné de conducir.
+            gestión específica de cada licencia.
           </Typography>
         </Box>
 

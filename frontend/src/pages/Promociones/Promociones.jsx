@@ -453,6 +453,25 @@ export default function Promociones() {
 
   const columns = [
     {
+      field: "licenciasAplicables",
+      headerName: "Licencias",
+      flex: 1.3,
+
+      renderCell: (params) => (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-end", // Empuja los chips al fondo de la celda
+            height: "100%", // Usa todo el alto disponible de la fila
+            pb: 1.5, // Padding bottom opcional (8px) para separar del borde
+          }}
+        >
+          <LicenseChipList values={params.row.licenciasAplicables} />
+        </Box>
+      ),
+    },
+    {
       field: "nombre",
       headerName: "Nombre",
       flex: 1.5,
@@ -525,26 +544,6 @@ export default function Promociones() {
 
         return `${Math.round(descuento)}%`;
       },
-    },
-
-    {
-      field: "licenciasAplicables",
-      headerName: "Licencias",
-      flex: 1.3,
-
-      renderCell: (params) => (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-end", // Empuja los chips al fondo de la celda
-            height: "100%", // Usa todo el alto disponible de la fila
-            pb: 1.5, // Padding bottom opcional (8px) para separar del borde
-          }}
-        >
-          <LicenseChipList values={params.row.licenciasAplicables} />
-        </Box>
-      ),
     },
 
     {

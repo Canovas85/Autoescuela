@@ -37,6 +37,20 @@ const TIPOS_DOCUMENTO = [
   "OTRO",
 ];
 
+const formatearTipo = (tipo) => {
+  if (!tipo) return "";
+
+  // 1. Caso especial: "TODOS" lo pasamos a "Todos"
+  if (tipo.toUpperCase() === "TODOS") return "Todos";
+
+  // 2. Caso especial para siglas: si es "DNI", lo dejamos completamente en mayúsculas
+  if (tipo.toUpperCase() === "DNI") return "DNI";
+
+  // 3. Para los demás, reemplazamos todos los guiones bajos (_) por espacios
+  // y lo pasamos a minúsculas (para que el CSS aplique el Capitalize correctamente)
+  return tipo.replace(/_/g, " ").toLowerCase();
+};
+
 const buildFileUrl = (ruta) => {
   if (!ruta) return "";
   return ruta.startsWith("http") ? ruta : `${window.location.origin}${ruta}`;
@@ -271,10 +285,15 @@ export default function DocumentosAlumnoAdmin() {
             label="Tipo"
             value={tipoFiltro}
             onChange={(event) => setTipoFiltro(event.target.value)}
+            sx={{ textTransform: "capitalize" }} // Capitaliza el texto seleccionado en el combo cerrado
           >
             {TIPOS_DOCUMENTO.map((tipo) => (
-              <MenuItem key={tipo} value={tipo}>
-                {tipo}
+              <MenuItem
+                key={tipo}
+                value={tipo} // Mantiene el valor original en mayúsculas/guiones para tu lógica
+                sx={{ textTransform: "capitalize" }} // Capitaliza las opciones del menú desplegable
+              >
+                {formatearTipo(tipo)}
               </MenuItem>
             ))}
           </Select>

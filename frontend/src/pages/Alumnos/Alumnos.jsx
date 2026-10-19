@@ -1034,7 +1034,8 @@ export default function Alumnos() {
       </Typography>
       <Typography color="text.secondary" sx={{ mb: 2 }}>
         Administra los alumnos registrados en la Autoescuela Eguskilore y el
-        progreso en los permisos de conducir de cada estudiante.
+        progreso en los expedientes en los permisos de conducir de cada
+        estudiante.
       </Typography>
       <Box
         sx={{

@@ -544,7 +544,7 @@ export default function OtrosUsuarios() {
           <Typography color="text.secondary">
             {isSupport
               ? "Gestión de usuarios (ADMIN, PROFESOR, ALUMNO y ADMINISTRATIVO)."
-              : "Gestión de perfiles ADMINISTRATIVO y SOPORTE."}
+              : "Administra los perfiles de usuario Administrativo y Soporte en la Autoescuela Eguskilore."}
           </Typography>
         </Box>
 
@@ -583,15 +583,35 @@ export default function OtrosUsuarios() {
               label="Perfil"
               value={rolFiltro}
               onChange={(event) => setRolFiltro(event.target.value)}
+              sx={{ textTransform: "capitalize" }} // Capitaliza el texto seleccionado en el combo
             >
               <MenuItem value="todos">Todos</MenuItem>
-              {isSupport ? <MenuItem value="ADMIN">ADMIN</MenuItem> : null}
               {isSupport ? (
-                <MenuItem value="PROFESOR">PROFESOR</MenuItem>
+                <MenuItem value="ADMIN" sx={{ textTransform: "capitalize" }}>
+                  Admin
+                </MenuItem>
               ) : null}
-              {isSupport ? <MenuItem value="ALUMNO">ALUMNO</MenuItem> : null}
-              <MenuItem value="ADMINISTRATIVO">ADMINISTRATIVO</MenuItem>
-              {!isSupport ? <MenuItem value="SOPORTE">SOPORTE</MenuItem> : null}
+              {isSupport ? (
+                <MenuItem value="PROFESOR" sx={{ textTransform: "capitalize" }}>
+                  Profesor
+                </MenuItem>
+              ) : null}
+              {isSupport ? (
+                <MenuItem value="ALUMNO" sx={{ textTransform: "capitalize" }}>
+                  Alumno
+                </MenuItem>
+              ) : null}
+              <MenuItem
+                value="ADMINISTRATIVO"
+                sx={{ textTransform: "capitalize" }}
+              >
+                Administrativo
+              </MenuItem>
+              {!isSupport ? (
+                <MenuItem value="SOPORTE" sx={{ textTransform: "capitalize" }}>
+                  Soporte
+                </MenuItem>
+              ) : null}
             </Select>
           </FormControl>
 

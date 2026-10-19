@@ -327,7 +327,7 @@ function AdminDashboardView({ metrics }) {
       subtitle: `Presentados: ${evaluacionPractico.presentadosHistorico ?? 0}`,
       color: "#0f172a",
     },
-    {
+    /*{
       title: "Evaluaciones Pendientes Teórico",
       value: evaluacionTeorico.pendientes ?? 0,
       subtitle: "Convocatorias futuras con alumnos inscritos",
@@ -339,7 +339,7 @@ function AdminDashboardView({ metrics }) {
       value: evaluacionPractico.pendientes ?? 0,
       subtitle: "Convocatorias futuras con alumnos inscritos",
       color: "#7f1d1d",
-    },
+    },*/
   ];
 
   const StatCard = ({ title, value, subtitle, icon, color }) => (
