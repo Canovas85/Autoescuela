@@ -289,16 +289,19 @@ export default function ExamenTeoricoAlumno() {
 
       {shouldShowRequirements && (
         <Paper sx={{ p: 2.5, mb: 3, border: "1px solid #e2e8f0" }}>
-          <Typography variant="h6" sx={{ mb: 1.5 }}>
-            Estado de requisitos
-          </Typography>
+          {/* Contenedor horizontal que junta el título y los chips */}
           <Stack
             direction="row"
-            spacing={1}
+            spacing={2}
+            alignItems="center"
             useFlexGap
             flexWrap="wrap"
-            sx={{ mb: 1.5 }}
+            sx={{ mb: 2 }}
           >
+            <Typography variant="h6" sx={{ m: 0 }}>
+              Estado de requisitos:
+            </Typography>
+
             <Chip
               label={
                 eligibility.checks?.matriculaPagada
@@ -558,9 +561,6 @@ export default function ExamenTeoricoAlumno() {
           <Typography>
             <strong>Fecha solicitud:</strong>{" "}
             {formatDate(selectedExam?.fechaSolicitud)}
-          </Typography>
-          <Typography>
-            <strong>Observaciones:</strong> {selectedExam?.observaciones || "-"}
           </Typography>
         </DialogContent>
         <DialogActions>

@@ -321,16 +321,19 @@ export default function ExamenPracticoAlumno() {
 
       {shouldShowRequirements && (
         <Paper sx={{ p: 2.5, mb: 3, border: "1px solid #e2e8f0" }}>
-          <Typography variant="h6" sx={{ mb: 1.5 }}>
-            Estado de requisitos
-          </Typography>
+          {/* Contenedor horizontal que junta el título y todos los chips */}
           <Stack
             direction="row"
-            spacing={1}
+            spacing={2}
+            alignItems="center"
             useFlexGap
             flexWrap="wrap"
-            sx={{ mb: 1.5 }}
+            sx={{ mb: 2 }}
           >
+            <Typography variant="h6" sx={{ m: 0 }}>
+              Estado de requisitos
+            </Typography>
+
             <Chip
               label={
                 eligibility.checks?.matriculaPagada
@@ -393,27 +396,27 @@ export default function ExamenPracticoAlumno() {
                 severity="info"
                 sx={{
                   mb: 1.5,
-                  alignItems: "center", // Centra verticalmente el icono, el texto y la acción
+                  alignItems: "center",
                   width: "100%",
                   "& .MuiAlert-message": {
                     width: "100%",
-                    padding: 0, // Elimina espaciados internos que puedan desalinear el texto
+                    padding: 0,
                   },
                   "& .MuiAlert-icon": {
-                    opacity: 1, // Asegura que el icono mantenga buena visibilidad
-                    marginRight: 1, // Controla la separación entre el icono y el texto
+                    opacity: 1,
+                    marginRight: 1,
                   },
                   "& .MuiAlert-action": {
                     padding: 0,
-                    marginLeft: "auto", // Asegura empujar el botón al extremo derecho
-                    paddingLeft: 2, // Añade separación para que el texto no toque el botón
+                    marginLeft: "auto",
+                    paddingLeft: 2,
                   },
                 }}
                 action={
                   <Button
                     size="small"
                     variant="contained"
-                    sx={{ whiteSpace: "nowrap" }} // Evita que el texto del botón se rompa en dos líneas
+                    sx={{ whiteSpace: "nowrap" }}
                     onClick={() =>
                       navigate(
                         `/pago-matricula?pagoId=${eligibility.pagoGastoPractico.id}`,

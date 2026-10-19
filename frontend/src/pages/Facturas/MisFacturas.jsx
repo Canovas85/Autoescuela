@@ -446,7 +446,7 @@ export default function MisFacturas() {
         <LicenseChip value={getRowLicencia(params.row)} />
       ),
     },
-    {
+    /*{
       field: "tipoClasePractica",
       headerName: "Tipo clase",
       width: 160,
@@ -459,7 +459,7 @@ export default function MisFacturas() {
 
         return <PracticalClassTypeChip value={params.value} />;
       },
-    },
+    },*/
     {
       field: "origen",
       headerName: "Origen",

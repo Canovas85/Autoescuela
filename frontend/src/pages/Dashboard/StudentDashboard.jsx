@@ -1248,7 +1248,7 @@ export default function StudentDashboard({ data }) {
                         )}
                       >
                         <ListItemText
-                          primary={`${formatDate(reserva.fecha)} · ${reserva.vehiculo?.matricula ?? "Sin vehículo"}`}
+                          primary={`${formatDate(reserva.fecha)} · ${reserva.vehiculo?.matricula ?? "Sin matrícula"} · ${reserva.vehiculo?.marca ?? "Sin marca"} ${reserva.vehiculo?.modelo ?? ""}`}
                           secondary={
                             <Stack
                               direction="row"

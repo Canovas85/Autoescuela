@@ -1024,12 +1024,6 @@ export default function ReservarClase() {
                                   label={typeChip.label}
                                   sx={{ height: 20, fontSize: 10 }}
                                 />
-                                <Chip
-                                  size="small"
-                                  color={statusChip.color}
-                                  label={statusChip.label}
-                                  sx={{ height: 20, fontSize: 10 }}
-                                />
                               </Stack>
 
                               <Stack sx={{ mt: 0.6 }}>
