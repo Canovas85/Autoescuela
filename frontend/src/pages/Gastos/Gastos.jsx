@@ -276,13 +276,13 @@ export default function Gastos() {
           spacing={1.25}
           alignItems={{ xs: "stretch", md: "center" }}
         >
-          <TextField
+          {/*<TextField
             size="small"
             label="Buscar alumno"
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             sx={{ width: { xs: "100%", md: 260 } }}
-          />
+          />*/}
 
           <FormControl size="small" sx={{ minWidth: 140 }}>
             <InputLabel>Licencia</InputLabel>

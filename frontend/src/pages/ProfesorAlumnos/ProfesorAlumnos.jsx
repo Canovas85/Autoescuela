@@ -542,14 +542,12 @@ export default function ProfesorAlumnos() {
                     label={`Nombre: ${detail?.perfil?.nombre || "-"}`}
                     sx={{
                       mt: 1,
-                      backgroundColor: "#fffbeb", // Color de fondo (puedes usar HEX, RGB o color de MUI)
-                      borderColor: "#facc15", // Color del borde
-                      borderRadius: "15px", // Radio del borde (bordes menos redondeados)
-                      borderWidth: "1px", // Grosor del borde (opcional)
-                      color: "#000", // Color del texto (opcional)
-                      "& .MuiChip-label": {
-                        // Estilos para el texto interno (opcional)
-                        fontWeight: "bold",
+                      backgroundColor: "#e3f2fd", // Fondo celeste suave de la imagen
+                      color: "#2c5270", // Texto azul oscuro/grisáceo
+                      borderColor: "#b3e5fc", // Borde suave a juego
+                      fontWeight: 500,
+                      "&:hover": {
+                        backgroundColor: "#e3f2fd", // Mantiene el color al pasar el mouse
                       },
                     }}
                   />
@@ -558,14 +556,12 @@ export default function ProfesorAlumnos() {
                     label={`Email: ${detail?.perfil?.email || "-"}`}
                     sx={{
                       mt: 1,
-                      backgroundColor: "#fffbeb", // Color de fondo (puedes usar HEX, RGB o color de MUI)
-                      borderColor: "#facc15", // Color del borde
-                      borderRadius: "15px", // Radio del borde (bordes menos redondeados)
-                      borderWidth: "1px", // Grosor del borde (opcional)
-                      color: "#000", // Color del texto (opcional)
-                      "& .MuiChip-label": {
-                        // Estilos para el texto interno (opcional)
-                        fontWeight: "bold",
+                      backgroundColor: "#e3f2fd", // Fondo celeste suave de la imagen
+                      color: "#2c5270", // Texto azul oscuro/grisáceo
+                      borderColor: "#b3e5fc", // Borde suave a juego
+                      fontWeight: 500,
+                      "&:hover": {
+                        backgroundColor: "#e3f2fd", // Mantiene el color al pasar el mouse
                       },
                     }}
                   />
@@ -574,14 +570,12 @@ export default function ProfesorAlumnos() {
                     label={`Teléfono: ${detail?.perfil?.telefono || "-"}`}
                     sx={{
                       mt: 1,
-                      backgroundColor: "#fffbeb", // Color de fondo (puedes usar HEX, RGB o color de MUI)
-                      borderColor: "#facc15", // Color del borde
-                      borderRadius: "15px", // Radio del borde (bordes menos redondeados)
-                      borderWidth: "1px", // Grosor del borde (opcional)
-                      color: "#000", // Color del texto (opcional)
-                      "& .MuiChip-label": {
-                        // Estilos para el texto interno (opcional)
-                        fontWeight: "bold",
+                      backgroundColor: "#e3f2fd", // Fondo celeste suave de la imagen
+                      color: "#2c5270", // Texto azul oscuro/grisáceo
+                      borderColor: "#b3e5fc", // Borde suave a juego
+                      fontWeight: 500,
+                      "&:hover": {
+                        backgroundColor: "#e3f2fd", // Mantiene el color al pasar el mouse
                       },
                     }}
                   />
@@ -590,14 +584,12 @@ export default function ProfesorAlumnos() {
                     label={`DNI: ${detail?.perfil?.dni || "-"}`}
                     sx={{
                       mt: 1,
-                      backgroundColor: "#fffbeb", // Color de fondo (puedes usar HEX, RGB o color de MUI)
-                      borderColor: "#facc15", // Color del borde
-                      borderRadius: "15px", // Radio del borde (bordes menos redondeados)
-                      borderWidth: "30px", // Grosor del borde (opcional)
-                      color: "#000", // Color del texto (opcional)
-                      "& .MuiChip-label": {
-                        // Estilos para el texto interno (opcional)
-                        fontWeight: "bold",
+                      backgroundColor: "#e3f2fd", // Fondo celeste suave de la imagen
+                      color: "#2c5270", // Texto azul oscuro/grisáceo
+                      borderColor: "#b3e5fc", // Borde suave a juego
+                      fontWeight: 500,
+                      "&:hover": {
+                        backgroundColor: "#e3f2fd", // Mantiene el color al pasar el mouse
                       },
                     }}
                   />
@@ -801,26 +793,28 @@ export default function ProfesorAlumnos() {
                     </Typography>
                     <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
                       <Chip
-                        color="success"
                         label={`Clases realizadas: ${detail?.practica?.clasesRealizadas ?? 0}`}
+                        sx={{
+                          backgroundColor: "#e8f5e9",
+                          color: "#2e7d32",
+                          borderColor: "#c8e6c9",
+                        }}
                       />
                       <Chip
-                        color="primary"
                         label={`Clases reservadas: ${detail?.practica?.clasesReservadas ?? 0}`}
+                        sx={{
+                          backgroundColor: "#e3f2fd",
+                          color: "#1565c0",
+                          borderColor: "#bbdefb",
+                        }}
                       />
                       <Chip
                         label={`Horas de práctica: ${detail?.practica?.horasCompletadasTexto || "0h 00min"}`}
                         variant="outlined" // Cambiado a 'outlined' para que el borde sea visible de forma nativa
                         sx={{
-                          backgroundColor: "#fffbeb", // Color de fondo (puedes usar HEX, RGB o color de MUI)
-                          borderColor: "#facc15", // Color del borde
-                          borderRadius: "15px", // Radio del borde (bordes menos redondeados)
-                          borderWidth: "1px", // Grosor del borde (opcional)
-                          color: "#ca8a04", // Color del texto (opcional)
-                          "& .MuiChip-label": {
-                            // Estilos para el texto interno (opcional)
-                            fontWeight: "bold",
-                          },
+                          backgroundColor: "#fff3e0", // Fondo naranja muy claro
+                          color: "#e65100", // Texto naranja oscuro
+                          borderColor: "#ffe0b2", // Borde naranja suave
                         }}
                       />
                     </Stack>

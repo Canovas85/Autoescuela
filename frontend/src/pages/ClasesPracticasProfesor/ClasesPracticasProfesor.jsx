@@ -397,55 +397,75 @@ export default function ClasesPracticasProfesor() {
 
       <Card>
         <CardContent>
-          <Typography variant="h6" fontWeight={800}>
-            Histórico reciente
-          </Typography>
-
           <Stack
-            direction={{ xs: "column", md: "row" }}
-            spacing={1.25}
-            sx={{ mt: 1.5, mb: 1 }}
+            direction={{ xs: "column", lg: "row" }}
+            alignItems={{ xs: "flex-start", lg: "flex-end" }} // Alinea la base de los filtros con el título abajo
+            justifyContent="flex-end" // Fuerza a todos los elementos a pegarse a la derecha del todo
+            spacing={2}
+            sx={{ mb: 1, width: "100%" }}
           >
-            <TextField
-              size="small"
-              label="Alumno"
-              value={historyStudentSearch}
-              onChange={(event) => setHistoryStudentSearch(event.target.value)}
-              sx={{ minWidth: { xs: "100%", md: 260 } }}
-            />
-            <TextField
-              size="small"
-              type="date"
-              label="Fecha desde"
-              InputLabelProps={{ shrink: true }}
-              value={historyDateFrom}
-              onChange={(event) => setHistoryDateFrom(event.target.value)}
+            {/* Título de la sección ajustado un poco más abajo */}
+            <Typography
+              variant="h6"
+              fontWeight={800}
               sx={{
-                minWidth: { xs: "100%", md: 185 },
-                // Oculta el placeholder interno nativo del navegador para evitar el solape
-                "& input::-webkit-datetime-edit-text, & input::-webkit-datetime-edit-month-field, & input::-webkit-datetime-edit-day-field, & input::-webkit-datetime-edit-year-field":
-                  {
-                    color: historyDateFrom ? "inherit" : "transparent",
-                  },
+                whiteSpace: "nowrap",
+                pt: 0.8, // Baja sutilmente el título para nivelarse con los inputs
+                mr: "auto", // Hace un efecto imán: empuja el título a la izquierda del todo y los filtros a la derecha del todo
               }}
-            />
+            >
+              Histórico reciente
+            </Typography>
 
-            <TextField
-              size="small"
-              type="date"
-              label="Fecha hasta"
-              InputLabelProps={{ shrink: true }}
-              value={historyDateTo}
-              onChange={(event) => setHistoryDateTo(event.target.value)}
+            {/* Bloque de Filtros de Búsqueda pegado al extremo derecho */}
+            <Stack
+              direction={{ xs: "column", md: "row" }}
+              spacing={1.25}
               sx={{
-                minWidth: { xs: "100%", md: 185 },
-                // Oculta el placeholder interno nativo del navegador para evitar el solape
-                "& input::-webkit-datetime-edit-text, & input::-webkit-datetime-edit-month-field, & input::-webkit-datetime-edit-day-field, & input::-webkit-datetime-edit-year-field":
-                  {
-                    color: historyDateTo ? "inherit" : "transparent",
-                  },
+                width: { xs: "100%", lg: "auto" },
               }}
-            />
+            >
+              <TextField
+                size="small"
+                label="Alumno"
+                value={historyStudentSearch}
+                onChange={(event) =>
+                  setHistoryStudentSearch(event.target.value)
+                }
+                sx={{ minWidth: { xs: "100%", md: 240 } }}
+              />
+              <TextField
+                size="small"
+                type="date"
+                label="Fecha desde"
+                InputLabelProps={{ shrink: true }}
+                value={historyDateFrom}
+                onChange={(event) => setHistoryDateFrom(event.target.value)}
+                sx={{
+                  minWidth: { xs: "100%", md: 170 },
+                  "& input::-webkit-datetime-edit-text, & input::-webkit-datetime-edit-month-field, & input::-webkit-datetime-edit-day-field, & input::-webkit-datetime-edit-year-field":
+                    {
+                      color: historyDateFrom ? "inherit" : "transparent",
+                    },
+                }}
+              />
+
+              <TextField
+                size="small"
+                type="date"
+                label="Fecha hasta"
+                InputLabelProps={{ shrink: true }}
+                value={historyDateTo}
+                onChange={(event) => setHistoryDateTo(event.target.value)}
+                sx={{
+                  minWidth: { xs: "100%", md: 170 },
+                  "& input::-webkit-datetime-edit-text, & input::-webkit-datetime-edit-month-field, & input::-webkit-datetime-edit-day-field, & input::-webkit-datetime-edit-year-field":
+                    {
+                      color: historyDateTo ? "inherit" : "transparent",
+                    },
+                }}
+              />
+            </Stack>
           </Stack>
 
           <Stack spacing={1} sx={{ mt: 1.5 }}>
@@ -456,7 +476,7 @@ export default function ClasesPracticasProfesor() {
             ) : (
               historicoFiltrado.slice(0, 12).map((item) => (
                 <Card key={item.id} variant="outlined">
-                  <CardContent sx={{ py: 1.5 }}>
+                  <CardContent sx={{ py: 1.5, mt: 2, mb: -1 }}>
                     <Stack
                       direction="row"
                       justifyContent="flex-start" // Alinea todos los elementos de izquierda a derecha

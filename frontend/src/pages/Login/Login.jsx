@@ -355,7 +355,7 @@ export default function Login() {
                         Ahora: {promotion.precioPromocional} €
                       </Typography>
 
-                      <Button
+                      {/*<Button
                         variant="contained"
                         sx={{
                           width: "fit-content",
@@ -366,7 +366,7 @@ export default function Login() {
                         }}
                       >
                         Ver promoción
-                      </Button>
+                      </Button>*/}
                     </Box>
                   </>
                 ) : (

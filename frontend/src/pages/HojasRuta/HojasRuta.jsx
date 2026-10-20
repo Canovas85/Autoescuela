@@ -415,7 +415,7 @@ function RoadmapDetail({
         </Box>
       </Stack>
 
-      <Card sx={{ ...statCardSx, width: 1018 }}>
+      <Card sx={{ ...statCardSx, width: "100%" }}>
         <CardContent>
           {value?.requiereRepostaje && !readonly ? (
             <Alert
@@ -434,121 +434,147 @@ function RoadmapDetail({
             </Alert>
           ) : null}
 
-          <Grid container spacing={2.25}>
-            <Grid item xs={12} md={4}>
-              <Stack
-                direction="row"
-                spacing={1.25}
-                alignItems="center"
-                sx={{ mt: 2 }}
-              >
-                <PersonIcon fontSize="small" />
-                <Box>
-                  <Typography color="text.secondary">Alumno</Typography>
-                  <Typography fontWeight={100}>
-                    {value.alumno?.nombre}
-                  </Typography>
-                </Box>
-              </Stack>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Stack
-                direction="row"
-                spacing={1.25}
-                alignItems="center"
-                sx={{ mt: 2 }}
-              >
-                <DirectionsCarIcon fontSize="small" />
-                <Box>
-                  <Typography color="text.secondary">Vehículo</Typography>
-                  <Typography fontWeight={700}>
-                    {value.vehiculo?.marca} {value.vehiculo?.modelo}{" "}
-                    {value.vehiculo?.matricula}
-                  </Typography>
-                </Box>
-              </Stack>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Stack
-                direction="row"
-                spacing={1.25}
-                alignItems="center"
-                sx={{ mt: 2 }}
-              >
-                <RouteIcon fontSize="small" />
-                <Box>
-                  <Typography color="text.secondary">Tipo clase</Typography>
-                  <PracticalClassTypeChip
-                    value={value?.tipoClasePractica || "CIRCULACION"}
-                  />
-                </Box>
-              </Stack>
-            </Grid>
-            <Grid item xs={12} md={2}>
-              <Stack
-                direction="row"
-                spacing={1.25}
-                alignItems="center"
-                sx={{ mt: 2 }}
-              >
-                <CalendarMonthIcon fontSize="small" />
-                <Box>
-                  <Typography color="text.secondary">Fecha</Typography>
-                  <Typography fontWeight={700}>
-                    {formatDate(value.fecha)}
-                  </Typography>
-                </Box>
-              </Stack>
-            </Grid>
-            <Grid item xs={12} md={2}>
-              <Stack
-                direction="row"
-                spacing={1.25}
-                alignItems="center"
-                sx={{ mt: 2 }}
-              >
-                <AccessTimeIcon fontSize="small" />
-                <Box>
-                  <Typography color="text.secondary">Hora inicio</Typography>
-                  <Typography fontWeight={700}>
-                    {formatTime(value.fecha)}
-                  </Typography>
-                </Box>
-              </Stack>
-            </Grid>
-            <Grid item xs={12} md={2}>
-              <Stack
-                direction="row"
-                spacing={1.25}
-                alignItems="center"
-                sx={{ mt: 2 }}
-              >
-                <AccessTimeIcon fontSize="small" />
-                <Box>
-                  <Typography color="text.secondary">Duración</Typography>
-                  <Typography fontWeight={700}>
-                    {value.duracion ? `${value.duracion} min` : "-"}
-                  </Typography>
-                </Box>
-              </Stack>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Stack
-                direction="row"
-                spacing={1.25}
-                alignItems="center"
-                sx={{ mt: 2 }}
-              >
-                <PersonIcon fontSize="small" />
-                <Box>
-                  <Typography color="text.secondary">Profesor</Typography>
-                  <Typography fontWeight={700}>
-                    {value.profesor?.nombre}
-                  </Typography>
-                </Box>
-              </Stack>
-            </Grid>
-          </Grid>
+          <Stack
+            direction="row"
+            spacing={5} // Define la separación lateral constante (entre 2 y 3)
+            alignItems="center"
+            justifyContent="flex-start" // Alineación consecutiva hacia la izquierda
+            sx={{
+              width: "100%",
+              mt: 2,
+              flexWrap: "nowrap !important", // Asegura que se mantenga en una sola línea
+              overflowX: "auto", // Añade scroll horizontal en caso de pantallas muy pequeñas
+            }}
+          >
+            {/* 1. Profesor */}
+            <Stack
+              direction="row"
+              spacing={1.25}
+              alignItems="center"
+              sx={{ flexShrink: 0 }}
+            >
+              <PersonIcon fontSize="small" />
+              <Box sx={{ whiteSpace: "nowrap" }}>
+                <Typography color="text.secondary" variant="body2">
+                  Profesor
+                </Typography>
+                <Typography fontWeight={700}>
+                  {value.profesor?.nombre}
+                </Typography>
+              </Box>
+            </Stack>
+
+            {/* 2. Alumno */}
+            <Stack
+              direction="row"
+              spacing={1.25}
+              alignItems="center"
+              sx={{ flexShrink: 0 }}
+            >
+              <PersonIcon fontSize="small" />
+              <Box sx={{ whiteSpace: "nowrap" }}>
+                <Typography color="text.secondary" variant="body2">
+                  Alumno
+                </Typography>
+                <Typography fontWeight={700}>
+                  {" "}
+                  {/* Corregido a 700 para mantener consistencia visual */}
+                  {value.alumno?.nombre}
+                </Typography>
+              </Box>
+            </Stack>
+
+            {/* 3. Vehículo */}
+            <Stack
+              direction="row"
+              spacing={1.25}
+              alignItems="center"
+              sx={{ flexShrink: 0 }}
+            >
+              <DirectionsCarIcon fontSize="small" />
+              <Box sx={{ whiteSpace: "nowrap" }}>
+                <Typography color="text.secondary" variant="body2">
+                  Vehículo
+                </Typography>
+                <Typography fontWeight={700}>
+                  {value.vehiculo?.marca} {value.vehiculo?.modelo}{" "}
+                  {value.vehiculo?.matricula}
+                </Typography>
+              </Box>
+            </Stack>
+
+            {/* 4. Tipo clase */}
+            <Stack
+              direction="row"
+              spacing={1.25}
+              alignItems="center"
+              sx={{ flexShrink: 0 }}
+            >
+              <RouteIcon fontSize="small" />
+              <Box sx={{ whiteSpace: "nowrap" }}>
+                <Typography color="text.secondary" variant="body2">
+                  Tipo clase
+                </Typography>
+                <PracticalClassTypeChip
+                  value={value?.tipoClasePractica || "CIRCULACION"}
+                />
+              </Box>
+            </Stack>
+
+            {/* 5. Fecha */}
+            <Stack
+              direction="row"
+              spacing={1.25}
+              alignItems="center"
+              sx={{ flexShrink: 0 }}
+            >
+              <CalendarMonthIcon fontSize="small" />
+              <Box sx={{ whiteSpace: "nowrap" }}>
+                <Typography color="text.secondary" variant="body2">
+                  Fecha
+                </Typography>
+                <Typography fontWeight={700}>
+                  {formatDate(value.fecha)}
+                </Typography>
+              </Box>
+            </Stack>
+
+            {/* 6. Hora inicio */}
+            <Stack
+              direction="row"
+              spacing={1.25}
+              alignItems="center"
+              sx={{ flexShrink: 0 }}
+            >
+              <AccessTimeIcon fontSize="small" />
+              <Box sx={{ whiteSpace: "nowrap" }}>
+                <Typography color="text.secondary" variant="body2">
+                  Hora inicio
+                </Typography>
+                <Typography fontWeight={700}>
+                  {formatTime(value.fecha)}
+                </Typography>
+              </Box>
+            </Stack>
+
+            {/* 7. Duración */}
+            <Stack
+              direction="row"
+              spacing={1.25}
+              alignItems="center"
+              sx={{ flexShrink: 0 }}
+            >
+              <AccessTimeIcon fontSize="small" />
+              <Box sx={{ whiteSpace: "nowrap" }}>
+                <Typography color="text.secondary" variant="body2">
+                  Duración
+                </Typography>
+                <Typography fontWeight={700}>
+                  {value.duracion ? `${value.duracion} min` : "-"}
+                </Typography>
+              </Box>
+            </Stack>
+          </Stack>
         </CardContent>
       </Card>
 
