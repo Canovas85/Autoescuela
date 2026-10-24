@@ -37,6 +37,11 @@ const service = new AlumnosService(
 );
 const controller = new AlumnosController(service);
 
+router.post(
+  "/public/register",
+  controller.createFromPublicRegister.bind(controller),
+);
+
 /**
  * @swagger
  * /api/alumnos:

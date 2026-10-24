@@ -254,6 +254,7 @@ export default function StudentDashboard({ data }) {
   const [temarioIndex, setTemarioIndex] = useState(0);
   const [selectedExam, setSelectedExam] = useState(null);
   const [openExamModal, setOpenExamModal] = useState(false);
+  const [showLicenseDetailView, setShowLicenseDetailView] = useState(false);
 
   if (!data) {
     return <p>Cargando dashboard...</p>;
@@ -301,6 +302,10 @@ export default function StudentDashboard({ data }) {
       : dgtMetrics.rachaActual?.tipo === "SUSPENSOS"
         ? `${dgtMetrics.rachaActual.cantidad} suspensos seguidos`
         : "Sin racha todavía";
+  const isLicenseObtained = progressChip?.codigo === "LICENCIA_OBTENIDA";
+  const obtainedLicenseCode =
+    perfil?.licenciaObtenidaPrincipal || perfil?.licenciasObtenidas?.[0] || "B";
+  const studentName = perfil?.nombre || "Alumno";
 
   const matriculaPendiente = resumen?.matricula === "PENDIENTE";
   const pagoTasaPendiente = Boolean(dgtMetrics.tasa21?.pagoPendiente);
@@ -369,8 +374,158 @@ export default function StudentDashboard({ data }) {
     navigate("/mis-pagos");
   };
 
+  if (isLicenseObtained && !showLicenseDetailView) {
+    return (
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+        <Box
+          sx={{
+            p: 3,
+            borderRadius: 1.5,
+            background:
+              "linear-gradient(135deg, rgba(15,23,42,1) 0%, rgba(30,64,175,1) 100%)",
+            color: "#fff",
+            boxShadow: "0 18px 40px rgba(15, 23, 42, 0.18)",
+          }}
+        >
+          <Box
+            display="flex"
+            flexWrap="wrap"
+            justifyContent="space-between"
+            alignItems="flex-start"
+            gap={2}
+          >
+            <Box>
+              <Typography variant="h4" fontWeight={900}>
+                Mi panel
+              </Typography>
+              <Typography
+                sx={{ mt: 1, maxWidth: 720, color: "rgba(255,255,255,0.88)" }}
+              >
+                Tu licencia ya fue obtenida. Pulsa sobre la tarjeta para ver el
+                detalle completo de tu historial.
+              </Typography>
+            </Box>
+
+            <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
+              <Chip
+                label={progressChip.label}
+                size="small"
+                onClick={() => setShowLicenseDetailView(true)}
+                sx={{
+                  backgroundColor: "#dcfce7",
+                  color: "#166534",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
+              />
+            </Stack>
+          </Box>
+        </Box>
+
+        <Box sx={{ maxWidth: 700, width: "100%" }}>
+          <Card
+            sx={{
+              borderRadius: 3,
+              border: "1px solid rgba(148, 163, 184, 0.18)",
+              boxShadow: "0 16px 34px rgba(15, 23, 42, 0.08)",
+              cursor: "pointer",
+              width: "100%",
+              margin: "0 auto 0 0", // Garantiza que se posicione a la izquierda en su contenedor padre externo
+            }}
+            onClick={() => setShowLicenseDetailView(true)}
+          >
+            <CardContent sx={{ p: 2 }}>
+              <Box
+                sx={{
+                  position: "relative",
+                  borderRadius: 2,
+                  overflow: "hidden",
+                  border: "1px solid #e2e8f0",
+                  width: "100%",
+                  maxWidth: "100%",
+                  aspectRatio: "4 / 3",
+                  backgroundColor: "#f8fafc",
+                }}
+              >
+                <Box
+                  component="img"
+                  src="/assets/branding/IMAGEN1.jpeg"
+                  alt="Certificado licencia obtenida"
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                    display: "block",
+                    objectFit: "contain",
+                  }}
+                />
+                <Typography
+                  sx={{
+                    position: "absolute",
+                    left: "50%",
+                    top: "44%",
+                    transform: "translate(-50%, -50%)",
+                    fontFamily:
+                      '"Brush Script MT", "Lucida Handwriting", cursive',
+                    fontSize: { xs: 24, md: 36 },
+                    fontWeight: 700,
+                    color: "#0f172a",
+                    textShadow: "0 1px 2px rgba(255,255,255,0.75)",
+                    whiteSpace: "nowrap",
+                    maxWidth: "85%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {studentName}
+                </Typography>
+                <Typography
+                  sx={{
+                    position: "absolute",
+                    left: "50%",
+                    top: "57.5%",
+                    transform: "translate(-50%, -50%)",
+                    color: "#ffffff",
+                    fontWeight: 900,
+                    fontSize: { xs: 26, md: 40 },
+                    letterSpacing: 0.5,
+                    textShadow: "0 5px 4px rgba(0,0,0,0.35)",
+                  }}
+                >
+                  {obtainedLicenseCode}
+                </Typography>
+              </Box>
+            </CardContent>
+          </Card>
+
+          {/* Texto informativo centrado debajo de la tarjeta */}
+          <Typography
+            variant="body2"
+            sx={{
+              textAlign: "center",
+              mt: 1.5, // Margen superior para separarlo de la tarjeta
+              fontWeight: 500,
+              color: "text.secondary", // Color sutil (puedes cambiarlo por el que prefieras)
+            }}
+          >
+            Certificado Licencia Obtenida
+          </Typography>
+        </Box>
+      </Box>
+    );
+  }
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+      {isLicenseObtained ? (
+        <Stack direction="row" justifyContent="flex-end">
+          <Button
+            variant="outlined"
+            onClick={() => setShowLicenseDetailView(false)}
+          >
+            Cerrar
+          </Button>
+        </Stack>
+      ) : null}
       {matriculaPendiente && (
         <Card
           sx={{
@@ -496,10 +651,16 @@ export default function StudentDashboard({ data }) {
             <Chip
               label={progressChip.label}
               size="small"
+              onClick={
+                isLicenseObtained
+                  ? () => setShowLicenseDetailView(true)
+                  : undefined
+              }
               sx={{
                 backgroundColor: progressChip.ok ? "#dcfce7" : "#fef3c7",
                 color: progressChip.ok ? "#166534" : "#92400e",
                 fontWeight: 700,
+                cursor: isLicenseObtained ? "pointer" : "default",
               }}
             />
             <Chip

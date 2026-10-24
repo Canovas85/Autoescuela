@@ -3,6 +3,13 @@ export class DashboardRepository {
     this.prisma = prisma;
   }
 
+  buildFacturaNumber(attempt = 0) {
+    const suffix = Math.floor(Math.random() * 10000)
+      .toString()
+      .padStart(4, "0");
+    return `FAC-${Date.now() + attempt}-${suffix}`;
+  }
+
   async countUsuariosByRoles(roles = []) {
     return this.prisma.usuario.count({
       where: {
@@ -265,6 +272,152 @@ export class DashboardRepository {
         tipo: "TASA_DGT_21",
       },
       orderBy: [{ fechaCreacion: "desc" }],
+    });
+  }
+
+  async getStudentPaidLicenses(userId) {
+    return this.prisma.matricula.findMany({
+      where: {
+        alumnoId: userId,
+        estado: "PAGADA",
+      },
+      select: {
+        licencia: true,
+        fechaPago: true,
+        fechaCreacion: true,
+      },
+      orderBy: [{ fechaPago: "desc" }, { fechaCreacion: "desc" }],
+    });
+  }
+
+  async getStudentNewLicenseContext(userId) {
+    return this.prisma.alumno.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        id: true,
+        tipoLicenciaObjetivo: true,
+        estadoExpediente: true,
+        fechaNacimiento: true,
+        usuario: {
+          select: {
+            id: true,
+            nombre: true,
+            email: true,
+            dni: true,
+          },
+        },
+        matriculas: {
+          select: {
+            id: true,
+            licencia: true,
+            estado: true,
+            fechaCreacion: true,
+            precioBase: true,
+            precioFinal: true,
+          },
+          orderBy: {
+            fechaCreacion: "desc",
+          },
+        },
+      },
+    });
+  }
+
+  async getPromotionsByLicense(licencia, now = new Date()) {
+    return this.prisma.promocion.findMany({
+      where: {
+        activa: true,
+        licenciasAplicables: {
+          has: licencia,
+        },
+        OR: [{ fechaInicio: null }, { fechaInicio: { lte: now } }],
+        AND: [{ OR: [{ fechaFin: null }, { fechaFin: { gte: now } }] }],
+      },
+      orderBy: {
+        fechaInicio: "desc",
+      },
+    });
+  }
+
+  async findTarifaByLicencia(licencia) {
+    return this.prisma.tarifaMatricula.findFirst({
+      where: {
+        licencia,
+        activa: true,
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
+  }
+
+  async createStudentNewLicenseEnrollment({
+    alumnoId,
+    licencia,
+    promocion,
+    precioBase,
+    precioFinal,
+  }) {
+    return this.prisma.$transaction(async (tx) => {
+      await tx.alumno.update({
+        where: {
+          id: alumnoId,
+        },
+        data: {
+          tipoLicenciaObjetivo: licencia,
+          estadoExpediente: "PENDIENTE_MATRICULA",
+        },
+      });
+
+      const matricula = await tx.matricula.create({
+        data: {
+          alumnoId,
+          licencia,
+          precioBase,
+          precioFinal,
+          promocionId: promocion?.id || null,
+          estado: "PENDIENTE",
+        },
+      });
+
+      const descuento = Math.max(
+        Number(precioBase || 0) - Number(precioFinal || 0),
+        0,
+      );
+      const concepto = promocion
+        ? `Matricula licencia ${licencia} - ${promocion.nombre}`
+        : `Matricula licencia ${licencia}`;
+
+      let attempt = 0;
+      let createdInvoice = false;
+
+      while (!createdInvoice && attempt < 3) {
+        try {
+          await tx.factura.create({
+            data: {
+              numero: this.buildFacturaNumber(attempt),
+              alumnoId,
+              matriculaId: matricula.id,
+              concepto,
+              baseImponible: precioBase,
+              descuento,
+              total: precioFinal,
+              estado: "EMITIDA",
+            },
+          });
+          createdInvoice = true;
+        } catch (error) {
+          if (error?.code !== "P2002" || attempt === 2) {
+            throw error;
+          }
+
+          attempt += 1;
+        }
+      }
+
+      return matricula;
     });
   }
 
@@ -1926,6 +2079,26 @@ export class DashboardRepository {
               },
               select: {
                 estado: true,
+              },
+            },
+          },
+        },
+        historialComoAnterior: {
+          select: {
+            alumnoId: true,
+            alumno: {
+              select: {
+                id: true,
+                solicitudesExamen: {
+                  where: {
+                    estado: {
+                      in: ["APTO", "NO_APTO"],
+                    },
+                  },
+                  select: {
+                    estado: true,
+                  },
+                },
               },
             },
           },

@@ -970,7 +970,25 @@ function RoadmapDetail({
                 >
                   Ejercicios Seleccionados
                 </Typography>
-                <Stack spacing={1}>
+                <Box
+                  sx={
+                    readonly
+                      ? {
+                          display: "grid",
+                          gridTemplateColumns: {
+                            xs: "1fr",
+                            sm: "repeat(2, minmax(0, 1fr))",
+                            md: "repeat(3, minmax(0, 1fr))",
+                          },
+                          gap: 1,
+                        }
+                      : {
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: 1,
+                        }
+                  }
+                >
                   {selectedExercises.length === 0 ? (
                     <Typography variant="body2" color="text.secondary">
                       No hay ejercicios seleccionados.
@@ -1007,7 +1025,7 @@ function RoadmapDetail({
                       </Paper>
                     ))
                   )}
-                </Stack>
+                </Box>
               </Paper>
             </Grid>
           </Grid>

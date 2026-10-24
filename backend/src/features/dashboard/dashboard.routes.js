@@ -132,6 +132,27 @@ router.get(
 );
 
 router.get(
+  "/student/new-license/context",
+  authenticate,
+  authorize("ALUMNO"),
+  controller.getStudentNewLicenseContext.bind(controller),
+);
+
+router.get(
+  "/student/new-license/promotions",
+  authenticate,
+  authorize("ALUMNO"),
+  controller.getStudentNewLicensePromotions.bind(controller),
+);
+
+router.post(
+  "/student/new-license",
+  authenticate,
+  authorize("ALUMNO"),
+  controller.createStudentNewLicenseEnrollment.bind(controller),
+);
+
+router.get(
   "/professor",
   authenticate,
   authorize("PROFESOR"),

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Alert,
   Box,
@@ -22,21 +22,19 @@ import {
   Stack,
   TextField,
   Typography,
-  Chip,
   LinearProgress,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import UndoIcon from "@mui/icons-material/Undo";
 import FactCheckIcon from "@mui/icons-material/FactCheck";
 import { vehiculosService } from "../../services/vehiculosService";
 import { LicenseChip } from "../../components/common/LicenseChip";
+import { StatusChip } from "../../components/common/StatusChip";
 
 import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
 
@@ -46,6 +44,13 @@ import Menu from "@mui/material/Menu";
 import { exportVehiculosExcel } from "../../utils/exportVehiculosExcel";
 
 import { exportVehiculosPdf } from "../../utils/exportVehiculosPdf";
+import { exportVehiculosTemplateExcel } from "../../utils/exportVehiculosTemplateExcel";
+import {
+  findMissingColumns,
+  parseBooleanCell,
+  parseDateCellToIso,
+  readExcelRows,
+} from "../../utils/excelImportUtils";
 
 const PERMISOS = ["B", "A1", "A2", "A", "C", "D", "E"];
 const TAMANO_MAXIMO_IMAGEN = 5 * 1024 * 1024;
@@ -110,6 +115,8 @@ export default function Vehiculos() {
   const [estadoFiltro, setEstadoFiltro] = useState("activos");
 
   const [exportAnchor, setExportAnchor] = useState(null);
+  const [importingExcel, setImportingExcel] = useState(false);
+  const importInputRef = useRef(null);
 
   const [nuevoVehiculo, setNuevoVehiculo] = useState({
     matricula: "",
@@ -665,29 +672,9 @@ export default function Vehiculos() {
       width: 160,
       renderCell: (params) =>
         params.row.itvPendiente ? (
-          <Chip label="Pendiente" color="warning" size="small" />
+          <StatusChip label="Pendiente" />
         ) : (
-          <Chip
-            label="Vigente"
-            sx={{
-              width: "fit-content",
-              backgroundColor: "#fffbeb", // Fondo original
-              borderColor: "#facc15", // Borde original
-              borderStyle: "solid",
-              borderRadius: "15px",
-              borderWidth: "2px",
-              color: "#ca8a04", // Texto original
-              "& .MuiChip-label": {
-                fontWeight: "bold",
-              },
-              // 👇 ESTO ES LO QUE DEBES AÑADIR PARA EL HOVER
-              "&:hover": {
-                backgroundColor: "#fef08a", // Fondo al pasar el ratón (un amarillo un poco más oscuro)
-                borderColor: "#eab308", // Borde al pasar el ratón (opcional)
-                color: "#854d0e", // Texto al pasar el ratón (opcional)
-              },
-            }}
-          />
+          <StatusChip label="Vigente" />
         ),
     },
     {
@@ -718,24 +705,8 @@ export default function Vehiculos() {
       headerName: "Estado",
       width: 130,
       renderCell: (params) => (
-        <Chip
+        <StatusChip
           label={(params.row.activo ?? true) ? "Activo" : "Inactivo"}
-          size="small"
-          sx={{
-            // 1. Estilos si está Activo
-            ...((params.row.activo ?? true) && {
-              backgroundColor: "#e8f5e9", // Fondo verde claro
-              color: "#2e7d32", // Texto verde oscuro
-              border: "1px solid #2e7d32", // Borde verde
-            }),
-            // 2. Estilos si está Inactivo
-            ...(!(params.row.activo ?? true) && {
-              backgroundColor: "#ffebee", // Fondo rojo claro
-              color: "#c62828", // Texto rojo oscuro
-              border: "1px solid #c62828", // Borde rojo
-            }),
-            fontWeight: "bold", // Estilo común para ambos estados (opcional)
-          }}
         />
       ),
     },
@@ -820,6 +791,98 @@ export default function Vehiculos() {
     closeExportMenu();
   };
 
+  const handleImportExcel = async (event) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    try {
+      setImportingExcel(true);
+
+      const rowsExcel = await readExcelRows(file);
+      const missingColumns = findMissingColumns(rowsExcel[0] || {}, [
+        "MATRICULA",
+        "MARCA",
+        "MODELO",
+        "TIPO_PERMISO",
+      ]);
+
+      if (missingColumns.length > 0) {
+        throw new Error(
+          `Faltan columnas obligatorias: ${missingColumns.join(", ")}.`,
+        );
+      }
+
+      const errores = [];
+      let procesados = 0;
+
+      for (let idx = 0; idx < rowsExcel.length; idx += 1) {
+        const row = rowsExcel[idx];
+        const rowIndex = idx + 2;
+
+        try {
+          const matricula = String(row.MATRICULA || "")
+            .trim()
+            .toUpperCase();
+          const payload = {
+            matricula,
+            marca: String(row.MARCA || "").trim(),
+            modelo: String(row.MODELO || "").trim(),
+            tipoPermiso: String(row.TIPO_PERMISO || "")
+              .trim()
+              .toUpperCase(),
+            fechaUltimaItv: parseDateCellToIso(row.FECHA_ULTIMA_ITV),
+            activo: parseBooleanCell(row.ACTIVO, true),
+          };
+
+          const existente = rows.find(
+            (item) =>
+              String(item?.matricula || "")
+                .trim()
+                .toUpperCase() === matricula,
+          );
+
+          const formData = formDataVehiculo(payload, null, false);
+
+          if (existente) {
+            await vehiculosService.update(existente.id, formData);
+          } else {
+            await vehiculosService.create(formData);
+          }
+
+          procesados += 1;
+        } catch (error) {
+          errores.push(`Fila ${rowIndex}: ${error.message}`);
+        }
+      }
+
+      await loadVehiculos();
+
+      setNotification({
+        open: true,
+        severity: errores.length > 0 ? "warning" : "success",
+        message:
+          errores.length > 0
+            ? `Importación parcial: ${procesados} procesados, ${errores.length} con error. Primer error: ${errores[0]}`
+            : `Importación completada: ${procesados} vehículo(s) procesado(s).`,
+      });
+    } catch (error) {
+      setNotification({
+        open: true,
+        severity: "error",
+        message: error?.message || "No se pudo importar el Excel.",
+      });
+    } finally {
+      setImportingExcel(false);
+
+      if (event.target) {
+        event.target.value = "";
+      }
+    }
+  };
+
   const readOnlyFieldSx = {
     "& .MuiInputBase-input": {
       cursor: "default",
@@ -844,11 +907,56 @@ export default function Vehiculos() {
 
       <Box sx={{ display: "flex", gap: 2, mb: 3, flexWrap: "wrap" }}>
         <Button
-          variant="contained"
+          variant="outlined" // Cambiado a outlined para mantener la coherencia del estilo transparente con bordes y letras de color
           onClick={() => {
             setEditingId(null);
             resetForm();
             setOpen(true);
+          }}
+          sx={{
+            fontWeight: 700,
+            letterSpacing: "1px",
+            textTransform: "uppercase",
+            borderRadius: "8px",
+            padding: "10px 24px",
+
+            // Texto y bordes en color azul oscuro profundo
+            color: "#1e3a8a",
+            borderColor: "#1e3a8a",
+            backgroundColor: "transparent",
+
+            // Triple sombra adaptada para relieve azul oscuro (borde inferior sólido + brillo sutil)
+            boxShadow: `
+      0px 4px 0px #172554, 
+      0px 8px 16px rgba(30, 58, 138, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+
+            // Suavizado de todas las animaciones físicas
+            transition: "all 0.15s ease-in-out",
+
+            "&:hover": {
+              // Al pasar el ratón, se activa un azul más vivo con un fondo sutilmente iluminado
+              color: "#2563eb",
+              borderColor: "#2563eb",
+              backgroundColor: "rgba(30, 58, 138, 0.04)",
+              boxShadow: `
+        0px 4px 0px #172554, 
+        0px 12px 20px rgba(37, 99, 235, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+              transform: "translateY(-1px)", // Se eleva ligeramente
+            },
+
+            "&:active": {
+              // Efecto mecánico físico de hundimiento al hacer clic (Relieve presionado)
+              boxShadow: `
+        0px 1px 0px #172554, 
+        0px 2px 4px rgba(30, 58, 138, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+              transform: "translateY(3px)", // Se desplaza hacia abajo exactamente el grosor del relieve anterior
+            },
           }}
         >
           Nuevo Vehículo
@@ -893,8 +1001,192 @@ export default function Vehiculos() {
           variant="outlined"
           startIcon={<DownloadIcon />}
           onClick={openExportMenu}
+          sx={{
+            fontWeight: 700,
+            letterSpacing: "1px",
+            textTransform: "uppercase",
+            borderRadius: "8px",
+            padding: "10px 24px",
+
+            // Texto, borde e icono base en color naranja oscuro
+            color: "#ea580c",
+            borderColor: "#ea580c",
+            backgroundColor: "transparent",
+
+            // Sombra de capas adaptada para relieve naranja (borde inferior sólido + brillo ambiental)
+            boxShadow: `
+              0px 4px 0px #c2410c, 
+              0px 8px 16px rgba(234, 88, 12, 0.15),
+              inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+            `,
+
+            // Transición suave para las animaciones físicas
+            transition: "all 0.15s ease-in-out",
+
+            // Sincroniza el icono de Material-UI para que herede el color del texto automáticamente
+            "& .MuiButton-startIcon": {
+              color: "inherit",
+            },
+
+            "&:hover": {
+              // Pasa a un tono naranja más vivo con un fondo sutilmente iluminado
+              color: "#f97316",
+              borderColor: "#f97316",
+              backgroundColor: "rgba(234, 88, 12, 0.04)",
+              boxShadow: `
+                0px 4px 0px #c2410c, 
+                0px 12px 20px rgba(249, 115, 22, 0.25),
+                inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+              `,
+              transform: "translateY(-1px)", // Se eleva ligeramente
+            },
+
+            "&:active": {
+              // Mecanismo físico de hundimiento real al hacer clic
+              boxShadow: `
+                0px 1px 0px #c2410c, 
+                0px 2px 4px rgba(234, 88, 12, 0.2),
+                inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+              `,
+              transform: "translateY(3px)", // Se desplaza hacia abajo el grosor exacto del relieve
+            },
+          }}
         >
           Exportar
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={exportVehiculosTemplateExcel}
+          sx={{
+            fontWeight: 700,
+            letterSpacing: "1px",
+            textTransform: "uppercase",
+            borderRadius: "8px",
+            padding: "10px 24px",
+
+            // FUERZA EL BORDE: Contorno completo en color morado vibrante
+            border: "1px solid",
+            borderColor: "#6d28d9 !important", // Morado principal
+            color: "#6d28d9",
+            backgroundColor: "transparent",
+
+            // Sombra de capas adaptada para relieve morado (borde inferior sólido + brillo ambiental)
+            boxShadow: `
+    0px 4px 0px #5b21b6, 
+    0px 8px 16px rgba(109, 40, 217, 0.15),
+    inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+  `,
+
+            // Transición suave para las animaciones físicas
+            transition: "all 0.15s ease-in-out",
+
+            // Sincroniza el icono de Material-UI para que herede el color del texto automáticamente
+            "& .MuiButton-startIcon": {
+              color: "inherit",
+            },
+
+            "&:hover": {
+              // Pasa a un tono morado más vivo con un fondo sutilmente iluminado
+              color: "#8b5cf6",
+              borderColor: "#8b5cf6 !important",
+              backgroundColor: "rgba(109, 40, 217, 0.04)",
+              boxShadow: `
+      0px 4px 0px #5b21b6, 
+      0px 12px 20px rgba(139, 92, 246, 0.25),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+    `,
+              transform: "translateY(-1px)", // Se eleva ligeramente
+            },
+
+            "&:active": {
+              // Mecanismo físico de hundimiento real al hacer clic
+              borderColor: "#6d28d9 !important",
+              boxShadow: `
+      0px 1px 0px #5b21b6, 
+      0px 2px 4px rgba(109, 40, 217, 0.2),
+      inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+    `,
+              transform: "translateY(3px)", // Se desplaza hacia abajo el grosor exacto del relieve
+            },
+          }}
+        >
+          Descargar plantilla
+        </Button>
+
+        <Button
+          variant="outlined"
+          component="label"
+          startIcon={<CloudUploadIcon />}
+          disabled={importingExcel}
+          sx={{
+            fontWeight: 700,
+            letterSpacing: "1px",
+            textTransform: "uppercase",
+            borderRadius: "8px",
+            padding: "10px 24px",
+            cursor: "pointer",
+
+            // Texto, borde e icono base en color verde
+            color: "#16a34a", // Tailwind green-600
+            borderColor: "#16a34a",
+            backgroundColor: "transparent",
+
+            // Sombra de capas adaptada para relieve verde (borde inferior sólido + brillo ambiental)
+            boxShadow: `
+      0px 4px 0px #15803d, 
+      0px 8px 16px rgba(22, 163, 74, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+
+            // Transición suave para las animaciones físicas
+            transition: "all 0.15s ease-in-out",
+
+            // Sincroniza el icono de Material-UI para que herede el color del texto automáticamente
+            "& .MuiButton-startIcon": {
+              color: "inherit",
+            },
+
+            "&:hover": {
+              // Pasa a un tono verde más vivo con un fondo sutilmente iluminado
+              color: "#15803d", // Tailwind green-700
+              borderColor: "#15803d",
+              backgroundColor: "rgba(22, 163, 74, 0.04)",
+              boxShadow: `
+        0px 4px 0px #15803d, 
+        0px 12px 20px rgba(21, 128, 61, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+              transform: "translateY(-1px)", // Se eleva ligeramente
+            },
+
+            "&:active": {
+              // Mecanismo físico de hundimiento real al hacer clic
+              boxShadow: `
+        0px 1px 0px #15803d, 
+        0px 2px 4px rgba(22, 163, 74, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+              transform: "translateY(3px)", // Se desplaza hacia abajo el grosor exacto del relieve
+            },
+
+            // Estilos cuando el botón está deshabilitado (importingExcel === true)
+            "&.Mui-disabled": {
+              boxShadow: "none",
+              transform: "none",
+              color: "#9ca3af",
+              borderColor: "#d1d5db",
+              backgroundColor: "#f3f4f6",
+            },
+          }}
+        >
+          {importingExcel ? "Importando..." : "Importar Excel"}
+          <input
+            ref={importInputRef}
+            hidden
+            type="file"
+            accept=".xlsx,.xls"
+            onChange={handleImportExcel}
+          />
         </Button>
 
         <Menu

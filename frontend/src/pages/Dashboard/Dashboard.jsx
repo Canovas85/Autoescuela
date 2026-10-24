@@ -682,6 +682,9 @@ function AdminDashboardView({ metrics }) {
                         Aprobados: {profesor.aprobados ?? 0}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
+                        Suspensos: {profesor.suspendidos ?? 0}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
                         Presentados: {profesor.totalTests ?? 0}
                       </Typography>
                     </CardContent>

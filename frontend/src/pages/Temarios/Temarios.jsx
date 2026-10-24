@@ -358,6 +358,53 @@ export default function Temarios() {
           variant="contained"
           startIcon={<AddIcon />}
           onClick={handleOpenCreate}
+          sx={{
+            fontWeight: 700,
+            letterSpacing: "1px",
+            textTransform: "uppercase",
+            borderRadius: "8px",
+            padding: "10px 24px",
+
+            // FUERZA EL BORDE: Define grosor, estilo y color explícitamente en todas las direcciones
+            border: "1px solid",
+            borderColor: "#1e3a8a !important",
+            color: "#1e3a8a",
+            backgroundColor: "transparent",
+
+            // Triple sombra adaptada para relieve azul oscuro (borde inferior sólido + brillo sutil)
+            boxShadow: `
+    0px 4px 0px #172554, 
+    0px 8px 16px rgba(30, 58, 138, 0.15),
+    inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+  `,
+
+            // Suavizado de todas las animaciones físicas
+            transition: "all 0.15s ease-in-out",
+
+            "&:hover": {
+              // Al pasar el ratón, se activa un azul más vivo con un fondo sutilmente iluminado
+              color: "#2563eb",
+              borderColor: "#2563eb !important", // Fuerza el cambio de color de todos los bordes en el hover
+              backgroundColor: "rgba(30, 58, 138, 0.04)",
+              boxShadow: `
+      0px 4px 0px #172554, 
+      0px 12px 20px rgba(37, 99, 235, 0.25),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+    `,
+              transform: "translateY(-1px)", // Se eleva ligeramente
+            },
+
+            "&:active": {
+              // Efecto mecánico físico de hundimiento al hacer clic (Relieve presionado)
+              borderColor: "#1e3a8a !important",
+              boxShadow: `
+      0px 1px 0px #172554, 
+      0px 2px 4px rgba(30, 58, 138, 0.2),
+      inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+    `,
+              transform: "translateY(3px)", // Se desplaza hacia abajo exactamente el grosor del relieve anterior
+            },
+          }}
         >
           Nuevo temario
         </Button>

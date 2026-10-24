@@ -244,6 +244,74 @@ describe("DashboardService", () => {
       horas: 120,
     });
   });
+  it("debe incluir alumnos históricos en el ranking de profesores", async () => {
+    const repositoryMock = {
+      getProfessorRanking: vi.fn().mockResolvedValue([
+        {
+          usuario: { nombre: "José Luis Arranz Mena" },
+          permisosLicencias: ["B"],
+          alumnosAsignados: [
+            {
+              id: "alumno-1",
+              solicitudesExamen: [{ estado: "NO_APTO" }, { estado: "NO_APTO" }],
+            },
+          ],
+          historialComoAnterior: [
+            {
+              alumnoId: "alumno-2",
+              alumno: {
+                id: "alumno-2",
+                solicitudesExamen: [{ estado: "APTO" }, { estado: "APTO" }],
+              },
+            },
+            {
+              alumnoId: "alumno-3",
+              alumno: {
+                id: "alumno-3",
+                solicitudesExamen: [
+                  { estado: "APTO" },
+                  { estado: "APTO" },
+                  { estado: "APTO" },
+                ],
+              },
+            },
+          ],
+        },
+        {
+          usuario: { nombre: "Profesor Secundario" },
+          permisosLicencias: ["C"],
+          alumnosAsignados: [
+            {
+              id: "alumno-4",
+              solicitudesExamen: [{ estado: "APTO" }],
+            },
+          ],
+          historialComoAnterior: [],
+        },
+      ]),
+    };
+
+    const service = new DashboardService(repositoryMock);
+
+    const result = await service.getProfessorRanking();
+
+    expect(result[0]).toMatchObject({
+      nombre: "Profesor Secundario",
+      totalTests: 1,
+      aprobados: 1,
+      suspendidos: 0,
+      porcentaje: 100,
+    });
+
+    expect(result[1]).toMatchObject({
+      nombre: "José Luis Arranz Mena",
+      totalTests: 7,
+      aprobados: 5,
+      suspendidos: 2,
+    });
+
+    expect(result[1].porcentaje).toBeCloseTo(71.43, 2);
+  });
   it("debe devolver el dashboard ejecutivo", async () => {
     const now = new Date("2026-10-08T10:00:00.000Z");
     const monthStart = new Date("2026-10-01T00:00:00.000Z");

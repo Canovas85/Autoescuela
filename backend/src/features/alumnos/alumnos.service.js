@@ -345,6 +345,23 @@ export class AlumnosService {
     return alumno;
   }
 
+  async createFromPublicRegister(data) {
+    return this.create(
+      {
+        nombre: data?.nombre,
+        email: data?.email,
+        telefono: data?.telefono,
+        dni: data?.dni,
+        fechaNacimiento: data?.fechaNacimiento,
+        tipoLicenciaObjetivo: data?.tipoLicenciaObjetivo || data?.tipoLicencia,
+        promocionId: data?.promocionId || null,
+        esEstudiante: Boolean(data?.esEstudiante),
+        password: "Password123",
+      },
+      {},
+    );
+  }
+
   async getEligiblePromotionsForEnrollment(data) {
     if (!this.promocionesRepository) {
       return [];

@@ -809,7 +809,7 @@ export default function Profesores() {
         }}
       >
         <Button
-          variant="contained"
+          variant="outlined" // Cambiado a outlined para mantener la coherencia del estilo transparente con bordes y letras de color
           onClick={() => {
             setEditingId(null);
 
@@ -827,6 +827,51 @@ export default function Profesores() {
             });
 
             setOpen(true);
+          }}
+          sx={{
+            fontWeight: 700,
+            letterSpacing: "1px",
+            textTransform: "uppercase",
+            borderRadius: "8px",
+            padding: "10px 24px",
+
+            // Texto y bordes en color azul oscuro profundo
+            color: "#1e3a8a",
+            borderColor: "#1e3a8a",
+            backgroundColor: "transparent",
+
+            // Triple sombra adaptada para relieve azul oscuro (borde inferior sólido + brillo sutil)
+            boxShadow: `
+      0px 4px 0px #172554, 
+      0px 8px 16px rgba(30, 58, 138, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+
+            // Suavizado de todas las animaciones físicas
+            transition: "all 0.15s ease-in-out",
+
+            "&:hover": {
+              // Al pasar el ratón, se activa un azul más vivo con un fondo sutilmente iluminado
+              color: "#2563eb",
+              borderColor: "#2563eb",
+              backgroundColor: "rgba(30, 58, 138, 0.04)",
+              boxShadow: `
+        0px 4px 0px #172554, 
+        0px 12px 20px rgba(37, 99, 235, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+              transform: "translateY(-1px)", // Se eleva ligeramente
+            },
+
+            "&:active": {
+              // Efecto mecánico físico de hundimiento al hacer clic (Relieve presionado)
+              boxShadow: `
+        0px 1px 0px #172554, 
+        0px 2px 4px rgba(30, 58, 138, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+              transform: "translateY(3px)", // Se desplaza hacia abajo exactamente el grosor del relieve anterior
+            },
           }}
         >
           Nuevo Profesor
@@ -874,6 +919,56 @@ export default function Profesores() {
           variant="outlined"
           startIcon={<DownloadIcon />}
           onClick={openExportMenu}
+          sx={{
+            fontWeight: 700,
+            letterSpacing: "1px",
+            textTransform: "uppercase",
+            borderRadius: "8px",
+            padding: "10px 24px",
+
+            // Texto, borde e icono base en color naranja oscuro
+            color: "#ea580c",
+            borderColor: "#ea580c",
+            backgroundColor: "transparent",
+
+            // Sombra de capas adaptada para relieve naranja (borde inferior sólido + brillo ambiental)
+            boxShadow: `
+      0px 4px 0px #c2410c, 
+      0px 8px 16px rgba(234, 88, 12, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+
+            // Transición suave para las animaciones físicas
+            transition: "all 0.15s ease-in-out",
+
+            // Sincroniza el icono de Material-UI para que herede el color del texto automáticamente
+            "& .MuiButton-startIcon": {
+              color: "inherit",
+            },
+
+            "&:hover": {
+              // Pasa a un tono naranja más vivo con un fondo sutilmente iluminado
+              color: "#f97316",
+              borderColor: "#f97316",
+              backgroundColor: "rgba(234, 88, 12, 0.04)",
+              boxShadow: `
+        0px 4px 0px #c2410c, 
+        0px 12px 20px rgba(249, 115, 22, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+              transform: "translateY(-1px)", // Se eleva ligeramente
+            },
+
+            "&:active": {
+              // Mecanismo físico de hundimiento real al hacer clic
+              boxShadow: `
+        0px 1px 0px #c2410c, 
+        0px 2px 4px rgba(234, 88, 12, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+              transform: "translateY(3px)", // Se desplaza hacia abajo el grosor exacto del relieve
+            },
+          }}
         >
           Exportar
         </Button>

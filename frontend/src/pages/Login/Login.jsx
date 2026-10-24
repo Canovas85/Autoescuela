@@ -76,6 +76,13 @@ export default function Login() {
     fechaNacimiento: "",
     licenciaObjetivo: "B",
   });
+  const [registerStep, setRegisterStep] = useState(1);
+  const [registerError, setRegisterError] = useState("");
+  const [registerLoading, setRegisterLoading] = useState(false);
+  const [registerPromotions, setRegisterPromotions] = useState([]);
+  const [selectedRegisterPromotionId, setSelectedRegisterPromotionId] =
+    useState("");
+  const [registerSuccess, setRegisterSuccess] = useState("");
 
   const [activePromotion, setActivePromotion] = useState(0);
 
@@ -174,6 +181,125 @@ export default function Login() {
     const letra = limpio.replace(/[0-9]/g, "").slice(0, 1);
 
     return `${numeros}${letra}`;
+  };
+
+  const isPromotionCurrent = (promo, now = new Date()) => {
+    const start = promo?.fechaInicio ? new Date(promo.fechaInicio) : null;
+    const end = promo?.fechaFin ? new Date(promo.fechaFin) : null;
+
+    const startOk = !start || start <= now;
+    const endOk = !end || end >= now;
+
+    return startOk && endOk;
+  };
+
+  const resetRegisterFlow = () => {
+    setRegisterStep(1);
+    setRegisterError("");
+    setRegisterLoading(false);
+    setRegisterPromotions([]);
+    setSelectedRegisterPromotionId("");
+    setRegisterSuccess("");
+    setRegisterForm({
+      nombre: "",
+      email: "",
+      telefono: "",
+      dni: "",
+      fechaNacimiento: "",
+      licenciaObjetivo: "B",
+    });
+  };
+
+  const validateRegisterStep1 = () => {
+    if (!registerForm.nombre?.trim()) {
+      return "El nombre es obligatorio";
+    }
+
+    const email = String(registerForm.email || "").trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return "El email no tiene un formato válido";
+    }
+
+    if (!/^\d{9}$/.test(String(registerForm.telefono || ""))) {
+      return "El teléfono debe tener exactamente 9 dígitos";
+    }
+
+    const dni = normalizarDniFormulario(registerForm.dni);
+    if (!/^\d{8}[A-Z]$/.test(dni)) {
+      return "El DNI debe tener formato 12345678A";
+    }
+
+    if (!registerForm.fechaNacimiento) {
+      return "La fecha de nacimiento es obligatoria";
+    }
+
+    if (!registerForm.licenciaObjetivo) {
+      return "La licencia objetivo es obligatoria";
+    }
+
+    return "";
+  };
+
+  const handleRegisterContinue = async () => {
+    const validationError = validateRegisterStep1();
+    setRegisterError("");
+
+    if (validationError) {
+      setRegisterError(validationError);
+      return;
+    }
+
+    setRegisterLoading(true);
+    try {
+      const response = await api.get("/promociones/public");
+      const now = new Date();
+      const promos = (Array.isArray(response.data) ? response.data : []).filter(
+        (promo) =>
+          promo?.activa === true &&
+          isPromotionCurrent(promo, now) &&
+          Array.isArray(promo?.licenciasAplicables) &&
+          promo.licenciasAplicables.includes(registerForm.licenciaObjetivo),
+      );
+      setRegisterPromotions(promos);
+      setSelectedRegisterPromotionId("");
+      setRegisterStep(2);
+    } catch (error) {
+      setRegisterError(
+        error.response?.data?.message ||
+          "No se pudieron cargar promociones para la licencia seleccionada",
+      );
+    } finally {
+      setRegisterLoading(false);
+    }
+  };
+
+  const handleRegisterFinish = async () => {
+    setRegisterError("");
+    setRegisterLoading(true);
+    try {
+      await api.post("/alumnos/public/register", {
+        nombre: registerForm.nombre.trim(),
+        email: registerForm.email.trim(),
+        telefono: registerForm.telefono,
+        dni: normalizarDniFormulario(registerForm.dni),
+        fechaNacimiento: registerForm.fechaNacimiento,
+        tipoLicenciaObjetivo: registerForm.licenciaObjetivo,
+        promocionId: selectedRegisterPromotionId || null,
+      });
+
+      setRegisterSuccess(
+        "Alta completada. Revisa tu correo y accede con tu email y contraseña provisional para realizar el cambio en el primer login.",
+      );
+      setRegisterStep(3);
+    } catch (error) {
+      setRegisterError(
+        error.response?.data?.message ||
+          "No se pudo completar el registro del alumno",
+      );
+    } finally {
+      setRegisterLoading(false);
+    }
   };
 
   const resetForgotPasswordState = () => {
@@ -553,13 +679,28 @@ export default function Login() {
 
       <Dialog
         open={openRegister}
-        onClose={() => setOpenRegister(false)}
+        onClose={() => {
+          setOpenRegister(false);
+          resetRegisterFlow();
+        }}
         fullWidth
-        maxWidth="md"
+        maxWidth="lg"
       >
         <DialogTitle>Registro de Alumno</DialogTitle>
 
         <DialogContent>
+          {registerError ? (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {registerError}
+            </Alert>
+          ) : null}
+
+          {registerSuccess ? (
+            <Alert severity="success" sx={{ mb: 2 }}>
+              {registerSuccess}
+            </Alert>
+          ) : null}
+
           <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
             Bienvenido a Autoescuela Eguzkilore. Completa la siguiente
             información para solicitar tu alta como alumno. Una vez validado el
@@ -567,119 +708,229 @@ export default function Login() {
             formación. La contraseña inicial será asignada automáticamente.
           </Typography>
 
-          <Box
-            sx={{
-              display: "grid",
-              gridTemplateColumns: {
-                xs: "1fr",
-                md: "1fr 1fr",
-              },
-              gap: 2,
-            }}
-          >
-            <TextField
-              label="Nombre"
-              fullWidth
-              value={registerForm.nombre}
-              onChange={(e) =>
-                setRegisterForm({
-                  ...registerForm,
-                  nombre: e.target.value,
-                })
-              }
-            />
-
-            <TextField
-              label="Email"
-              fullWidth
-              value={registerForm.email}
-              onChange={(e) =>
-                setRegisterForm({
-                  ...registerForm,
-                  email: e.target.value,
-                })
-              }
-            />
-
-            <TextField
-              label="Teléfono"
-              fullWidth
-              value={registerForm.telefono}
-              onChange={(e) =>
-                setRegisterForm({
-                  ...registerForm,
-                  telefono: e.target.value.replace(/\D/g, "").slice(0, 9),
-                })
-              }
-              helperText="Formato España: 9 dígitos"
-              inputProps={{
-                maxLength: 9,
-                inputMode: "numeric",
-                pattern: "[0-9]*",
-              }}
-            />
-
-            <TextField
-              label="DNI"
-              fullWidth
-              value={registerForm.dni}
-              onChange={(e) =>
-                setRegisterForm({
-                  ...registerForm,
-                  dni: e.target.value,
-                })
-              }
-            />
-
-            <TextField
-              label="Fecha de nacimiento"
-              type="date"
-              fullWidth
-              value={registerForm.fechaNacimiento}
-              onChange={(e) =>
-                setRegisterForm({
-                  ...registerForm,
-                  fechaNacimiento: e.target.value,
-                })
-              }
+          {registerStep === 1 ? (
+            <Box
               sx={{
-                "& input::-webkit-datetime-edit": {
-                  color: registerForm.fechaNacimiento
-                    ? "inherit"
-                    : "transparent",
+                display: "grid",
+                gridTemplateColumns: {
+                  xs: "1fr",
+                  md: "1fr 1fr",
                 },
+                gap: 2,
               }}
-            />
-
-            <FormControl fullWidth>
-              <InputLabel>Licencia objetivo</InputLabel>
-
-              <Select
-                label="Licencia objetivo"
-                value={registerForm.licenciaObjetivo}
+            >
+              <TextField
+                label="Nombre"
+                fullWidth
+                value={registerForm.nombre}
                 onChange={(e) =>
                   setRegisterForm({
                     ...registerForm,
-                    licenciaObjetivo: e.target.value,
+                    nombre: e.target.value,
                   })
                 }
-              >
-                <MenuItem value="B">B - Turismo</MenuItem>
-                <MenuItem value="A1">A1 - Motocicletas</MenuItem>
-                <MenuItem value="A2">A2 - Motocicletas</MenuItem>
-                <MenuItem value="A">A - Motocicletas</MenuItem>
-                <MenuItem value="C">C - Camión</MenuItem>
-                <MenuItem value="D">D - Autobús</MenuItem>
-                <MenuItem value="E">E - Remolques</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
+              />
+
+              <TextField
+                label="Email"
+                fullWidth
+                value={registerForm.email}
+                onChange={(e) =>
+                  setRegisterForm({
+                    ...registerForm,
+                    email: e.target.value,
+                  })
+                }
+              />
+
+              <TextField
+                label="Teléfono"
+                fullWidth
+                value={registerForm.telefono}
+                onChange={(e) =>
+                  setRegisterForm({
+                    ...registerForm,
+                    telefono: e.target.value.replace(/\D/g, "").slice(0, 9),
+                  })
+                }
+                helperText="Formato España: 9 dígitos"
+                inputProps={{
+                  maxLength: 9,
+                  inputMode: "numeric",
+                  pattern: "[0-9]*",
+                }}
+              />
+
+              <TextField
+                label="DNI"
+                fullWidth
+                value={registerForm.dni}
+                onChange={(e) =>
+                  setRegisterForm({
+                    ...registerForm,
+                    dni: normalizarDniFormulario(e.target.value),
+                  })
+                }
+                inputProps={{ maxLength: 9 }}
+              />
+
+              <TextField
+                label="Fecha de nacimiento"
+                type="date"
+                fullWidth
+                value={registerForm.fechaNacimiento}
+                onChange={(e) =>
+                  setRegisterForm({
+                    ...registerForm,
+                    fechaNacimiento: e.target.value,
+                  })
+                }
+                sx={{
+                  "& input::-webkit-datetime-edit": {
+                    color: registerForm.fechaNacimiento
+                      ? "inherit"
+                      : "transparent",
+                  },
+                }}
+              />
+
+              <FormControl fullWidth>
+                <InputLabel>Licencia objetivo</InputLabel>
+
+                <Select
+                  label="Licencia objetivo"
+                  value={registerForm.licenciaObjetivo}
+                  onChange={(e) =>
+                    setRegisterForm({
+                      ...registerForm,
+                      licenciaObjetivo: e.target.value,
+                    })
+                  }
+                >
+                  <MenuItem value="B">B - Turismo</MenuItem>
+                  <MenuItem value="A1">A1 - Motocicletas</MenuItem>
+                  <MenuItem value="A2">A2 - Motocicletas</MenuItem>
+                  <MenuItem value="A">A - Motocicletas</MenuItem>
+                  <MenuItem value="C">C - Camión</MenuItem>
+                  <MenuItem value="D">D - Autobús</MenuItem>
+                  <MenuItem value="E">E - Remolques</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+          ) : null}
+
+          {registerStep === 2 ? (
+            <Box sx={{ display: "grid", gap: 2 }}>
+              <Card variant="outlined">
+                <CardContent>
+                  <Typography variant="subtitle1" fontWeight={700}>
+                    Resumen de alta
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {registerForm.nombre} · {registerForm.email}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    DNI: {normalizarDniFormulario(registerForm.dni)} · Teléfono:{" "}
+                    {registerForm.telefono}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Licencia seleccionada: {registerForm.licenciaObjetivo}
+                  </Typography>
+                </CardContent>
+              </Card>
+
+              <Typography variant="subtitle1" fontWeight={700}>
+                Selecciona promoción (opcional)
+              </Typography>
+
+              {registerPromotions.length === 0 ? (
+                <Alert severity="info">
+                  No hay promociones vigentes para esta licencia.
+                </Alert>
+              ) : (
+                <Box
+                  sx={{
+                    display: "grid",
+                    gap: 1.5,
+                    maxHeight: 360,
+                    overflowY: "auto",
+                  }}
+                >
+                  {registerPromotions.map((promo) => {
+                    const selected = selectedRegisterPromotionId === promo.id;
+                    return (
+                      <Card
+                        key={promo.id}
+                        variant="outlined"
+                        onClick={() => setSelectedRegisterPromotionId(promo.id)}
+                        sx={{
+                          cursor: "pointer",
+                          borderWidth: selected ? 3 : 1,
+                          borderColor: selected ? "#facc15" : "divider",
+                          boxShadow: selected
+                            ? "0 0 0 2px rgba(250, 204, 21, 0.45)"
+                            : "none",
+                          backgroundColor: selected ? "#fffbeb" : "#fff",
+                        }}
+                      >
+                        <CardContent>
+                          <Typography variant="subtitle1" fontWeight={700}>
+                            {promo.nombre}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            {promo.descripcion || "Promoción activa"}
+                          </Typography>
+                          <Typography variant="body2" sx={{ mt: 1 }}>
+                            Precio:{" "}
+                            {Number(promo.precioPromocional || 0).toFixed(2)}{" "}
+                            EUR
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </Box>
+              )}
+            </Box>
+          ) : null}
+
+          {registerStep === 3 ? (
+            <Alert severity="success">
+              Registro completado correctamente. Ya puedes cerrar este modal e
+              iniciar sesión cuando recibas el correo de alta.
+            </Alert>
+          ) : null}
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={() => setOpenRegister(false)}>Cancelar</Button>
+          <Button
+            onClick={() => {
+              setOpenRegister(false);
+              resetRegisterFlow();
+            }}
+          >
+            Cancelar
+          </Button>
 
-          <Button variant="contained">Guardar</Button>
+          {registerStep === 1 ? (
+            <Button
+              variant="contained"
+              onClick={handleRegisterContinue}
+              disabled={registerLoading}
+            >
+              {registerLoading ? "Validando..." : "Guardar"}
+            </Button>
+          ) : null}
+
+          {registerStep === 2 ? (
+            <Button
+              variant="contained"
+              onClick={handleRegisterFinish}
+              disabled={registerLoading}
+            >
+              {registerLoading ? "Finalizando..." : "Finalizar"}
+            </Button>
+          ) : null}
         </DialogActions>
       </Dialog>
 

@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import crypto from "node:crypto";
 
 import prisma from "../src/config/prisma.js";
 
@@ -48,16 +49,24 @@ async function upsertUsuario({
 }
 
 async function main() {
+  const adminSeedPassword =
+    process.env.SEED_ADMIN_PASSWORD || crypto.randomBytes(24).toString("hex");
+  const profesorSeedPassword =
+    process.env.SEED_PROFESOR_PASSWORD ||
+    crypto.randomBytes(24).toString("hex");
+  const alumnoSeedPassword =
+    process.env.SEED_ALUMNO_PASSWORD || crypto.randomBytes(24).toString("hex");
+
   const adminPasswordHash = await bcrypt.hash(
-    "Admin1234",
+    adminSeedPassword,
     PASSWORD_HASH_ROUNDS,
   );
   const profesorPasswordHash = await bcrypt.hash(
-    "Profesor1234",
+    profesorSeedPassword,
     PASSWORD_HASH_ROUNDS,
   );
   const alumnoPasswordHash = await bcrypt.hash(
-    "Alumno1234",
+    alumnoSeedPassword,
     PASSWORD_HASH_ROUNDS,
   );
 

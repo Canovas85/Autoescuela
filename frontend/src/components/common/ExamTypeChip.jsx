@@ -1,4 +1,5 @@
 import { Chip } from "@mui/material";
+import { getExamTypeChipPalette } from "../../theme/chipPalette";
 
 const EXAM_TYPE_LABELS = {
   TEORICO: "Teórico",
@@ -8,6 +9,7 @@ const EXAM_TYPE_LABELS = {
 export function ExamTypeChip({ value, size = "small" }) {
   const key = String(value || "").toUpperCase();
   const label = EXAM_TYPE_LABELS[key] || key || "-";
+  const palette = getExamTypeChipPalette(key);
 
   return (
     <Chip
@@ -15,9 +17,9 @@ export function ExamTypeChip({ value, size = "small" }) {
       label={label}
       sx={{
         fontWeight: 700,
-        backgroundColor: key === "PRACTICO" ? "#ffedd5" : "#dbeafe", // Fondo: Naranja claro / Azul claro
-        color: key === "PRACTICO" ? "#c2410c" : "#1e40af", // Texto: Naranja oscuro / Azul oscuro
-        border: key === "PRACTICO" ? "2px solid #fed7aa" : "2px solid #93c5fd", // Borde: Naranja / Azul
+        backgroundColor: palette.bg,
+        color: palette.text,
+        border: `2px solid ${palette.border}`,
       }}
     />
   );

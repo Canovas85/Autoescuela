@@ -764,8 +764,63 @@ export default function TestDGTAdmin() {
             la preparación del examen teórico.
           </Typography>
         </Box>
-
+      </Box>
+      <Box sx={{ mb: 2 }}>
         <Stack direction="row" spacing={1.5} useFlexGap flexWrap="wrap">
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={handleOpenCreate}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "10px 24px",
+
+              // FUERZA EL BORDE: Define grosor, estilo y color explícitamente en todas las direcciones
+              border: "1px solid",
+              borderColor: "#1e3a8a !important",
+              color: "#1e3a8a",
+              backgroundColor: "transparent",
+
+              // Triple sombra adaptada para relieve azul oscuro (borde inferior sólido + brillo sutil)
+              boxShadow: `
+    0px 4px 0px #172554, 
+    0px 8px 16px rgba(30, 58, 138, 0.15),
+    inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+  `,
+
+              // Suavizado de todas las animaciones físicas
+              transition: "all 0.15s ease-in-out",
+
+              "&:hover": {
+                // Al pasar el ratón, se activa un azul más vivo con un fondo sutilmente iluminado
+                color: "#2563eb",
+                borderColor: "#2563eb !important", // Fuerza el cambio de color de todos los bordes en el hover
+                backgroundColor: "rgba(30, 58, 138, 0.04)",
+                boxShadow: `
+      0px 4px 0px #172554, 
+      0px 12px 20px rgba(37, 99, 235, 0.25),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+    `,
+                transform: "translateY(-1px)", // Se eleva ligeramente
+              },
+
+              "&:active": {
+                // Efecto mecánico físico de hundimiento al hacer clic (Relieve presionado)
+                borderColor: "#1e3a8a !important",
+                boxShadow: `
+      0px 1px 0px #172554, 
+      0px 2px 4px rgba(30, 58, 138, 0.2),
+      inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+    `,
+                transform: "translateY(3px)", // Se desplaza hacia abajo exactamente el grosor del relieve anterior
+              },
+            }}
+          >
+            Nueva pregunta
+          </Button>
           <FormControl size="small" sx={{ minWidth: 220 }}>
             <Select
               value={licenciaFiltro}
@@ -780,14 +835,130 @@ export default function TestDGTAdmin() {
             </Select>
           </FormControl>
 
-          <Button variant="outlined" onClick={exportPreguntasDGTTemplateExcel}>
-            Descargar plantilla Excel
+          <Button
+            variant="outlined"
+            onClick={exportPreguntasDGTTemplateExcel}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "10px 24px",
+
+              // FUERZA EL BORDE: Contorno completo en color morado vibrante
+              border: "1px solid",
+              borderColor: "#6d28d9 !important", // Morado principal
+              color: "#6d28d9",
+              backgroundColor: "transparent",
+
+              // Sombra de capas adaptada para relieve morado (borde inferior sólido + brillo ambiental)
+              boxShadow: `
+                0px 4px 0px #5b21b6, 
+                0px 8px 16px rgba(109, 40, 217, 0.15),
+                inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+              `,
+
+              // Transición suave para las animaciones físicas
+              transition: "all 0.15s ease-in-out",
+
+              // Sincroniza el icono de Material-UI para que herede el color del texto automáticamente
+              "& .MuiButton-startIcon": {
+                color: "inherit",
+              },
+
+              "&:hover": {
+                // Pasa a un tono morado más vivo con un fondo sutilmente iluminado
+                color: "#8b5cf6",
+                borderColor: "#8b5cf6 !important",
+                backgroundColor: "rgba(109, 40, 217, 0.04)",
+                boxShadow: `
+                  0px 4px 0px #5b21b6, 
+                  0px 12px 20px rgba(139, 92, 246, 0.25),
+                  inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+                `,
+                transform: "translateY(-1px)", // Se eleva ligeramente
+              },
+
+              "&:active": {
+                // Mecanismo físico de hundimiento real al hacer clic
+                borderColor: "#6d28d9 !important",
+                boxShadow: `
+                  0px 1px 0px #5b21b6, 
+                  0px 2px 4px rgba(109, 40, 217, 0.2),
+                  inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+                `,
+                transform: "translateY(3px)", // Se desplaza hacia abajo el grosor exacto del relieve
+              },
+            }}
+          >
+            Descargar plantilla
           </Button>
 
           <Button
             variant="outlined"
             component="label"
+            startIcon={<CloudUploadIcon />}
             disabled={importingExcel}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "10px 24px",
+              cursor: "pointer",
+
+              // Texto, borde e icono base en color verde
+              color: "#16a34a", // Tailwind green-600
+              borderColor: "#16a34a",
+              backgroundColor: "transparent",
+
+              // Sombra de capas adaptada para relieve verde (borde inferior sólido + brillo ambiental)
+              boxShadow: `
+      0px 4px 0px #15803d, 
+      0px 8px 16px rgba(22, 163, 74, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+
+              // Transición suave para las animaciones físicas
+              transition: "all 0.15s ease-in-out",
+
+              // Sincroniza el icono de Material-UI para que herede el color del texto automáticamente
+              "& .MuiButton-startIcon": {
+                color: "inherit",
+              },
+
+              "&:hover": {
+                // Pasa a un tono verde más vivo con un fondo sutilmente iluminado
+                color: "#15803d", // Tailwind green-700
+                borderColor: "#15803d",
+                backgroundColor: "rgba(22, 163, 74, 0.04)",
+                boxShadow: `
+        0px 4px 0px #15803d, 
+        0px 12px 20px rgba(21, 128, 61, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                transform: "translateY(-1px)", // Se eleva ligeramente
+              },
+
+              "&:active": {
+                // Mecanismo físico de hundimiento real al hacer clic
+                boxShadow: `
+        0px 1px 0px #15803d, 
+        0px 2px 4px rgba(22, 163, 74, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                transform: "translateY(3px)", // Se desplaza hacia abajo el grosor exacto del relieve
+              },
+
+              // Estilos cuando el botón está deshabilitado (importingExcel === true)
+              "&.Mui-disabled": {
+                boxShadow: "none",
+                transform: "none",
+                color: "#9ca3af",
+                borderColor: "#d1d5db",
+                backgroundColor: "#f3f4f6",
+              },
+            }}
           >
             {importingExcel ? "Importando..." : "Importar Excel"}
             <input
@@ -797,14 +968,6 @@ export default function TestDGTAdmin() {
               accept=".xlsx,.xls"
               onChange={handleImportExcel}
             />
-          </Button>
-
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            onClick={handleOpenCreate}
-          >
-            Nueva pregunta
           </Button>
         </Stack>
       </Box>

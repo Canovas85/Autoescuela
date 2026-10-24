@@ -19,6 +19,19 @@ export class AlumnosController {
     }
   }
 
+  async createFromPublicRegister(req, res) {
+    try {
+      const alumno = await this.service.createFromPublicRegister(
+        req.body || {},
+      );
+      return res.status(201).json(alumno);
+    } catch (error) {
+      return res.status(400).json({
+        message: error.message,
+      });
+    }
+  }
+
   async getAll(req, res) {
     const alumnos = await this.service.getAll();
 

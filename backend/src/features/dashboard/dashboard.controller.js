@@ -37,6 +37,39 @@ export class DashboardController {
     return res.status(200).json(metrics);
   }
 
+  async getStudentNewLicenseContext(req, res) {
+    try {
+      const data = await this.service.getStudentNewLicenseContext(req.user?.id);
+      return res.status(200).json(data);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  }
+
+  async getStudentNewLicensePromotions(req, res) {
+    try {
+      const data = await this.service.getStudentNewLicensePromotions(
+        req.user?.id,
+        req.query?.licenciaObjetivo,
+      );
+      return res.status(200).json(data);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  }
+
+  async createStudentNewLicenseEnrollment(req, res) {
+    try {
+      const data = await this.service.createStudentNewLicenseEnrollment(
+        req.user?.id,
+        req.body || {},
+      );
+      return res.status(201).json(data);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  }
+
   async getProfessorDashboard(req, res) {
     const metrics = await this.service.getProfessorDashboard(req.user?.id);
 

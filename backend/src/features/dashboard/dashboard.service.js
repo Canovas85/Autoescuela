@@ -12,6 +12,19 @@ import {
 
 const PROFESSOR_FIRST_ACCESS_SCHEDULE_NOTIFICATION_TYPE =
   "PROFESOR_CONFIGURAR_HORARIO";
+const LICENCIAS_PERMITIDAS = ["B", "A1", "A2", "A", "C", "D", "E"];
+const ESTADOS_EXPEDIENTE_ACTIVOS_NUEVA_LICENCIA = new Set([
+  "ESTUDIANDO_TEORICO",
+  "PENDIENTE_EXAMEN_TEORICO",
+  "TEORICO_APROBADO",
+  "REALIZANDO_CLASES_PRACTICAS_CIRCULACION",
+  "PENDIENTE_EXAMEN_PRACTICO_CIRCULACION",
+  "PRACTICO_CIRCULACION_APROBADO",
+  "REALIZANDO_CLASES_PRACTICAS_PISTA",
+  "PENDIENTE_EXAMEN_PRACTICO_PISTA",
+  "PRACTICO_PISTA_APROBADO",
+  "PRACTICO_APROBADO",
+]);
 
 const getPracticalExamTypeCode = ({ licencia, fasePractica }) => {
   if (!usesDualPracticalPhaseByLicense(licencia)) {
@@ -337,7 +350,12 @@ export class DashboardService {
       }
     }
 
-    const dashboard = await this.repository.getStudentDashboard(userId);
+    const [dashboard, licenciasPagadas] = await Promise.all([
+      this.repository.getStudentDashboard(userId),
+      typeof this.repository.getStudentPaidLicenses === "function"
+        ? this.repository.getStudentPaidLicenses(userId)
+        : Promise.resolve([]),
+    ]);
 
     if (!dashboard.profile || !dashboard.profile.alumno) {
       throw new Error("Alumno no encontrado");
@@ -578,6 +596,18 @@ export class DashboardService {
     }
 
     const matriculaActual = dashboard.profile.alumno.matriculas?.[0] ?? null;
+    const licenciasObtenidas = [
+      ...new Set(
+        (licenciasPagadas || [])
+          .map((item) =>
+            String(item?.licencia || "")
+              .trim()
+              .toUpperCase(),
+          )
+          .filter(Boolean),
+      ),
+    ];
+    const licenciaObtenidaPrincipal = licenciasObtenidas[0] || null;
 
     const matriculaPagada = matriculaActual?.estado === "PAGADA";
 
@@ -602,6 +632,9 @@ export class DashboardService {
         rol: dashboard.profile.rol,
         activo: dashboard.profile.alumno.activo,
         tipoLicenciaObjetivo: dashboard.profile.alumno.tipoLicenciaObjetivo,
+        licenciasObtenidas,
+        licenciaObtenidaPrincipal,
+        licenciaObtenidaAt: dashboard.profile.alumno.licenciaObtenidaAt || null,
         horasPracticasCompletadas:
           dashboard.profile.alumno.horasPracticasCompletadas,
         matriculaPagada: matriculaPagada,
@@ -700,6 +733,150 @@ export class DashboardService {
         porcentajeAprobado,
         pagoTasaPendiente: Boolean(pagoDgtPendiente),
       },
+    };
+  }
+
+  async getStudentNewLicenseContext(userId) {
+    const alumno = await this.repository.getStudentNewLicenseContext(userId);
+
+    if (!alumno) {
+      throw new Error("Alumno no encontrado");
+    }
+
+    const licenciasObtenidas = [
+      ...new Set(
+        (alumno.matriculas || [])
+          .filter((matricula) => matricula.estado === "PAGADA")
+          .map((matricula) =>
+            String(matricula.licencia || "")
+              .trim()
+              .toUpperCase(),
+          )
+          .filter(Boolean),
+      ),
+    ];
+
+    const licenciasDisponibles = LICENCIAS_PERMITIDAS.filter(
+      (licencia) => !licenciasObtenidas.includes(licencia),
+    );
+
+    return {
+      alumno: {
+        id: alumno.id,
+        nombre: alumno.usuario?.nombre || "Alumno",
+        email: alumno.usuario?.email || "",
+        dni: alumno.usuario?.dni || "",
+        fechaNacimiento: alumno.fechaNacimiento,
+        estadoExpediente: alumno.estadoExpediente,
+      },
+      licenciasObtenidas,
+      licenciasDisponibles,
+    };
+  }
+
+  async getStudentNewLicensePromotions(userId, licenciaObjetivo) {
+    const context = await this.getStudentNewLicenseContext(userId);
+    const licencia = String(licenciaObjetivo || "")
+      .trim()
+      .toUpperCase();
+
+    if (!LICENCIAS_PERMITIDAS.includes(licencia)) {
+      throw new Error("La licencia objetivo no es válida");
+    }
+
+    if (!context.licenciasDisponibles.includes(licencia)) {
+      throw new Error("La licencia seleccionada ya fue obtenida anteriormente");
+    }
+
+    return this.repository.getPromotionsByLicense(licencia, new Date());
+  }
+
+  async createStudentNewLicenseEnrollment(userId, payload = {}) {
+    const licencia = String(payload?.licenciaObjetivo || "")
+      .trim()
+      .toUpperCase();
+
+    if (!LICENCIAS_PERMITIDAS.includes(licencia)) {
+      throw new Error("La licencia objetivo no es válida");
+    }
+
+    const context = await this.repository.getStudentNewLicenseContext(userId);
+
+    if (!context) {
+      throw new Error("Alumno no encontrado");
+    }
+
+    const estadoActual = String(context.estadoExpediente || "").toUpperCase();
+    if (ESTADOS_EXPEDIENTE_ACTIVOS_NUEVA_LICENCIA.has(estadoActual)) {
+      throw new Error(
+        "Ya existe un expediente activo. No se puede crear una nueva licencia todavía.",
+      );
+    }
+
+    const licenciasObtenidas = new Set(
+      (context.matriculas || [])
+        .filter((matricula) => matricula.estado === "PAGADA")
+        .map((matricula) =>
+          String(matricula.licencia || "")
+            .trim()
+            .toUpperCase(),
+        )
+        .filter(Boolean),
+    );
+
+    if (licenciasObtenidas.has(licencia)) {
+      throw new Error("La licencia seleccionada ya ha sido obtenida");
+    }
+
+    const existingPending = (context.matriculas || []).find(
+      (matricula) => matricula.estado === "PENDIENTE",
+    );
+
+    if (existingPending) {
+      throw new Error(
+        "Ya existe una matrícula pendiente para una nueva licencia. Completa ese flujo primero.",
+      );
+    }
+
+    const tarifa = await this.repository.findTarifaByLicencia(licencia);
+
+    if (!tarifa) {
+      throw new Error(`No existe tarifa activa para la licencia ${licencia}`);
+    }
+
+    const promociones = await this.repository.getPromotionsByLicense(
+      licencia,
+      new Date(),
+    );
+    const promocionId = payload?.promocionId || null;
+    const promocion = promocionId
+      ? promociones.find((item) => item.id === promocionId) || null
+      : null;
+
+    if (promocionId && !promocion) {
+      throw new Error(
+        "La promoción seleccionada no es válida para esta licencia",
+      );
+    }
+
+    const precioBase = promocion?.precioOriginal ?? tarifa.precio;
+    const precioFinal = promocion?.precioPromocional ?? tarifa.precio;
+
+    await this.repository.createStudentNewLicenseEnrollment({
+      alumnoId: userId,
+      licencia,
+      promocion,
+      precioBase,
+      precioFinal,
+    });
+
+    return {
+      ok: true,
+      licencia,
+      promocionId: promocion?.id || null,
+      estadoExpediente: "PENDIENTE_MATRICULA",
+      message:
+        "Nuevo expediente creado en estado PENDIENTE_MATRICULA. Debes completar el pago de matrícula.",
     };
   }
 
@@ -2537,13 +2714,39 @@ export class DashboardService {
 
     const ranked = profesores
       .map((profesor) => {
-        const resultados = (profesor.alumnosAsignados || []).flatMap(
-          (alumno) => alumno.solicitudesExamen || [],
-        );
+        const resultadosByAlumno = new Map();
+
+        for (const alumno of profesor.alumnosAsignados || []) {
+          const alumnoId = alumno?.id;
+
+          if (!alumnoId || resultadosByAlumno.has(alumnoId)) {
+            continue;
+          }
+
+          resultadosByAlumno.set(alumnoId, alumno.solicitudesExamen || []);
+        }
+
+        for (const historial of profesor.historialComoAnterior || []) {
+          const alumnoId = historial?.alumnoId || historial?.alumno?.id;
+
+          if (!alumnoId || resultadosByAlumno.has(alumnoId)) {
+            continue;
+          }
+
+          resultadosByAlumno.set(
+            alumnoId,
+            historial?.alumno?.solicitudesExamen || [],
+          );
+        }
+
+        const resultados = Array.from(resultadosByAlumno.values()).flat();
 
         const presentados = resultados.length;
         const aprobados = resultados.filter(
           (resultado) => resultado.estado === "APTO",
+        ).length;
+        const suspendidos = resultados.filter(
+          (resultado) => resultado.estado === "NO_APTO",
         ).length;
         const porcentaje =
           presentados === 0 ? 0 : (aprobados / presentados) * 100;
@@ -2553,6 +2756,7 @@ export class DashboardService {
           licencia: profesor.permisosLicencias?.[0] || "-",
           totalTests: presentados,
           aprobados,
+          suspendidos,
           porcentaje,
         };
       })

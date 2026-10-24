@@ -11,12 +11,13 @@ export const exportTarifasConceptoPdf = (rows) => {
 
   autoTable(doc, {
     startY: 40,
-    head: [["Permiso", "Concepto", "Precio", "Tipo", "Estado"]],
+    head: [["Permiso", "Concepto", "Precio", "Tipo", "Descripción", "Estado"]],
     body: (rows || []).map((row) => [
       row.permiso || "",
       row.concepto || "",
       `${Number(row.precio || 0).toFixed(2)} EUR`,
       row.tipo || "",
+      row.descripcion || "-",
       row.activa ? "Activo" : "Inactivo",
     ]),
   });

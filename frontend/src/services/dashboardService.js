@@ -32,4 +32,26 @@ export const dashboardService = {
     const response = await api.get("/dashboard/student");
     return response.data;
   },
+
+  async getStudentNewLicenseContext() {
+    const response = await api.get("/dashboard/student/new-license/context");
+    return response.data;
+  },
+
+  async getStudentNewLicensePromotions(licenciaObjetivo) {
+    const response = await api.get(
+      "/dashboard/student/new-license/promotions",
+      {
+        params: {
+          licenciaObjetivo,
+        },
+      },
+    );
+    return response.data;
+  },
+
+  async createStudentNewLicenseEnrollment(payload) {
+    const response = await api.post("/dashboard/student/new-license", payload);
+    return response.data;
+  },
 };

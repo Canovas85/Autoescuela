@@ -45,7 +45,7 @@ export class PreguntasDGTRepository {
         respuestas: true,
       },
       orderBy: {
-        createdAt: "desc",
+        id: "asc",
       },
     });
   }

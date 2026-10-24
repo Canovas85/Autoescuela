@@ -1,4 +1,5 @@
 import PDFDocument from "pdfkit";
+import { drawPdfBranding } from "../../shared/utils/pdf-branding.util.js";
 
 const formatCurrency = (value) => `${Number(value || 0).toFixed(2)} EUR`;
 
@@ -65,6 +66,8 @@ export const buildNominaPdfBuffer = (nomina) => {
     doc.on("data", (chunk) => buffers.push(chunk));
     doc.on("end", () => resolve(Buffer.concat(buffers)));
     doc.on("error", reject);
+
+    drawPdfBranding(doc, { includeFooter: true });
 
     doc
       .font("Helvetica-Bold")

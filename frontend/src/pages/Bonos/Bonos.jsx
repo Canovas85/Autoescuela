@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Alert,
   Box,
@@ -28,12 +28,20 @@ import AddIcon from "@mui/icons-material/Add";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Tooltip from "@mui/material/Tooltip";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
 import { bonosService } from "../../services/bonosService";
 import { LicenseChip } from "../../components/common/LicenseChip";
+import { StatusChip } from "../../components/common/StatusChip";
+import { exportBonosTemplateExcel } from "../../utils/exportBonosTemplateExcel";
+import {
+  findMissingColumns,
+  parseBooleanCell,
+  readExcelRows,
+} from "../../utils/excelImportUtils";
 
 const LICENCIAS = ["B", "A1", "A2", "A", "C", "D", "E"];
 
@@ -191,6 +199,8 @@ export default function Bonos() {
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(emptyForm);
   const [licenciaFiltro, setLicenciaFiltro] = useState("all");
+  const [importingExcel, setImportingExcel] = useState(false);
+  const importInputRef = useRef(null);
   const [notification, setNotification] = useState({
     open: false,
     message: "",
@@ -264,6 +274,95 @@ export default function Bonos() {
   const handleOpenCreate = () => {
     resetForm();
     setOpen(true);
+  };
+
+  const handleImportExcel = async (event) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    try {
+      setImportingExcel(true);
+
+      const rowsExcel = await readExcelRows(file);
+      const missingColumns = findMissingColumns(rowsExcel[0] || {}, [
+        "NOMBRE",
+        "CLASES_INCLUIDAS",
+        "PRECIO",
+        "VALIDEZ_DIAS",
+      ]);
+
+      if (missingColumns.length > 0) {
+        throw new Error(
+          `Faltan columnas obligatorias: ${missingColumns.join(", ")}.`,
+        );
+      }
+
+      const errores = [];
+      let procesados = 0;
+
+      for (let idx = 0; idx < rowsExcel.length; idx += 1) {
+        const row = rowsExcel[idx];
+        const rowIndex = idx + 2;
+
+        try {
+          const payload = {
+            nombre: String(row.NOMBRE || "").trim(),
+            descripcion: String(row.DESCRIPCION || "").trim(),
+            licencia: String(row.LICENCIA || "")
+              .trim()
+              .toUpperCase(),
+            clasesIncluidas: Number(row.CLASES_INCLUIDAS),
+            precio: Number(row.PRECIO),
+            validezDias: Number(row.VALIDEZ_DIAS),
+            activo: parseBooleanCell(row.ACTIVO, true),
+          };
+
+          const existente = filteredRows.find(
+            (item) =>
+              String(item?.nombre || "")
+                .trim()
+                .toUpperCase() === payload.nombre.toUpperCase() &&
+              Number(item?.clasesIncluidas || 0) === payload.clasesIncluidas,
+          );
+
+          if (existente) {
+            await bonosService.update(existente.id, payload);
+          } else {
+            await bonosService.create(payload);
+          }
+
+          procesados += 1;
+        } catch (error) {
+          errores.push(`Fila ${rowIndex}: ${error.message}`);
+        }
+      }
+
+      await loadBonos();
+
+      setNotification({
+        open: true,
+        severity: errores.length > 0 ? "warning" : "success",
+        message:
+          errores.length > 0
+            ? `Importación parcial: ${procesados} procesados, ${errores.length} con error. Primer error: ${errores[0]}`
+            : `Importación completada: ${procesados} bono(s) procesado(s).`,
+      });
+    } catch (error) {
+      setNotification({
+        open: true,
+        severity: "error",
+        message: error?.message || "No se pudo importar el Excel.",
+      });
+    } finally {
+      setImportingExcel(false);
+
+      if (event.target) {
+        event.target.value = "";
+      }
+    }
   };
 
   const handleEdit = (row) => {
@@ -458,25 +557,7 @@ export default function Bonos() {
       headerName: "Estado",
       flex: 0.7,
       renderCell: (params) => (
-        <Chip
-          size="small"
-          label={params.value ? "Activo" : "Inactivo"}
-          sx={{
-            // Fondo según la opción
-            backgroundColor: params.value ? "#e8f5e9" : "#ffebee",
-
-            // Color de la letra según la opción
-            color: params.value ? "#2e7d32" : "#c62828",
-
-            // Borde según la opción (grosor, tipo y color)
-            border: `1px solid ${params.value ? "#4caf50" : "#ef5350"}`,
-
-            // Opcional: Asegura que si hay iconos o estados hover no rompan tus colores
-            "& .MuiChip-label": {
-              fontWeight: "medium",
-            },
-          }}
-        />
+        <StatusChip label={params.value ? "Activo" : "Inactivo"} />
       ),
     },
     {
@@ -533,14 +614,78 @@ export default function Bonos() {
           mb: 2,
         }}
       >
-        <Typography variant="h4" fontWeight="bold">
-          {role === "ADMIN" || role === "ADMINISTRATIVO"
-            ? "Bonos"
-            : "Compra de Bonos"}
-        </Typography>
+        <Box>
+          <Typography variant="h4" fontWeight="bold">
+            {role === "ADMIN" || role === "ADMINISTRATIVO"
+              ? "Bonos"
+              : "Compra de Bonos"}
+          </Typography>
 
+          <Typography color="text.secondary" sx={{ mt: 1 }}>
+            {role === "ADMIN" || role === "ADMINISTRATIVO"
+              ? "Gestiona los bonos disponibles, asignaciones de alumnos y el historial de créditos de la autoescuela."
+              : "Adquiere paquetes de clases y bonos de prácticas directamente para tu formación."}
+          </Typography>
+        </Box>
+      </Box>
+      <Typography color="text.secondary"></Typography>
+      <Box sx={{ mb: 2 }}>
         {role === "ADMIN" || role === "ADMINISTRATIVO" ? (
           <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              onClick={handleOpenCreate}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "10px 24px",
+
+                // FUERZA EL BORDE: Define grosor, estilo y color explícitamente en todas las direcciones
+                border: "1px solid",
+                borderColor: "#1e3a8a !important",
+                color: "#1e3a8a",
+                backgroundColor: "transparent",
+
+                // Triple sombra adaptada para relieve azul oscuro (borde inferior sólido + brillo sutil)
+                boxShadow: `
+                0px 4px 0px #172554, 
+                0px 8px 16px rgba(30, 58, 138, 0.15),
+                inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+                `,
+
+                // Suavizado de todas las animaciones físicas
+                transition: "all 0.15s ease-in-out",
+
+                "&:hover": {
+                  // Al pasar el ratón, se activa un azul más vivo con un fondo sutilmente iluminado
+                  color: "#2563eb",
+                  borderColor: "#2563eb !important", // Fuerza el cambio de color de todos los bordes en el hover
+                  backgroundColor: "rgba(30, 58, 138, 0.04)",
+                  boxShadow: `
+                  0px 4px 0px #172554, 
+                  0px 12px 20px rgba(37, 99, 235, 0.25),
+                  inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+                  `,
+                  transform: "translateY(-1px)", // Se eleva ligeramente
+                },
+
+                "&:active": {
+                  // Efecto mecánico físico de hundimiento al hacer clic (Relieve presionado)
+                  borderColor: "#1e3a8a !important",
+                  boxShadow: `
+                  0px 1px 0px #172554, 
+                  0px 2px 4px rgba(30, 58, 138, 0.2),
+                  inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+                  `,
+                  transform: "translateY(3px)", // Se desplaza hacia abajo exactamente el grosor del relieve anterior
+                },
+              }}
+            >
+              Nuevo bono
+            </Button>
             <FormControl size="small" sx={{ minWidth: 180 }}>
               <InputLabel>Licencia</InputLabel>
               <Select
@@ -556,13 +701,139 @@ export default function Bonos() {
                 ))}
               </Select>
             </FormControl>
+            <Button
+              variant="outlined"
+              onClick={exportBonosTemplateExcel}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "10px 24px",
+
+                // FUERZA EL BORDE: Contorno completo en color morado vibrante
+                border: "1px solid",
+                borderColor: "#6d28d9 !important", // Morado principal
+                color: "#6d28d9",
+                backgroundColor: "transparent",
+
+                // Sombra de capas adaptada para relieve morado (borde inferior sólido + brillo ambiental)
+                boxShadow: `
+    0px 4px 0px #5b21b6, 
+    0px 8px 16px rgba(109, 40, 217, 0.15),
+    inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+  `,
+
+                // Transición suave para las animaciones físicas
+                transition: "all 0.15s ease-in-out",
+
+                // Sincroniza el icono de Material-UI para que herede el color del texto automáticamente
+                "& .MuiButton-startIcon": {
+                  color: "inherit",
+                },
+
+                "&:hover": {
+                  // Pasa a un tono morado más vivo con un fondo sutilmente iluminado
+                  color: "#8b5cf6",
+                  borderColor: "#8b5cf6 !important",
+                  backgroundColor: "rgba(109, 40, 217, 0.04)",
+                  boxShadow: `
+      0px 4px 0px #5b21b6, 
+      0px 12px 20px rgba(139, 92, 246, 0.25),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+    `,
+                  transform: "translateY(-1px)", // Se eleva ligeramente
+                },
+
+                "&:active": {
+                  // Mecanismo físico de hundimiento real al hacer clic
+                  borderColor: "#6d28d9 !important",
+                  boxShadow: `
+      0px 1px 0px #5b21b6, 
+      0px 2px 4px rgba(109, 40, 217, 0.2),
+      inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+    `,
+                  transform: "translateY(3px)", // Se desplaza hacia abajo el grosor exacto del relieve
+                },
+              }}
+            >
+              Descargar plantilla
+            </Button>
 
             <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              onClick={handleOpenCreate}
+              variant="outlined"
+              component="label"
+              startIcon={<CloudUploadIcon />}
+              disabled={importingExcel}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "10px 24px",
+                cursor: "pointer",
+
+                // Texto, borde e icono base en color verde
+                color: "#16a34a", // Tailwind green-600
+                borderColor: "#16a34a",
+                backgroundColor: "transparent",
+
+                // Sombra de capas adaptada para relieve verde (borde inferior sólido + brillo ambiental)
+                boxShadow: `
+                  0px 4px 0px #15803d, 
+                  0px 8px 16px rgba(22, 163, 74, 0.15),
+                  inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+                `,
+
+                // Transición suave para las animaciones físicas
+                transition: "all 0.15s ease-in-out",
+
+                // Sincroniza el icono de Material-UI para que herede el color del texto automáticamente
+                "& .MuiButton-startIcon": {
+                  color: "inherit",
+                },
+
+                "&:hover": {
+                  // Pasa a un tono verde más vivo con un fondo sutilmente iluminado
+                  color: "#15803d", // Tailwind green-700
+                  borderColor: "#15803d",
+                  backgroundColor: "rgba(22, 163, 74, 0.04)",
+                  boxShadow: `
+                    0px 4px 0px #15803d, 
+                    0px 12px 20px rgba(21, 128, 61, 0.25),
+                    inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+                  `,
+                  transform: "translateY(-1px)", // Se eleva ligeramente
+                },
+
+                "&:active": {
+                  // Mecanismo físico de hundimiento real al hacer clic
+                  boxShadow: `
+                    0px 1px 0px #15803d, 
+                    0px 2px 4px rgba(22, 163, 74, 0.2),
+                    inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+                  `,
+                  transform: "translateY(3px)", // Se desplaza hacia abajo el grosor exacto del relieve
+                },
+
+                // Estilos cuando el botón está deshabilitado (importingExcel === true)
+                "&.Mui-disabled": {
+                  boxShadow: "none",
+                  transform: "none",
+                  color: "#9ca3af",
+                  borderColor: "#d1d5db",
+                  backgroundColor: "#f3f4f6",
+                },
+              }}
             >
-              Nuevo bono
+              {importingExcel ? "Importando..." : "Importar Excel"}
+              <input
+                ref={importInputRef}
+                hidden
+                type="file"
+                accept=".xlsx,.xls"
+                onChange={handleImportExcel}
+              />
             </Button>
           </Box>
         ) : null}

@@ -71,6 +71,36 @@ export class VehiculosRepository {
       where: {
         id,
       },
+      include: {
+        clases: {
+          select: {
+            id: true,
+            fecha: true,
+            estado: true,
+            hojaRuta: {
+              select: {
+                estado: true,
+              },
+            },
+          },
+        },
+        gastosCombustible: {
+          where: {
+            tipoGasto: "REVISION_ITV",
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+          take: 1,
+          select: {
+            id: true,
+            createdAt: true,
+            kilometrosVehiculo: true,
+            total: true,
+            numeroFactura: true,
+          },
+        },
+      },
     });
   }
 

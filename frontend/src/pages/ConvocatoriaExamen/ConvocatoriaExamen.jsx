@@ -1,9 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Alert,
   Box,
   Button,
-  Chip,
   Divider,
   Dialog,
   DialogActions,
@@ -25,10 +24,19 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ViewListIcon from "@mui/icons-material/ViewList";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { convocatoriasTeoricoService } from "../../services/convocatoriasTeoricoService";
 import Tooltip from "@mui/material/Tooltip";
 import { LicenseChip } from "../../components/common/LicenseChip";
 import { ExamTypeChip } from "../../components/common/ExamTypeChip";
+import { StatusChip } from "../../components/common/StatusChip";
+import { exportConvocatoriasTemplateExcel } from "../../utils/exportConvocatoriasTemplateExcel";
+import {
+  findMissingColumns,
+  parseBooleanCell,
+  parseDateCellToIso,
+  readExcelRows,
+} from "../../utils/excelImportUtils";
 
 const WEEK_DAYS = ["L", "M", "X", "J", "V", "S", "D"];
 
@@ -147,6 +155,8 @@ export default function ConvocatoriaExamen() {
   const [activoFilter, setActivoFilter] = useState("ALL");
   const [estadoAlumnoFilter, setEstadoAlumnoFilter] = useState("ALL");
   const [viewDate, setViewDate] = useState(new Date());
+  const [importingExcel, setImportingExcel] = useState(false);
+  const importInputRef = useRef(null);
   const [notification, setNotification] = useState({
     open: false,
     message: "",
@@ -250,6 +260,79 @@ export default function ConvocatoriaExamen() {
   const handleCreate = () => {
     resetDialog();
     setOpen(true);
+  };
+
+  const handleImportExcel = async (event) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    try {
+      setImportingExcel(true);
+
+      const rowsExcel = await readExcelRows(file);
+      const missingColumns = findMissingColumns(rowsExcel[0] || {}, [
+        "FECHA",
+        "LICENCIA",
+        "TIPO_EXAMEN",
+      ]);
+
+      if (missingColumns.length > 0) {
+        throw new Error(
+          `Faltan columnas obligatorias: ${missingColumns.join(", ")}.`,
+        );
+      }
+
+      const errores = [];
+      let creadas = 0;
+
+      for (let idx = 0; idx < rowsExcel.length; idx += 1) {
+        const row = rowsExcel[idx];
+        const rowIndex = idx + 2;
+
+        try {
+          await convocatoriasTeoricoService.create({
+            fecha: parseDateCellToIso(row.FECHA),
+            licencia: String(row.LICENCIA || "")
+              .trim()
+              .toUpperCase(),
+            tipoExamen: String(row.TIPO_EXAMEN || "")
+              .trim()
+              .toUpperCase(),
+            activo: parseBooleanCell(row.ACTIVO, true),
+          });
+
+          creadas += 1;
+        } catch (error) {
+          errores.push(`Fila ${rowIndex}: ${error.message}`);
+        }
+      }
+
+      await Promise.all([loadRows(), loadAgenda()]);
+
+      setNotification({
+        open: true,
+        severity: errores.length > 0 ? "warning" : "success",
+        message:
+          errores.length > 0
+            ? `Importación parcial: ${creadas} creadas, ${errores.length} con error. Primer error: ${errores[0]}`
+            : `Importación completada: ${creadas} convocatoria(s) creada(s).`,
+      });
+    } catch (error) {
+      setNotification({
+        open: true,
+        severity: "error",
+        message: error?.message || "No se pudo importar el Excel.",
+      });
+    } finally {
+      setImportingExcel(false);
+
+      if (event.target) {
+        event.target.value = "";
+      }
+    }
   };
 
   const handleEdit = (row) => {
@@ -471,25 +554,7 @@ export default function ConvocatoriaExamen() {
         headerName: "Estado",
         width: 150,
         renderCell: (params) => (
-          <Chip
-            size="small"
-            label={params.value ? "Activa" : "Inactiva"}
-            sx={{
-              // Fondo según la opción
-              backgroundColor: params.value ? "#e8f5e9" : "#ffebee",
-
-              // Color de la letra según la opción
-              color: params.value ? "#2e7d32" : "#c62828",
-
-              // Borde según la opción (grosor, tipo y color)
-              border: `1px solid ${params.value ? "#4caf50" : "#ef5350"}`,
-
-              // Opcional: Asegura que si hay iconos o estados hover no rompan tus colores
-              "& .MuiChip-label": {
-                fontWeight: "medium",
-              },
-            }}
-          />
+          <StatusChip label={params.value ? "Activa" : "Inactiva"} />
         ),
       },
       {
@@ -560,33 +625,7 @@ export default function ConvocatoriaExamen() {
       field: "estado",
       headerName: "Estado",
       width: 130,
-      renderCell: (params) => (
-        <Chip
-          size="small"
-          label={params.value}
-          sx={{
-            fontWeight: 700,
-            backgroundColor:
-              params.value === "APTO"
-                ? "#dcfce7" // Verde claro
-                : params.value === "NO_APTO"
-                  ? "#fee2e2" // Rojo claro
-                  : "#f3f4f6", // Gris por defecto
-            color:
-              params.value === "APTO"
-                ? "#15803d" // Verde oscuro
-                : params.value === "NO_APTO"
-                  ? "#b91c1c" // Rojo oscuro
-                  : "#1f2937", // Gris oscuro
-            border:
-              params.value === "APTO"
-                ? "1px solid #86efac"
-                : params.value === "NO_APTO"
-                  ? "1px solid #fca5a5"
-                  : "1px solid #d1d5db",
-          }}
-        />
-      ),
+      renderCell: (params) => <StatusChip label={params.value} />,
     },
   ];
 
@@ -615,6 +654,63 @@ export default function ConvocatoriaExamen() {
         </Box>
 
         <Stack direction="row" spacing={1.5} useFlexGap flexWrap="wrap">
+          <Button
+            variant="outlined" // Changed to outlined for a transparent background with custom colored borders and text
+            onClick={handleCreate}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "10px 24px",
+
+              // Deep blue text, borders, and icon baseline
+              color: "#1e3a8a",
+              borderColor: "#1e3a8a",
+              backgroundColor: "transparent",
+
+              // Triple layered shadow for the 3D relief effect (solid bottom ridge + ambient light glow)
+              boxShadow: `
+      0px 4px 0px #172554, 
+      0px 8px 16px rgba(30, 58, 138, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+
+              // Smooth timing transition for clean feedback animations
+              transition: "all 0.15s ease-in-out",
+
+              // Forces the Material-UI startIcon to inherit the custom deep blue color dynamically
+              "& .MuiButton-startIcon": {
+                color: "inherit",
+              },
+
+              "&:hover": {
+                // Swaps to a vivid tech-blue on mouse-over with a subtle background light
+                color: "#2563eb",
+                borderColor: "#2563eb",
+                backgroundColor: "rgba(30, 58, 138, 0.04)",
+                boxShadow: `
+        0px 4px 0px #172554, 
+        0px 12px 20px rgba(37, 99, 235, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                transform: "translateY(-1px)", // Elevates slightly
+              },
+
+              "&:active": {
+                // Immersive physical button press mechanism on click
+                boxShadow: `
+        0px 1px 0px #172554, 
+        0px 2px 4px rgba(30, 58, 138, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                transform: "translateY(3px)", // Pushes down exactly by the width of the bottom ridge
+              },
+            }}
+          >
+            Nueva convocatoria
+          </Button>
+
           <TextField
             select
             size="small"
@@ -697,11 +793,138 @@ export default function ConvocatoriaExamen() {
           </Button>
 
           <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            onClick={handleCreate}
+            variant="outlined"
+            onClick={exportConvocatoriasTemplateExcel}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "10px 24px",
+
+              // FUERZA EL BORDE: Contorno completo en color morado vibrante
+              border: "1px solid",
+              borderColor: "#6d28d9 !important", // Morado principal
+              color: "#6d28d9",
+              backgroundColor: "transparent",
+
+              // Sombra de capas adaptada para relieve morado (borde inferior sólido + brillo ambiental)
+              boxShadow: `
+    0px 4px 0px #5b21b6, 
+    0px 8px 16px rgba(109, 40, 217, 0.15),
+    inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+  `,
+
+              // Transición suave para las animaciones físicas
+              transition: "all 0.15s ease-in-out",
+
+              // Sincroniza el icono de Material-UI para que herede el color del texto automáticamente
+              "& .MuiButton-startIcon": {
+                color: "inherit",
+              },
+
+              "&:hover": {
+                // Pasa a un tono morado más vivo con un fondo sutilmente iluminado
+                color: "#8b5cf6",
+                borderColor: "#8b5cf6 !important",
+                backgroundColor: "rgba(109, 40, 217, 0.04)",
+                boxShadow: `
+      0px 4px 0px #5b21b6, 
+      0px 12px 20px rgba(139, 92, 246, 0.25),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+    `,
+                transform: "translateY(-1px)", // Se eleva ligeramente
+              },
+
+              "&:active": {
+                // Mecanismo físico de hundimiento real al hacer clic
+                borderColor: "#6d28d9 !important",
+                boxShadow: `
+      0px 1px 0px #5b21b6, 
+      0px 2px 4px rgba(109, 40, 217, 0.2),
+      inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+    `,
+                transform: "translateY(3px)", // Se desplaza hacia abajo el grosor exacto del relieve
+              },
+            }}
           >
-            Nueva convocatoria
+            Descargar plantilla
+          </Button>
+
+          <Button
+            variant="outlined"
+            component="label"
+            startIcon={<CloudUploadIcon />}
+            disabled={importingExcel}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "10px 24px",
+              cursor: "pointer",
+
+              // Texto, borde e icono base en color verde
+              color: "#16a34a", // Tailwind green-600
+              borderColor: "#16a34a",
+              backgroundColor: "transparent",
+
+              // Sombra de capas adaptada para relieve verde (borde inferior sólido + brillo ambiental)
+              boxShadow: `
+      0px 4px 0px #15803d, 
+      0px 8px 16px rgba(22, 163, 74, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+
+              // Transición suave para las animaciones físicas
+              transition: "all 0.15s ease-in-out",
+
+              // Sincroniza el icono de Material-UI para que herede el color del texto automáticamente
+              "& .MuiButton-startIcon": {
+                color: "inherit",
+              },
+
+              "&:hover": {
+                // Pasa a un tono verde más vivo con un fondo sutilmente iluminado
+                color: "#15803d", // Tailwind green-700
+                borderColor: "#15803d",
+                backgroundColor: "rgba(22, 163, 74, 0.04)",
+                boxShadow: `
+        0px 4px 0px #15803d, 
+        0px 12px 20px rgba(21, 128, 61, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                transform: "translateY(-1px)", // Se eleva ligeramente
+              },
+
+              "&:active": {
+                // Mecanismo físico de hundimiento real al hacer clic
+                boxShadow: `
+        0px 1px 0px #15803d, 
+        0px 2px 4px rgba(22, 163, 74, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                transform: "translateY(3px)", // Se desplaza hacia abajo el grosor exacto del relieve
+              },
+
+              // Estilos cuando el botón está deshabilitado (importingExcel === true)
+              "&.Mui-disabled": {
+                boxShadow: "none",
+                transform: "none",
+                color: "#9ca3af",
+                borderColor: "#d1d5db",
+                backgroundColor: "#f3f4f6",
+              },
+            }}
+          >
+            {importingExcel ? "Importando..." : "Importar Excel"}
+            <input
+              ref={importInputRef}
+              hidden
+              type="file"
+              accept=".xlsx,.xls"
+              onChange={handleImportExcel}
+            />
           </Button>
         </Stack>
       </Box>
@@ -1125,43 +1348,7 @@ export default function ConvocatoriaExamen() {
           }}
         >
           <span>Detalle de evaluación</span>
-          <Chip
-            label={selectedAgendaExam?.estado || "-"}
-            variant="outlined"
-            sx={{
-              borderRadius: "15px",
-              borderWidth: "1px",
-              "& .MuiChip-label": {
-                fontWeight: "bold",
-              },
-              // Modifica el FONDO según el estado
-              backgroundColor:
-                {
-                  SOLICITADO: "#e0f2fe",
-                  APTO: "#ecfdf5",
-                  NO_APTO: "#fef2f2",
-                  PENDIENTE: "#fffbeb",
-                }[selectedAgendaExam?.estado] || "#f3f4f6", // Color por defecto si no coincide
-
-              // Modifica el BORDE según el estado
-              borderColor:
-                {
-                  SOLICITADO: "#0284c7",
-                  APTO: "#34d399",
-                  NO_APTO: "#f87171",
-                  PENDIENTE: "#facc15",
-                }[selectedAgendaExam?.estado] || "#d1d5db", // Color por defecto si no coincide
-
-              // Modifica la LETRA según el estado
-              color:
-                {
-                  SOLICITADO: "#0369a1",
-                  APTO: "#065f46",
-                  NO_APTO: "#991b1b",
-                  PENDIENTE: "#854d0e",
-                }[selectedAgendaExam?.estado] || "#374151", // Color por defecto si no coincide
-            }}
-          />
+          <StatusChip label={selectedAgendaExam?.estado || "-"} />
         </DialogTitle>
 
         <DialogContent sx={{ display: "grid", gap: 1, pt: 1 }}>

@@ -1,30 +1,9 @@
 import { Box, Chip } from "@mui/material";
-
-const LICENSE_STYLES = {
-  AM: { bg: "#f1f5f9", text: "#334155", border: "#cbd5e1" },
-  A1: { bg: "#dbeafe", text: "#1e3a8a", border: "#93c5fd" },
-  A2: { bg: "#cffafe", text: "#155e75", border: "#67e8f9" },
-  A: { bg: "#e0e7ff", text: "#3730a3", border: "#a5b4fc" },
-  B: { bg: "#dcfce7", text: "#166534", border: "#86efac" },
-  C: { bg: "#fef3c7", text: "#92400e", border: "#fcd34d" },
-  D: { bg: "#ffedd5", text: "#9a3412", border: "#fdba74" },
-  E: { bg: "#ecfccb", text: "#365314", border: "#bef264" },
-};
-
-const getLicenseStyle = (value) => {
-  const key = String(value || "").toUpperCase();
-  return (
-    LICENSE_STYLES[key] || {
-      bg: "#e2e8f0",
-      text: "#334155",
-      border: "#cbd5e1",
-    }
-  );
-};
+import { getLicenseChipPalette } from "../../theme/chipPalette";
 
 export function LicenseChip({ value, size = "small" }) {
   const label = String(value || "-").toUpperCase();
-  const style = getLicenseStyle(label);
+  const style = getLicenseChipPalette(label);
 
   const isSmall = size === "small";
 
