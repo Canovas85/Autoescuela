@@ -11,9 +11,15 @@ import {
   DialogContentText,
   DialogTitle,
   FormControl,
-  IconButton,
   InputLabel,
   ListItemText,
+  Paper,
+  Stack,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  InputAdornment,
+  IconButton,
   Menu,
   MenuItem,
   Select,
@@ -26,6 +32,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DownloadIcon from "@mui/icons-material/Download";
 import EditIcon from "@mui/icons-material/Edit";
+import CloseIcon from "@mui/icons-material/Close";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -502,50 +509,62 @@ export default function TarifasConcepto() {
         >
           Nuevo precio
         </Button>
-        <FormControl size="small" sx={{ minWidth: 160 }}>
-          <InputLabel>Permiso</InputLabel>
-          <Select
-            label="Permiso"
-            value={permisoFiltro}
-            onChange={(event) => setPermisoFiltro(event.target.value)}
+        <Paper sx={{ p: 2, mb: 2 }}>
+          <Stack
+            direction={{ xs: "column", md: "row" }}
+            spacing={2}
+            alignItems="center"
           >
-            <MenuItem value="all">Todos</MenuItem>
-            {PERMISOS.map((permiso) => (
-              <MenuItem key={permiso} value={permiso}>
-                {permiso}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+            {/* Selector de Permiso original */}
+            <FormControl size="small" sx={{ minWidth: 160 }}>
+              <InputLabel>Permiso</InputLabel>
+              <Select
+                label="Permiso"
+                value={permisoFiltro}
+                onChange={(event) => setPermisoFiltro(event.target.value)}
+              >
+                <MenuItem value="all">Todos</MenuItem>
+                {PERMISOS.map((permiso) => (
+                  <MenuItem key={permiso} value={permiso}>
+                    {permiso}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
-        <FormControl size="small" sx={{ minWidth: 180 }}>
-          <InputLabel>Tipo</InputLabel>
-          <Select
-            label="Tipo"
-            value={tipoFiltro}
-            onChange={(event) => setTipoFiltro(event.target.value)}
-          >
-            <MenuItem value="all">Todos</MenuItem>
-            {TIPOS.map((tipo) => (
-              <MenuItem key={tipo} value={tipo}>
-                {tipo}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+            {/* Selector de Tipo original */}
+            <FormControl size="small" sx={{ minWidth: 180 }}>
+              <InputLabel>Tipo</InputLabel>
+              <Select
+                label="Tipo"
+                value={tipoFiltro}
+                onChange={(event) => setTipoFiltro(event.target.value)}
+              >
+                <MenuItem value="all">Todos</MenuItem>
+                {TIPOS.map((tipo) => (
+                  <MenuItem key={tipo} value={tipo}>
+                    {tipo}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
-        <FormControl size="small" sx={{ minWidth: 180 }}>
-          <InputLabel>Estado</InputLabel>
-          <Select
-            label="Estado"
-            value={estadoFiltro}
-            onChange={(event) => setEstadoFiltro(event.target.value)}
-          >
-            <MenuItem value="all">Todos</MenuItem>
-            <MenuItem value="activos">Activos</MenuItem>
-            <MenuItem value="inactivos">Inactivos</MenuItem>
-          </Select>
-        </FormControl>
+            {/* Selector de Estado original */}
+            <FormControl size="small" sx={{ minWidth: 180 }}>
+              <InputLabel>Estado</InputLabel>
+              <Select
+                label="Estado"
+                value={estadoFiltro}
+                onChange={(event) => setEstadoFiltro(event.target.value)}
+              >
+                <MenuItem value="all">Todos</MenuItem>
+                <MenuItem value="activos">Activos</MenuItem>
+                <MenuItem value="inactivos">Inactivos</MenuItem>
+              </Select>
+            </FormControl>
+          </Stack>
+        </Paper>
+
         <Button
           variant="contained"
           startIcon={<DownloadIcon />}

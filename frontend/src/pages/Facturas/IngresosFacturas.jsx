@@ -812,95 +812,190 @@ export default function IngresosFacturas() {
       </Box>
 
       <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", mb: 2 }}>
-        <TextField
-          size="small"
-          label="Buscar alumno"
-          placeholder="Nombre del alumno"
-          value={searchAlumno}
-          onChange={(event) => setSearchAlumno(event.target.value)}
-          sx={{ minWidth: 250 }}
-        />
+        <Paper sx={{ p: 2, mb: 2 }}>
+          <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
+            <TextField
+              size="small"
+              label="Buscar alumno"
+              placeholder="Nombre del alumno"
+              value={searchAlumno}
+              onChange={(event) => setSearchAlumno(event.target.value)}
+              sx={{
+                minWidth: 250,
+                "& .MuiInputLabel-root": { color: "rgb(0, 0, 0) !important" },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#1976d2 !important",
+                  borderWidth: "1px",
+                },
+                "& :hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#1976d2 !important",
+                },
+              }}
+            />
 
-        <TextField
-          select
-          size="small"
-          label="Concepto"
-          value={conceptoFiltro}
-          onChange={(event) => setConceptoFiltro(event.target.value)}
-          sx={{ minWidth: 260 }}
-        >
-          <MenuItem value="">Todos los conceptos</MenuItem>
-          {CONCEPTO_OPTIONS.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
+            <TextField
+              select
+              size="small"
+              label="Concepto"
+              value={conceptoFiltro}
+              onChange={(event) => setConceptoFiltro(event.target.value)}
+              sx={{
+                minWidth: 260,
+                "& .MuiInputLabel-root": { color: "rgb(0, 0, 0) !important" },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#1976d2 !important",
+                  borderWidth: "1px",
+                },
+                "& :hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#1976d2 !important",
+                },
+              }}
+            >
+              <MenuItem value="">Todos los conceptos</MenuItem>
+              {CONCEPTO_OPTIONS.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
 
-        <TextField
-          select
-          size="small"
-          label="Licencia"
-          value={licenciaFiltro}
-          onChange={(event) => setLicenciaFiltro(event.target.value)}
-          sx={{ minWidth: 180 }}
-        >
-          <MenuItem value="">Todas</MenuItem>
-          {LICENSE_OPTIONS.map((license) => (
-            <MenuItem key={license} value={license}>
-              {license}
-            </MenuItem>
-          ))}
-        </TextField>
+            <TextField
+              select
+              size="small"
+              label="Licencia"
+              value={licenciaFiltro}
+              onChange={(event) => setLicenciaFiltro(event.target.value)}
+              sx={{
+                minWidth: 180,
+                "& .MuiInputLabel-root": { color: "rgb(0, 0, 0) !important" },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#1976d2 !important",
+                  borderWidth: "1px",
+                },
+                "& :hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#1976d2 !important",
+                },
+              }}
+            >
+              <MenuItem value="">Todas</MenuItem>
+              {LICENSE_OPTIONS.map((license) => (
+                <MenuItem key={license} value={license}>
+                  {license}
+                </MenuItem>
+              ))}
+            </TextField>
 
-        <TextField
-          size="small"
-          type={tipoFechaDesde}
-          label="Fecha desde"
-          placeholder={focusFechaDesde ? "dd/mm/aaaa" : ""}
-          InputLabelProps={{
-            shrink: focusFechaDesde || Boolean(fechaDesde),
-          }}
-          value={fechaDesde}
-          onChange={(event) => setFechaDesde(event.target.value)}
-          onFocus={() => {
-            setFocusFechaDesde(true);
-            setTipoFechaDesde("date");
-          }}
-          onBlur={() => {
-            setFocusFechaDesde(false);
-            if (!fechaDesde) {
-              setTipoFechaDesde("text");
-            }
-          }}
-        />
+            <TextField
+              size="small"
+              label="Fecha desde"
+              type="date"
+              InputLabelProps={{ shrink: true }}
+              value={fechaDesde}
+              onChange={(event) => setFechaDesde(event.target.value)}
+              sx={{
+                minWidth: 180,
+                "& .MuiInputLabel-root": { color: "rgb(0, 0, 0) !important" },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#1976d2 !important",
+                  borderWidth: "1px",
+                },
+                "& :hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#1976d2 !important",
+                },
+                "& input::-webkit-datetime-edit": {
+                  color: fechaDesde ? "inherit" : "transparent",
+                },
+                "& .MuiInputBase-root.Mui-focused input::-webkit-datetime-edit":
+                  { color: fechaDesde ? "inherit" : "rgba(0, 0, 0, 0.42)" },
+                "& .MuiInputBase-input": { pt: 1.5 },
+              }}
+            />
 
-        <TextField
-          size="small"
-          type={tipoFechaHasta}
-          label="Fecha hasta"
-          placeholder={focusFechaHasta ? "dd/mm/aaaa" : ""}
-          InputLabelProps={{
-            shrink: focusFechaHasta || Boolean(fechaHasta),
-          }}
-          value={fechaHasta}
-          onChange={(event) => setFechaHasta(event.target.value)}
-          onFocus={() => {
-            setFocusFechaHasta(true);
-            setTipoFechaHasta("date");
-          }}
-          onBlur={() => {
-            setFocusFechaHasta(false);
-            if (!fechaHasta) {
-              setTipoFechaHasta("text");
-            }
-          }}
-        />
+            <TextField
+              size="small"
+              label="Fecha hasta"
+              type="date"
+              InputLabelProps={{ shrink: true }}
+              value={fechaHasta}
+              onChange={(event) => setFechaHasta(event.target.value)}
+              sx={{
+                minWidth: 180,
+                "& .MuiInputLabel-root": { color: "rgb(0, 0, 0) !important" },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#1976d2 !important",
+                  borderWidth: "1px",
+                },
+                "& :hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#1976d2 !important",
+                },
+                "& input::-webkit-datetime-edit": {
+                  color: fechaHasta ? "inherit" : "transparent",
+                },
+                "& .MuiInputBase-root.Mui-focused input::-webkit-datetime-edit":
+                  { color: fechaHasta ? "inherit" : "rgba(0, 0, 0, 0.42)" },
+                "& .MuiInputBase-input": { pt: 1.5 },
+              }}
+            />
+          </Stack>
+        </Paper>
 
         <Button
           variant="outlined"
           startIcon={<DownloadIcon />}
           onClick={openExportMenu}
+          sx={{
+            fontWeight: 700,
+            letterSpacing: "1px",
+            textTransform: "uppercase",
+            borderRadius: "8px",
+            padding: "10px 24px",
+
+            // Activamos el borde físico para que respete el borderColor
+            border: "1px solid",
+
+            // Texto, icono y bordes en color naranja oscuro de alta tecnología
+            color: "#ea580c",
+            borderColor: "#ea580c",
+            backgroundColor: "transparent",
+
+            // Triple sombra adaptada para relieve naranja (borde inferior sólido + brillo difuso)
+            boxShadow: `
+      0px 4px 0px #c2410c, 
+      0px 8px 16px rgba(234, 88, 12, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+
+            // Suavizado de todas las animaciones físicas
+            transition: "all 0.15s ease-in-out",
+
+            // Asegura que el icono de Material-UI herede el color naranja oscuro automáticamente
+            "& .MuiButton-startIcon": {
+              color: "inherit",
+            },
+
+            "&:hover": {
+              // Al pasar el ratón, se vuelve un naranja más brillante e intenso con fondo sutil
+              color: "#f97316",
+              borderColor: "#f97316",
+              backgroundColor: "rgba(234, 88, 12, 0.04)",
+              boxShadow: `
+        0px 4px 0px #c2410c, 
+        0px 12px 20px rgba(249, 115, 22, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+              transform: "translateY(-1px)", // Se eleva ligeramente
+            },
+
+            "&:active": {
+              // Efecto mecánico físico de hundimiento (Relieve presionado)
+              boxShadow: `
+        0px 1px 0px #c2410c, 
+        0px 2px 4px rgba(234, 88, 12, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+              transform: "translateY(3px)", // Se desplaza hacia abajo exactamente el grosor del relieve anterior
+            },
+          }}
         >
           Exportar
         </Button>

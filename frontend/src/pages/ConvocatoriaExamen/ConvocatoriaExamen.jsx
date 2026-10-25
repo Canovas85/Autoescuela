@@ -6,6 +6,7 @@ import {
   Divider,
   Dialog,
   DialogActions,
+  Paper,
   DialogContent,
   DialogTitle,
   IconButton,
@@ -641,21 +642,140 @@ export default function ConvocatoriaExamen() {
           flexWrap: "wrap",
         }}
       >
-        <Box>
-          <Typography variant="h4" fontWeight={800}>
-            Convocatorias DGT de examen
-          </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            mb: 2,
+            gap: 2,
 
-          <Typography color="text.secondary">
-            Gestiona convocatorias teóricas y prácticas para cada licencia.
-            Consulta la agenda mensual con alumnos confirmados para las
-            convocatorias de examen.
-          </Typography>
+            width: "100%", // Asegura que el contenedor principal use todo el ancho
+          }}
+        >
+          {/* Bloque de texto a la izquierda */}
+          <Box>
+            <Typography variant="h4" fontWeight={800}>
+              Convocatorias DGT de examen
+            </Typography>
+            <Typography color="text.secondary">
+              Gestiona convocatorias teóricas y prácticas para cada licencia.
+              Consulta la agenda mensual con alumnos confirmados para las
+              convocatorias de examen.
+            </Typography>
+          </Box>
+
+          {/* Bloque de botones a la derecha en la misma línea con separación futurista */}
+          <Box display="flex" gap={3} whiteSpace="nowrap">
+            <Button
+              variant={viewMode === "TABLA" ? "contained" : "outlined"}
+              startIcon={<ViewListIcon />}
+              onClick={() => setViewMode("TABLA")}
+              sx={{
+                fontWeight: 800,
+                letterSpacing: "1.5px",
+                borderRadius: "6px", // Esquinas de estilo tecnológico
+                mr: 2, // Margen derecho para separación entre botones
+
+                // Colores basados en el magenta láser cyberpunk
+                color: viewMode === "TABLA" ? "#ffffff" : "#ff0055",
+                borderColor: "#ff0055",
+                backgroundColor:
+                  viewMode === "TABLA" ? "#ff0055" : "transparent",
+
+                // Resplandor de energía de fondo (Neon Glow Effect) + Relieve 3D oscuro
+                boxShadow:
+                  viewMode === "TABLA"
+                    ? `0px 4px 0px #990033, 0px 0px 15px rgba(255, 0, 85, 0.5)`
+                    : `0px 4px 0px #660022, 0px 0px 8px rgba(255, 0, 85, 0.15), inset 0px 1px 0px rgba(255, 255, 255, 0.05)`,
+
+                transition: "all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1)",
+
+                "& .MuiButton-startIcon": {
+                  color: "inherit",
+                },
+
+                "&:hover": {
+                  color: "#ffffff",
+                  borderColor: "#ff3377",
+                  backgroundColor: "#ff3377", // Sobrecarga de luz al pasar el cursor
+                  boxShadow: `
+          0px 4px 0px #990033, 
+          0px 0px 25px rgba(255, 51, 119, 0.85),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                  transform: "translateY(-2px) scale(1.02)", // Micro-elevación reactiva
+                },
+
+                "&:active": {
+                  boxShadow: `
+          0px 1px 0px #990033, 
+          0px 0px 10px rgba(255, 0, 85, 0.4)
+        `,
+                  transform: "translateY(3px)",
+                },
+              }}
+            >
+              Tabla
+            </Button>
+
+            <Button
+              variant={viewMode === "AGENDA" ? "contained" : "outlined"}
+              startIcon={<CalendarMonthIcon />}
+              onClick={() => setViewMode("AGENDA")}
+              sx={{
+                fontWeight: 800,
+                letterSpacing: "1.5px",
+                borderRadius: "6px",
+
+                // Colores basados en el magenta láser cyberpunk
+                color: viewMode === "AGENDA" ? "#ffffff" : "#ff0055",
+                borderColor: "#ff0055",
+                backgroundColor:
+                  viewMode === "AGENDA" ? "#ff0055" : "transparent",
+
+                // Resplandor de energía de fondo (Neon Glow Effect) + Relieve 3D oscuro
+                boxShadow:
+                  viewMode === "AGENDA"
+                    ? `0px 4px 0px #990033, 0px 0px 15px rgba(255, 0, 85, 0.5)`
+                    : `0px 4px 0px #660022, 0px 0px 8px rgba(255, 0, 85, 0.15), inset 0px 1px 0px rgba(255, 255, 255, 0.05)`,
+
+                transition: "all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1)",
+
+                "& .MuiButton-startIcon": {
+                  color: "inherit",
+                },
+
+                "&:hover": {
+                  color: "#ffffff",
+                  borderColor: "#ff3377",
+                  backgroundColor: "#ff3377", // Sobrecarga de luz al pasar el cursor
+                  boxShadow: `
+          0px 4px 0px #990033, 
+          0px 0px 25px rgba(255, 51, 119, 0.85),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                  transform: "translateY(-2px) scale(1.02)",
+                },
+
+                "&:active": {
+                  boxShadow: `
+          0px 1px 0px #990033, 
+          0px 0px 10px rgba(255, 0, 85, 0.4)
+        `,
+                  transform: "translateY(3px)",
+                },
+              }}
+            >
+              Agenda
+            </Button>
+          </Box>
         </Box>
 
         <Stack direction="row" spacing={1.5} useFlexGap flexWrap="wrap">
           <Button
             variant="outlined" // Changed to outlined for a transparent background with custom colored borders and text
+            startIcon={<AddIcon />}
             onClick={handleCreate}
             sx={{
               fontWeight: 700,
@@ -711,86 +831,82 @@ export default function ConvocatoriaExamen() {
             Nueva convocatoria
           </Button>
 
-          <TextField
-            select
-            size="small"
-            label="Tipo"
-            value={tipoFilter}
-            onChange={(event) => setTipoFilter(event.target.value)}
-            sx={{ minWidth: 170 }}
-          >
-            <MenuItem value="ALL">Todos</MenuItem>
-            <MenuItem value="TEORICO">Teórico</MenuItem>
-            <MenuItem value="PRACTICO">Práctico</MenuItem>
-          </TextField>
-
-          <TextField
-            select
-            size="small"
-            label="Licencia"
-            value={licenciaFilter}
-            onChange={(event) => setLicenciaFilter(event.target.value)}
-            sx={{ minWidth: 150 }}
-          >
-            <MenuItem value="ALL">Todas</MenuItem>
-            {LICENCIAS_APP.map((licencia) => (
-              <MenuItem key={licencia} value={licencia}>
-                {licencia}
-              </MenuItem>
-            ))}
-          </TextField>
-
-          <TextField
-            select
-            size="small"
-            label="Estado convocatoria"
-            value={activoFilter}
-            onChange={(event) => setActivoFilter(event.target.value)}
-            sx={{ minWidth: 210 }}
-          >
-            <MenuItem value="ALL">Todas</MenuItem>
-            <MenuItem value="true">Activas</MenuItem>
-            <MenuItem value="false">Inactivas</MenuItem>
-          </TextField>
-
-          <TextField
-            select
-            size="small"
-            label="Estado alumnos"
-            value={estadoAlumnoFilter}
-            onChange={(event) => setEstadoAlumnoFilter(event.target.value)}
-            sx={{
-              minWidth: 210,
-              "& .MuiSelect-select": { textTransform: "capitalize" },
-            }}
-          >
-            <MenuItem value="ALL">Todos</MenuItem>
-            {ESTADOS_ALUMNO.map((estado) => (
-              <MenuItem
-                key={estado}
-                value={estado}
-                sx={{ textTransform: "capitalize" }}
+          <Paper sx={{ p: 2, mb: 2 }}>
+            <Stack
+              direction={{ xs: "column", md: "row" }}
+              spacing={2}
+              alignItems="center"
+            >
+              {/* Selector de Tipo original */}
+              <TextField
+                select
+                size="small"
+                label="Tipo"
+                value={tipoFilter}
+                onChange={(event) => setTipoFilter(event.target.value)}
+                sx={{ minWidth: 170 }}
               >
-                {formatearEstado(estado)}
-              </MenuItem>
-            ))}
-          </TextField>
+                <MenuItem value="ALL">Todos</MenuItem>
+                <MenuItem value="TEORICO">Teórico</MenuItem>
+                <MenuItem value="PRACTICO">Práctico</MenuItem>
+              </TextField>
 
-          <Button
-            variant={viewMode === "TABLA" ? "contained" : "outlined"}
-            startIcon={<ViewListIcon />}
-            onClick={() => setViewMode("TABLA")}
-          >
-            Tabla
-          </Button>
+              {/* Selector de Licencia original */}
+              <TextField
+                select
+                size="small"
+                label="Licencia"
+                value={licenciaFilter}
+                onChange={(event) => setLicenciaFilter(event.target.value)}
+                sx={{ minWidth: 150 }}
+              >
+                <MenuItem value="ALL">Todas</MenuItem>
+                {LICENCIAS_APP.map((licencia) => (
+                  <MenuItem key={licencia} value={licencia}>
+                    {licencia}
+                  </MenuItem>
+                ))}
+              </TextField>
 
-          <Button
-            variant={viewMode === "AGENDA" ? "contained" : "outlined"}
-            startIcon={<CalendarMonthIcon />}
-            onClick={() => setViewMode("AGENDA")}
-          >
-            Agenda
-          </Button>
+              {/* Selector de Estado Convocatoria original */}
+              <TextField
+                select
+                size="small"
+                label="Estado convocatoria"
+                value={activoFilter}
+                onChange={(event) => setActivoFilter(event.target.value)}
+                sx={{ minWidth: 210 }}
+              >
+                <MenuItem value="ALL">Todas</MenuItem>
+                <MenuItem value="true">Activas</MenuItem>
+                <MenuItem value="false">Inactivas</MenuItem>
+              </TextField>
+
+              {/* Selector de Estado Alumnos original */}
+              <TextField
+                select
+                size="small"
+                label="Estado alumnos"
+                value={estadoAlumnoFilter}
+                onChange={(event) => setEstadoAlumnoFilter(event.target.value)}
+                sx={{
+                  minWidth: 210,
+                  "& .MuiSelect-select": { textTransform: "capitalize" },
+                }}
+              >
+                <MenuItem value="ALL">Todos</MenuItem>
+                {ESTADOS_ALUMNO.map((estado) => (
+                  <MenuItem
+                    key={estado}
+                    value={estado}
+                    sx={{ textTransform: "capitalize" }}
+                  >
+                    {formatearEstado(estado)}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Stack>
+          </Paper>
 
           <Button
             variant="outlined"

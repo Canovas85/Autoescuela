@@ -18,12 +18,19 @@ import {
   Tooltip,
   Typography,
   IconButton,
+  Paper,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  InputAdornment,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DownloadIcon from "@mui/icons-material/Download";
 import BoltIcon from "@mui/icons-material/Bolt";
 import { jwtDecode } from "jwt-decode";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { nominasService } from "../../services/nominasService";
 import { exportNominasExcel } from "../../utils/exportNominasExcel";
@@ -311,50 +318,124 @@ export default function Nominas() {
           spacing={1.25}
           alignItems={{ xs: "stretch", md: "center" }}
         >
-          {!isProfessor ? (
-            <TextField
-              size="small"
-              label="Buscar profesor"
-              value={searchProfesor}
-              onChange={(event) => setSearchProfesor(event.target.value)}
-              sx={{ width: { xs: "100%", md: 240 } }}
-            />
-          ) : null}
-
-          <FormControl size="small" sx={{ minWidth: 170 }}>
-            <InputLabel>Mes</InputLabel>
-            <Select
-              label="Mes"
-              value={mesFiltro}
-              onChange={(event) => setMesFiltro(event.target.value)}
+          <Paper sx={{ p: 2, mb: 2 }}>
+            <Stack
+              direction={{ xs: "column", md: "row" }}
+              spacing={2}
+              alignItems="center"
             >
-              <MenuItem value="">Todos</MenuItem>
-              {MONTHS.map((item) => (
-                <MenuItem key={item.value} value={String(item.value)}>
-                  {item.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              {/* Buscador de Profesor original (condicional) */}
+              {!isProfessor ? (
+                <TextField
+                  size="small"
+                  label="Buscar profesor"
+                  value={searchProfesor}
+                  onChange={(event) => setSearchProfesor(event.target.value)}
+                  sx={{ width: { xs: "100%", md: 240 } }}
+                />
+              ) : null}
 
-          <FormControl size="small" sx={{ minWidth: 130 }}>
-            <InputLabel>Año</InputLabel>
-            <Select
-              label="Año"
-              value={anioFiltro}
-              onChange={(event) => setAnioFiltro(event.target.value)}
-            >
-              <MenuItem value="">Todos</MenuItem>
-              {yearOptions.map((year) => (
-                <MenuItem key={year} value={String(year)}>
-                  {year}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              {/* Selector de Mes original */}
+              <FormControl
+                size="small"
+                sx={{ minWidth: 170, width: { xs: "100%", md: "auto" } }}
+              >
+                <InputLabel>Mes</InputLabel>
+                <Select
+                  label="Mes"
+                  value={mesFiltro}
+                  onChange={(event) => setMesFiltro(event.target.value)}
+                >
+                  <MenuItem value="">Todos</MenuItem>
+                  {MONTHS.map((item) => (
+                    <MenuItem key={item.value} value={String(item.value)}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
 
-          <Button variant="outlined" onClick={loadRows}>
-            Recargar
+              {/* Selector de Año original */}
+              <FormControl
+                size="small"
+                sx={{ minWidth: 130, width: { xs: "100%", md: "auto" } }}
+              >
+                <InputLabel>Año</InputLabel>
+                <Select
+                  label="Año"
+                  value={anioFiltro}
+                  onChange={(event) => setAnioFiltro(event.target.value)}
+                >
+                  <MenuItem value="">Todos</MenuItem>
+                  {yearOptions.map((year) => (
+                    <MenuItem key={year} value={String(year)}>
+                      {year}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Stack>
+          </Paper>
+
+          <Button
+            variant="outlined"
+            startIcon={<RefreshIcon />}
+            onClick={loadRows}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "10px 24px",
+
+              // Activamos el borde físico para que respete el borderColor
+              border: "1px solid",
+
+              // Texto, icono y bordes en color verde/esmeralda de alta tecnología
+              color: "#059669",
+              borderColor: "#059669",
+              backgroundColor: "transparent",
+
+              // Triple sombra adaptada para relieve verde (borde inferior sólido + brillo difuso)
+              boxShadow: `
+      0px 4px 0px #047857, 
+      0px 8px 16px rgba(5, 150, 105, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+
+              // Suavizado de todas las animaciones físicas
+              transition: "all 0.15s ease-in-out",
+
+              // Asegura que el icono de Material-UI herede el color verde automáticamente
+              "& .MuiButton-startIcon": {
+                color: "inherit",
+              },
+
+              "&:hover": {
+                // Al pasar el ratón, se vuelve un verde más brillante e intenso con fondo sutil
+                color: "#10b981",
+                borderColor: "#10b981",
+                backgroundColor: "rgba(5, 150, 105, 0.04)",
+                boxShadow: `
+        0px 4px 0px #047857, 
+        0px 12px 20px rgba(16, 185, 129, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                transform: "translateY(-1px)", // Se eleva ligeramente
+              },
+
+              "&:active": {
+                // Efecto mecánico físico de hundimiento (Relieve presionado)
+                boxShadow: `
+        0px 1px 0px #047857, 
+        0px 2px 4px rgba(5, 150, 105, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                transform: "translateY(3px)", // Se desplaza hacia abajo exactamente el grosor del relieve anterior
+              },
+            }}
+          >
+            Actualizar
           </Button>
 
           {canGenerate ? (
@@ -362,8 +443,61 @@ export default function Nominas() {
               variant="contained"
               startIcon={<BoltIcon />}
               onClick={handleGenerateMonth}
+              sx={{
+                fontWeight: 800, // Un poco más grueso para mejorar la lectura con color chillón
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "10px 24px",
+
+                // Activamos el borde físico lateral y superior
+                border: "1px solid",
+
+                // Texto, icono y bordes en color amarillo eléctrico / cyberpunk
+                color: "#eab308",
+                borderColor: "#eab308",
+                backgroundColor: "transparent",
+
+                // Triple sombra con relieve amarillo oscuro sólido + brillo de neón expandido
+                boxShadow: `
+      0px 4px 0px #ca8a04, 
+      0px 8px 20px rgba(234, 179, 8, 0.3),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+    `,
+
+                // Suavizado de todas las animaciones físicas
+                transition: "all 0.15s ease-in-out",
+
+                // Asegura que el icono herede el amarillo eléctrico automáticamente
+                "& .MuiButton-startIcon": {
+                  color: "inherit",
+                },
+
+                "&:hover": {
+                  // Al pasar el ratón se vuelve amarillo flúor/chillón máximo con fondo sutil
+                  color: "#facc15",
+                  borderColor: "#facc15",
+                  backgroundColor: "rgba(234, 179, 8, 0.08)",
+                  boxShadow: `
+        0px 4px 0px #ca8a04, 
+        0px 12px 24px rgba(250, 204, 21, 0.5),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.4)
+      `,
+                  transform: "translateY(-1px)", // Se eleva ligeramente
+                },
+
+                "&:active": {
+                  // Efecto mecánico físico de hundimiento total
+                  boxShadow: `
+        0px 1px 0px #ca8a04, 
+        0px 2px 4px rgba(234, 179, 8, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.1)
+      `,
+                  transform: "translateY(3px)", // Se desplaza hacia abajo
+                },
+              }}
             >
-              Generar nóminas del mes
+              Generar Nóminas
             </Button>
           ) : null}
 
@@ -371,6 +505,59 @@ export default function Nominas() {
             variant="contained"
             startIcon={<DownloadIcon />}
             onClick={(event) => setExportAnchor(event.currentTarget)}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "10px 24px",
+
+              // Activamos el borde físico para que respete el borderColor
+              border: "1px solid",
+
+              // Texto, icono y bordes en color naranja oscuro de alta tecnología
+              color: "#ea580c",
+              borderColor: "#ea580c",
+              backgroundColor: "transparent",
+
+              // Triple sombra adaptada para relieve naranja (borde inferior sólido + brillo difuso)
+              boxShadow: `
+      0px 4px 0px #c2410c, 
+      0px 8px 16px rgba(234, 88, 12, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+
+              // Suavizado de todas las animaciones físicas
+              transition: "all 0.15s ease-in-out",
+
+              // Asegura que el icono de Material-UI herede el color naranja oscuro automáticamente
+              "& .MuiButton-startIcon": {
+                color: "inherit",
+              },
+
+              "&:hover": {
+                // Al pasar el ratón, se vuelve un naranja más brillante e intenso con fondo sutil
+                color: "#f97316",
+                borderColor: "#f97316",
+                backgroundColor: "rgba(234, 88, 12, 0.04)",
+                boxShadow: `
+        0px 4px 0px #c2410c, 
+        0px 12px 20px rgba(249, 115, 22, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                transform: "translateY(-1px)", // Se eleva ligeramente
+              },
+
+              "&:active": {
+                // Efecto mecánico físico de hundimiento (Relieve presionado)
+                boxShadow: `
+        0px 1px 0px #c2410c, 
+        0px 2px 4px rgba(234, 88, 12, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                transform: "translateY(3px)", // Se desplaza hacia abajo exactamente el grosor del relieve anterior
+              },
+            }}
           >
             Exportar
           </Button>

@@ -5,6 +5,7 @@ import {
   Chip,
   IconButton,
   FormControl,
+  Paper,
   InputLabel,
   MenuItem,
   Select,
@@ -15,6 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import CloseIcon from "@mui/icons-material/Close";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { documentosAlumnoService } from "../../services/documentosAlumnoService";
@@ -270,49 +272,60 @@ export default function DocumentosAlumnoAdmin() {
         spacing={1.5}
         sx={{ mb: 2 }}
       >
-        <TextField
-          size="small"
-          label="Buscar alumno"
-          placeholder="Nombre, DNI o email"
-          value={searchAlumno}
-          onChange={(event) => setSearchAlumno(event.target.value)}
-          sx={{ minWidth: 280 }}
-        />
-
-        <FormControl size="small" sx={{ minWidth: 220 }}>
-          <InputLabel>Tipo</InputLabel>
-          <Select
-            label="Tipo"
-            value={tipoFiltro}
-            onChange={(event) => setTipoFiltro(event.target.value)}
-            sx={{ textTransform: "capitalize" }} // Capitaliza el texto seleccionado en el combo cerrado
+        <Paper sx={{ p: 2, mb: 2 }}>
+          <Stack
+            direction={{ xs: "column", md: "row" }}
+            spacing={2}
+            alignItems="center"
           >
-            {TIPOS_DOCUMENTO.map((tipo) => (
-              <MenuItem
-                key={tipo}
-                value={tipo} // Mantiene el valor original en mayúsculas/guiones para tu lógica
-                sx={{ textTransform: "capitalize" }} // Capitaliza las opciones del menú desplegable
+            {/* Buscador de Alumno original */}
+            <TextField
+              size="small"
+              label="Buscar alumno"
+              placeholder="Nombre, DNI o email"
+              value={searchAlumno}
+              onChange={(event) => setSearchAlumno(event.target.value)}
+              sx={{ minWidth: 280 }}
+            />
+
+            {/* Selector de Tipo original */}
+            <FormControl size="small" sx={{ minWidth: 220 }}>
+              <InputLabel>Tipo</InputLabel>
+              <Select
+                label="Tipo"
+                value={tipoFiltro}
+                onChange={(event) => setTipoFiltro(event.target.value)}
+                sx={{ textTransform: "capitalize" }}
               >
-                {formatearTipo(tipo)}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+                {TIPOS_DOCUMENTO.map((tipo) => (
+                  <MenuItem
+                    key={tipo}
+                    value={tipo}
+                    sx={{ textTransform: "capitalize" }}
+                  >
+                    {formatearTipo(tipo)}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
-        <FormControl size="small" sx={{ minWidth: 220 }}>
-          <InputLabel>Estado</InputLabel>
-          <Select
-            label="Estado"
-            value={estadoFiltro}
-            onChange={(event) => setEstadoFiltro(event.target.value)}
-          >
-            {Object.keys(ESTADOS).map((estado) => (
-              <MenuItem key={estado} value={estado}>
-                {ESTADOS[estado]}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+            {/* Selector de Estado original */}
+            <FormControl size="small" sx={{ minWidth: 220 }}>
+              <InputLabel>Estado</InputLabel>
+              <Select
+                label="Estado"
+                value={estadoFiltro}
+                onChange={(event) => setEstadoFiltro(event.target.value)}
+              >
+                {Object.keys(ESTADOS).map((estado) => (
+                  <MenuItem key={estado} value={estado}>
+                    {ESTADOS[estado]}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Stack>
+        </Paper>
       </Stack>
 
       {rows.length === 0 ? (

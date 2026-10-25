@@ -42,7 +42,7 @@ import DownloadIcon from "@mui/icons-material/Download";
 import Menu from "@mui/material/Menu";
 
 import { exportVehiculosExcel } from "../../utils/exportVehiculosExcel";
-
+import AddIcon from "@mui/icons-material/Add";
 import { exportVehiculosPdf } from "../../utils/exportVehiculosPdf";
 import { exportVehiculosTemplateExcel } from "../../utils/exportVehiculosTemplateExcel";
 import {
@@ -908,6 +908,7 @@ export default function Vehiculos() {
       <Box sx={{ display: "flex", gap: 2, mb: 3, flexWrap: "wrap" }}>
         <Button
           variant="outlined" // Cambiado a outlined para mantener la coherencia del estilo transparente con bordes y letras de color
+          startIcon={<AddIcon />}
           onClick={() => {
             setEditingId(null);
             resetForm();
@@ -962,40 +963,54 @@ export default function Vehiculos() {
           Nuevo Vehículo
         </Button>
 
-        <RadioGroup
-          row
-          value={estadoFiltro}
-          onChange={(event) => setEstadoFiltro(event.target.value)}
-          sx={{ alignItems: "center" }}
-        >
-          <FormControlLabel
-            value="activos"
-            control={<Radio />}
-            label="Activos"
-          />
-          <FormControlLabel
-            value="inactivos"
-            control={<Radio />}
-            label="Inactivos"
-          />
-          <FormControlLabel value="todos" control={<Radio />} label="Todos" />
-        </RadioGroup>
-
-        <FormControl size="small" sx={{ minWidth: 220, mt: 0.5 }}>
-          <InputLabel>Permiso</InputLabel>
-          <Select
-            label="Permiso"
-            value={permisoFiltro}
-            onChange={(event) => setPermisoFiltro(event.target.value)}
+        <Paper sx={{ p: 2, mb: 2 }}>
+          <Stack
+            direction={{ xs: "column", md: "row" }}
+            spacing={2}
+            alignItems="center"
           >
-            <MenuItem value="all">Todos</MenuItem>
-            {PERMISOS.map((permiso) => (
-              <MenuItem key={permiso} value={permiso}>
-                {permiso}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+            {/* Selector de Estado en RadioGroup original */}
+            <RadioGroup
+              row
+              value={estadoFiltro}
+              onChange={(event) => setEstadoFiltro(event.target.value)}
+              sx={{ alignItems: "center" }}
+            >
+              <FormControlLabel
+                value="activos"
+                control={<Radio />}
+                label="Activos"
+              />
+              <FormControlLabel
+                value="inactivos"
+                control={<Radio />}
+                label="Inactivos"
+              />
+              <FormControlLabel
+                value="todos"
+                control={<Radio />}
+                label="Todos"
+              />
+            </RadioGroup>
+
+            {/* Selector de Permiso original */}
+            <FormControl size="small" sx={{ minWidth: 220 }}>
+              <InputLabel>Permiso</InputLabel>
+              <Select
+                label="Permiso"
+                value={permisoFiltro}
+                onChange={(event) => setPermisoFiltro(event.target.value)}
+              >
+                <MenuItem value="all">Todos</MenuItem>
+                {PERMISOS.map((permiso) => (
+                  <MenuItem key={permiso} value={permiso}>
+                    {permiso}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Stack>
+        </Paper>
 
         <Button
           variant="outlined"

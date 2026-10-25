@@ -295,24 +295,6 @@ export default function Examenes() {
             Vista unificada de exámenes teóricos y prácticos.
           </Typography>
         </Box>
-
-        <Box>
-          <Button
-            variant="contained"
-            startIcon={<DownloadIcon />}
-            onClick={(event) => setExportAnchorEl(event.currentTarget)}
-          >
-            Exportar
-          </Button>
-          <Menu
-            anchorEl={exportAnchorEl}
-            open={exportMenuOpen}
-            onClose={() => setExportAnchorEl(null)}
-          >
-            <MenuItem onClick={handleExportExcel}>Exportar a Excel</MenuItem>
-            <MenuItem onClick={handleExportPdf}>Exportar a PDF</MenuItem>
-          </Menu>
-        </Box>
       </Box>
 
       <Stack
@@ -320,129 +302,223 @@ export default function Examenes() {
         spacing={1.5}
         sx={{ mb: 2 }}
       >
-        <TextField
-          size="small"
-          label="Convocatoria desde"
-          type="date"
-          InputLabelProps={{ shrink: true }}
-          value={fechaDesde}
-          onChange={(event) => setFechaDesde(event.target.value)}
+        <Paper sx={{ p: 2, mb: 2 }}>
+          <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
+            <TextField
+              size="small"
+              label="Convocatoria desde"
+              type="date"
+              InputLabelProps={{ shrink: true }}
+              value={fechaDesde}
+              onChange={(event) => setFechaDesde(event.target.value)}
+              sx={{
+                minWidth: 210,
+                "& .MuiInputLabel-root": { color: "rgb(0, 0, 0) !important" },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#1976d2 !important",
+                  borderWidth: "1px",
+                },
+                "& :hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#1976d2 !important",
+                },
+                "& input::-webkit-datetime-edit": {
+                  color: fechaDesde ? "inherit" : "transparent",
+                },
+                "& .MuiInputBase-root.Mui-focused input::-webkit-datetime-edit":
+                  { color: fechaDesde ? "inherit" : "rgba(0, 0, 0, 0.42)" },
+                "& .MuiInputBase-input": { pt: 1.5 },
+              }}
+            />
+
+            <TextField
+              size="small"
+              label="Convocatoria hasta"
+              type="date"
+              InputLabelProps={{ shrink: true }}
+              value={fechaHasta}
+              onChange={(event) => setFechaHasta(event.target.value)}
+              sx={{
+                minWidth: 210,
+                "& .MuiInputLabel-root": { color: "rgb(0, 0, 0) !important" },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#1976d2 !important",
+                  borderWidth: "1px",
+                },
+                "& :hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#1976d2 !important",
+                },
+                "& input::-webkit-datetime-edit": {
+                  color: fechaHasta ? "inherit" : "transparent",
+                },
+                "& .MuiInputBase-root.Mui-focused input::-webkit-datetime-edit":
+                  { color: fechaHasta ? "inherit" : "rgba(0, 0, 0, 0.42)" },
+                "& .MuiInputBase-input": { pt: 1.5 },
+              }}
+            />
+
+            <FormControl
+              size="small"
+              sx={{
+                minWidth: 220,
+                "& .MuiInputLabel-root": { color: "rgb(0, 0, 0) !important" },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#1976d2 !important",
+                  borderWidth: "1px",
+                },
+                "& :hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#1976d2 !important",
+                },
+              }}
+            >
+              <InputLabel id="licencia-filter-label">Licencia</InputLabel>
+              <Select
+                labelId="licencia-filter-label"
+                label="Licencia"
+                value={licenciaFiltro}
+                onChange={(event) => setLicenciaFiltro(event.target.value)}
+              >
+                <MenuItem value="TODAS">Todas</MenuItem>
+                {licencias.map((licencia) => (
+                  <MenuItem key={licencia} value={licencia}>
+                    {licencia}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl
+              size="small"
+              sx={{
+                minWidth: 220,
+                "& .MuiInputLabel-root": { color: "rgb(0, 0, 0) !important" },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#1976d2 !important",
+                  borderWidth: "1px",
+                },
+                "& :hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#1976d2 !important",
+                },
+              }}
+            >
+              <InputLabel id="estado-resultado-filter-label">
+                Estado/Resultado
+              </InputLabel>
+              <Select
+                labelId="estado-resultado-filter-label"
+                label="Estado/Resultado"
+                value={estadoFiltro}
+                onChange={(event) => setEstadoFiltro(event.target.value)}
+              >
+                <MenuItem value="TODOS">Todos</MenuItem>
+                {estadoOptions.map((estado) => (
+                  <MenuItem key={estado} value={estado}>
+                    {estado}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl
+              size="small"
+              sx={{
+                minWidth: 220,
+                "& .MuiInputLabel-root": { color: "rgb(0, 0, 0) !important" },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#1976d2 !important",
+                  borderWidth: "1px",
+                },
+                "& :hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#1976d2 !important",
+                },
+              }}
+            >
+              <InputLabel id="tipo-filter-label">Tipo</InputLabel>
+              <Select
+                labelId="tipo-filter-label"
+                label="Tipo"
+                value={tipoFiltro}
+                onChange={(event) => setTipoFiltro(event.target.value)}
+              >
+                <MenuItem value="TODOS">Todos</MenuItem>
+                {tipos.map((tipo) => (
+                  <MenuItem key={tipo} value={tipo}>
+                    {tipo}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Stack>
+        </Paper>
+
+        <Button
+          variant="contained"
+          startIcon={<DownloadIcon />}
+          onClick={(event) => setExportAnchorEl(event.currentTarget)}
           sx={{
-            minWidth: 210,
-            // 1. Fuerza a la etiqueta a estar SIEMPRE en color azul
-            "& .MuiInputLabel-root": {
-              color: "rgb(0, 0, 0) !important",
+            fontWeight: 700,
+            letterSpacing: "1px",
+            textTransform: "uppercase",
+            borderRadius: "8px",
+            padding: "10px 24px",
+            mb: 2,
+
+            // Activamos el borde físico para que respete el borderColor
+            border: "1px solid",
+
+            // Texto, icono y bordes en color naranja oscuro de alta tecnología
+            color: "#ea580c",
+            borderColor: "#ea580c",
+            backgroundColor: "transparent",
+
+            // Triple sombra adaptada para relieve naranja (borde inferior sólido + brillo difuso)
+            boxShadow: `
+      0px 4px 0px #c2410c, 
+      0px 8px 16px rgba(234, 88, 12, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+
+            // Suavizado de todas las animaciones físicas
+            transition: "all 0.15s ease-in-out",
+
+            // Asegura que el icono de Material-UI herede el color naranja oscuro automáticamente
+            "& .MuiButton-startIcon": {
+              color: "inherit",
             },
-            // 2. Fuerza al borde/muesca exterior a estar SIEMPRE en color azul
-            "& .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#1976d2 !important",
-              borderWidth: "1px",
+
+            "&:hover": {
+              // Al pasar el ratón, se vuelve un naranja más brillante e intenso con fondo sutil
+              color: "#f97316",
+              borderColor: "#f97316",
+              backgroundColor: "rgba(234, 88, 12, 0.04)",
+              boxShadow: `
+        0px 4px 0px #c2410c, 
+        0px 12px 20px rgba(249, 115, 22, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+              transform: "translateY(-1px)", // Se eleva ligeramente
             },
-            // 3. Mantiene el color azul si pasas el ratón por encima (Hover)
-            "& :hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#1976d2 !important",
-            },
-            // 4. CONTROL DINÁMICO DEL FORMATO dd/mm/aaaa:
-            // Oculto por defecto si no hay fecha informada
-            "& input::-webkit-datetime-edit": {
-              color: fechaDesde ? "inherit" : "transparent",
-            },
-            // Se muestra en color gris cuando el campo recibe el foco (haces clic dentro)
-            "& .MuiInputBase-root.Mui-focused input::-webkit-datetime-edit": {
-              color: fechaDesde ? "inherit" : "rgba(0, 0, 0, 0.42)",
-            },
-            // 5. Ajuste de espaciado interno
-            "& .MuiInputBase-input": {
-              pt: 1.5,
+
+            "&:active": {
+              // Efecto mecánico físico de hundimiento (Relieve presionado)
+              boxShadow: `
+        0px 1px 0px #c2410c, 
+        0px 2px 4px rgba(234, 88, 12, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+              transform: "translateY(3px)", // Se desplaza hacia abajo exactamente el grosor del relieve anterior
             },
           }}
-        />
-
-        <TextField
-          size="small"
-          label="Convocatoria hasta"
-          type="date"
-          InputLabelProps={{ shrink: true }}
-          value={fechaHasta}
-          onChange={(event) => setFechaHasta(event.target.value)}
-          sx={{
-            minWidth: 210,
-            // 1. Fuerza a la etiqueta a estar SIEMPRE en color azul
-            "& .MuiInputLabel-root": {
-              color: "rgb(0, 0, 0) !important",
-            },
-            // 2. Fuerza al borde/muesca exterior a estar SIEMPRE en color azul
-            "& .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#1976d2 !important",
-              borderWidth: "1px",
-            },
-            // 3. Mantiene el color azul si pasas el ratón por encima (Hover)
-            "& :hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#1976d2 !important",
-            },
-            // 4. CONTROL DINÁMICO DEL FORMATO dd/mm/aaaa:
-            // Oculto por defecto si no hay fecha informada
-            "& input::-webkit-datetime-edit": {
-              color: fechaHasta ? "inherit" : "transparent",
-            },
-            // Se muestra en color gris cuando el campo recibe el foco (haces clic dentro)
-            "& .MuiInputBase-root.Mui-focused input::-webkit-datetime-edit": {
-              color: fechaHasta ? "inherit" : "rgba(0, 0, 0, 0.42)",
-            },
-            // 5. Ajuste de espaciado interno
-            "& .MuiInputBase-input": {
-              pt: 1.5,
-            },
-          }}
-        />
-
-        <FormControl size="small" sx={{ minWidth: 220 }}>
-          <InputLabel>Licencia</InputLabel>
-          <Select
-            label="Licencia"
-            value={licenciaFiltro}
-            onChange={(event) => setLicenciaFiltro(event.target.value)}
-          >
-            <MenuItem value="TODAS">Todas</MenuItem>
-            {licencias.map((licencia) => (
-              <MenuItem key={licencia} value={licencia}>
-                {licencia}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-
-        <FormControl size="small" sx={{ minWidth: 220 }}>
-          <InputLabel>Estado/Resultado</InputLabel>
-          <Select
-            label="Estado/Resultado"
-            value={estadoFiltro}
-            onChange={(event) => setEstadoFiltro(event.target.value)}
-          >
-            <MenuItem value="TODOS">Todos</MenuItem>
-            {estadoOptions.map((estado) => (
-              <MenuItem key={estado} value={estado}>
-                {estado}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-
-        <FormControl size="small" sx={{ minWidth: 220 }}>
-          <InputLabel>Tipo</InputLabel>
-          <Select
-            label="Tipo"
-            value={tipoFiltro}
-            onChange={(event) => setTipoFiltro(event.target.value)}
-          >
-            <MenuItem value="TODOS">Todos</MenuItem>
-            {tipos.map((tipo) => (
-              <MenuItem key={tipo} value={tipo}>
-                {tipo}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        >
+          Exportar
+        </Button>
+        <Menu
+          anchorEl={exportAnchorEl}
+          open={exportMenuOpen}
+          onClose={() => setExportAnchorEl(null)}
+        >
+          <MenuItem onClick={handleExportExcel}>Exportar a Excel</MenuItem>
+          <MenuItem onClick={handleExportPdf}>Exportar a PDF</MenuItem>
+        </Menu>
       </Stack>
 
       <Box sx={{ height: 700 }}>

@@ -20,6 +20,12 @@ import {
   Snackbar,
   TextField,
   Typography,
+  Paper,
+  Stack,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  InputAdornment,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
@@ -31,6 +37,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Tooltip from "@mui/material/Tooltip";
 import { jwtDecode } from "jwt-decode";
+import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
 
 import { bonosService } from "../../services/bonosService";
@@ -686,21 +693,31 @@ export default function Bonos() {
             >
               Nuevo bono
             </Button>
-            <FormControl size="small" sx={{ minWidth: 180 }}>
-              <InputLabel>Licencia</InputLabel>
-              <Select
-                label="Licencia"
-                value={licenciaFiltro}
-                onChange={(event) => setLicenciaFiltro(event.target.value)}
+            <Paper sx={{ p: 2, mb: 2 }}>
+              <Stack
+                direction={{ xs: "column", md: "row" }}
+                spacing={2}
+                alignItems="center"
               >
-                <MenuItem value="all">Todas</MenuItem>
-                {LICENCIAS.map((licencia) => (
-                  <MenuItem key={licencia} value={licencia}>
-                    {licencia}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                {/* Selector de Licencia original */}
+                <FormControl size="small" sx={{ minWidth: 180 }}>
+                  <InputLabel>Licencia</InputLabel>
+                  <Select
+                    label="Licencia"
+                    value={licenciaFiltro}
+                    onChange={(event) => setLicenciaFiltro(event.target.value)}
+                  >
+                    <MenuItem value="all">Todas</MenuItem>
+                    {LICENCIAS.map((licencia) => (
+                      <MenuItem key={licencia} value={licencia}>
+                        {licencia}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Stack>
+            </Paper>
+
             <Button
               variant="outlined"
               onClick={exportBonosTemplateExcel}

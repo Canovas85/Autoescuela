@@ -176,7 +176,7 @@ function AdminDashboardView({ metrics }) {
     },
     {
       id: "pendiente",
-      title: "Matrícula Pendiente de Pago",
+      title: "Pendiente de Pago",
       value: matriculasAlumnos.alumnosMatriculaPendientePago ?? 0,
       icon: <AccessTimeFilledIcon />,
       color: "#ea580c",

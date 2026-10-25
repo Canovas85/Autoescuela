@@ -8,19 +8,27 @@ import {
   InputLabel,
   Link,
   Menu,
-  MenuItem,
   Select,
   Snackbar,
   Stack,
-  TextField,
   Typography,
+  Paper,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  TextField,
+  MenuItem,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import { DataGrid } from "@mui/x-data-grid";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import { jwtDecode } from "jwt-decode";
 import { gastosCombustibleService } from "../../services/gastosCombustibleService";
 import { exportGastosExcel } from "../../utils/exportGastosExcel";
 import { exportGastosPdf } from "../../utils/exportGastosPdf";
+import CloseIcon from "@mui/icons-material/Close";
 
 const formatDateTime = (value) => {
   if (!value) {
@@ -270,7 +278,9 @@ export default function Gastos() {
             Registro de gastos de combustible realizados por profesores.
           </Typography>
         </Box>
+      </Box>
 
+      <Box sx={{ mb: 2 }}>
         <Stack
           direction={{ xs: "column", md: "row" }}
           spacing={1.25}
@@ -284,42 +294,184 @@ export default function Gastos() {
             sx={{ width: { xs: "100%", md: 260 } }}
           />*/}
 
-          <FormControl size="small" sx={{ minWidth: 140 }}>
-            <InputLabel>Licencia</InputLabel>
-            <Select
-              label="Licencia"
-              value={licenciaFiltro}
-              onChange={(event) => setLicenciaFiltro(event.target.value)}
-            >
-              <MenuItem value="TODAS">Todas</MenuItem>
-              {licencias.map((licencia) => (
-                <MenuItem key={licencia} value={licencia}>
-                  {licencia}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <Paper sx={{ p: 2, mb: 2 }}>
+            <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
+              <FormControl
+                size="small"
+                sx={{
+                  minWidth: 140,
+                  "& .MuiInputLabel-root": { color: "rgb(0, 0, 0) !important" },
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#1976d2 !important",
+                    borderWidth: "1px",
+                  },
+                  "& :hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#1976d2 !important",
+                  },
+                }}
+              >
+                <InputLabel id="licencia-filter-label">Licencia</InputLabel>
+                <Select
+                  labelId="licencia-filter-label"
+                  label="Licencia"
+                  value={licenciaFiltro}
+                  onChange={(event) => setLicenciaFiltro(event.target.value)}
+                >
+                  <MenuItem value="TODAS">Todas</MenuItem>
+                  {licencias.map((licencia) => (
+                    <MenuItem key={licencia} value={licencia}>
+                      {licencia}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
 
-          <FormControl size="small" sx={{ minWidth: 150 }}>
-            <InputLabel>Concepto</InputLabel>
-            <Select
-              label="Concepto"
-              value={conceptoFiltro}
-              onChange={(event) => setConceptoFiltro(event.target.value)}
-            >
-              <MenuItem value="TODOS">Todos</MenuItem>
-              <MenuItem value="COMBUSTIBLE">Combustible</MenuItem>
-            </Select>
-          </FormControl>
+              <FormControl
+                size="small"
+                sx={{
+                  minWidth: 150,
+                  "& .MuiInputLabel-root": { color: "rgb(0, 0, 0) !important" },
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#1976d2 !important",
+                    borderWidth: "1px",
+                  },
+                  "& :hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#1976d2 !important",
+                  },
+                }}
+              >
+                <InputLabel id="concepto-filter-label">Concepto</InputLabel>
+                <Select
+                  labelId="concepto-filter-label"
+                  label="Concepto"
+                  value={conceptoFiltro}
+                  onChange={(event) => setConceptoFiltro(event.target.value)}
+                >
+                  <MenuItem value="TODOS">Todos</MenuItem>
+                  <MenuItem value="COMBUSTIBLE">Combustible</MenuItem>
+                </Select>
+              </FormControl>
+            </Stack>
+          </Paper>
 
-          <Button variant="outlined" onClick={loadData}>
-            Recargar
+          <Button
+            variant="outlined"
+            onClick={loadData}
+            startIcon={<RefreshIcon />}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "10px 24px",
+
+              // Activamos el borde físico para que respete el borderColor
+              border: "1px solid",
+
+              // Texto, icono y bordes en color verde/esmeralda de alta tecnología
+              color: "#059669",
+              borderColor: "#059669",
+              backgroundColor: "transparent",
+
+              // Triple sombra adaptada para relieve verde (borde inferior sólido + brillo difuso)
+              boxShadow: `
+      0px 4px 0px #047857, 
+      0px 8px 16px rgba(5, 150, 105, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+
+              // Suavizado de todas las animaciones físicas
+              transition: "all 0.15s ease-in-out",
+
+              // Asegura que el icono de Material-UI herede el color verde automáticamente
+              "& .MuiButton-startIcon": {
+                color: "inherit",
+              },
+
+              "&:hover": {
+                // Al pasar el ratón, se vuelve un verde más brillante e intenso con fondo sutil
+                color: "#10b981",
+                borderColor: "#10b981",
+                backgroundColor: "rgba(5, 150, 105, 0.04)",
+                boxShadow: `
+        0px 4px 0px #047857, 
+        0px 12px 20px rgba(16, 185, 129, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                transform: "translateY(-1px)", // Se eleva ligeramente
+              },
+
+              "&:active": {
+                // Efecto mecánico físico de hundimiento (Relieve presionado)
+                boxShadow: `
+        0px 1px 0px #047857, 
+        0px 2px 4px rgba(5, 150, 105, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                transform: "translateY(3px)", // Se desplaza hacia abajo exactamente el grosor del relieve anterior
+              },
+            }}
+          >
+            Actualizar
           </Button>
 
           <Button
             variant="contained"
             startIcon={<DownloadIcon />}
             onClick={(event) => setExportAnchorEl(event.currentTarget)}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "10px 24px",
+
+              // Activamos el borde físico para que respete el borderColor
+              border: "1px solid",
+
+              // Texto, icono y bordes en color naranja oscuro de alta tecnología
+              color: "#ea580c",
+              borderColor: "#ea580c",
+              backgroundColor: "transparent",
+
+              // Triple sombra adaptada para relieve naranja (borde inferior sólido + brillo difuso)
+              boxShadow: `
+      0px 4px 0px #c2410c, 
+      0px 8px 16px rgba(234, 88, 12, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+
+              // Suavizado de todas las animaciones físicas
+              transition: "all 0.15s ease-in-out",
+
+              // Asegura que el icono de Material-UI herede el color naranja oscuro automáticamente
+              "& .MuiButton-startIcon": {
+                color: "inherit",
+              },
+
+              "&:hover": {
+                // Al pasar el ratón, se vuelve un naranja más brillante e intenso con fondo sutil
+                color: "#f97316",
+                borderColor: "#f97316",
+                backgroundColor: "rgba(234, 88, 12, 0.04)",
+                boxShadow: `
+        0px 4px 0px #c2410c, 
+        0px 12px 20px rgba(249, 115, 22, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                transform: "translateY(-1px)", // Se eleva ligeramente
+              },
+
+              "&:active": {
+                // Efecto mecánico físico de hundimiento (Relieve presionado)
+                boxShadow: `
+        0px 1px 0px #c2410c, 
+        0px 2px 4px rgba(234, 88, 12, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                transform: "translateY(3px)", // Se desplaza hacia abajo exactamente el grosor del relieve anterior
+              },
+            }}
           >
             Exportar
           </Button>

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 
 import {
+  Paper,
+  Stack,
   Box,
   Button,
-  Paper,
   Grid,
   Typography,
   Chip,
@@ -42,6 +43,7 @@ import { exportAlumnosExcel } from "../../utils/exportAlumnosExcel";
 
 import { exportAlumnosPdf } from "../../utils/exportAlumnosPdf";
 
+import AddIcon from "@mui/icons-material/Add";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
@@ -1048,6 +1050,7 @@ export default function Alumnos() {
       >
         <Button
           variant="outlined" // Cambiado a outlined para mantener la coherencia del estilo transparente con bordes y letras de color
+          startIcon={<AddIcon />}
           onClick={() => {
             setEditingId(null);
             setPromocionMatricula(null);
@@ -1127,76 +1130,89 @@ export default function Alumnos() {
           Nuevo Alumno
         </Button>
 
-        <RadioGroup
-          row
-          value={estadoFiltro}
-          onChange={(e) => setEstadoFiltro(e.target.value)}
-        >
-          <FormControlLabel
-            value="activos"
-            control={<Radio />}
-            label="Activos"
-          />
+        <Paper sx={{ p: 2, mb: 2 }}>
+          <Stack
+            direction={{ xs: "column", md: "row" }}
+            spacing={2}
+            alignItems="center"
+          >
+            {/* Selector de Estado en RadioGroup original */}
+            <RadioGroup
+              row
+              value={estadoFiltro}
+              onChange={(e) => setEstadoFiltro(e.target.value)}
+            >
+              <FormControlLabel
+                value="activos"
+                control={<Radio />}
+                label="Activos"
+              />
+              <FormControlLabel
+                value="inactivos"
+                control={<Radio />}
+                label="Inactivos"
+              />
+              <FormControlLabel
+                value="todos"
+                control={<Radio />}
+                label="Todos"
+              />
+            </RadioGroup>
 
-          <FormControlLabel
-            value="inactivos"
-            control={<Radio />}
-            label="Inactivos"
-          />
+            {/* Selector de Profesor original */}
+            <TextField
+              select
+              size="small"
+              label="Buscar por profesor"
+              value={profesorFiltro}
+              onChange={(e) => setProfesorFiltro(e.target.value)}
+              sx={{ width: 320 }}
+            >
+              <MenuItem value="">Todos los profesores</MenuItem>
+              {profesores.map((profesor) => (
+                <MenuItem key={profesor.id} value={profesor.id}>
+                  {profesor.usuario?.nombre}
+                </MenuItem>
+              ))}
+            </TextField>
 
-          <FormControlLabel value="todos" control={<Radio />} label="Todos" />
-        </RadioGroup>
+            {/* Selector de Estado Expediente original */}
+            <TextField
+              select
+              size="small"
+              label="Estado expediente"
+              value={faseExpedienteFiltro}
+              onChange={(e) => setFaseExpedienteFiltro(e.target.value)}
+              sx={{ width: 300 }}
+            >
+              <MenuItem value="">Todos los estados</MenuItem>
+              {EXPEDIENTE_PHASE_OPTIONS.map((estado) => (
+                <MenuItem key={estado.code} value={estado.code}>
+                  {estado.label}
+                </MenuItem>
+              ))}
+            </TextField>
 
-        <TextField
-          select
-          size="small"
-          label="Buscar por profesor"
-          value={profesorFiltro}
-          onChange={(e) => setProfesorFiltro(e.target.value)}
-          sx={{ width: 320 }}
-        >
-          <MenuItem value="">Todos los profesores</MenuItem>
-
-          {profesores.map((profesor) => (
-            <MenuItem key={profesor.id} value={profesor.id}>
-              {profesor.usuario?.nombre}
-            </MenuItem>
-          ))}
-        </TextField>
-
-        <TextField
-          select
-          size="small"
-          label="Estado expediente"
-          value={faseExpedienteFiltro}
-          onChange={(e) => setFaseExpedienteFiltro(e.target.value)}
-          sx={{ width: 300 }}
-        >
-          <MenuItem value="">Todos los estados</MenuItem>
-          {EXPEDIENTE_PHASE_OPTIONS.map((estado) => (
-            <MenuItem key={estado.code} value={estado.code}>
-              {estado.label}
-            </MenuItem>
-          ))}
-        </TextField>
-
-        <TextField
-          size="small"
-          label="Buscar alumno"
-          placeholder="Nombre, email o teléfono"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          sx={{ width: 320 }}
-          InputProps={{
-            endAdornment: search && (
-              <InputAdornment position="end">
-                <IconButton size="small" onClick={() => setSearch("")}>
-                  <CloseIcon fontSize="small" />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
+            {/* Buscador de Alumno original */}
+            <TextField
+              size="small"
+              label="Buscar alumno"
+              placeholder="Nombre, email o teléfono"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              sx={{ width: 320 }}
+              InputProps={{
+                endAdornment: search && (
+                  <InputAdornment position="end">
+                    <IconButton size="small" onClick={() => setSearch("")}>
+                      <CloseIcon fontSize="small" />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Stack>
+        </Paper>
 
         <Button
           variant="outlined"

@@ -16,7 +16,7 @@ import { profesoresService } from "../../services/profesoresService";
 
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-
+import AddIcon from "@mui/icons-material/Add";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import { LicenseChipList } from "../../components/common/LicenseChip";
@@ -810,6 +810,7 @@ export default function Profesores() {
       >
         <Button
           variant="outlined" // Cambiado a outlined para mantener la coherencia del estilo transparente con bordes y letras de color
+          startIcon={<AddIcon />}
           onClick={() => {
             setEditingId(null);
 
@@ -877,43 +878,55 @@ export default function Profesores() {
           Nuevo Profesor
         </Button>
 
-        <RadioGroup
-          row
-          value={estadoFiltro}
-          onChange={(e) => setEstadoFiltro(e.target.value)}
-        >
-          <FormControlLabel
-            value="activos"
-            control={<Radio />}
-            label="Activos"
-          />
+        <Paper sx={{ p: 2, mb: 2 }}>
+          <Stack
+            direction={{ xs: "column", md: "row" }}
+            spacing={2}
+            alignItems="center"
+          >
+            {/* Selector de Estado en RadioGroup original */}
+            <RadioGroup
+              row
+              value={estadoFiltro}
+              onChange={(e) => setEstadoFiltro(e.target.value)}
+            >
+              <FormControlLabel
+                value="activos"
+                control={<Radio />}
+                label="Activos"
+              />
+              <FormControlLabel
+                value="inactivos"
+                control={<Radio />}
+                label="Inactivos"
+              />
+              <FormControlLabel
+                value="todos"
+                control={<Radio />}
+                label="Todos"
+              />
+            </RadioGroup>
 
-          <FormControlLabel
-            value="inactivos"
-            control={<Radio />}
-            label="Inactivos"
-          />
-
-          <FormControlLabel value="todos" control={<Radio />} label="Todos" />
-        </RadioGroup>
-
-        <TextField
-          size="small"
-          label="Buscar profesor"
-          placeholder="Nombre, email o teléfono"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          sx={{ width: 320 }}
-          InputProps={{
-            endAdornment: search && (
-              <InputAdornment position="end">
-                <IconButton size="small" onClick={() => setSearch("")}>
-                  <CloseIcon fontSize="small" />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
+            {/* Buscador de Profesor original */}
+            <TextField
+              size="small"
+              label="Buscar profesor"
+              placeholder="Nombre, email o teléfono"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              sx={{ width: 320 }}
+              InputProps={{
+                endAdornment: search && (
+                  <InputAdornment position="end">
+                    <IconButton size="small" onClick={() => setSearch("")}>
+                      <CloseIcon fontSize="small" />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Stack>
+        </Paper>
 
         <Button
           variant="outlined"

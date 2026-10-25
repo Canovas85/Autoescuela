@@ -21,11 +21,14 @@ import {
   Stack,
   TextField,
   Typography,
+  Paper,
+  InputAdornment,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
+import CloseIcon from "@mui/icons-material/Close";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -766,7 +769,14 @@ export default function TestDGTAdmin() {
         </Box>
       </Box>
       <Box sx={{ mb: 2 }}>
-        <Stack direction="row" spacing={1.5} useFlexGap flexWrap="wrap">
+        <Stack
+          direction="row"
+          spacing={1.5}
+          useFlexGap
+          flexWrap="wrap"
+          alignItems="center"
+        >
+          {/* Botón: Nueva pregunta */}
           <Button
             variant="contained"
             startIcon={<AddIcon />}
@@ -777,64 +787,66 @@ export default function TestDGTAdmin() {
               textTransform: "uppercase",
               borderRadius: "8px",
               padding: "10px 24px",
-
-              // FUERZA EL BORDE: Define grosor, estilo y color explícitamente en todas las direcciones
               border: "1px solid",
               borderColor: "#1e3a8a !important",
               color: "#1e3a8a",
               backgroundColor: "transparent",
-
-              // Triple sombra adaptada para relieve azul oscuro (borde inferior sólido + brillo sutil)
               boxShadow: `
-    0px 4px 0px #172554, 
-    0px 8px 16px rgba(30, 58, 138, 0.15),
-    inset 0px 1px 0px rgba(255, 255, 255, 0.1)
-  `,
-
-              // Suavizado de todas las animaciones físicas
+        0px 4px 0px #172554, 
+        0px 8px 16px rgba(30, 58, 138, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
               transition: "all 0.15s ease-in-out",
-
               "&:hover": {
-                // Al pasar el ratón, se activa un azul más vivo con un fondo sutilmente iluminado
                 color: "#2563eb",
-                borderColor: "#2563eb !important", // Fuerza el cambio de color de todos los bordes en el hover
+                borderColor: "#2563eb !important",
                 backgroundColor: "rgba(30, 58, 138, 0.04)",
                 boxShadow: `
-      0px 4px 0px #172554, 
-      0px 12px 20px rgba(37, 99, 235, 0.25),
-      inset 0px 1px 0px rgba(255, 255, 255, 0.2)
-    `,
-                transform: "translateY(-1px)", // Se eleva ligeramente
+          0px 4px 0px #172554, 
+          0px 12px 20px rgba(37, 99, 235, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
               },
-
               "&:active": {
-                // Efecto mecánico físico de hundimiento al hacer clic (Relieve presionado)
                 borderColor: "#1e3a8a !important",
                 boxShadow: `
-      0px 1px 0px #172554, 
-      0px 2px 4px rgba(30, 58, 138, 0.2),
-      inset 0px 2px 4px rgba(0, 0, 0, 0.05)
-    `,
-                transform: "translateY(3px)", // Se desplaza hacia abajo exactamente el grosor del relieve anterior
+          0px 1px 0px #172554, 
+          0px 2px 4px rgba(30, 58, 138, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
               },
             }}
           >
             Nueva pregunta
           </Button>
-          <FormControl size="small" sx={{ minWidth: 220 }}>
-            <Select
-              value={licenciaFiltro}
-              onChange={(event) => setLicenciaFiltro(event.target.value)}
-            >
-              <MenuItem value="all">Todas las licencias</MenuItem>
-              {LICENCIAS.map((licencia) => (
-                <MenuItem key={licencia} value={licencia}>
-                  Permiso {licencia}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
 
+          {/* Tarjeta con Selector de Licencia */}
+          <Paper
+            sx={{
+              p: 1.5,
+              width: "fit-content",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <FormControl size="small" sx={{ minWidth: 220 }}>
+              <Select
+                value={licenciaFiltro}
+                onChange={(event) => setLicenciaFiltro(event.target.value)}
+              >
+                <MenuItem value="all">Todas las licencias</MenuItem>
+                {LICENCIAS.map((licencia) => (
+                  <MenuItem key={licencia} value={licencia}>
+                    Permiso {licencia}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Paper>
+
+          {/* Botón: Descargar plantilla */}
           <Button
             variant="outlined"
             onClick={exportPreguntasDGTTemplateExcel}
@@ -844,56 +856,45 @@ export default function TestDGTAdmin() {
               textTransform: "uppercase",
               borderRadius: "8px",
               padding: "10px 24px",
-
-              // FUERZA EL BORDE: Contorno completo en color morado vibrante
               border: "1px solid",
-              borderColor: "#6d28d9 !important", // Morado principal
+              borderColor: "#6d28d9 !important",
               color: "#6d28d9",
               backgroundColor: "transparent",
-
-              // Sombra de capas adaptada para relieve morado (borde inferior sólido + brillo ambiental)
               boxShadow: `
-                0px 4px 0px #5b21b6, 
-                0px 8px 16px rgba(109, 40, 217, 0.15),
-                inset 0px 1px 0px rgba(255, 255, 255, 0.1)
-              `,
-
-              // Transición suave para las animaciones físicas
+        0px 4px 0px #5b21b6, 
+        0px 8px 16px rgba(109, 40, 217, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
               transition: "all 0.15s ease-in-out",
-
-              // Sincroniza el icono de Material-UI para que herede el color del texto automáticamente
               "& .MuiButton-startIcon": {
                 color: "inherit",
               },
-
               "&:hover": {
-                // Pasa a un tono morado más vivo con un fondo sutilmente iluminado
                 color: "#8b5cf6",
                 borderColor: "#8b5cf6 !important",
                 backgroundColor: "rgba(109, 40, 217, 0.04)",
                 boxShadow: `
-                  0px 4px 0px #5b21b6, 
-                  0px 12px 20px rgba(139, 92, 246, 0.25),
-                  inset 0px 1px 0px rgba(255, 255, 255, 0.2)
-                `,
-                transform: "translateY(-1px)", // Se eleva ligeramente
+          0px 4px 0px #5b21b6, 
+          0px 12px 20px rgba(139, 92, 246, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
               },
-
               "&:active": {
-                // Mecanismo físico de hundimiento real al hacer clic
                 borderColor: "#6d28d9 !important",
                 boxShadow: `
-                  0px 1px 0px #5b21b6, 
-                  0px 2px 4px rgba(109, 40, 217, 0.2),
-                  inset 0px 2px 4px rgba(0, 0, 0, 0.05)
-                `,
-                transform: "translateY(3px)", // Se desplaza hacia abajo el grosor exacto del relieve
+          0px 1px 0px #5b21b6, 
+          0px 2px 4px rgba(109, 40, 217, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
               },
             }}
           >
             Descargar plantilla
           </Button>
 
+          {/* Botón: Importar Excel */}
           <Button
             variant="outlined"
             component="label"
@@ -906,51 +907,37 @@ export default function TestDGTAdmin() {
               borderRadius: "8px",
               padding: "10px 24px",
               cursor: "pointer",
-
-              // Texto, borde e icono base en color verde
-              color: "#16a34a", // Tailwind green-600
+              color: "#16a34a",
               borderColor: "#16a34a",
               backgroundColor: "transparent",
-
-              // Sombra de capas adaptada para relieve verde (borde inferior sólido + brillo ambiental)
               boxShadow: `
-      0px 4px 0px #15803d, 
-      0px 8px 16px rgba(22, 163, 74, 0.15),
-      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
-    `,
-
-              // Transición suave para las animaciones físicas
+        0px 4px 0px #15803d, 
+        0px 8px 16px rgba(22, 163, 74, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
               transition: "all 0.15s ease-in-out",
-
-              // Sincroniza el icono de Material-UI para que herede el color del texto automáticamente
               "& .MuiButton-startIcon": {
                 color: "inherit",
               },
-
               "&:hover": {
-                // Pasa a un tono verde más vivo con un fondo sutilmente iluminado
-                color: "#15803d", // Tailwind green-700
+                color: "#15803d",
                 borderColor: "#15803d",
                 backgroundColor: "rgba(22, 163, 74, 0.04)",
                 boxShadow: `
-        0px 4px 0px #15803d, 
-        0px 12px 20px rgba(21, 128, 61, 0.25),
-        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
-      `,
-                transform: "translateY(-1px)", // Se eleva ligeramente
+          0px 4px 0px #15803d, 
+          0px 12px 20px rgba(21, 128, 61, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
               },
-
               "&:active": {
-                // Mecanismo físico de hundimiento real al hacer clic
                 boxShadow: `
-        0px 1px 0px #15803d, 
-        0px 2px 4px rgba(22, 163, 74, 0.2),
-        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
-      `,
-                transform: "translateY(3px)", // Se desplaza hacia abajo el grosor exacto del relieve
+          0px 1px 0px #15803d, 
+          0px 2px 4px rgba(22, 163, 74, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
               },
-
-              // Estilos cuando el botón está deshabilitado (importingExcel === true)
               "&.Mui-disabled": {
                 boxShadow: "none",
                 transform: "none",
