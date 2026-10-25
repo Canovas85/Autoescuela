@@ -783,6 +783,7 @@ export default function ConvocatoriaExamen() {
               textTransform: "uppercase",
               borderRadius: "8px",
               padding: "10px 24px",
+              mt: 1.5,
 
               // Deep blue text, borders, and icon baseline
               color: "#1e3a8a",
@@ -917,6 +918,7 @@ export default function ConvocatoriaExamen() {
               textTransform: "uppercase",
               borderRadius: "8px",
               padding: "10px 24px",
+              mt: 1.5,
 
               // FUERZA EL BORDE: Contorno completo en color morado vibrante
               border: "1px solid",
@@ -979,6 +981,7 @@ export default function ConvocatoriaExamen() {
               borderRadius: "8px",
               padding: "10px 24px",
               cursor: "pointer",
+              mt: 1.5,
 
               // Texto, borde e icono base en color verde
               color: "#16a34a", // Tailwind green-600

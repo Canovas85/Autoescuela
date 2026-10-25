@@ -299,10 +299,13 @@ export default function Examenes() {
 
       <Stack
         direction={{ xs: "column", md: "row" }}
-        spacing={1.5}
+        spacing={2}
+        alignItems="center"
+        flexWrap="wrap"
         sx={{ mb: 2 }}
       >
-        <Paper sx={{ p: 2, mb: 2 }}>
+        {/* El Paper ahora se ajusta solo a sus filtros y no se estira */}
+        <Paper sx={{ p: 2, mb: 0, width: "fit-content" }}>
           <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
             <TextField
               size="small"
@@ -450,67 +453,56 @@ export default function Examenes() {
           </Stack>
         </Paper>
 
-        <Button
-          variant="contained"
-          startIcon={<DownloadIcon />}
-          onClick={(event) => setExportAnchorEl(event.currentTarget)}
-          sx={{
-            fontWeight: 700,
-            letterSpacing: "1px",
-            textTransform: "uppercase",
-            borderRadius: "8px",
-            padding: "10px 24px",
-            mb: 2,
-
-            // Activamos el borde físico para que respete el borderColor
-            border: "1px solid",
-
-            // Texto, icono y bordes en color naranja oscuro de alta tecnología
-            color: "#ea580c",
-            borderColor: "#ea580c",
-            backgroundColor: "transparent",
-
-            // Triple sombra adaptada para relieve naranja (borde inferior sólido + brillo difuso)
-            boxShadow: `
-      0px 4px 0px #c2410c, 
-      0px 8px 16px rgba(234, 88, 12, 0.15),
-      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
-    `,
-
-            // Suavizado de todas las animaciones físicas
-            transition: "all 0.15s ease-in-out",
-
-            // Asegura que el icono de Material-UI herede el color naranja oscuro automáticamente
-            "& .MuiButton-startIcon": {
-              color: "inherit",
-            },
-
-            "&:hover": {
-              // Al pasar el ratón, se vuelve un naranja más brillante e intenso con fondo sutil
-              color: "#f97316",
-              borderColor: "#f97316",
-              backgroundColor: "rgba(234, 88, 12, 0.04)",
+        {/* Contenedor del Botón: Se sitúa a la derecha y queda centrado verticalmente gracias al Stack principal */}
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Button
+            variant="contained"
+            startIcon={<DownloadIcon />}
+            onClick={(event) => setExportAnchorEl(event.currentTarget)}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "10px 24px",
+              border: "1px solid",
+              color: "#ea580c",
+              borderColor: "#ea580c",
+              backgroundColor: "transparent",
               boxShadow: `
-        0px 4px 0px #c2410c, 
-        0px 12px 20px rgba(249, 115, 22, 0.25),
-        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
-      `,
-              transform: "translateY(-1px)", // Se eleva ligeramente
-            },
+          0px 4px 0px #c2410c, 
+          0px 8px 16px rgba(234, 88, 12, 0.15),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+        `,
+              transition: "all 0.15s ease-in-out",
+              "& .MuiButton-startIcon": {
+                color: "inherit",
+              },
+              "&:hover": {
+                color: "#f97316",
+                borderColor: "#f97316",
+                backgroundColor: "rgba(234, 88, 12, 0.04)",
+                boxShadow: `
+            0px 4px 0px #c2410c, 
+            0px 12px 20px rgba(249, 115, 22, 0.25),
+            inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+          `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                boxShadow: `
+            0px 1px 0px #c2410c, 
+            0px 2px 4px rgba(234, 88, 12, 0.2),
+            inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+          `,
+                transform: "translateY(3px)",
+              },
+            }}
+          >
+            Exportar
+          </Button>
+        </Box>
 
-            "&:active": {
-              // Efecto mecánico físico de hundimiento (Relieve presionado)
-              boxShadow: `
-        0px 1px 0px #c2410c, 
-        0px 2px 4px rgba(234, 88, 12, 0.2),
-        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
-      `,
-              transform: "translateY(3px)", // Se desplaza hacia abajo exactamente el grosor del relieve anterior
-            },
-          }}
-        >
-          Exportar
-        </Button>
         <Menu
           anchorEl={exportAnchorEl}
           open={exportMenuOpen}

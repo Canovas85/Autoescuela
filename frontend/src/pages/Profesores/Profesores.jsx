@@ -878,7 +878,7 @@ export default function Profesores() {
           Nuevo Profesor
         </Button>
 
-        <Paper sx={{ p: 2, mb: 2 }}>
+        <Paper sx={{ p: 2, mb: 0 }}>
           <Stack
             direction={{ xs: "column", md: "row" }}
             spacing={2}

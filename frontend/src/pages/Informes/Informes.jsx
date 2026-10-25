@@ -470,14 +470,21 @@ export default function Informes() {
             "linear-gradient(90deg, rgba(255,247,237,0.95) 0%, rgba(239,246,255,0.9) 48%, rgba(240,253,250,0.95) 100%)",
         }}
       >
-        <CardContent>
+        <CardContent sx={{ pb: "16px !important" }}>
           <Stack
             direction={{ xs: "column", xl: "row" }}
-            spacing={1}
+            spacing={1.5}
             justifyContent="space-between"
-            alignItems={{ xs: "stretch", xl: "center" }}
+            alignItems={{ xs: "stretch", xl: "center" }} // Centrado vertical puro en pantallas grandes
           >
-            <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
+            {/* Bloque Izquierdo: Selectores y Filtros temporales */}
+            <Stack
+              direction="row"
+              spacing={1}
+              useFlexGap
+              flexWrap="wrap"
+              alignItems="center"
+            >
               <TextField
                 select
                 label="Periodo"
@@ -568,7 +575,7 @@ export default function Informes() {
                     value={dateTo}
                     onChange={(event) => setDateTo(event.target.value)}
                     placeholder={focusDateTo ? "dd/mm/aaaa" : ""}
-                    InputLabelProps={{ shrink: focusDateTo || Boolean(dateTo) }}
+                    InputLabelProps={{ shrink: true }}
                     onFocus={() => {
                       setFocusDateTo(true);
                       setDateToInputType("date");
@@ -585,130 +592,121 @@ export default function Informes() {
               ) : null}
             </Stack>
 
-            <Stack direction="row" spacing={1}>
-              <Button
-                variant="outlined"
-                startIcon={<RefreshIcon />}
-                onClick={loadReport}
-                disabled={loading}
+            {/* Bloque Derecho: Botones de Acción perfectamente nivelados */}
+            <Stack direction="row" spacing={1.5} alignItems="center">
+              {/* Contenedor Botón Actualizar */}
+              <Box
                 sx={{
-                  fontWeight: 700,
-                  letterSpacing: "1px",
-                  textTransform: "uppercase",
-                  borderRadius: "8px",
-                  padding: "10px 24px",
-
-                  // Activamos el borde físico para que respete el borderColor
-                  border: "1px solid",
-
-                  // Texto, icono y bordes en color verde/esmeralda de alta tecnología
-                  color: "#059669",
-                  borderColor: "#059669",
-                  backgroundColor: "transparent",
-
-                  // Triple sombra adaptada para relieve verde (borde inferior sólido + brillo difuso)
-                  boxShadow: `
-      0px 4px 0px #047857, 
-      0px 8px 16px rgba(5, 150, 105, 0.15),
-      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
-    `,
-
-                  // Suavizado de todas las animaciones físicas
-                  transition: "all 0.15s ease-in-out",
-
-                  // Asegura que el icono de Material-UI herede el color verde automáticamente
-                  "& .MuiButton-startIcon": {
-                    color: "inherit",
-                  },
-
-                  "&:hover": {
-                    // Al pasar el ratón, se vuelve un verde más brillante e intenso con fondo sutil
-                    color: "#10b981",
-                    borderColor: "#10b981",
-                    backgroundColor: "rgba(5, 150, 105, 0.04)",
-                    boxShadow: `
-        0px 4px 0px #047857, 
-        0px 12px 20px rgba(16, 185, 129, 0.25),
-        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
-      `,
-                    transform: "translateY(-1px)", // Se eleva ligeramente
-                  },
-
-                  "&:active": {
-                    // Efecto mecánico físico de hundimiento (Relieve presionado)
-                    boxShadow: `
-        0px 1px 0px #047857, 
-        0px 2px 4px rgba(5, 150, 105, 0.2),
-        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
-      `,
-                    transform: "translateY(3px)", // Se desplaza hacia abajo exactamente el grosor del relieve anterior
-                  },
+                  display: "flex",
+                  alignItems: "center",
+                  mt: { xs: 0, xl: 0.8 }, // Ajuste de margen fino para nivelar textos
                 }}
               >
-                Actualizar
-              </Button>
+                <Button
+                  variant="outlined"
+                  startIcon={<RefreshIcon />}
+                  onClick={loadReport}
+                  disabled={loading}
+                  sx={{
+                    fontWeight: 700,
+                    letterSpacing: "1px",
+                    textTransform: "uppercase",
+                    borderRadius: "8px",
+                    padding: "6px 24px", // Reducción de padding vertical para equilibrar la línea interna
+                    border: "1px solid",
+                    color: "#059669",
+                    borderColor: "#059669",
+                    backgroundColor: "transparent",
+                    boxShadow: `
+              0px 4px 0px #047857, 
+              0px 8px 16px rgba(5, 150, 105, 0.15),
+              inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+            `,
+                    transition: "all 0.15s ease-in-out",
+                    "& .MuiButton-startIcon": {
+                      color: "inherit",
+                    },
+                    "&:hover": {
+                      color: "#10b981",
+                      borderColor: "#10b981",
+                      backgroundColor: "rgba(5, 150, 105, 0.04)",
+                      boxShadow: `
+                0px 4px 0px #047857, 
+                0px 12px 20px rgba(16, 185, 129, 0.25),
+                inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+              `,
+                      transform: "translateY(-1px)",
+                    },
+                    "&:active": {
+                      boxShadow: `
+                0px 1px 0px #047857, 
+                0px 2px 4px rgba(5, 150, 105, 0.2),
+                inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+              `,
+                      transform: "translateY(3px)",
+                    },
+                  }}
+                >
+                  Actualizar
+                </Button>
+              </Box>
 
-              <Button
-                variant="contained"
-                startIcon={<DownloadIcon />}
-                onClick={(event) => setExportAnchor(event.currentTarget)}
-                disabled={!report}
+              {/* Contenedor Botón Exportar */}
+              <Box
                 sx={{
-                  fontWeight: 700,
-                  letterSpacing: "1px",
-                  textTransform: "uppercase",
-                  borderRadius: "8px",
-                  padding: "10px 24px",
-
-                  // Activamos el borde físico para que respete el borderColor
-                  border: "1px solid",
-
-                  // Texto, icono y bordes en color naranja oscuro de alta tecnología
-                  color: "#ea580c",
-                  borderColor: "#ea580c",
-                  backgroundColor: "transparent",
-
-                  // Triple sombra adaptada para relieve naranja (borde inferior sólido + brillo difuso)
-                  boxShadow: `
-      0px 4px 0px #c2410c, 
-      0px 8px 16px rgba(234, 88, 12, 0.15),
-      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
-    `,
-
-                  // Suavizado de todas las animaciones físicas
-                  transition: "all 0.15s ease-in-out",
-
-                  // Asegura que el icono de Material-UI herede el color naranja oscuro automáticamente
-                  "& .MuiButton-startIcon": {
-                    color: "inherit",
-                  },
-
-                  "&:hover": {
-                    // Al pasar el ratón, se vuelve un naranja más brillante e intenso con fondo sutil
-                    color: "#f97316",
-                    borderColor: "#f97316",
-                    backgroundColor: "rgba(234, 88, 12, 0.04)",
-                    boxShadow: `
-        0px 4px 0px #c2410c, 
-        0px 12px 20px rgba(249, 115, 22, 0.25),
-        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
-      `,
-                    transform: "translateY(-1px)", // Se eleva ligeramente
-                  },
-
-                  "&:active": {
-                    // Efecto mecánico físico de hundimiento (Relieve presionado)
-                    boxShadow: `
-        0px 1px 0px #c2410c, 
-        0px 2px 4px rgba(234, 88, 12, 0.2),
-        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
-      `,
-                    transform: "translateY(3px)", // Se desplaza hacia abajo exactamente el grosor del relieve anterior
-                  },
+                  display: "flex",
+                  alignItems: "center",
+                  mt: { xs: 0, xl: 0.8 }, // Ajuste de margen fino para nivelar textos
                 }}
               >
-                Exportar
-              </Button>
+                <Button
+                  variant="contained"
+                  startIcon={<DownloadIcon />}
+                  onClick={(event) => setExportAnchor(event.currentTarget)}
+                  disabled={!report}
+                  sx={{
+                    fontWeight: 700,
+                    letterSpacing: "1px",
+                    textTransform: "uppercase",
+                    borderRadius: "8px",
+                    padding: "6px 24px", // Reducción de padding vertical para equilibrar la línea interna
+                    border: "1px solid",
+                    color: "#ea580c",
+                    borderColor: "#ea580c",
+                    backgroundColor: "transparent",
+                    boxShadow: `
+              0px 4px 0px #c2410c, 
+              0px 8px 16px rgba(234, 88, 12, 0.15),
+              inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+            `,
+                    transition: "all 0.15s ease-in-out",
+                    "& .MuiButton-startIcon": {
+                      color: "inherit",
+                    },
+                    "&:hover": {
+                      color: "#f97316",
+                      borderColor: "#f97316",
+                      backgroundColor: "rgba(234, 88, 12, 0.04)",
+                      boxShadow: `
+                0px 4px 0px #c2410c, 
+                0px 12px 20px rgba(249, 115, 22, 0.25),
+                inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+              `,
+                      transform: "translateY(-1px)",
+                    },
+                    "&:active": {
+                      boxShadow: `
+                0px 1px 0px #c2410c, 
+                0px 2px 4px rgba(234, 88, 12, 0.2),
+                inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+              `,
+                      transform: "translateY(3px)",
+                    },
+                  }}
+                >
+                  Exportar
+                </Button>
+              </Box>
 
               <Menu
                 anchorEl={exportAnchor}

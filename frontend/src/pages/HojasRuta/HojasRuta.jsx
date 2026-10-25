@@ -2296,6 +2296,56 @@ export default function HojasRuta() {
                   variant="outlined"
                   startIcon={<DownloadIcon />}
                   onClick={(event) => openExportMenu("admin-roadmaps", event)}
+                  sx={{
+                    fontWeight: 700,
+                    letterSpacing: "1px",
+                    textTransform: "uppercase",
+                    borderRadius: "8px",
+                    padding: "10px 24px",
+
+                    // Texto, icono y bordes en color naranja oscuro de alta tecnología
+                    color: "#ea580c",
+                    borderColor: "#ea580c",
+                    backgroundColor: "transparent",
+
+                    // Triple sombra adaptada para relieve naranja (borde inferior sólido + brillo difuso)
+                    boxShadow: `
+      0px 4px 0px #c2410c, 
+      0px 8px 16px rgba(234, 88, 12, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+
+                    // Suavizado de todas las animaciones físicas
+                    transition: "all 0.15s ease-in-out",
+
+                    // Asegura que el icono de Material-UI herede el color naranja oscuro automáticamente
+                    "& .MuiButton-startIcon": {
+                      color: "inherit",
+                    },
+
+                    "&:hover": {
+                      // Al pasar el ratón, se vuelve un naranja más brillante e intenso con fondo sutil
+                      color: "#f97316",
+                      borderColor: "#f97316",
+                      backgroundColor: "rgba(234, 88, 12, 0.04)",
+                      boxShadow: `
+        0px 4px 0px #c2410c, 
+        0px 12px 20px rgba(249, 115, 22, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                      transform: "translateY(-1px)", // Se eleva ligeramente
+                    },
+
+                    "&:active": {
+                      // Efecto mecánico físico de hundimiento (Relieve presionado)
+                      boxShadow: `
+        0px 1px 0px #c2410c, 
+        0px 2px 4px rgba(234, 88, 12, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                      transform: "translateY(3px)", // Se desplaza hacia abajo exactamente el grosor del relieve anterior
+                    },
+                  }}
                 >
                   Exportar
                 </Button>
@@ -2451,6 +2501,56 @@ export default function HojasRuta() {
                   variant="outlined"
                   startIcon={<DownloadIcon />}
                   onClick={(event) => openExportMenu("admin-students", event)}
+                  sx={{
+                    fontWeight: 700,
+                    letterSpacing: "1px",
+                    textTransform: "uppercase",
+                    borderRadius: "8px",
+                    padding: "10px 24px",
+
+                    // Texto, icono y bordes en color naranja oscuro de alta tecnología
+                    color: "#ea580c",
+                    borderColor: "#ea580c",
+                    backgroundColor: "transparent",
+
+                    // Triple sombra adaptada para relieve naranja (borde inferior sólido + brillo difuso)
+                    boxShadow: `
+      0px 4px 0px #c2410c, 
+      0px 8px 16px rgba(234, 88, 12, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+
+                    // Suavizado de todas las animaciones físicas
+                    transition: "all 0.15s ease-in-out",
+
+                    // Asegura que el icono de Material-UI herede el color naranja oscuro automáticamente
+                    "& .MuiButton-startIcon": {
+                      color: "inherit",
+                    },
+
+                    "&:hover": {
+                      // Al pasar el ratón, se vuelve un naranja más brillante e intenso con fondo sutil
+                      color: "#f97316",
+                      borderColor: "#f97316",
+                      backgroundColor: "rgba(234, 88, 12, 0.04)",
+                      boxShadow: `
+        0px 4px 0px #c2410c, 
+        0px 12px 20px rgba(249, 115, 22, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                      transform: "translateY(-1px)", // Se eleva ligeramente
+                    },
+
+                    "&:active": {
+                      // Efecto mecánico físico de hundimiento (Relieve presionado)
+                      boxShadow: `
+        0px 1px 0px #c2410c, 
+        0px 2px 4px rgba(234, 88, 12, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                      transform: "translateY(3px)", // Se desplaza hacia abajo exactamente el grosor del relieve anterior
+                    },
+                  }}
                 >
                   Exportar
                 </Button>
@@ -2560,6 +2660,56 @@ export default function HojasRuta() {
                 variant="outlined"
                 startIcon={<DownloadIcon />}
                 onClick={(event) => openExportMenu("admin-professors", event)}
+                sx={{
+                  fontWeight: 700,
+                  letterSpacing: "1px",
+                  textTransform: "uppercase",
+                  borderRadius: "8px",
+                  padding: "10px 24px",
+
+                  // Texto, icono y bordes en color naranja oscuro de alta tecnología
+                  color: "#ea580c",
+                  borderColor: "#ea580c",
+                  backgroundColor: "transparent",
+
+                  // Triple sombra adaptada para relieve naranja (borde inferior sólido + brillo difuso)
+                  boxShadow: `
+      0px 4px 0px #c2410c, 
+      0px 8px 16px rgba(234, 88, 12, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+
+                  // Suavizado de todas las animaciones físicas
+                  transition: "all 0.15s ease-in-out",
+
+                  // Asegura que el icono de Material-UI herede el color naranja oscuro automáticamente
+                  "& .MuiButton-startIcon": {
+                    color: "inherit",
+                  },
+
+                  "&:hover": {
+                    // Al pasar el ratón, se vuelve un naranja más brillante e intenso con fondo sutil
+                    color: "#f97316",
+                    borderColor: "#f97316",
+                    backgroundColor: "rgba(234, 88, 12, 0.04)",
+                    boxShadow: `
+        0px 4px 0px #c2410c, 
+        0px 12px 20px rgba(249, 115, 22, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                    transform: "translateY(-1px)", // Se eleva ligeramente
+                  },
+
+                  "&:active": {
+                    // Efecto mecánico físico de hundimiento (Relieve presionado)
+                    boxShadow: `
+        0px 1px 0px #c2410c, 
+        0px 2px 4px rgba(234, 88, 12, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                    transform: "translateY(3px)", // Se desplaza hacia abajo exactamente el grosor del relieve anterior
+                  },
+                }}
               >
                 Exportar
               </Button>

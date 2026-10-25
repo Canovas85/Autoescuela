@@ -1130,7 +1130,7 @@ export default function Alumnos() {
           Nuevo Alumno
         </Button>
 
-        <Paper sx={{ p: 2, mb: 2 }}>
+        <Paper sx={{ p: 2, mb: 0 }}>
           <Stack
             direction={{ xs: "column", md: "row" }}
             spacing={2}

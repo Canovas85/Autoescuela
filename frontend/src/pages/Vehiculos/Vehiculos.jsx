@@ -920,6 +920,7 @@ export default function Vehiculos() {
             textTransform: "uppercase",
             borderRadius: "8px",
             padding: "10px 24px",
+            mt: 1.5,
 
             // Texto y bordes en color azul oscuro profundo
             color: "#1e3a8a",
@@ -1022,6 +1023,7 @@ export default function Vehiculos() {
             textTransform: "uppercase",
             borderRadius: "8px",
             padding: "10px 24px",
+            mt: 1.5,
 
             // Texto, borde e icono base en color naranja oscuro
             color: "#ea580c",
@@ -1078,6 +1080,7 @@ export default function Vehiculos() {
             textTransform: "uppercase",
             borderRadius: "8px",
             padding: "10px 24px",
+            mt: 1.5,
 
             // FUERZA EL BORDE: Contorno completo en color morado vibrante
             border: "1px solid",
@@ -1140,6 +1143,7 @@ export default function Vehiculos() {
             borderRadius: "8px",
             padding: "10px 24px",
             cursor: "pointer",
+            mt: 1.5,
 
             // Texto, borde e icono base en color verde
             color: "#16a34a", // Tailwind green-600

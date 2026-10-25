@@ -318,7 +318,8 @@ export default function Nominas() {
           spacing={1.25}
           alignItems={{ xs: "stretch", md: "center" }}
         >
-          <Paper sx={{ p: 2, mb: 2 }}>
+          {/* Tarjeta de Filtros (Eliminado mb: 2 para no desalinear horizontalmente) */}
+          <Paper sx={{ p: 2, mb: 0 }}>
             <Stack
               direction={{ xs: "column", md: "row" }}
               spacing={2}
@@ -377,190 +378,175 @@ export default function Nominas() {
             </Stack>
           </Paper>
 
-          <Button
-            variant="outlined"
-            startIcon={<RefreshIcon />}
-            onClick={loadRows}
+          {/* Contenedor del Botón Actualizar */}
+          <Box
             sx={{
-              fontWeight: 700,
-              letterSpacing: "1px",
-              textTransform: "uppercase",
-              borderRadius: "8px",
-              padding: "10px 24px",
-
-              // Activamos el borde físico para que respete el borderColor
-              border: "1px solid",
-
-              // Texto, icono y bordes en color verde/esmeralda de alta tecnología
-              color: "#059669",
-              borderColor: "#059669",
-              backgroundColor: "transparent",
-
-              // Triple sombra adaptada para relieve verde (borde inferior sólido + brillo difuso)
-              boxShadow: `
-      0px 4px 0px #047857, 
-      0px 8px 16px rgba(5, 150, 105, 0.15),
-      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
-    `,
-
-              // Suavizado de todas las animaciones físicas
-              transition: "all 0.15s ease-in-out",
-
-              // Asegura que el icono de Material-UI herede el color verde automáticamente
-              "& .MuiButton-startIcon": {
-                color: "inherit",
-              },
-
-              "&:hover": {
-                // Al pasar el ratón, se vuelve un verde más brillante e intenso con fondo sutil
-                color: "#10b981",
-                borderColor: "#10b981",
-                backgroundColor: "rgba(5, 150, 105, 0.04)",
-                boxShadow: `
-        0px 4px 0px #047857, 
-        0px 12px 20px rgba(16, 185, 129, 0.25),
-        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
-      `,
-                transform: "translateY(-1px)", // Se eleva ligeramente
-              },
-
-              "&:active": {
-                // Efecto mecánico físico de hundimiento (Relieve presionado)
-                boxShadow: `
-        0px 1px 0px #047857, 
-        0px 2px 4px rgba(5, 150, 105, 0.2),
-        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
-      `,
-                transform: "translateY(3px)", // Se desplaza hacia abajo exactamente el grosor del relieve anterior
-              },
+              display: "flex",
+              alignItems: "center",
+              mt: { xs: 0, md: -0.5 },
             }}
           >
-            Actualizar
-          </Button>
-
-          {canGenerate ? (
             <Button
-              variant="contained"
-              startIcon={<BoltIcon />}
-              onClick={handleGenerateMonth}
+              variant="outlined"
+              startIcon={<RefreshIcon />}
+              onClick={loadRows}
               sx={{
-                fontWeight: 800, // Un poco más grueso para mejorar la lectura con color chillón
+                fontWeight: 700,
                 letterSpacing: "1px",
                 textTransform: "uppercase",
                 borderRadius: "8px",
-                padding: "10px 24px",
-
-                // Activamos el borde físico lateral y superior
+                padding: "6px 24px", // Ajustado padding vertical para equilibrar el texto
                 border: "1px solid",
-
-                // Texto, icono y bordes en color amarillo eléctrico / cyberpunk
-                color: "#eab308",
-                borderColor: "#eab308",
+                color: "#059669",
+                borderColor: "#059669",
                 backgroundColor: "transparent",
-
-                // Triple sombra con relieve amarillo oscuro sólido + brillo de neón expandido
                 boxShadow: `
-      0px 4px 0px #ca8a04, 
-      0px 8px 20px rgba(234, 179, 8, 0.3),
-      inset 0px 1px 0px rgba(255, 255, 255, 0.2)
-    `,
-
-                // Suavizado de todas las animaciones físicas
+          0px 4px 0px #047857, 
+          0px 8px 16px rgba(5, 150, 105, 0.15),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+        `,
                 transition: "all 0.15s ease-in-out",
-
-                // Asegura que el icono herede el amarillo eléctrico automáticamente
                 "& .MuiButton-startIcon": {
                   color: "inherit",
                 },
-
                 "&:hover": {
-                  // Al pasar el ratón se vuelve amarillo flúor/chillón máximo con fondo sutil
-                  color: "#facc15",
-                  borderColor: "#facc15",
-                  backgroundColor: "rgba(234, 179, 8, 0.08)",
+                  color: "#10b981",
+                  borderColor: "#10b981",
+                  backgroundColor: "rgba(5, 150, 105, 0.04)",
                   boxShadow: `
-        0px 4px 0px #ca8a04, 
-        0px 12px 24px rgba(250, 204, 21, 0.5),
-        inset 0px 1px 0px rgba(255, 255, 255, 0.4)
-      `,
-                  transform: "translateY(-1px)", // Se eleva ligeramente
+            0px 4px 0px #047857, 
+            0px 12px 20px rgba(16, 185, 129, 0.25),
+            inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+          `,
+                  transform: "translateY(-1px)",
                 },
-
                 "&:active": {
-                  // Efecto mecánico físico de hundimiento total
                   boxShadow: `
-        0px 1px 0px #ca8a04, 
-        0px 2px 4px rgba(234, 179, 8, 0.2),
-        inset 0px 2px 4px rgba(0, 0, 0, 0.1)
-      `,
-                  transform: "translateY(3px)", // Se desplaza hacia abajo
+            0px 1px 0px #047857, 
+            0px 2px 4px rgba(5, 150, 105, 0.2),
+            inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+          `,
+                  transform: "translateY(3px)",
                 },
               }}
             >
-              Generar Nóminas
+              Actualizar
             </Button>
+          </Box>
+
+          {/* Contenedor del Botón Generar Nóminas */}
+          {canGenerate ? (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                mt: { xs: 0, md: -0.5 },
+              }}
+            >
+              <Button
+                variant="contained"
+                startIcon={<BoltIcon />}
+                onClick={handleGenerateMonth}
+                sx={{
+                  fontWeight: 800,
+                  letterSpacing: "1px",
+                  textTransform: "uppercase",
+                  borderRadius: "8px",
+                  padding: "6px 24px", // Ajustado padding vertical para equilibrar el texto
+                  border: "1px solid",
+                  color: "#eab308",
+                  borderColor: "#eab308",
+                  backgroundColor: "transparent",
+                  boxShadow: `
+            0px 4px 0px #ca8a04, 
+            0px 8px 20px rgba(234, 179, 8, 0.3),
+            inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+          `,
+                  transition: "all 0.15s ease-in-out",
+                  "& .MuiButton-startIcon": {
+                    color: "inherit",
+                  },
+                  "&:hover": {
+                    color: "#facc15",
+                    borderColor: "#facc15",
+                    backgroundColor: "rgba(234, 179, 8, 0.08)",
+                    boxShadow: `
+              0px 4px 0px #ca8a04, 
+              0px 12px 24px rgba(250, 204, 21, 0.5),
+              inset 0px 1px 0px rgba(255, 255, 255, 0.4)
+            `,
+                    transform: "translateY(-1px)",
+                  },
+                  "&:active": {
+                    boxShadow: `
+              0px 1px 0px #ca8a04, 
+              0px 2px 4px rgba(234, 179, 8, 0.2),
+              inset 0px 2px 4px rgba(0, 0, 0, 0.1)
+            `,
+                    transform: "translateY(3px)",
+                  },
+                }}
+              >
+                Generar Nóminas
+              </Button>
+            </Box>
           ) : null}
 
-          <Button
-            variant="contained"
-            startIcon={<DownloadIcon />}
-            onClick={(event) => setExportAnchor(event.currentTarget)}
+          {/* Contenedor del Botón Exportar */}
+          <Box
             sx={{
-              fontWeight: 700,
-              letterSpacing: "1px",
-              textTransform: "uppercase",
-              borderRadius: "8px",
-              padding: "10px 24px",
-
-              // Activamos el borde físico para que respete el borderColor
-              border: "1px solid",
-
-              // Texto, icono y bordes en color naranja oscuro de alta tecnología
-              color: "#ea580c",
-              borderColor: "#ea580c",
-              backgroundColor: "transparent",
-
-              // Triple sombra adaptada para relieve naranja (borde inferior sólido + brillo difuso)
-              boxShadow: `
-      0px 4px 0px #c2410c, 
-      0px 8px 16px rgba(234, 88, 12, 0.15),
-      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
-    `,
-
-              // Suavizado de todas las animaciones físicas
-              transition: "all 0.15s ease-in-out",
-
-              // Asegura que el icono de Material-UI herede el color naranja oscuro automáticamente
-              "& .MuiButton-startIcon": {
-                color: "inherit",
-              },
-
-              "&:hover": {
-                // Al pasar el ratón, se vuelve un naranja más brillante e intenso con fondo sutil
-                color: "#f97316",
-                borderColor: "#f97316",
-                backgroundColor: "rgba(234, 88, 12, 0.04)",
-                boxShadow: `
-        0px 4px 0px #c2410c, 
-        0px 12px 20px rgba(249, 115, 22, 0.25),
-        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
-      `,
-                transform: "translateY(-1px)", // Se eleva ligeramente
-              },
-
-              "&:active": {
-                // Efecto mecánico físico de hundimiento (Relieve presionado)
-                boxShadow: `
-        0px 1px 0px #c2410c, 
-        0px 2px 4px rgba(234, 88, 12, 0.2),
-        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
-      `,
-                transform: "translateY(3px)", // Se desplaza hacia abajo exactamente el grosor del relieve anterior
-              },
+              display: "flex",
+              alignItems: "center",
+              mt: { xs: 0, md: -0.5 },
             }}
           >
-            Exportar
-          </Button>
+            <Button
+              variant="contained"
+              startIcon={<DownloadIcon />}
+              onClick={(event) => setExportAnchor(event.currentTarget)}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "6px 24px", // Ajustado padding vertical para equilibrar el texto
+                border: "1px solid",
+                color: "#ea580c",
+                borderColor: "#ea580c",
+                backgroundColor: "transparent",
+                boxShadow: `
+          0px 4px 0px #c2410c, 
+          0px 8px 16px rgba(234, 88, 12, 0.15),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+        `,
+                transition: "all 0.15s ease-in-out",
+                "& .MuiButton-startIcon": {
+                  color: "inherit",
+                },
+                "&:hover": {
+                  color: "#f97316",
+                  borderColor: "#f97316",
+                  backgroundColor: "rgba(234, 88, 12, 0.04)",
+                  boxShadow: `
+            0px 4px 0px #c2410c, 
+            0px 12px 20px rgba(249, 115, 22, 0.25),
+            inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+          `,
+                  transform: "translateY(-1px)",
+                },
+                "&:active": {
+                  boxShadow: `
+            0px 1px 0px #c2410c, 
+            0px 2px 4px rgba(234, 88, 12, 0.2),
+            inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+          `,
+                  transform: "translateY(3px)",
+                },
+              }}
+            >
+              Exportar
+            </Button>
+          </Box>
 
           <Menu
             anchorEl={exportAnchor}
