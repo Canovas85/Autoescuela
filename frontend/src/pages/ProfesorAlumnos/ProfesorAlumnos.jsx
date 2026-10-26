@@ -26,6 +26,7 @@ import DownloadIcon from "@mui/icons-material/Download";
 import HistoryIcon from "@mui/icons-material/History";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 import { profesorPortalService } from "../../services/profesorPortalService";
 import { LicenseChip } from "../../components/common/LicenseChip";
@@ -382,55 +383,146 @@ export default function ProfesorAlumnos() {
         </Alert>
       )}
 
-      <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ mb: 2 }}>
-        <TextField
-          size="small"
-          label="Buscar alumno"
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-          sx={{ width: { xs: "100%", sm: 340 } }}
-        />
-
-        <TextField
-          select
-          size="small"
-          label="Estado expediente"
-          value={faseExpedienteFiltro}
-          onChange={(event) => setFaseExpedienteFiltro(event.target.value)}
-          sx={{ width: { xs: "100%", sm: 300 } }}
+      <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ mb: 4 }}>
+        {/* Solo bajamos la posición de este bloque para nivelarlo con los botones */}
+        <Paper
+          sx={{ p: 2, mb: 0, mt: "4px", width: { xs: "100%", sm: "auto" } }}
         >
-          <MenuItem value="">Todos los estados</MenuItem>
-          {EXPEDIENTE_PHASE_OPTIONS.map((estado) => (
-            <MenuItem key={estado.code} value={estado.code}>
-              {estado.label}
-            </MenuItem>
-          ))}
-        </TextField>
+          <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+            <TextField
+              size="small"
+              label="Buscar alumno"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              sx={{ width: { xs: "100%", sm: 340 } }}
+            />
 
-        <TextField
-          select
-          size="small"
-          label="Licencias"
-          value={licenciaFiltro}
-          onChange={(event) => setLicenciaFiltro(event.target.value)}
-          sx={{ width: { xs: "100%", sm: 220 } }}
+            <TextField
+              select
+              size="small"
+              label="Estado expediente"
+              value={faseExpedienteFiltro}
+              onChange={(event) => setFaseExpedienteFiltro(event.target.value)}
+              sx={{ width: { xs: "100%", sm: 300 } }}
+            >
+              <MenuItem value="">Todos los estados</MenuItem>
+              {EXPEDIENTE_PHASE_OPTIONS.map((estado) => (
+                <MenuItem key={estado.code} value={estado.code}>
+                  {estado.label}
+                </MenuItem>
+              ))}
+            </TextField>
+
+            <TextField
+              select
+              size="small"
+              label="Licencias"
+              value={licenciaFiltro}
+              onChange={(event) => setLicenciaFiltro(event.target.value)}
+              sx={{ width: { xs: "100%", sm: 220 } }}
+            >
+              <MenuItem value="">Todas las licencias</MenuItem>
+              {licenciasDisponibles.map((licencia) => (
+                <MenuItem key={licencia} value={licencia}>
+                  {licencia}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Stack>
+        </Paper>
+
+        <Button
+          variant="outlined"
+          startIcon={<RefreshIcon />}
+          onClick={loadStudents}
+          sx={{
+            fontWeight: 700,
+            letterSpacing: "1px",
+            textTransform: "uppercase",
+            borderRadius: "8px",
+            padding: "6px 24px",
+            border: "1px solid",
+            transform: "translateY(10px)",
+            color: "#059669",
+            borderColor: "#059669",
+            backgroundColor: "transparent",
+            boxShadow: `
+    0px 4px 0px #047857, 
+    0px 8px 16px rgba(5, 150, 105, 0.15),
+    inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+  `,
+            transition: "all 0.15s ease-in-out",
+            "& .MuiButton-startIcon": {
+              color: "inherit",
+            },
+            "&:hover": {
+              color: "#10b981",
+              borderColor: "#10b981",
+              backgroundColor: "rgba(5, 150, 105, 0.04)",
+              boxShadow: `
+      0px 4px 0px #047857, 
+      0px 12px 20px rgba(16, 185, 129, 0.25),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+    `,
+              transform: "translateY(-1px)",
+            },
+            "&:active": {
+              boxShadow: `
+      0px 1px 0px #047857, 
+      0px 2px 4px rgba(5, 150, 105, 0.2),
+      inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+    `,
+              transform: "translateY(3px)",
+            },
+          }}
         >
-          <MenuItem value="">Todas las licencias</MenuItem>
-          {licenciasDisponibles.map((licencia) => (
-            <MenuItem key={licencia} value={licencia}>
-              {licencia}
-            </MenuItem>
-          ))}
-        </TextField>
-
-        <Button variant="outlined" onClick={loadStudents}>
-          Recargar
+          Actualizar
         </Button>
 
         <Button
           variant="contained"
           startIcon={<DownloadIcon />}
           onClick={(event) => setExportAnchorEl(event.currentTarget)}
+          sx={{
+            fontWeight: 700,
+            letterSpacing: "1px",
+            textTransform: "uppercase",
+            borderRadius: "8px",
+            padding: "6px 24px",
+            border: "1px solid",
+            color: "#ea580c",
+            borderColor: "#ea580c",
+            backgroundColor: "transparent",
+            transform: "translateY(10px)",
+            boxShadow: `
+        0px 4px 0px #c2410c, 
+        0px 8px 16px rgba(234, 88, 12, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+            transition: "all 0.15s ease-in-out",
+            "& .MuiButton-startIcon": {
+              color: "inherit",
+            },
+            "&:hover": {
+              color: "#f97316",
+              borderColor: "#f97316",
+              backgroundColor: "rgba(234, 88, 12, 0.04)",
+              boxShadow: `
+          0px 4px 0px #c2410c, 
+          0px 12px 20px rgba(249, 115, 22, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+              transform: "translateY(-1px)",
+            },
+            "&:active": {
+              boxShadow: `
+          0px 1px 0px #c2410c, 
+          0px 2px 4px rgba(234, 88, 12, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+              transform: "translateY(3px)",
+            },
+          }}
         >
           Exportar
         </Button>
@@ -481,30 +573,49 @@ export default function ProfesorAlumnos() {
               Detalle del alumno
             </Typography>
 
-            <Stack direction="row" spacing={1} alignItems="center">
+            <Stack
+              direction="row"
+              spacing={1.5}
+              alignItems="center" // Centrado vertical absoluto garantizado para toda la fila
+              sx={{ mt: 1 }}
+            >
               {isLicenseObtainedLabel(detail?.estadoAlumno) && (
                 <Box
                   sx={{
                     display: "inline-flex",
                     alignItems: "center",
-                    gap: 0.75,
-                    px: 1,
-                    py: 0.25,
+                    gap: 1,
+                    px: 1.5,
+                    py: 0.5, // Ajuste fino de altura para nivelar tipografías
                     borderRadius: 999,
                     bgcolor: "#fffbeb",
                     border: "1px solid #facc15",
                   }}
                 >
                   <EmojiEventsIcon sx={{ color: "#ca8a04", fontSize: 16 }} />
+
+                  {/* Texto indicativo añadido y nivelado a la misma altura */}
+                  <Typography
+                    variant="body2"
+                    fontWeight={600}
+                    sx={{
+                      color: "#ca8a04",
+                      textTransform: "none",
+                      lineHeight: 1,
+                    }}
+                  >
+                    Licencia obtenida:
+                  </Typography>
+
                   <ExpedientePhaseChip
                     code={detail?.estadoAlumno?.codigo}
                     label={detail?.estadoAlumno?.label}
                     size="small"
                   />
-                  <LicenseChip value={detail?.perfil?.tipoLicenciaObjetivo} />
                 </Box>
               )}
 
+              {/* Chip secundario alineado en el mismo flujo horizontal */}
               <LicenseChip value={detail?.perfil?.tipoLicenciaObjetivo} />
             </Stack>
           </Box>

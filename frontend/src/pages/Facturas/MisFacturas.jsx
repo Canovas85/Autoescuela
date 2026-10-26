@@ -658,80 +658,119 @@ export default function MisFacturas() {
         />
       </Box>
 
-      <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", mb: 2 }}>
-        <TextField
-          size="small"
-          label="Buscar concepto"
-          placeholder="Matrícula, tasa, examen..."
-          value={searchConcepto}
-          onChange={(event) => setSearchConcepto(event.target.value)}
-          sx={{ minWidth: 250 }}
-        />
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+          flexWrap: "wrap",
+          mb: 2,
+          alignItems: "flex-start",
+        }}
+      >
+        {/* El contenedor Paper agrupa los filtros de entrada y ajusta su altura */}
+        <Paper sx={{ p: 2, mb: 0, mt: "4px", flexGrow: { xs: 1, sm: 0 } }}>
+          <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+            <TextField
+              select
+              size="small"
+              label="Concepto"
+              value={conceptoFiltro}
+              onChange={(event) => setConceptoFiltro(event.target.value)}
+              sx={{ minWidth: 260 }}
+            >
+              <MenuItem value="">Todos los conceptos</MenuItem>
+              {CONCEPTO_OPTIONS.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
 
-        <TextField
-          select
-          size="small"
-          label="Concepto"
-          value={conceptoFiltro}
-          onChange={(event) => setConceptoFiltro(event.target.value)}
-          sx={{ minWidth: 260 }}
-        >
-          <MenuItem value="">Todos los conceptos</MenuItem>
-          {CONCEPTO_OPTIONS.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
+            <TextField
+              size="small"
+              label="Fecha desde"
+              type="date"
+              InputLabelProps={{ shrink: true }}
+              value={fechaDesde}
+              onChange={(event) => setFechaDesde(event.target.value)}
+              sx={{
+                minWidth: 180,
+                "& input::-webkit-datetime-edit": {
+                  color: fechaDesde ? "inherit" : "transparent",
+                },
+                "& .MuiInputBase-root.Mui-focused input::-webkit-datetime-edit":
+                  { color: fechaDesde ? "inherit" : "rgba(0, 0, 0, 0.42)" },
+                "& .MuiInputBase-input": { pt: 1.5 },
+              }}
+            />
 
-        <TextField
-          size="small"
-          type={tipoFechaDesde}
-          label="Fecha desde"
-          placeholder={focusFechaDesde ? "dd/mm/aaaa" : ""}
-          InputLabelProps={{
-            shrink: focusFechaDesde || Boolean(fechaDesde),
-          }}
-          value={fechaDesde}
-          onChange={(event) => setFechaDesde(event.target.value)}
-          onFocus={() => {
-            setFocusFechaDesde(true);
-            setTipoFechaDesde("date");
-          }}
-          onBlur={() => {
-            setFocusFechaDesde(false);
-            if (!fechaDesde) {
-              setTipoFechaDesde("text");
-            }
-          }}
-        />
+            <TextField
+              size="small"
+              label="Fecha hasta"
+              type="date"
+              InputLabelProps={{ shrink: true }}
+              value={fechaHasta}
+              onChange={(event) => setFechaHasta(event.target.value)}
+              sx={{
+                minWidth: 180,
+                "& input::-webkit-datetime-edit": {
+                  color: fechaHasta ? "inherit" : "transparent",
+                },
+                "& .MuiInputBase-root.Mui-focused input::-webkit-datetime-edit":
+                  { color: fechaHasta ? "inherit" : "rgba(0, 0, 0, 0.42)" },
+                "& .MuiInputBase-input": { pt: 1.5 },
+              }}
+            />
+          </Stack>
+        </Paper>
 
-        <TextField
-          size="small"
-          type={tipoFechaHasta}
-          label="Fecha hasta"
-          placeholder={focusFechaHasta ? "dd/mm/aaaa" : ""}
-          InputLabelProps={{
-            shrink: focusFechaHasta || Boolean(fechaHasta),
-          }}
-          value={fechaHasta}
-          onChange={(event) => setFechaHasta(event.target.value)}
-          onFocus={() => {
-            setFocusFechaHasta(true);
-            setTipoFechaHasta("date");
-          }}
-          onBlur={() => {
-            setFocusFechaHasta(false);
-            if (!fechaHasta) {
-              setTipoFechaHasta("text");
-            }
-          }}
-        />
-
+        {/* El botón Exportar se mantiene fuera con su diseño en relieve naranja */}
         <Button
           variant="outlined"
           startIcon={<DownloadIcon />}
           onClick={openExportMenu}
+          sx={{
+            fontWeight: 700,
+            letterSpacing: "1px",
+            textTransform: "uppercase",
+            borderRadius: "8px",
+            padding: "6px 24px",
+            border: "1px solid",
+            transform: "translateY(17px)",
+            color: "#ea580c",
+            borderColor: "#ea580c !important",
+            backgroundColor: "transparent",
+            boxShadow: `
+        0px 4px 0px #c2410c, 
+        0px 8px 16px rgba(234, 88, 12, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+            transition: "all 0.15s ease-in-out",
+            "& .MuiButton-startIcon": {
+              color: "inherit",
+            },
+            "&:hover": {
+              color: "#f97316",
+              borderColor: "#f97316 !important",
+              backgroundColor: "rgba(234, 88, 12, 0.04)",
+              boxShadow: `
+          0px 4px 0px #c2410c, 
+          0px 12px 20px rgba(249, 115, 22, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+              transform: "translateY(-1px)",
+            },
+            "&:active": {
+              borderColor: "#ea580c !important",
+              boxShadow: `
+          0px 1px 0px #c2410c, 
+          0px 2px 4px rgba(234, 88, 12, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+              transform: "translateY(3px)",
+            },
+            width: { xs: "100%", sm: "auto" },
+          }}
         >
           Exportar
         </Button>
@@ -888,12 +927,124 @@ export default function MisFacturas() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setPreviewOpen(false)}>Cerrar</Button>
           <Button
-            variant="contained"
+            onClick={() => setPreviewOpen(false)}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+
+              // --- POSICIONAMIENTO MÁS ARRIBA ---
+              mt: "-8px",
+
+              // --- ESTILO BASE CON RELIEVE CARMESÍ ---
+              color: "#dc2626",
+              borderColor: "#dc2626 !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+      0px 4px 0px #991b1b, 
+      0px 8px 16px rgba(220, 38, 38, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+              transition: "all 0.15s ease-in-out",
+
+              // --- COMPORTAMIENTO HOVER (Elevación) ---
+              "&:hover": {
+                color: "#ef4444",
+                borderColor: "#ef4444 !important",
+                backgroundColor: "rgba(220, 38, 38, 0.04)",
+                boxShadow: `
+        0px 4px 0px #991b1b, 
+        0px 12px 20px rgba(239, 68, 68, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                transform: "translateY(-1px)",
+              },
+
+              // --- COMPORTAMIENTO ACTIVE (Hundimiento mecánico) ---
+              "&:active": {
+                borderColor: "#dc2626 !important",
+                boxShadow: `
+        0px 1px 0px #991b1b, 
+        0px 2px 4px rgba(220, 38, 38, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                transform: "translateY(3px)",
+              },
+            }}
+          >
+            Cerrar
+          </Button>
+
+          <Button
+            variant="outlined" // Cambiado a outlined para habilitar la visualización del contorno completo
             startIcon={<DownloadIcon />}
             disabled={!selectedFactura}
             onClick={() => handleDownloadPdf(selectedFactura.id)}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              transition: "all 0.15s ease-in-out",
+              "& .MuiButton-startIcon": {
+                color: "inherit",
+              },
+
+              // --- POSICIONAMIENTO MÁS ARRIBA ---
+              mt: "-8px", // Desplaza el botón hacia arriba (puedes ajustar el número de píxeles si necesitas más)
+
+              // --- ESTADO ACTIVO (Habilitado con relieve naranja) ---
+              "&:not(:disabled)": {
+                color: "#ea580c",
+                borderColor: "#ea580c !important",
+                backgroundColor: "transparent",
+                boxShadow: `
+        0px 4px 0px #c2410c, 
+        0px 8px 16px rgba(234, 88, 12, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              },
+
+              // --- COMPORTAMIENTO HOVER (Elevación) ---
+              "&:not(:disabled):hover": {
+                color: "#f97316",
+                borderColor: "#f97316 !important",
+                backgroundColor: "rgba(234, 88, 12, 0.04)",
+                boxShadow: `
+        0px 4px 0px #c2410c, 
+        0px 12px 20px rgba(249, 115, 22, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                transform: "translateY(-1px)",
+              },
+
+              // --- COMPORTAMIENTO ACTIVE (Hundimiento mecánico) ---
+              "&:not(:disabled):active": {
+                borderColor: "#ea580c !important",
+                boxShadow: `
+        0px 1px 0px #c2410c, 
+        0px 2px 4px rgba(234, 88, 12, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                transform: "translateY(3px)",
+              },
+
+              // --- ESTADO DESHABILITADO (Plano y estático) ---
+              "&:disabled": {
+                cursor: "not-allowed",
+                boxShadow: "none",
+                transform: "none",
+                borderColor: "#d1d5db !important",
+                color: "#9ca3af",
+                backgroundColor: "#f3f4f6",
+              },
+            }}
           >
             Descargar PDF
           </Button>

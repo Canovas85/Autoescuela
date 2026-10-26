@@ -25,6 +25,7 @@ import FactCheckIcon from "@mui/icons-material/FactCheck";
 import { profesorPortalService } from "../../services/profesorPortalService";
 import { LicenseChip } from "../../components/common/LicenseChip";
 import { gastosCombustibleService } from "../../services/gastosCombustibleService";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 const TITULAR_TARJETA = "Autoescuela Eguzkilore";
 const NUMERO_TARJETA = "5102 1234 4321 5015";
@@ -423,50 +424,110 @@ export default function ProfesorVehiculos() {
       )}
 
       <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ mb: 2 }}>
-        <RadioGroup
-          row
-          value={estadoFiltro}
-          onChange={(event) => setEstadoFiltro(event.target.value)}
+        {/* El contenedor Paper agrupa los filtros y baja sutilmente su posición */}
+        <Paper
+          sx={{ p: 2, mb: 0, mt: "4px", width: { xs: "100%", sm: "auto" } }}
         >
-          <FormControlLabel
-            value="activos"
-            control={<Radio />}
-            label="Activos"
-          />
-          <FormControlLabel
-            value="inactivos"
-            control={<Radio />}
-            label="Inactivos"
-          />
-          <FormControlLabel value="todos" control={<Radio />} label="Todos" />
-        </RadioGroup>
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={2}
+            alignItems="center"
+          >
+            <RadioGroup
+              row
+              value={estadoFiltro}
+              onChange={(event) => setEstadoFiltro(event.target.value)}
+            >
+              <FormControlLabel
+                value="activos"
+                control={<Radio />}
+                label="Activos"
+              />
+              <FormControlLabel
+                value="inactivos"
+                control={<Radio />}
+                label="Inactivos"
+              />
+              <FormControlLabel
+                value="todos"
+                control={<Radio />}
+                label="Todos"
+              />
+            </RadioGroup>
 
-        <TextField
-          select
-          size="small"
-          label="Permiso"
-          value={permisoFiltro}
-          onChange={(event) => setPermisoFiltro(event.target.value)}
-          sx={{ minWidth: 200 }}
+            <TextField
+              select
+              size="small"
+              label="Permiso"
+              value={permisoFiltro}
+              onChange={(event) => setPermisoFiltro(event.target.value)}
+              sx={{ minWidth: 200 }}
+            >
+              <MenuItem value="all">Todos</MenuItem>
+              {PERMISOS.map((permiso) => (
+                <MenuItem key={permiso} value={permiso}>
+                  {permiso}
+                </MenuItem>
+              ))}
+            </TextField>
+
+            <TextField
+              size="small"
+              label="Buscar vehículo"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              sx={{ width: { xs: "100%", sm: 340 } }}
+            />
+          </Stack>
+        </Paper>
+
+        {/* El botón se mantiene fuera del Paper */}
+        <Button
+          variant="outlined"
+          startIcon={<RefreshIcon />}
+          onClick={loadVehicles}
+          sx={{
+            fontWeight: 700,
+            letterSpacing: "1px",
+            textTransform: "uppercase",
+            borderRadius: "8px",
+            padding: "6px 24px",
+            border: "1px solid",
+            transform: "translateY(10px)",
+            color: "#059669",
+            borderColor: "#059669",
+            backgroundColor: "transparent",
+            boxShadow: `
+        0px 4px 0px #047857, 
+        0px 8px 16px rgba(5, 150, 105, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+            transition: "all 0.15s ease-in-out",
+            "& .MuiButton-startIcon": {
+              color: "inherit",
+            },
+            "&:hover": {
+              color: "#10b981",
+              borderColor: "#10b981",
+              backgroundColor: "rgba(5, 150, 105, 0.04)",
+              boxShadow: `
+          0px 4px 0px #047857, 
+          0px 12px 20px rgba(16, 185, 129, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+              transform: "translateY(-1px)",
+            },
+            "&:active": {
+              boxShadow: `
+          0px 1px 0px #047857, 
+          0px 2px 4px rgba(5, 150, 105, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+              transform: "translateY(3px)",
+            },
+          }}
         >
-          <MenuItem value="all">Todos</MenuItem>
-          {PERMISOS.map((permiso) => (
-            <MenuItem key={permiso} value={permiso}>
-              {permiso}
-            </MenuItem>
-          ))}
-        </TextField>
-
-        <TextField
-          size="small"
-          label="Buscar vehículo"
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-          sx={{ width: { xs: "100%", sm: 340 } }}
-        />
-
-        <Button variant="outlined" onClick={loadVehicles}>
-          Recargar
+          Actualizar
         </Button>
       </Stack>
 

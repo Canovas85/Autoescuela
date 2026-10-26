@@ -789,6 +789,7 @@ export default function TestDGTAdmin() {
               padding: "10px 24px",
               border: "1px solid",
               borderColor: "#1e3a8a !important",
+              transform: "translateY(8px)",
               color: "#1e3a8a",
               backgroundColor: "transparent",
               boxShadow: `
@@ -859,6 +860,7 @@ export default function TestDGTAdmin() {
               border: "1px solid",
               borderColor: "#6d28d9 !important",
               color: "#6d28d9",
+              transform: "translateY(8px)",
               backgroundColor: "transparent",
               boxShadow: `
         0px 4px 0px #5b21b6, 
@@ -909,6 +911,7 @@ export default function TestDGTAdmin() {
               cursor: "pointer",
               color: "#16a34a",
               borderColor: "#16a34a",
+              transform: "translateY(8px)",
               backgroundColor: "transparent",
               boxShadow: `
         0px 4px 0px #15803d, 

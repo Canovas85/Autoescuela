@@ -409,38 +409,125 @@ export default function ExamenTeoricoAlumno() {
         <Paper sx={{ p: 2.5, mb: 3, border: "1px solid #e2e8f0" }}>
           <Stack
             direction={{ xs: "column", sm: "row" }}
-            justifyContent="space-between"
-            alignItems={{ xs: "flex-start", sm: "center" }}
+            alignItems={{ xs: "flex-start", sm: "baseline" }}
             spacing={1}
-            sx={{ mb: 2 }}
+            sx={{ mb: 2, width: "100%" }} // Asegura que el contenedor use todo el ancho de la pantalla
           >
-            <Typography variant="h6">
+            {/* El flexGrow: 1 expande el espacio del título y empuja de forma limpia los botones a la derecha */}
+            <Typography
+              variant="h6"
+              sx={{ mt: { xs: 0, sm: "5px" }, flexGrow: 1 }}
+            >
               Calendario de convocatorias DGT
             </Typography>
-            <Stack direction="row" spacing={1}>
-              <Button
-                size="small"
-                variant="outlined"
-                onClick={() => {
-                  const prev = new Date(viewDate);
-                  prev.setMonth(prev.getMonth() - 1);
-                  setViewDate(prev);
-                }}
+
+            {/* Este Box ahora sí recibirá toda la fuerza del empuje para alinearse al borde */}
+            <Box sx={{ textAlign: "right" }}>
+              <Stack
+                direction="row"
+                spacing={1}
+                display="inline-flex"
+                sx={{ mt: { xs: 0, sm: "4px" } }}
               >
-                Mes anterior
-              </Button>
-              <Button
-                size="small"
-                variant="outlined"
-                onClick={() => {
-                  const next = new Date(viewDate);
-                  next.setMonth(next.getMonth() + 1);
-                  setViewDate(next);
-                }}
-              >
-                Mes siguiente
-              </Button>
-            </Stack>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() => {
+                    const prev = new Date(viewDate);
+                    prev.setMonth(prev.getMonth() - 1);
+                    setViewDate(prev);
+                  }}
+                  sx={{
+                    fontWeight: 700,
+                    letterSpacing: "1px",
+                    textTransform: "uppercase",
+                    borderRadius: "8px",
+                    padding: "6px 24px",
+                    border: "1px solid",
+                    borderColor: "#0284c7 !important",
+                    color: "#0284c7",
+                    backgroundColor: "transparent",
+                    boxShadow: `
+            0px 4px 0px #0369a1, 
+            0px 8px 16px rgba(2, 132, 199, 0.15),
+            inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+          `,
+                    transition: "all 0.15s ease-in-out",
+                    "&:hover": {
+                      color: "#0ea5e9",
+                      borderColor: "#0ea5e9 !important",
+                      backgroundColor: "rgba(2, 132, 199, 0.04)",
+                      boxShadow: `
+              0px 4px 0px #0369a1, 
+              0px 12px 20px rgba(14, 165, 233, 0.25),
+              inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+            `,
+                      transform: "translateY(-1px)",
+                    },
+                    "&:active": {
+                      borderColor: "#0284c7 !important",
+                      boxShadow: `
+              0px 1px 0px #0369a1, 
+              0px 2px 4px rgba(2, 132, 199, 0.2),
+              inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+            `,
+                      transform: "translateY(3px)",
+                    },
+                  }}
+                >
+                  Mes anterior
+                </Button>
+
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() => {
+                    const next = new Date(viewDate);
+                    next.setMonth(next.getMonth() + 1);
+                    setViewDate(next);
+                  }}
+                  sx={{
+                    fontWeight: 700,
+                    letterSpacing: "1px",
+                    textTransform: "uppercase",
+                    borderRadius: "8px",
+                    padding: "6px 24px",
+                    border: "1px solid",
+                    borderColor: "#0284c7 !important",
+                    color: "#0284c7",
+                    backgroundColor: "transparent",
+                    boxShadow: `
+            0px 4px 0px #0369a1, 
+            0px 8px 16px rgba(2, 132, 199, 0.15),
+            inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+          `,
+                    transition: "all 0.15s ease-in-out",
+                    "&:hover": {
+                      color: "#0ea5e9",
+                      borderColor: "#0ea5e9 !important",
+                      backgroundColor: "rgba(2, 132, 199, 0.04)",
+                      boxShadow: `
+              0px 4px 0px #0369a1, 
+              0px 12px 20px rgba(14, 165, 233, 0.25),
+              inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+            `,
+                      transform: "translateY(-1px)",
+                    },
+                    "&:active": {
+                      borderColor: "#0284c7 !important",
+                      boxShadow: `
+              0px 1px 0px #0369a1, 
+              0px 2px 4px rgba(2, 132, 199, 0.2),
+              inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+            `,
+                      transform: "translateY(3px)",
+                    },
+                  }}
+                >
+                  Mes siguiente
+                </Button>
+              </Stack>
+            </Box>
           </Stack>
 
           <Typography variant="subtitle1" sx={{ mb: 1.5, fontWeight: 600 }}>
@@ -509,6 +596,58 @@ export default function ExamenTeoricoAlumno() {
               variant="contained"
               onClick={handleRequest}
               disabled={!canRequest || loading}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "10px 24px",
+                border: "1px solid",
+                transition: "all 0.15s ease-in-out",
+
+                // --- ESTADO ACTIVO (Habilitado) ---
+                "&:not(:disabled)": {
+                  color: "#ea580c",
+                  borderColor: "#ea580c !important",
+                  backgroundColor: "transparent",
+                  boxShadow: `
+        0px 4px 0px #c2410c, 
+        0px 8px 16px rgba(234, 88, 12, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+                },
+
+                // --- COMPORTAMIENTO HOVER (Elevación) ---
+                "&:not(:disabled):hover": {
+                  color: "#f97316",
+                  borderColor: "#f97316 !important",
+                  backgroundColor: "rgba(234, 88, 12, 0.04)",
+                  boxShadow: `
+        0px 4px 0px #c2410c, 
+        0px 12px 20px rgba(249, 115, 22, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                  transform: "translateY(-1px)",
+                },
+
+                // --- COMPORTAMIENTO ACTIVE (Hundimiento mecánico) ---
+                "&:not(:disabled):active": {
+                  borderColor: "#ea580c !important",
+                  boxShadow: `
+        0px 1px 0px #c2410c, 
+        0px 2px 4px rgba(234, 88, 12, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                  transform: "translateY(3px)",
+                },
+
+                // --- ESTADO DESHABILITADO (Gris plano nativo de Material-UI) ---
+                "&:disabled": {
+                  cursor: "not-allowed",
+                  boxShadow: "none",
+                  transform: "none",
+                },
+              }}
             >
               Solicitar convocatoria
             </Button>

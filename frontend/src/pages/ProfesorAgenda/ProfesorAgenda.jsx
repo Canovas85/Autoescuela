@@ -578,25 +578,83 @@ export default function ProfesorAgenda() {
         <Stack spacing={1} sx={{ width: "100%" }}>
           <Stack
             direction={{ xs: "column", sm: "row" }}
-            spacing={1}
-            alignItems={{ xs: "flex-start", sm: "center" }}
+            spacing={2}
+            alignItems={{ xs: "stretch", sm: "center" }}
+            sx={{
+              width: "100%", // Obliga al contenedor a usar todo el espacio horizontal
+              mb: 3,
+            }}
           >
             <Typography variant="h4" fontWeight={800}>
               Mi agenda
             </Typography>
+            <Box sx={{ flex: 1, textAlign: "right" }}>
+              <Button
+                variant="outlined"
+                onClick={() => setOpenScheduleModal(true)}
+                sx={{
+                  fontWeight: 700,
+                  letterSpacing: "1px",
+                  textTransform: "uppercase",
+                  borderRadius: "8px",
+                  padding: "10px 24px",
+                  border: "1px solid",
 
-            <Button
-              variant="outlined"
-              onClick={() => setOpenScheduleModal(true)}
-            >
-              Configurar horario
-            </Button>
+                  // PROPIEDAD CLAVE: Empuja el botón al extremo derecho absoluto en pantallas grandes
+                  ml: { sm: "auto" },
+
+                  // TEXTO, ICONO Y BORDE: Violeta corporativo de gestión
+                  color: "#6d28d9",
+                  borderColor: "#6d28d9",
+                  backgroundColor: "transparent",
+
+                  // Relieve inferior y sombra tridimensional mecánica en morado oscuro
+                  boxShadow: `
+        0px 4px 0px #5b21b6, 
+        0px 8px 16px rgba(109, 40, 217, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+
+                  // Suavizado físico de todas las transiciones
+                  transition: "all 0.15s ease-in-out",
+
+                  // Fuerza al icono startIcon a heredar el color violeta automáticamente
+                  "& .MuiButton-startIcon": {
+                    color: "inherit",
+                  },
+
+                  "&:hover": {
+                    color: "#8b5cf6",
+                    borderColor: "#8b5cf6",
+                    backgroundColor: "rgba(109, 40, 217, 0.04)",
+                    boxShadow: `
+          0px 4px 0px #5b21b6, 
+          0px 12px 20px rgba(139, 92, 246, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                    transform: "translateY(-1px)",
+                  },
+
+                  "&:active": {
+                    borderColor: "#6d28d9",
+                    boxShadow: `
+          0px 1px 0px #5b21b6, 
+          0px 2px 4px rgba(109, 40, 217, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                    transform: "translateY(3px)",
+                  },
+                }}
+              >
+                Configurar horario
+              </Button>
+            </Box>
           </Stack>
 
           <Stack
             direction={{ xs: "column", lg: "row" }}
             spacing={1}
-            sx={{ width: "100%" }}
+            sx={{ width: "100%", mt: 2 }}
           >
             <Paper
               variant="outlined"

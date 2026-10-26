@@ -234,19 +234,144 @@ export default function Notificaciones() {
         </Box>
 
         <Stack direction="row" spacing={1}>
+          <>
+            <Button
+              variant={onlyUnread ? "contained" : "outlined"}
+              onClick={() => setOnlyUnread((prev) => !prev)}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "10px 24px",
+                border: "1px solid",
+                transition: "all 0.15s ease-in-out",
+                "& .MuiButton-startIcon": { color: "inherit" },
+
+                // --- ESTADO DINÁMICO SEGÚN LA VARIABLE (Active vs Inactive) ---
+                borderColor: onlyUnread
+                  ? "#0369a1 !important"
+                  : "#0369a1 !important",
+                color: onlyUnread ? "#ffffff" : "#0369a1",
+                backgroundColor: onlyUnread ? "#0369a1" : "transparent",
+                boxShadow: onlyUnread
+                  ? `0px 4px 0px #075985, 0px 8px 16px rgba(3, 105, 161, 0.3), inset 0px 1px 0px rgba(255, 255, 255, 0.3)`
+                  : `0px 4px 0px #075985, 0px 8px 16px rgba(3, 105, 161, 0.15), inset 0px 1px 0px rgba(255, 255, 255, 0.1)`,
+
+                "&:hover": {
+                  color: onlyUnread ? "#ffffff" : "#0ea5e9",
+                  borderColor: onlyUnread
+                    ? "#0ea5e9 !important"
+                    : "#0ea5e9 !important",
+                  backgroundColor: onlyUnread
+                    ? "#0ea5e9"
+                    : "rgba(3, 105, 161, 0.04)",
+                  boxShadow: onlyUnread
+                    ? `0px 4px 0px #075985, 0px 12px 20px rgba(14, 165, 233, 0.4), inset 0px 1px 0px rgba(255, 255, 255, 0.4)`
+                    : `0px 4px 0px #075985, 0px 12px 20px rgba(14, 165, 233, 0.25), inset 0px 1px 0px rgba(255, 255, 255, 0.2)`,
+                  transform: "translateY(-1px)",
+                },
+
+                "&:active": {
+                  borderColor: "#0369a1 !important",
+                  boxShadow: `0px 1px 0px #075985, 0px 2px 4px rgba(3, 105, 161, 0.2), inset 0px 2px 4px rgba(0, 0, 0, 0.1)`,
+                  transform: "translateY(3px)",
+                },
+              }}
+            >
+              {onlyUnread ? "Nuevas Notificaciones" : "Notificaciones Leídas"}
+            </Button>
+
+            <Button
+              variant={includeArchived ? "contained" : "outlined"}
+              onClick={() => setIncludeArchived((prev) => !prev)}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "10px 24px",
+                border: "1px solid",
+                transition: "all 0.15s ease-in-out",
+                "& .MuiButton-startIcon": { color: "inherit" },
+
+                // --- ESTADO DINÁMICO SEGÚN LA VARIABLE (Active vs Inactive) ---
+                borderColor: includeArchived
+                  ? "#b45309 !important"
+                  : "#b45309 !important",
+                color: includeArchived ? "#ffffff" : "#b45309",
+                backgroundColor: includeArchived ? "#b45309" : "transparent",
+                boxShadow: includeArchived
+                  ? `0px 4px 0px #92400e, 0px 8px 16px rgba(180, 83, 9, 0.3), inset 0px 1px 0px rgba(255, 255, 255, 0.3)`
+                  : `0px 4px 0px #92400e, 0px 8px 16px rgba(180, 83, 9, 0.15), inset 0px 1px 0px rgba(255, 255, 255, 0.1)`,
+
+                "&:hover": {
+                  color: includeArchived ? "#ffffff" : "#f59e0b",
+                  borderColor: includeArchived
+                    ? "#f59e0b !important"
+                    : "#f59e0b !important",
+                  backgroundColor: includeArchived
+                    ? "#f59e0b"
+                    : "rgba(180, 83, 9, 0.04)",
+                  boxShadow: includeArchived
+                    ? `0px 4px 0px #92400e, 0px 12px 20px rgba(245, 158, 11, 0.4), inset 0px 1px 0px rgba(255, 255, 255, 0.4)`
+                    : `0px 4px 0px #92400e, 0px 12px 20px rgba(245, 158, 11, 0.25), inset 0px 1px 0px rgba(255, 255, 255, 0.2)`,
+                  transform: "translateY(-1px)",
+                },
+
+                "&:active": {
+                  borderColor: "#b45309 !important",
+                  boxShadow: `0px 1px 0px #92400e, 0px 2px 4px rgba(180, 83, 9, 0.2), inset 0px 2px 4px rgba(0, 0, 0, 0.1)`,
+                  transform: "translateY(3px)",
+                },
+              }}
+            >
+              {includeArchived ? "Archivadas" : "Sin archivar"}
+            </Button>
+          </>
+
           <Button
-            variant={onlyUnread ? "contained" : "outlined"}
-            onClick={() => setOnlyUnread((prev) => !prev)}
+            variant="contained"
+            onClick={markAll}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "10px 24px",
+              border: "1px solid",
+              borderColor: "#15803d !important",
+              color: "#15803d",
+              backgroundColor: "transparent",
+              boxShadow: `
+      0px 4px 0px #166534, 
+      0px 8px 16px rgba(21, 128, 61, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+              transition: "all 0.15s ease-in-out",
+              "& .MuiButton-startIcon": { color: "inherit" },
+              "&:hover": {
+                color: "#22c55e",
+                borderColor: "#22c55e !important",
+                backgroundColor: "rgba(21, 128, 61, 0.04)",
+                boxShadow: `
+        0px 4px 0px #166534, 
+        0px 12px 20px rgba(34, 197, 94, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#15803d !important",
+                boxShadow: `
+        0px 1px 0px #166534, 
+        0px 2px 4px rgba(21, 128, 61, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                transform: "translateY(3px)",
+              },
+            }}
           >
-            {onlyUnread ? "Mostrando no leídas" : "Filtrar no leídas"}
-          </Button>
-          <Button
-            variant={includeArchived ? "contained" : "outlined"}
-            onClick={() => setIncludeArchived((prev) => !prev)}
-          >
-            {includeArchived ? "Incluye archivadas" : "Sin archivadas"}
-          </Button>
-          <Button variant="contained" onClick={markAll}>
             Marcar todo leído
           </Button>
         </Stack>

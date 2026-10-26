@@ -18,6 +18,12 @@ import {
   Snackbar,
   TextField,
   Typography,
+  Paper,
+  Stack,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  InputAdornment,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
@@ -25,6 +31,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
+import CloseIcon from "@mui/icons-material/Close";
 
 import VisibilityIcon from "@mui/icons-material/Visibility"; // Manteniendo el icono de ojo original
 
@@ -314,29 +321,23 @@ export default function Temarios() {
             Gestión de contenido teórico asociado al permiso objetivo.
           </Typography>
         </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            mb: 1,
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 2,
-              width: "100%",
-              maxWidth: 560,
-              justifyContent: "center",
-            }}
+        <Paper sx={{ p: 2, mb: 0 }}>
+          <Stack
+            direction={{ xs: "column", md: "row" }}
+            spacing={2}
+            alignItems="center"
+            justifyContent="center"
           >
-            <Typography variant="subtitle1" fontWeight={600} sx={{ mt: 3 }}>
+            {/* Ajuste fino con translateY para desplazar el texto hacia abajo milimétricamente */}
+            <Typography
+              variant="body1"
+              fontWeight={600}
+              sx={{ transform: "translateY(10px)" }}
+            >
               Licencia
             </Typography>
 
-            <FormControl size="small" sx={{ minWidth: 340, mt: 3 }}>
+            <FormControl size="small" sx={{ minWidth: 340 }}>
               <InputLabel id="filtro-licencia-label">Licencia</InputLabel>
               <Select
                 labelId="filtro-licencia-label"
@@ -352,8 +353,9 @@ export default function Temarios() {
                 ))}
               </Select>
             </FormControl>
-          </Box>
-        </Box>
+          </Stack>
+        </Paper>
+
         <Button
           variant="contained"
           startIcon={<AddIcon />}

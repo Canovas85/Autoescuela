@@ -213,6 +213,44 @@ export default function TemarioAlumno() {
                         variant="contained"
                         endIcon={<ArrowForwardIcon />}
                         onClick={() => navigate(`/temario/${temario.id}`)}
+                        sx={{
+                          fontWeight: 700,
+                          letterSpacing: "1px",
+                          textTransform: "uppercase",
+                          borderRadius: "8px",
+                          padding: "8px 24px",
+                          border: "1px solid",
+                          borderColor: "#0284c7 !important",
+                          color: "#0284c7",
+                          backgroundColor: "transparent",
+                          boxShadow: `
+      0px 4px 0px #0369a1, 
+      0px 8px 16px rgba(2, 132, 199, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                          transition: "all 0.15s ease-in-out",
+                          "& .MuiButton-endIcon": { color: "inherit" },
+                          "&:hover": {
+                            color: "#0ea5e9",
+                            borderColor: "#0ea5e9 !important",
+                            backgroundColor: "rgba(2, 132, 199, 0.04)",
+                            boxShadow: `
+        0px 4px 0px #0369a1, 
+        0px 12px 20px rgba(14, 165, 233, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                            transform: "translateY(-1px)",
+                          },
+                          "&:active": {
+                            borderColor: "#0284c7 !important",
+                            boxShadow: `
+        0px 1px 0px #0369a1, 
+        0px 2px 4px rgba(2, 132, 199, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                            transform: "translateY(3px)",
+                          },
+                        }}
                       >
                         Entrar al tema
                       </Button>

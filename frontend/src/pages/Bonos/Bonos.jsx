@@ -180,10 +180,68 @@ function StudentBonosView({ rows, loading, onBuy }) {
                 </Typography>
 
                 <Button
-                  variant="contained"
+                  variant="outlined" // Cambiado a outlined para asegurar la visibilidad de los bordes
                   size="large"
                   startIcon={<ShoppingCartIcon />}
                   onClick={() => onBuy(row)}
+                  sx={{
+                    fontWeight: 700,
+                    letterSpacing: "1px",
+                    textTransform: "uppercase",
+                    borderRadius: "8px",
+                    padding: "10px 24px",
+                    cursor: "pointer",
+
+                    // --- DESPLAZAMIENTO HACIA ARRIBA Y HACIA LA IZQUIERDA ---
+                    mt: -1, // Sube la posición del botón (puedes cambiarlo por px, ej: "-8px")
+                    ml: -1, // Mueve el botón hacia la izquierda (ej: "-8px")
+
+                    // Posición inicial para el relieve 3D
+                    transform: "translateY(8px)",
+
+                    // Fuerza el contorno completo
+                    border: "1px solid",
+                    color: "#16a34a",
+                    borderColor: "#16a34a !important",
+                    backgroundColor: "transparent",
+
+                    boxShadow: `
+      0px 4px 0px #15803d, 
+      0px 8px 16px rgba(22, 163, 74, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                    transition: "all 0.15s ease-in-out",
+                    "& .MuiButton-startIcon": {
+                      color: "inherit",
+                    },
+                    "&:hover": {
+                      color: "#15803d",
+                      borderColor: "#15803d !important",
+                      backgroundColor: "rgba(22, 163, 74, 0.04)",
+                      boxShadow: `
+        0px 4px 0px #15803d, 
+        0px 12px 20px rgba(21, 128, 61, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                      transform: "translateY(-1px)",
+                    },
+                    "&:active": {
+                      borderColor: "#16a34a !important",
+                      boxShadow: `
+        0px 1px 0px #15803d, 
+        0px 2px 4px rgba(22, 163, 74, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                      transform: "translateY(3px)",
+                    },
+                    "&.Mui-disabled": {
+                      boxShadow: "none",
+                      transform: "none",
+                      color: "#9ca3af",
+                      borderColor: "#d1d5db !important",
+                      backgroundColor: "#f3f4f6",
+                    },
+                  }}
                 >
                   Comprar bono
                 </Button>
