@@ -927,127 +927,132 @@ export default function MisFacturas() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button
-            onClick={() => setPreviewOpen(false)}
+          <Box
             sx={{
-              fontWeight: 700,
-              letterSpacing: "1px",
-              textTransform: "uppercase",
-              borderRadius: "8px",
-              padding: "6px 24px",
-              border: "1px solid",
-
-              // --- POSICIONAMIENTO MÁS ARRIBA ---
-              mt: "-8px",
-
-              // --- ESTILO BASE CON RELIEVE CARMESÍ ---
-              color: "#dc2626",
-              borderColor: "#dc2626 !important",
-              backgroundColor: "transparent",
-              boxShadow: `
-      0px 4px 0px #991b1b, 
-      0px 8px 16px rgba(220, 38, 38, 0.15),
-      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
-    `,
-              transition: "all 0.15s ease-in-out",
-
-              // --- COMPORTAMIENTO HOVER (Elevación) ---
-              "&:hover": {
-                color: "#ef4444",
-                borderColor: "#ef4444 !important",
-                backgroundColor: "rgba(220, 38, 38, 0.04)",
-                boxShadow: `
-        0px 4px 0px #991b1b, 
-        0px 12px 20px rgba(239, 68, 68, 0.25),
-        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
-      `,
-                transform: "translateY(-1px)",
-              },
-
-              // --- COMPORTAMIENTO ACTIVE (Hundimiento mecánico) ---
-              "&:active": {
-                borderColor: "#dc2626 !important",
-                boxShadow: `
-        0px 1px 0px #991b1b, 
-        0px 2px 4px rgba(220, 38, 38, 0.2),
-        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
-      `,
-                transform: "translateY(3px)",
-              },
+              display: "flex",
+              justifyContent: "flex-end", // Fuerza el empuje de los botones al extremo derecho
+              width: "100%", // Consume todo el ancho interno del modal
+              mb: 3, // Separación exacta de la parte inferior (24px)
+              gap: 2, // Espaciado horizontal limpio entre los botones
+              px: 1, // Sutil colchón lateral para que el relieve no se corte con el borde
             }}
           >
-            Cerrar
-          </Button>
+            <Button
+              onClick={() => setPreviewOpen(false)}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "6px 24px",
+                border: "1px solid",
 
-          <Button
-            variant="outlined" // Cambiado a outlined para habilitar la visualización del contorno completo
-            startIcon={<DownloadIcon />}
-            disabled={!selectedFactura}
-            onClick={() => handleDownloadPdf(selectedFactura.id)}
-            sx={{
-              fontWeight: 700,
-              letterSpacing: "1px",
-              textTransform: "uppercase",
-              borderRadius: "8px",
-              padding: "6px 24px",
-              border: "1px solid",
-              transition: "all 0.15s ease-in-out",
-              "& .MuiButton-startIcon": {
-                color: "inherit",
-              },
-
-              // --- POSICIONAMIENTO MÁS ARRIBA ---
-              mt: "-8px", // Desplaza el botón hacia arriba (puedes ajustar el número de píxeles si necesitas más)
-
-              // --- ESTADO ACTIVO (Habilitado con relieve naranja) ---
-              "&:not(:disabled)": {
-                color: "#ea580c",
-                borderColor: "#ea580c !important",
+                // --- ESTILO BASE CON RELIEVE CARMESÍ ---
+                color: "#dc2626",
+                borderColor: "#dc2626 !important",
                 backgroundColor: "transparent",
                 boxShadow: `
-        0px 4px 0px #c2410c, 
-        0px 8px 16px rgba(234, 88, 12, 0.15),
+        0px 4px 0px #991b1b, 
+        0px 8px 16px rgba(220, 38, 38, 0.15),
         inset 0px 1px 0px rgba(255, 255, 255, 0.1)
       `,
-              },
+                transition: "all 0.15s ease-in-out",
 
-              // --- COMPORTAMIENTO HOVER (Elevación) ---
-              "&:not(:disabled):hover": {
-                color: "#f97316",
-                borderColor: "#f97316 !important",
-                backgroundColor: "rgba(234, 88, 12, 0.04)",
-                boxShadow: `
-        0px 4px 0px #c2410c, 
-        0px 12px 20px rgba(249, 115, 22, 0.25),
-        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
-      `,
-                transform: "translateY(-1px)",
-              },
+                // --- COMPORTAMIENTO HOVER ---
+                "&:hover": {
+                  color: "#ef4444",
+                  borderColor: "#ef4444 !important",
+                  backgroundColor: "rgba(220, 38, 38, 0.04)",
+                  boxShadow: `
+          0px 4px 0px #991b1b, 
+          0px 12px 20px rgba(239, 68, 68, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                  transform: "translateY(-1px)",
+                },
 
-              // --- COMPORTAMIENTO ACTIVE (Hundimiento mecánico) ---
-              "&:not(:disabled):active": {
-                borderColor: "#ea580c !important",
-                boxShadow: `
-        0px 1px 0px #c2410c, 
-        0px 2px 4px rgba(234, 88, 12, 0.2),
-        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
-      `,
-                transform: "translateY(3px)",
-              },
+                // --- COMPORTAMIENTO ACTIVE ---
+                "&:active": {
+                  borderColor: "#dc2626 !important",
+                  boxShadow: `
+          0px 1px 0px #991b1b, 
+          0px 2px 4px rgba(220, 38, 38, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                  transform: "translateY(3px)",
+                },
+              }}
+            >
+              Cerrar
+            </Button>
 
-              // --- ESTADO DESHABILITADO (Plano y estático) ---
-              "&:disabled": {
-                cursor: "not-allowed",
-                boxShadow: "none",
-                transform: "none",
-                borderColor: "#d1d5db !important",
-                color: "#9ca3af",
-                backgroundColor: "#f3f4f6",
-              },
-            }}
-          >
-            Descargar PDF
-          </Button>
+            <Button
+              variant="outlined"
+              startIcon={<DownloadIcon />}
+              disabled={!selectedFactura}
+              onClick={() => handleDownloadPdf(selectedFactura.id)}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "6px 24px",
+                border: "1px solid",
+                transition: "all 0.15s ease-in-out",
+                "& .MuiButton-startIcon": {
+                  color: "inherit",
+                },
+
+                // --- ESTADO ACTIVO (Habilitado con relieve naranja) ---
+                "&:not(:disabled)": {
+                  color: "#ea580c",
+                  borderColor: "#ea580c !important",
+                  backgroundColor: "transparent",
+                  boxShadow: `
+          0px 4px 0px #c2410c, 
+          0px 8px 16px rgba(234, 88, 12, 0.15),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+        `,
+                },
+
+                // --- COMPORTAMIENTO HOVER ---
+                "&:not(:disabled):hover": {
+                  color: "#f97316",
+                  borderColor: "#f97316 !important",
+                  backgroundColor: "rgba(234, 88, 12, 0.04)",
+                  boxShadow: `
+          0px 4px 0px #c2410c, 
+          0px 12px 20px rgba(249, 115, 22, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                  transform: "translateY(-1px)",
+                },
+
+                // --- COMPORTAMIENTO ACTIVE ---
+                "&:not(:disabled):active": {
+                  borderColor: "#ea580c !important",
+                  boxShadow: `
+          0px 1px 0px #c2410c, 
+          0px 2px 4px rgba(234, 88, 12, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                  transform: "translateY(3px)",
+                },
+
+                // --- ESTADO DESHABILITADO ---
+                "&:disabled": {
+                  cursor: "not-allowed",
+                  boxShadow: "none",
+                  transform: "none",
+                  borderColor: "#d1d5db !important",
+                  color: "#9ca3af",
+                  backgroundColor: "#f3f4f6",
+                },
+              }}
+            >
+              Descargar PDF
+            </Button>
+          </Box>
         </DialogActions>
       </Dialog>
 

@@ -32,7 +32,9 @@ export class DashboardController {
   }
 
   async getStudentDashboard(req, res) {
-    const metrics = await this.service.getStudentDashboard(req.user?.id);
+    const metrics = await this.service.getStudentDashboard(req.user?.id, {
+      licencia: req.query?.licencia,
+    });
 
     return res.status(200).json(metrics);
   }

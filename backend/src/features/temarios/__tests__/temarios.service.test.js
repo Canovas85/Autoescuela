@@ -156,6 +156,7 @@ describe("TemariosService", () => {
     expect(repositoryMock.findForAlumnoByLicencia).toHaveBeenCalledWith(
       "alumno-1",
       "B",
+      null,
     );
     expect(result).toEqual([
       {
@@ -196,6 +197,7 @@ describe("TemariosService", () => {
       "alumno-1",
       "temario-001",
       "B",
+      null,
     );
     expect(result).toEqual({
       id: "temario-001",
@@ -270,6 +272,7 @@ describe("TemariosService", () => {
       alumnoId: "alumno-1",
       temarioId: "temario-001",
       dominio: 80,
+      fechaDesde: null,
     });
     expect(result.message).toBe(
       "Resultado de mini test guardado correctamente",

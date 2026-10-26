@@ -149,10 +149,28 @@ export class DashboardRepository {
             estadoExpediente: true,
             licenciaObtenidaAt: true,
             matriculas: {
+              select: {
+                id: true,
+                licencia: true,
+                estado: true,
+                fechaCreacion: true,
+                fechaPago: true,
+              },
               orderBy: {
                 fechaCreacion: "desc",
               },
-              take: 1,
+            },
+            historialProfesores: {
+              where: {
+                motivo: "LICENCIA_OBTENIDA",
+              },
+              orderBy: {
+                changedAt: "desc",
+              },
+              select: {
+                licenciaObtenida: true,
+                changedAt: true,
+              },
             },
             activo: true,
 
@@ -880,7 +898,6 @@ export class DashboardRepository {
     return this.prisma.alumno.findMany({
       where: {
         activo: true,
-        estadoExpediente: "LICENCIA_OBTENIDA",
         historialProfesores: {
           some: {
             profesorAnteriorId: userId,

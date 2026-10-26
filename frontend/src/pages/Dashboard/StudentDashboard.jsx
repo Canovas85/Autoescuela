@@ -11,6 +11,7 @@ import {
   Grid,
   IconButton,
   LinearProgress,
+  CircularProgress,
   List,
   ListItem,
   ListItemText,
@@ -38,6 +39,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Button } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
+import { dashboardService } from "../../services/dashboardService";
 import { pagosService } from "../../services/pagosService";
 import { LicenseChip } from "../../components/common/LicenseChip";
 import { PracticalClassTypeChip } from "../../components/common/PracticalClassTypeChip";
@@ -255,10 +257,20 @@ export default function StudentDashboard({ data }) {
   const [selectedExam, setSelectedExam] = useState(null);
   const [openExamModal, setOpenExamModal] = useState(false);
   const [showLicenseDetailView, setShowLicenseDetailView] = useState(false);
+  const [selectedHistoricalLicense, setSelectedHistoricalLicense] =
+    useState(null);
+  const [historicalDashboardData, setHistoricalDashboardData] = useState(null);
+  const [loadingHistoricalDashboard, setLoadingHistoricalDashboard] =
+    useState(false);
 
   if (!data) {
     return <p>Cargando dashboard...</p>;
   }
+
+  const activeData =
+    showLicenseDetailView && historicalDashboardData
+      ? historicalDashboardData
+      : data;
 
   const {
     perfil,
@@ -271,7 +283,7 @@ export default function StudentDashboard({ data }) {
     reservas,
     evolucion,
     resumen,
-  } = data;
+  } = activeData;
   const practicalLicense = perfil?.tipoLicenciaObjetivo || "B";
 
   const dgtMetrics = dgt || {
@@ -292,7 +304,7 @@ export default function StudentDashboard({ data }) {
   };
 
   const dgtUltimoResultado = dgtMetrics.ultimoResultado;
-  const progressChip = data?.estadoAlumno || {
+  const progressChip = activeData?.estadoAlumno || {
     label: "Estudiando teórico",
     ok: false,
   };
@@ -306,6 +318,11 @@ export default function StudentDashboard({ data }) {
   const obtainedLicenseCode =
     perfil?.licenciaObtenidaPrincipal || perfil?.licenciasObtenidas?.[0] || "B";
   const studentName = perfil?.nombre || "Alumno";
+  const currentLicenseCode =
+    perfil?.expedienteActualLicencia || perfil?.tipoLicenciaObjetivo || "B";
+  const historicalLicenses = (data?.perfil?.licenciasObtenidasDetalle || [])
+    .map((item) => String(item?.licencia || "").trim().toUpperCase())
+    .filter((licencia) => licencia && licencia !== currentLicenseCode);
 
   const matriculaPendiente = resumen?.matricula === "PENDIENTE";
   const pagoTasaPendiente = Boolean(dgtMetrics.tasa21?.pagoPendiente);
@@ -337,6 +354,12 @@ export default function StudentDashboard({ data }) {
     ...evolucion.map((periodo) => Math.max(periodo.tests, periodo.clases)),
   );
 
+  const isViewingHistoricalLicense = Boolean(
+    showLicenseDetailView && selectedHistoricalLicense,
+  );
+  const historicalLicenseCodeForView =
+    selectedHistoricalLicense || obtainedLicenseCode;
+
   const handleOpenExamModal = (examen) => {
     setSelectedExam(examen);
     setOpenExamModal(true);
@@ -345,6 +368,26 @@ export default function StudentDashboard({ data }) {
   const handleCloseExamModal = () => {
     setOpenExamModal(false);
     setSelectedExam(null);
+  };
+
+  const openHistoricalLicenseDetail = async (licencia) => {
+    setLoadingHistoricalDashboard(true);
+    try {
+      const response = await dashboardService.getStudentDashboard({ licencia });
+      setHistoricalDashboardData(response);
+      setSelectedHistoricalLicense(licencia);
+      setShowLicenseDetailView(true);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoadingHistoricalDashboard(false);
+    }
+  };
+
+  const handleCloseLicenseDetail = () => {
+    setShowLicenseDetailView(false);
+    setSelectedHistoricalLicense(null);
+    setHistoricalDashboardData(null);
   };
 
   const handlePayPendingDgt = async () => {
@@ -518,10 +561,7 @@ export default function StudentDashboard({ data }) {
     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
       {isLicenseObtained ? (
         <Stack direction="row" justifyContent="flex-end">
-          <Button
-            variant="outlined"
-            onClick={() => setShowLicenseDetailView(false)}
-          >
+          <Button variant="outlined" onClick={handleCloseLicenseDetail}>
             Cerrar
           </Button>
         </Stack>
@@ -648,21 +688,50 @@ export default function StudentDashboard({ data }) {
           </Box>
 
           <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
-            <Chip
-              label={progressChip.label}
-              size="small"
-              onClick={
-                isLicenseObtained
-                  ? () => setShowLicenseDetailView(true)
-                  : undefined
-              }
-              sx={{
-                backgroundColor: progressChip.ok ? "#dcfce7" : "#fef3c7",
-                color: progressChip.ok ? "#166534" : "#92400e",
-                fontWeight: 700,
-                cursor: isLicenseObtained ? "pointer" : "default",
-              }}
-            />
+            {isViewingHistoricalLicense ? (
+              <Chip
+                label={`Licencia ${historicalLicenseCodeForView} obtenida`}
+                size="small"
+                sx={{
+                  backgroundColor: "#dcfce7",
+                  color: "#166534",
+                  fontWeight: 700,
+                }}
+              />
+            ) : (
+              <>
+                <Chip
+                  label={`${currentLicenseCode}: ${progressChip.label}`}
+                  size="small"
+                  onClick={
+                    isLicenseObtained ? () => setShowLicenseDetailView(true) : undefined
+                  }
+                  sx={{
+                    backgroundColor: progressChip.ok ? "#dcfce7" : "#fef3c7",
+                    color: progressChip.ok ? "#166534" : "#92400e",
+                    fontWeight: 700,
+                    cursor: isLicenseObtained ? "pointer" : "default",
+                  }}
+                />
+                {historicalLicenses.map((licenseCode) => (
+                  <Chip
+                    key={`hist-license-${licenseCode}`}
+                    label={`Licencia ${licenseCode} obtenida`}
+                    size="small"
+                    onClick={() => openHistoricalLicenseDetail(licenseCode)}
+                    sx={{
+                      backgroundColor: "#dcfce7",
+                      color: "#166534",
+                      fontWeight: 700,
+                      cursor: "pointer",
+                    }}
+                  />
+                ))}
+              </>
+            )}
+            {loadingHistoricalDashboard ? (
+              <CircularProgress size={18} sx={{ color: "#fff", mt: 0.5 }} />
+            ) : null}
             <Chip
               label={`${teoria.testsTotales} tests de práctica`}
               size="small"

@@ -28,8 +28,10 @@ export const dashboardService = {
     return response.data;
   },
 
-  async getStudentDashboard() {
-    const response = await api.get("/dashboard/student");
+  async getStudentDashboard(params = {}) {
+    const response = await api.get("/dashboard/student", {
+      params,
+    });
     return response.data;
   },
 

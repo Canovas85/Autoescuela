@@ -101,6 +101,55 @@ const normalizarLicenciaObjetivo = (valor) =>
     .trim()
     .toUpperCase() || "B";
 
+const toValidDateOrNull = (value) => {
+  const parsed = new Date(value || 0);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+};
+
+const buildEnrollmentWindows = (matriculas = []) => {
+  const sorted = [...(matriculas || [])]
+    .map((matricula) => ({
+      ...matricula,
+      licencia: normalizarLicenciaObjetivo(matricula?.licencia),
+      _fechaInicio: toValidDateOrNull(
+        matricula?.fechaCreacion || matricula?.fechaPago,
+      ),
+    }))
+    .filter((matricula) => Boolean(matricula._fechaInicio))
+    .sort((a, b) => b._fechaInicio.getTime() - a._fechaInicio.getTime());
+
+  return sorted.map((matricula, index) => ({
+    licencia: matricula.licencia,
+    start: matricula._fechaInicio,
+    endExclusive: sorted[index - 1]?._fechaInicio || null,
+  }));
+};
+
+const resolveLicenseForRequest = (solicitud, enrollmentWindows = []) => {
+  const date = toValidDateOrNull(
+    solicitud?.fechaSolicitud || solicitud?.fechaProgramada,
+  );
+
+  const matched =
+    enrollmentWindows.find((window) => {
+      if (!date || !window?.start) {
+        return false;
+      }
+
+      if (date < window.start) {
+        return false;
+      }
+
+      if (window.endExclusive && date >= window.endExclusive) {
+        return false;
+      }
+
+      return true;
+    }) || enrollmentWindows[0];
+
+  return matched?.licencia || null;
+};
+
 const resolvePracticalTargetPhase = ({
   licenciaObjetivo,
   hasPhase1Apto,
@@ -829,8 +878,12 @@ export class SolicitudesExamenService {
     const licenciaObjetivo = normalizarLicenciaObjetivo(
       matriculaPagada?.licencia,
     );
+    const expedienteStartDate = matriculaPagada?.fechaCreacion || null;
     const solicitudActiva =
-      await this.repository.findSolicitudTeoricoActiva(alumnoId);
+      await this.repository.findSolicitudTeoricoActiva(
+        alumnoId,
+        expedienteStartDate,
+      );
 
     if (solicitudActiva) {
       checks.solicitudActiva = true;
@@ -927,7 +980,10 @@ export class SolicitudesExamenService {
     };
   }
 
-  async ensurePracticalExamExpensePayment(matriculaPagada) {
+  async ensurePracticalExamExpensePayment(
+    matriculaPagada,
+    expedienteStartDate = null,
+  ) {
     if (!matriculaPagada) {
       return null;
     }
@@ -940,10 +996,14 @@ export class SolicitudesExamenService {
       licenciaObjetivo,
     )
       ? typeof this.repository.hasPracticalAptoByPhase === "function"
-        ? await this.repository.hasPracticalAptoByPhase(alumnoId, 2)
+        ? await this.repository.hasPracticalAptoByPhase(
+            alumnoId,
+            2,
+            expedienteStartDate,
+          )
         : false
       : typeof this.repository.hasPracticalApto === "function"
-        ? await this.repository.hasPracticalApto(alumnoId)
+        ? await this.repository.hasPracticalApto(alumnoId, expedienteStartDate)
         : false;
 
     if (practicalAlreadyApproved) {
@@ -1068,6 +1128,7 @@ export class SolicitudesExamenService {
     };
 
     const matriculaPagada = await this.repository.findMatriculaPagada(alumnoId);
+    const expedienteStartDate = matriculaPagada?.fechaCreacion || null;
 
     if (!matriculaPagada) {
       bloqueos.push(
@@ -1079,7 +1140,10 @@ export class SolicitudesExamenService {
 
     const teoricoAprobado =
       typeof this.repository.hasTheoreticalApto === "function"
-        ? await this.repository.hasTheoreticalApto(alumnoId)
+        ? await this.repository.hasTheoreticalApto(
+            alumnoId,
+            expedienteStartDate,
+          )
         : true;
 
     if (!teoricoAprobado) {
@@ -1110,10 +1174,18 @@ export class SolicitudesExamenService {
     const [hasPhase1Apto, hasPhase2Apto] = usesDualPracticalPhase
       ? await Promise.all([
           typeof this.repository.hasPracticalAptoByPhase === "function"
-            ? this.repository.hasPracticalAptoByPhase(alumnoId, 1)
+            ? this.repository.hasPracticalAptoByPhase(
+                alumnoId,
+                1,
+                expedienteStartDate,
+              )
             : false,
           typeof this.repository.hasPracticalAptoByPhase === "function"
-            ? this.repository.hasPracticalAptoByPhase(alumnoId, 2)
+            ? this.repository.hasPracticalAptoByPhase(
+                alumnoId,
+                2,
+                expedienteStartDate,
+              )
             : false,
         ])
       : [false, false];
@@ -1121,7 +1193,7 @@ export class SolicitudesExamenService {
     const practicalAlreadyApproved = usesDualPracticalPhase
       ? hasPhase2Apto
       : typeof this.repository.hasPracticalApto === "function"
-        ? await this.repository.hasPracticalApto(alumnoId)
+        ? await this.repository.hasPracticalApto(alumnoId, expedienteStartDate)
         : false;
 
     const fasePracticaObjetivo = resolvePracticalTargetPhase({
@@ -1141,10 +1213,12 @@ export class SolicitudesExamenService {
       this.repository.countHojasRutaRegistradas(
         alumnoId,
         tipoClasePracticaRequerida,
+        expedienteStartDate,
       ),
       this.repository.countHojasRutaRegistradasConClase(
         alumnoId,
         tipoClasePracticaRequerida,
+        expedienteStartDate,
       ),
     ]);
 
@@ -1169,6 +1243,7 @@ export class SolicitudesExamenService {
     let solicitudActiva = await this.repository.findSolicitudPracticoActiva(
       alumnoId,
       fasePracticaObjetivo,
+      expedienteStartDate,
     );
 
     if (
@@ -1181,11 +1256,13 @@ export class SolicitudesExamenService {
       await this.repository.updateActivePracticalRequestsMissingPhase(
         alumnoId,
         fasePracticaObjetivo,
+        expedienteStartDate,
       );
 
       solicitudActiva = await this.repository.findSolicitudPracticoActiva(
         alumnoId,
         fasePracticaObjetivo,
+        expedienteStartDate,
       );
     }
     const horasRestantesSolicitudActiva = solicitudActiva?.fechaProgramada
@@ -1259,6 +1336,7 @@ export class SolicitudesExamenService {
     const ultimoNoApto = await this.repository.findUltimoNoAptoPractico(
       alumnoId,
       fasePracticaObjetivo,
+      expedienteStartDate,
     );
     let clasesPostNoAptoRequeridas = 0;
     let clasesPostNoAptoCompletadas = 0;
@@ -1268,10 +1346,14 @@ export class SolicitudesExamenService {
     if (ultimoNoApto?.fechaProgramada) {
       clasesPostNoAptoRequeridas =
         getClasesPostNoAptoRequeridas(licenciaObjetivo);
+      const fechaInicioClasesPostNoApto =
+        expedienteStartDate && expedienteStartDate > ultimoNoApto.fechaProgramada
+          ? expedienteStartDate
+          : ultimoNoApto.fechaProgramada;
       clasesPostNoAptoCompletadas =
         await this.repository.countClasesCompletadasDesdeFecha(
           alumnoId,
-          ultimoNoApto.fechaProgramada,
+          fechaInicioClasesPostNoApto,
           tipoClasePracticaRequerida,
         );
 
@@ -1291,7 +1373,7 @@ export class SolicitudesExamenService {
         hojasPostNoAptoRegistradas =
           await this.repository.countHojasRutaRegistradasConClaseDesdeFecha(
             alumnoId,
-            ultimoNoApto.fechaProgramada,
+            fechaInicioClasesPostNoApto,
             tipoClasePracticaRequerida,
           );
       } else {
@@ -1334,7 +1416,10 @@ export class SolicitudesExamenService {
     ) {
       if (!checks.pagoGastoPracticoPagado) {
         pagoGastoPractico =
-          await this.ensurePracticalExamExpensePayment(matriculaPagada);
+          await this.ensurePracticalExamExpensePayment(
+            matriculaPagada,
+            expedienteStartDate,
+          );
       }
 
       if (pagoGastoPractico) {
@@ -1861,7 +1946,21 @@ export class SolicitudesExamenService {
   }
 
   async getMine(alumnoId) {
-    return this.repository.findMine(alumnoId);
+    const [solicitudes, matriculas] = await Promise.all([
+      this.repository.findMine(alumnoId),
+      typeof this.repository.findMatriculasByAlumno === "function"
+        ? this.repository.findMatriculasByAlumno(alumnoId)
+        : Promise.resolve([]),
+    ]);
+
+    const enrollmentWindows = buildEnrollmentWindows(matriculas || []);
+
+    return (solicitudes || []).map((item) => ({
+      ...item,
+      licencia:
+        resolveLicenseForRequest(item, enrollmentWindows) ||
+        normalizarLicenciaObjetivo(matriculas?.[0]?.licencia),
+    }));
   }
 
   async processScheduledTheoreticalResults({

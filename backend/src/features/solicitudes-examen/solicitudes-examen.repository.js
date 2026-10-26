@@ -5,6 +5,28 @@ export class SolicitudesExamenRepository {
     this.prisma = prisma;
   }
 
+  buildExpedienteSolicitudSinceWhere(fechaDesde = null) {
+    if (!fechaDesde) {
+      return {};
+    }
+
+    return {
+      OR: [
+        {
+          fechaProgramada: {
+            gte: fechaDesde,
+          },
+        },
+        {
+          fechaProgramada: null,
+          fechaSolicitud: {
+            gte: fechaDesde,
+          },
+        },
+      ],
+    };
+  }
+
   generarNumeroFacturaPago(attempt = 0) {
     return generateFacturaNumber(attempt);
   }
@@ -17,6 +39,24 @@ export class SolicitudesExamenRepository {
       },
       orderBy: {
         fechaPago: "desc",
+      },
+    });
+  }
+
+  async findMatriculasByAlumno(alumnoId) {
+    return this.prisma.matricula.findMany({
+      where: {
+        alumnoId,
+      },
+      select: {
+        id: true,
+        licencia: true,
+        estado: true,
+        fechaCreacion: true,
+        fechaPago: true,
+      },
+      orderBy: {
+        fechaCreacion: "desc",
       },
     });
   }
@@ -201,12 +241,17 @@ export class SolicitudesExamenRepository {
     });
   }
 
-  async findUltimoNoAptoPractico(alumnoId, fasePractica = null) {
+  async findUltimoNoAptoPractico(
+    alumnoId,
+    fasePractica = null,
+    fechaDesde = null,
+  ) {
     return this.prisma.solicitudExamen.findFirst({
       where: {
         alumnoId,
         tipo: "PRACTICO",
         estado: "NO_APTO",
+        ...this.buildExpedienteSolicitudSinceWhere(fechaDesde),
         ...(fasePractica
           ? {
               fasePractica,
@@ -219,11 +264,12 @@ export class SolicitudesExamenRepository {
     });
   }
 
-  async hasTheoreticalApto(alumnoId) {
+  async hasTheoreticalApto(alumnoId, fechaDesde = null) {
     const total = await this.prisma.solicitudExamen.count({
       where: {
         alumnoId,
         tipo: "TEORICO",
+        ...this.buildExpedienteSolicitudSinceWhere(fechaDesde),
         estado: {
           in: ["APTO", "APROBADO"],
         },
@@ -233,11 +279,12 @@ export class SolicitudesExamenRepository {
     return total > 0;
   }
 
-  async hasPracticalApto(alumnoId) {
+  async hasPracticalApto(alumnoId, fechaDesde = null) {
     const total = await this.prisma.solicitudExamen.count({
       where: {
         alumnoId,
         tipo: "PRACTICO",
+        ...this.buildExpedienteSolicitudSinceWhere(fechaDesde),
         estado: {
           in: ["APTO", "APROBADO"],
         },
@@ -247,34 +294,54 @@ export class SolicitudesExamenRepository {
     return total > 0;
   }
 
-  async hasPracticalAptoByPhase(alumnoId, fasePractica) {
+  async hasPracticalAptoByPhase(alumnoId, fasePractica, fechaDesde = null) {
     const normalizedPhase = Number(fasePractica);
+    const expedienteSinceWhere =
+      this.buildExpedienteSolicitudSinceWhere(fechaDesde);
+    const phaseWhere =
+      normalizedPhase === 1
+        ? {
+            OR: [{ fasePractica: 1 }, { fasePractica: null }],
+          }
+        : {
+            fasePractica,
+          };
 
     const total = await this.prisma.solicitudExamen.count({
       where: {
-        alumnoId,
-        tipo: "PRACTICO",
-        ...(normalizedPhase === 1
-          ? {
-              OR: [{ fasePractica: 1 }, { fasePractica: null }],
-            }
-          : {
-              fasePractica,
-            }),
-        estado: {
-          in: ["APTO", "APROBADO"],
-        },
+        AND: [
+          {
+            alumnoId,
+            tipo: "PRACTICO",
+            estado: {
+              in: ["APTO", "APROBADO"],
+            },
+          },
+          phaseWhere,
+          expedienteSinceWhere,
+        ],
       },
     });
 
     return total > 0;
   }
 
-  async countHojasRutaRegistradas(alumnoId, tipoClasePractica = null) {
+  async countHojasRutaRegistradas(
+    alumnoId,
+    tipoClasePractica = null,
+    fechaDesde = null,
+  ) {
     return this.prisma.hojaRuta.count({
       where: {
         alumnoId,
         estado: "REGISTRADA",
+        ...(fechaDesde
+          ? {
+              createdAt: {
+                gte: fechaDesde,
+              },
+            }
+          : {}),
         ...(tipoClasePractica
           ? {
               clasePractica: {
@@ -288,11 +355,22 @@ export class SolicitudesExamenRepository {
     });
   }
 
-  async countHojasRutaRegistradasConClase(alumnoId, tipoClasePractica = null) {
+  async countHojasRutaRegistradasConClase(
+    alumnoId,
+    tipoClasePractica = null,
+    fechaDesde = null,
+  ) {
     return this.prisma.hojaRuta.count({
       where: {
         alumnoId,
         estado: "REGISTRADA",
+        ...(fechaDesde
+          ? {
+              createdAt: {
+                gte: fechaDesde,
+              },
+            }
+          : {}),
         clasePractica: {
           is: {
             ...(tipoClasePractica
@@ -331,11 +409,16 @@ export class SolicitudesExamenRepository {
     });
   }
 
-  async findSolicitudPracticoActiva(alumnoId, fasePractica = null) {
+  async findSolicitudPracticoActiva(
+    alumnoId,
+    fasePractica = null,
+    fechaDesde = null,
+  ) {
     return this.prisma.solicitudExamen.findFirst({
       where: {
         alumnoId,
         tipo: "PRACTICO",
+        ...this.buildExpedienteSolicitudSinceWhere(fechaDesde),
         ...(fasePractica
           ? {
               fasePractica,
@@ -360,12 +443,17 @@ export class SolicitudesExamenRepository {
     });
   }
 
-  async updateActivePracticalRequestsMissingPhase(alumnoId, fasePractica) {
+  async updateActivePracticalRequestsMissingPhase(
+    alumnoId,
+    fasePractica,
+    fechaDesde = null,
+  ) {
     return this.prisma.solicitudExamen.updateMany({
       where: {
         alumnoId,
         tipo: "PRACTICO",
         fasePractica: null,
+        ...this.buildExpedienteSolicitudSinceWhere(fechaDesde),
         estado: {
           in: ["PENDIENTE", "SOLICITADO", "PROGRAMADO"],
         },
@@ -887,11 +975,12 @@ export class SolicitudesExamenRepository {
     });
   }
 
-  async findSolicitudTeoricoActiva(alumnoId) {
+  async findSolicitudTeoricoActiva(alumnoId, fechaDesde = null) {
     return this.prisma.solicitudExamen.findFirst({
       where: {
         alumnoId,
         tipo: "TEORICO",
+        ...this.buildExpedienteSolicitudSinceWhere(fechaDesde),
         estado: {
           in: ["PENDIENTE", "PROGRAMADO", "SOLICITADO"],
         },
@@ -938,10 +1027,11 @@ export class SolicitudesExamenRepository {
     });
   }
 
-  async findMine(alumnoId) {
+  async findMine(alumnoId, fechaDesde = null) {
     return this.prisma.solicitudExamen.findMany({
       where: {
         alumnoId,
+        ...this.buildExpedienteSolicitudSinceWhere(fechaDesde),
       },
       orderBy: [{ fechaSolicitud: "desc" }],
     });

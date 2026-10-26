@@ -131,7 +131,9 @@ describe("DashboardController", () => {
 
     await controller.getStudentDashboard(req, res);
 
-    expect(serviceMock.getStudentDashboard).toHaveBeenCalledWith("alumno-1");
+    expect(serviceMock.getStudentDashboard).toHaveBeenCalledWith("alumno-1", {
+      licencia: undefined,
+    });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith(studentMetrics);
   });

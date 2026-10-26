@@ -11,6 +11,15 @@ export class TemariosRepository {
       select: {
         id: true,
         tipoLicenciaObjetivo: true,
+        matriculas: {
+          select: {
+            fechaCreacion: true,
+          },
+          orderBy: {
+            fechaCreacion: "desc",
+          },
+          take: 1,
+        },
       },
     });
   }
@@ -35,7 +44,11 @@ export class TemariosRepository {
     });
   }
 
-  async findForAlumnoByLicencia(alumnoId, tipoLicenciaObjetivo) {
+  async findForAlumnoByLicencia(
+    alumnoId,
+    tipoLicenciaObjetivo,
+    fechaDesde = null,
+  ) {
     return this.prisma.temario.findMany({
       where: {
         tipoLicenciaObjetivo: {
@@ -47,6 +60,13 @@ export class TemariosRepository {
         progreso: {
           where: {
             alumnoId,
+            ...(fechaDesde
+              ? {
+                  ultimaRevision: {
+                    gte: fechaDesde,
+                  },
+                }
+              : {}),
           },
           select: {
             revisado: true,
@@ -58,7 +78,12 @@ export class TemariosRepository {
     });
   }
 
-  async findTemaForAlumno(alumnoId, temarioId, tipoLicenciaObjetivo) {
+  async findTemaForAlumno(
+    alumnoId,
+    temarioId,
+    tipoLicenciaObjetivo,
+    fechaDesde = null,
+  ) {
     return this.prisma.temario.findFirst({
       where: {
         id: temarioId,
@@ -70,6 +95,13 @@ export class TemariosRepository {
         progreso: {
           where: {
             alumnoId,
+            ...(fechaDesde
+              ? {
+                  ultimaRevision: {
+                    gte: fechaDesde,
+                  },
+                }
+              : {}),
           },
           select: {
             revisado: true,
@@ -81,11 +113,18 @@ export class TemariosRepository {
     });
   }
 
-  async saveMiniTestResultado({ alumnoId, temarioId, dominio }) {
+  async saveMiniTestResultado({ alumnoId, temarioId, dominio, fechaDesde }) {
     const progresoExistente = await this.prisma.temarioProgreso.findFirst({
       where: {
         alumnoId,
         temarioId,
+        ...(fechaDesde
+          ? {
+              ultimaRevision: {
+                gte: fechaDesde,
+              },
+            }
+          : {}),
       },
       orderBy: {
         ultimaRevision: "desc",
@@ -136,11 +175,18 @@ export class TemariosRepository {
     });
   }
 
-  async getMiniTestHistorial(alumnoId, temarioId, limit = 10) {
+  async getMiniTestHistorial(alumnoId, temarioId, limit = 10, fechaDesde = null) {
     return this.prisma.testPractica.findMany({
       where: {
         alumnoId,
         temarioId,
+        ...(fechaDesde
+          ? {
+              fecha: {
+                gte: fechaDesde,
+              },
+            }
+          : {}),
       },
       orderBy: {
         fecha: "desc",

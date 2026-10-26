@@ -161,9 +161,12 @@ export class TemariosService {
       throw new Error("Alumno no encontrado");
     }
 
+    const expedienteStartDate = alumno.matriculas?.[0]?.fechaCreacion || null;
+
     const temarios = await this.repository.findForAlumnoByLicencia(
       alumno.id,
       alumno.tipoLicenciaObjetivo,
+      expedienteStartDate,
     );
 
     return temarios.map((temario) => this.mapTemarioAlumno(temario));
@@ -176,10 +179,13 @@ export class TemariosService {
       throw new Error("Alumno no encontrado");
     }
 
+    const expedienteStartDate = alumno.matriculas?.[0]?.fechaCreacion || null;
+
     const temario = await this.repository.findTemaForAlumno(
       alumno.id,
       temarioId,
       alumno.tipoLicenciaObjetivo,
+      expedienteStartDate,
     );
 
     if (!temario) {
@@ -189,6 +195,8 @@ export class TemariosService {
     const historialIntentos = await this.repository.getMiniTestHistorial(
       alumno.id,
       temarioId,
+      10,
+      expedienteStartDate,
     );
 
     return {
@@ -206,10 +214,13 @@ export class TemariosService {
       throw new Error("Alumno no encontrado");
     }
 
+    const expedienteStartDate = alumno.matriculas?.[0]?.fechaCreacion || null;
+
     const temario = await this.repository.findTemaForAlumno(
       alumno.id,
       temarioId,
       alumno.tipoLicenciaObjetivo,
+      expedienteStartDate,
     );
 
     if (!temario) {
@@ -230,17 +241,21 @@ export class TemariosService {
       alumnoId: alumno.id,
       temarioId,
       dominio: resultado.porcentaje,
+      fechaDesde: expedienteStartDate,
     });
 
     const temaActualizado = await this.repository.findTemaForAlumno(
       alumno.id,
       temarioId,
       alumno.tipoLicenciaObjetivo,
+      expedienteStartDate,
     );
 
     const historialIntentos = await this.repository.getMiniTestHistorial(
       alumno.id,
       temarioId,
+      10,
+      expedienteStartDate,
     );
 
     return {

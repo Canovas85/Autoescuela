@@ -131,6 +131,106 @@ export class DashboardService {
     };
   }
 
+  toValidDateOrNull(value) {
+    const parsed = new Date(value || 0);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+  }
+
+  isWithinExpedienteWindow(value, window) {
+    const date = this.toValidDateOrNull(value);
+
+    if (!date || !window?.start) {
+      return false;
+    }
+
+    if (date < window.start) {
+      return false;
+    }
+
+    if (window.endExclusive && date >= window.endExclusive) {
+      return false;
+    }
+
+    return true;
+  }
+
+  buildStudentEnrollmentWindows(matriculas = []) {
+    const sorted = [...(matriculas || [])]
+      .map((matricula) => ({
+        ...matricula,
+        licencia: normalizeLicenseCode(matricula?.licencia || ""),
+        _fechaInicio: this.toValidDateOrNull(
+          matricula?.fechaCreacion || matricula?.fechaPago,
+        ),
+      }))
+      .filter((matricula) => Boolean(matricula._fechaInicio))
+      .sort((a, b) => b._fechaInicio.getTime() - a._fechaInicio.getTime());
+
+    return sorted.map((matricula, index) => ({
+      matricula,
+      licencia: matricula.licencia,
+      start: matricula._fechaInicio,
+      endExclusive: sorted[index - 1]?._fechaInicio || null,
+    }));
+  }
+
+  resolveStudentObtainedLicenses(alumno, enrollmentWindows = []) {
+    const byLicense = new Map();
+
+    const save = (licenciaValue, obtainedAt) => {
+      const licencia = normalizeLicenseCode(licenciaValue || "");
+      if (!licencia) {
+        return;
+      }
+
+      const date = this.toValidDateOrNull(obtainedAt);
+      const existing = byLicense.get(licencia);
+
+      if (
+        !existing ||
+        (date && (!existing.obtainedAt || date > existing.obtainedAt))
+      ) {
+        byLicense.set(licencia, {
+          licencia,
+          obtainedAt: date,
+        });
+      }
+    };
+
+    for (const historial of alumno?.historialProfesores || []) {
+      save(historial?.licenciaObtenida, historial?.changedAt);
+    }
+
+    const currentLicense = normalizeLicenseCode(
+      enrollmentWindows?.[0]?.licencia || alumno?.tipoLicenciaObjetivo || "",
+    );
+    const currentState = String(alumno?.estadoExpediente || "").toUpperCase();
+    if (currentLicense && currentState === "LICENCIA_OBTENIDA") {
+      save(currentLicense, alumno?.licenciaObtenidaAt || null);
+    }
+
+    return Array.from(byLicense.values()).sort((a, b) => {
+      if (!a.obtainedAt && !b.obtainedAt) {
+        return a.licencia.localeCompare(b.licencia);
+      }
+      if (!a.obtainedAt) {
+        return 1;
+      }
+      if (!b.obtainedAt) {
+        return -1;
+      }
+      return b.obtainedAt.getTime() - a.obtainedAt.getTime();
+    });
+  }
+
+  filterRowsByWindow(rows = [], window, pickDate) {
+    if (!window?.start) {
+      return rows;
+    }
+
+    return rows.filter((row) => this.isWithinExpedienteWindow(pickDate(row), window));
+  }
+
   async getMetrics() {
     return this.repository.getMetrics();
   }
@@ -338,7 +438,7 @@ export class DashboardService {
     return "AGOTADO";
   }
 
-  async getStudentDashboard(userId) {
+  async getStudentDashboard(userId, options = {}) {
     try {
       await this.repository.syncPastConfirmedBonusClassesForUser?.(
         userId,
@@ -350,20 +450,105 @@ export class DashboardService {
       }
     }
 
-    const [dashboard, licenciasPagadas] = await Promise.all([
-      this.repository.getStudentDashboard(userId),
-      typeof this.repository.getStudentPaidLicenses === "function"
-        ? this.repository.getStudentPaidLicenses(userId)
-        : Promise.resolve([]),
-    ]);
+    const dashboard = await this.repository.getStudentDashboard(userId);
 
     if (!dashboard.profile || !dashboard.profile.alumno) {
       throw new Error("Alumno no encontrado");
     }
 
+    const alumno = dashboard.profile.alumno;
+    const enrollmentWindows = this.buildStudentEnrollmentWindows(
+      alumno.matriculas || [],
+    );
+    const requestedLicenseRaw = String(
+      options?.licencia || options?.expedienteLicencia || "",
+    )
+      .trim()
+      .toUpperCase();
+    const requestedLicense = requestedLicenseRaw
+      ? normalizeLicenseCode(requestedLicenseRaw)
+      : null;
+    const selectedWindow = requestedLicense
+      ? enrollmentWindows.find((window) => window.licencia === requestedLicense)
+      : enrollmentWindows[0] || null;
+
+    if (requestedLicense && !selectedWindow) {
+      throw new Error("No existe un expediente para la licencia indicada");
+    }
+
+    const currentWindow = enrollmentWindows[0] || null;
+    const matriculaActual = selectedWindow?.matricula || currentWindow?.matricula;
+    const licenciaObjetivo = normalizeLicenseCode(
+      matriculaActual?.licencia || alumno.tipoLicenciaObjetivo || "",
+    );
+    const isHistoricalExpediente =
+      Boolean(requestedLicense) &&
+      Boolean(currentWindow?.licencia) &&
+      requestedLicense !== currentWindow.licencia;
+
+    const licenciasObtenidasDetalle = this.resolveStudentObtainedLicenses(
+      alumno,
+      enrollmentWindows,
+    );
+    const licenciasObtenidas = licenciasObtenidasDetalle.map(
+      (item) => item.licencia,
+    );
+    const licenciaObtenidaPrincipal = licenciasObtenidas[0] || null;
+    const requestedIsObtained = requestedLicense
+      ? licenciasObtenidas.includes(requestedLicense)
+      : false;
+
+    const temariosSource = dashboard.temarios || [];
+    const tests = this.filterRowsByWindow(
+      dashboard.tests || [],
+      selectedWindow,
+      (item) => item?.fecha,
+    );
+    const clases = this.filterRowsByWindow(
+      dashboard.clases || [],
+      selectedWindow,
+      (item) => item?.fecha,
+    );
+    const bonosSource = this.filterRowsByWindow(
+      dashboard.bonos || [],
+      selectedWindow,
+      (item) => item?.fechaCompra,
+    );
+    const examenes = this.filterRowsByWindow(
+      dashboard.examenes || [],
+      selectedWindow,
+      (item) => item?.fechaSolicitud || item?.fechaProgramada,
+    );
+    const examenesDGT = this.filterRowsByWindow(
+      dashboard.examenesDGT || [],
+      selectedWindow,
+      (item) => item?.fecha,
+    );
+    const pagosDgt = this.filterRowsByWindow(
+      (dashboard.pagosDgt || []).filter((item) => {
+        const permiso = normalizeLicenseCode(item?.permiso || "");
+        return !licenciaObjetivo || !permiso || permiso === licenciaObjetivo;
+      }),
+      selectedWindow,
+      (item) => item?.fechaPago || item?.fechaCreacion,
+    );
+
     const fechaActual = new Date();
 
-    const temarios = (dashboard.temarios || [])
+    const temarios = temariosSource
+      .filter((item) => {
+        const licenciasTemario = Array.isArray(item?.temario?.tipoLicenciaObjetivo)
+          ? item.temario.tipoLicenciaObjetivo.map((licencia) =>
+              normalizeLicenseCode(licencia),
+            )
+          : [];
+
+        return (
+          !licenciaObjetivo ||
+          licenciasTemario.length === 0 ||
+          licenciasTemario.includes(licenciaObjetivo)
+        );
+      })
       .map((item) => ({
         id: item.temarioId,
         titulo: item.temario?.titulo ?? "Temario sin título",
@@ -375,7 +560,6 @@ export class DashboardService {
       }))
       .sort((a, b) => a.orden - b.orden);
 
-    const tests = dashboard.tests || [];
     const testsTotales = tests.length;
     const testsAprobados = tests.filter(
       (test) => test.resultado === "APROBADO",
@@ -401,7 +585,6 @@ export class DashboardService {
         ? temariosPendientes.slice(0, 3).map((temario) => temario.titulo)
         : [];
 
-    const clases = dashboard.clases || [];
     const clasesRealizadasRows = clases.filter((clase) =>
       this.isCompletedPracticalClass(clase),
     );
@@ -440,7 +623,7 @@ export class DashboardService {
     const clasesSolicitadasTotales =
       clasesPendientesConfirmacion.length + clasesConfirmadasProfesor.length;
 
-    const bonos = (dashboard.bonos || []).map((bonoCompra) => {
+    const bonos = bonosSource.map((bonoCompra) => {
       const clasesBono = clases.filter(
         (clase) => clase.compraBonoId === bonoCompra.id,
       );
@@ -523,11 +706,6 @@ export class DashboardService {
 
     const evolucion = this.agruparEvolucion(actividadMensual, "fecha");
 
-    const examenes = dashboard.examenes || [];
-    const licenciaObjetivo = normalizeLicenseCode(
-      dashboard.profile.alumno?.tipoLicenciaObjetivo ||
-        dashboard.profile.alumno?.matriculas?.[0]?.licencia,
-    );
     const mapStudentExamResult = (examen) => {
       if (String(examen?.tipo || "").toUpperCase() !== "PRACTICO") {
         return examen;
@@ -545,8 +723,6 @@ export class DashboardService {
         }),
       };
     };
-    const examenesDGT = dashboard.examenesDGT || [];
-    const pagosDgt = dashboard.pagosDgt || [];
     const dgtRealizados = examenesDGT.length;
     const dgtAprobados = examenesDGT.filter((examen) => examen.aprobado).length;
     const dgtSuspendidos = dgtRealizados - dgtAprobados;
@@ -595,31 +771,20 @@ export class DashboardService {
       );
     }
 
-    const matriculaActual = dashboard.profile.alumno.matriculas?.[0] ?? null;
-    const licenciasObtenidas = [
-      ...new Set(
-        (licenciasPagadas || [])
-          .map((item) =>
-            String(item?.licencia || "")
-              .trim()
-              .toUpperCase(),
-          )
-          .filter(Boolean),
-      ),
-    ];
-    const licenciaObtenidaPrincipal = licenciasObtenidas[0] || null;
-
     const matriculaPagada = matriculaActual?.estado === "PAGADA";
 
     const fechaPago = matriculaActual?.fechaPago ?? null;
+    const estadoExpedienteSeleccionado =
+      isHistoricalExpediente && requestedIsObtained
+        ? "LICENCIA_OBTENIDA"
+        : alumno.estadoExpediente;
 
     const estadoAlumno = this.getStudentProgressStatus(
       examenes,
       clases,
-      dashboard.profile.alumno.estadoExpediente,
+      estadoExpedienteSeleccionado,
       matriculaActual?.estado,
-      matriculaActual?.licencia ||
-        dashboard.profile.alumno.tipoLicenciaObjetivo,
+      licenciaObjetivo || alumno.tipoLicenciaObjetivo,
     );
 
     return {
@@ -630,25 +795,28 @@ export class DashboardService {
         dni: dashboard.profile.dni,
         telefono: dashboard.profile.telefono,
         rol: dashboard.profile.rol,
-        activo: dashboard.profile.alumno.activo,
-        tipoLicenciaObjetivo: dashboard.profile.alumno.tipoLicenciaObjetivo,
+        activo: alumno.activo,
+        tipoLicenciaObjetivo: licenciaObjetivo || alumno.tipoLicenciaObjetivo,
+        expedienteActualLicencia: currentWindow?.licencia || licenciaObjetivo,
+        expedienteVistaLicencia: licenciaObjetivo,
+        expedienteEsHistorico: isHistoricalExpediente,
         licenciasObtenidas,
+        licenciasObtenidasDetalle: licenciasObtenidasDetalle.map((item) => ({
+          licencia: item.licencia,
+          estadoExpediente: "LICENCIA_OBTENIDA",
+          fechaObtencion: item.obtainedAt,
+        })),
         licenciaObtenidaPrincipal,
-        licenciaObtenidaAt: dashboard.profile.alumno.licenciaObtenidaAt || null,
-        horasPracticasCompletadas:
-          dashboard.profile.alumno.horasPracticasCompletadas,
+        licenciaObtenidaAt: alumno.licenciaObtenidaAt || null,
+        horasPracticasCompletadas: alumno.horasPracticasCompletadas,
         matriculaPagada: matriculaPagada,
         fechaMatriculaPago: fechaPago,
-        profesorAsignado: dashboard.profile.alumno.profesorAsignado
+        profesorAsignado: alumno.profesorAsignado
           ? {
-              id: dashboard.profile.alumno.profesorAsignado.id,
-              nombre:
-                dashboard.profile.alumno.profesorAsignado.usuario?.nombre ??
-                "Profesor asignado",
-              licenciaConducir:
-                dashboard.profile.alumno.profesorAsignado.licenciaConducir,
-              permisosLicencias:
-                dashboard.profile.alumno.profesorAsignado.permisosLicencias,
+              id: alumno.profesorAsignado.id,
+              nombre: alumno.profesorAsignado.usuario?.nombre ?? "Profesor asignado",
+              licenciaConducir: alumno.profesorAsignado.licenciaConducir,
+              permisosLicencias: alumno.profesorAsignado.permisosLicencias,
             }
           : null,
       },

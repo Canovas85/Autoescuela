@@ -19,7 +19,6 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import { solicitudesExamenService } from "../../services/solicitudesExamenService";
-import Tooltip from "@mui/material/Tooltip"; // Asegúrate de importar el componente
 
 const WEEK_DAYS = ["L", "M", "X", "J", "V", "S", "D"];
 
@@ -130,6 +129,8 @@ export default function ExamenTeoricoAlumno() {
       setHasObtainedLicense(
         normalizedMineData.some(
           (item) =>
+            String(item?.licencia || "").toUpperCase() ===
+              String(eligibilityData?.licenciaObjetivo || "").toUpperCase() &&
             String(item?.tipo || "").toUpperCase() === "PRACTICO" &&
             String(item?.estado || "").toUpperCase() === "APTO",
         ),
@@ -163,13 +164,25 @@ export default function ExamenTeoricoAlumno() {
 
   const canRequest = Boolean(eligibility?.canRequest);
   const hasApprovedTheory = useMemo(
-    () => myRequests.some((item) => item.estado === "APTO"),
-    [myRequests],
+    () =>
+      myRequests.some(
+        (item) =>
+          String(item?.estado || "").toUpperCase() === "APTO" &&
+          String(item?.licencia || "").toUpperCase() ===
+            String(eligibility?.licenciaObjetivo || "").toUpperCase(),
+      ),
+    [myRequests, eligibility?.licenciaObjetivo],
   );
   const shouldShowRequirements =
     Boolean(eligibility) && !hasApprovedTheory && !hasObtainedLicense;
 
   const columns = [
+    {
+      field: "licencia",
+      headerName: "Licencia",
+      width: 110,
+      valueGetter: (_, row) => row.licencia || "-",
+    },
     {
       field: "fechaProgramada",
       headerName: "Fecha examen",

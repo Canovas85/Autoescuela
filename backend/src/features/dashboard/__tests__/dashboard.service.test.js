@@ -795,6 +795,120 @@ describe("DashboardService", () => {
     expect(result.dgt.tasa21.pagoPendiente?.id).toBe("pago-pendiente");
   });
 
+  it("debe separar expediente actual e histórico por licencia", async () => {
+    const repositoryMock = {
+      getStudentDashboard: vi.fn().mockResolvedValue({
+        profile: {
+          id: "alumno-1",
+          nombre: "Mario Torres Ávila",
+          email: "mario@demo.com",
+          dni: "56482216M",
+          telefono: "600000000",
+          rol: "ALUMNO",
+          alumno: {
+            tipoLicenciaObjetivo: "D",
+            horasPracticasCompletadas: 0,
+            estadoExpediente: "ESTUDIANDO_TEORICO",
+            licenciaObtenidaAt: null,
+            activo: true,
+            matriculas: [
+              {
+                id: "mat-d",
+                licencia: "D",
+                estado: "PAGADA",
+                fechaCreacion: new Date("2026-10-25T10:00:00.000Z"),
+                fechaPago: new Date("2026-10-25T11:00:00.000Z"),
+              },
+              {
+                id: "mat-b",
+                licencia: "B",
+                estado: "PAGADA",
+                fechaCreacion: new Date("2026-10-16T10:00:00.000Z"),
+                fechaPago: new Date("2026-10-16T11:00:00.000Z"),
+              },
+            ],
+            historialProfesores: [
+              {
+                licenciaObtenida: "B",
+                changedAt: new Date("2026-10-17T08:00:00.000Z"),
+              },
+            ],
+            profesorAsignado: null,
+          },
+        },
+        temarios: [
+          {
+            temarioId: "temario-b",
+            revisado: true,
+            dominio: 95,
+            temario: {
+              titulo: "Temario B",
+              descripcion: null,
+              orden: 1,
+              tipoLicenciaObjetivo: ["B"],
+            },
+          },
+          {
+            temarioId: "temario-d",
+            revisado: false,
+            dominio: 40,
+            temario: {
+              titulo: "Temario D",
+              descripcion: null,
+              orden: 2,
+              tipoLicenciaObjetivo: ["D"],
+            },
+          },
+        ],
+        tests: [
+          {
+            id: "test-b",
+            fecha: new Date("2026-10-17T10:00:00.000Z"),
+            resultado: "APROBADO",
+          },
+          {
+            id: "test-d",
+            fecha: new Date("2026-10-26T10:00:00.000Z"),
+            resultado: "SUSPENDIDO",
+          },
+        ],
+        clases: [],
+        bonos: [],
+        examenes: [
+          {
+            id: "sol-b",
+            tipo: "PRACTICO",
+            estado: "APTO",
+            fasePractica: 1,
+            fechaSolicitud: new Date("2026-10-17T12:00:00.000Z"),
+          },
+        ],
+        examenesDGT: [],
+        pagosDgt: [],
+      }),
+    };
+
+    const service = new DashboardService(repositoryMock);
+
+    const current = await service.getStudentDashboard("alumno-1");
+    const historical = await service.getStudentDashboard("alumno-1", {
+      licencia: "B",
+    });
+
+    expect(current.perfil.tipoLicenciaObjetivo).toBe("D");
+    expect(current.perfil.licenciasObtenidas).toEqual(["B"]);
+    expect(current.teoria.testsTotales).toBe(1);
+    expect(current.temarios).toHaveLength(1);
+    expect(current.temarios[0].titulo).toBe("Temario D");
+
+    expect(historical.perfil.tipoLicenciaObjetivo).toBe("B");
+    expect(historical.perfil.expedienteEsHistorico).toBe(true);
+    expect(historical.estadoAlumno.codigo).toBe("LICENCIA_OBTENIDA");
+    expect(historical.teoria.testsTotales).toBe(1);
+    expect(historical.temarios).toHaveLength(1);
+    expect(historical.temarios[0].titulo).toBe("Temario B");
+  });
+
   it("debe devolver el dashboard del profesor con alumnos y vehículos", async () => {
     const repositoryMock = {
       getProfessorProfile: vi.fn().mockResolvedValue({
@@ -816,6 +930,24 @@ describe("DashboardService", () => {
             telefono: "600000001",
           },
           matriculas: [{ estado: "PAGADA" }],
+        },
+      ]),
+      getProfessorHistoricalLicensedStudents: vi.fn().mockResolvedValue([
+        {
+          id: "alumno-historico-1",
+          tipoLicenciaObjetivo: "D",
+          usuario: {
+            nombre: "Mario Torres Ávila",
+            email: "mario@demo.com",
+            telefono: "600000000",
+          },
+          matriculas: [{ licencia: "D", estado: "PAGADA" }],
+          historialProfesores: [
+            {
+              changedAt: new Date("2026-10-17T10:00:00.000Z"),
+              licenciaObtenida: "B",
+            },
+          ],
         },
       ]),
       getProfessorAvailableVehicles: vi.fn().mockResolvedValue([
@@ -868,6 +1000,8 @@ describe("DashboardService", () => {
     expect(result.resumen.clasesConfirmadasHoy).toBe(2);
     expect(result.resumen.hojasRutaPendientes).toBe(1);
     expect(result.resumen.hojasRutaEnCurso).toBe(1);
+    expect(result.resumen.alumnosHistoricosLicenciados).toBe(1);
+    expect(result.alumnosHistoricos[0].licenciaObtenida).toBe("B");
   });
 
   it("debe devolver el detalle de un alumno asignado a profesor", async () => {

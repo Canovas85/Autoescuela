@@ -164,6 +164,12 @@ export default function ExamenPracticoAlumno() {
     eligibility?.licenciaObjetivo || eligibility?.licencia || "B";
   const practicalApproved = (myRequests || []).some((item) => {
     const estado = String(item?.estado || "").toUpperCase();
+    const licenciaSolicitud = String(item?.licencia || "").toUpperCase();
+    const licenciaActual = String(practicalLicense || "").toUpperCase();
+
+    if (licenciaSolicitud !== licenciaActual) {
+      return false;
+    }
 
     if (estado !== "APTO") {
       return false;
@@ -242,6 +248,12 @@ export default function ExamenPracticoAlumno() {
 
   const columns = [
     {
+      field: "licencia",
+      headerName: "Licencia",
+      width: 110,
+      valueGetter: (_, row) => row.licencia || "-",
+    },
+    {
       field: "fechaProgramada",
       headerName: "Fecha examen",
       flex: 1,
@@ -253,7 +265,7 @@ export default function ExamenPracticoAlumno() {
       flex: 1,
       valueGetter: (_, row) =>
         getPracticalExamTypeLabel({
-          license: practicalLicense,
+          license: row.licencia || practicalLicense,
           phase: row.fasePractica,
         }),
     },
@@ -696,7 +708,7 @@ export default function ExamenPracticoAlumno() {
           <Typography>
             <strong>Subtipo:</strong>{" "}
             {getPracticalExamTypeLabel({
-              license: practicalLicense,
+              license: selectedExam?.licencia || practicalLicense,
               phase: selectedExam?.fasePractica,
             })}
           </Typography>

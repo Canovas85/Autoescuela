@@ -115,6 +115,13 @@ router.get(
  *       - Dashboard
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: licencia
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Licencia del expediente a consultar (ej. B, D). Si se omite, devuelve el expediente actual.
  *     responses:
  *       200:
  *         description: Resumen del alumno autenticado
