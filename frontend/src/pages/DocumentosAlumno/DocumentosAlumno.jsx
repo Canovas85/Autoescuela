@@ -662,7 +662,7 @@ export default function DocumentosAlumno() {
               },
             }}
           >
-            {editingId ? "Guardar cambios" : "Crear documento"}
+            {editingId ? "Guardar cambios" : "Enviar Documento"}
           </Button>
         </DialogActions>
       </Dialog>

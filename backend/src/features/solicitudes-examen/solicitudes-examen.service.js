@@ -879,11 +879,10 @@ export class SolicitudesExamenService {
       matriculaPagada?.licencia,
     );
     const expedienteStartDate = matriculaPagada?.fechaCreacion || null;
-    const solicitudActiva =
-      await this.repository.findSolicitudTeoricoActiva(
-        alumnoId,
-        expedienteStartDate,
-      );
+    const solicitudActiva = await this.repository.findSolicitudTeoricoActiva(
+      alumnoId,
+      expedienteStartDate,
+    );
 
     if (solicitudActiva) {
       checks.solicitudActiva = true;
@@ -1347,7 +1346,8 @@ export class SolicitudesExamenService {
       clasesPostNoAptoRequeridas =
         getClasesPostNoAptoRequeridas(licenciaObjetivo);
       const fechaInicioClasesPostNoApto =
-        expedienteStartDate && expedienteStartDate > ultimoNoApto.fechaProgramada
+        expedienteStartDate &&
+        expedienteStartDate > ultimoNoApto.fechaProgramada
           ? expedienteStartDate
           : ultimoNoApto.fechaProgramada;
       clasesPostNoAptoCompletadas =
@@ -1415,11 +1415,10 @@ export class SolicitudesExamenService {
       !checks.solicitudActiva
     ) {
       if (!checks.pagoGastoPracticoPagado) {
-        pagoGastoPractico =
-          await this.ensurePracticalExamExpensePayment(
-            matriculaPagada,
-            expedienteStartDate,
-          );
+        pagoGastoPractico = await this.ensurePracticalExamExpensePayment(
+          matriculaPagada,
+          expedienteStartDate,
+        );
       }
 
       if (pagoGastoPractico) {

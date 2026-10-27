@@ -376,7 +376,7 @@ export default function ExamenPracticoAlumno() {
 
       {shouldShowRequirements && (
         <Paper sx={{ p: 2.5, mb: 3, border: "1px solid #e2e8f0" }}>
-          {/* Contenedor horizontal que junta el título y todos los chips */}
+          {/* Contenedor horizontal que junta el título y todos los chips (SE MANTIENE SECCIÓN) */}
           <Stack
             direction="row"
             spacing={2}
@@ -435,105 +435,12 @@ export default function ExamenPracticoAlumno() {
                   : "warning"
               }
             />
-            {/* 
-              <Chip
-                label={`Clases post NO_APTO: ${eligibility.postNoApto?.clasesCompletadas || 0}/${eligibility.postNoApto?.clasesRequeridas || 0}`}
-                color={
-                    eligibility.checks?.clasesPostNoAptoCompletadas
-                    ? "success"
-                    : "warning"
-                }
-              /> 
-            */}
           </Stack>
 
-          {!eligibility.checks?.pagoGastoPracticoPagado &&
-            eligibility.pagoGastoPractico?.id && (
-              <Alert
-                severity="info"
-                sx={{
-                  mb: 1.5,
-                  alignItems: "center",
-                  width: "100%",
-                  "& .MuiAlert-message": {
-                    width: "100%",
-                    padding: 0,
-                  },
-                  "& .MuiAlert-icon": {
-                    opacity: 1,
-                    marginRight: 1,
-                  },
-                  "& .MuiAlert-action": {
-                    padding: 0,
-                    marginLeft: "auto",
-                    paddingLeft: 2,
-                  },
-                }}
-                action={
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    onClick={() =>
-                      navigate(
-                        `/pago-matricula?pagoId=${eligibility.pagoGastoPractico.id}`,
-                      )
-                    }
-                    sx={{
-                      whiteSpace: "nowrap", // Evita que el texto del botón se rompa en dos líneas
-                      fontWeight: 700,
-                      letterSpacing: "1px",
-                      textTransform: "uppercase",
-                      borderRadius: "8px",
-                      padding: "6px 24px",
-                      border: "1px solid",
-                      color: "#15803d",
-                      borderColor: "#15803d !important",
-                      backgroundColor: "transparent",
-                      boxShadow: `
-      0px 4px 0px #166534, 
-      0px 8px 16px rgba(21, 128, 61, 0.15),
-      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
-    `,
-                      transition: "all 0.15s ease-in-out",
-                      "& .MuiButton-startIcon": {
-                        color: "inherit",
-                      },
-                      "&:hover": {
-                        color: "#22c55e",
-                        borderColor: "#22c55e !important",
-                        backgroundColor: "rgba(21, 128, 61, 0.04)",
-                        boxShadow: `
-        0px 4px 0px #166534, 
-        0px 12px 20px rgba(34, 197, 94, 0.25),
-        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
-      `,
-                        transform: "translateY(-1px)",
-                      },
-                      "&:active": {
-                        borderColor: "#15803d !important",
-                        boxShadow: `
-        0px 1px 0px #166534, 
-        0px 2px 4px rgba(21, 128, 61, 0.2),
-        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
-      `,
-                        transform: "translateY(3px)",
-                      },
-                    }}
-                  >
-                    Ir al pago
-                  </Button>
-                }
-              >
-                Tienes un pago pendiente de gastos de examen práctico. Debes
-                abonarlo antes de confirmar la fecha.
-              </Alert>
-            )}
-
-          {(eligibility.bloqueos || []).map((bloqueo) => (
-            <Alert key={bloqueo} severity="warning" sx={{ mb: 1 }}>
-              {bloqueo}
-            </Alert>
-          ))}
+          {/* 
+      SE ELIMINAN: La alerta de pago pendiente (!eligibility.checks?.pagoGastoPracticoPagado)
+      y el mapeo de alertas individuales para cada uno de los bloqueos.
+    */}
 
           {canRequest && (
             <Alert severity="success">

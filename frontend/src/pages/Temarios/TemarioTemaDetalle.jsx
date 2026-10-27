@@ -255,8 +255,13 @@ export default function TemarioTemaDetalle() {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
       <Stack
-        direction="row"
-        sx={{ justifyContent: "space-between", alignItems: "center" }}
+        direction={{ xs: "column", md: "row" }}
+        sx={{
+          justifyContent: "space-between",
+          alignItems: { xs: "flex-start", md: "center" },
+          gap: 2,
+          mb: 3,
+        }}
       >
         <Breadcrumbs>
           <Link
@@ -264,18 +269,268 @@ export default function TemarioTemaDetalle() {
             color="inherit"
             component="button"
             onClick={() => navigate(backPath)}
+            sx={{ fontWeight: 600 }}
           >
             {isAdmin ? "Temarios" : "Temario"}
           </Link>
           <Typography color="text.primary">Detalle del tema</Typography>
         </Breadcrumbs>
 
-        <Button
-          startIcon={<ArrowBackIcon />}
-          onClick={() => navigate(backPath)}
+        {/* Contenedor de acciones agrupadas a la izquierda del botón de retorno */}
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{
+            alignItems: "center",
+            flexWrap: "wrap",
+            justifyContent: "flex-end",
+            flex: 1,
+          }}
         >
-          {isAdmin ? "Volver a temarios" : "Volver al temario"}
-        </Button>
+          {/* 1. Subir documentación (Admin) - Azul Eléctrico Ciano */}
+          {isAdmin && !loading && !error && (
+            <Button
+              component="label"
+              variant="outlined"
+              size="small"
+              startIcon={<UploadFileIcon />}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "0.5px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "4px 16px",
+                border: "1px solid",
+                borderColor: "#0284c7 !important",
+                color: "#0284c7",
+                backgroundColor: "transparent",
+                boxShadow: `
+            0px 3px 0px #0369a1, 
+            0px 6px 12px rgba(2, 132, 199, 0.15)
+          `,
+                transition: "all 0.15s ease-in-out",
+                "& .MuiButton-startIcon": { color: "inherit" },
+                "&:hover": {
+                  color: "#0ea5e9",
+                  borderColor: "#0ea5e9 !important",
+                  backgroundColor: "rgba(2, 132, 199, 0.04)",
+                  boxShadow: `
+              0px 3px 0px #0369a1, 
+              0px 8px 14px rgba(14, 165, 233, 0.25)
+            `,
+                  transform: "translateY(-1px)",
+                },
+                "&:active": {
+                  borderColor: "#0284c7 !important",
+                  boxShadow: `
+              0px 1px 0px #0369a1, 
+              0px 2px 4px rgba(2, 132, 199, 0.2)
+            `,
+                  transform: "translateY(2px)",
+                },
+              }}
+            >
+              Subir documentación
+              <input
+                hidden
+                accept="application/pdf"
+                type="file"
+                onChange={handleUploadDocumentacion}
+              />
+            </Button>
+          )}
+
+          {/* 2. Clase en Directo (Admin) - Morado Vibrante */}
+          {isAdmin && !loading && !error && (
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<OndemandVideoIcon />}
+              onClick={() => {
+                setVideoUrlDraft(temario?.claseDirectoVideoUrl || "");
+                setVideoDialogOpen(true);
+              }}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "0.5px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "4px 16px",
+                border: "1px solid",
+                borderColor: "#6d28d9 !important",
+                color: "#6d28d9",
+                backgroundColor: "transparent",
+                boxShadow: `
+            0px 3px 0px #5b21b6, 
+            0px 6px 12px rgba(109, 40, 217, 0.15)
+          `,
+                transition: "all 0.15s ease-in-out",
+                "& .MuiButton-startIcon": { color: "inherit" },
+                "&:hover": {
+                  color: "#8b5cf6",
+                  borderColor: "#8b5cf6 !important",
+                  backgroundColor: "rgba(109, 40, 217, 0.04)",
+                  boxShadow: `
+              0px 3px 0px #5b21b6, 
+              0px 8px 14px rgba(139, 92, 246, 0.25)
+            `,
+                  transform: "translateY(-1px)",
+                },
+                "&:active": {
+                  borderColor: "#6d28d9 !important",
+                  boxShadow: `
+              0px 1px 0px #5b21b6, 
+              0px 2px 4px rgba(109, 40, 217, 0.2)
+            `,
+                  transform: "translateY(2px)",
+                },
+              }}
+            >
+              Clase en Directo
+            </Button>
+          )}
+
+          {/* 3. Documentación (Usuario) - Naranja */}
+          {!loading && !error && hasDocumentacion && (
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<UploadFileIcon />}
+              href={temario.documentacionRuta}
+              target="_blank"
+              rel="noreferrer"
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "0.5px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "4px 16px",
+                border: "1px solid",
+                color: "#ea580c",
+                borderColor: "#ea580c !important",
+                backgroundColor: "transparent",
+                boxShadow: `
+            0px 3px 0px #9a3412, 
+            0px 6px 12px rgba(234, 88, 12, 0.15)
+          `,
+                transition: "all 0.15s ease-in-out",
+                "& .MuiButton-startIcon": { color: "inherit" },
+                "&:hover": {
+                  color: "#f97316",
+                  borderColor: "#f97316 !important",
+                  backgroundColor: "rgba(234, 88, 12, 0.04)",
+                  boxShadow: `
+              0px 3px 0px #9a3412, 
+              0px 8px 14px rgba(249, 115, 22, 0.25)
+            `,
+                  transform: "translateY(-1px)",
+                },
+                "&:active": {
+                  borderColor: "#ea580c !important",
+                  boxShadow: `
+              0px 1px 0px #9a3412, 
+              0px 2px 4px rgba(234, 88, 12, 0.2)
+            `,
+                  transform: "translateY(2px)",
+                },
+              }}
+            >
+              Documentación
+            </Button>
+          )}
+
+          {/* 4. Clase en Directo (Usuario) - Verde Esmeralda */}
+          {!loading && !error && hasClaseDirecto && (
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<OndemandVideoIcon />}
+              href={claseDirectoViewerPath}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "0.5px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "4px 16px",
+                border: "1px solid",
+                color: "#15803d",
+                borderColor: "#15803d !important",
+                backgroundColor: "transparent",
+                boxShadow: `
+            0px 3px 0px #166534, 
+            0px 6px 12px rgba(21, 128, 61, 0.15)
+          `,
+                transition: "all 0.15s ease-in-out",
+                "& .MuiButton-startIcon": { color: "inherit" },
+                "&:hover": {
+                  color: "#22c55e",
+                  borderColor: "#22c55e !important",
+                  backgroundColor: "rgba(21, 128, 61, 0.04)",
+                  boxShadow: `
+              0px 3px 0px #166534, 
+              0px 8px 14px rgba(34, 197, 94, 0.25)
+            `,
+                  transform: "translateY(-1px)",
+                },
+                "&:active": {
+                  borderColor: "#15803d !important",
+                  boxShadow: `
+              0px 1px 0px #166534, 
+              0px 2px 4px rgba(21, 128, 61, 0.2)
+            `,
+                  transform: "translateY(2px)",
+                },
+              }}
+            >
+              Clase en Directo
+            </Button>
+          )}
+
+          {/* Botón de navegación estructural - Azul Oscuro Profundo */}
+          <Button
+            variant="outlined"
+            size="small"
+            startIcon={<ArrowBackIcon />}
+            onClick={() => navigate(backPath)}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "0.5px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "4px 16px",
+              border: "1px solid",
+              color: "#1e3a8a",
+              borderColor: "#1e3a8a !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+          0px 3px 0px #172554, 
+          0px 6px 12px rgba(30, 58, 138, 0.15)
+        `,
+              transition: "all 0.15s ease-in-out",
+              "& .MuiButton-startIcon": { color: "inherit" },
+              "&:hover": {
+                color: "#2563eb",
+                borderColor: "#2563eb !important",
+                backgroundColor: "rgba(30, 58, 138, 0.04)",
+                boxShadow: `
+            0px 3px 0px #172554, 
+            0px 8px 14px rgba(37, 99, 235, 0.25)
+          `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#1e3a8a !important",
+                boxShadow: `
+            0px 1px 0px #172554, 
+            0px 2px 4px rgba(30, 58, 138, 0.2)
+          `,
+                transform: "translateY(2px)",
+              },
+            }}
+          >
+            {isAdmin ? "Volver a temarios" : "Volver al temario"}
+          </Button>
+        </Stack>
       </Stack>
 
       {loading ? (
@@ -283,7 +538,9 @@ export default function TemarioTemaDetalle() {
           <CircularProgress />
         </Box>
       ) : error ? (
-        <Alert severity="error">{error}</Alert>
+        <Alert severity="error" sx={{ borderRadius: "8px", fontWeight: 600 }}>
+          {error}
+        </Alert>
       ) : (
         <>
           <Card
@@ -292,6 +549,7 @@ export default function TemarioTemaDetalle() {
               background:
                 "linear-gradient(120deg, rgba(15,23,42,0.97) 0%, rgba(30,64,175,0.9) 100%)",
               color: "#fff",
+              boxShadow: "0px 8px 32px rgba(15, 23, 42, 0.08)",
             }}
           >
             <CardContent>
@@ -316,75 +574,21 @@ export default function TemarioTemaDetalle() {
                   </Typography>
                 </Box>
 
-                <Stack
-                  direction="row"
-                  spacing={1}
-                  useFlexGap
-                  sx={{ flexWrap: "wrap" }}
-                >
-                  {isAdmin && (
-                    <Button
-                      component="label"
-                      variant="contained"
-                      startIcon={<UploadFileIcon />}
-                      sx={{ backgroundColor: "#FFFFAA", color: "#000000" }}
-                    >
-                      Subir documentación
-                      <input
-                        hidden
-                        accept="application/pdf"
-                        type="file"
-                        onChange={handleUploadDocumentacion}
-                      />
-                    </Button>
-                  )}
-
-                  {isAdmin && (
-                    <Button
-                      variant="contained"
-                      startIcon={<OndemandVideoIcon />}
-                      onClick={() => {
-                        setVideoUrlDraft(temario?.claseDirectoVideoUrl || "");
-                        setVideoDialogOpen(true);
-                      }}
-                      sx={{ backgroundColor: "#FFFFAA", color: "#000000" }}
-                    >
-                      Clase en Directo
-                    </Button>
-                  )}
-
-                  {hasDocumentacion && (
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      startIcon={<UploadFileIcon />}
-                      href={temario.documentacionRuta}
-                      target="_blank"
-                      rel="noreferrer"
-                      sx={{ backgroundColor: "#C00000", color: "#FFFFFF" }}
-                    >
-                      Documentación
-                    </Button>
-                  )}
-                  {hasClaseDirecto && (
-                    <Button
-                      variant="contained"
-                      startIcon={<OndemandVideoIcon />}
-                      color="warning"
-                      href={claseDirectoViewerPath}
-                      /* target="_blank"  <- Elimina o comenta esta línea */
-                      /* rel="noreferrer" <- También puedes eliminar esta línea, ya que no es necesaria si no usas _blank */
-                      sx={{ backgroundColor: "#C00000", color: "#FFFFFF" }}
-                    >
-                      Clase en Directo
-                    </Button>
-                  )}
+                <Stack direction="row" spacing={1} alignItems="center">
                   <Chip
-                    icon={<SchoolIcon fontSize="small" />}
+                    icon={
+                      <SchoolIcon
+                        fontSize="small"
+                        style={{ color: "inherit" }}
+                      />
+                    }
                     label={"Permisos " + licenciasTemarioLabel}
                     sx={{
+                      fontWeight: 600,
                       backgroundColor: "rgba(255,255,255,0.15)",
                       color: "#fff",
+                      borderRadius: "6px",
+                      border: "1px solid rgba(255,255,255,0.25)",
                     }}
                   />
                 </Stack>

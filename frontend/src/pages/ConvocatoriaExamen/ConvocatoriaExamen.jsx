@@ -564,7 +564,7 @@ export default function ConvocatoriaExamen() {
         width: 160,
         sortable: false,
         renderCell: (params) => (
-          <Stack direction="row" spacing={0.5}>
+          <Stack direction="row" spacing={0.5} sx={{ mt: 1 }}>
             <Tooltip title="Editar" arrow>
               <IconButton
                 onClick={(event) => {

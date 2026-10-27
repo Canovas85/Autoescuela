@@ -1273,25 +1273,56 @@ export default function Profesores() {
 
             <Button
               size="small"
+              variant="outlined"
+              disabled={loadingDetail}
               onClick={
                 detailView === "ALUMNOS_AGENDA"
                   ? () => setDetailView("PERFIL")
                   : openStudentsAndAgendaView
               }
-              disabled={loadingDetail}
               sx={{
                 width: "fit-content",
-                backgroundColor: "#fffbeb",
-                borderColor: "#facc15",
-                borderStyle: "solid",
-                borderRadius: "15px",
-                borderWidth: "2px",
-                color: "#ca8a04",
-                fontWeight: "bold", // Aplicado directamente al texto del botón
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "4px 16px", // Padding optimizado para botones pequeños (size="small")
+                border: "1px solid",
+                color: "#a16207", // Dorado/Amarillo oscuro para contraste de texto legible
+                borderColor: "#eab308 !important", // Amarillo brillante en el contorno
+                backgroundColor: "transparent",
+                boxShadow: `
+      0px 3px 0px #a16207, 
+      0px 6px 12px rgba(234, 179, 8, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                transition: "all 0.15s ease-in-out",
                 "&:hover": {
-                  backgroundColor: "#fef08a",
-                  borderColor: "#eab308",
-                  color: "#854d0e",
+                  color: "#ca8a04",
+                  borderColor: "#facc15 !important",
+                  backgroundColor: "rgba(234, 179, 8, 0.04)",
+                  boxShadow: `
+        0px 3px 0px #a16207, 
+        0px 10px 16px rgba(250, 204, 21, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                  transform: "translateY(-1px)",
+                },
+                "&:active": {
+                  borderColor: "#eab308 !important",
+                  boxShadow: `
+        0px 1px 0px #a16207, 
+        0px 2px 4px rgba(234, 179, 8, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                  transform: "translateY(2px)", // Hundimiento táctil adaptado al relieve pequeño
+                },
+                "&:disabled": {
+                  color: "#fef08a",
+                  borderColor: "#e5e7eb !important",
+                  boxShadow: "none",
+                  transform: "none",
+                  opacity: 0.5,
                 },
               }}
             >

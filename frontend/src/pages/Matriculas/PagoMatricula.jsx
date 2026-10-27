@@ -244,7 +244,7 @@ export default function PagoMatricula() {
         sx={{
           width: 700,
           maxWidth: "100%",
-          borderRadius: 4,
+          borderRadius: 2,
         }}
       >
         <CardContent>

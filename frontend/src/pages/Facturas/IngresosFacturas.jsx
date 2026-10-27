@@ -703,7 +703,7 @@ export default function IngresosFacturas() {
           !isMatricula || estado === "PAGADA" || estado === "ANULADA";
 
         return (
-          <Stack direction="row" spacing={0.25}>
+          <Stack direction="row" spacing={0.25} sx={{ mt: 1 }}>
             <Tooltip title="Ver factura" arrow>
               <IconButton
                 color="primary"

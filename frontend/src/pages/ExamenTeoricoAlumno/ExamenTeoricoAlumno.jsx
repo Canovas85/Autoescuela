@@ -302,7 +302,7 @@ export default function ExamenTeoricoAlumno() {
 
       {shouldShowRequirements && (
         <Paper sx={{ p: 2.5, mb: 3, border: "1px solid #e2e8f0" }}>
-          {/* Contenedor horizontal que junta el título y los chips */}
+          {/* Contenedor horizontal que junta el título y los chips (SE MANTIENE SECCIÓN) */}
           <Stack
             direction="row"
             spacing={2}
@@ -353,12 +353,10 @@ export default function ExamenTeoricoAlumno() {
             />
           </Stack>
 
-          {!canRequest &&
-            (eligibility.bloqueos || []).map((bloqueo) => (
-              <Alert key={bloqueo} severity="warning" sx={{ mb: 1 }}>
-                {bloqueo}
-              </Alert>
-            ))}
+          {/* 
+      SE ELIMINA: Toda la sección intermedia de (!canRequest) que renderizaba 
+      las alertas de aviso individuales para cada uno de los bloqueos.
+    */}
 
           {canRequest && (
             <Alert severity="success">
@@ -645,10 +643,13 @@ export default function ExamenTeoricoAlumno() {
             spacing={1}
             alignItems={{ xs: "stretch", sm: "center" }}
           >
-            <Typography variant="body2" color="text.secondary" sx={{ flex: 1 }}>
+            <Typography variant="body1" sx={{ flex: 1, color: "#1e3a8a" }}>
               Fecha seleccionada:{" "}
-              {selectedDate ? formatDate(selectedDate) : "ninguna"}
+              <strong>
+                {selectedDate ? formatDate(selectedDate) : "ninguna"}
+              </strong>
             </Typography>
+
             <Button
               variant="contained"
               onClick={handleRequest}

@@ -1572,9 +1572,53 @@ export default function Alumnos() {
 
                   <Button
                     variant="outlined"
-                    onClick={cargarPromocionesElegibles}
-                    disabled={loadingPromociones}
                     fullWidth
+                    disabled={loadingPromociones}
+                    onClick={cargarPromocionesElegibles}
+                    sx={{
+                      fontWeight: 700,
+                      letterSpacing: "1px",
+                      textTransform: "uppercase",
+                      borderRadius: "8px",
+                      padding: "10px 24px",
+                      border: "1px solid",
+                      borderColor: "#6d28d9 !important", // Morado principal
+                      color: "#6d28d9",
+                      backgroundColor: "transparent",
+                      boxShadow: `
+      0px 4px 0px #5b21b6, 
+      0px 8px 16px rgba(109, 40, 217, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                      transition: "all 0.15s ease-in-out",
+                      "&:hover": {
+                        color: "#8b5cf6",
+                        borderColor: "#8b5cf6 !important",
+                        backgroundColor: "rgba(109, 40, 217, 0.04)",
+                        boxShadow: `
+        0px 4px 0px #5b21b6, 
+        0px 12px 20px rgba(139, 92, 246, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                        transform: "translateY(-1px)",
+                      },
+                      "&:active": {
+                        borderColor: "#6d28d9 !important",
+                        boxShadow: `
+        0px 1px 0px #5b21b6, 
+        0px 2px 4px rgba(109, 40, 217, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                        transform: "translateY(3px)",
+                      },
+                      "&:disabled": {
+                        color: "#ddd6fe",
+                        borderColor: "#e5e7eb !important",
+                        boxShadow: "none",
+                        transform: "none",
+                        opacity: 0.5,
+                      },
+                    }}
                   >
                     {loadingPromociones
                       ? "Comprobando promociones..."
@@ -2711,20 +2755,107 @@ export default function Alumnos() {
           )}
         </DialogContent>
 
-        <DialogActions>
+        <DialogActions
+          sx={{
+            justifyContent: "flex-end", // Alineación estricta a la derecha
+            mb: 3, // Separación exacta de la parte baja del modal (24px)
+            px: 3, // Colchón lateral para el relieve
+            gap: 2, // Espaciado uniforme entre botones
+          }}
+        >
+          {/* Botón Cerrar - Rojo Carmesí */}
           <Button
-            variant="contained"
+            onClick={() => setOpenDetail(false)}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#dc2626",
+              borderColor: "#dc2626 !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #991b1b, 
+        0px 8px 16px rgba(220, 38, 38, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#ef4444",
+                borderColor: "#ef4444 !important",
+                backgroundColor: "rgba(220, 38, 38, 0.04)",
+                boxShadow: `
+          0px 4px 0px #991b1b, 
+          0px 12px 20px rgba(239, 68, 68, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#dc2626 !important",
+                boxShadow: `
+          0px 1px 0px #991b1b, 
+          0px 2px 4px rgba(220, 38, 38, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+            }}
+          >
+            Cerrar
+          </Button>
+
+          {/* Botón Editar alumno - Verde Esmeralda */}
+          <Button
+            variant="outlined"
             onClick={() => {
               if (selectedAlumno) {
                 setOpenDetail(false);
                 handleEdit(selectedAlumno);
               }
             }}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#15803d",
+              borderColor: "#15803d !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #166534, 
+        0px 8px 16px rgba(21, 128, 61, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#22c55e",
+                borderColor: "#22c55e !important",
+                backgroundColor: "rgba(21, 128, 61, 0.04)",
+                boxShadow: `
+          0px 4px 0px #166534, 
+          0px 12px 20px rgba(34, 197, 94, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#15803d !important",
+                boxShadow: `
+          0px 1px 0px #166534, 
+          0px 2px 4px rgba(21, 128, 61, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+            }}
           >
             Editar alumno
           </Button>
-
-          <Button onClick={() => setOpenDetail(false)}>Cerrar</Button>
         </DialogActions>
       </Dialog>
 
