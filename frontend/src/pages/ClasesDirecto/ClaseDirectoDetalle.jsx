@@ -155,15 +155,146 @@ export default function ClaseDirectoDetalle() {
               justifyContent: "center",
             }}
           >
-            <Button startIcon={<CheckCircleIcon />}>
+            {/* Botón Marcar como completada - Verde Esmeralda */}
+            <Button
+              startIcon={<CheckCircleIcon />}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "6px 24px",
+                border: "1px solid",
+                color: "#15803d",
+                borderColor: "#15803d !important",
+                backgroundColor: "transparent",
+                boxShadow: `
+      0px 4px 0px #166534, 
+      0px 8px 16px rgba(21, 128, 61, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                transition: "all 0.15s ease-in-out",
+                "& .MuiButton-startIcon": {
+                  color: "inherit",
+                },
+                "&:hover": {
+                  color: "#22c55e",
+                  borderColor: "#22c55e !important",
+                  backgroundColor: "rgba(21, 128, 61, 0.04)",
+                  boxShadow: `
+        0px 4px 0px #166534, 
+        0px 12px 20px rgba(34, 197, 94, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                  transform: "translateY(-1px)",
+                },
+                "&:active": {
+                  borderColor: "#15803d !important",
+                  boxShadow: `
+        0px 1px 0px #166534, 
+        0px 2px 4px rgba(21, 128, 61, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                  transform: "translateY(3px)",
+                },
+              }}
+            >
               Marcar como completada
             </Button>
 
-            <Button startIcon={<FavoriteBorderIcon />}>
+            {/* Botón Añadir a favoritos - Amarillo Brillante */}
+            <Button
+              startIcon={<FavoriteBorderIcon />}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "6px 24px",
+                border: "1px solid",
+                color: "#a16207", // Dorado/Amarillo oscuro para contraste de texto legible
+                borderColor: "#eab308 !important", // Amarillo brillante en el contorno
+                backgroundColor: "transparent",
+                boxShadow: `
+      0px 4px 0px #a16207, 
+      0px 8px 16px rgba(234, 179, 8, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                transition: "all 0.15s ease-in-out",
+                "& .MuiButton-startIcon": {
+                  color: "inherit",
+                },
+                "&:hover": {
+                  color: "#ca8a04",
+                  borderColor: "#facc15 !important",
+                  backgroundColor: "rgba(234, 179, 8, 0.04)",
+                  boxShadow: `
+        0px 4px 0px #a16207, 
+        0px 12px 20px rgba(250, 204, 21, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                  transform: "translateY(-1px)",
+                },
+                "&:active": {
+                  borderColor: "#eab308 !important",
+                  boxShadow: `
+        0px 1px 0px #a16207, 
+        0px 2px 4px rgba(234, 179, 8, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                  transform: "translateY(3px)",
+                },
+              }}
+            >
               Añadir a favoritos
             </Button>
 
-            <Button startIcon={<DownloadIcon />}>Descargar material</Button>
+            {/* Botón Descargar material - Naranja */}
+            <Button
+              startIcon={<DownloadIcon />}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "6px 24px",
+                border: "1px solid",
+                color: "#ea580c",
+                borderColor: "#ea580c !important",
+                backgroundColor: "transparent",
+                boxShadow: `
+      0px 4px 0px #9a3412, 
+      0px 8px 16px rgba(234, 88, 12, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                transition: "all 0.15s ease-in-out",
+                "& .MuiButton-startIcon": {
+                  color: "inherit",
+                },
+                "&:hover": {
+                  color: "#f97316",
+                  borderColor: "#f97316 !important",
+                  backgroundColor: "rgba(234, 88, 12, 0.04)",
+                  boxShadow: `
+        0px 4px 0px #9a3412, 
+        0px 12px 20px rgba(249, 115, 22, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                  transform: "translateY(-1px)",
+                },
+                "&:active": {
+                  borderColor: "#ea580c !important",
+                  boxShadow: `
+        0px 1px 0px #9a3412, 
+        0px 2px 4px rgba(234, 88, 12, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                  transform: "translateY(3px)",
+                },
+              }}
+            >
+              Descargar material
+            </Button>
           </Paper>
 
           <Paper
@@ -276,14 +407,47 @@ export default function ClaseDirectoDetalle() {
             </Typography>
 
             <Button
-              variant="contained"
+              variant="outlined"
               size="large"
               fullWidth
               sx={{
                 mt: 6,
                 py: 1.5,
                 fontSize: "1rem",
-                fontWeight: 600,
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                border: "1px solid",
+                borderColor: "#0284c7 !important", // Azul Eléctrico base
+                color: "#0284c7",
+                backgroundColor: "transparent",
+                boxShadow: `
+      0px 4px 0px #0369a1, 
+      0px 8px 16px rgba(2, 132, 199, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                transition: "all 0.15s ease-in-out",
+                "&:hover": {
+                  color: "#0ea5e9", // Ciano más brillante
+                  borderColor: "#0ea5e9 !important",
+                  backgroundColor: "rgba(2, 132, 199, 0.04)",
+                  boxShadow: `
+        0px 4px 0px #0369a1, 
+        0px 12px 20px rgba(14, 165, 233, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                  transform: "translateY(-1px)",
+                },
+                "&:active": {
+                  borderColor: "#0284c7 !important",
+                  boxShadow: `
+        0px 1px 0px #0369a1, 
+        0px 2px 4px rgba(2, 132, 199, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                  transform: "translateY(3px)", // Hundimiento mecánico completo
+                },
               }}
             >
               Comenzar clase

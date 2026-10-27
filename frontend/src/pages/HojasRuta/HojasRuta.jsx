@@ -422,7 +422,48 @@ function RoadmapDetail({
               severity="warning"
               sx={{ mb: 0.5 }}
               action={
-                <Button size="small" variant="contained" onClick={onGoRefuel}>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={onGoRefuel}
+                  sx={{
+                    fontWeight: 700,
+                    letterSpacing: "1px",
+                    textTransform: "uppercase",
+                    borderRadius: "8px",
+                    padding: "4px 16px", // Ajustado para un botón de tamaño pequeño (size="small")
+                    border: "1px solid",
+                    borderColor: "#6d28d9 !important", // Morado principal
+                    color: "#6d28d9",
+                    backgroundColor: "transparent",
+                    boxShadow: `
+      0px 3px 0px #5b21b6, 
+      0px 6px 12px rgba(109, 40, 217, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                    transition: "all 0.15s ease-in-out",
+                    "&:hover": {
+                      color: "#8b5cf6",
+                      borderColor: "#8b5cf6 !important",
+                      backgroundColor: "rgba(109, 40, 217, 0.04)",
+                      boxShadow: `
+        0px 3px 0px #5b21b6, 
+        0px 10px 16px rgba(139, 92, 246, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                      transform: "translateY(-1px)",
+                    },
+                    "&:active": {
+                      borderColor: "#6d28d9 !important",
+                      boxShadow: `
+        0px 1px 0px #5b21b6, 
+        0px 2px 4px rgba(109, 40, 217, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                      transform: "translateY(2px)", // Hundimiento correspondiente al relieve pequeño
+                    },
+                  }}
+                >
                   Combustible
                 </Button>
               }
@@ -1038,17 +1079,57 @@ function RoadmapDetail({
             direction="row"
             alignItems="center"
             justifyContent="space-between"
-            sx={{ mb: 1.5 }}
+            sx={{ mb: 1.5, width: "100%" }} // Aseguramos que el Stack ocupe todo el ancho
           >
             <Typography variant="h6" fontWeight={800}>
               Registro de faltas
             </Typography>
             {!readonly ? (
               <Button
-                sx={{ ml: 2 }}
-                variant="contained"
+                variant="outlined"
                 startIcon={<AddIcon />}
                 onClick={() => setFaultDialogOpen(true)}
+                sx={{
+                  ml: "auto", // Empuja el botón totalmente a la derecha de la línea
+                  fontWeight: 700,
+                  letterSpacing: "1px",
+                  textTransform: "uppercase",
+                  borderRadius: "8px",
+                  padding: "6px 24px",
+                  border: "1px solid",
+                  borderColor: "#0284c7 !important",
+                  color: "#0284c7",
+                  backgroundColor: "transparent",
+                  boxShadow: `
+          0px 4px 0px #0369a1, 
+          0px 8px 16px rgba(2, 132, 199, 0.15),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+        `,
+                  transition: "all 0.15s ease-in-out",
+                  "& .MuiButton-startIcon": {
+                    color: "inherit",
+                  },
+                  "&:hover": {
+                    color: "#0ea5e9",
+                    borderColor: "#0ea5e9 !important",
+                    backgroundColor: "rgba(2, 132, 199, 0.04)",
+                    boxShadow: `
+            0px 4px 0px #0369a1, 
+            0px 12px 20px rgba(14, 165, 233, 0.25),
+            inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+          `,
+                    transform: "translateY(-1px)",
+                  },
+                  "&:active": {
+                    borderColor: "#0284c7 !important",
+                    boxShadow: `
+            0px 1px 0px #0369a1, 
+            0px 2px 4px rgba(2, 132, 199, 0.2),
+            inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+          `,
+                    transform: "translateY(3px)",
+                  },
+                }}
               >
                 Añadir falta
               </Button>
@@ -1332,23 +1413,114 @@ function RoadmapDetail({
 
       {!readonly ? (
         <Stack direction="row" spacing={1} justifyContent="flex-end">
+          {/* Botón Guardar borrador - Naranja */}
           <Button
             variant="outlined"
             onClick={onSaveDraft}
             disabled={loading || Boolean(value?.requiereRepostaje)}
-            sx={{ minWidth: 170 }}
+            sx={{
+              minWidth: 170,
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#ea580c",
+              borderColor: "#ea580c !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #9a3412, 
+        0px 8px 16px rgba(234, 88, 12, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#f97316",
+                borderColor: "#f97316 !important",
+                backgroundColor: "rgba(234, 88, 12, 0.04)",
+                boxShadow: `
+          0px 4px 0px #9a3412, 
+          0px 12px 20px rgba(249, 115, 22, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#ea580c !important",
+                boxShadow: `
+          0px 1px 0px #9a3412, 
+          0px 2px 4px rgba(234, 88, 12, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+              "&:disabled": {
+                color: "#fdba74",
+                borderColor: "#e5e7eb !important",
+                boxShadow: "none",
+                transform: "none",
+                opacity: 0.6,
+              },
+            }}
           >
             Guardar borrador
           </Button>
+
+          {/* Botón Finalizar clase - Verde Esmeralda */}
           <Button
-            variant="contained"
+            variant="outlined"
             onClick={onFinalize}
             disabled={
               loading ||
               Boolean(value?.requiereRepostaje) ||
               !hasSelectedExercises
             }
-            sx={{ minWidth: 170 }}
+            sx={{
+              minWidth: 170,
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#15803d",
+              borderColor: "#15803d !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #166534, 
+        0px 8px 16px rgba(21, 128, 61, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#22c55e",
+                borderColor: "#22c55e !important",
+                backgroundColor: "rgba(21, 128, 61, 0.04)",
+                boxShadow: `
+          0px 4px 0px #166534, 
+          0px 12px 20px rgba(34, 197, 94, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#15803d !important",
+                boxShadow: `
+          0px 1px 0px #166534, 
+          0px 2px 4px rgba(21, 128, 61, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+              "&:disabled": {
+                color: "#86efac",
+                borderColor: "#e5e7eb !important",
+                boxShadow: "none",
+                transform: "none",
+                opacity: 0.6,
+              },
+            }}
           >
             Finalizar clase
           </Button>
@@ -1445,9 +1617,100 @@ function RoadmapDetail({
             }
           />
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setFaultDialogOpen(false)}>Cancelar</Button>
-          <Button onClick={addFault} variant="contained">
+        <DialogActions
+          sx={{
+            justifyContent: "flex-end", // Alineación estricta a la derecha
+            mb: 3, // Separación exacta de la parte baja del modal (24px)
+            px: 3, // Colchón lateral para el relieve
+            gap: 2, // Espaciado uniforme entre botones
+          }}
+        >
+          {/* Botón Cancelar - Rojo Carmesí */}
+          <Button
+            onClick={() => setFaultDialogOpen(false)}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#dc2626",
+              borderColor: "#dc2626 !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #991b1b, 
+        0px 8px 16px rgba(220, 38, 38, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#ef4444",
+                borderColor: "#ef4444 !important",
+                backgroundColor: "rgba(220, 38, 38, 0.04)",
+                boxShadow: `
+          0px 4px 0px #991b1b, 
+          0px 12px 20px rgba(239, 68, 68, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#dc2626 !important",
+                boxShadow: `
+          0px 1px 0px #991b1b, 
+          0px 2px 4px rgba(220, 38, 38, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+            }}
+          >
+            Cancelar
+          </Button>
+
+          {/* Botón Confirmar (Añadir) - Verde Esmeralda */}
+          <Button
+            variant="outlined"
+            onClick={addFault}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#15803d",
+              borderColor: "#15803d !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #166534, 
+        0px 8px 16px rgba(21, 128, 61, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#22c55e",
+                borderColor: "#22c55e !important",
+                backgroundColor: "rgba(21, 128, 61, 0.04)",
+                boxShadow: `
+          0px 4px 0px #166534, 
+          0px 12px 20px rgba(34, 197, 94, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#15803d !important",
+                boxShadow: `
+          0px 1px 0px #166534, 
+          0px 2px 4px rgba(21, 128, 61, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+            }}
+          >
             Añadir
           </Button>
         </DialogActions>
@@ -1939,14 +2202,6 @@ export default function HojasRuta() {
                     },
                 }}
               />
-
-              {/*<Button
-                variant="outlined"
-                startIcon={<FilterListIcon />}
-                onClick={() => setShowProfessorFilters((prev) => !prev)}
-              >
-                Filtros
-              </Button>*/}
             </Stack>
 
             {/*{showProfessorFilters ? (
@@ -2072,13 +2327,53 @@ export default function HojasRuta() {
 
                       <Box sx={{ flex: 1, textAlign: "right" }}>
                         <Button
-                          variant="contained"
+                          variant="outlined"
                           onClick={() => setParam("claseId", item.claseId)}
                           endIcon={
                             <ArrowBackIcon
                               sx={{ transform: "rotate(180deg)" }}
                             />
                           }
+                          sx={{
+                            fontWeight: 700,
+                            letterSpacing: "1px",
+                            textTransform: "uppercase",
+                            borderRadius: "8px",
+                            padding: "6px 24px",
+                            border: "1px solid",
+                            borderColor: "#0284c7 !important", // Azul Eléctrico base
+                            color: "#0284c7",
+                            backgroundColor: "transparent",
+                            boxShadow: `
+        0px 4px 0px #0369a1, 
+        0px 8px 16px rgba(2, 132, 199, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+                            transition: "all 0.15s ease-in-out",
+                            "& .MuiButton-endIcon": {
+                              color: "inherit",
+                            },
+                            "&:hover": {
+                              color: "#0ea5e9", // Ciano más brillante
+                              borderColor: "#0ea5e9 !important",
+                              backgroundColor: "rgba(2, 132, 199, 0.04)",
+                              boxShadow: `
+          0px 4px 0px #0369a1, 
+          0px 12px 20px rgba(14, 165, 233, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                              transform: "translateY(-1px)",
+                            },
+                            "&:active": {
+                              borderColor: "#0284c7 !important",
+                              boxShadow: `
+          0px 1px 0px #0369a1, 
+          0px 2px 4px rgba(2, 132, 199, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                              transform: "translateY(3px)",
+                            },
+                          }}
                         >
                           Continuar registro
                         </Button>
@@ -2110,10 +2405,12 @@ export default function HojasRuta() {
                   >
                     <Stack
                       direction={{ xs: "column", md: "row" }}
-                      alignItems={{ xs: "flex-start", md: "center" }}
+                      alignItems="center" // CAMBIO: Centra de forma vertical y absoluta ambos apartados (alto y bajo)
                       justifyContent="space-between"
-                      spacing={1}
+                      spacing={2}
+                      sx={{ width: "100%" }} // CAMBIO: Expande la fila al borde máximo derecho de la pantalla/tarjeta
                     >
+                      {/* BLOQUE IZQUIERDO: Avatar e Información del alumno */}
                       <Box
                         sx={{
                           display: "flex",
@@ -2149,11 +2446,15 @@ export default function HojasRuta() {
                         </Box>
                       </Box>
 
+                      {/* BLOQUE DERECHO: Chips, contadores y Botón */}
                       <Stack
                         direction="row"
                         spacing={1}
                         alignItems="center"
-                        width="100%"
+                        sx={{
+                          width: { xs: "100%", md: "auto" }, // Ancho completo en móvil, automático en escritorio
+                          ml: { md: "auto" }, // Empuja todo este bloque a la derecha en escritorio
+                        }}
                       >
                         <Chip
                           size="small"
@@ -2164,12 +2465,51 @@ export default function HojasRuta() {
                           {`${item.resumenFaltas?.leves || 0} leves · ${item.resumenFaltas?.deficientes || 0} deficientes · ${item.resumenFaltas?.eliminatorias || 0} eliminatorias`}
                         </Typography>
 
-                        {/* Este Box vacío empuja todo lo que viene después hacia la derecha */}
+                        {/* Este Box absorbe el espacio restante y empuja el botón a la derecha tanto en móvil como en escritorio */}
                         <Box sx={{ flexGrow: 1 }} />
 
                         <Button
                           size="small"
+                          variant="outlined"
                           onClick={() => setParam("claseId", item.claseId)}
+                          sx={{
+                            ml: 1, // Separación mínima de seguridad con los textos
+                            fontWeight: 700,
+                            letterSpacing: "1px",
+                            textTransform: "uppercase",
+                            borderRadius: "8px",
+                            padding: "4px 16px",
+                            border: "1px solid",
+                            borderColor: "#6d28d9 !important",
+                            color: "#6d28d9",
+                            backgroundColor: "transparent",
+                            boxShadow: `
+            0px 3px 0px #5b21b6, 
+            0px 6px 12px rgba(109, 40, 217, 0.15),
+            inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+          `,
+                            transition: "all 0.15s ease-in-out",
+                            "&:hover": {
+                              color: "#8b5cf6",
+                              borderColor: "#8b5cf6 !important",
+                              backgroundColor: "rgba(109, 40, 217, 0.04)",
+                              boxShadow: `
+              0px 3px 0px #5b21b6, 
+              0px 10px 16px rgba(139, 92, 246, 0.25),
+              inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+            `,
+                              transform: "translateY(-1px)",
+                            },
+                            "&:active": {
+                              borderColor: "#6d28d9 !important",
+                              boxShadow: `
+              0px 1px 0px #5b21b6, 
+              0px 2px 4px rgba(109, 40, 217, 0.2),
+              inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+            `,
+                              transform: "translateY(2px)",
+                            },
+                          }}
                         >
                           Ver Hoja de Ruta
                         </Button>
@@ -2442,7 +2782,45 @@ export default function HojasRuta() {
                           </Typography>
                         ) : (
                           <Button
+                            variant="outlined"
                             onClick={() => setParam("roadmapId", params.row.id)}
+                            sx={{
+                              fontWeight: 700,
+                              letterSpacing: "1px",
+                              textTransform: "uppercase",
+                              borderRadius: "8px",
+                              padding: "4px 16px", // Padding optimizado para acciones cortas/celdas
+                              border: "1px solid",
+                              borderColor: "#0284c7 !important", // Azul Eléctrico base
+                              color: "#0284c7",
+                              backgroundColor: "transparent",
+                              boxShadow: `
+      0px 3px 0px #0369a1, 
+      0px 6px 12px rgba(2, 132, 199, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                              transition: "all 0.15s ease-in-out",
+                              "&:hover": {
+                                color: "#0ea5e9", // Ciano más brillante
+                                borderColor: "#0ea5e9 !important",
+                                backgroundColor: "rgba(2, 132, 199, 0.04)",
+                                boxShadow: `
+        0px 3px 0px #0369a1, 
+        0px 10px 16px rgba(14, 165, 233, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                                transform: "translateY(-1px)",
+                              },
+                              "&:active": {
+                                borderColor: "#0284c7 !important",
+                                boxShadow: `
+        0px 1px 0px #0369a1, 
+        0px 2px 4px rgba(2, 132, 199, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                                transform: "translateY(2px)", // Hundimiento táctil proporcional
+                              },
+                            }}
                           >
                             Ver
                           </Button>
@@ -2882,7 +3260,45 @@ export default function HojasRuta() {
                       </Typography>
                     ) : (
                       <Button
+                        variant="outlined"
                         onClick={() => setParam("roadmapId", params.row.id)}
+                        sx={{
+                          fontWeight: 700,
+                          letterSpacing: "1px",
+                          textTransform: "uppercase",
+                          borderRadius: "8px",
+                          padding: "4px 16px", // Padding optimizado para acciones compactas en tablas
+                          border: "1px solid",
+                          borderColor: "#0284c7 !important", // Azul Eléctrico base
+                          color: "#0284c7",
+                          backgroundColor: "transparent",
+                          boxShadow: `
+      0px 3px 0px #0369a1, 
+      0px 6px 12px rgba(2, 132, 199, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                          transition: "all 0.15s ease-in-out",
+                          "&:hover": {
+                            color: "#0ea5e9", // Ciano más brillante
+                            borderColor: "#0ea5e9 !important",
+                            backgroundColor: "rgba(2, 132, 199, 0.04)",
+                            boxShadow: `
+        0px 3px 0px #0369a1, 
+        0px 10px 16px rgba(14, 165, 233, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                            transform: "translateY(-1px)",
+                          },
+                          "&:active": {
+                            borderColor: "#0284c7 !important",
+                            boxShadow: `
+        0px 1px 0px #0369a1, 
+        0px 2px 4px rgba(2, 132, 199, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                            transform: "translateY(2px)", // Hundimiento táctil proporcional
+                          },
+                        }}
                       >
                         Ver
                       </Button>

@@ -480,19 +480,6 @@ export default function Login() {
                       >
                         Ahora: {promotion.precioPromocional} €
                       </Typography>
-
-                      {/*<Button
-                        variant="contained"
-                        sx={{
-                          width: "fit-content",
-                          mt: 1,
-                          borderRadius: "30px",
-                          px: 4,
-                          background: "linear-gradient(135deg,#ff9800,#f57c00)",
-                        }}
-                      >
-                        Ver promoción
-                      </Button>*/}
                     </Box>
                   </>
                 ) : (
@@ -908,15 +895,96 @@ export default function Login() {
               setOpenRegister(false);
               resetRegisterFlow();
             }}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#dc2626",
+              borderColor: "#dc2626 !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+      0px 4px 0px #991b1b, 
+      0px 8px 16px rgba(220, 38, 38, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#ef4444",
+                borderColor: "#ef4444 !important",
+                backgroundColor: "rgba(220, 38, 38, 0.04)",
+                boxShadow: `
+        0px 4px 0px #991b1b, 
+        0px 12px 20px rgba(239, 68, 68, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#dc2626 !important",
+                boxShadow: `
+        0px 1px 0px #991b1b, 
+        0px 2px 4px rgba(220, 38, 38, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                transform: "translateY(3px)",
+              },
+            }}
           >
             Cancelar
           </Button>
 
           {registerStep === 1 ? (
             <Button
-              variant="contained"
+              variant="outlined"
               onClick={handleRegisterContinue}
               disabled={registerLoading}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "6px 24px",
+                border: "1px solid",
+                color: "#15803d",
+                borderColor: "#15803d !important",
+                backgroundColor: "transparent",
+                boxShadow: `
+      0px 4px 0px #166534, 
+      0px 8px 16px rgba(21, 128, 61, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                transition: "all 0.15s ease-in-out",
+                "&:hover": {
+                  color: "#22c55e",
+                  borderColor: "#22c55e !important",
+                  backgroundColor: "rgba(21, 128, 61, 0.04)",
+                  boxShadow: `
+        0px 4px 0px #166534, 
+        0px 12px 20px rgba(34, 197, 94, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                  transform: "translateY(-1px)",
+                },
+                "&:active": {
+                  borderColor: "#15803d !important",
+                  boxShadow: `
+        0px 1px 0px #166534, 
+        0px 2px 4px rgba(21, 128, 61, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                  transform: "translateY(3px)",
+                },
+                "&:disabled": {
+                  color: "#86efac",
+                  borderColor: "#e5e7eb !important",
+                  boxShadow: "none",
+                  transform: "none",
+                  opacity: 0.6,
+                },
+              }}
             >
               {registerLoading ? "Validando..." : "Guardar"}
             </Button>
@@ -924,9 +992,53 @@ export default function Login() {
 
           {registerStep === 2 ? (
             <Button
-              variant="contained"
+              variant="outlined"
               onClick={handleRegisterFinish}
               disabled={registerLoading}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "6px 24px",
+                border: "1px solid",
+                color: "#15803d",
+                borderColor: "#15803d !important",
+                backgroundColor: "transparent",
+                boxShadow: `
+      0px 4px 0px #166534, 
+      0px 8px 16px rgba(21, 128, 61, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                transition: "all 0.15s ease-in-out",
+                "&:hover": {
+                  color: "#22c55e",
+                  borderColor: "#22c55e !important",
+                  backgroundColor: "rgba(21, 128, 61, 0.04)",
+                  boxShadow: `
+        0px 4px 0px #166534, 
+        0px 12px 20px rgba(34, 197, 94, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                  transform: "translateY(-1px)",
+                },
+                "&:active": {
+                  borderColor: "#15803d !important",
+                  boxShadow: `
+        0px 1px 0px #166534, 
+        0px 2px 4px rgba(21, 128, 61, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                  transform: "translateY(3px)",
+                },
+                "&:disabled": {
+                  color: "#86efac",
+                  borderColor: "#e5e7eb !important",
+                  boxShadow: "none",
+                  transform: "none",
+                  opacity: 0.6,
+                },
+              }}
             >
               {registerLoading ? "Finalizando..." : "Finalizar"}
             </Button>
@@ -1086,16 +1198,108 @@ export default function Login() {
           )}
         </DialogContent>
 
-        <DialogActions>
-          <Button onClick={handleCloseForgotPassword}>
+        <DialogActions
+          sx={{
+            justifyContent: "flex-end", // Alineación estricta a la derecha
+            mb: 3, // Separación exacta de la parte baja del modal (24px)
+            px: 3, // Colchón lateral para el relieve
+            gap: 2, // Espaciado uniforme entre botones
+          }}
+        >
+          {/* Botón Salida (Cerrar / Cancelar) - Rojo Carmesí */}
+          <Button
+            onClick={handleCloseForgotPassword}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#dc2626",
+              borderColor: "#dc2626 !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #991b1b, 
+        0px 8px 16px rgba(220, 38, 38, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#ef4444",
+                borderColor: "#ef4444 !important",
+                backgroundColor: "rgba(220, 38, 38, 0.04)",
+                boxShadow: `
+          0px 4px 0px #991b1b, 
+          0px 12px 20px rgba(239, 68, 68, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#dc2626 !important",
+                boxShadow: `
+          0px 1px 0px #991b1b, 
+          0px 2px 4px rgba(220, 38, 38, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+            }}
+          >
             {forgotPasswordStep === 3 ? "Cerrar" : "Cancelar"}
           </Button>
 
+          {/* Botón Acción (Continuar) - Verde Esmeralda */}
           {forgotPasswordStep < 3 && (
             <Button
-              variant="contained"
+              variant="outlined"
               onClick={handleForgotPasswordContinue}
               disabled={forgotPasswordLoading}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "6px 24px",
+                border: "1px solid",
+                color: "#15803d",
+                borderColor: "#15803d !important",
+                backgroundColor: "transparent",
+                boxShadow: `
+          0px 4px 0px #166534, 
+          0px 8px 16px rgba(21, 128, 61, 0.15),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+        `,
+                transition: "all 0.15s ease-in-out",
+                "&:hover": {
+                  color: "#22c55e",
+                  borderColor: "#22c55e !important",
+                  backgroundColor: "rgba(21, 128, 61, 0.04)",
+                  boxShadow: `
+            0px 4px 0px #166534, 
+            0px 12px 20px rgba(34, 197, 94, 0.25),
+            inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+          `,
+                  transform: "translateY(-1px)",
+                },
+                "&:active": {
+                  borderColor: "#15803d !important",
+                  boxShadow: `
+            0px 1px 0px #166534, 
+            0px 2px 4px rgba(21, 128, 61, 0.2),
+            inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+          `,
+                  transform: "translateY(3px)",
+                },
+                "&:disabled": {
+                  color: "#86efac",
+                  borderColor: "#e5e7eb !important",
+                  boxShadow: "none",
+                  transform: "none",
+                  opacity: 0.6,
+                },
+              }}
             >
               {forgotPasswordLoading ? (
                 <CircularProgress size={20} color="inherit" />

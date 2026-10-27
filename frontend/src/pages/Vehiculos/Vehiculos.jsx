@@ -1481,9 +1481,100 @@ export default function Vehiculos() {
           </Box>
         </DialogContent>
 
-        <DialogActions>
-          <Button onClick={() => setOpen(false)}>Cancelar</Button>
-          <Button variant="contained" onClick={saveVehiculo}>
+        <DialogActions
+          sx={{
+            justifyContent: "flex-end", // Alineación estricta a la derecha
+            mb: 3, // Separación exacta de la parte baja del modal (24px)
+            px: 3, // Colchón lateral para el relieve
+            gap: 2, // Espaciado uniforme entre botones
+          }}
+        >
+          {/* Botón Cancelar - Rojo Carmesí */}
+          <Button
+            onClick={() => setOpen(false)}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#dc2626",
+              borderColor: "#dc2626 !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #991b1b, 
+        0px 8px 16px rgba(220, 38, 38, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#ef4444",
+                borderColor: "#ef4444 !important",
+                backgroundColor: "rgba(220, 38, 38, 0.04)",
+                boxShadow: `
+          0px 4px 0px #991b1b, 
+          0px 12px 20px rgba(239, 68, 68, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#dc2626 !important",
+                boxShadow: `
+          0px 1px 0px #991b1b, 
+          0px 2px 4px rgba(220, 38, 38, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+            }}
+          >
+            Cancelar
+          </Button>
+
+          {/* Botón Confirmar (Guardar / Actualizar) - Verde Esmeralda */}
+          <Button
+            variant="outlined"
+            onClick={saveVehiculo}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#15803d",
+              borderColor: "#15803d !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #166534, 
+        0px 8px 16px rgba(21, 128, 61, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#22c55e",
+                borderColor: "#22c55e !important",
+                backgroundColor: "rgba(21, 128, 61, 0.04)",
+                boxShadow: `
+          0px 4px 0px #166534, 
+          0px 12px 20px rgba(34, 197, 94, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#15803d !important",
+                boxShadow: `
+          0px 1px 0px #166534, 
+          0px 2px 4px rgba(21, 128, 61, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+            }}
+          >
             {editingId ? "Actualizar" : "Guardar"}
           </Button>
         </DialogActions>
@@ -1644,19 +1735,114 @@ export default function Vehiculos() {
           )}
         </DialogContent>
 
-        <DialogActions>
+        <DialogActions
+          sx={{
+            justifyContent: "flex-end", // Alineación estricta a la derecha
+            mb: 3, // Separación exacta de la parte baja del modal (24px)
+            px: 3, // Colchón lateral para el relieve
+            gap: 2, // Espaciado uniforme entre botones
+          }}
+        >
+          {/* Botón Cerrar - Rojo Carmesí */}
           <Button
-            variant="contained"
+            onClick={() => setOpenDetail(false)}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#dc2626",
+              borderColor: "#dc2626 !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #991b1b, 
+        0px 8px 16px rgba(220, 38, 38, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#ef4444",
+                borderColor: "#ef4444 !important",
+                backgroundColor: "rgba(220, 38, 38, 0.04)",
+                boxShadow: `
+          0px 4px 0px #991b1b, 
+          0px 12px 20px rgba(239, 68, 68, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#dc2626 !important",
+                boxShadow: `
+          0px 1px 0px #991b1b, 
+          0px 2px 4px rgba(220, 38, 38, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+            }}
+          >
+            Cerrar
+          </Button>
+
+          {/* Botón Confirmar (Editar vehículo) - Verde Esmeralda */}
+          <Button
+            variant="outlined"
+            disabled={!selectedVehiculo || loadingDetail}
             onClick={() => {
               if (selectedVehiculo) {
                 handleEdit(selectedVehiculo);
               }
             }}
-            disabled={!selectedVehiculo || loadingDetail}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#15803d",
+              borderColor: "#15803d !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #166534, 
+        0px 8px 16px rgba(21, 128, 61, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#22c55e",
+                borderColor: "#22c55e !important",
+                backgroundColor: "rgba(21, 128, 61, 0.04)",
+                boxShadow: `
+          0px 4px 0px #166534, 
+          0px 12px 20px rgba(34, 197, 94, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#15803d !important",
+                boxShadow: `
+          0px 1px 0px #166534, 
+          0px 2px 4px rgba(21, 128, 61, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+              "&:disabled": {
+                color: "#86efac",
+                borderColor: "#e5e7eb !important",
+                boxShadow: "none",
+                transform: "none",
+                opacity: 0.6,
+              },
+            }}
           >
             Editar vehículo
           </Button>
-          <Button onClick={() => setOpenDetail(false)}>Cerrar</Button>
         </DialogActions>
       </Dialog>
 
@@ -1672,13 +1858,99 @@ export default function Vehiculos() {
           <DialogContentText>{confirmDialog.message}</DialogContentText>
         </DialogContent>
 
-        <DialogActions>
-          <Button onClick={closeConfirmDialog}>Cancelar</Button>
-
+        <DialogActions
+          sx={{
+            justifyContent: "flex-end", // Alineación estricta a la derecha
+            mb: 3, // Separación exacta de la parte baja del modal (24px)
+            px: 3, // Colchón lateral para el relieve
+            gap: 2, // Espaciado uniforme entre botones
+          }}
+        >
+          {/* Botón Cancelar - Rojo Carmesí */}
           <Button
-            variant="contained"
-            color={confirmDialog.action === "deactivate" ? "error" : "success"}
+            onClick={closeConfirmDialog}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#dc2626",
+              borderColor: "#dc2626 !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #991b1b, 
+        0px 8px 16px rgba(220, 38, 38, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#ef4444",
+                borderColor: "#ef4444 !important",
+                backgroundColor: "rgba(220, 38, 38, 0.04)",
+                boxShadow: `
+          0px 4px 0px #991b1b, 
+          0px 12px 20px rgba(239, 68, 68, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#dc2626 !important",
+                boxShadow: `
+          0px 1px 0px #991b1b, 
+          0px 2px 4px rgba(220, 38, 38, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+            }}
+          >
+            Cancelar
+          </Button>
+
+          {/* Botón Confirmar - Verde Esmeralda */}
+          <Button
+            variant="outlined"
             onClick={handleConfirmAction}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#15803d",
+              borderColor: "#15803d !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #166534, 
+        0px 8px 16px rgba(21, 128, 61, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#22c55e",
+                borderColor: "#22c55e !important",
+                backgroundColor: "rgba(21, 128, 61, 0.04)",
+                boxShadow: `
+          0px 4px 0px #166534, 
+          0px 12px 20px rgba(34, 197, 94, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#15803d !important",
+                boxShadow: `
+          0px 1px 0px #166534, 
+          0px 2px 4px rgba(21, 128, 61, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+            }}
           >
             Confirmar
           </Button>
@@ -1793,18 +2065,115 @@ export default function Vehiculos() {
             );
           })}
         </DialogContent>
-        <DialogActions>
+        <DialogActions
+          sx={{
+            justifyContent: "flex-end", // Alineación estricta a la derecha
+            mb: 3, // Separación exacta de la parte baja del modal (24px)
+            px: 3, // Colchón lateral para el relieve
+            gap: 2, // Espaciado uniforme entre botones
+          }}
+        >
+          {/* Botón Cancelar - Rojo Carmesí */}
           <Button
             onClick={closeDeactivateModal}
             disabled={deactivateModal.loading}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#dc2626",
+              borderColor: "#dc2626 !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #991b1b, 
+        0px 8px 16px rgba(220, 38, 38, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#ef4444",
+                borderColor: "#ef4444 !important",
+                backgroundColor: "rgba(220, 38, 38, 0.04)",
+                boxShadow: `
+          0px 4px 0px #991b1b, 
+          0px 12px 20px rgba(239, 68, 68, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#dc2626 !important",
+                boxShadow: `
+          0px 1px 0px #991b1b, 
+          0px 2px 4px rgba(220, 38, 38, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+              "&:disabled": {
+                color: "#fca5a5",
+                borderColor: "#e5e7eb !important",
+                boxShadow: "none",
+                transform: "none",
+                opacity: 0.6,
+              },
+            }}
           >
             Cancelar
           </Button>
+
+          {/* Botón Confirmar (Guardar y desactivar) - Verde Esmeralda */}
           <Button
-            variant="contained"
-            color="error"
+            variant="outlined"
             onClick={handleConfirmDeactivateWithReassignment}
             disabled={deactivateModal.loading}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#15803d",
+              borderColor: "#15803d !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #166534, 
+        0px 8px 16px rgba(21, 128, 61, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#22c55e",
+                borderColor: "#22c55e !important",
+                backgroundColor: "rgba(21, 128, 61, 0.04)",
+                boxShadow: `
+          0px 4px 0px #166534, 
+          0px 12px 20px rgba(34, 197, 94, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#15803d !important",
+                boxShadow: `
+          0px 1px 0px #166534, 
+          0px 2px 4px rgba(21, 128, 61, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+              "&:disabled": {
+                color: "#86efac",
+                borderColor: "#e5e7eb !important",
+                boxShadow: "none",
+                transform: "none",
+                opacity: 0.6,
+              },
+            }}
           >
             {deactivateModal.loading ? "Guardando..." : "Guardar y desactivar"}
           </Button>

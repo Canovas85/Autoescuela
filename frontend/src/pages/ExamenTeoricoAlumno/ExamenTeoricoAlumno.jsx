@@ -586,7 +586,51 @@ export default function ExamenTeoricoAlumno() {
                   color={isAvailable ? "primary" : "inherit"}
                   disabled={!isAvailable || !canRequest || loading}
                   onClick={() => setSelectedDate(key)}
-                  sx={{ minWidth: 0, height: 44 }}
+                  sx={{
+                    minWidth: 0,
+                    height: 44,
+                    fontWeight: 700,
+                    letterSpacing: "1px",
+                    textTransform: "uppercase",
+                    borderRadius: "8px",
+                    border: "1px solid",
+                    color: "#a16207", // Dorado/Amarillo oscuro para contraste de texto legible
+                    borderColor: "#eab308 !important", // Amarillo brillante en el contorno
+                    backgroundColor: "transparent",
+                    boxShadow: `
+      0px 4px 0px #a16207, 
+      0px 8px 16px rgba(234, 179, 8, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                    transition: "all 0.15s ease-in-out",
+                    "&:hover": {
+                      color: "#ca8a04",
+                      borderColor: "#facc15 !important",
+                      backgroundColor: "rgba(234, 179, 8, 0.04)",
+                      boxShadow: `
+        0px 4px 0px #a16207, 
+        0px 12px 20px rgba(250, 204, 21, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                      transform: "translateY(-1px)",
+                    },
+                    "&:active": {
+                      borderColor: "#eab308 !important",
+                      boxShadow: `
+        0px 1px 0px #a16207, 
+        0px 2px 4px rgba(234, 179, 8, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                      transform: "translateY(3px)",
+                    },
+                    "&:disabled": {
+                      color: "#fef08a",
+                      borderColor: "#e5e7eb !important",
+                      boxShadow: "none",
+                      transform: "none",
+                      opacity: 0.5,
+                    },
+                  }}
                 >
                   {cell.getDate()}
                 </Button>
@@ -717,12 +761,57 @@ export default function ExamenTeoricoAlumno() {
         </DialogContent>
         <DialogActions>
           <Button
-            color="warning"
+            variant="outlined"
             onClick={handleCancelRequest}
             disabled={!canCancelTheoreticalRequest(selectedExam)}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#dc2626",
+              borderColor: "#dc2626 !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+      0px 4px 0px #991b1b, 
+      0px 8px 16px rgba(220, 38, 38, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#ef4444",
+                borderColor: "#ef4444 !important",
+                backgroundColor: "rgba(220, 38, 38, 0.04)",
+                boxShadow: `
+        0px 4px 0px #991b1b, 
+        0px 12px 20px rgba(239, 68, 68, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#dc2626 !important",
+                boxShadow: `
+        0px 1px 0px #991b1b, 
+        0px 2px 4px rgba(220, 38, 38, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                transform: "translateY(3px)",
+              },
+              "&:disabled": {
+                color: "#fca5a5",
+                borderColor: "#e5e7eb !important",
+                boxShadow: "none",
+                transform: "none",
+                opacity: 0.6,
+              },
+            }}
           >
             Cancelar convocatoria
           </Button>
+
           <Button onClick={handleCloseExamModal}>Cerrar</Button>
         </DialogActions>
       </Dialog>

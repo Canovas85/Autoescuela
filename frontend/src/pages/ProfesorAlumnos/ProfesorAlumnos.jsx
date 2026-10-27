@@ -711,6 +711,53 @@ export default function ProfesorAlumnos() {
                       startIcon={<HistoryIcon fontSize="small" />}
                       onClick={() => setOpenHistory(true)}
                       disabled={loadingDetail}
+                      sx={{
+                        fontWeight: 700,
+                        letterSpacing: "1px",
+                        textTransform: "uppercase",
+                        borderRadius: "8px",
+                        padding: "6px 16px", // Ajustado para un botón de tamaño pequeño (size="small")
+                        border: "1px solid",
+                        borderColor: "#6d28d9 !important", // Morado principal
+                        color: "#6d28d9",
+                        backgroundColor: "transparent",
+                        boxShadow: `
+        0px 3px 0px #5b21b6, 
+        0px 6px 12px rgba(109, 40, 217, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+                        transition: "all 0.15s ease-in-out",
+                        "& .MuiButton-startIcon": {
+                          color: "inherit",
+                        },
+                        "&:hover": {
+                          color: "#8b5cf6",
+                          borderColor: "#8b5cf6 !important",
+                          backgroundColor: "rgba(109, 40, 217, 0.04)",
+                          boxShadow: `
+          0px 3px 0px #5b21b6, 
+          0px 10px 16px rgba(139, 92, 246, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                          transform: "translateY(-1px)",
+                        },
+                        "&:active": {
+                          borderColor: "#6d28d9 !important",
+                          boxShadow: `
+          0px 1px 0px #5b21b6, 
+          0px 2px 4px rgba(109, 40, 217, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                          transform: "translateY(2px)",
+                        },
+                        "&:disabled": {
+                          color: "#ddd6fe",
+                          borderColor: "#e5e7eb !important",
+                          boxShadow: "none",
+                          transform: "none",
+                          opacity: 0.6,
+                        },
+                      }}
                     >
                       Historial de estado
                     </Button>

@@ -753,9 +753,56 @@ export default function ReservarClase() {
 
                   <Button
                     fullWidth
-                    sx={{ mt: 2 }}
-                    variant="contained"
+                    variant="outlined"
                     onClick={handleNextStep}
+                    sx={{
+                      mt: 2,
+                      fontWeight: 700,
+                      letterSpacing: "1px",
+                      textTransform: "uppercase",
+                      borderRadius: "8px",
+                      padding: "10px 24px",
+                      border: "1px solid",
+
+                      // Texto y bordes en color azul oscuro profundo
+                      color: "#1e3a8a",
+                      borderColor: "#1e3a8a !important",
+                      backgroundColor: "transparent",
+
+                      // Triple sombra adaptada para relieve azul oscuro (borde inferior sólido + brillo sutil)
+                      boxShadow: `
+      0px 4px 0px #172554, 
+      0px 8px 16px rgba(30, 58, 138, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+
+                      // Suavizado de todas las animaciones físicas
+                      transition: "all 0.15s ease-in-out",
+
+                      "&:hover": {
+                        // Al pasar el ratón, se activa un azul más vivo con un fondo sutilmente iluminado
+                        color: "#2563eb",
+                        borderColor: "#2563eb !important",
+                        backgroundColor: "rgba(30, 58, 138, 0.04)",
+                        boxShadow: `
+        0px 4px 0px #172554, 
+        0px 12px 20px rgba(37, 99, 235, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                        transform: "translateY(-1px)", // Se eleva ligeramente
+                      },
+
+                      "&:active": {
+                        // Efecto mecánico físico de hundimiento al hacer clic (Relieve presionado)
+                        borderColor: "#1e3a8a !important",
+                        boxShadow: `
+        0px 1px 0px #172554, 
+        0px 2px 4px rgba(30, 58, 138, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                        transform: "translateY(3px)", // Se desplaza hacia abajo exactamente el grosor del relieve anterior
+                      },
+                    }}
                   >
                     Siguiente
                   </Button>
@@ -815,21 +862,114 @@ export default function ReservarClase() {
               </Typography>
 
               <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
+                {/* Botón Bono - Naranja */}
                 <Button
-                  variant={metodoPago === "BONO" ? "contained" : "outlined"}
+                  variant="outlined"
                   onClick={() => setMetodoPago("BONO")}
                   disabled={
                     (context?.pago?.bonosDisponibles || []).length === 0
                   }
+                  sx={{
+                    fontWeight: 700,
+                    letterSpacing: "1px",
+                    textTransform: "uppercase",
+                    borderRadius: "8px",
+                    padding: "6px 24px",
+                    border: "1px solid",
+                    color: "#ea580c",
+                    borderColor: "#ea580c !important",
+                    // Si está seleccionado, aplica un fondo sutil translúcido para simular la variante "contained" integrada
+                    backgroundColor:
+                      metodoPago === "BONO"
+                        ? "rgba(234, 88, 12, 0.08)"
+                        : "transparent",
+                    boxShadow: `
+        0px 4px 0px #9a3412, 
+        0px 8px 16px rgba(234, 88, 12, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+                    transition: "all 0.15s ease-in-out",
+                    "&:hover": {
+                      color: "#f97316",
+                      borderColor: "#f97316 !important",
+                      backgroundColor: "rgba(234, 88, 12, 0.12)",
+                      boxShadow: `
+          0px 4px 0px #9a3412, 
+          0px 12px 20px rgba(249, 115, 22, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                      transform: "translateY(-1px)",
+                    },
+                    "&:active": {
+                      borderColor: "#ea580c !important",
+                      boxShadow: `
+          0px 1px 0px #9a3412, 
+          0px 2px 4px rgba(234, 88, 12, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                      transform: "translateY(3px)",
+                    },
+                    "&:disabled": {
+                      color: "#fdba74",
+                      borderColor: "#e5e7eb !important",
+                      boxShadow: "none",
+                      transform: "none",
+                      opacity: 0.6,
+                    },
+                  }}
                 >
                   Bono
                 </Button>
+
+                {/* Botón Clase individual - Verde Esmeralda */}
                 <Button
-                  variant={
-                    metodoPago === "INDIVIDUAL" ? "contained" : "outlined"
-                  }
+                  variant="outlined"
                   onClick={() => setMetodoPago("INDIVIDUAL")}
                   startIcon={<CreditCardIcon />}
+                  sx={{
+                    fontWeight: 700,
+                    letterSpacing: "1px",
+                    textTransform: "uppercase",
+                    borderRadius: "8px",
+                    padding: "6px 24px",
+                    border: "1px solid",
+                    color: "#15803d",
+                    borderColor: "#15803d !important",
+                    // Si está seleccionado, aplica un fondo sutil translúcido para simular la variante "contained" integrada
+                    backgroundColor:
+                      metodoPago === "INDIVIDUAL"
+                        ? "rgba(21, 128, 61, 0.08)"
+                        : "transparent",
+                    boxShadow: `
+        0px 4px 0px #166534, 
+        0px 8px 16px rgba(21, 128, 61, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+                    transition: "all 0.15s ease-in-out",
+                    "& .MuiButton-startIcon": {
+                      color: "inherit",
+                    },
+                    "&:hover": {
+                      color: "#22c55e",
+                      borderColor: "#22c55e !important",
+                      backgroundColor: "rgba(21, 128, 61, 0.12)",
+                      boxShadow: `
+          0px 4px 0px #166534, 
+          0px 12px 20px rgba(34, 197, 94, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                      transform: "translateY(-1px)",
+                    },
+                    "&:active": {
+                      borderColor: "#15803d !important",
+                      boxShadow: `
+          0px 1px 0px #166534, 
+          0px 2px 4px rgba(21, 128, 61, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                      transform: "translateY(3px)",
+                    },
+                  }}
                 >
                   Clase individual
                 </Button>
@@ -859,13 +999,100 @@ export default function ReservarClase() {
               )}
 
               <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
-                <Button variant="outlined" onClick={() => setStep("seleccion")}>
+                {/* Botón Volver - Azul Oscuro Profundo */}
+                <Button
+                  variant="outlined"
+                  onClick={() => setStep("seleccion")}
+                  sx={{
+                    fontWeight: 700,
+                    letterSpacing: "1px",
+                    textTransform: "uppercase",
+                    borderRadius: "8px",
+                    padding: "6px 24px",
+                    border: "1px solid",
+                    color: "#1e3a8a",
+                    borderColor: "#1e3a8a !important",
+                    backgroundColor: "transparent",
+                    boxShadow: `
+        0px 4px 0px #172554, 
+        0px 8px 16px rgba(30, 58, 138, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+                    transition: "all 0.15s ease-in-out",
+                    "&:hover": {
+                      color: "#2563eb",
+                      borderColor: "#2563eb !important",
+                      backgroundColor: "rgba(30, 58, 138, 0.04)",
+                      boxShadow: `
+          0px 4px 0px #172554, 
+          0px 12px 20px rgba(37, 99, 235, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                      transform: "translateY(-1px)",
+                    },
+                    "&:active": {
+                      borderColor: "#1e3a8a !important",
+                      boxShadow: `
+          0px 1px 0px #172554, 
+          0px 2px 4px rgba(30, 58, 138, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                      transform: "translateY(3px)",
+                    },
+                  }}
+                >
                   Volver
                 </Button>
+
+                {/* Botón Solicitar clase - Naranja */}
                 <Button
-                  variant="contained"
+                  variant="outlined"
                   onClick={handleSubmitRequest}
                   disabled={saving}
+                  sx={{
+                    fontWeight: 700,
+                    letterSpacing: "1px",
+                    textTransform: "uppercase",
+                    borderRadius: "8px",
+                    padding: "6px 24px",
+                    border: "1px solid",
+                    color: "#ea580c",
+                    borderColor: "#ea580c !important",
+                    backgroundColor: "transparent",
+                    boxShadow: `
+        0px 4px 0px #9a3412, 
+        0px 8px 16px rgba(234, 88, 12, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+                    transition: "all 0.15s ease-in-out",
+                    "&:hover": {
+                      color: "#f97316",
+                      borderColor: "#f97316 !important",
+                      backgroundColor: "rgba(234, 88, 12, 0.04)",
+                      boxShadow: `
+          0px 4px 0px #9a3412, 
+          0px 12px 20px rgba(249, 115, 22, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                      transform: "translateY(-1px)",
+                    },
+                    "&:active": {
+                      borderColor: "#ea580c !important",
+                      boxShadow: `
+          0px 1px 0px #9a3412, 
+          0px 2px 4px rgba(234, 88, 12, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                      transform: "translateY(3px)",
+                    },
+                    "&:disabled": {
+                      color: "#fdba74",
+                      borderColor: "#e5e7eb !important",
+                      boxShadow: "none",
+                      transform: "none",
+                      opacity: 0.6,
+                    },
+                  }}
                 >
                   Solicitar clase
                 </Button>
@@ -1031,13 +1258,49 @@ export default function ReservarClase() {
                                 (hasPaidIndividualClass(item) &&
                                   isLessThan24h(item)) ? (
                                   <Button
-                                    color="error"
                                     size="small"
+                                    variant="outlined"
                                     onClick={() => handleAskCancel(item)}
                                     sx={{
                                       px: 0,
                                       justifyContent: "flex-start",
                                       minWidth: "auto",
+                                      fontWeight: 700,
+                                      letterSpacing: "1px",
+                                      textTransform: "uppercase",
+                                      borderRadius: "8px",
+                                      padding: "4px 16px", // Se añade padding horizontal balanceado para el contenedor de relieve
+                                      border: "1px solid",
+                                      color: "#dc2626",
+                                      borderColor: "#dc2626 !important",
+                                      backgroundColor: "transparent",
+                                      boxShadow: `
+      0px 3px 0px #991b1b, 
+      0px 6px 12px rgba(220, 38, 38, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                                      transition: "all 0.15s ease-in-out",
+                                      "&:hover": {
+                                        color: "#ef4444",
+                                        borderColor: "#ef4444 !important",
+                                        backgroundColor:
+                                          "rgba(220, 38, 38, 0.04)",
+                                        boxShadow: `
+        0px 3px 0px #991b1b, 
+        0px 10px 16px rgba(239, 68, 68, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                                        transform: "translateY(-1px)",
+                                      },
+                                      "&:active": {
+                                        borderColor: "#dc2626 !important",
+                                        boxShadow: `
+        0px 1px 0px #991b1b, 
+        0px 2px 4px rgba(220, 38, 38, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                                        transform: "translateY(2px)",
+                                      },
                                     }}
                                   >
                                     Cancelar
@@ -1111,9 +1374,100 @@ export default function ReservarClase() {
             ¿Quieres continuar?
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setPenaltyDialogOpen(false)}>Volver</Button>
-          <Button color="error" onClick={handleConfirmPenaltyCancel}>
+        <DialogActions
+          sx={{
+            justifyContent: "flex-end", // Alineación estricta a la derecha
+            mb: 3, // Separación exacta de la parte baja del modal (24px)
+            px: 3, // Colchón lateral para el relieve
+            gap: 2, // Espaciado uniforme entre botones
+          }}
+        >
+          {/* Botón Volver - Azul Eléctrico Ciano */}
+          <Button
+            onClick={() => setPenaltyDialogOpen(false)}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              borderColor: "#0284c7 !important", // Azul Eléctrico base
+              color: "#0284c7",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #0369a1, 
+        0px 8px 16px rgba(2, 132, 199, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#0ea5e9", // Ciano más brillante
+                borderColor: "#0ea5e9 !important",
+                backgroundColor: "rgba(2, 132, 199, 0.04)",
+                boxShadow: `
+          0px 4px 0px #0369a1, 
+          0px 12px 20px rgba(14, 165, 233, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#0284c7 !important",
+                boxShadow: `
+          0px 1px 0px #0369a1, 
+          0px 2px 4px rgba(2, 132, 199, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+            }}
+          >
+            Volver
+          </Button>
+
+          {/* Botón Confirmar cancelación - Verde Esmeralda */}
+          <Button
+            variant="outlined"
+            onClick={handleConfirmPenaltyCancel}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#15803d",
+              borderColor: "#15803d !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #166534, 
+        0px 8px 16px rgba(21, 128, 61, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#22c55e",
+                borderColor: "#22c55e !important",
+                backgroundColor: "rgba(21, 128, 61, 0.04)",
+                boxShadow: `
+          0px 4px 0px #166534, 
+          0px 12px 20px rgba(34, 197, 94, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#15803d !important",
+                boxShadow: `
+          0px 1px 0px #166534, 
+          0px 2px 4px rgba(21, 128, 61, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+            }}
+          >
             Confirmar cancelación
           </Button>
         </DialogActions>

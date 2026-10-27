@@ -321,7 +321,11 @@ export default function StudentDashboard({ data }) {
   const currentLicenseCode =
     perfil?.expedienteActualLicencia || perfil?.tipoLicenciaObjetivo || "B";
   const historicalLicenses = (data?.perfil?.licenciasObtenidasDetalle || [])
-    .map((item) => String(item?.licencia || "").trim().toUpperCase())
+    .map((item) =>
+      String(item?.licencia || "")
+        .trim()
+        .toUpperCase(),
+    )
     .filter((licencia) => licencia && licencia !== currentLicenseCode);
 
   const matriculaPendiente = resumen?.matricula === "PENDIENTE";
@@ -591,11 +595,50 @@ export default function StudentDashboard({ data }) {
               </Typography>
 
               <Button
-                variant="contained"
-                color="success"
+                variant="outlined"
                 startIcon={<CreditCardIcon />}
                 onClick={() => navigate("/pago-matricula")}
-                sx={{ whiteSpace: "nowrap" }} // Evita que el texto del botón se rompa en dos líneas
+                sx={{
+                  whiteSpace: "nowrap", // Evita que el texto del botón se rompa en dos líneas
+                  fontWeight: 700,
+                  letterSpacing: "1px",
+                  textTransform: "uppercase",
+                  borderRadius: "8px",
+                  padding: "6px 24px",
+                  border: "1px solid",
+                  color: "#15803d",
+                  borderColor: "#15803d !important",
+                  backgroundColor: "transparent",
+                  boxShadow: `
+      0px 4px 0px #166534, 
+      0px 8px 16px rgba(21, 128, 61, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                  transition: "all 0.15s ease-in-out",
+                  "& .MuiButton-startIcon": {
+                    color: "inherit",
+                  },
+                  "&:hover": {
+                    color: "#22c55e",
+                    borderColor: "#22c55e !important",
+                    backgroundColor: "rgba(21, 128, 61, 0.04)",
+                    boxShadow: `
+        0px 4px 0px #166534, 
+        0px 12px 20px rgba(34, 197, 94, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                    transform: "translateY(-1px)",
+                  },
+                  "&:active": {
+                    borderColor: "#15803d !important",
+                    boxShadow: `
+        0px 1px 0px #166534, 
+        0px 2px 4px rgba(21, 128, 61, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                    transform: "translateY(3px)",
+                  },
+                }}
               >
                 Pagar matrícula
               </Button>
@@ -639,11 +682,50 @@ export default function StudentDashboard({ data }) {
               </Typography>
 
               <Button
-                variant="contained"
-                color="primary"
+                variant="outlined"
                 startIcon={<CreditCardIcon />}
                 onClick={handlePayPendingDgt}
-                sx={{ whiteSpace: "nowrap" }} // Evita que el texto del botón se divida en dos líneas
+                sx={{
+                  whiteSpace: "nowrap", // Evita que el texto del botón se divida en dos líneas
+                  fontWeight: 700,
+                  letterSpacing: "1px",
+                  textTransform: "uppercase",
+                  borderRadius: "8px",
+                  padding: "6px 24px",
+                  border: "1px solid",
+                  color: "#ea580c",
+                  borderColor: "#ea580c !important",
+                  backgroundColor: "transparent",
+                  boxShadow: `
+      0px 4px 0px #9a3412, 
+      0px 8px 16px rgba(234, 88, 12, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                  transition: "all 0.15s ease-in-out",
+                  "& .MuiButton-startIcon": {
+                    color: "inherit",
+                  },
+                  "&:hover": {
+                    color: "#f97316",
+                    borderColor: "#f97316 !important",
+                    backgroundColor: "rgba(234, 88, 12, 0.04)",
+                    boxShadow: `
+        0px 4px 0px #9a3412, 
+        0px 12px 20px rgba(249, 115, 22, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                    transform: "translateY(-1px)",
+                  },
+                  "&:active": {
+                    borderColor: "#ea580c !important",
+                    boxShadow: `
+        0px 1px 0px #9a3412, 
+        0px 2px 4px rgba(234, 88, 12, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                    transform: "translateY(3px)",
+                  },
+                }}
               >
                 Pagar tasa DGT
               </Button>
@@ -704,7 +786,9 @@ export default function StudentDashboard({ data }) {
                   label={`${currentLicenseCode}: ${progressChip.label}`}
                   size="small"
                   onClick={
-                    isLicenseObtained ? () => setShowLicenseDetailView(true) : undefined
+                    isLicenseObtained
+                      ? () => setShowLicenseDetailView(true)
+                      : undefined
                   }
                   sx={{
                     backgroundColor: progressChip.ok ? "#dcfce7" : "#fef3c7",

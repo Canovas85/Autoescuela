@@ -1902,16 +1902,134 @@ export default function Alumnos() {
           </Box>
         </DialogContent>
 
-        <DialogActions>
+        <DialogActions
+          sx={{
+            justifyContent: "flex-end", // Asegura la alineación estricta a la derecha
+            mb: 3, // SEPARACIÓN EXACTA DE LA PARTE DE ABAJO DEL MODAL (24px)
+            px: 3, // Margen limpio a los lados del modal para el relieve
+            gap: 2, // Separación horizontal uniforme entre ambos botones
+          }}
+        >
           <Button
             onClick={() => {
               setOpen(false);
+            }}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px", // Padding unificado para misma altura
+              border: "1px solid",
+
+              // --- ESTILO BASE CON RELIEVE CARMESÍ ---
+              color: "#dc2626",
+              borderColor: "#dc2626 !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #991b1b, 
+        0px 8px 16px rgba(220, 38, 38, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+
+              // --- COMPORTAMIENTO HOVER ---
+              "&:hover": {
+                color: "#ef4444",
+                borderColor: "#ef4444 !important",
+                backgroundColor: "rgba(220, 38, 38, 0.04)",
+                boxShadow: `
+          0px 4px 0px #991b1b, 
+          0px 12px 20px rgba(239, 68, 68, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+
+              // --- COMPORTAMIENTO ACTIVE ---
+              "&:active": {
+                borderColor: "#dc2626 !important",
+                boxShadow: `
+          0px 1px 0px #991b1b, 
+          0px 2px 4px rgba(220, 38, 38, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
             }}
           >
             Cancelar
           </Button>
 
-          <Button variant="contained" onClick={saveAlumno}>
+          <Button
+            variant="outlined"
+            onClick={saveAlumno}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px", // Padding unificado para misma altura
+              cursor: "pointer",
+              border: "1px solid",
+              transition: "all 0.15s ease-in-out",
+              "& .MuiButton-startIcon": {
+                color: "inherit",
+              },
+
+              // Texto, borde e icono base en color verde
+              color: "#16a34a", // Tailwind green-600
+              borderColor: "#16a34a",
+              backgroundColor: "transparent",
+
+              // Sombra de capas adaptada para relieve verde (borde inferior sólido + brillo ambiental)
+              boxShadow: `
+      0px 4px 0px #15803d, 
+      0px 8px 16px rgba(22, 163, 74, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+
+              // Transición suave para las animaciones físicas
+              transition: "all 0.15s ease-in-out",
+
+              // Sincroniza el icono de Material-UI para que herede el color del texto automáticamente
+              "& .MuiButton-startIcon": {
+                color: "inherit",
+              },
+
+              "&:hover": {
+                // Pasa a un tono verde más vivo con un fondo sutilmente iluminado
+                color: "#15803d", // Tailwind green-700
+                borderColor: "#15803d",
+                backgroundColor: "rgba(22, 163, 74, 0.04)",
+                boxShadow: `
+        0px 4px 0px #15803d, 
+        0px 12px 20px rgba(21, 128, 61, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                transform: "translateY(-1px)", // Se eleva ligeramente
+              },
+
+              "&:active": {
+                // Mecanismo físico de hundimiento real al hacer clic
+                boxShadow: `
+        0px 1px 0px #15803d, 
+        0px 2px 4px rgba(22, 163, 74, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                transform: "translateY(3px)", // Se desplaza hacia abajo el grosor exacto del relieve
+              },
+
+              // Estilos cuando el botón está deshabilitado (importingExcel === true)
+              "&.Mui-disabled": {
+                boxShadow: "none",
+                transform: "none",
+                color: "#9ca3af",
+                borderColor: "#d1d5db",
+                backgroundColor: "#f3f4f6",
+              },
+            }}
+          >
             {editingId ? "Actualizar" : "Guardar"}
           </Button>
         </DialogActions>
@@ -2622,13 +2740,99 @@ export default function Alumnos() {
           <DialogContentText>{confirmDialog.message}</DialogContentText>
         </DialogContent>
 
-        <DialogActions>
-          <Button onClick={closeConfirmDialog}>Cancelar</Button>
-
+        <DialogActions
+          sx={{
+            justifyContent: "flex-end", // Alineación estricta a la derecha
+            mb: 3, // Separación exacta de la parte baja del modal (24px)
+            px: 3, // Colchón lateral para el relieve
+            gap: 2, // Espaciado uniforme entre botones
+          }}
+        >
+          {/* Botón Cancelar - Rojo Carmesí */}
           <Button
-            variant="contained"
-            color={confirmDialog.action === "deactivate" ? "error" : "success"}
+            onClick={closeConfirmDialog}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#dc2626",
+              borderColor: "#dc2626 !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #991b1b, 
+        0px 8px 16px rgba(220, 38, 38, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#ef4444",
+                borderColor: "#ef4444 !important",
+                backgroundColor: "rgba(220, 38, 38, 0.04)",
+                boxShadow: `
+          0px 4px 0px #991b1b, 
+          0px 12px 20px rgba(239, 68, 68, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#dc2626 !important",
+                boxShadow: `
+          0px 1px 0px #991b1b, 
+          0px 2px 4px rgba(220, 38, 38, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+            }}
+          >
+            Cancelar
+          </Button>
+
+          {/* Botón Confirmar - Verde Esmeralda */}
+          <Button
+            variant="outlined"
             onClick={handleConfirmAction}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#15803d",
+              borderColor: "#15803d !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #166534, 
+        0px 8px 16px rgba(21, 128, 61, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#22c55e",
+                borderColor: "#22c55e !important",
+                backgroundColor: "rgba(21, 128, 61, 0.04)",
+                boxShadow: `
+          0px 4px 0px #166534, 
+          0px 12px 20px rgba(34, 197, 94, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#15803d !important",
+                boxShadow: `
+          0px 1px 0px #166534, 
+          0px 2px 4px rgba(21, 128, 61, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+            }}
           >
             Confirmar
           </Button>

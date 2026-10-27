@@ -311,9 +311,62 @@ export default function SolicitudesExamen() {
           </Typography>
         </Box>
         <Button
-          variant="contained"
+          variant="outlined"
           startIcon={<AddIcon />}
           onClick={handleOpenCreate}
+          sx={{
+            fontWeight: 700,
+            letterSpacing: "1px",
+            textTransform: "uppercase",
+            borderRadius: "8px",
+            padding: "10px 24px",
+            mt: 1.5,
+            border: "1px solid",
+
+            // Texto y bordes en color azul oscuro profundo
+            color: "#1e3a8a",
+            borderColor: "#1e3a8a !important",
+            backgroundColor: "transparent",
+
+            // Sincroniza el icono de Material-UI para que herede el color del texto automáticamente
+            "& .MuiButton-startIcon": {
+              color: "inherit",
+            },
+
+            // Triple sombra adaptada para relieve azul oscuro (borde inferior sólido + brillo sutil)
+            boxShadow: `
+      0px 4px 0px #172554, 
+      0px 8px 16px rgba(30, 58, 138, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+
+            // Suavizado de todas las animaciones físicas
+            transition: "all 0.15s ease-in-out",
+
+            "&:hover": {
+              // Al pasar el ratón, se activa un azul más vivo con un fondo sutilmente iluminado
+              color: "#2563eb",
+              borderColor: "#2563eb !important",
+              backgroundColor: "rgba(30, 58, 138, 0.04)",
+              boxShadow: `
+        0px 4px 0px #172554, 
+        0px 12px 20px rgba(37, 99, 235, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+              transform: "translateY(-1px)", // Se eleva ligeramente
+            },
+
+            "&:active": {
+              // Efecto mecánico físico de hundimiento al hacer clic (Relieve presionado)
+              borderColor: "#1e3a8a !important",
+              boxShadow: `
+        0px 1px 0px #172554, 
+        0px 2px 4px rgba(30, 58, 138, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+              transform: "translateY(3px)", // Se desplaza hacia abajo exactamente el grosor del relieve anterior
+            },
+          }}
         >
           Nueva solicitud
         </Button>
@@ -499,9 +552,100 @@ export default function SolicitudesExamen() {
             }
           />
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpen(false)}>Cancelar</Button>
-          <Button variant="contained" onClick={handleSave}>
+        <DialogActions
+          sx={{
+            justifyContent: "flex-end", // Alineación estricta a la derecha
+            mb: 3, // Separación exacta de la parte baja del modal (24px)
+            px: 3, // Colchón lateral para el relieve
+            gap: 2, // Espaciado uniforme entre botones
+          }}
+        >
+          {/* Botón Cancelar - Rojo Carmesí */}
+          <Button
+            onClick={() => setOpen(false)}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#dc2626",
+              borderColor: "#dc2626 !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #991b1b, 
+        0px 8px 16px rgba(220, 38, 38, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#ef4444",
+                borderColor: "#ef4444 !important",
+                backgroundColor: "rgba(220, 38, 38, 0.04)",
+                boxShadow: `
+          0px 4px 0px #991b1b, 
+          0px 12px 20px rgba(239, 68, 68, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#dc2626 !important",
+                boxShadow: `
+          0px 1px 0px #991b1b, 
+          0px 2px 4px rgba(220, 38, 38, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+            }}
+          >
+            Cancelar
+          </Button>
+
+          {/* Botón Confirmar (Guardar) - Verde Esmeralda */}
+          <Button
+            variant="outlined"
+            onClick={handleSave}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#15803d",
+              borderColor: "#15803d !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #166534, 
+        0px 8px 16px rgba(21, 128, 61, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#22c55e",
+                borderColor: "#22c55e !important",
+                backgroundColor: "rgba(21, 128, 61, 0.04)",
+                boxShadow: `
+          0px 4px 0px #166534, 
+          0px 12px 20px rgba(34, 197, 94, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#15803d !important",
+                boxShadow: `
+          0px 1px 0px #166534, 
+          0px 2px 4px rgba(21, 128, 61, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+            }}
+          >
             Guardar
           </Button>
         </DialogActions>
@@ -519,13 +663,99 @@ export default function SolicitudesExamen() {
           <DialogContentText>{confirmDialog.message}</DialogContentText>
         </DialogContent>
 
-        <DialogActions>
-          <Button onClick={closeConfirmDialog}>Cancelar</Button>
-
+        <DialogActions
+          sx={{
+            justifyContent: "flex-end", // Alineación estricta a la derecha
+            mb: 3, // Separación exacta de la parte baja del modal (24px)
+            px: 3, // Colchón lateral para el relieve
+            gap: 2, // Espaciado uniforme entre botones
+          }}
+        >
+          {/* Botón Cancelar - Rojo Carmesí */}
           <Button
-            variant="contained"
-            color="error"
+            onClick={closeConfirmDialog}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#dc2626",
+              borderColor: "#dc2626 !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #991b1b, 
+        0px 8px 16px rgba(220, 38, 38, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#ef4444",
+                borderColor: "#ef4444 !important",
+                backgroundColor: "rgba(220, 38, 38, 0.04)",
+                boxShadow: `
+          0px 4px 0px #991b1b, 
+          0px 12px 20px rgba(239, 68, 68, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#dc2626 !important",
+                boxShadow: `
+          0px 1px 0px #991b1b, 
+          0px 2px 4px rgba(220, 38, 38, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+            }}
+          >
+            Cancelar
+          </Button>
+
+          {/* Botón Confirmar - Verde Esmeralda */}
+          <Button
+            variant="outlined"
             onClick={handleConfirmAction}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 24px",
+              border: "1px solid",
+              color: "#15803d",
+              borderColor: "#15803d !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 4px 0px #166534, 
+        0px 8px 16px rgba(21, 128, 61, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#22c55e",
+                borderColor: "#22c55e !important",
+                backgroundColor: "rgba(21, 128, 61, 0.04)",
+                boxShadow: `
+          0px 4px 0px #166534, 
+          0px 12px 20px rgba(34, 197, 94, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#15803d !important",
+                boxShadow: `
+          0px 1px 0px #166534, 
+          0px 2px 4px rgba(21, 128, 61, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(3px)",
+              },
+            }}
           >
             Confirmar
           </Button>

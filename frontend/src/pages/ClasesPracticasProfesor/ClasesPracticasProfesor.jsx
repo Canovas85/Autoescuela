@@ -264,20 +264,95 @@ export default function ClasesPracticasProfesor() {
                       Pago: {item.metodoPago}
                     </Typography>
                     <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
+                      {/* Botón Confirmar - Verde Esmeralda */}
                       <Button
                         size="small"
-                        variant="contained"
-                        color="success"
+                        variant="outlined"
                         onClick={() => confirm(item.id)}
+                        sx={{
+                          fontWeight: 700,
+                          letterSpacing: "1px",
+                          textTransform: "uppercase",
+                          borderRadius: "8px",
+                          padding: "4px 16px",
+                          border: "1px solid",
+                          color: "#15803d",
+                          borderColor: "#15803d !important",
+                          backgroundColor: "transparent",
+                          boxShadow: `
+        0px 3px 0px #166534, 
+        0px 6px 12px rgba(21, 128, 61, 0.15),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+                          transition: "all 0.15s ease-in-out",
+                          "&:hover": {
+                            color: "#22c55e",
+                            borderColor: "#22c55e !important",
+                            backgroundColor: "rgba(21, 128, 61, 0.04)",
+                            boxShadow: `
+          0px 3px 0px #166534, 
+          0px 10px 16px rgba(34, 197, 94, 0.25),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                            transform: "translateY(-1px)",
+                          },
+                          "&:active": {
+                            borderColor: "#15803d !important",
+                            boxShadow: `
+          0px 1px 0px #166534, 
+          0px 2px 4px rgba(21, 128, 61, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                            transform: "translateY(2px)",
+                          },
+                        }}
                       >
                         Confirmar
                       </Button>
+
+                      {/* Botón Cancelar - Rojo Carmesí */}
                       {canProfessorCancelClass(item) ? (
                         <Button
                           size="small"
                           variant="outlined"
-                          color="error"
                           onClick={() => cancel(item.id)}
+                          sx={{
+                            fontWeight: 700,
+                            letterSpacing: "1px",
+                            textTransform: "uppercase",
+                            borderRadius: "8px",
+                            padding: "4px 16px",
+                            border: "1px solid",
+                            color: "#dc2626",
+                            borderColor: "#dc2626 !important",
+                            backgroundColor: "transparent",
+                            boxShadow: `
+          0px 3px 0px #991b1b, 
+          0px 6px 12px rgba(220, 38, 38, 0.15),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+        `,
+                            transition: "all 0.15s ease-in-out",
+                            "&:hover": {
+                              color: "#ef4444",
+                              borderColor: "#ef4444 !important",
+                              backgroundColor: "rgba(220, 38, 38, 0.04)",
+                              boxShadow: `
+            0px 3px 0px #991b1b, 
+            0px 10px 16px rgba(239, 68, 68, 0.25),
+            inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+          `,
+                              transform: "translateY(-1px)",
+                            },
+                            "&:active": {
+                              borderColor: "#dc2626 !important",
+                              boxShadow: `
+            0px 1px 0px #991b1b, 
+            0px 2px 4px rgba(220, 38, 38, 0.2),
+            inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                              transform: "translateY(2px)",
+                            },
+                          }}
                         >
                           Cancelar
                         </Button>
@@ -381,8 +456,45 @@ export default function ClasesPracticasProfesor() {
                     {canProfessorCancelClass(item) ? (
                       <Button
                         size="small"
-                        color="error"
+                        variant="outlined"
                         onClick={() => cancel(item.id)}
+                        sx={{
+                          fontWeight: 700,
+                          letterSpacing: "1px",
+                          textTransform: "uppercase",
+                          borderRadius: "8px",
+                          padding: "4px 16px", // Padding optimizado para botones pequeños
+                          border: "1px solid",
+                          color: "#dc2626",
+                          borderColor: "#dc2626 !important",
+                          backgroundColor: "transparent",
+                          boxShadow: `
+      0px 3px 0px #991b1b, 
+      0px 6px 12px rgba(220, 38, 38, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                          transition: "all 0.15s ease-in-out",
+                          "&:hover": {
+                            color: "#ef4444",
+                            borderColor: "#ef4444 !important",
+                            backgroundColor: "rgba(220, 38, 38, 0.04)",
+                            boxShadow: `
+        0px 3px 0px #991b1b, 
+        0px 10px 16px rgba(239, 68, 68, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                            transform: "translateY(-1px)",
+                          },
+                          "&:active": {
+                            borderColor: "#dc2626 !important",
+                            boxShadow: `
+        0px 1px 0px #991b1b, 
+        0px 2px 4px rgba(220, 38, 38, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                            transform: "translateY(2px)", // Hundimiento correspondiente al relieve pequeño
+                          },
+                        }}
                       >
                         Cancelar clase
                       </Button>

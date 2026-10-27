@@ -268,15 +268,57 @@ export default function TestDGTAlumno({ defaultLicencia = "B" }) {
 
               {/* 3. BOTÓN GENERAR EXAMEN */}
               <Button
-                variant="contained"
-                color="warning"
+                variant="outlined"
                 startIcon={<QuizIcon />}
                 onClick={handleGenerar}
                 disabled={loading || submitting}
                 sx={{
                   width: 180,
                   height: 40,
-                  textTransform: "none", // Opcional: mantiene el texto en minúsculas/mayúsculas naturales
+                  fontWeight: 700,
+                  letterSpacing: "1px",
+                  textTransform: "uppercase",
+                  borderRadius: "8px",
+                  border: "1px solid",
+                  color: "#ea580c",
+                  borderColor: "#ea580c !important",
+                  backgroundColor: "transparent",
+                  boxShadow: `
+      0px 4px 0px #9a3412, 
+      0px 8px 16px rgba(234, 88, 12, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                  transition: "all 0.15s ease-in-out",
+                  "& .MuiButton-startIcon": {
+                    color: "inherit",
+                  },
+                  "&:hover": {
+                    color: "#f97316",
+                    borderColor: "#f97316 !important",
+                    backgroundColor: "rgba(234, 88, 12, 0.04)",
+                    boxShadow: `
+        0px 4px 0px #9a3412, 
+        0px 12px 20px rgba(249, 115, 22, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                    transform: "translateY(-1px)",
+                  },
+                  "&:active": {
+                    borderColor: "#ea580c !important",
+                    boxShadow: `
+        0px 1px 0px #9a3412, 
+        0px 2px 4px rgba(234, 88, 12, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                    transform: "translateY(3px)",
+                  },
+                  "&:disabled": {
+                    color: "#fdba74",
+                    borderColor: "#e5e7eb !important",
+                    boxShadow: "none",
+                    transform: "none",
+                    opacity: 0.6,
+                  },
                 }}
               >
                 {loading ? "Generando..." : "Generar examen"}
@@ -406,18 +448,104 @@ export default function TestDGTAlumno({ defaultLicencia = "B" }) {
           })}
 
           <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5}>
+            {/* Botón Corregir examen - Verde Esmeralda */}
             <Button
-              variant="contained"
+              variant="outlined"
               onClick={handleCorregir}
               disabled={!examenCompleto || submitting}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "6px 24px",
+                border: "1px solid",
+                color: "#15803d",
+                borderColor: "#15803d !important",
+                backgroundColor: "transparent",
+                boxShadow: `
+      0px 4px 0px #166534, 
+      0px 8px 16px rgba(21, 128, 61, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                transition: "all 0.15s ease-in-out",
+                "&:hover": {
+                  color: "#22c55e",
+                  borderColor: "#22c55e !important",
+                  backgroundColor: "rgba(21, 128, 61, 0.04)",
+                  boxShadow: `
+        0px 4px 0px #166534, 
+        0px 12px 20px rgba(34, 197, 94, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                  transform: "translateY(-1px)",
+                },
+                "&:active": {
+                  borderColor: "#15803d !important",
+                  boxShadow: `
+        0px 1px 0px #166534, 
+        0px 2px 4px rgba(21, 128, 61, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                  transform: "translateY(3px)",
+                },
+                "&:disabled": {
+                  color: "#86efac",
+                  borderColor: "#e5e7eb !important",
+                  boxShadow: "none",
+                  transform: "none",
+                  opacity: 0.6,
+                },
+              }}
             >
               {submitting ? "Corrigiendo..." : "Corregir examen"}
             </Button>
 
+            {/* Botón Reiniciar - Azul Eléctrico Ciano */}
             <Button
               variant="outlined"
               onClick={handleReiniciar}
               startIcon={<RestartAltIcon />}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "6px 24px",
+                border: "1px solid",
+                borderColor: "#0284c7 !important", // Azul Eléctrico base
+                color: "#0284c7",
+                backgroundColor: "transparent",
+                boxShadow: `
+      0px 4px 0px #0369a1, 
+      0px 8px 16px rgba(2, 132, 199, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                transition: "all 0.15s ease-in-out",
+                "& .MuiButton-startIcon": {
+                  color: "inherit",
+                },
+                "&:hover": {
+                  color: "#0ea5e9", // Ciano más brillante
+                  borderColor: "#0ea5e9 !important",
+                  backgroundColor: "rgba(2, 132, 199, 0.04)",
+                  boxShadow: `
+        0px 4px 0px #0369a1, 
+        0px 12px 20px rgba(14, 165, 233, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                  transform: "translateY(-1px)",
+                },
+                "&:active": {
+                  borderColor: "#0284c7 !important",
+                  boxShadow: `
+        0px 1px 0px #0369a1, 
+        0px 2px 4px rgba(2, 132, 199, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                  transform: "translateY(3px)",
+                },
+              }}
             >
               Reiniciar
             </Button>

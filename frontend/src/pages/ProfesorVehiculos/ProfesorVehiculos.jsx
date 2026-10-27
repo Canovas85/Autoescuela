@@ -261,7 +261,6 @@ export default function ProfesorVehiculos() {
             {canRefuel ? (
               <Button
                 size="small"
-                color="warning"
                 variant="contained"
                 startIcon={<LocalGasStationIcon />}
                 onClick={(event) => {
@@ -269,6 +268,46 @@ export default function ProfesorVehiculos() {
                   setSelectedVehicle(params.row);
                   setReciboFile(null);
                   setOpenRefuel(true);
+                }}
+                sx={{
+                  fontWeight: 700,
+                  letterSpacing: "1px",
+                  textTransform: "uppercase",
+                  borderRadius: "8px",
+                  padding: "4px 16px", // Altura reducida para que sea más estilizado y compacto
+                  border: "1px solid",
+                  color: "#ea580c", // Naranja de alta visibilidad sobre fondo claro
+                  borderColor: "#ea580c !important",
+                  backgroundColor: "transparent",
+                  boxShadow: `
+      0px 3px 0px #c2410c, 
+      0px 6px 12px rgba(234, 88, 12, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                  transition: "all 0.15s ease-in-out",
+                  "& .MuiButton-startIcon": {
+                    color: "inherit",
+                  },
+                  "&:hover": {
+                    color: "#f97316",
+                    borderColor: "#f97316 !important",
+                    backgroundColor: "rgba(234, 88, 12, 0.04)",
+                    boxShadow: `
+        0px 3px 0px #c2410c, 
+        0px 10px 16px rgba(249, 115, 22, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                    transform: "translateY(-1px)",
+                  },
+                  "&:active": {
+                    borderColor: "#ea580c !important",
+                    boxShadow: `
+        0px 1px 0px #c2410c, 
+        0px 2px 4px rgba(234, 88, 12, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                    transform: "translateY(2px)", // Hundimiento exacto acorde a su nuevo relieve de 3px
+                  },
                 }}
               >
                 Repostar
@@ -278,13 +317,58 @@ export default function ProfesorVehiculos() {
             {hasItvPending ? (
               <Button
                 size="small"
-                color="info"
                 variant="outlined"
                 startIcon={<FactCheckIcon />}
                 disabled={isPayingItv}
                 onClick={(event) => {
                   event.stopPropagation();
                   handlePayItv(params.row);
+                }}
+                sx={{
+                  fontWeight: 700,
+                  letterSpacing: "1px",
+                  textTransform: "uppercase",
+                  borderRadius: "8px",
+                  padding: "4px 16px",
+                  border: "1px solid",
+                  borderColor: "#7c3aed !important", // Morado Vibrante base
+                  color: "#7c3aed",
+                  backgroundColor: "transparent",
+                  boxShadow: `
+      0px 3px 0px #5b21b6, 
+      0px 6px 12px rgba(124, 58, 237, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                  transition: "all 0.15s ease-in-out",
+                  "& .MuiButton-startIcon": {
+                    color: "inherit",
+                  },
+                  "&:hover": {
+                    color: "#a78bfa", // Morado más brillante al pasar el cursor
+                    borderColor: "#a78bfa !important",
+                    backgroundColor: "rgba(124, 58, 237, 0.04)",
+                    boxShadow: `
+        0px 3px 0px #5b21b6, 
+        0px 10px 16px rgba(167, 139, 250, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                    transform: "translateY(-1px)",
+                  },
+                  "&:active": {
+                    borderColor: "#7c3aed !important",
+                    boxShadow: `
+        0px 1px 0px #5b21b6, 
+        0px 2px 4px rgba(124, 58, 237, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                    transform: "translateY(2px)", // Hundimiento táctil al pulsar
+                  },
+                  "&.Mui-disabled": {
+                    borderColor: "rgba(0, 0, 0, 0.12) !important",
+                    color: "rgba(0, 0, 0, 0.26)",
+                    boxShadow: "none",
+                    transform: "none",
+                  },
                 }}
               >
                 {isPayingItv ? "Procesando..." : "Pagar ITV"}
@@ -807,15 +891,107 @@ export default function ProfesorVehiculos() {
             </Stack>
           ) : null}
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenRefuel(false)} disabled={loadingRefuel}>
+        <DialogActions sx={{ p: 2, gap: 1 }}>
+          {" "}
+          {/* Añadido pequeño espacio entre botones */}
+          <Button
+            onClick={() => setOpenRefuel(false)}
+            disabled={loadingRefuel}
+            variant="outlined"
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 20px",
+              border: "1px solid",
+              borderColor: "#991b1b !important", // Rojo Carmesí base oscuro
+              color: "#991b1b",
+              backgroundColor: "transparent",
+              boxShadow: `
+        0px 3px 0px #7f1d1d, 
+        0px 6px 12px rgba(153, 27, 27, 0.1),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#dc2626", // Rojo Carmesí más brillante
+                borderColor: "#dc2626 !important",
+                backgroundColor: "rgba(153, 27, 27, 0.04)",
+                boxShadow: `
+          0px 3px 0px #7f1d1d, 
+          0px 10px 16px rgba(220, 38, 38, 0.15),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#991b1b !important",
+                boxShadow: `
+          0px 1px 0px #7f1d1d, 
+          0px 2px 4px rgba(153, 27, 27, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        `,
+                transform: "translateY(2px)",
+              },
+              "&.Mui-disabled": {
+                borderColor: "rgba(0, 0, 0, 0.12) !important",
+                color: "rgba(0, 0, 0, 0.26)",
+                boxShadow: "none",
+                transform: "none",
+              },
+            }}
+          >
             Cancelar
           </Button>
           <Button
             onClick={submitRefuel}
             variant="contained"
-            color="warning"
             disabled={loadingRefuel || !selectedVehicle}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "6px 20px",
+              border: "1px solid",
+              borderColor: "#065f46 !important", // Verde Esmeralda base oscuro
+              color: "#ffffff",
+              backgroundColor: "#065f46",
+              boxShadow: `
+        0px 3px 0px #064e3b, 
+        0px 6px 12px rgba(6, 95, 70, 0.2),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                backgroundColor: "#059669", // Verde Esmeralda vibrante al pasar cursor
+                borderColor: "#059669 !important",
+                boxShadow: `
+          0px 3px 0px #064e3b, 
+          0px 10px 16px rgba(5, 150, 105, 0.3),
+          inset 0px 1px 0px rgba(255, 255, 255, 0.3)
+        `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                backgroundColor: "#065f46",
+                borderColor: "#065f46 !important",
+                boxShadow: `
+          0px 1px 0px #064e3b, 
+          0px 2px 4px rgba(6, 95, 70, 0.2),
+          inset 0px 2px 4px rgba(0, 0, 0, 0.1)
+        `,
+                transform: "translateY(2px)",
+              },
+              "&.Mui-disabled": {
+                backgroundColor: "rgba(0, 0, 0, 0.12)",
+                borderColor: "transparent !important",
+                color: "rgba(0, 0, 0, 0.26)",
+                boxShadow: "none",
+                transform: "none",
+              },
+            }}
           >
             {loadingRefuel ? "Procesando..." : "Pagar y repostar"}
           </Button>

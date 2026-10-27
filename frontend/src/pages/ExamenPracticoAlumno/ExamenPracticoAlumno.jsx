@@ -306,12 +306,55 @@ export default function ExamenPracticoAlumno() {
         return (
           <Button
             size="small"
-            color="warning"
             variant="outlined"
             disabled={!isActive}
             onClick={(event) => {
               event.stopPropagation();
               handleCancel(params.row.id);
+            }}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              borderRadius: "8px",
+              padding: "4px 16px", // Padding optimizado para botones pequeños (size="small")
+              border: "1px solid",
+              color: "#dc2626",
+              borderColor: "#dc2626 !important",
+              backgroundColor: "transparent",
+              boxShadow: `
+      0px 3px 0px #991b1b, 
+      0px 6px 12px rgba(220, 38, 38, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+              transition: "all 0.15s ease-in-out",
+              "&:hover": {
+                color: "#ef4444",
+                borderColor: "#ef4444 !important",
+                backgroundColor: "rgba(220, 38, 38, 0.04)",
+                boxShadow: `
+        0px 3px 0px #991b1b, 
+        0px 10px 16px rgba(239, 68, 68, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                transform: "translateY(-1px)",
+              },
+              "&:active": {
+                borderColor: "#dc2626 !important",
+                boxShadow: `
+        0px 1px 0px #991b1b, 
+        0px 2px 4px rgba(220, 38, 38, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                transform: "translateY(2px)", // Hundimiento táctil adaptado al relieve pequeño
+              },
+              "&:disabled": {
+                color: "#fca5a5",
+                borderColor: "#e5e7eb !important",
+                boxShadow: "none",
+                transform: "none",
+                opacity: 0.6,
+              },
             }}
           >
             Cancelar
@@ -429,13 +472,53 @@ export default function ExamenPracticoAlumno() {
                 action={
                   <Button
                     size="small"
-                    variant="contained"
-                    sx={{ whiteSpace: "nowrap" }}
+                    variant="outlined"
                     onClick={() =>
                       navigate(
                         `/pago-matricula?pagoId=${eligibility.pagoGastoPractico.id}`,
                       )
                     }
+                    sx={{
+                      whiteSpace: "nowrap", // Evita que el texto del botón se rompa en dos líneas
+                      fontWeight: 700,
+                      letterSpacing: "1px",
+                      textTransform: "uppercase",
+                      borderRadius: "8px",
+                      padding: "6px 24px",
+                      border: "1px solid",
+                      color: "#15803d",
+                      borderColor: "#15803d !important",
+                      backgroundColor: "transparent",
+                      boxShadow: `
+      0px 4px 0px #166534, 
+      0px 8px 16px rgba(21, 128, 61, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                      transition: "all 0.15s ease-in-out",
+                      "& .MuiButton-startIcon": {
+                        color: "inherit",
+                      },
+                      "&:hover": {
+                        color: "#22c55e",
+                        borderColor: "#22c55e !important",
+                        backgroundColor: "rgba(21, 128, 61, 0.04)",
+                        boxShadow: `
+        0px 4px 0px #166534, 
+        0px 12px 20px rgba(34, 197, 94, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                        transform: "translateY(-1px)",
+                      },
+                      "&:active": {
+                        borderColor: "#15803d !important",
+                        boxShadow: `
+        0px 1px 0px #166534, 
+        0px 2px 4px rgba(21, 128, 61, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                        transform: "translateY(3px)",
+                      },
+                    }}
                   >
                     Ir al pago
                   </Button>
@@ -642,7 +725,51 @@ export default function ExamenPracticoAlumno() {
                   color={isAvailable ? "primary" : "inherit"}
                   disabled={!isAvailable || !canPickDate || loading}
                   onClick={() => setSelectedDate(key)}
-                  sx={{ minWidth: 0, height: 44 }}
+                  sx={{
+                    minWidth: 0,
+                    height: 44,
+                    fontWeight: 700,
+                    letterSpacing: "1px",
+                    textTransform: "uppercase",
+                    borderRadius: "8px",
+                    border: "1px solid",
+                    color: "#a16207", // Dorado/Amarillo oscuro para contraste de texto legible
+                    borderColor: "#eab308 !important", // Amarillo brillante en el contorno
+                    backgroundColor: "transparent",
+                    boxShadow: `
+      0px 4px 0px #a16207, 
+      0px 8px 16px rgba(234, 179, 8, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                    transition: "all 0.15s ease-in-out",
+                    "&:hover": {
+                      color: "#ca8a04",
+                      borderColor: "#facc15 !important",
+                      backgroundColor: "rgba(234, 179, 8, 0.04)",
+                      boxShadow: `
+        0px 4px 0px #a16207, 
+        0px 12px 20px rgba(250, 204, 21, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                      transform: "translateY(-1px)",
+                    },
+                    "&:active": {
+                      borderColor: "#eab308 !important",
+                      boxShadow: `
+        0px 1px 0px #a16207, 
+        0px 2px 4px rgba(234, 179, 8, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                      transform: "translateY(3px)",
+                    },
+                    "&:disabled": {
+                      color: "#fef08a",
+                      borderColor: "#e5e7eb !important",
+                      boxShadow: "none",
+                      transform: "none",
+                      opacity: 0.5,
+                    },
+                  }}
                 >
                   {cell.getDate()}
                 </Button>
@@ -662,9 +789,53 @@ export default function ExamenPracticoAlumno() {
               {selectedDate ? formatDate(selectedDate) : "ninguna"}
             </Typography>
             <Button
-              variant="contained"
+              variant="outlined"
               onClick={handleRequest}
               disabled={!canRequest || loading}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "6px 24px",
+                border: "1px solid",
+                color: "#ea580c",
+                borderColor: "#ea580c !important",
+                backgroundColor: "transparent",
+                boxShadow: `
+      0px 4px 0px #9a3412, 
+      0px 8px 16px rgba(234, 88, 12, 0.15),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+    `,
+                transition: "all 0.15s ease-in-out",
+                "&:hover": {
+                  color: "#f97316",
+                  borderColor: "#f97316 !important",
+                  backgroundColor: "rgba(234, 88, 12, 0.04)",
+                  boxShadow: `
+        0px 4px 0px #9a3412, 
+        0px 12px 20px rgba(249, 115, 22, 0.25),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+      `,
+                  transform: "translateY(-1px)",
+                },
+                "&:active": {
+                  borderColor: "#ea580c !important",
+                  boxShadow: `
+        0px 1px 0px #9a3412, 
+        0px 2px 4px rgba(234, 88, 12, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+      `,
+                  transform: "translateY(3px)",
+                },
+                "&:disabled": {
+                  color: "#fdba74",
+                  borderColor: "#e5e7eb !important",
+                  boxShadow: "none",
+                  transform: "none",
+                  opacity: 0.6,
+                },
+              }}
             >
               Solicitar convocatoria
             </Button>
