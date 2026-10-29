@@ -764,7 +764,6 @@ export default function ProfesorAlumnos() {
                   </Box>
                 </Stack>
               </Paper>
-
               <Grid container spacing={2}>
                 {/* PRIMERA COLUMNA: Test práctica (Ocupa 6 de 12 columnas) */}
                 <Grid item xs={6}>
@@ -908,7 +907,7 @@ export default function ProfesorAlumnos() {
                   </Paper>
                 </Grid>
               </Grid>
-
+              {/*
               {detail?.areasRefuerzo?.length ? (
                 <Paper variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
                   <Typography
@@ -930,7 +929,7 @@ export default function ProfesorAlumnos() {
                   </Stack>
                 </Paper>
               ) : null}
-
+              */}
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                   <Paper
@@ -1117,7 +1116,6 @@ export default function ProfesorAlumnos() {
                   </Paper>
                 </Grid>
               </Grid>
-
               <Paper variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
                 <Typography
                   fontWeight={700}

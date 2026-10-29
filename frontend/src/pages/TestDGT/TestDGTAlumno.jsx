@@ -273,48 +273,50 @@ export default function TestDGTAlumno({ defaultLicencia = "B" }) {
                 onClick={handleGenerar}
                 disabled={loading || submitting}
                 sx={{
-                  width: 180,
-                  height: 40,
+                  width: "max-content", // Cambiado de 180 a max-content para garantizar una sola línea
+                  minWidth: 210, // Asegura que tenga un buen tamaño mínimo un poco más grande
+                  height: 44, // Aumentado ligeramente de 40 a 44 para mejorar la proporción
                   fontWeight: 700,
                   letterSpacing: "1px",
                   textTransform: "uppercase",
                   borderRadius: "8px",
-                  border: "1px solid",
-                  color: "#ea580c",
-                  borderColor: "#ea580c !important",
-                  backgroundColor: "transparent",
+                  border: "2px solid", // Cambiado a 2px para que tenga más fuerza visual sobre fondo oscuro
+                  color: "#ff7a29", // Un tono naranja un poco más claro para mejorar el contraste sobre azul oscuro
+                  borderColor: "#ff7a29 !important",
+                  backgroundColor: "rgba(255, 122, 41, 0.02)", // Un sutil toque de color de fondo inicial
                   boxShadow: `
-      0px 4px 0px #9a3412, 
-      0px 8px 16px rgba(234, 88, 12, 0.15),
-      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+      0px 4px 0px #c2410c, 
+      0px 8px 16px rgba(255, 122, 41, 0.2),
+      inset 0px 1px 0px rgba(255, 255, 255, 0.15)
     `,
                   transition: "all 0.15s ease-in-out",
+                  whiteSpace: "nowrap", // Fuerza estrictamente a que el texto nunca se divida en dos líneas
                   "& .MuiButton-startIcon": {
                     color: "inherit",
                   },
                   "&:hover": {
-                    color: "#f97316",
-                    borderColor: "#f97316 !important",
-                    backgroundColor: "rgba(234, 88, 12, 0.04)",
+                    color: "#ff934d", // Más brillante en el hover para dar sensación de iluminación
+                    borderColor: "#ff934d !important",
+                    backgroundColor: "rgba(255, 122, 41, 0.08)",
                     boxShadow: `
-        0px 4px 0px #9a3412, 
-        0px 12px 20px rgba(249, 115, 22, 0.25),
-        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+        0px 4px 0px #c2410c, 
+        0px 12px 20px rgba(255, 122, 41, 0.35),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.25)
       `,
                     transform: "translateY(-1px)",
                   },
                   "&:active": {
-                    borderColor: "#ea580c !important",
+                    borderColor: "#ff7a29 !important",
                     boxShadow: `
-        0px 1px 0px #9a3412, 
-        0px 2px 4px rgba(234, 88, 12, 0.2),
-        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+        0px 1px 0px #c2410c, 
+        0px 2px 4px rgba(255, 122, 41, 0.2),
+        inset 0px 2px 4px rgba(0, 0, 0, 0.2)
       `,
                     transform: "translateY(3px)",
                   },
                   "&:disabled": {
-                    color: "#fdba74",
-                    borderColor: "#e5e7eb !important",
+                    color: "rgba(255, 255, 255, 0.35)", // Color grisáceo/blanco translúcido ideal para fondos oscuros
+                    borderColor: "rgba(255, 255, 255, 0.12) !important",
                     boxShadow: "none",
                     transform: "none",
                     opacity: 0.6,

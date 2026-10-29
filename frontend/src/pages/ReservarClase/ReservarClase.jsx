@@ -810,294 +810,406 @@ export default function ReservarClase() {
               </Grid>
             </Grid>
           ) : (
-            <Paper sx={{ p: 2, border: "1px solid #e2e8f0" }}>
-              <Typography variant="h6" fontWeight={800}>
-                Resumen de solicitud
-              </Typography>
-              <Typography sx={{ mt: 1 }}>
-                Fecha y hora: <b>{formatDate(selectedDate)}</b>
-              </Typography>
-              <Typography>
-                Profesor: <b>{context?.calendarioSemana?.profesor?.nombre}</b>
-              </Typography>
-              <Typography>
-                Duración: <b>45 minutos</b>
-              </Typography>
-              <Typography>
-                Tipo de clase:{" "}
-                <b>
-                  {CLASS_TYPE_LABELS[selectedClassType] || selectedClassType}
-                </b>
-              </Typography>
-
-              <Box sx={{ mt: 1.5 }}>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ mb: 0.8 }}
-                >
-                  Modalidad de clase
-                </Typography>
-                <Select
-                  fullWidth
-                  value={selectedClassType}
-                  onChange={(event) => setSelectedClassType(event.target.value)}
-                >
-                  {(
-                    context?.elegibilidad?.tiposClaseDisponibles || [
-                      "CIRCULACION",
-                    ]
-                  ).map((tipo) => (
-                    <MenuItem key={tipo} value={tipo}>
-                      {CLASS_TYPE_LABELS[tipo] || tipo}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Box>
-
-              <Divider sx={{ my: 2 }} />
-
-              <Typography variant="h6" fontWeight={800}>
-                Forma de pago
-              </Typography>
-
-              <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
-                {/* Botón Bono - Naranja */}
-                <Button
-                  variant="outlined"
-                  onClick={() => setMetodoPago("BONO")}
-                  disabled={
-                    (context?.pago?.bonosDisponibles || []).length === 0
-                  }
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { xs: "column", md: "row" }, // Vertical en móvil, horizontal en pantallas medianas/grandes
+                gap: 3, // Espacio de separación entre las dos columnas
+                width: "100%",
+                alignItems: "flex-start",
+              }}
+            >
+              {/* ================= COLUMNA 1 (IZQUIERDA) ================= */}
+              {/* Ajustamos el Paper para que sea la primera columna y controle su ancho */}
+              <Paper
+                sx={{
+                  p: 3,
+                  border: "1px solid #e2e8f0",
+                  flex: 1,
+                  width: "100%",
+                  // REDUCIDO: Cambiado de 50% a un ancho máximo fijo (p. ej., 450px) o un porcentaje menor (p. ej., 38%)
+                  maxWidth: { md: "620px" },
+                }}
+              >
+                {/* Contenedor de las dos sub-columnas internas */}
+                <Box
                   sx={{
-                    fontWeight: 700,
-                    letterSpacing: "1px",
-                    textTransform: "uppercase",
-                    borderRadius: "8px",
-                    padding: "6px 24px",
-                    border: "1px solid",
-                    color: "#ea580c",
-                    borderColor: "#ea580c !important",
-                    // Si está seleccionado, aplica un fondo sutil translúcido para simular la variante "contained" integrada
-                    backgroundColor:
-                      metodoPago === "BONO"
-                        ? "rgba(234, 88, 12, 0.08)"
-                        : "transparent",
-                    boxShadow: `
-        0px 4px 0px #9a3412, 
-        0px 8px 16px rgba(234, 88, 12, 0.15),
-        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
-      `,
-                    transition: "all 0.15s ease-in-out",
-                    "&:hover": {
-                      color: "#f97316",
-                      borderColor: "#f97316 !important",
-                      backgroundColor: "rgba(234, 88, 12, 0.12)",
-                      boxShadow: `
-          0px 4px 0px #9a3412, 
-          0px 12px 20px rgba(249, 115, 22, 0.25),
-          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
-        `,
-                      transform: "translateY(-1px)",
-                    },
-                    "&:active": {
-                      borderColor: "#ea580c !important",
-                      boxShadow: `
-          0px 1px 0px #9a3412, 
-          0px 2px 4px rgba(234, 88, 12, 0.2),
-          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
-        `,
-                      transform: "translateY(3px)",
-                    },
-                    "&:disabled": {
-                      color: "#fdba74",
-                      borderColor: "#e5e7eb !important",
-                      boxShadow: "none",
-                      transform: "none",
-                      opacity: 0.6,
-                    },
+                    display: "flex",
+                    flexDirection: { xs: "column", sm: "row" }, // En móviles verticales se apila, en tablets/PC se divide en 2
+                    gap: 3, // Espacio intermedio óptimo entre ambas columnas
+                    alignItems: "flex-start",
+                    mb: 2, // REDUCIDO: Se bajó de 9 a 4 para que no deje un hueco vertical excesivo debido al menor ancho
                   }}
                 >
-                  Bono
-                </Button>
+                  {/* Sub-Columna Izquierda: Información de la solicitud */}
+                  <Box sx={{ flex: 1, minWidth: "200px" }}>
+                    <Typography
+                      variant="h6"
+                      fontWeight={800}
+                      sx={{ mb: 1, fontSize: "1.1rem" }}
+                    >
+                      Resumen de solicitud
+                    </Typography>
+                    <Typography sx={{ mt: 0.5, fontSize: "0.9rem" }}>
+                      Fecha y hora: <b>{formatDate(selectedDate)}</b>
+                    </Typography>
+                    <Typography sx={{ mt: 0.5, fontSize: "0.9rem" }}>
+                      Profesor:{" "}
+                      <b>{context?.calendarioSemana?.profesor?.nombre}</b>
+                    </Typography>
+                    <Typography sx={{ mt: 0.5, fontSize: "0.9rem" }}>
+                      Duración: <b>45 minutos</b>
+                    </Typography>
+                    <Typography sx={{ mt: 0.5, fontSize: "0.9rem" }}>
+                      Tipo de clase:{" "}
+                      <b>
+                        {CLASS_TYPE_LABELS[selectedClassType] ||
+                          selectedClassType}
+                      </b>
+                    </Typography>
+                  </Box>
 
-                {/* Botón Clase individual - Verde Esmeralda */}
-                <Button
-                  variant="outlined"
-                  onClick={() => setMetodoPago("INDIVIDUAL")}
-                  startIcon={<CreditCardIcon />}
-                  sx={{
-                    fontWeight: 700,
-                    letterSpacing: "1px",
-                    textTransform: "uppercase",
-                    borderRadius: "8px",
-                    padding: "6px 24px",
-                    border: "1px solid",
-                    color: "#15803d",
-                    borderColor: "#15803d !important",
-                    // Si está seleccionado, aplica un fondo sutil translúcido para simular la variante "contained" integrada
-                    backgroundColor:
-                      metodoPago === "INDIVIDUAL"
-                        ? "rgba(21, 128, 61, 0.08)"
-                        : "transparent",
-                    boxShadow: `
-        0px 4px 0px #166534, 
-        0px 8px 16px rgba(21, 128, 61, 0.15),
-        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
-      `,
-                    transition: "all 0.15s ease-in-out",
-                    "& .MuiButton-startIcon": {
-                      color: "inherit",
-                    },
-                    "&:hover": {
-                      color: "#22c55e",
-                      borderColor: "#22c55e !important",
-                      backgroundColor: "rgba(21, 128, 61, 0.12)",
-                      boxShadow: `
-          0px 4px 0px #166534, 
-          0px 12px 20px rgba(34, 197, 94, 0.25),
-          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
-        `,
-                      transform: "translateY(-1px)",
-                    },
-                    "&:active": {
-                      borderColor: "#15803d !important",
-                      boxShadow: `
-          0px 1px 0px #166534, 
-          0px 2px 4px rgba(21, 128, 61, 0.2),
-          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
-        `,
-                      transform: "translateY(3px)",
-                    },
-                  }}
-                >
-                  Clase individual
-                </Button>
-              </Stack>
-
-              {metodoPago === "BONO" ? (
-                <Box sx={{ mt: 1.5 }}>
-                  <Select
-                    fullWidth
-                    value={selectedBonoId}
-                    onChange={(event) => setSelectedBonoId(event.target.value)}
+                  {/* Sub-Columna Derecha: Configuración de la Modalidad de clase */}
+                  <Box
+                    sx={{
+                      flex: 1,
+                      width: "100%",
+                      maxWidth: { sm: "160px" }, // REDUCIDO: De 240px a 160px para acompañar la reducción del Paper
+                      mt: { xs: 1, sm: 0 },
+                    }}
                   >
-                    {(context?.pago?.bonosDisponibles || []).map((bono) => (
-                      <MenuItem value={bono.id} key={bono.id}>
-                        {bono.nombre} ({bono.clasesDisponibles} clases
-                        restantes: {bono.clasesConsumidas} consumidas y{" "}
-                        {bono.clasesSolicitadas} solicitadas)
-                      </MenuItem>
-                    ))}
-                  </Select>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ mb: 0.8, fontWeight: 500, fontSize: "0.85rem" }}
+                    >
+                      Modalidad de clase
+                    </Typography>
+                    <Select
+                      fullWidth
+                      size="small"
+                      value={selectedClassType}
+                      onChange={(event) =>
+                        setSelectedClassType(event.target.value)
+                      }
+                      sx={{
+                        fontSize: "0.85rem",
+                        backgroundColor: "#f8fafc",
+                      }}
+                    >
+                      {(
+                        context?.elegibilidad?.tiposClaseDisponibles || [
+                          "CIRCULACION",
+                        ]
+                      ).map((tipo) => (
+                        <MenuItem
+                          key={tipo}
+                          value={tipo}
+                          sx={{ fontSize: "0.85rem" }}
+                        >
+                          {CLASS_TYPE_LABELS[tipo] || tipo}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </Box>
                 </Box>
-              ) : (
-                <Alert sx={{ mt: 1.5 }} severity="info">
-                  El pago quedará pendiente al confirmar el profesor y deberá
-                  abonarse mínimo 24h antes.
-                </Alert>
-              )}
+              </Paper>
 
-              <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
-                {/* Botón Volver - Azul Oscuro Profundo */}
-                <Button
-                  variant="outlined"
-                  onClick={() => setStep("seleccion")}
+              {/* Aquí es donde debes abrir tu segundo contenedor pegado a la derecha */}
+              <Box
+                sx={{
+                  flex: 1,
+                  width: "100%",
+                  maxWidth: { md: "50%" },
+                }}
+              >
+                <Paper
                   sx={{
-                    fontWeight: 700,
-                    letterSpacing: "1px",
-                    textTransform: "uppercase",
-                    borderRadius: "8px",
-                    padding: "6px 24px",
-                    border: "1px solid",
-                    color: "#1e3a8a",
-                    borderColor: "#1e3a8a !important",
-                    backgroundColor: "transparent",
-                    boxShadow: `
-        0px 4px 0px #172554, 
-        0px 8px 16px rgba(30, 58, 138, 0.15),
-        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
-      `,
-                    transition: "all 0.15s ease-in-out",
-                    "&:hover": {
-                      color: "#2563eb",
-                      borderColor: "#2563eb !important",
-                      backgroundColor: "rgba(30, 58, 138, 0.04)",
-                      boxShadow: `
-          0px 4px 0px #172554, 
-          0px 12px 20px rgba(37, 99, 235, 0.25),
-          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
-        `,
-                      transform: "translateY(-1px)",
-                    },
-                    "&:active": {
-                      borderColor: "#1e3a8a !important",
-                      boxShadow: `
-          0px 1px 0px #172554, 
-          0px 2px 4px rgba(30, 58, 138, 0.2),
-          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
-        `,
-                      transform: "translateY(3px)",
-                    },
+                    p: 2,
+                    border: "1px solid #e2e8f0",
+                    flex: 1, // Hace que ocupe el espacio equivalente al 50% junto con la otra columna
+                    width: "100%",
+
+                    // REDUCIDO: Cambiado de 50% a un ancho máximo fijo (p. ej., 450px) o un porcentaje menor (p. ej., 38%)
+                    maxWidth: { md: "650px" },
                   }}
                 >
-                  Volver
-                </Button>
+                  {/* Sub-Columna Izquierda: Información de la solicitud */}
+                  <Box sx={{ flex: 1, minWidth: "200px" }}>
+                    <Typography variant="h6" fontWeight={800}>
+                      Forma de pago
+                    </Typography>
 
-                {/* Botón Solicitar clase - Naranja */}
-                <Button
-                  variant="outlined"
-                  onClick={handleSubmitRequest}
-                  disabled={saving}
+                    <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
+                      {/* Botón Bono - Naranja */}
+                      <Button
+                        variant="outlined"
+                        onClick={() => setMetodoPago("BONO")}
+                        disabled={
+                          (context?.pago?.bonosDisponibles || []).length === 0
+                        }
+                        sx={{
+                          fontWeight: 700,
+                          letterSpacing: "1px",
+                          textTransform: "uppercase",
+                          borderRadius: "8px",
+                          padding: "6px 24px",
+                          border: "1px solid",
+                          color: "#ea580c",
+                          borderColor: "#ea580c !important",
+                          // Si está seleccionado, aplica un fondo sutil translúcido para simular la variante "contained" integrada
+                          backgroundColor:
+                            metodoPago === "BONO"
+                              ? "rgba(234, 88, 12, 0.08)"
+                              : "transparent",
+                          boxShadow: `
+                        0px 4px 0px #9a3412, 
+                        0px 8px 16px rgba(234, 88, 12, 0.15),
+                        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+                      `,
+                          transition: "all 0.15s ease-in-out",
+                          "&:hover": {
+                            color: "#f97316",
+                            borderColor: "#f97316 !important",
+                            backgroundColor: "rgba(234, 88, 12, 0.12)",
+                            boxShadow: `
+                          0px 4px 0px #9a3412, 
+                          0px 12px 20px rgba(249, 115, 22, 0.25),
+                          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+                        `,
+                            transform: "translateY(-1px)",
+                          },
+                          "&:active": {
+                            borderColor: "#ea580c !important",
+                            boxShadow: `
+                          0px 1px 0px #9a3412, 
+                          0px 2px 4px rgba(234, 88, 12, 0.2),
+                          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+                        `,
+                            transform: "translateY(3px)",
+                          },
+                          "&:disabled": {
+                            color: "#fdba74",
+                            borderColor: "#e5e7eb !important",
+                            boxShadow: "none",
+                            transform: "none",
+                            opacity: 0.6,
+                          },
+                        }}
+                      >
+                        Bono
+                      </Button>
+
+                      {/* Botón Clase individual - Verde Esmeralda */}
+                      <Button
+                        variant="outlined"
+                        onClick={() => setMetodoPago("INDIVIDUAL")}
+                        startIcon={<CreditCardIcon />}
+                        sx={{
+                          fontWeight: 700,
+                          letterSpacing: "1px",
+                          textTransform: "uppercase",
+                          borderRadius: "8px",
+                          padding: "6px 24px",
+                          border: "1px solid",
+                          color: "#15803d",
+                          borderColor: "#15803d !important",
+                          // Si está seleccionado, aplica un fondo sutil translúcido para simular la variante "contained" integrada
+                          backgroundColor:
+                            metodoPago === "INDIVIDUAL"
+                              ? "rgba(21, 128, 61, 0.08)"
+                              : "transparent",
+                          boxShadow: `
+                        0px 4px 0px #166534, 
+                        0px 8px 16px rgba(21, 128, 61, 0.15),
+                        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+                      `,
+                          transition: "all 0.15s ease-in-out",
+                          "& .MuiButton-startIcon": {
+                            color: "inherit",
+                          },
+                          "&:hover": {
+                            color: "#22c55e",
+                            borderColor: "#22c55e !important",
+                            backgroundColor: "rgba(21, 128, 61, 0.12)",
+                            boxShadow: `
+                          0px 4px 0px #166534, 
+                          0px 12px 20px rgba(34, 197, 94, 0.25),
+                          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+                        `,
+                            transform: "translateY(-1px)",
+                          },
+                          "&:active": {
+                            borderColor: "#15803d !important",
+                            boxShadow: `
+                          0px 1px 0px #166534, 
+                          0px 2px 4px rgba(21, 128, 61, 0.2),
+                          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+                        `,
+                            transform: "translateY(3px)",
+                          },
+                        }}
+                      >
+                        Clase individual
+                      </Button>
+                    </Stack>
+
+                    {metodoPago === "BONO" ? (
+                      <Box sx={{ mt: 1.5 }}>
+                        <Select
+                          fullWidth
+                          value={selectedBonoId}
+                          onChange={(event) =>
+                            setSelectedBonoId(event.target.value)
+                          }
+                        >
+                          {(context?.pago?.bonosDisponibles || []).map(
+                            (bono) => (
+                              <MenuItem value={bono.id} key={bono.id}>
+                                {bono.nombre} ({bono.clasesDisponibles} clases
+                                restantes: {bono.clasesConsumidas} consumidas y{" "}
+                                {bono.clasesSolicitadas} solicitadas)
+                              </MenuItem>
+                            ),
+                          )}
+                        </Select>
+                      </Box>
+                    ) : (
+                      <Alert sx={{ mt: 1.5, mb: 2.2 }} severity="info">
+                        Pago pendiente hasta confirmacion del profesor. Deberá
+                        abonarse mínimo 24h antes.
+                      </Alert>
+                    )}
+                  </Box>
+                </Paper>
+              </Box>
+              <Box
+                sx={{
+                  flex: 1,
+                  width: "100%",
+                  maxWidth: { md: "50%" },
+                }}
+              >
+                <Paper
                   sx={{
-                    fontWeight: 700,
-                    letterSpacing: "1px",
-                    textTransform: "uppercase",
-                    borderRadius: "8px",
-                    padding: "6px 24px",
-                    border: "1px solid",
-                    color: "#ea580c",
-                    borderColor: "#ea580c !important",
-                    backgroundColor: "transparent",
-                    boxShadow: `
-        0px 4px 0px #9a3412, 
-        0px 8px 16px rgba(234, 88, 12, 0.15),
-        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
-      `,
-                    transition: "all 0.15s ease-in-out",
-                    "&:hover": {
-                      color: "#f97316",
-                      borderColor: "#f97316 !important",
-                      backgroundColor: "rgba(234, 88, 12, 0.04)",
-                      boxShadow: `
-          0px 4px 0px #9a3412, 
-          0px 12px 20px rgba(249, 115, 22, 0.25),
-          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
-        `,
-                      transform: "translateY(-1px)",
-                    },
-                    "&:active": {
-                      borderColor: "#ea580c !important",
-                      boxShadow: `
-          0px 1px 0px #9a3412, 
-          0px 2px 4px rgba(234, 88, 12, 0.2),
-          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
-        `,
-                      transform: "translateY(3px)",
-                    },
-                    "&:disabled": {
-                      color: "#fdba74",
-                      borderColor: "#e5e7eb !important",
-                      boxShadow: "none",
-                      transform: "none",
-                      opacity: 0.6,
-                    },
+                    p: 2,
+                    border: "1px solid #e2e8f0",
+                    flex: 1, // Hace que ocupe el espacio equivalente al 50% junto con la otra columna
+                    width: "100%",
+
+                    // REDUCIDO: Cambiado de 50% a un ancho máximo fijo (p. ej., 450px) o un porcentaje menor (p. ej., 38%)
+                    maxWidth: { md: "600px" },
                   }}
                 >
-                  Solicitar clase
-                </Button>
-              </Stack>
-            </Paper>
+                  {/* Sub-Columna Izquierda: Información de la solicitud */}
+                  <Box sx={{ flex: 1, minWidth: "200px" }}>
+                    <Typography variant="h6" fontWeight={800}>
+                      Acciones
+                    </Typography>
+                  </Box>
+
+                  <Stack direction="row" spacing={1} sx={{ mt: 2, mb: 8.5 }}>
+                    {/* Botón Volver - Azul Oscuro Profundo */}
+                    <Button
+                      variant="outlined"
+                      onClick={() => setStep("seleccion")}
+                      sx={{
+                        fontWeight: 700,
+                        letterSpacing: "1px",
+                        textTransform: "uppercase",
+                        borderRadius: "8px",
+                        padding: "6px 24px",
+                        border: "1px solid",
+                        color: "#1e3a8a",
+                        borderColor: "#1e3a8a !important",
+                        backgroundColor: "transparent",
+                        boxShadow: `
+                        0px 4px 0px #172554, 
+                        0px 8px 16px rgba(30, 58, 138, 0.15),
+                        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+                      `,
+                        transition: "all 0.15s ease-in-out",
+                        "&:hover": {
+                          color: "#2563eb",
+                          borderColor: "#2563eb !important",
+                          backgroundColor: "rgba(30, 58, 138, 0.04)",
+                          boxShadow: `
+                          0px 4px 0px #172554, 
+                          0px 12px 20px rgba(37, 99, 235, 0.25),
+                          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+                        `,
+                          transform: "translateY(-1px)",
+                        },
+                        "&:active": {
+                          borderColor: "#1e3a8a !important",
+                          boxShadow: `
+                          0px 1px 0px #172554, 
+                          0px 2px 4px rgba(30, 58, 138, 0.2),
+                          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+                        `,
+                          transform: "translateY(3px)",
+                        },
+                      }}
+                    >
+                      Volver
+                    </Button>
+
+                    {/* Botón Solicitar clase - Naranja */}
+                    <Button
+                      variant="outlined"
+                      onClick={handleSubmitRequest}
+                      disabled={saving}
+                      sx={{
+                        fontWeight: 700,
+                        letterSpacing: "1px",
+                        textTransform: "uppercase",
+                        borderRadius: "8px",
+                        padding: "6px 24px",
+                        border: "1px solid",
+                        color: "#ea580c",
+                        borderColor: "#ea580c !important",
+                        backgroundColor: "transparent",
+                        boxShadow: `
+                        0px 4px 0px #9a3412, 
+                        0px 8px 16px rgba(234, 88, 12, 0.15),
+                        inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+                      `,
+                        transition: "all 0.15s ease-in-out",
+                        "&:hover": {
+                          color: "#f97316",
+                          borderColor: "#f97316 !important",
+                          backgroundColor: "rgba(234, 88, 12, 0.04)",
+                          boxShadow: `
+                          0px 4px 0px #9a3412, 
+                          0px 12px 20px rgba(249, 115, 22, 0.25),
+                          inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+                        `,
+                          transform: "translateY(-1px)",
+                        },
+                        "&:active": {
+                          borderColor: "#ea580c !important",
+                          boxShadow: `
+                          0px 1px 0px #9a3412, 
+                          0px 2px 4px rgba(234, 88, 12, 0.2),
+                          inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+                        `,
+                          transform: "translateY(3px)",
+                        },
+                        "&:disabled": {
+                          color: "#fdba74",
+                          borderColor: "#e5e7eb !important",
+                          boxShadow: "none",
+                          transform: "none",
+                          opacity: 0.6,
+                        },
+                      }}
+                    >
+                      Solicitar clase
+                    </Button>
+                  </Stack>
+                </Paper>
+              </Box>
+            </Box>
           )}
 
           <Paper sx={{ p: 2, border: "1px solid #e2e8f0" }}>
@@ -1232,7 +1344,7 @@ export default function ReservarClase() {
                               <Stack
                                 direction="row"
                                 spacing={0.5}
-                                sx={{ mt: 0.5 }}
+                                sx={{ mt: 0.5, mb: 2 }}
                               >
                                 <LicenseChip
                                   value={item.vehiculo?.tipoPermiso || "-"}
@@ -1253,7 +1365,7 @@ export default function ReservarClase() {
                                 />
                               </Stack>
 
-                              <Stack sx={{ mt: 0.6 }}>
+                              <Stack sx={{ mt: 0.6, mb: 2 }}>
                                 {canStudentCancelClass(item) ||
                                 (hasPaidIndividualClass(item) &&
                                   isLessThan24h(item)) ? (

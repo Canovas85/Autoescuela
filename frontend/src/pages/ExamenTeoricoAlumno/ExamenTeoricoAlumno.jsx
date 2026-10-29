@@ -759,62 +759,117 @@ export default function ExamenTeoricoAlumno() {
             <strong>Fecha solicitud:</strong>{" "}
             {formatDate(selectedExam?.fechaSolicitud)}
           </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            variant="outlined"
-            onClick={handleCancelRequest}
-            disabled={!canCancelTheoreticalRequest(selectedExam)}
+
+          {/* Contenedor de botones alineado a la derecha y posicionado arriba del final del modal */}
+          <Box
             sx={{
-              fontWeight: 700,
-              letterSpacing: "1px",
-              textTransform: "uppercase",
-              borderRadius: "8px",
-              padding: "6px 24px",
-              border: "1px solid",
-              color: "#dc2626",
-              borderColor: "#dc2626 !important",
-              backgroundColor: "transparent",
-              boxShadow: `
-      0px 4px 0px #991b1b, 
-      0px 8px 16px rgba(220, 38, 38, 0.15),
-      inset 0px 1px 0px rgba(255, 255, 255, 0.1)
-    `,
-              transition: "all 0.15s ease-in-out",
-              "&:hover": {
-                color: "#ef4444",
-                borderColor: "#ef4444 !important",
-                backgroundColor: "rgba(220, 38, 38, 0.04)",
-                boxShadow: `
-        0px 4px 0px #991b1b, 
-        0px 12px 20px rgba(239, 68, 68, 0.25),
-        inset 0px 1px 0px rgba(255, 255, 255, 0.2)
-      `,
-                transform: "translateY(-1px)",
-              },
-              "&:active": {
-                borderColor: "#dc2626 !important",
-                boxShadow: `
-        0px 1px 0px #991b1b, 
-        0px 2px 4px rgba(220, 38, 38, 0.2),
-        inset 0px 2px 4px rgba(0, 0, 0, 0.05)
-      `,
-                transform: "translateY(3px)",
-              },
-              "&:disabled": {
-                color: "#fca5a5",
-                borderColor: "#e5e7eb !important",
-                boxShadow: "none",
-                transform: "none",
-                opacity: 0.6,
-              },
+              display: "flex",
+              justifyContent: "flex-end",
+              gap: 2,
+              mt: 3,
+              mb: 1,
+              width: "100%",
             }}
           >
-            Cancelar convocatoria
-          </Button>
+            {/* Botón Cancelar Convocatoria (Verde Esmeralda) */}
+            <Button
+              variant="outlined"
+              onClick={handleCancelRequest}
+              disabled={!canCancelTheoreticalRequest(selectedExam)}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "6px 24px",
+                border: "1px solid",
+                color: "#059669",
+                borderColor: "#059669 !important",
+                backgroundColor: "transparent",
+                boxShadow: `
+            0px 4px 0px #047857, 
+            0px 8px 16px rgba(5, 150, 105, 0.15),
+            inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+          `,
+                transition: "all 0.15s ease-in-out",
+                "&:hover": {
+                  color: "#10b981",
+                  borderColor: "#10b981 !important",
+                  backgroundColor: "rgba(5, 150, 105, 0.04)",
+                  boxShadow: `
+              0px 4px 0px #047857, 
+              0px 12px 20px rgba(16, 185, 129, 0.25),
+              inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+            `,
+                  transform: "translateY(-1px)",
+                },
+                "&:active": {
+                  borderColor: "#059669 !important",
+                  boxShadow: `
+              0px 1px 0px #047857, 
+              0px 2px 4px rgba(5, 150, 105, 0.2),
+              inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+            `,
+                  transform: "translateY(3px)",
+                },
+                "&:disabled": {
+                  color: "#a7f3d0",
+                  borderColor: "#e5e7eb !important",
+                  boxShadow: "none",
+                  transform: "none",
+                  opacity: 0.6,
+                },
+              }}
+            >
+              Cancelar convocatoria
+            </Button>
 
-          <Button onClick={handleCloseExamModal}>Cerrar</Button>
-        </DialogActions>
+            {/* Botón Cerrar (Rojo Carmesí) */}
+            <Button
+              variant="outlined"
+              onClick={handleCloseExamModal}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                borderRadius: "8px",
+                padding: "6px 24px",
+                border: "1px solid",
+                color: "#991b1b",
+                borderColor: "#991b1b !important",
+                backgroundColor: "transparent",
+                boxShadow: `
+            0px 4px 0px #7f1d1d, 
+            0px 8px 16px rgba(153, 27, 27, 0.15),
+            inset 0px 1px 0px rgba(255, 255, 255, 0.1)
+          `,
+                transition: "all 0.15s ease-in-out",
+                "&:hover": {
+                  color: "#b91c1c",
+                  borderColor: "#b91c1c !important",
+                  backgroundColor: "rgba(153, 27, 27, 0.04)",
+                  boxShadow: `
+              0px 4px 0px #7f1d1d, 
+              0px 12px 20px rgba(185, 28, 28, 0.25),
+              inset 0px 1px 0px rgba(255, 255, 255, 0.2)
+            `,
+                  transform: "translateY(-1px)",
+                },
+                "&:active": {
+                  borderColor: "#991b1b !important",
+                  boxShadow: `
+              0px 1px 0px #7f1d1d, 
+              0px 2px 4px rgba(153, 27, 27, 0.2),
+              inset 0px 2px 4px rgba(0, 0, 0, 0.05)
+            `,
+                  transform: "translateY(3px)",
+                },
+              }}
+            >
+              Cerrar
+            </Button>
+          </Box>
+        </DialogContent>
       </Dialog>
 
       <Snackbar

@@ -248,21 +248,22 @@ export default function ClasesPracticasProfesor() {
                     <Typography fontWeight={700} sx={{ mb: 1 }}>
                       {formatDate(item.fecha)}
                     </Typography>
-                    <Typography variant="body2">
+                    <Typography variant="body2" sx={{ mt: 0.75 }}>
                       Alumno: {item.alumno?.nombre}
                     </Typography>
-                    <Typography variant="body2">
+                    <Typography variant="body2" sx={{ mt: 0.75 }}>
                       Vehículo: {item.vehiculo?.marca} {item.vehiculo?.modelo}
                     </Typography>
-                    <Stack direction="row" spacing={0.75} sx={{ mt: 0.75 }}>
+                    <Typography variant="body2" sx={{ mt: 0.75 }}>
+                      Pago: {item.metodoPago}
+                    </Typography>
+                    <Stack direction="row" spacing={0.75} sx={{ mt: 1, mb: 2 }}>
                       <LicenseChip value={item.vehiculo?.tipoPermiso || "-"} />
                       <PracticalClassTypeChip
                         value={item.tipoClasePractica || "CIRCULACION"}
                       />
                     </Stack>
-                    <Typography variant="body2">
-                      Pago: {item.metodoPago}
-                    </Typography>
+
                     <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
                       {/* Botón Confirmar - Verde Esmeralda */}
                       <Button
@@ -447,7 +448,7 @@ export default function ClasesPracticasProfesor() {
                     <Typography variant="body2" sx={{ mt: 0.75 }}>
                       Pago: {item.metodoPago}
                     </Typography>
-                    <Stack direction="row" spacing={0.75} sx={{ mt: 1 }}>
+                    <Stack direction="row" spacing={0.75} sx={{ mt: 2, mb: 2 }}>
                       <LicenseChip value={item.vehiculo?.tipoPermiso || "-"} />
                       <PracticalClassTypeChip
                         value={item.tipoClasePractica || "CIRCULACION"}
