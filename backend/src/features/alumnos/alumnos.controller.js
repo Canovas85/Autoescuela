@@ -39,13 +39,19 @@ export class AlumnosController {
   }
 
   async getById(req, res) {
-    const alumno = await this.service.getById(req.params.id);
+    const alumno = await this.service.getById(
+      req.params.id,
+      req.query?.licencia || null,
+    );
 
     return res.status(200).json(alumno);
   }
 
   async getExtendedSummary(req, res) {
-    const summary = await this.service.getExtendedSummary(req.params.id);
+    const summary = await this.service.getExtendedSummary(
+      req.params.id,
+      req.query?.licencia || null,
+    );
 
     return res.status(200).json(summary);
   }

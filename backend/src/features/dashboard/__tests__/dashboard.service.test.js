@@ -1240,4 +1240,174 @@ describe("DashboardService", () => {
       service.updateProfessorClassStatus("profesor-1", "clase-1", "CANCELADA"),
     ).rejects.toThrow("Solo se pueden confirmar o cancelar");
   });
+
+  it("debe mantener separados los expedientes de un mismo alumno cuando tiene varias licencias", async () => {
+    const repositoryMock = {
+      getProfessorProfile: vi.fn().mockResolvedValue({ id: "profesor-1" }),
+      getProfessorAssignedStudents: vi.fn().mockResolvedValue([
+        {
+          id: "alumno-1",
+          usuario: { nombre: "Mario Torres Ávila", email: "mario@test.com" },
+          tipoLicenciaObjetivo: "D",
+          estadoExpediente: "ESTUDIANDO_TEORICO",
+          matriculas: [
+            { id: "mat-2", licencia: "D", estado: "PAGADA", fechaCreacion: "2025-01-02" },
+          ],
+          solicitudesExamen: [],
+          clases: [],
+        },
+      ]),
+      getProfessorHistoricalLicensedStudents: vi.fn().mockResolvedValue([
+        {
+          id: "alumno-1",
+          usuario: { nombre: "Mario Torres Ávila", email: "mario@test.com" },
+          tipoLicenciaObjetivo: "D",
+          estadoExpediente: "LICENCIA_OBTENIDA",
+          matriculas: [
+            { id: "mat-1", licencia: "B", estado: "PAGADA", fechaCreacion: "2024-01-10" },
+            { id: "mat-2", licencia: "D", estado: "PAGADA", fechaCreacion: "2025-01-02" },
+          ],
+          solicitudesExamen: [],
+          clases: [],
+          historialProfesores: [{ profesorAnteriorId: "profesor-1", licenciaObtenida: "B", motivo: "LICENCIA_OBTENIDA" }],
+        },
+      ]),
+    };
+
+    const service = new DashboardService(repositoryMock);
+    const result = await service.getProfessorStudents("profesor-1");
+
+    expect(result).toHaveLength(2);
+    expect(result.map((item) => item.tipoLicenciaObjetivo).sort()).toEqual(["B", "D"]);
+    expect(result.map((item) => item.alumnoId)).toEqual(["alumno-1", "alumno-1"]);
+  });
+
+  it("debe mostrar el expediente histórico correcto cuando se solicita detalle de una licencia anterior", async () => {
+    const repositoryMock = {
+      syncPastConfirmedBonusClassesForAlumno: vi.fn(),
+      findProfessorAssignedStudentById: vi.fn().mockResolvedValue({
+        id: "alumno-1",
+        usuario: { nombre: "Mario Torres Ávila", email: "mario@test.com", telefono: "123456789", dni: "12345678Z" },
+        tipoLicenciaObjetivo: "D",
+        estadoExpediente: "ESTUDIANDO_TEORICO",
+        matriculas: [
+          { id: "mat-2", licencia: "D", estado: "PAGADA", fechaCreacion: "2026-09-01" },
+          { id: "mat-1", licencia: "B", estado: "PAGADA", fechaCreacion: "2024-01-10" },
+        ],
+        testsPractica: [],
+        examenesDGT: [],
+        solicitudesExamen: [],
+        clases: [
+          {
+            id: "c1",
+            fecha: new Date("2026-10-01T10:00:00.000Z"),
+            duracion: 45,
+            estado: "CONFIRMADA",
+            tipoClasePractica: "CIRCULACION",
+            vehiculo: { tipoPermiso: "B" },
+            hojaRuta: null,
+          },
+          {
+            id: "c2",
+            fecha: new Date("2026-10-02T10:00:00.000Z"),
+            duracion: 45,
+            estado: "CONFIRMADA",
+            tipoClasePractica: "CIRCULACION",
+            vehiculo: { tipoPermiso: "B" },
+            hojaRuta: null,
+          },
+          {
+            id: "c3",
+            fecha: new Date("2026-10-03T10:00:00.000Z"),
+            duracion: 45,
+            estado: "CONFIRMADA",
+            tipoClasePractica: "CIRCULACION",
+            vehiculo: { tipoPermiso: "B" },
+            hojaRuta: null,
+          },
+          {
+            id: "c4",
+            fecha: new Date("2026-10-04T10:00:00.000Z"),
+            duracion: 45,
+            estado: "CONFIRMADA",
+            tipoClasePractica: "CIRCULACION",
+            vehiculo: { tipoPermiso: "B" },
+            hojaRuta: null,
+          },
+          {
+            id: "c5",
+            fecha: new Date("2026-10-05T10:00:00.000Z"),
+            duracion: 45,
+            estado: "CONFIRMADA",
+            tipoClasePractica: "CIRCULACION",
+            vehiculo: { tipoPermiso: "B" },
+            hojaRuta: null,
+          },
+        ],
+      }),
+      findProfessorAssignedStudentActivityById: vi.fn().mockResolvedValue({
+        id: "alumno-1",
+        usuario: { nombre: "Mario Torres Ávila", fechaCreacion: new Date("2023-01-01") },
+        matriculas: [
+          { id: "mat-2", licencia: "D", estado: "PAGADA", fechaCreacion: "2026-09-01" },
+          { id: "mat-1", licencia: "B", estado: "PAGADA", fechaCreacion: "2024-01-10" },
+        ],
+        pagos: [],
+        bonosComprados: [],
+        clases: [
+          {
+            id: "c1",
+            fecha: new Date("2026-10-01T10:00:00.000Z"),
+            duracion: 45,
+            estado: "CONFIRMADA",
+            tipoClasePractica: "CIRCULACION",
+            hojaRuta: null,
+          },
+          {
+            id: "c2",
+            fecha: new Date("2026-10-02T10:00:00.000Z"),
+            duracion: 45,
+            estado: "CONFIRMADA",
+            tipoClasePractica: "CIRCULACION",
+            hojaRuta: null,
+          },
+          {
+            id: "c3",
+            fecha: new Date("2026-10-03T10:00:00.000Z"),
+            duracion: 45,
+            estado: "CONFIRMADA",
+            tipoClasePractica: "CIRCULACION",
+            hojaRuta: null,
+          },
+          {
+            id: "c4",
+            fecha: new Date("2026-10-04T10:00:00.000Z"),
+            duracion: 45,
+            estado: "CONFIRMADA",
+            tipoClasePractica: "CIRCULACION",
+            hojaRuta: null,
+          },
+          {
+            id: "c5",
+            fecha: new Date("2026-10-05T10:00:00.000Z"),
+            duracion: 45,
+            estado: "CONFIRMADA",
+            tipoClasePractica: "CIRCULACION",
+            hojaRuta: null,
+          },
+        ],
+        solicitudesExamen: [],
+        testsPractica: [],
+        examenesDGT: [],
+      }),
+    };
+
+    const service = new DashboardService(repositoryMock);
+    const result = await service.getProfessorStudentDetail("profesor-1", "alumno-1", "B");
+
+    expect(result.perfil.tipoLicenciaObjetivo).toBe("B");
+    expect(result.estadoAlumno?.codigo).toBe("LICENCIA_OBTENIDA");
+    expect(result.practica.clasesRealizadas).toBe(5);
+    expect(result.practica.horasCompletadasTexto).toBe("3h 45min");
+  });
 });

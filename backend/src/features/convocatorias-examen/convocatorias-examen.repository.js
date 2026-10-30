@@ -5,6 +5,11 @@ const normalizeLicense = (value) =>
     .trim()
     .toUpperCase();
 
+const toValidDateOrNull = (value) => {
+  const parsed = new Date(value || 0);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+};
+
 const getPracticalSubtype = ({ licencia, fasePractica }) => {
   if (!DUAL_PRACTICAL_PHASE_LICENSES.has(normalizeLicense(licencia))) {
     return { code: "CIRCULACION", label: "Circulacion" };
@@ -20,6 +25,50 @@ const getPracticalSubtype = ({ licencia, fasePractica }) => {
 export class ConvocatoriasExamenRepository {
   constructor(prisma) {
     this.prisma = prisma;
+  }
+
+  buildEnrollmentWindows(matriculas = []) {
+    const sorted = [...(matriculas || [])]
+      .map((matricula) => ({
+        ...matricula,
+        licencia: normalizeLicense(matricula?.licencia || ""),
+        _fechaInicio: toValidDateOrNull(
+          matricula?.fechaCreacion || matricula?.fechaPago,
+        ),
+      }))
+      .filter((matricula) => Boolean(matricula._fechaInicio))
+      .sort((a, b) => b._fechaInicio.getTime() - a._fechaInicio.getTime());
+
+    return sorted.map((matricula, index) => ({
+      licencia: matricula.licencia,
+      start: matricula._fechaInicio,
+      endExclusive: sorted[index - 1]?._fechaInicio || null,
+    }));
+  }
+
+  resolveLicenseForSolicitud(solicitud, enrollmentWindows = []) {
+    const date = toValidDateOrNull(
+      solicitud?.fechaSolicitud || solicitud?.fechaProgramada,
+    );
+
+    const matched =
+      enrollmentWindows.find((window) => {
+        if (!date || !window?.start) {
+          return false;
+        }
+
+        if (date < window.start) {
+          return false;
+        }
+
+        if (window.endExclusive && date >= window.endExclusive) {
+          return false;
+        }
+
+        return true;
+      }) || enrollmentWindows[0];
+
+    return matched?.licencia || null;
   }
 
   buildConvocatoriaKey({ fecha, licencia, tipoExamen }) {
@@ -82,20 +131,24 @@ export class ConvocatoriasExamenRepository {
           lte: maxFecha,
         },
         ...(filters.tipoExamen ? { tipo: filters.tipoExamen } : {}),
-        ...(filters.licencia
-          ? {
-              alumno: {
-                tipoLicenciaObjetivo: filters.licencia,
-              },
-            }
-          : {}),
       },
       select: {
         tipo: true,
         fechaProgramada: true,
+        fechaSolicitud: true,
         alumno: {
           select: {
             tipoLicenciaObjetivo: true,
+            matriculas: {
+              select: {
+                licencia: true,
+                fechaCreacion: true,
+                fechaPago: true,
+              },
+              orderBy: {
+                fechaCreacion: "desc",
+              },
+            },
           },
         },
       },
@@ -104,13 +157,25 @@ export class ConvocatoriasExamenRepository {
     const convocatoriaKeysConEstado = new Set(
       solicitudes
         .filter((solicitud) => solicitud.fechaProgramada && solicitud.alumno)
-        .map((solicitud) =>
-          this.buildConvocatoriaKey({
+        .map((solicitud) => {
+          const enrollmentWindows = this.buildEnrollmentWindows(
+            solicitud.alumno?.matriculas || [],
+          );
+          const licenciaSolicitud =
+            this.resolveLicenseForSolicitud(solicitud, enrollmentWindows) ||
+            normalizeLicense(solicitud.alumno?.tipoLicenciaObjetivo || "");
+
+          if (filters.licencia && licenciaSolicitud !== filters.licencia) {
+            return null;
+          }
+
+          return this.buildConvocatoriaKey({
             fecha: solicitud.fechaProgramada,
-            licencia: solicitud.alumno.tipoLicenciaObjetivo,
+            licencia: licenciaSolicitud,
             tipoExamen: solicitud.tipo,
-          }),
-        ),
+          });
+        })
+        .filter(Boolean),
     );
 
     return convocatorias.filter((convocatoria) =>
@@ -189,9 +254,6 @@ export class ConvocatoriasExamenRepository {
           gte: inicio,
           lte: fin,
         },
-        alumno: {
-          tipoLicenciaObjetivo: convocatoria.licencia,
-        },
       },
       include: {
         alumno: {
@@ -203,15 +265,35 @@ export class ConvocatoriasExamenRepository {
                 email: true,
               },
             },
+            matriculas: {
+              select: {
+                licencia: true,
+                fechaCreacion: true,
+                fechaPago: true,
+              },
+              orderBy: {
+                fechaCreacion: "desc",
+              },
+            },
           },
         },
       },
       orderBy: [{ fechaProgramada: "asc" }, { fechaSolicitud: "asc" }],
     });
+    const solicitudesFiltradas = solicitudes.filter((solicitud) => {
+      const enrollmentWindows = this.buildEnrollmentWindows(
+        solicitud.alumno?.matriculas || [],
+      );
+      const licenciaSolicitud =
+        this.resolveLicenseForSolicitud(solicitud, enrollmentWindows) ||
+        normalizeLicense(solicitud.alumno?.tipoLicenciaObjetivo || "");
+
+      return licenciaSolicitud === convocatoria.licencia;
+    });
 
     return {
       convocatoria,
-      solicitudes,
+      solicitudes: solicitudesFiltradas,
     };
   }
 
@@ -278,25 +360,42 @@ export class ConvocatoriasExamenRepository {
               gte: inicio,
               lte: fin,
             },
-            alumno: {
-              tipoLicenciaObjetivo: convocatoria.licencia,
-            },
           },
           include: {
             alumno: {
               include: {
                 usuario: true,
+                matriculas: {
+                  select: {
+                    licencia: true,
+                    fechaCreacion: true,
+                    fechaPago: true,
+                  },
+                  orderBy: {
+                    fechaCreacion: "desc",
+                  },
+                },
               },
             },
           },
           orderBy: [{ fechaSolicitud: "asc" }],
         });
+        const solicitudesFiltradas = solicitudes.filter((solicitud) => {
+          const enrollmentWindows = this.buildEnrollmentWindows(
+            solicitud.alumno?.matriculas || [],
+          );
+          const licenciaSolicitud =
+            this.resolveLicenseForSolicitud(solicitud, enrollmentWindows) ||
+            normalizeLicense(solicitud.alumno?.tipoLicenciaObjetivo || "");
+
+          return licenciaSolicitud === convocatoria.licencia;
+        });
 
         return {
           ...convocatoria,
           estadosMostrados: estadosConvocatoria,
-          totalAlumnos: solicitudes.length,
-          alumnos: solicitudes.map((solicitud) => {
+          totalAlumnos: solicitudesFiltradas.length,
+          alumnos: solicitudesFiltradas.map((solicitud) => {
             const practicalSubtype =
               convocatoria.tipoExamen === "PRACTICO"
                 ? getPracticalSubtype({

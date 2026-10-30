@@ -13,13 +13,17 @@ export const alumnosService = {
     return response.data;
   },
 
-  getById: async (id) => {
-    const response = await api.get(`/alumnos/${id}`);
+  getById: async (id, licencia = null) => {
+    const params = licencia ? { licencia } : {};
+    const response = await api.get(`/alumnos/${id}`, { params });
     return response.data;
   },
 
-  getExtendedSummary: async (id) => {
-    const response = await api.get(`/alumnos/${id}/resumen-extendido`);
+  getExtendedSummary: async (id, licencia = null) => {
+    const params = licencia ? { licencia } : {};
+    const response = await api.get(`/alumnos/${id}/resumen-extendido`, {
+      params,
+    });
     return response.data;
   },
 

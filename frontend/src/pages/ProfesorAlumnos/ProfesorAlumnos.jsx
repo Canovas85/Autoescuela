@@ -281,7 +281,13 @@ export default function ProfesorAlumnos() {
     setError("");
 
     try {
-      const response = await profesorPortalService.getStudentDetail(row.id);
+      const alumnoId = row?.alumnoId || String(row?.id || "").split(":")[0];
+      const licencia =
+        row?.expedienteLicencia || row?.tipoLicenciaObjetivo || null;
+      const response = await profesorPortalService.getStudentDetail(
+        alumnoId,
+        licencia,
+      );
       setDetail(response);
     } catch (loadError) {
       setError(
@@ -586,37 +592,39 @@ export default function ProfesorAlumnos() {
                     alignItems: "center",
                     gap: 1,
                     px: 1.5,
-                    py: 0.5, // Ajuste fino de altura para nivelar tipografías
+                    py: 0.5,
                     borderRadius: 999,
                     bgcolor: "#fffbeb",
                     border: "1px solid #facc15",
                   }}
                 >
-                  <EmojiEventsIcon sx={{ color: "#ca8a04", fontSize: 16 }} />
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <EmojiEventsIcon
+                      sx={{ color: "#ca8a04", fontSize: 25, display: "block" }}
+                    />
 
-                  {/* Texto indicativo añadido y nivelado a la misma altura */}
-                  <Typography
-                    variant="body2"
-                    fontWeight={600}
-                    sx={{
-                      color: "#ca8a04",
-                      textTransform: "none",
-                      lineHeight: 1,
-                    }}
-                  >
-                    Licencia obtenida:
-                  </Typography>
-
-                  <ExpedientePhaseChip
-                    code={detail?.estadoAlumno?.codigo}
-                    label={detail?.estadoAlumno?.label}
-                    size="small"
-                  />
+                    {/* Se limpia el Typography para que el componente interno no sufra desvíos de línea de texto */}
+                    <Box sx={{ display: "inline-flex", alignItems: "center" }}>
+                      <ExpedientePhaseChip
+                        code={detail?.estadoAlumno?.codigo}
+                        label={detail?.estadoAlumno?.label}
+                        size="small"
+                      />
+                    </Box>
+                  </Stack>
                 </Box>
               )}
 
-              {/* Chip secundario alineado en el mismo flujo horizontal */}
-              <LicenseChip value={detail?.perfil?.tipoLicenciaObjetivo} />
+              {/* Chip secundario en el mismo flujo horizontal */}
+              <LicenseChip
+                value={detail?.perfil?.tipoLicenciaObjetivo}
+                size="medium" // Cambia de 'small' a 'medium'
+                sx={{
+                  fontSize: "0.95rem", // Aumenta el tamaño del texto
+                  fontWeight: 600, // Le da un poco más de peso visual
+                  padding: "6px 12px", // Añade un poco de aire si el componente lo permite
+                }}
+              />
             </Stack>
           </Box>
         </DialogTitle>

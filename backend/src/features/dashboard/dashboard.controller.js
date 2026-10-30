@@ -88,6 +88,7 @@ export class DashboardController {
     const data = await this.service.getProfessorStudentDetail(
       req.user?.id,
       req.params.alumnoId,
+      req.query?.licencia,
     );
 
     return res.status(200).json(data);

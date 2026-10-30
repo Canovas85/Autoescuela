@@ -551,7 +551,11 @@ describe("SolicitudesExamenService", () => {
           aciertosExamen: 26,
           observaciones: "Fallos en señales",
           alumno: {
-            tipoLicenciaObjetivo: "B",
+            tipoLicenciaObjetivo: "D",
+            matriculas: [
+              { licencia: "D", fechaCreacion: new Date("2026-10-20T00:00:00.000Z") },
+              { licencia: "B", fechaCreacion: new Date("2026-01-10T00:00:00.000Z") },
+            ],
             usuario: { nombre: "Ana" },
             profesorAsignado: {
               usuario: { nombre: "Profesor Uno" },
@@ -566,7 +570,11 @@ describe("SolicitudesExamenService", () => {
           estado: "APROBADO",
           fecha: new Date("2026-09-07T10:00:00.000Z"),
           alumno: {
-            tipoLicenciaObjetivo: "B",
+            tipoLicenciaObjetivo: "D",
+            matriculas: [
+              { licencia: "D", fechaCreacion: new Date("2026-10-20T00:00:00.000Z") },
+              { licencia: "B", fechaCreacion: new Date("2026-01-10T00:00:00.000Z") },
+            ],
             usuario: { nombre: "Ana" },
             profesorAsignado: {
               usuario: { nombre: "Profesor Uno" },
@@ -591,6 +599,8 @@ describe("SolicitudesExamenService", () => {
       "TEORICO",
     );
     expect(result).toHaveLength(2);
+    expect(result[0].permisoLicencia).toBe("B");
+    expect(result[1].permisoLicencia).toBe("B");
     expect(result[1].estado).toBe("SUSPENSO");
     expect(result[1].aciertosExamen).toBe(26);
     expect(result[1].convocatoriasRestantes).toBe(1);

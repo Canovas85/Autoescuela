@@ -6,8 +6,10 @@ export const profesorPortalService = {
     return response.data;
   },
 
-  async getStudentDetail(alumnoId) {
-    const response = await api.get(`/dashboard/professor/students/${alumnoId}`);
+  async getStudentDetail(alumnoId, licencia = null) {
+    const response = await api.get(`/dashboard/professor/students/${alumnoId}`, {
+      params: licencia ? { licencia } : {},
+    });
     return response.data;
   },
 

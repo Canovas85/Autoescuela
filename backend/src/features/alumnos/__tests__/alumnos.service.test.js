@@ -485,6 +485,8 @@ describe("AlumnosService", () => {
       tipoLicencia: "B",
       rol: "ALUMNO",
       activo: true,
+      tipoLicenciaObjetivo: "B",
+      matriculas: [],
     };
 
     const repositoryMock = {
@@ -497,7 +499,34 @@ describe("AlumnosService", () => {
 
     expect(repositoryMock.findById).toHaveBeenCalledWith("alumno-1");
 
-    expect(result).toEqual(alumno);
+    expect(result).toEqual({
+      ...alumno,
+      licenciaSeleccionada: "B",
+      licenciasObtenidas: [],
+      licenciasHistoricasObtenidas: [],
+    });
+  });
+  it("debe mantener la licencia seleccionada en el detalle cuando un alumno tiene varios expedientes", async () => {
+    const alumno = {
+      id: "alumno-1",
+      tipoLicenciaObjetivo: "D",
+      matriculas: [
+        { id: "m-b", licencia: "B", estado: "PAGADA", fechaCreacion: "2024-01-01" },
+        { id: "m-d", licencia: "D", estado: "PAGADA", fechaCreacion: "2024-06-01" },
+      ],
+      usuario: { nombre: "Mario Torres" },
+    };
+
+    const repositoryMock = {
+      findById: vi.fn().mockResolvedValue(alumno),
+    };
+
+    const service = new AlumnosService(repositoryMock);
+
+    const result = await service.getById("alumno-1", "B");
+
+    expect(result.tipoLicenciaObjetivo).toBe("B");
+    expect(result.licenciaSeleccionada).toBe("B");
   });
   it("debe actualizar un alumno existente", async () => {
     const alumnoActualizado = {
@@ -838,5 +867,124 @@ describe("AlumnosService", () => {
 
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("promo-fidelidad");
+  });
+
+  it("debe mantener el resumen académico aislado por expediente cuando el alumno tiene dos licencias", async () => {
+    const repositoryMock = {
+      findExtendedSummaryById: vi.fn().mockResolvedValue({
+        id: "alumno-1",
+        tipoLicenciaObjetivo: "D",
+        estadoExpediente: "ESTUDIANDO_TEORICO",
+        usuario: { nombre: "Mario Torres Ávila", email: "mario@test.com" },
+        matriculas: [
+          {
+            id: "mat-b",
+            licencia: "B",
+            estado: "PAGADA",
+            fechaCreacion: "2023-01-01T00:00:00.000Z",
+            fechaPago: "2023-01-10T00:00:00.000Z",
+          },
+          {
+            id: "mat-d",
+            licencia: "D",
+            estado: "PAGADA",
+            fechaCreacion: "2024-01-01T00:00:00.000Z",
+            fechaPago: "2024-01-10T00:00:00.000Z",
+          },
+        ],
+        pagos: [
+          {
+            id: "pago-b",
+            tipo: "TASA_DGT_21",
+            permiso: "B",
+            estado: "PAGADO",
+            matriculaId: "mat-b",
+            fechaCreacion: "2023-01-12T00:00:00.000Z",
+            fechaPago: "2023-01-12T00:00:00.000Z",
+            convocatoriasIncluidas: 2,
+            convocatoriasConsumidas: 0,
+          },
+          {
+            id: "pago-d",
+            tipo: "TASA_DGT_21",
+            permiso: "D",
+            estado: "PAGADO",
+            matriculaId: "mat-d",
+            fechaCreacion: "2024-01-12T00:00:00.000Z",
+            fechaPago: "2024-01-12T00:00:00.000Z",
+            convocatoriasIncluidas: 2,
+            convocatoriasConsumidas: 0,
+          },
+        ],
+        solicitudesExamen: [
+          {
+            id: "sol-b",
+            tipo: "TEORICO",
+            estado: "APTO",
+            fechaSolicitud: "2023-02-01T00:00:00.000Z",
+            fechaProgramada: "2023-02-05T00:00:00.000Z",
+            aciertosExamen: 30,
+            erroresExamen: 10,
+            pagoGastoPracticoId: null,
+          },
+          {
+            id: "sol-d",
+            tipo: "TEORICO",
+            estado: "APTO",
+            fechaSolicitud: "2024-02-01T00:00:00.000Z",
+            fechaProgramada: "2024-02-05T00:00:00.000Z",
+            aciertosExamen: 32,
+            erroresExamen: 8,
+            pagoGastoPracticoId: null,
+          },
+        ],
+        bonos: [
+          {
+            id: "bono-b",
+            pagado: true,
+            clasesCompradas: 8,
+            clasesConsumidas: 1,
+            fechaCompra: "2023-01-14T00:00:00.000Z",
+            fechaValidezHasta: "2024-01-14T00:00:00.000Z",
+            bono: { nombre: "Bono B", licencia: "B" },
+          },
+          {
+            id: "bono-d",
+            pagado: true,
+            clasesCompradas: 8,
+            clasesConsumidas: 1,
+            fechaCompra: "2024-01-14T00:00:00.000Z",
+            fechaValidezHasta: "2025-01-14T00:00:00.000Z",
+            bono: { nombre: "Bono D", licencia: "D" },
+          },
+        ],
+        testsTemario: [
+          { id: "test-b", resultado: "APROBADO", fecha: "2023-02-03T00:00:00.000Z" },
+          { id: "test-d", resultado: "APROBADO", fecha: "2024-02-03T00:00:00.000Z" },
+        ],
+        examenesDgt: [
+          { id: "dgt-b", aprobado: true, fecha: "2023-02-06T00:00:00.000Z", licencia: "B" },
+          { id: "dgt-d", aprobado: true, fecha: "2024-02-06T00:00:00.000Z", licencia: "D" },
+        ],
+        clases: [
+          { id: "clase-b", estado: "REALIZADA", duracion: 60, fecha: "2023-02-10T00:00:00.000Z" },
+          { id: "clase-d", estado: "REALIZADA", duracion: 60, fecha: "2024-02-10T00:00:00.000Z" },
+        ],
+        documentos: [],
+      }),
+    };
+
+    const service = new AlumnosService(repositoryMock);
+
+    const result = await service.getExtendedSummary("alumno-1", "D");
+
+    expect(result.licenciaObjetivo).toBe("D");
+    expect(result.examenTeoricoHistorial).toHaveLength(1);
+    expect(result.examenTeoricoHistorial[0].id).toBe("sol-d");
+    expect(result.bonoClases.historial).toHaveLength(1);
+    expect(result.bonoClases.historial[0].nombre).toBe("Bono D");
+    expect(result.testsTemario.realizados).toBe(1);
+    expect(result.testsDgt.realizados).toBe(1);
+    expect(result.resumenActividad.clasesReservadas).toBe(1);
   });
 });

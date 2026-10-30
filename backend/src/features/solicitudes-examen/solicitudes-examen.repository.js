@@ -1300,6 +1300,17 @@ export class SolicitudesExamenRepository {
               },
             },
             usuario: true,
+            matriculas: {
+              select: {
+                id: true,
+                licencia: true,
+                fechaCreacion: true,
+                fechaPago: true,
+              },
+              orderBy: {
+                fechaCreacion: "desc",
+              },
+            },
           },
         },
       },
@@ -1321,6 +1332,17 @@ export class SolicitudesExamenRepository {
               },
             },
             usuario: true,
+            matriculas: {
+              select: {
+                id: true,
+                licencia: true,
+                fechaCreacion: true,
+                fechaPago: true,
+              },
+              orderBy: {
+                fechaCreacion: "desc",
+              },
+            },
           },
         },
       },

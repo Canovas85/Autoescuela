@@ -240,14 +240,18 @@ export default function ProfessorDashboard({ data }) {
     (item) => item?.tipoPractico === "PISTA",
   );
 
-  const openStudentDetail = async (alumnoId) => {
+  const openStudentDetail = async (alumnoId, licencia = null) => {
+    const parsedAlumnoId = String(alumnoId || "").split(":")[0];
     setOpenDetail(true);
     setLoadingDetail(true);
     setDetail(null);
     setError("");
 
     try {
-      const response = await profesorPortalService.getStudentDetail(alumnoId);
+      const response = await profesorPortalService.getStudentDetail(
+        parsedAlumnoId,
+        licencia || null,
+      );
       setDetail(response);
     } catch (loadError) {
       setError(
@@ -382,7 +386,12 @@ export default function ProfessorDashboard({ data }) {
                 >
                   <CardActionArea
                     sx={{ height: "100%" }}
-                    onClick={() => openStudentDetail(alumno.id)}
+                    onClick={() =>
+                      openStudentDetail(
+                        alumno.alumnoId || alumno.id,
+                        alumno.tipoLicenciaObjetivo,
+                      )
+                    }
                   >
                     <CardContent>
                       <Typography fontWeight={700}>{alumno.nombre}</Typography>
@@ -504,7 +513,10 @@ export default function ProfessorDashboard({ data }) {
                       sx={{ height: "100%" }}
                       onClick={() => {
                         setOpenHistory(false);
-                        openStudentDetail(alumno.id);
+                        openStudentDetail(
+                          alumno.alumnoId || alumno.id,
+                          alumno.licenciaObtenida || alumno.tipoLicenciaObjetivo,
+                        );
                       }}
                     >
                       <CardContent>

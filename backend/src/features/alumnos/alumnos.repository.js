@@ -202,6 +202,18 @@ export class AlumnosRepository {
             fechaCreacion: "desc",
           },
         },
+        historialProfesores: {
+          where: {
+            motivo: "LICENCIA_OBTENIDA",
+          },
+          orderBy: {
+            changedAt: "desc",
+          },
+          select: {
+            licenciaObtenida: true,
+            changedAt: true,
+          },
+        },
       },
     });
   }

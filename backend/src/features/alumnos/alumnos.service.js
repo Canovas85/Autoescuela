@@ -134,6 +134,15 @@ const formatMinutesAsHours = (minutes) => {
   return `${hours}h ${String(remainder).padStart(2, "0")}min`;
 };
 
+const toDateOrNull = (value) => {
+  if (value === null || value === undefined || value === "") {
+    return null;
+  }
+
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+};
+
 const calcularEdad = (fechaNacimiento) => {
   if (
     !(fechaNacimiento instanceof Date) ||
@@ -471,6 +480,153 @@ export class AlumnosService {
     return promocionSeleccionada;
   }
 
+  resolveCurrentExpediente(alumno, licenciaSeleccionada = null) {
+    const matriculas = Array.isArray(alumno?.matriculas)
+      ? [...alumno.matriculas].sort(
+          (a, b) =>
+            new Date(b?.fechaCreacion || b?.fechaPago || 0).getTime() -
+            new Date(a?.fechaCreacion || a?.fechaPago || 0).getTime(),
+        )
+      : [];
+    const licenciasObtenidas = new Set(
+      (Array.isArray(alumno?.historialProfesores)
+        ? alumno.historialProfesores
+        : []
+      )
+        .map((item) => normalizeLicenseCode(item?.licenciaObtenida || ""))
+        .filter(Boolean),
+    );
+
+    if (String(alumno?.estadoExpediente || "").toUpperCase() === "LICENCIA_OBTENIDA") {
+      const licenciaActual = normalizeLicenseCode(
+        alumno?.tipoLicenciaObjetivo || matriculas?.[0]?.licencia || "",
+      );
+      if (licenciaActual) {
+        licenciasObtenidas.add(licenciaActual);
+      }
+    }
+
+    const licenciaSolicitada = normalizeLicenseCode(licenciaSeleccionada || "");
+    if (licenciaSolicitada) {
+      const byLicense = matriculas.find(
+        (matricula) =>
+          normalizeLicenseCode(matricula?.licencia || "") === licenciaSolicitada,
+      );
+
+      if (byLicense) {
+        return {
+          matricula: byLicense,
+          licencia: normalizeLicenseCode(byLicense.licencia || ""),
+        };
+      }
+    }
+
+    const currentNotObtained =
+      matriculas.find((matricula) => {
+        const licenciaMatricula = normalizeLicenseCode(matricula?.licencia || "");
+        if (!licenciaMatricula) {
+          return false;
+        }
+
+        return !licenciasObtenidas.has(licenciaMatricula);
+      }) || null;
+    const fallback = currentNotObtained || matriculas[0] || null;
+
+    return {
+      matricula: fallback,
+      licencia: normalizeLicenseCode(
+        fallback?.licencia || alumno?.tipoLicenciaObjetivo || "",
+      ),
+    };
+  }
+
+  filterRowsByExpediente(rows = [], alumno, matriculaActual = null, licenciaObjetivo = null) {
+    if (!Array.isArray(rows) || rows.length === 0) {
+      return [];
+    }
+
+    const matriculas = Array.isArray(alumno?.matriculas)
+      ? [...alumno.matriculas].sort(
+          (a, b) =>
+            new Date(b?.fechaCreacion || b?.fechaPago || 0).getTime() -
+            new Date(a?.fechaCreacion || a?.fechaPago || 0).getTime(),
+        )
+      : [];
+
+    const selectedIndex = matriculas.findIndex(
+      (matricula) => matricula?.id === matriculaActual?.id,
+    );
+    const previousMatricula =
+      selectedIndex > 0 ? matriculas[selectedIndex - 1] || null : null;
+    const startDate = matriculaActual
+      ? toDateOrNull(matriculaActual?.fechaPago || matriculaActual?.fechaCreacion)
+      : null;
+    const endDate = previousMatricula
+      ? toDateOrNull(
+          previousMatricula?.fechaPago || previousMatricula?.fechaCreacion,
+        )
+      : null;
+
+    return rows.filter((row) => {
+      const rowMatriculaId =
+        row?.matriculaId ||
+        row?.matricula?.id ||
+        row?.matriculaOrigenId ||
+        row?.matriculaOrigen?.id ||
+        null;
+
+      if (matriculaActual?.id && rowMatriculaId && rowMatriculaId !== matriculaActual.id) {
+        return false;
+      }
+
+      const rowLicense = normalizeLicenseCode(
+        row?.permiso ||
+          row?.licencia ||
+          row?.bono?.licencia ||
+          row?.matricula?.licencia ||
+          row?.matriculaOrigen?.licencia ||
+          row?.tipoLicenciaObjetivo ||
+          "",
+      );
+
+      if (licenciaObjetivo && rowLicense && rowLicense !== licenciaObjetivo) {
+        return false;
+      }
+
+      const rowDate = toDateOrNull(
+        row?.fechaPago ||
+          row?.fechaCreacion ||
+          row?.fecha ||
+          row?.fechaCompra ||
+          row?.fechaSolicitud ||
+          row?.fechaProgramada ||
+          row?.fechaResolucion ||
+          row?.updatedAt ||
+          row?.createdAt,
+      );
+
+      if (startDate && rowDate && rowDate < startDate) {
+        return false;
+      }
+
+      if (endDate && rowDate && rowDate >= endDate) {
+        return false;
+      }
+
+      if (!rowLicense && !rowMatriculaId && startDate && rowDate) {
+        const selectedLicense = normalizeLicenseCode(
+          matriculaActual?.licencia || licenciaObjetivo || "",
+        );
+
+        if (selectedLicense && rowDate < startDate) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }
+
   async getAll() {
     if (typeof this.repository.detachLicensedAssignedStudents === "function") {
       await this.repository.detachLicensedAssignedStudents();
@@ -489,7 +645,19 @@ export class AlumnosService {
         return alumno;
       }
 
-      const clases = Array.isArray(alumno?.clases) ? alumno.clases : [];
+      const { matricula, licencia } = this.resolveCurrentExpediente(alumno);
+      const clases = this.filterRowsByExpediente(
+        Array.isArray(alumno?.clases) ? alumno.clases : [],
+        alumno,
+        matricula,
+        licencia,
+      );
+      const solicitudesExamen = this.filterRowsByExpediente(
+        Array.isArray(alumno?.solicitudesExamen) ? alumno.solicitudesExamen : [],
+        alumno,
+        matricula,
+        licencia,
+      );
 
       const clasesRealizadasRows = clases.filter((clase) => {
         const estadoClase = String(clase?.estado || "").toUpperCase();
@@ -506,20 +674,19 @@ export class AlumnosService {
         (acc, clase) => acc + (Number(clase?.duracion) || 45),
         0,
       );
-      const licenciaObjetivo = normalizeLicenseCode(
-        alumno?.matriculas?.[0]?.licencia || alumno?.tipoLicenciaObjetivo,
-      );
 
       const fase = resolveExpedientePhase({
         estadoExpediente: alumno?.estadoExpediente,
-        matriculaEstado: alumno?.matriculas?.[0]?.estado,
-        licenciaObjetivo,
-        solicitudesExamen: alumno?.solicitudesExamen || [],
+        matriculaEstado: matricula?.estado,
+        licenciaObjetivo: licencia,
+        solicitudesExamen,
         clases,
       });
 
       return {
         ...alumno,
+        tipoLicenciaObjetivo: licencia || alumno?.tipoLicenciaObjetivo,
+        matriculas: Array.isArray(alumno?.matriculas) ? alumno.matriculas : [],
         horasPracticasCompletadas: Number((minutosPracticas / 60).toFixed(2)),
         horasPracticasCompletadasTexto: formatMinutesAsHours(minutosPracticas),
         faseActual: fase.label,
@@ -528,35 +695,105 @@ export class AlumnosService {
     });
   }
 
-  async getById(id) {
+  async getById(id, licencia = null) {
     const alumno = await this.repository.findById(id);
 
     if (!alumno) {
       throw new Error("Alumno no encontrado");
     }
 
-    return alumno;
+    const { licencia: licenciaSeleccionada } = this.resolveCurrentExpediente(
+      alumno,
+      licencia,
+    );
+    const licenciasObtenidas = Array.from(
+      new Set(
+        (Array.isArray(alumno?.historialProfesores)
+          ? alumno.historialProfesores
+          : []
+        )
+          .map((item) => normalizeLicenseCode(item?.licenciaObtenida || ""))
+          .filter(Boolean),
+      ),
+    );
+    if (String(alumno?.estadoExpediente || "").toUpperCase() === "LICENCIA_OBTENIDA") {
+      const licenciaActualObtenida = normalizeLicenseCode(
+          alumno?.tipoLicenciaObjetivo || alumno?.matriculas?.[0]?.licencia || "",
+      );
+      if (licenciaActualObtenida && !licenciasObtenidas.includes(licenciaActualObtenida)) {
+          licenciasObtenidas.push(licenciaActualObtenida);
+      }
+    }
+    const licenciaSeleccionadaNormalizada = normalizeLicenseCode(
+      licenciaSeleccionada ||
+        alumno?.tipoLicenciaObjetivo ||
+        alumno?.matriculas?.[0]?.licencia ||
+        "",
+    );
+
+    return {
+      ...alumno,
+      tipoLicenciaObjetivo:
+        licenciaSeleccionadaNormalizada || alumno?.tipoLicenciaObjetivo || null,
+      licenciaSeleccionada: licenciaSeleccionadaNormalizada,
+      licenciasObtenidas,
+      licenciasHistoricasObtenidas: licenciasObtenidas.filter(
+        (item) => item !== licenciaSeleccionadaNormalizada,
+      ),
+    };
   }
 
-  async getExtendedSummary(id) {
+  async getExtendedSummary(id, licencia = null) {
     const alumno = await this.repository.findExtendedSummaryById(id);
 
     if (!alumno) {
       throw new Error("Alumno no encontrado");
     }
 
-    const matriculaActual = alumno.matriculas?.[0] || null;
-    const pagos = Array.isArray(alumno.pagos) ? alumno.pagos : [];
-    const solicitudes = Array.isArray(alumno.solicitudesExamen)
-      ? alumno.solicitudesExamen
-      : [];
-    const bonos = Array.isArray(alumno.bonos) ? alumno.bonos : [];
-    const testsTemario = Array.isArray(alumno.testsTemario)
-      ? alumno.testsTemario
-      : [];
-    const examenesDgt = Array.isArray(alumno.examenesDgt)
-      ? alumno.examenesDgt
-      : [];
+    const { matricula, licencia: licenciaActual } = this.resolveCurrentExpediente(
+      alumno,
+      licencia,
+    );
+    const matriculaActual = matricula || alumno.matriculas?.[0] || null;
+    const licenciaObjetivo = normalizeLicenseCode(
+      licenciaActual || matriculaActual?.licencia || alumno.tipoLicenciaObjetivo,
+    );
+    const pagos = this.filterRowsByExpediente(
+      Array.isArray(alumno.pagos) ? alumno.pagos : [],
+      alumno,
+      matriculaActual,
+      licenciaObjetivo,
+    );
+    const solicitudes = this.filterRowsByExpediente(
+      Array.isArray(alumno.solicitudesExamen) ? alumno.solicitudesExamen : [],
+      alumno,
+      matriculaActual,
+      licenciaObjetivo,
+    );
+    const bonos = this.filterRowsByExpediente(
+      Array.isArray(alumno.bonos) ? alumno.bonos : [],
+      alumno,
+      matriculaActual,
+      licenciaObjetivo,
+    );
+    const testsTemario = this.filterRowsByExpediente(
+      Array.isArray(alumno.testsTemario) ? alumno.testsTemario : [],
+      alumno,
+      matriculaActual,
+      licenciaObjetivo,
+    );
+    const examenesDgt = this.filterRowsByExpediente(
+      Array.isArray(alumno.examenesDgt) ? alumno.examenesDgt : [],
+      alumno,
+      matriculaActual,
+      licenciaObjetivo,
+    );
+    const clasesDelExpediente = this.filterRowsByExpediente(
+      Array.isArray(alumno.clases) ? alumno.clases : [],
+      alumno,
+      matriculaActual,
+      licenciaObjetivo,
+    );
 
     const pagoTasaDgt = pagos.find((pago) => pago.tipo === "TASA_DGT_21");
     const pagoPractico = pagos.find(
@@ -571,9 +808,6 @@ export class AlumnosService {
     );
     const practicos = solicitudes.filter(
       (solicitud) => solicitud.tipo === "PRACTICO",
-    );
-    const licenciaObjetivo = normalizeLicenseCode(
-      matriculaActual?.licencia || alumno.tipoLicenciaObjetivo,
     );
     const teoricoMasReciente = teoricos[0] || null;
     const practicoMasReciente = practicos[0] || null;
@@ -670,7 +904,7 @@ export class AlumnosService {
       matriculaEstado: matriculaActual?.estado,
       licenciaObjetivo,
       solicitudesExamen: solicitudes,
-      clases: alumno.clases || [],
+      clases: clasesDelExpediente,
     });
 
     const fechaInicioCobertura =
@@ -802,9 +1036,7 @@ export class AlumnosService {
       resumenActividad: {
         pagosRegistrados: pagos.length,
         solicitudesExamen: solicitudes.length,
-        clasesReservadas: Array.isArray(alumno.clases)
-          ? alumno.clases.length
-          : 0,
+        clasesReservadas: clasesDelExpediente.length,
       },
     };
   }

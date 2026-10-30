@@ -231,9 +231,6 @@ export class DashboardService {
     return rows.filter((row) => this.isWithinExpedienteWindow(pickDate(row), window));
   }
 
-  async getMetrics() {
-    return this.repository.getMetrics();
-  }
   async getPorcentajeAprobados() {
     const totalExamenes = await this.repository.getTotalExamenes();
 
@@ -1542,7 +1539,7 @@ export class DashboardService {
 
   isRequestedPracticalClass(clase) {
     const estadoClase = String(clase?.estado || "").toUpperCase();
-    return ["PROGRAMADA", "CONFIRMADA"].includes(estadoClase);
+    return ["PROGRAMADA", "PROGRAMADO", "CONFIRMADA"].includes(estadoClase);
   }
 
   isPastRequestedPracticalClass(clase, now) {
@@ -1557,6 +1554,17 @@ export class DashboardService {
     }
 
     return fechaClase < now;
+  }
+
+  isHistoricalCompletedPracticalClass(clase, now) {
+    const estadoClase = String(clase?.estado || "").toUpperCase();
+
+    return (
+      this.isCompletedPracticalClass(clase) ||
+      this.isPastRequestedPracticalClass(clase, now) ||
+      (["PROGRAMADA", "CONFIRMADA"].includes(estadoClase) &&
+        Number.isNaN(new Date(clase?.fecha).getTime()))
+    );
   }
 
   buildProfessorStudentHistory(actividad = null) {
@@ -1810,24 +1818,95 @@ export class DashboardService {
     return rows.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
   }
 
-  buildProfessorStudentSummary(alumno) {
-    const matriculaActual = alumno.matriculas?.[0] ?? null;
-    const clases = Array.isArray(alumno.clases) ? alumno.clases : [];
+  filterRowsByExpediente(rows = [], alumno, matriculaActual = null, licenciaObjetivo = null) {
+    if (!Array.isArray(rows) || rows.length === 0) {
+      return [];
+    }
 
-    const clasesRealizadasRows = clases.filter((clase) => {
-      const estadoClase = String(clase?.estado || "").toUpperCase();
-      const estadoHoja = String(clase?.hojaRuta?.estado || "").toUpperCase();
+    const matriculas = Array.isArray(alumno?.matriculas)
+      ? [...alumno.matriculas].sort(
+          (a, b) =>
+            new Date(b?.fechaCreacion || b?.fechaPago || 0).getTime() -
+            new Date(a?.fechaCreacion || a?.fechaPago || 0).getTime(),
+        )
+      : [];
+    const selectedIndex = matriculas.findIndex(
+      (matricula) => matricula?.id === matriculaActual?.id,
+    );
+    const previousMatricula =
+      selectedIndex > 0 ? matriculas[selectedIndex - 1] || null : null;
+    const startDate = matriculaActual
+      ? this.toValidDateOrNull(
+          matriculaActual?.fechaPago || matriculaActual?.fechaCreacion,
+        )
+      : null;
+    const endDate = previousMatricula
+      ? this.toValidDateOrNull(
+          previousMatricula?.fechaPago || previousMatricula?.fechaCreacion,
+        )
+      : null;
 
-      return (
-        ["REALIZADA", "COMPLETADA", "FINALIZADA", "REGISTRADA"].includes(
-          estadoClase,
-        ) || estadoHoja === "REGISTRADA"
+    return rows.filter((row) => {
+      const rowLicense = normalizeLicenseCode(
+        row?.permiso ||
+          row?.licencia ||
+          row?.bono?.licencia ||
+          row?.compraBono?.bono?.licencia ||
+          row?.matricula?.licencia ||
+          row?.matriculaOrigen?.licencia ||
+          row?.vehiculo?.tipoPermiso ||
+          row?.tipoLicenciaObjetivo ||
+          "",
       );
-    });
+      const hasExplicitRowLicense = Boolean(rowLicense);
 
-    const minutosPracticas = clasesRealizadasRows.reduce(
-      (acc, clase) => acc + (Number(clase?.duracion) || 45),
-      0,
+      if (licenciaObjetivo && rowLicense && rowLicense !== licenciaObjetivo) {
+        return false;
+      }
+
+      const rowDate = this.toValidDateOrNull(
+        row?.fechaPago ||
+          row?.fechaCreacion ||
+          row?.fecha ||
+          row?.fechaCompra ||
+          row?.fechaSolicitud ||
+          row?.fechaProgramada ||
+          row?.fechaResolucion ||
+          row?.updatedAt ||
+          row?.createdAt,
+      );
+
+      if (startDate && rowDate && rowDate < startDate && !hasExplicitRowLicense) {
+        return false;
+      }
+
+      if (endDate && rowDate && rowDate >= endDate && !hasExplicitRowLicense) {
+        return false;
+      }
+
+      return true;
+    });
+  }
+
+  buildProfessorStudentSummary(alumno, licenciaSeleccionada = null) {
+    const matriculas = Array.isArray(alumno.matriculas) ? alumno.matriculas : [];
+    const licenciaBuscada = normalizeLicenseCode(licenciaSeleccionada || "");
+    const matriculaActual = licenciaBuscada
+      ? (matriculas.find(
+          (matricula) =>
+            normalizeLicenseCode(matricula?.licencia || "") === licenciaBuscada,
+        ) ?? null)
+      : matriculas[0] ?? null;
+    const licenciaObjetivo = normalizeLicenseCode(
+      licenciaBuscada ||
+        matriculaActual?.licencia ||
+        alumno.tipoLicenciaObjetivo,
+    );
+    const clases = this.filterRowsByExpediente(
+      Array.isArray(alumno.clases) ? alumno.clases : [],
+      alumno,
+      matriculaActual,
+      licenciaObjetivo,
     );
 
     const now = new Date();
@@ -1844,23 +1923,42 @@ export class DashboardService {
       );
     }).length;
 
+    const tieneLicenciaHistorialSeleccionada =
+      Boolean(licenciaObjetivo) &&
+      Boolean(matriculaActual) &&
+      normalizeLicenseCode(alumno.tipoLicenciaObjetivo || "") !== licenciaObjetivo &&
+      String(alumno.estadoExpediente || "").toUpperCase() !== "LICENCIA_OBTENIDA";
+    const includePastRequestedAsCompleted =
+      tieneLicenciaHistorialSeleccionada ||
+      String(alumno.estadoExpediente || "").toUpperCase() ===
+        "LICENCIA_OBTENIDA";
+    const clasesRealizadasRows = clases.filter((clase) =>
+      includePastRequestedAsCompleted
+        ? this.isHistoricalCompletedPracticalClass(clase, now)
+        : this.isCompletedPracticalClass(clase),
+    );
+    const minutosPracticas = clasesRealizadasRows.reduce(
+      (acc, clase) => acc + (Number(clase?.duracion) || 45),
+      0,
+    );
+    const estadoExpedienteSeleccionado = tieneLicenciaHistorialSeleccionada
+      ? "LICENCIA_OBTENIDA"
+      : alumno.estadoExpediente;
     const estadoAlumno = this.getStudentProgressStatus(
       alumno.solicitudesExamen,
       clases,
-      alumno.estadoExpediente,
+      estadoExpedienteSeleccionado,
       matriculaActual?.estado,
-      matriculaActual?.licencia || alumno.tipoLicenciaObjetivo,
-    );
-    const licenciaObjetivo = normalizeLicenseCode(
-      matriculaActual?.licencia || alumno.tipoLicenciaObjetivo,
+      licenciaObjetivo || alumno.tipoLicenciaObjetivo,
     );
 
     return {
-      id: alumno.id,
+      id: `${alumno.id}:${licenciaObjetivo || alumno.id}`,
+      alumnoId: alumno.id,
       nombre: alumno.usuario?.nombre ?? "Alumno",
       email: alumno.usuario?.email ?? "",
       telefono: alumno.usuario?.telefono ?? "",
-      tipoLicenciaObjetivo: alumno.tipoLicenciaObjetivo,
+      tipoLicenciaObjetivo: licenciaObjetivo || alumno.tipoLicenciaObjetivo,
       matriculaEstado: matriculaActual?.estado ?? "PENDIENTE",
       estadoAlumno,
       clasesRealizadas: clasesRealizadasRows.length,
@@ -1868,6 +1966,52 @@ export class DashboardService {
       minutosPracticas,
       horasPracticasTexto: this.formatMinutesAsHours(minutosPracticas),
     };
+  }
+
+  buildProfessorStudentLicenseRows(alumno) {
+    const matriculas = Array.isArray(alumno.matriculas) ? alumno.matriculas : [];
+    const historialLicencias = Array.from(
+      new Set(
+        (Array.isArray(alumno?.historialProfesores)
+          ? alumno.historialProfesores
+          : []
+        )
+          .map((item) => normalizeLicenseCode(item?.licenciaObtenida || ""))
+          .filter(Boolean),
+      ),
+    );
+
+    if (historialLicencias.length > 0) {
+      return historialLicencias.map((licencia) => ({
+        licencia,
+        matricula:
+          matriculas.find(
+            (item) => normalizeLicenseCode(item?.licencia || "") === licencia,
+          ) || null,
+      }));
+    }
+
+    const currentLicense = normalizeLicenseCode(
+      alumno?.tipoLicenciaObjetivo ||
+        matriculas[0]?.licencia ||
+        "",
+    );
+
+    if (!currentLicense) {
+      return [];
+    }
+
+    const matricula =
+      matriculas.find(
+        (item) => normalizeLicenseCode(item?.licencia || "") === currentLicense,
+      ) || matriculas[0] || null;
+
+    return [
+      {
+        licencia: currentLicense,
+        matricula,
+      },
+    ];
   }
 
   async getProfessorDashboard(userId) {
@@ -2006,29 +2150,41 @@ export class DashboardService {
       this.repository.getProfessorHistoricalLicensedStudents(userId),
     ]);
 
-    const byId = new Map();
+    const summaryMap = new Map();
+
+    const addAlumnoSummary = (alumno, isHistorical = false) => {
+      const entries = this.buildProfessorStudentLicenseRows(alumno);
+      if (entries.length === 0) {
+        const summary = this.buildProfessorStudentSummary(alumno);
+        summary.esHistorico = isHistorical;
+        const key = `${alumno.id}:${summary.tipoLicenciaObjetivo || "default"}`;
+        summaryMap.set(key, summary);
+        return;
+      }
+
+      for (const entry of entries) {
+        const summary = this.buildProfessorStudentSummary(alumno, entry.licencia);
+        summary.esHistorico = isHistorical;
+        summary.expedienteLicencia = entry.licencia;
+        const key = `${alumno.id}:${entry.licencia}`;
+        summaryMap.set(key, summary);
+      }
+    };
 
     for (const alumno of alumnosAsignados || []) {
-      byId.set(alumno.id, this.buildProfessorStudentSummary(alumno));
+      addAlumnoSummary(alumno, false);
     }
 
     for (const alumno of alumnosHistoricosLicenciados || []) {
-      if (byId.has(alumno.id)) {
-        continue;
-      }
-
-      byId.set(alumno.id, {
-        ...this.buildProfessorStudentSummary(alumno),
-        esHistorico: true,
-      });
+      addAlumnoSummary(alumno, true);
     }
 
-    return Array.from(byId.values()).sort((a, b) =>
+    return Array.from(summaryMap.values()).sort((a, b) =>
       String(a.nombre || "").localeCompare(String(b.nombre || ""), "es"),
     );
   }
 
-  async getProfessorStudentDetail(userId, alumnoId) {
+  async getProfessorStudentDetail(userId, alumnoId, licencia = null) {
     try {
       await this.repository.syncPastConfirmedBonusClassesForAlumno?.(
         alumnoId,
@@ -2052,17 +2208,35 @@ export class DashboardService {
       throw new Error("Alumno no encontrado o sin relación con este profesor");
     }
 
-    const matriculaActual = alumno.matriculas?.[0] ?? null;
+    const matriculas = Array.isArray(alumno.matriculas) ? alumno.matriculas : [];
+    const licenciaSolicitada = normalizeLicenseCode(licencia || "");
+    const matriculaActual = licenciaSolicitada
+      ? (matriculas.find(
+          (matricula) =>
+            normalizeLicenseCode(matricula?.licencia || "") === licenciaSolicitada,
+        ) ?? null)
+      : matriculas[0] ?? null;
     const licenciaObjetivo = normalizeLicenseCode(
-      matriculaActual?.licencia || alumno.tipoLicenciaObjetivo,
+      licenciaSolicitada || matriculaActual?.licencia || alumno.tipoLicenciaObjetivo,
     );
-    const tests = Array.isArray(alumno.testsPractica)
-      ? alumno.testsPractica
-      : [];
-    const examenesDGT = Array.isArray(alumno.examenesDGT)
-      ? alumno.examenesDGT
-      : [];
-    const clases = Array.isArray(alumno.clases) ? alumno.clases : [];
+    const tests = this.filterRowsByExpediente(
+      Array.isArray(alumno.testsPractica) ? alumno.testsPractica : [],
+      alumno,
+      matriculaActual,
+      licenciaObjetivo,
+    );
+    const examenesDGT = this.filterRowsByExpediente(
+      Array.isArray(alumno.examenesDGT) ? alumno.examenesDGT : [],
+      alumno,
+      matriculaActual,
+      licenciaObjetivo,
+    );
+    const clases = this.filterRowsByExpediente(
+      Array.isArray(alumno.clases) ? alumno.clases : [],
+      alumno,
+      matriculaActual,
+      licenciaObjetivo,
+    );
 
     const testsAprobados = tests.filter(
       (test) => test.resultado === "APROBADO",
@@ -2097,6 +2271,7 @@ export class DashboardService {
       .map(([tema, fallos]) => ({ tema, fallos }))
       .sort((a, b) => b.fallos - a.fallos)
       .slice(0, 5);
+    const now = new Date();
 
     const proximasClases = clases
       .filter(
@@ -2121,17 +2296,24 @@ export class DashboardService {
           : null,
       }));
 
-    const clasesRealizadasRows = clases.filter((clase) => {
-      const estadoClase = String(clase?.estado || "").toUpperCase();
-      const estadoHoja = String(clase?.hojaRuta?.estado || "").toUpperCase();
-
-      return (
-        ["REALIZADA", "COMPLETADA", "FINALIZADA", "REGISTRADA"].includes(
-          estadoClase,
-        ) || estadoHoja === "REGISTRADA"
-      );
-    });
-
+    const currentLicense = normalizeLicenseCode(
+      licenciaObjetivo || alumno.tipoLicenciaObjetivo || matriculas[0]?.licencia || "",
+    );
+    const historialSeleccionado =
+      Boolean(licenciaSolicitada) &&
+      Boolean(matriculaActual) &&
+      normalizeLicenseCode(alumno.tipoLicenciaObjetivo || "") !== currentLicense;
+    const estadoExpedienteSeleccionado =
+      historialSeleccionado ? "LICENCIA_OBTENIDA" : alumno.estadoExpediente;
+    const includePastRequestedAsCompleted =
+      historialSeleccionado ||
+      String(alumno.estadoExpediente || "").toUpperCase() ===
+        "LICENCIA_OBTENIDA";
+    const clasesRealizadasRows = clases.filter((clase) =>
+      includePastRequestedAsCompleted
+        ? this.isHistoricalCompletedPracticalClass(clase, now)
+        : this.isCompletedPracticalClass(clase),
+    );
     const clasesRealizadas = clasesRealizadasRows.length;
     const minutosPracticas = clasesRealizadasRows.reduce(
       (acc, clase) => acc + (Number(clase?.duracion) || 45),
@@ -2141,9 +2323,9 @@ export class DashboardService {
     const estadoAlumno = this.getStudentProgressStatus(
       alumno.solicitudesExamen,
       clases,
-      alumno.estadoExpediente,
+      estadoExpedienteSeleccionado,
       matriculaActual?.estado,
-      matriculaActual?.licencia || alumno.tipoLicenciaObjetivo,
+      licenciaObjetivo || alumno.tipoLicenciaObjetivo,
     );
 
     const preparadoParaTeorico = testsTotales >= 10 && porcentajeAprobado >= 80;
@@ -2161,9 +2343,12 @@ export class DashboardService {
             ? "EN_PROGRESO"
             : "REQUIERE_REFUERZO";
 
-    const solicitudesExamen = Array.isArray(alumno.solicitudesExamen)
-      ? alumno.solicitudesExamen
-      : [];
+    const solicitudesExamen = this.filterRowsByExpediente(
+      Array.isArray(alumno.solicitudesExamen) ? alumno.solicitudesExamen : [],
+      alumno,
+      matriculaActual,
+      licenciaObjetivo,
+    );
 
     const estadosPresentado = [
       "APTO",
@@ -2305,7 +2490,6 @@ export class DashboardService {
           new Date(b.fechaProgramada || 0).getTime(),
       )[0];
 
-    const now = new Date();
     const bonosActivos = (actividad.bonosComprados || []).filter((compra) => {
       if (!compra?.pagado) {
         return false;
@@ -2340,7 +2524,7 @@ export class DashboardService {
         email: alumno.usuario?.email ?? "",
         telefono: alumno.usuario?.telefono ?? "",
         dni: alumno.usuario?.dni ?? "",
-        tipoLicenciaObjetivo: alumno.tipoLicenciaObjetivo,
+        tipoLicenciaObjetivo: licenciaObjetivo || alumno.tipoLicenciaObjetivo,
         matriculaEstado: matriculaActual?.estado ?? "PENDIENTE",
         horasPracticasCompletadas: horasPracticas,
         minutosPracticasCompletadas: minutosPracticas,

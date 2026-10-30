@@ -50,10 +50,15 @@ const PRACTICAL_CLASS_TYPES_BY_LICENSE = {
   E: ["CIRCULACION", "PISTA"],
 };
 
-export const normalizeLicenseCode = (value) =>
-  String(value || "")
+export const normalizeLicenseCode = (value) => {
+  const normalized = String(value ?? "")
     .trim()
-    .toUpperCase() || "B";
+    .toUpperCase();
+
+  return normalized && THEORETICAL_RULES_BY_LICENSE[normalized]
+    ? normalized
+    : "";
+};
 
 export const getTheoreticalRuleByLicense = (license) => {
   const normalized = normalizeLicenseCode(license);
@@ -62,6 +67,10 @@ export const getTheoreticalRuleByLicense = (license) => {
 
 export const usesDualPracticalPhaseByLicense = (license) => {
   const normalized = normalizeLicenseCode(license);
+  if (!normalized) {
+    return false;
+  }
+
   return DUAL_PRACTICAL_PHASE_LICENSES.has(normalized);
 };
 

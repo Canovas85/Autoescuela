@@ -52,7 +52,15 @@ describe("ConvocatoriasExamenRepository", () => {
             id: "sol-1",
             alumnoId: "a-1",
             estado: "SOLICITADO",
-            alumno: { usuario: { nombre: "Ana", email: "ana@mail.com" } },
+            fechaProgramada: new Date("2026-09-25T10:00:00.000Z"),
+            fechaSolicitud: new Date("2026-09-20T10:00:00.000Z"),
+            alumno: {
+              tipoLicenciaObjetivo: "B",
+              matriculas: [
+                { licencia: "B", fechaCreacion: new Date("2026-01-10T00:00:00.000Z") },
+              ],
+              usuario: { nombre: "Ana", email: "ana@mail.com" },
+            },
           },
         ]),
       },
@@ -116,5 +124,86 @@ describe("ConvocatoriasExamenRepository", () => {
     );
 
     vi.useRealTimers();
+  });
+
+  it("asocia solicitudes al permiso histórico correcto por fecha de expediente", async () => {
+    const convocatoria = {
+      id: "conv-b-1",
+      fecha: new Date("2026-10-16T12:00:00.000Z"),
+      licencia: "B",
+      tipoExamen: "TEORICO",
+      activo: true,
+    };
+
+    const prismaMock = {
+      convocatoriaExamen: {
+        findMany: vi.fn().mockResolvedValue([convocatoria]),
+      },
+      solicitudExamen: {
+        findMany: vi.fn().mockResolvedValue([
+          {
+            id: "sol-1",
+            tipo: "TEORICO",
+            fechaProgramada: new Date("2026-10-16T10:00:00.000Z"),
+            fechaSolicitud: new Date("2026-10-10T10:00:00.000Z"),
+            alumno: {
+              tipoLicenciaObjetivo: "D",
+              matriculas: [
+                { licencia: "D", fechaCreacion: new Date("2026-10-20T00:00:00.000Z") },
+                { licencia: "B", fechaCreacion: new Date("2026-01-10T00:00:00.000Z") },
+              ],
+            },
+          },
+        ]),
+      },
+    };
+
+    const repository = new ConvocatoriasExamenRepository(prismaMock);
+
+    const result = await repository.findAll({
+      estadoAlumno: "APTO",
+    });
+
+    expect(result).toHaveLength(1);
+    expect(result[0].licencia).toBe("B");
+  });
+
+  it("prioriza la fecha de solicitud para resolver la licencia del expediente", async () => {
+    const convocatoria = {
+      id: "conv-b-2",
+      fecha: new Date("2026-10-16T12:00:00.000Z"),
+      licencia: "B",
+      tipoExamen: "TEORICO",
+      activo: true,
+    };
+
+    const prismaMock = {
+      convocatoriaExamen: {
+        findMany: vi.fn().mockResolvedValue([convocatoria]),
+      },
+      solicitudExamen: {
+        findMany: vi.fn().mockResolvedValue([
+          {
+            id: "sol-2",
+            tipo: "TEORICO",
+            fechaSolicitud: new Date("2026-10-10T10:00:00.000Z"),
+            fechaProgramada: new Date("2026-10-16T10:00:00.000Z"),
+            alumno: {
+              tipoLicenciaObjetivo: "D",
+              matriculas: [
+                { licencia: "D", fechaCreacion: new Date("2026-10-15T00:00:00.000Z") },
+                { licencia: "B", fechaCreacion: new Date("2026-01-10T00:00:00.000Z") },
+              ],
+            },
+          },
+        ]),
+      },
+    };
+
+    const repository = new ConvocatoriasExamenRepository(prismaMock);
+    const result = await repository.findAll({ estadoAlumno: "APTO" });
+
+    expect(result).toHaveLength(1);
+    expect(result[0].licencia).toBe("B");
   });
 });

@@ -1718,8 +1718,14 @@ export class SolicitudesExamenService {
 
     const mergedAll = [
       ...solicitudes.map((solicitud) => {
+        const enrollmentWindows = buildEnrollmentWindows(
+          solicitud?.alumno?.matriculas || [],
+        );
+        const licencia =
+          resolveLicenseForRequest(solicitud, enrollmentWindows) ||
+          solicitud.alumno?.tipoLicenciaObjetivo ||
+          "-";
         const estadoEvaluacion = normalizarEstadoEvaluacion(solicitud.estado);
-        const licencia = solicitud.alumno?.tipoLicenciaObjetivo || "-";
         const teoricoRule = getTheoreticalRuleByLicense(licencia);
         const licenciaNormalizada = normalizeLicenseCode(licencia);
         const fasePractica =
@@ -1798,8 +1804,20 @@ export class SolicitudesExamenService {
         };
       }),
       ...examenes.map((examen) => {
+        const enrollmentWindows = buildEnrollmentWindows(
+          examen?.alumno?.matriculas || [],
+        );
+        const licencia =
+          resolveLicenseForRequest(
+            {
+              fechaProgramada: examen?.fecha,
+              fechaSolicitud: examen?.fecha,
+            },
+            enrollmentWindows,
+          ) ||
+          examen.alumno?.tipoLicenciaObjetivo ||
+          "-";
         const estadoEvaluacion = normalizarEstadoEvaluacion(examen.estado);
-        const licencia = examen.alumno?.tipoLicenciaObjetivo || "-";
 
         return {
           id: `EX-${examen.id}`,

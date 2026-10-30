@@ -940,21 +940,56 @@ export default function Alumnos() {
   };
 
   const handleOpenDetail = async (row) => {
+    const resolveLicenseCode = (value) => {
+      const normalized = String(value ?? "").trim().toUpperCase();
+      return ["B", "A1", "A2", "A", "C", "D", "E"].includes(normalized)
+        ? normalized
+        : "";
+    };
+
     setOpenDetail(true);
     setLoadingDetail(true);
 
     try {
-      const detalle = await alumnosService.getById(row.id);
+      const licenciaSeleccionada =
+        resolveLicenseCode(
+          row?.tipoLicenciaObjetivo ||
+            row?.licenciaSeleccionada ||
+            row?.matriculas?.[0]?.licencia ||
+            "",
+        ) || null;
+      const detalle = await alumnosService.getById(
+        row.id,
+        licenciaSeleccionada,
+      );
+
+      const selectedLicense =
+        resolveLicenseCode(
+          detalle?.licenciaSeleccionada ||
+            detalle?.tipoLicenciaObjetivo ||
+            licenciaSeleccionada ||
+            row?.tipoLicenciaObjetivo ||
+            row?.licenciaSeleccionada ||
+            row?.matriculas?.[0]?.licencia ||
+            "",
+        ) || null;
 
       setSelectedAlumno({
         ...detalle,
+        tipoLicenciaObjetivo: selectedLicense,
+        licenciaSeleccionada: selectedLicense,
         horasPracticasCompletadas:
           row?.horasPracticasCompletadas ?? detalle?.horasPracticasCompletadas,
         horasPracticasCompletadasTexto:
           row?.horasPracticasCompletadasTexto ||
           detalle?.horasPracticasCompletadasTexto,
       });
-      setPromocionMatricula(detalle?.matriculas?.[0]?.promocion || null);
+      setPromocionMatricula(
+        (detalle?.matriculas || []).find(
+          (matricula) =>
+            resolveLicenseCode(matricula?.licencia || "") === selectedLicense,
+        )?.promocion || null,
+      );
       setExtendedSummary(null);
       setShowExtendedSummary(false);
     } catch (error) {
@@ -2215,43 +2250,85 @@ export default function Alumnos() {
                         fullWidth
                       />
 
-                      <Chip
-                        label="Resumen Académico y Pagos"
-                        sx={{
-                          width: "fit-content",
-                          backgroundColor: "#fffbeb", // Fondo original
-                          borderColor: "#facc15", // Borde original
-                          borderStyle: "solid",
-                          borderRadius: "15px",
-                          borderWidth: "2px",
-                          color: "#ca8a04", // Texto original
-                          "& .MuiChip-label": {
-                            fontWeight: "bold",
-                          },
-                          // 👇 ESTO ES LO QUE DEBES AÑADIR PARA EL HOVER
-                          "&:hover": {
-                            backgroundColor: "#fef08a", // Fondo al pasar el ratón (un amarillo un poco más oscuro)
-                            borderColor: "#eab308", // Borde al pasar el ratón (opcional)
-                            color: "#854d0e", // Texto al pasar el ratón (opcional)
-                          },
-                        }}
-                        clickable
-                        onClick={async () => {
-                          if (!selectedAlumno?.id) {
-                            return;
-                          }
+                      <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
+                        <Chip
+                          label="Resumen Académico y Pagos"
+                          sx={{
+                            width: "fit-content",
+                            backgroundColor: "#fffbeb",
+                            borderColor: "#facc15",
+                            borderStyle: "solid",
+                            borderRadius: "15px",
+                            borderWidth: "2px",
+                            color: "#ca8a04",
+                            "& .MuiChip-label": {
+                              fontWeight: "bold",
+                            },
+                            "&:hover": {
+                              backgroundColor: "#fef08a",
+                              borderColor: "#eab308",
+                              color: "#854d0e",
+                            },
+                          }}
+                          clickable
+                          onClick={async () => {
+                            if (!selectedAlumno?.id) {
+                              return;
+                            }
 
-                          if (!extendedSummary) {
-                            const resumen =
-                              await alumnosService.getExtendedSummary(
-                                selectedAlumno.id,
-                              );
+                            const licenciaResumen =
+                              selectedAlumno?.tipoLicenciaObjetivo ||
+                              selectedAlumno?.licenciaSeleccionada ||
+                              "";
+
+                            const resumen = await alumnosService.getExtendedSummary(
+                              selectedAlumno.id,
+                              licenciaResumen,
+                            );
                             setExtendedSummary(resumen);
-                          }
+                            setShowExtendedSummary(true);
+                          }}
+                        />
 
-                          setShowExtendedSummary(true);
-                        }}
-                      />
+                        {(selectedAlumno?.licenciasHistoricasObtenidas || []).map(
+                          (licenciaHistorica) => (
+                            <Chip
+                              key={`hist-resumen-${licenciaHistorica}`}
+                              label={`Licencia ${licenciaHistorica} obtenida`}
+                              sx={{
+                                width: "fit-content",
+                                backgroundColor: "#dcfce7",
+                                borderColor: "#4ade80",
+                                borderStyle: "solid",
+                                borderRadius: "15px",
+                                borderWidth: "2px",
+                                color: "#166534",
+                                "& .MuiChip-label": {
+                                  fontWeight: "bold",
+                                },
+                                "&:hover": {
+                                  backgroundColor: "#bbf7d0",
+                                  borderColor: "#22c55e",
+                                  color: "#14532d",
+                                },
+                              }}
+                              clickable
+                              onClick={async () => {
+                                if (!selectedAlumno?.id) {
+                                  return;
+                                }
+
+                                const resumen = await alumnosService.getExtendedSummary(
+                                  selectedAlumno.id,
+                                  licenciaHistorica,
+                                );
+                                setExtendedSummary(resumen);
+                                setShowExtendedSummary(true);
+                              }}
+                            />
+                          ),
+                        )}
+                      </Stack>
                     </Box>
 
                     <Box>

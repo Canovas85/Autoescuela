@@ -769,7 +769,6 @@ export class DashboardRepository {
           orderBy: {
             fechaCreacion: "desc",
           },
-          take: 1,
         },
         solicitudesExamen: {
           select: {
@@ -797,6 +796,20 @@ export class DashboardRepository {
             estado: true,
             duracion: true,
             tipoClasePractica: true,
+            vehiculo: {
+              select: {
+                tipoPermiso: true,
+              },
+            },
+            compraBono: {
+              select: {
+                bono: {
+                  select: {
+                    licencia: true,
+                  },
+                },
+              },
+            },
             hojaRuta: {
               select: {
                 id: true,
@@ -917,7 +930,6 @@ export class DashboardRepository {
           orderBy: {
             fechaCreacion: "desc",
           },
-          take: 1,
         },
         solicitudesExamen: {
           select: {
@@ -945,6 +957,20 @@ export class DashboardRepository {
             estado: true,
             duracion: true,
             tipoClasePractica: true,
+            vehiculo: {
+              select: {
+                tipoPermiso: true,
+              },
+            },
+            compraBono: {
+              select: {
+                bono: {
+                  select: {
+                    licencia: true,
+                  },
+                },
+              },
+            },
             hojaRuta: {
               select: {
                 id: true,
@@ -961,7 +987,6 @@ export class DashboardRepository {
           orderBy: {
             changedAt: "desc",
           },
-          take: 1,
           select: {
             changedAt: true,
             licenciaObtenida: true,
@@ -1007,7 +1032,6 @@ export class DashboardRepository {
           orderBy: {
             fechaCreacion: "desc",
           },
-          take: 1,
         },
         testsPractica: {
           include: {
@@ -1057,6 +1081,16 @@ export class DashboardRepository {
                 matricula: true,
                 marca: true,
                 modelo: true,
+                tipoPermiso: true,
+              },
+            },
+            compraBono: {
+              select: {
+                bono: {
+                  select: {
+                    licencia: true,
+                  },
+                },
               },
             },
             profesor: {
@@ -1169,6 +1203,15 @@ export class DashboardRepository {
               select: {
                 matricula: true,
                 tipoPermiso: true,
+              },
+            },
+            compraBono: {
+              select: {
+                bono: {
+                  select: {
+                    licencia: true,
+                  },
+                },
               },
             },
             hojaRuta: {
@@ -1689,20 +1732,76 @@ export class DashboardRepository {
   }
 
   async getTotalAlumnosLicenciadosActivos() {
-    return this.prisma.alumno.count({
+    const alumnos = await this.prisma.alumno.findMany({
       where: {
         activo: true,
-        estadoExpediente: "LICENCIA_OBTENIDA",
+        OR: [
+          { estadoExpediente: "LICENCIA_OBTENIDA" },
+          {
+            historialProfesores: {
+              some: {
+                motivo: "LICENCIA_OBTENIDA",
+              },
+            },
+          },
+        ],
+      },
+      select: {
+        id: true,
+        estadoExpediente: true,
+        tipoLicenciaObjetivo: true,
+        matriculas: {
+          where: {
+            estado: "PAGADA",
+          },
+          select: {
+            licencia: true,
+          },
+          orderBy: {
+            fechaPago: "desc",
+          },
+        },
+        historialProfesores: {
+          where: {
+            motivo: "LICENCIA_OBTENIDA",
+          },
+          select: {
+            licenciaObtenida: true,
+          },
+        },
       },
     });
+
+    return alumnos.reduce((total, alumno) => {
+      const licenciasObtenidas = new Set(
+        (alumno.historialProfesores || [])
+          .map((historial) =>
+            String(historial?.licenciaObtenida || "")
+              .trim()
+              .toUpperCase(),
+          )
+          .filter(Boolean),
+      );
+      const licenciaActual = String(
+        alumno?.tipoLicenciaObjetivo || alumno?.matriculas?.[0]?.licencia || "",
+      )
+        .trim()
+        .toUpperCase();
+
+      if (String(alumno?.estadoExpediente || "").toUpperCase() === "LICENCIA_OBTENIDA" && licenciaActual) {
+        licenciasObtenidas.add(licenciaActual);
+      }
+
+      return total + licenciasObtenidas.size;
+    }, 0);
   }
 
   async getTotalAlumnosMatriculadosPagadaSinLicencia() {
-    return this.prisma.alumno.count({
+    const alumnos = await this.prisma.alumno.findMany({
       where: {
         activo: true,
-        estadoExpediente: {
-          not: "LICENCIA_OBTENIDA",
+        NOT: {
+          estadoExpediente: "LICENCIA_OBTENIDA",
         },
         matriculas: {
           some: {
@@ -1710,7 +1809,40 @@ export class DashboardRepository {
           },
         },
       },
+      select: {
+        id: true,
+        estadoExpediente: true,
+        tipoLicenciaObjetivo: true,
+        matriculas: {
+          where: {
+            estado: "PAGADA",
+          },
+          select: {
+            licencia: true,
+            fechaPago: true,
+            fechaCreacion: true,
+          },
+          orderBy: {
+            fechaPago: "desc",
+          },
+        },
+      },
     });
+
+    return alumnos.filter((alumno) => {
+      const matriculaActual = (alumno.matriculas || [])[0] || null;
+      if (!matriculaActual) {
+        return false;
+      }
+
+      const licenciaActual = String(
+        matriculaActual?.licencia || alumno?.tipoLicenciaObjetivo || "",
+      ).trim();
+
+      return Boolean(licenciaActual) && !["LICENCIA_OBTENIDA"].includes(
+        String(alumno.estadoExpediente || "").toUpperCase(),
+      );
+    }).length;
   }
 
   async getTotalAlumnosConMatriculaPendientePago() {
