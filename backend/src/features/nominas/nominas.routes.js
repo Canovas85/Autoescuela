@@ -14,12 +14,40 @@ const repository = new NominasRepository(prisma);
 const service = new NominasService(repository);
 const controller = new NominasController(service);
 
+/**
+ * @swagger
+ *   /api/nominas:
+ *     get:
+ *       summary: GET /api/nominas
+ *       tags:
+ *         - Nominas
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/",
   authenticate,
   authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAll.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/nominas/mine:
+ *     get:
+ *       summary: GET /api/nominas/mine
+ *       tags:
+ *         - Nominas
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.get(
   "/mine",
@@ -28,6 +56,20 @@ router.get(
   controller.getMine.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/nominas/generar:
+ *     post:
+ *       summary: POST /api/nominas/generar
+ *       tags:
+ *         - Nominas
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         201:
+ *           description: Operación completada
+ */
+
 router.post(
   "/generar",
   authenticate,
@@ -35,12 +77,40 @@ router.post(
   controller.generateMonth.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/nominas/{id}/preview:
+ *     get:
+ *       summary: GET /api/nominas/{id}/preview
+ *       tags:
+ *         - Nominas
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/:id/preview",
   authenticate,
   authorize("ADMIN", "ADMINISTRATIVO", "PROFESOR"),
   controller.getPreview.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/nominas/{id}/pdf:
+ *     get:
+ *       summary: GET /api/nominas/{id}/pdf
+ *       tags:
+ *         - Nominas
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.get(
   "/:id/pdf",

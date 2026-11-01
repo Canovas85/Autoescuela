@@ -33,7 +33,7 @@ const controller = new AuthController(service);
  * @swagger
  * /api/auth/login:
  *   post:
- *     summary: Iniciar sesión
+ *     summary: Iniciar sesiÃƒÂ³n
  *     tags:
  *       - Auth
  *     requestBody:
@@ -56,9 +56,23 @@ const controller = new AuthController(service);
  *       200:
  *         description: Login correcto
  *       401:
- *         description: Credenciales inválidas
+ *         description: Credenciales invÃƒÂ¡lidas
  */
 router.post("/login", controller.login.bind(controller));
+
+/**
+ * @swagger
+ *   /api/auth/primer-acceso/cambiar-password:
+ *     post:
+ *       summary: POST /api/auth/primer-acceso/cambiar-password
+ *       tags:
+ *         - Auth
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         201:
+ *           description: OperaciÃ³n completada
+ */
 
 router.post(
   "/primer-acceso/cambiar-password",
@@ -66,17 +80,69 @@ router.post(
   controller.changePasswordFirstLogin.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/auth/me:
+ *     get:
+ *       summary: GET /api/auth/me
+ *       tags:
+ *         - Auth
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
+
 router.get("/me", authenticate, controller.me.bind(controller));
+
+/**
+ * @swagger
+ *   /api/auth/activacion/validar:
+ *     post:
+ *       summary: POST /api/auth/activacion/validar
+ *       tags:
+ *         - Auth
+ *       responses:
+ *         201:
+ *           description: OperaciÃ³n completada
+ */
 
 router.post(
   "/activacion/validar",
   controller.validateActivationToken.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/auth/activacion/completar:
+ *     post:
+ *       summary: POST /api/auth/activacion/completar
+ *       tags:
+ *         - Auth
+ *       responses:
+ *         201:
+ *           description: OperaciÃ³n completada
+ */
+
 router.post(
   "/activacion/completar",
   controller.activateFirstAccess.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/auth/activacion/reenviar/{userId}:
+ *     post:
+ *       summary: POST /api/auth/activacion/reenviar/{userId}
+ *       tags:
+ *         - Auth
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         201:
+ *           description: OperaciÃ³n completada
+ */
 
 router.post(
   "/activacion/reenviar/:userId",
@@ -85,10 +151,34 @@ router.post(
   controller.resendActivation.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/auth/password-reset/validate-email:
+ *     post:
+ *       summary: POST /api/auth/password-reset/validate-email
+ *       tags:
+ *         - Auth
+ *       responses:
+ *         201:
+ *           description: OperaciÃ³n completada
+ */
+
 router.post(
   "/password-reset/validate-email",
   controller.validatePasswordResetEmail.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/auth/password-reset/reset-default:
+ *     post:
+ *       summary: POST /api/auth/password-reset/reset-default
+ *       tags:
+ *         - Auth
+ *       responses:
+ *         201:
+ *           description: OperaciÃ³n completada
+ */
 
 router.post(
   "/password-reset/reset-default",

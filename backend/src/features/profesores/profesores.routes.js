@@ -45,7 +45,7 @@ const controller = new ProfesoresController(service);
  *             properties:
  *               nombre:
  *                 type: string
- *                 example: Pedro García
+ *                 example: Pedro GarcÃƒÂ­a
  *               email:
  *                 type: string
  *                 example: profesor@autoescuela.com
@@ -120,12 +120,40 @@ router.get(
   controller.getOverview.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/profesores/{id}/admin-agenda:
+ *     get:
+ *       summary: GET /api/profesores/{id}/admin-agenda
+ *       tags:
+ *         - Profesores
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
+
 router.get(
   "/:id/admin-agenda",
   authenticate,
   authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAdminAgenda.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/profesores/{id}:
+ *     get:
+ *       summary: GET /api/profesores/{id}
+ *       tags:
+ *         - Profesores
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
 
 router.get(
   "/:id",
@@ -158,7 +186,7 @@ router.get(
  *             properties:
  *               nombre:
  *                 type: string
- *                 example: Pedro García
+ *                 example: Pedro GarcÃƒÂ­a
  *               email:
  *                 type: string
  *                 example: profesor@autoescuela.com
@@ -220,6 +248,20 @@ router.delete(
   controller.deactivate.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/profesores/{id}/deactivation-impact:
+ *     get:
+ *       summary: GET /api/profesores/{id}/deactivation-impact
+ *       tags:
+ *         - Profesores
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
+
 router.get(
   "/:id/deactivation-impact",
   authenticate,
@@ -227,12 +269,40 @@ router.get(
   controller.getDeactivationImpact.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/profesores/{id}/deactivate-with-reassignment:
+ *     post:
+ *       summary: POST /api/profesores/{id}/deactivate-with-reassignment
+ *       tags:
+ *         - Profesores
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         201:
+ *           description: OperaciÃ³n completada
+ */
+
 router.post(
   "/:id/deactivate-with-reassignment",
   authenticate,
   authorize("ADMIN", "ADMINISTRATIVO"),
   controller.deactivateWithReassignment.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/profesores/{id}/activar:
+ *     patch:
+ *       summary: PATCH /api/profesores/{id}/activar
+ *       tags:
+ *         - Profesores
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
 
 router.patch(
   "/:id/activar",

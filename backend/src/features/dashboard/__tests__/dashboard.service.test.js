@@ -872,7 +872,48 @@ describe("DashboardService", () => {
             resultado: "SUSPENDIDO",
           },
         ],
-        clases: [],
+        clases: [
+          {
+            id: "clase-b-1",
+            fecha: new Date("2026-10-26T10:00:00.000Z"),
+            duracion: 45,
+            estado: "CONFIRMADA",
+            tipoClasePractica: "CIRCULACION",
+            pagos: [{ matriculaId: "mat-b", permiso: "B" }],
+          },
+          {
+            id: "clase-b-2",
+            fecha: new Date("2026-10-27T10:00:00.000Z"),
+            duracion: 45,
+            estado: "CONFIRMADA",
+            tipoClasePractica: "CIRCULACION",
+            pagos: [{ matriculaId: "mat-b", permiso: "B" }],
+          },
+          {
+            id: "clase-b-3",
+            fecha: new Date("2026-10-28T10:00:00.000Z"),
+            duracion: 45,
+            estado: "CONFIRMADA",
+            tipoClasePractica: "CIRCULACION",
+            pagos: [{ matriculaId: "mat-b", permiso: "B" }],
+          },
+          {
+            id: "clase-b-4",
+            fecha: new Date("2026-10-29T10:00:00.000Z"),
+            duracion: 45,
+            estado: "CONFIRMADA",
+            tipoClasePractica: "CIRCULACION",
+            pagos: [{ matriculaId: "mat-b", permiso: "B" }],
+          },
+          {
+            id: "clase-b-5",
+            fecha: new Date("2026-10-29T12:00:00.000Z"),
+            duracion: 45,
+            estado: "CONFIRMADA",
+            tipoClasePractica: "CIRCULACION",
+            pagos: [{ matriculaId: "mat-b", permiso: "B" }],
+          },
+        ],
         bonos: [],
         examenes: [
           {
@@ -898,6 +939,7 @@ describe("DashboardService", () => {
     expect(current.perfil.tipoLicenciaObjetivo).toBe("D");
     expect(current.perfil.licenciasObtenidas).toEqual(["B"]);
     expect(current.teoria.testsTotales).toBe(1);
+    expect(current.practica.clasesRealizadas).toBe(0);
     expect(current.temarios).toHaveLength(1);
     expect(current.temarios[0].titulo).toBe("Temario D");
 
@@ -905,6 +947,7 @@ describe("DashboardService", () => {
     expect(historical.perfil.expedienteEsHistorico).toBe(true);
     expect(historical.estadoAlumno.codigo).toBe("LICENCIA_OBTENIDA");
     expect(historical.teoria.testsTotales).toBe(1);
+    expect(historical.practica.clasesRealizadas).toBe(5);
     expect(historical.temarios).toHaveLength(1);
     expect(historical.temarios[0].titulo).toBe("Temario B");
   });

@@ -231,6 +231,73 @@ export class DashboardService {
     return rows.filter((row) => this.isWithinExpedienteWindow(pickDate(row), window));
   }
 
+  resolveRowMatriculaId(row = {}) {
+    const value =
+      row?.matriculaId ||
+      row?.matricula?.id ||
+      row?.matriculaOrigenId ||
+      row?.matriculaOrigen?.id ||
+      row?.compraBono?.matriculaOrigenId ||
+      row?.clasePractica?.compraBono?.matriculaOrigenId ||
+      row?.pagoGastoPractico?.matriculaId ||
+      row?.clasePractica?.pagos?.[0]?.matriculaId ||
+      row?.pagos?.[0]?.matriculaId ||
+      null;
+
+    return typeof value === "string" && value.trim() ? value : null;
+  }
+
+  resolveRowLicense(row = {}) {
+    const value =
+      row?.permiso ||
+      row?.licencia ||
+      row?.bono?.licencia ||
+      row?.matricula?.licencia ||
+      row?.matriculaOrigen?.licencia ||
+      row?.compraBono?.bono?.licencia ||
+      row?.vehiculo?.tipoPermiso ||
+      row?.pagoGastoPractico?.permiso ||
+      row?.clasePractica?.compraBono?.bono?.licencia ||
+      row?.clasePractica?.vehiculo?.tipoPermiso ||
+      row?.clasePractica?.pagos?.[0]?.permiso ||
+      row?.pagos?.[0]?.permiso ||
+      row?.tipoLicenciaObjetivo ||
+      "";
+
+    return normalizeLicenseCode(value);
+  }
+
+  filterRowsByExpedienteWindow(
+    rows = [],
+    window,
+    pickDate,
+    licenciaObjetivo = null,
+  ) {
+    if (!Array.isArray(rows) || rows.length === 0) {
+      return [];
+    }
+
+    const selectedMatriculaId = window?.matricula?.id || null;
+
+    return rows.filter((row) => {
+      const rowMatriculaId = this.resolveRowMatriculaId(row);
+      if (selectedMatriculaId && rowMatriculaId) {
+        return rowMatriculaId === selectedMatriculaId;
+      }
+
+      const rowLicense = this.resolveRowLicense(row);
+      if (licenciaObjetivo && rowLicense) {
+        return rowLicense === licenciaObjetivo;
+      }
+
+      if (!window?.start) {
+        return true;
+      }
+
+      return this.isWithinExpedienteWindow(pickDate(row), window);
+    });
+  }
+
   async getPorcentajeAprobados() {
     const totalExamenes = await this.repository.getTotalExamenes();
 
@@ -496,38 +563,44 @@ export class DashboardService {
       : false;
 
     const temariosSource = dashboard.temarios || [];
-    const tests = this.filterRowsByWindow(
+    const tests = this.filterRowsByExpedienteWindow(
       dashboard.tests || [],
       selectedWindow,
       (item) => item?.fecha,
+      licenciaObjetivo,
     );
-    const clases = this.filterRowsByWindow(
+    const clases = this.filterRowsByExpedienteWindow(
       dashboard.clases || [],
       selectedWindow,
       (item) => item?.fecha,
+      licenciaObjetivo,
     );
-    const bonosSource = this.filterRowsByWindow(
+    const bonosSource = this.filterRowsByExpedienteWindow(
       dashboard.bonos || [],
       selectedWindow,
       (item) => item?.fechaCompra,
+      licenciaObjetivo,
     );
-    const examenes = this.filterRowsByWindow(
+    const examenes = this.filterRowsByExpedienteWindow(
       dashboard.examenes || [],
       selectedWindow,
       (item) => item?.fechaSolicitud || item?.fechaProgramada,
+      licenciaObjetivo,
     );
-    const examenesDGT = this.filterRowsByWindow(
+    const examenesDGT = this.filterRowsByExpedienteWindow(
       dashboard.examenesDGT || [],
       selectedWindow,
       (item) => item?.fecha,
+      licenciaObjetivo,
     );
-    const pagosDgt = this.filterRowsByWindow(
+    const pagosDgt = this.filterRowsByExpedienteWindow(
       (dashboard.pagosDgt || []).filter((item) => {
         const permiso = normalizeLicenseCode(item?.permiso || "");
         return !licenciaObjetivo || !permiso || permiso === licenciaObjetivo;
       }),
       selectedWindow,
       (item) => item?.fechaPago || item?.fechaCreacion,
+      licenciaObjetivo,
     );
 
     const fechaActual = new Date();
@@ -582,8 +655,14 @@ export class DashboardService {
         ? temariosPendientes.slice(0, 3).map((temario) => temario.titulo)
         : [];
 
+    const includePastRequestedAsCompleted =
+      (isHistoricalExpediente && requestedIsObtained) ||
+      String(alumno.estadoExpediente || "").toUpperCase() ===
+        "LICENCIA_OBTENIDA";
     const clasesRealizadasRows = clases.filter((clase) =>
-      this.isCompletedPracticalClass(clase),
+      includePastRequestedAsCompleted
+        ? this.isHistoricalCompletedPracticalClass(clase, fechaActual)
+        : this.isCompletedPracticalClass(clase),
     );
     const clasesRealizadas = clasesRealizadasRows.length;
 

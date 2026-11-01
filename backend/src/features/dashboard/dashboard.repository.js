@@ -224,6 +224,24 @@ export class DashboardRepository {
         alumnoId: userId,
       },
       include: {
+        pagos: {
+          select: {
+            matriculaId: true,
+            permiso: true,
+          },
+          orderBy: {
+            fechaCreacion: "desc",
+          },
+        },
+        compraBono: {
+          include: {
+            bono: {
+              select: {
+                licencia: true,
+              },
+            },
+          },
+        },
         vehiculo: true,
         hojaRuta: {
           select: {
@@ -265,6 +283,14 @@ export class DashboardRepository {
     return this.prisma.solicitudExamen.findMany({
       where: {
         alumnoId: userId,
+      },
+      include: {
+        pagoGastoPractico: {
+          select: {
+            matriculaId: true,
+            permiso: true,
+          },
+        },
       },
       orderBy: {
         fechaSolicitud: "desc",

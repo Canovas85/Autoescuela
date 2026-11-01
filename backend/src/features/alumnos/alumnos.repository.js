@@ -166,9 +166,27 @@ export class AlumnosRepository {
         clases: {
           select: {
             id: true,
+            fecha: true,
             duracion: true,
             estado: true,
             tipoClasePractica: true,
+            compraBonoId: true,
+            compraBono: {
+              select: {
+                matriculaOrigenId: true,
+                bono: {
+                  select: {
+                    licencia: true,
+                  },
+                },
+              },
+            },
+            pagos: {
+              select: {
+                matriculaId: true,
+                permiso: true,
+              },
+            },
             hojaRuta: {
               select: {
                 estado: true,
@@ -246,6 +264,21 @@ export class AlumnosRepository {
             fecha: "desc",
           },
           include: {
+            pagos: {
+              select: {
+                matriculaId: true,
+                permiso: true,
+              },
+            },
+            compraBono: {
+              include: {
+                bono: {
+                  select: {
+                    licencia: true,
+                  },
+                },
+              },
+            },
             hojaRuta: {
               select: {
                 estado: true,
@@ -266,7 +299,7 @@ export class AlumnosRepository {
       return null;
     }
 
-    const [pagos, documentos, bonos, testsTemario, examenesDgt] =
+    const [pagos, documentos, bonos, testsTemario, examenesDgt, facturas] =
       await Promise.all([
         this.prisma.pago.findMany({
           where: {
@@ -313,6 +346,45 @@ export class AlumnosRepository {
             fecha: "desc",
           },
         }),
+        this.prisma.factura.findMany({
+          where: {
+            alumnoId: id,
+          },
+          include: {
+            matricula: {
+              select: {
+                id: true,
+                licencia: true,
+              },
+            },
+            compraBono: {
+              include: {
+                bono: {
+                  select: {
+                    licencia: true,
+                  },
+                },
+              },
+            },
+            clasePractica: {
+              select: {
+                id: true,
+                pagos: {
+                  select: {
+                    matriculaId: true,
+                    permiso: true,
+                  },
+                  orderBy: {
+                    fechaCreacion: "desc",
+                  },
+                },
+              },
+            },
+          },
+          orderBy: {
+            fechaEmision: "desc",
+          },
+        }),
       ]);
 
     return {
@@ -322,6 +394,7 @@ export class AlumnosRepository {
       bonos,
       testsTemario,
       examenesDgt,
+      facturas,
     };
   }
 

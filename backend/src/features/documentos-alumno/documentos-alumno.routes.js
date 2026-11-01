@@ -20,6 +20,20 @@ const service = new DocumentosAlumnoService(
 );
 const controller = new DocumentosAlumnoController(service);
 
+/**
+ * @swagger
+ *   /api/documentos-alumno:
+ *     get:
+ *       summary: GET /api/documentos-alumno
+ *       tags:
+ *         - Documentos Alumno
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/",
   authenticate,
@@ -27,12 +41,40 @@ router.get(
   controller.getMine.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/documentos-alumno/admin:
+ *     get:
+ *       summary: GET /api/documentos-alumno/admin
+ *       tags:
+ *         - Documentos Alumno
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/admin",
   authenticate,
   authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAllAdmin.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/documentos-alumno:
+ *     post:
+ *       summary: POST /api/documentos-alumno
+ *       tags:
+ *         - Documentos Alumno
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         201:
+ *           description: Operación completada
+ */
 
 router.post(
   "/",
@@ -42,6 +84,20 @@ router.post(
   controller.create.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/documentos-alumno/{id}:
+ *     put:
+ *       summary: PUT /api/documentos-alumno/{id}
+ *       tags:
+ *         - Documentos Alumno
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.put(
   "/:id",
   authenticate,
@@ -50,12 +106,40 @@ router.put(
   controller.update.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/documentos-alumno/{id}:
+ *     delete:
+ *       summary: DELETE /api/documentos-alumno/{id}
+ *       tags:
+ *         - Documentos Alumno
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.delete(
   "/:id",
   authenticate,
   authorize("ALUMNO"),
   controller.remove.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/documentos-alumno/{id}/validar:
+ *     patch:
+ *       summary: PATCH /api/documentos-alumno/{id}/validar
+ *       tags:
+ *         - Documentos Alumno
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.patch(
   "/:id/validar",

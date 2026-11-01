@@ -28,12 +28,40 @@ const service = new PagosService(
 );
 const controller = new PagosController(service);
 
+/**
+ * @swagger
+ *   /api/pagos:
+ *     get:
+ *       summary: GET /api/pagos
+ *       tags:
+ *         - Pagos
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/",
   authenticate,
   authorize("ADMIN"),
   controller.getAll.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/pagos/mine:
+ *     get:
+ *       summary: GET /api/pagos/mine
+ *       tags:
+ *         - Pagos
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.get(
   "/mine",
@@ -42,12 +70,40 @@ router.get(
   controller.getMine.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/pagos/{id}:
+ *     get:
+ *       summary: GET /api/pagos/{id}
+ *       tags:
+ *         - Pagos
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/:id",
   authenticate,
   authorize("ALUMNO"),
   controller.getMineById.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/pagos/{id}/pagar:
+ *     patch:
+ *       summary: PATCH /api/pagos/{id}/pagar
+ *       tags:
+ *         - Pagos
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.patch(
   "/:id/pagar",

@@ -15,12 +15,40 @@ const repository = new ClasesDirectoRepository(prisma);
 const service = new ClasesDirectoService(repository);
 const controller = new ClasesDirectoController(service);
 
+/**
+ * @swagger
+ *   /api/clases-directo/alumno:
+ *     get:
+ *       summary: GET /api/clases-directo/alumno
+ *       tags:
+ *         - Clases Directo
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/alumno",
   authenticate,
   authorize("ALUMNO"),
   controller.getAllActive.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/clases-directo:
+ *     get:
+ *       summary: GET /api/clases-directo
+ *       tags:
+ *         - Clases Directo
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.get(
   "/",
@@ -29,12 +57,40 @@ router.get(
   controller.getAll.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/clases-directo/{id}:
+ *     get:
+ *       summary: GET /api/clases-directo/{id}
+ *       tags:
+ *         - Clases Directo
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/:id",
   authenticate,
   authorize("ALUMNO", "ADMIN"),
   controller.getById.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/clases-directo:
+ *     post:
+ *       summary: POST /api/clases-directo
+ *       tags:
+ *         - Clases Directo
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         201:
+ *           description: Operación completada
+ */
 
 router.post(
   "/",
@@ -43,6 +99,20 @@ router.post(
   controller.create.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/clases-directo/{id}:
+ *     put:
+ *       summary: PUT /api/clases-directo/{id}
+ *       tags:
+ *         - Clases Directo
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.put(
   "/:id",
   authenticate,
@@ -50,12 +120,40 @@ router.put(
   controller.update.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/clases-directo/{id}:
+ *     delete:
+ *       summary: DELETE /api/clases-directo/{id}
+ *       tags:
+ *         - Clases Directo
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.delete(
   "/:id",
   authenticate,
   authorize("ADMIN", "ADMINISTRATIVO"),
   controller.deactivate.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/clases-directo/{id}/activar:
+ *     patch:
+ *       summary: PATCH /api/clases-directo/{id}/activar
+ *       tags:
+ *         - Clases Directo
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.patch(
   "/:id/activar",

@@ -17,12 +17,40 @@ const service = new TarifasMatriculaService(repository);
 
 const controller = new TarifasMatriculaController(service);
 
+/**
+ * @swagger
+ *   /api/tarifas-matricula:
+ *     post:
+ *       summary: POST /api/tarifas-matricula
+ *       tags:
+ *         - Tarifas Matricula
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         201:
+ *           description: Operación completada
+ */
+
 router.post(
   "/",
   authenticate,
   authorize("ADMIN", "ADMINISTRATIVO"),
   controller.create.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/tarifas-matricula:
+ *     get:
+ *       summary: GET /api/tarifas-matricula
+ *       tags:
+ *         - Tarifas Matricula
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.get(
   "/",
@@ -31,12 +59,40 @@ router.get(
   controller.getAll.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/tarifas-matricula/{id}:
+ *     get:
+ *       summary: GET /api/tarifas-matricula/{id}
+ *       tags:
+ *         - Tarifas Matricula
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/:id",
   authenticate,
   authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getById.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/tarifas-matricula/{id}:
+ *     put:
+ *       summary: PUT /api/tarifas-matricula/{id}
+ *       tags:
+ *         - Tarifas Matricula
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.put(
   "/:id",
@@ -45,6 +101,20 @@ router.put(
   controller.update.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/tarifas-matricula/{id}:
+ *     delete:
+ *       summary: DELETE /api/tarifas-matricula/{id}
+ *       tags:
+ *         - Tarifas Matricula
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.delete(
   "/:id",
   authenticate,
@@ -52,12 +122,40 @@ router.delete(
   controller.delete.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/tarifas-matricula/{id}/activar:
+ *     patch:
+ *       summary: PATCH /api/tarifas-matricula/{id}/activar
+ *       tags:
+ *         - Tarifas Matricula
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.patch(
   "/:id/activar",
   authenticate,
   authorize("ADMIN", "ADMINISTRATIVO"),
   controller.activate.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/tarifas-matricula/{id}/desactivar:
+ *     patch:
+ *       summary: PATCH /api/tarifas-matricula/{id}/desactivar
+ *       tags:
+ *         - Tarifas Matricula
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.patch(
   "/:id/desactivar",

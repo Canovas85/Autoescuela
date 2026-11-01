@@ -967,8 +967,36 @@ describe("AlumnosService", () => {
           { id: "dgt-d", aprobado: true, fecha: "2024-02-06T00:00:00.000Z", licencia: "D" },
         ],
         clases: [
-          { id: "clase-b", estado: "REALIZADA", duracion: 60, fecha: "2023-02-10T00:00:00.000Z" },
-          { id: "clase-d", estado: "REALIZADA", duracion: 60, fecha: "2024-02-10T00:00:00.000Z" },
+          {
+            id: "clase-b",
+            estado: "REALIZADA",
+            duracion: 60,
+            fecha: "2024-02-11T00:00:00.000Z",
+            pagos: [{ matriculaId: "mat-b", permiso: "B" }],
+          },
+          {
+            id: "clase-d",
+            estado: "REALIZADA",
+            duracion: 60,
+            fecha: "2024-02-10T00:00:00.000Z",
+            pagos: [{ matriculaId: "mat-d", permiso: "D" }],
+          },
+        ],
+        facturas: [
+          {
+            id: "fac-b",
+            total: "120.00",
+            fechaEmision: "2024-02-13T00:00:00.000Z",
+            matriculaId: "mat-b",
+            matricula: { id: "mat-b", licencia: "B" },
+          },
+          {
+            id: "fac-d",
+            total: "75.50",
+            fechaEmision: "2024-02-14T00:00:00.000Z",
+            matriculaId: "mat-d",
+            matricula: { id: "mat-d", licencia: "D" },
+          },
         ],
         documentos: [],
       }),
@@ -986,5 +1014,15 @@ describe("AlumnosService", () => {
     expect(result.testsTemario.realizados).toBe(1);
     expect(result.testsDgt.realizados).toBe(1);
     expect(result.resumenActividad.clasesReservadas).toBe(1);
+    expect(result.resumenActividad.clasesRealizadas).toBe(1);
+    expect(result.facturas.totalRegistros).toBe(1);
+    expect(result.facturas.totalImporte).toBe(75.5);
+
+    const historicalB = await service.getExtendedSummary("alumno-1", "B");
+
+    expect(historicalB.licenciaObjetivo).toBe("B");
+    expect(historicalB.resumenActividad.clasesRealizadas).toBe(1);
+    expect(historicalB.facturas.totalRegistros).toBe(1);
+    expect(historicalB.facturas.totalImporte).toBe(120);
   });
 });

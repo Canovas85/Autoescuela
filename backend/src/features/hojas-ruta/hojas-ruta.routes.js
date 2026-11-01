@@ -12,12 +12,40 @@ const repository = new HojasRutaRepository(prisma);
 const service = new HojasRutaService(repository);
 const controller = new HojasRutaController(service);
 
+/**
+ * @swagger
+ *   /api/hojas-ruta/catalogo-faltas:
+ *     get:
+ *       summary: GET /api/hojas-ruta/catalogo-faltas
+ *       tags:
+ *         - Hojas Ruta
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/catalogo-faltas",
   authenticate,
   authorize("ADMIN", "PROFESOR", "ALUMNO"),
   controller.getFaultCatalog.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/hojas-ruta/mine/profesor:
+ *     get:
+ *       summary: GET /api/hojas-ruta/mine/profesor
+ *       tags:
+ *         - Hojas Ruta
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.get(
   "/mine/profesor",
@@ -26,12 +54,40 @@ router.get(
   controller.getProfessorDashboard.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/hojas-ruta/mine/profesor/{claseId}:
+ *     get:
+ *       summary: GET /api/hojas-ruta/mine/profesor/{claseId}
+ *       tags:
+ *         - Hojas Ruta
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/mine/profesor/:claseId",
   authenticate,
   authorize("PROFESOR"),
   controller.getProfessorRoadmapDetail.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/hojas-ruta/mine/profesor/{claseId}/borrador:
+ *     put:
+ *       summary: PUT /api/hojas-ruta/mine/profesor/{claseId}/borrador
+ *       tags:
+ *         - Hojas Ruta
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.put(
   "/mine/profesor/:claseId/borrador",
@@ -40,12 +96,40 @@ router.put(
   controller.saveProfessorDraft.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/hojas-ruta/mine/profesor/{claseId}/finalizar:
+ *     put:
+ *       summary: PUT /api/hojas-ruta/mine/profesor/{claseId}/finalizar
+ *       tags:
+ *         - Hojas Ruta
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.put(
   "/mine/profesor/:claseId/finalizar",
   authenticate,
   authorize("PROFESOR"),
   controller.finalizeProfessorRoadmap.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/hojas-ruta/admin/profesores:
+ *     get:
+ *       summary: GET /api/hojas-ruta/admin/profesores
+ *       tags:
+ *         - Hojas Ruta
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.get(
   "/admin/profesores",
@@ -54,12 +138,40 @@ router.get(
   controller.getAdminProfessorsSummary.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/hojas-ruta/admin/profesores/{profesorId}/alumnos:
+ *     get:
+ *       summary: GET /api/hojas-ruta/admin/profesores/{profesorId}/alumnos
+ *       tags:
+ *         - Hojas Ruta
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/admin/profesores/:profesorId/alumnos",
   authenticate,
   authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAdminStudentsByProfessor.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/hojas-ruta/admin/profesores/{profesorId}/alumnos/{alumnoId}/hojas:
+ *     get:
+ *       summary: GET /api/hojas-ruta/admin/profesores/{profesorId}/alumnos/{alumnoId}/hojas
+ *       tags:
+ *         - Hojas Ruta
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.get(
   "/admin/profesores/:profesorId/alumnos/:alumnoId/hojas",
@@ -68,6 +180,20 @@ router.get(
   controller.getAdminRegisteredRoadmapsByStudent.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/hojas-ruta/admin/hojas/{roadmapId}:
+ *     get:
+ *       summary: GET /api/hojas-ruta/admin/hojas/{roadmapId}
+ *       tags:
+ *         - Hojas Ruta
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/admin/hojas/:roadmapId",
   authenticate,
@@ -75,12 +201,40 @@ router.get(
   controller.getAdminRoadmapDetail.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/hojas-ruta/mine/alumno:
+ *     get:
+ *       summary: GET /api/hojas-ruta/mine/alumno
+ *       tags:
+ *         - Hojas Ruta
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/mine/alumno",
   authenticate,
   authorize("ALUMNO"),
   controller.getStudentRegisteredRoadmaps.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/hojas-ruta/mine/alumno/{roadmapId}:
+ *     get:
+ *       summary: GET /api/hojas-ruta/mine/alumno/{roadmapId}
+ *       tags:
+ *         - Hojas Ruta
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.get(
   "/mine/alumno/:roadmapId",

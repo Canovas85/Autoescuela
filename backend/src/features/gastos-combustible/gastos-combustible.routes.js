@@ -18,12 +18,40 @@ const service = new GastosCombustibleService(
 );
 const controller = new GastosCombustibleController(service);
 
+/**
+ * @swagger
+ *   /api/gastos-combustible:
+ *     get:
+ *       summary: GET /api/gastos-combustible
+ *       tags:
+ *         - Gastos Combustible
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/",
   authenticate,
   authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAll.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/gastos-combustible/mine:
+ *     get:
+ *       summary: GET /api/gastos-combustible/mine
+ *       tags:
+ *         - Gastos Combustible
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.get(
   "/mine",
@@ -32,6 +60,20 @@ router.get(
   controller.getMine.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/gastos-combustible/repostar/{vehiculoId}:
+ *     post:
+ *       summary: POST /api/gastos-combustible/repostar/{vehiculoId}
+ *       tags:
+ *         - Gastos Combustible
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         201:
+ *           description: Operación completada
+ */
+
 router.post(
   "/repostar/:vehiculoId",
   authenticate,
@@ -39,6 +81,20 @@ router.post(
   uploadGastoCombustibleRecibo.single("recibo"),
   controller.createRefuelExpense.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/gastos-combustible/revision-itv/{vehiculoId}:
+ *     post:
+ *       summary: POST /api/gastos-combustible/revision-itv/{vehiculoId}
+ *       tags:
+ *         - Gastos Combustible
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         201:
+ *           description: Operación completada
+ */
 
 router.post(
   "/revision-itv/:vehiculoId",

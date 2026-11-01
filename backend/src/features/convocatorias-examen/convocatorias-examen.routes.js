@@ -19,12 +19,40 @@ const service = new ConvocatoriasExamenService(
 );
 const controller = new ConvocatoriasExamenController(service);
 
+/**
+ * @swagger
+ *   /api/convocatorias-examen:
+ *     post:
+ *       summary: POST /api/convocatorias-examen
+ *       tags:
+ *         - Convocatorias Examen
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         201:
+ *           description: Operación completada
+ */
+
 router.post(
   "/",
   authenticate,
   authorize("ADMIN", "ADMINISTRATIVO"),
   controller.create.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/convocatorias-examen:
+ *     get:
+ *       summary: GET /api/convocatorias-examen
+ *       tags:
+ *         - Convocatorias Examen
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.get(
   "/",
@@ -33,12 +61,40 @@ router.get(
   controller.getAll.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/convocatorias-examen/agenda:
+ *     get:
+ *       summary: GET /api/convocatorias-examen/agenda
+ *       tags:
+ *         - Convocatorias Examen
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/agenda",
   authenticate,
   authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAgenda.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/convocatorias-examen/{id}:
+ *     put:
+ *       summary: PUT /api/convocatorias-examen/{id}
+ *       tags:
+ *         - Convocatorias Examen
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.put(
   "/:id",
@@ -47,12 +103,40 @@ router.put(
   controller.update.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/convocatorias-examen/{id}/delete-impact:
+ *     get:
+ *       summary: GET /api/convocatorias-examen/{id}/delete-impact
+ *       tags:
+ *         - Convocatorias Examen
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/:id/delete-impact",
   authenticate,
   authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getDeleteImpact.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/convocatorias-examen/{id}:
+ *     delete:
+ *       summary: DELETE /api/convocatorias-examen/{id}
+ *       tags:
+ *         - Convocatorias Examen
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.delete(
   "/:id",

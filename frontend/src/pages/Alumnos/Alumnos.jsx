@@ -979,10 +979,10 @@ export default function Alumnos() {
         tipoLicenciaObjetivo: selectedLicense,
         licenciaSeleccionada: selectedLicense,
         horasPracticasCompletadas:
-          row?.horasPracticasCompletadas ?? detalle?.horasPracticasCompletadas,
+          detalle?.horasPracticasCompletadas ?? row?.horasPracticasCompletadas,
         horasPracticasCompletadasTexto:
-          row?.horasPracticasCompletadasTexto ||
-          detalle?.horasPracticasCompletadasTexto,
+          detalle?.horasPracticasCompletadasTexto ||
+          row?.horasPracticasCompletadasTexto,
       });
       setPromocionMatricula(
         (detalle?.matriculas || []).find(
@@ -2803,6 +2803,14 @@ export default function Alumnos() {
                           {extendedSummary.pagos?.pagoExamenPracticoPagado
                             ? "Pagado"
                             : "No pagado"}
+                        </Typography>
+                        <Typography variant="body2">
+                          Clases realizadas ({extendedSummary.licenciaObjetivo}):{" "}
+                          {extendedSummary.resumenActividad?.clasesRealizadas ?? 0}
+                        </Typography>
+                        <Typography variant="body2">
+                          Importe total facturas ({extendedSummary.licenciaObjetivo}):{" "}
+                          {`${Number(extendedSummary.facturas?.totalImporte || 0).toFixed(2)} €`}
                         </Typography>
                         <Typography variant="body2">
                           Bono clases:{" "}

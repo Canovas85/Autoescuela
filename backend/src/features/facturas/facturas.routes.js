@@ -17,12 +17,40 @@ const emailService = new EmailService();
 const service = new FacturasService(repository, emailService);
 const controller = new FacturasController(service);
 
+/**
+ * @swagger
+ *   /api/facturas:
+ *     get:
+ *       summary: GET /api/facturas
+ *       tags:
+ *         - Facturas
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/",
   authenticate,
   authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAll.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/facturas/mine:
+ *     get:
+ *       summary: GET /api/facturas/mine
+ *       tags:
+ *         - Facturas
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.get(
   "/mine",
@@ -31,6 +59,20 @@ router.get(
   controller.getMine.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/facturas/{id}/preview:
+ *     get:
+ *       summary: GET /api/facturas/{id}/preview
+ *       tags:
+ *         - Facturas
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/:id/preview",
   authenticate,
@@ -38,12 +80,40 @@ router.get(
   controller.getPreview.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/facturas/{id}/pdf:
+ *     get:
+ *       summary: GET /api/facturas/{id}/pdf
+ *       tags:
+ *         - Facturas
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/:id/pdf",
   authenticate,
   authorize("ADMIN", "ADMINISTRATIVO", "ALUMNO"),
   controller.getPdf.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/facturas/{id}/send-duplicate:
+ *     post:
+ *       summary: POST /api/facturas/{id}/send-duplicate
+ *       tags:
+ *         - Facturas
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         201:
+ *           description: Operación completada
+ */
 
 router.post(
   "/:id/send-duplicate",

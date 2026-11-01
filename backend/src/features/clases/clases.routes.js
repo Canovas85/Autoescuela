@@ -21,7 +21,7 @@ const controller = new ClasesController(service);
  * @swagger
  * /api/clases:
  *   post:
- *     summary: Crear una clase práctica
+ *     summary: Crear una clase prÃƒÂ¡ctica
  *     tags:
  *       - Clases
  *     security:
@@ -65,14 +65,14 @@ router.post(
  * @swagger
  * /api/clases:
  *   get:
- *     summary: Obtener todas las clases prácticas
+ *     summary: Obtener todas las clases prÃƒÂ¡cticas
  *     tags:
  *       - Clases
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Listado de clases prácticas
+ *         description: Listado de clases prÃƒÂ¡cticas
  */
 
 router.get(
@@ -86,7 +86,7 @@ router.get(
  * @swagger
  * /api/clases/{id}:
  *   get:
- *     summary: Obtener una clase práctica por id
+ *     summary: Obtener una clase prÃƒÂ¡ctica por id
  *     tags:
  *       - Clases
  *     security:
@@ -115,7 +115,7 @@ router.get(
  * @swagger
  * /api/clases/{id}:
  *   put:
- *     summary: Actualizar una clase práctica
+ *     summary: Actualizar una clase prÃƒÂ¡ctica
  *     tags:
  *       - Clases
  *     security:
@@ -144,7 +144,7 @@ router.put(
  * @swagger
  * /api/clases/{id}:
  *   delete:
- *     summary: Cancelar clase práctica
+ *     summary: Cancelar clase prÃƒÂ¡ctica
  *     tags:
  *       - Clases
  *     security:
@@ -167,12 +167,40 @@ router.delete(
   controller.cancel.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/clases/mine/student/eligibility:
+ *     get:
+ *       summary: GET /api/clases/mine/student/eligibility
+ *       tags:
+ *         - Clases
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
+
 router.get(
   "/mine/student/eligibility",
   authenticate,
   authorize("ALUMNO"),
   controller.getStudentEligibility.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/clases/mine/student/booking-context:
+ *     get:
+ *       summary: GET /api/clases/mine/student/booking-context
+ *       tags:
+ *         - Clases
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
 
 router.get(
   "/mine/student/booking-context",
@@ -181,12 +209,40 @@ router.get(
   controller.getStudentBookingContext.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/clases/mine/student/request:
+ *     post:
+ *       summary: POST /api/clases/mine/student/request
+ *       tags:
+ *         - Clases
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         201:
+ *           description: OperaciÃ³n completada
+ */
+
 router.post(
   "/mine/student/request",
   authenticate,
   authorize("ALUMNO"),
   controller.createStudentRequest.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/clases/mine/student/{id}/cancel:
+ *     patch:
+ *       summary: PATCH /api/clases/mine/student/{id}/cancel
+ *       tags:
+ *         - Clases
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
 
 router.patch(
   "/mine/student/:id/cancel",
@@ -195,6 +251,20 @@ router.patch(
   controller.cancelStudentRequest.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/clases/mine/professor/requests:
+ *     get:
+ *       summary: GET /api/clases/mine/professor/requests
+ *       tags:
+ *         - Clases
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
+
 router.get(
   "/mine/professor/requests",
   authenticate,
@@ -202,12 +272,40 @@ router.get(
   controller.getProfessorRequests.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/clases/mine/professor/{id}/confirm:
+ *     patch:
+ *       summary: PATCH /api/clases/mine/professor/{id}/confirm
+ *       tags:
+ *         - Clases
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
+
 router.patch(
   "/mine/professor/:id/confirm",
   authenticate,
   authorize("PROFESOR"),
   controller.confirmProfessorRequest.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/clases/mine/professor/{id}/cancel:
+ *     patch:
+ *       summary: PATCH /api/clases/mine/professor/{id}/cancel
+ *       tags:
+ *         - Clases
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
 
 router.patch(
   "/mine/professor/:id/cancel",

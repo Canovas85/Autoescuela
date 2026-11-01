@@ -14,6 +14,20 @@ const repository = new InformesRepository(prisma);
 const service = new InformesService(repository);
 const controller = new InformesController(service);
 
+/**
+ * @swagger
+ *   /api/informes/accounting:
+ *     get:
+ *       summary: GET /api/informes/accounting
+ *       tags:
+ *         - Informes
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/accounting",
   authenticate,

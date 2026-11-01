@@ -2,7 +2,7 @@ import { Router } from "express";
 import { authenticate } from "../../shared/middleware/auth.middleware.js";
 import { authorize } from "../../shared/middleware/role.middleware.js";
 
-// ✅ CÓDIGO CORREGIDO (Subiendo un nivel con "../")
+// Ã¢Å“â€¦ CÃƒâ€œDIGO CORREGIDO (Subiendo un nivel con "../")
 import { AlumnosRepository } from "./alumnos.repository.js";
 import { PromocionesRepository } from "../promociones/promociones.repository.js";
 import { AlumnosService } from "./alumnos.service.js";
@@ -37,6 +37,18 @@ const service = new AlumnosService(
 );
 const controller = new AlumnosController(service);
 
+/**
+ * @swagger
+ *   /api/alumnos/public/register:
+ *     post:
+ *       summary: POST /api/alumnos/public/register
+ *       tags:
+ *         - Alumnos
+ *       responses:
+ *         201:
+ *           description: OperaciÃ³n completada
+ */
+
 router.post(
   "/public/register",
   controller.createFromPublicRegister.bind(controller),
@@ -68,7 +80,7 @@ router.post(
  *             properties:
  *               nombre:
  *                 type: string
- *                 example: Juan Pérez
+ *                 example: Juan PÃƒÂ©rez
  *               email:
  *                 type: string
  *                 example: juan@email.com
@@ -99,6 +111,20 @@ router.post(
   authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getEligiblePromotions.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/alumnos:
+ *     post:
+ *       summary: POST /api/alumnos
+ *       tags:
+ *         - Alumnos
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         201:
+ *           description: OperaciÃ³n completada
+ */
 
 router.post(
   "/",
@@ -157,12 +183,40 @@ router.get(
   controller.getEligibleProfesores.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/alumnos/{id}/resumen-extendido:
+ *     get:
+ *       summary: GET /api/alumnos/{id}/resumen-extendido
+ *       tags:
+ *         - Alumnos
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
+
 router.get(
   "/:id/resumen-extendido",
   authenticate,
   authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getExtendedSummary.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/alumnos/{id}:
+ *     get:
+ *       summary: GET /api/alumnos/{id}
+ *       tags:
+ *         - Alumnos
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
 
 router.get(
   "/:id",
@@ -227,6 +281,20 @@ router.delete(
   authorize("ADMIN", "ADMINISTRATIVO"),
   controller.deactivate.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/alumnos/{id}/activar:
+ *     patch:
+ *       summary: PATCH /api/alumnos/{id}/activar
+ *       tags:
+ *         - Alumnos
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
 
 router.patch(
   "/:id/activar",

@@ -21,14 +21,14 @@ const controller = new DashboardController(service);
  * @swagger
  *   /api/dashboard:
  *   get:
- *     summary: Dashboard básico
+ *     summary: Dashboard bÃƒÂ¡sico
  *     tags:
  *       - Dashboard
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Métricas básicas
+ *         description: MÃƒÂ©tricas bÃƒÂ¡sicas
  *       401:
  *         description: No autenticado
  *       403:
@@ -53,7 +53,7 @@ router.get(
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Métricas avanzadas
+ *         description: MÃƒÂ©tricas avanzadas
  *       401:
  *         description: No autenticado
  *       403:
@@ -92,12 +92,40 @@ router.get(
   controller.getExecutiveDashboard.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/dashboard/administrativo:
+ *     get:
+ *       summary: GET /api/dashboard/administrativo
+ *       tags:
+ *         - Dashboard
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
+
 router.get(
   "/administrativo",
   authenticate,
   authorize("ADMINISTRATIVO"),
   controller.getAdministrativeDashboard.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/dashboard/soporte:
+ *     get:
+ *       summary: GET /api/dashboard/soporte
+ *       tags:
+ *         - Dashboard
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
 
 router.get(
   "/soporte",
@@ -138,12 +166,40 @@ router.get(
   controller.getStudentDashboard.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/dashboard/student/new-license/context:
+ *     get:
+ *       summary: GET /api/dashboard/student/new-license/context
+ *       tags:
+ *         - Dashboard
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
+
 router.get(
   "/student/new-license/context",
   authenticate,
   authorize("ALUMNO"),
   controller.getStudentNewLicenseContext.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/dashboard/student/new-license/promotions:
+ *     get:
+ *       summary: GET /api/dashboard/student/new-license/promotions
+ *       tags:
+ *         - Dashboard
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
 
 router.get(
   "/student/new-license/promotions",
@@ -152,12 +208,40 @@ router.get(
   controller.getStudentNewLicensePromotions.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/dashboard/student/new-license:
+ *     post:
+ *       summary: POST /api/dashboard/student/new-license
+ *       tags:
+ *         - Dashboard
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         201:
+ *           description: OperaciÃ³n completada
+ */
+
 router.post(
   "/student/new-license",
   authenticate,
   authorize("ALUMNO"),
   controller.createStudentNewLicenseEnrollment.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/dashboard/professor:
+ *     get:
+ *       summary: GET /api/dashboard/professor
+ *       tags:
+ *         - Dashboard
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
 
 router.get(
   "/professor",
@@ -166,12 +250,40 @@ router.get(
   controller.getProfessorDashboard.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/dashboard/professor/students:
+ *     get:
+ *       summary: GET /api/dashboard/professor/students
+ *       tags:
+ *         - Dashboard
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
+
 router.get(
   "/professor/students",
   authenticate,
   authorize("PROFESOR"),
   controller.getProfessorStudents.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/dashboard/professor/students/{alumnoId}:
+ *     get:
+ *       summary: GET /api/dashboard/professor/students/{alumnoId}
+ *       tags:
+ *         - Dashboard
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
 
 router.get(
   "/professor/students/:alumnoId",
@@ -180,12 +292,40 @@ router.get(
   controller.getProfessorStudentDetail.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/dashboard/professor/vehicles:
+ *     get:
+ *       summary: GET /api/dashboard/professor/vehicles
+ *       tags:
+ *         - Dashboard
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
+
 router.get(
   "/professor/vehicles",
   authenticate,
   authorize("PROFESOR"),
   controller.getProfessorVehicles.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/dashboard/professor/vehicles/{vehiculoId}/schedule:
+ *     get:
+ *       summary: GET /api/dashboard/professor/vehicles/{vehiculoId}/schedule
+ *       tags:
+ *         - Dashboard
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
 
 router.get(
   "/professor/vehicles/:vehiculoId/schedule",
@@ -194,6 +334,20 @@ router.get(
   controller.getProfessorVehicleSchedule.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/dashboard/professor/agenda:
+ *     get:
+ *       summary: GET /api/dashboard/professor/agenda
+ *       tags:
+ *         - Dashboard
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
+
 router.get(
   "/professor/agenda",
   authenticate,
@@ -201,12 +355,40 @@ router.get(
   controller.getProfessorAgenda.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/dashboard/professor/work-schedule:
+ *     put:
+ *       summary: PUT /api/dashboard/professor/work-schedule
+ *       tags:
+ *         - Dashboard
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
+
 router.put(
   "/professor/work-schedule",
   authenticate,
   authorize("PROFESOR"),
   controller.updateProfessorWorkSchedule.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/dashboard/professor/classes/{classId}/status:
+ *     patch:
+ *       summary: PATCH /api/dashboard/professor/classes/{classId}/status
+ *       tags:
+ *         - Dashboard
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
 
 router.patch(
   "/professor/classes/:classId/status",

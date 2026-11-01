@@ -21,7 +21,7 @@ const controller = new VehiculosController(service);
  * @swagger
  * /api/vehiculos:
  *   post:
- *     summary: Crear vehículo
+ *     summary: Crear vehÃƒÂ­culo
  *     tags:
  *       - Vehiculos
  *     security:
@@ -50,7 +50,7 @@ const controller = new VehiculosController(service);
  *                 format: binary
  *     responses:
  *       201:
- *         description: Vehículo creado correctamente
+ *         description: VehÃƒÂ­culo creado correctamente
  */
 
 router.post(
@@ -65,14 +65,14 @@ router.post(
  * @swagger
  * /api/vehiculos:
  *   get:
- *     summary: Obtener todos los vehículos
+ *     summary: Obtener todos los vehÃƒÂ­culos
  *     tags:
  *       - Vehiculos
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Listado de vehículos
+ *         description: Listado de vehÃƒÂ­culos
  */
 
 router.get(
@@ -86,7 +86,7 @@ router.get(
  * @swagger
  * /api/vehiculos/{id}:
  *   get:
- *     summary: Obtener un vehículo por id
+ *     summary: Obtener un vehÃƒÂ­culo por id
  *     tags:
  *       - Vehiculos
  *     security:
@@ -99,9 +99,9 @@ router.get(
  *           type: string
  *     responses:
  *       200:
- *         description: Vehículo encontrado
+ *         description: VehÃƒÂ­culo encontrado
  *       404:
- *         description: Vehículo no encontrado
+ *         description: VehÃƒÂ­culo no encontrado
  */
 
 router.get(
@@ -115,7 +115,7 @@ router.get(
  * @swagger
  * /api/vehiculos/{id}:
  *   put:
- *     summary: Actualizar vehículo
+ *     summary: Actualizar vehÃƒÂ­culo
  *     tags:
  *       - Vehiculos
  *     security:
@@ -150,9 +150,9 @@ router.get(
  *                 format: binary
  *     responses:
  *       200:
- *         description: Vehículo actualizado
+ *         description: VehÃƒÂ­culo actualizado
  *       404:
- *         description: Vehículo no encontrado
+ *         description: VehÃƒÂ­culo no encontrado
  */
 
 router.put(
@@ -167,7 +167,7 @@ router.put(
  * @swagger
  * /api/vehiculos/{id}:
  *   delete:
- *     summary: Desactivar vehículo
+ *     summary: Desactivar vehÃƒÂ­culo
  *     tags:
  *       - Vehiculos
  *     security:
@@ -180,9 +180,9 @@ router.put(
  *           type: string
  *     responses:
  *       200:
- *         description: Vehículo desactivado
+ *         description: VehÃƒÂ­culo desactivado
  *       404:
- *         description: Vehículo no encontrado
+ *         description: VehÃƒÂ­culo no encontrado
  */
 
 router.delete(
@@ -192,12 +192,40 @@ router.delete(
   controller.deactivate.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/vehiculos/{id}/deactivation-impact:
+ *     get:
+ *       summary: GET /api/vehiculos/{id}/deactivation-impact
+ *       tags:
+ *         - Vehiculos
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
+
 router.get(
   "/:id/deactivation-impact",
   authenticate,
   authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getDeactivationImpact.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/vehiculos/{id}/deactivate-with-reassignment:
+ *     post:
+ *       summary: POST /api/vehiculos/{id}/deactivate-with-reassignment
+ *       tags:
+ *         - Vehiculos
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         201:
+ *           description: OperaciÃ³n completada
+ */
 
 router.post(
   "/:id/deactivate-with-reassignment",
@@ -206,12 +234,40 @@ router.post(
   controller.deactivateWithReassignment.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/vehiculos/{id}/activar:
+ *     patch:
+ *       summary: PATCH /api/vehiculos/{id}/activar
+ *       tags:
+ *         - Vehiculos
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: OperaciÃ³n completada
+ */
+
 router.patch(
   "/:id/activar",
   authenticate,
   authorize("ADMIN", "ADMINISTRATIVO"),
   controller.activate.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/vehiculos/{id}/pagar-itv:
+ *     post:
+ *       summary: POST /api/vehiculos/{id}/pagar-itv
+ *       tags:
+ *         - Vehiculos
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         201:
+ *           description: OperaciÃ³n completada
+ */
 
 router.post(
   "/:id/pagar-itv",

@@ -568,29 +568,20 @@ export class AlumnosService {
       : null;
 
     return rows.filter((row) => {
-      const rowMatriculaId =
-        row?.matriculaId ||
-        row?.matricula?.id ||
-        row?.matriculaOrigenId ||
-        row?.matriculaOrigen?.id ||
-        null;
+      const rowMatriculaId = this.resolveRowMatriculaId(row);
 
       if (matriculaActual?.id && rowMatriculaId && rowMatriculaId !== matriculaActual.id) {
         return false;
       }
 
-      const rowLicense = normalizeLicenseCode(
-        row?.permiso ||
-          row?.licencia ||
-          row?.bono?.licencia ||
-          row?.matricula?.licencia ||
-          row?.matriculaOrigen?.licencia ||
-          row?.tipoLicenciaObjetivo ||
-          "",
-      );
+      const rowLicense = this.resolveRowLicense(row);
 
       if (licenciaObjetivo && rowLicense && rowLicense !== licenciaObjetivo) {
         return false;
+      }
+
+      if (rowMatriculaId || rowLicense) {
+        return true;
       }
 
       const rowDate = toDateOrNull(
@@ -601,6 +592,7 @@ export class AlumnosService {
           row?.fechaSolicitud ||
           row?.fechaProgramada ||
           row?.fechaResolucion ||
+          row?.fechaEmision ||
           row?.updatedAt ||
           row?.createdAt,
       );
@@ -625,6 +617,78 @@ export class AlumnosService {
 
       return true;
     });
+  }
+
+  resolveRowMatriculaId(row = {}) {
+    const direct =
+      row?.matriculaId ||
+      row?.matricula?.id ||
+      row?.matriculaOrigenId ||
+      row?.matriculaOrigen?.id ||
+      row?.compraBono?.matriculaOrigenId ||
+      row?.clasePractica?.compraBono?.matriculaOrigenId ||
+      row?.clasePractica?.pagos?.[0]?.matriculaId ||
+      row?.pagos?.[0]?.matriculaId ||
+      null;
+
+    return typeof direct === "string" && direct.trim() ? direct : null;
+  }
+
+  resolveRowLicense(row = {}) {
+    const candidate =
+      row?.permiso ||
+      row?.licencia ||
+      row?.bono?.licencia ||
+      row?.matricula?.licencia ||
+      row?.matriculaOrigen?.licencia ||
+      row?.compraBono?.bono?.licencia ||
+      row?.compraBono?.matriculaOrigen?.licencia ||
+      row?.vehiculo?.tipoPermiso ||
+      row?.clasePractica?.compraBono?.bono?.licencia ||
+      row?.clasePractica?.vehiculo?.tipoPermiso ||
+      row?.clasePractica?.pagos?.[0]?.permiso ||
+      row?.pagos?.[0]?.permiso ||
+      row?.tipoLicenciaObjetivo ||
+      "";
+
+    return normalizeLicenseCode(candidate);
+  }
+
+  isCompletedPracticalClass(clase) {
+    const estadoClase = String(clase?.estado || "").toUpperCase();
+    const estadoHoja = String(clase?.hojaRuta?.estado || "").toUpperCase();
+
+    return (
+      ["REALIZADA", "COMPLETADA", "FINALIZADA", "REGISTRADA"].includes(
+        estadoClase,
+      ) || estadoHoja === "REGISTRADA"
+    );
+  }
+
+  isPastRequestedPracticalClass(clase, now) {
+    const estadoClase = String(clase?.estado || "").toUpperCase();
+
+    if (!["PROGRAMADA", "PROGRAMADO", "CONFIRMADA"].includes(estadoClase)) {
+      return false;
+    }
+
+    const fechaClase = new Date(clase?.fecha);
+    if (Number.isNaN(fechaClase.getTime())) {
+      return false;
+    }
+
+    return fechaClase < now;
+  }
+
+  isHistoricalCompletedPracticalClass(clase, now) {
+    const estadoClase = String(clase?.estado || "").toUpperCase();
+
+    return (
+      this.isCompletedPracticalClass(clase) ||
+      this.isPastRequestedPracticalClass(clase, now) ||
+      (["PROGRAMADA", "CONFIRMADA"].includes(estadoClase) &&
+        Number.isNaN(new Date(clase?.fecha).getTime()))
+    );
   }
 
   async getAll() {
@@ -659,16 +723,9 @@ export class AlumnosService {
         licencia,
       );
 
-      const clasesRealizadasRows = clases.filter((clase) => {
-        const estadoClase = String(clase?.estado || "").toUpperCase();
-        const estadoHoja = String(clase?.hojaRuta?.estado || "").toUpperCase();
-
-        return (
-          ["REALIZADA", "COMPLETADA", "FINALIZADA", "REGISTRADA"].includes(
-            estadoClase,
-          ) || estadoHoja === "REGISTRADA"
-        );
-      });
+      const clasesRealizadasRows = clases.filter((clase) =>
+        this.isCompletedPracticalClass(clase),
+      );
 
       const minutosPracticas = clasesRealizadasRows.reduce(
         (acc, clase) => acc + (Number(clase?.duracion) || 45),
@@ -794,6 +851,12 @@ export class AlumnosService {
       matriculaActual,
       licenciaObjetivo,
     );
+    const facturas = this.filterRowsByExpediente(
+      Array.isArray(alumno.facturas) ? alumno.facturas : [],
+      alumno,
+      matriculaActual,
+      licenciaObjetivo,
+    );
 
     const pagoTasaDgt = pagos.find((pago) => pago.tipo === "TASA_DGT_21");
     const pagoPractico = pagos.find(
@@ -898,6 +961,25 @@ export class AlumnosService {
       (test) => test.aprobado === false,
     ).length;
     const dgtTotales = examenesDgt.length;
+    const licenciaSolicitada = normalizeLicenseCode(licencia || "");
+    const historialSeleccionado =
+      Boolean(licenciaSolicitada) &&
+      Boolean(matriculaActual) &&
+      normalizeLicenseCode(alumno.tipoLicenciaObjetivo || "") !== licenciaObjetivo;
+    const includePastRequestedAsCompleted =
+      historialSeleccionado ||
+      String(alumno.estadoExpediente || "").toUpperCase() ===
+        "LICENCIA_OBTENIDA";
+    const now = new Date();
+    const clasesRealizadasRows = clasesDelExpediente.filter((clase) =>
+      includePastRequestedAsCompleted
+        ? this.isHistoricalCompletedPracticalClass(clase, now)
+        : this.isCompletedPracticalClass(clase),
+    );
+    const importeFacturasTotal = facturas.reduce(
+      (acc, factura) => acc + Number(factura?.total || 0),
+      0,
+    );
 
     const estadoAcademico = resolveExpedientePhase({
       estadoExpediente: alumno.estadoExpediente,
@@ -1033,10 +1115,15 @@ export class AlumnosService {
         detalle: bonoPrincipal,
         historial: bonosDetallados,
       },
+      facturas: {
+        totalRegistros: facturas.length,
+        totalImporte: Number(importeFacturasTotal.toFixed(2)),
+      },
       resumenActividad: {
         pagosRegistrados: pagos.length,
         solicitudesExamen: solicitudes.length,
         clasesReservadas: clasesDelExpediente.length,
+        clasesRealizadas: clasesRealizadasRows.length,
       },
     };
   }

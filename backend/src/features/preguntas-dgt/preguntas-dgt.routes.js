@@ -22,6 +22,20 @@ const controller = new PreguntasDGTController(service);
 // ADMIN
 //
 
+/**
+ * @swagger
+ *   /api/preguntas-dgt:
+ *     post:
+ *       summary: POST /api/preguntas-dgt
+ *       tags:
+ *         - Preguntas Dgt
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         201:
+ *           description: Operación completada
+ */
+
 router.post(
   "/",
   authenticate,
@@ -30,12 +44,40 @@ router.post(
   controller.create.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/preguntas-dgt:
+ *     get:
+ *       summary: GET /api/preguntas-dgt
+ *       tags:
+ *         - Preguntas Dgt
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/",
   authenticate,
   authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getAll.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/preguntas-dgt/next-id:
+ *     get:
+ *       summary: GET /api/preguntas-dgt/next-id
+ *       tags:
+ *         - Preguntas Dgt
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.get(
   "/next-id",
@@ -44,12 +86,40 @@ router.get(
   controller.getNextId.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/preguntas-dgt/{id}:
+ *     get:
+ *       summary: GET /api/preguntas-dgt/{id}
+ *       tags:
+ *         - Preguntas Dgt
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.get(
   "/:id",
   authenticate,
   authorize("ADMIN", "ADMINISTRATIVO"),
   controller.getById.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/preguntas-dgt/{id}:
+ *     put:
+ *       summary: PUT /api/preguntas-dgt/{id}
+ *       tags:
+ *         - Preguntas Dgt
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.put(
   "/:id",
@@ -59,6 +129,20 @@ router.put(
   controller.update.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/preguntas-dgt/{id}:
+ *     delete:
+ *       summary: DELETE /api/preguntas-dgt/{id}
+ *       tags:
+ *         - Preguntas Dgt
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.delete(
   "/:id",
   authenticate,
@@ -66,12 +150,40 @@ router.delete(
   controller.delete.bind(controller),
 );
 
+/**
+ * @swagger
+ *   /api/preguntas-dgt/{id}/activar:
+ *     patch:
+ *       summary: PATCH /api/preguntas-dgt/{id}/activar
+ *       tags:
+ *         - Preguntas Dgt
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
+
 router.patch(
   "/:id/activar",
   authenticate,
   authorize("ADMIN", "ADMINISTRATIVO"),
   controller.activate.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/preguntas-dgt/{id}/desactivar:
+ *     patch:
+ *       summary: PATCH /api/preguntas-dgt/{id}/desactivar
+ *       tags:
+ *         - Preguntas Dgt
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         200:
+ *           description: Operación completada
+ */
 
 router.patch(
   "/:id/desactivar",
@@ -84,12 +196,40 @@ router.patch(
 // ALUMNO
 //
 
+/**
+ * @swagger
+ *   /api/preguntas-dgt/generar-examen:
+ *     post:
+ *       summary: POST /api/preguntas-dgt/generar-examen
+ *       tags:
+ *         - Preguntas Dgt
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         201:
+ *           description: Operación completada
+ */
+
 router.post(
   "/generar-examen",
   authenticate,
   authorize("ALUMNO"),
   controller.generarExamen.bind(controller),
 );
+
+/**
+ * @swagger
+ *   /api/preguntas-dgt/corregir-examen:
+ *     post:
+ *       summary: POST /api/preguntas-dgt/corregir-examen
+ *       tags:
+ *         - Preguntas Dgt
+ *       security:
+ *         - bearerAuth: []
+ *       responses:
+ *         201:
+ *           description: Operación completada
+ */
 
 router.post(
   "/corregir-examen",
