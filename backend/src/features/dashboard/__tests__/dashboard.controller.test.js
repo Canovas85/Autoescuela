@@ -218,6 +218,7 @@ describe("DashboardController", () => {
     expect(serviceMock.getProfessorStudentDetail).toHaveBeenCalledWith(
       "profesor-1",
       "alumno-1",
+      undefined,
     );
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith(payload);

@@ -2,45 +2,19 @@
 
 ## Estado del documento
 
-Versión revisada del modelo de dominio alineada con el sistema real implementado.
-
-Este documento describe el dominio que realmente existe en el proyecto actual, y deja además marcadas las extensiones futuras que se planean incorporar más adelante.
-
-## Bitacora de dominio (2026-09-21)
-
-Version documental: `v2026.09.21`
-
-Estado actual confirmado:
-
-- El dominio operativo principal ya integra identidad, academia, operativa diaria y bloques administrativos.
-- Las migraciones recientes muestran evolucion activa en notificaciones, agenda de profesor, proceso teorico/practico y metricas de vehiculo.
-- El modelo mantiene coherencia entre entidades centrales (Usuario, Alumno, Profesor, Vehiculo, ClasePractica, Examen) y modulos de apoyo (Temario, Bono, SolicitudExamen, Factura, Pago).
-
-Pendientes de evolucion del dominio:
-
-- Formalizar modelo de permisos granulares y auditoria transversal.
-- Endurecer invariantes de negocio sobre agenda, disponibilidad y carga docente diaria.
-- Consolidar estados de ciclo de vida para flujos economicos y de renovacion con trazabilidad completa.
-- Preparar la transicion del dominio de autoescuela unica hacia posible escenario multi-autoescuela sin romper contratos actuales.
+- ultima revision: 2026-11-03
+- fuente principal: `backend/prisma/schema.prisma` + servicios/rutas activas
 
 ---
 
 # 1. Contexto del negocio actual
 
-La aplicación gestiona una autoescuela con las siguientes áreas funcionales ya presentes:
+El dominio modela la gestion integral de una autoescuela en una sola organizacion:
 
-- autenticación y roles
-- gestión de alumnos
-- gestión de profesores
-- gestión de vehículos
-- gestión de clases prácticas
-- gestión de exámenes
-- gestión básica de formación teórica
-- gestión administrativa de temarios, bonos y solicitudes de examen
-- dashboard ejecutivo
-- dashboard de alumno
-
-El modelo actual es más operativo que estratégico, y está centrado en la administración diaria de la autoescuela.
+- identidad y roles
+- operacion academica (teoria, practicas, examenes)
+- operacion economica (matriculas, pagos, facturas, bonos, promociones)
+- soporte operativo (notificaciones, dashboards, informes, nominas)
 
 ---
 
@@ -50,512 +24,341 @@ El modelo actual es más operativo que estratégico, y está centrado en la admi
 
 ### Usuario
 
-Representa a cualquier persona que accede a la aplicación.
+Entidad raiz de identidad.
 
-#### Atributos actuales
+**Atributos principales**
 
-- id
-- nombre
-- dni
-- email
-- telefono
-- passwordHash
-- requiereCambioPassword
-- rol
-- fechaCreacion
+- `id`, `nombre`, `email`, `passwordHash`
+- `rol` (`ADMIN`, `ADMINISTRATIVO`, `SOPORTE`, `PROFESOR`, `ALUMNO`)
+- `activo`, `requiereCambioPassword`
+- `telefono`, `dni`
 
-#### Relaciones
+**Relaciones**
 
-- un usuario puede ser ADMIN, PROFESOR o ALUMNO
-- un usuario puede estar asociado a un alumno o profesor
+- 1:1 opcional con `Alumno`
+- 1:1 opcional con `Profesor`
+- 1:N con `ActivacionCuenta`
+- 1:N con `Notificacion`
+- 1:N con `PasswordResetAudit` (actor y objetivo)
 
-#### Estado actual
+### ActivacionCuenta
 
-El sistema actual usa dos estados funcionales principales en usuario:
+Tokenizacion de activacion inicial y trazabilidad de reenvios/expiracion.
 
-- rol (ADMIN, PROFESOR, ALUMNO)
-- `requiereCambioPassword` para forzar cambio de contraseña en primer acceso
+### PasswordResetAudit
+
+Auditoria del reseteo de password ejecutado por soporte/admin.
 
 ---
 
-## 2.2 Gestión académica y operativa
+## 2.2 Gestion academica
 
 ### Alumno
 
-Representa al estudiante matriculado en la autoescuela.
+Representa al usuario en formacion.
 
-#### Atributos actuales
+**Atributos principales**
 
-- id
-- tipoLicenciaObjetivo
-- fechaNacimiento
-- horasPracticasCompletadas
-- matriculaPagada
-- fechaMatriculaPago
-- profesorAsignadoId
-- activo
+- `tipoLicenciaObjetivo`
+- `estadoExpediente`
+- `horasPracticasCompletadas`
+- `profesorAsignadoId` (opcional)
+- `licenciaObtenidaAt` (opcional)
+- `activo`
 
-#### Relaciones
+**Relaciones**
 
-- tiene un usuario asociado
-- puede tener un profesor asignado
-- puede tener varias clases prácticas
-- puede tener varios exámenes
-- puede tener varios tests prácticos
-- puede tener varios progresos de temario
-- puede tener varias compras de bono
-- puede tener varias solicitudes de examen
-
-#### Estado actual
-
-- activo: boolean
-- inactivo: boolean
-
-Ejemplo real del sistema:
-
-- `activo = true` para alumno disponible
-- `activo = false` para alumno desactivado temporalmente
-
----
+- `Profesor` asignado (opcional)
+- `ClasePractica[]`
+- `SolicitudExamen[]`
+- `Examen[]`
+- `TemarioProgreso[]`
+- `TestPractica[]`
+- `ExamenDGTAlumno[]`
+- `DocumentoAlumno[]`
+- `HojaRuta[]`
+- `Matricula[]`, `Pago[]`, `Factura[]`
+- `CompraBono[]`
+- `AlumnoProfesorHistorial[]`
 
 ### Profesor
 
-Representa al instructor responsable de impartir clases prácticas.
+Actor docente y operativo.
 
-#### Atributos actuales
+**Atributos principales**
 
-- id
-- licenciaConducir
-- permisosLicencias
-- telefono
-- activo
+- `licenciaConducir`
+- `permisosLicencias[]`
+- `salarioBaseMensual`
+- `activo`, `fechaAlta`, `fechaBaja`
 
-#### Relaciones
+**Relaciones**
 
-- tiene un usuario asociado
-- puede tener varios alumnos asignados
-- puede impartir varias clases prácticas
-
-#### Estado actual
-
-- activo: boolean
-
-#### Notas de dominio implementadas
-
-- `permisosLicencias` representa el conjunto de permisos que el profesor puede impartir
-- `licenciaConducir` se mantiene como campo principal de compatibilidad
-- el catálogo operativo de permisos actual es: `B`, `A1`, `A2`, `A`, `C`, `D`, `E`
-
----
+- `alumnosAsignados[]`
+- `clases[]`, `clasesDirecto[]`
+- `hojasRuta[]`
+- `gastosCombustible[]`
+- `nominas[]`
+- `horarioBloques[]`
+- `solicitudesResueltas[]`
 
 ### Vehiculo
 
-Representa el vehículo disponible para las clases prácticas.
+Recurso operativo para clases y gastos.
 
-#### Atributos actuales
+**Atributos principales**
 
-- id
-- matricula
-- marca
-- modelo
-- tipoPermiso
-- imagenRuta (nullable)
-- activo
+- `matricula` (unica)
+- `tipoPermiso`
+- `kmActuales`, `combustibleActualPct`
+- `imagenRuta` (opcional)
+- `activo`
 
-#### Semántica actual de imagen
+**Relaciones**
 
-`imagenRuta` se usa para guardar la referencia pública de la imagen del vehículo:
-
-- ejemplo: `/api/uploads/vehiculos/<nombre-archivo>`
-
-El archivo físico real se almacena en la carpeta del backend:
-
-- `backend/uploads/vehiculos`
-
-Esto permite guardar solo la ruta en base de datos y mantener el contenido de los ficheros fuera del código fuente.
-
-#### Relaciones
-
-- puede estar asociado a varias clases prácticas
-
-#### Estado actual
-
-- activo: boolean
-- imagenRuta: nullable, opcional para vehículos sin foto
-
-#### Reglas implementadas sobre imagen
-
-- puede estar vacío si el vehículo no tiene foto
-- puede añadirse en alta o en edición
-- puede reemplazarse por otra imagen
-- puede eliminarse explícitamente y entonces se guarda `null`
-- si se elimina, también se borra el archivo físico del backend
-
----
+- `ClasePractica[]`
+- `GastoCombustible[]`
 
 ### ClasePractica
 
-Representa la clase práctica asignada a un alumno con un profesor y un vehículo.
+Unidad operativa de practicas.
 
-#### Atributos actuales
+**Atributos principales**
 
-- id
-- alumnoId
-- profesorId
-- vehiculoId
-- fecha
-- duracion
-- estado
+- `tipoClasePractica` (`CIRCULACION` / `PISTA`)
+- `fecha`, `duracion`
+- `estado`
+- `metodoPago`
+- `canceladaPor`, `canceladaConPenalizacion`
 
-#### Relaciones
+**Relaciones**
 
-- pertenece a un alumno
-- pertenece a un profesor
-- pertenece a un vehículo
+- N:1 con `Alumno`, `Profesor`, `Vehiculo`
+- N:1 opcional con `CompraBono`
+- 1:N con `Pago[]`, `Factura[]`
+- 1:1 opcional con `HojaRuta`
 
-#### Estado actual
+### HojaRuta
 
-El estado de la clase se gestiona como valor textual del dominio, por ejemplo:
+Seguimiento detallado de sesion practica.
 
-- programada
-- completada
-- cancelada
-- reprogramada
+**Atributos principales**
 
-La definición exacta del catálogo de estados puede ampliarse según la evolución del negocio.
+- `estado`
+- `ejerciciosRealizados[]`
+- `observacionesProfesor`
+- `kilometrosInicio/Fin`
+- `combustibleInicioPct/FinPct`
+- `finalizedAt`
 
----
+**Relaciones**
 
-### Examen
+- 1:1 con `ClasePractica`
+- N:1 con `Profesor`, `Alumno`
+- 1:N con `HojaRutaFalta`
 
-Representa la convocatoria o registro de examen asociado a un alumno.
+### HojaRutaFalta / HojaRutaFaltaCatalogo
 
-#### Atributos actuales
-
-- id
-- alumnoId
-- tipo
-- fecha
-- estado
-
-#### Relaciones
-
-- pertenece a un alumno
-
-#### Estado actual
-
-El estado del examen se gestiona también como valor textual, por ejemplo:
-
-- pendiente
-- aprobado
-- suspendido
-- cancelado
+Modelo de faltas observadas y catalogo tipificado.
 
 ---
 
-### Temario
-
-Representa el contenido base de formación teórica organizado por permiso objetivo.
-
-#### Atributos actuales
-
-- id
-- titulo
-- descripcion
-- tipoLicenciaObjetivo
-- orden
-
-#### Relaciones
-
-- puede tener varios progresos de temario
-- puede tener varios tests prácticos asociados
-
----
-
-### TemarioProgreso
-
-Representa el seguimiento de un alumno sobre un temario concreto.
-
-Este agregado mantiene el estado resumen más reciente del tema para el alumno (dominio actual y última revisión), incluso cuando existen múltiples intentos históricos.
-
-#### Atributos actuales
-
-- id
-- alumnoId
-- temarioId
-- revisado
-- dominio
-- ultimaRevision
-
-#### Relaciones
-
-- pertenece a un alumno
-- pertenece a un temario
-
----
-
-### TestPractica
-
-Representa el resultado de un test práctico vinculado a un alumno y, opcionalmente, a un temario.
-
-En la versión actual también se utiliza para guardar el historial de intentos de mini test por tema desde la pantalla de detalle del alumno.
-
-#### Atributos actuales
-
-- id
-- alumnoId
-- temarioId
-- fecha
-- resultado
-- respuestasCorrectas
-- totalPreguntas
-
-#### Relaciones
-
-- pertenece a un alumno
-- puede estar asociado a un temario
-
-#### Semántica actual para mini test por tema
-
-- cada intento genera un registro nuevo
-- `resultado` se deriva del porcentaje (`APROBADO` con umbral 80%, `SUSPENDIDO` en caso contrario)
-- `respuestasCorrectas` y `totalPreguntas` guardan el detalle cuantitativo del intento
-- el historial se consulta por `alumnoId + temarioId`, ordenado por fecha descendente
-
----
-
-### Bono
-
-Representa el catálogo administrativo de bonos disponibles para alumnos.
-
-#### Atributos actuales
-
-- id
-- nombre
-- descripcion
-- clasesIncluidas
-- validezDias
-- activo
-
-#### Relaciones
-
-- puede tener varias compras asociadas
-
----
-
-### CompraBono
-
-Representa la compra concreta de un bono por parte de un alumno.
-
-#### Atributos actuales
-
-- id
-- alumnoId
-- bonoId
-- clasesCompradas
-- clasesConsumidas
-- pagado
-- fechaCompra
-- fechaValidezHasta
-
-#### Relaciones
-
-- pertenece a un alumno
-- pertenece a un bono
-
----
+## 2.3 Evaluacion y examen
 
 ### SolicitudExamen
 
-Representa la petición administrativa de un alumno para convocar un examen.
+Solicitud operativa de presentacion a examen.
 
-#### Atributos actuales
+**Atributos principales**
 
-- id
-- alumnoId
-- tipo
-- estado
-- fechaSolicitud
-- fechaProgramada
-- observaciones
+- `tipo` (`TEORICO` / `PRACTICO`)
+- `fasePractica` (cuando aplica)
+- `estado`
+- `fechaSolicitud`, `fechaProgramada`, `fechaResolucion`
+- metricas de evaluacion (aciertos/errores/faltas y detalles)
+- `motivoNoApto`, `observaciones`
 
-#### Relaciones
+**Relaciones**
 
-- pertenece a un alumno
-
----
-
-# 3. Roles actuales del sistema
-
-## Rol
-
-El modelo actual define el siguiente enum:
-
-- ADMIN
-- PROFESOR
-- ALUMNO
-
-Esto se corresponde con la implementación real del esquema Prisma.
-
----
-
-# 4. Relaciones principales del dominio actual
-
-```text
-Usuario
-  ├── ADMIN
-  ├── PROFESOR
-  └── ALUMNO
-
-Alumno
-  ├── 1:1 con Usuario
-  ├── N:1 con Profesor (asignado opcional)
-  ├── 1:N con ClasePractica
-  └── 1:N con Examen
-
-Profesor
-  ├── 1:1 con Usuario
-  ├── 1:N con ClasePractica
-  └── 1:N con Alumno (asignación de alumnos)
-
-Vehiculo
-  └── 1:N con ClasePractica
-
-ClasePractica
-  ├── N:1 con Alumno
-  ├── N:1 con Profesor
-  └── N:1 con Vehiculo
-
-Examen
-  └── N:1 con Alumno
-```
-
----
-
-# 5. Entidades futuras previstas
-
-Estas entidades no están implementadas todavía, pero forman parte del roadmap funcional del proyecto:
-
-## 5.1 Pago
-
-- id
-- alumnoId
-- importe
-- concepto
-- fecha
-- estado
-
-## 5.2 Factura
-
-- id
-- alumnoId
-- numeroFactura
-- importe
-- fechaEmision
-- estado
-
-## 5.3 Rol administrativo / soporte
-
-Se plantean como ampliación del sistema para gestionar operaciones internas y soporte al cliente.
-
----
-
-# 6. Modelo de estados real del sistema actual
-
-## Estados soportados en modelo implementado
-
-### Usuario
-
-- rol definido por enum
-- `requiereCambioPassword` controla si debe completar el flujo de primer acceso
-
-### Alumno
-
-- activo / inactivo
-
-### Profesor
-
-- activo / inactivo
-
-### Vehiculo
-
-- activo / inactivo
-
-### ClasePractica
-
-- texto libre de negocio definido por la aplicación
+- N:1 con `Alumno`
+- N:1 opcional con `Profesor` resolutor
+- N:1 opcional con `Pago` de gasto practico
 
 ### Examen
 
-- texto libre de negocio definido por la aplicación
+Registro formal de resultado por alumno (teorico/practico).
+
+### ConvocatoriaExamen
+
+Calendario de convocatorias por fecha/licencia/tipo.
+
+### ExamenDGTAlumno
+
+Intentos de examen DGT (preguntas, aciertos, fallos, aprobado).
 
 ---
 
-# 7. Qué NO forma parte del dominio actual
+## 2.4 Formacion teorica
 
-Las siguientes áreas pertenecen al proyecto futuro, no a la versión actual:
+### Temario
 
-- pagos y facturación integrados
-- formación teórica completa
-- materiales educativos y tests online avanzados
-- soporte técnico interno
-- permisos granulares por acción
-- auditoría avanzada
-- evolución económica completa de bonos y paquetes con pasarela de pago
+Tema formativo por licencia objetivo.
 
----
+### TemarioProgreso
 
-# 8. Conclusión
+Estado de avance de un alumno en un tema.
 
-El dominio real del proyecto actual es una plataforma operativa de gestión de autoescuela centrada en:
+### TestPractica
 
-- usuarios
-- alumnos
-- profesores
-- vehículos
-- clases
-- exámenes
-- dashboard
+Resultado de intento de test por alumno (y opcionalmente por tema).
 
-La finalidad de este documento es reflejar ese modelo real y distinguirlo de los conceptos de negocio más amplios que se prevén como evolución futura.
+### PreguntaDGT / RespuestaPreguntaDGT
+
+Banco de preguntas y respuestas para modulo DGT.
+
+### ClaseDirecto
+
+Contenido formativo en directo o video asociado a profesor/licencia.
 
 ---
 
-# 9. Actualización de dominio agosto 2026
+## 2.5 Economico y administrativo
 
-## 9.1 Cambios ya aplicados
+### Matricula
 
-- el agregado `Profesor` amplía su capacidad con permisos múltiples de licencias (`permisosLicencias`)
-- la edición administrativa de profesor se aplica de forma transaccional entre `Usuario` y `Profesor`
-- la edición de alumno y profesor conserva la contraseña actual cuando no se informa nuevo valor
-- el dominio incluye matrícula de alumno pagada y fecha asociada (`matriculaPagada`, `fechaMatriculaPago`)
-- el dominio incorpora temarios, progreso de temarios, tests prácticos, bonos, compras de bono y solicitudes de examen
-- el dashboard de alumno ya forma parte del modelo funcional real
-- el usuario queda modelado con `dni` opcional, `telefono` y `requiereCambioPassword` para gestionar acceso inicial y perfil del alumno/profesor
-- el agregado `Vehiculo` usa `imagenRuta` como referencia opcional y admite edición de imagen desde alta y actualización
-- el backend gestiona archivos físicos de vehículo en `backend/uploads/vehiculos` y conserva solo la ruta pública en base de datos
-- el dominio teórico incorpora mini test por tema con persistencia dual:
-  - estado resumen en `TemarioProgreso`
-  - historial de intentos en `TestPractica`
+Proceso economico de alta academica.
 
-## 9.2 Cambios aún pendientes
+**Atributos principales**
 
-- la evolución futura sigue siendo ampliar reglas de gestión sobre imágenes y adjuntos
-- la imagen física se almacena en filesystem del backend
-- tipos permitidos: `png`, `jpg/jpeg`, `webp`
-- tamaño máximo: `5 MB`
+- `licencia`
+- `precioBase`, `precioFinal`
+- `estado` (ej. `PENDIENTE`, `PAGADA`, `ANULADA`)
+- `fechaPago`
 
-## 9.3 Estado actual del dominio (agosto 2026)
+**Relaciones**
 
-El dominio real del proyecto ya ha evolucionado desde la primera versión hacia una estructura operativa más completa:
+- N:1 con `Alumno`
+- N:1 opcional con `Promocion`
+- 1:N con `Pago`, `Factura`, `MatriculaConcepto`
 
-- `Usuario`: identidad, rol, alta de acceso, cambio de contraseña obligatorio y validación de primer login
-- `Profesor`: perfil docente con permisos múltiples y relación con alumnos
-- `Alumno`: expediente académico y administrativo con asignación de profesor, matricula pagada y dashboard asociado
-- `Vehiculo`: disponibilidad operativa y soporte de imagen opcional
-- `Temario` / `TemarioProgreso` / `TestPractica`: seguimiento teórico y análisis del aprendizaje
-- `Bono` / `CompraBono`: catálogo y compra de bonos por alumno
-- `SolicitudExamen`: flujo administrativo para solicitud, programación y estado
-- `Dashboard`: indicadores operativos y vista personalizada del alumno
+### Pago
 
-Este conjunto representa la base funcional real del sistema actual, y el resto de extensiones continúan planteadas como evolución futura.
+Movimiento economico granular.
+
+**Atributos principales**
+
+- `tipo`, `concepto`, `permiso`, `importe`, `estado`
+- `convocatoriasIncluidas`, `convocatoriasConsumidas`
+- `numeroFacturaPago`
+
+**Relaciones**
+
+- N:1 con `Alumno`
+- N:1 opcional con `Matricula`, `CompraBono`, `ClasePractica`
+
+### Factura
+
+Documento de facturacion por concepto.
+
+**Atributos principales**
+
+- `numero` (unico)
+- `concepto`, `baseImponible`, `descuento`, `total`
+- `estado`, `fechaEmision`, `fechaPago`
+
+**Relaciones**
+
+- referencias opcionales a `Alumno`, `Matricula`, `CompraBono`, `ClasePractica`
+
+### Bono / CompraBono
+
+Catalogo de bonos y compra efectiva por alumno con consumo de clases y vigencia.
+
+### Promocion
+
+Regla de precio promocional y condiciones de aplicabilidad por licencia.
+
+### TarifaMatricula
+
+Precio de matricula por licencia.
+
+### TarifaConcepto / TarifaConceptoHistorial
+
+Catalogo de conceptos tarifarios y trazabilidad de cambios.
+
+### MatriculaConcepto
+
+Linea de detalle de conceptos aplicados a una matricula.
+
+### GastoCombustible
+
+Registro de repostajes y consumo para control operativo.
+
+### Nomina
+
+Liquidacion mensual por profesor con devengos y deducciones.
+
+---
+
+## 2.6 Comunicacion y soporte
+
+### Notificacion
+
+Entidad de comunicacion interna por usuario/evento:
+
+- `tipo`, `titulo`, `mensaje`, `metadata`
+- `leida`, `archivada`, `readAt`, `archivedAt`
+
+---
+
+# 3. Relaciones principales del dominio
+
+1. `Usuario` es entidad madre de identidad.
+2. `Alumno` y `Profesor` especializan al usuario por rol operativo.
+3. El eje academico del alumno conecta con:
+   - `TemarioProgreso`, `TestPractica`, `ExamenDGTAlumno`
+   - `ClasePractica`, `HojaRuta`, `SolicitudExamen`, `Examen`
+4. El eje economico conecta con:
+   - `Matricula`, `Pago`, `Factura`, `CompraBono`
+5. `Promocion` y `Tarifa*` parametrizan precio/condiciones.
+6. `Notificacion` atraviesa el dominio como soporte de eventos.
+
+---
+
+# 4. Modelo de estados real del sistema
+
+Estados representativos observados:
+
+- usuario/profesor/alumno/vehiculo: `activo` boolean
+- matricula: `PENDIENTE`, `PAGADA`, `ANULADA` (segun flujo)
+- pago: `PENDIENTE`, `PAGADO`, `CANCELADO`
+- factura: `EMITIDA`, `PAGADA`, `ANULADA`
+- solicitud examen: estados controlados en servicio (solicitado/programado/finales)
+- expediente alumno: catalogo unificado en `ESTADOS_EXPEDIENTE.md`
+
+---
+
+# 5. Entidades/procesos tecnicos de soporte
+
+Existen tablas para procesos batch de evaluacion:
+
+- `PracticalExamProcessBatch` y relacionadas
+- `TheoreticalExamProcessBatch` y relacionadas
+
+Estas entidades dan soporte a ejecuciones masivas, reversibilidad y auditoria tecnica.
+
+---
+
+# 6. Huecos y consideraciones actuales
+
+1. El dominio `convocatorias-teorico` existe en backend, pero no esta actualmente montado en `app.js`.
+2. El modelo contempla granularidad alta en pagos/facturas; la documentacion funcional debe mantenerse alineada para evitar divergencias.
+3. La base de datos ya contempla suficiente estructura para evolucionar a reglas mas complejas sin romper el nucleo actual.
+
+---
+
+# 7. Conclusion
+
+El modelo de dominio actual es amplio y coherente con la operativa principal de autoescuela.
+Integra identidad, formacion, examen, economia y soporte con relaciones explicitas
+y una base consistente para escalar funcionalmente en siguientes iteraciones.

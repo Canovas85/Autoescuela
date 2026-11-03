@@ -1,6 +1,19 @@
 import express from "express";
 import request from "supertest";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
+
+vi.mock("../../../config/prisma.js", () => ({
+  default: {
+    promocion: {
+      findMany: vi.fn().mockResolvedValue([]),
+      findUnique: vi.fn(),
+      create: vi.fn(),
+      update: vi.fn(),
+      delete: vi.fn(),
+      findFirst: vi.fn(),
+    },
+  },
+}));
 
 import promocionesRoutes from "../promociones.routes.js";
 

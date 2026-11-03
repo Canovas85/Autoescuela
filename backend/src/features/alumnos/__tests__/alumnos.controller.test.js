@@ -112,7 +112,7 @@ describe("AlumnosController", () => {
 
     await controller.getById(req, res);
 
-    expect(serviceMock.getById).toHaveBeenCalledWith("alumno-1");
+    expect(serviceMock.getById).toHaveBeenCalledWith("alumno-1", null);
 
     expect(res.status).toHaveBeenCalledWith(200);
 

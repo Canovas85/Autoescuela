@@ -69,6 +69,17 @@ describe("SolicitudesExamenRepository", () => {
               },
             },
             usuario: true,
+            matriculas: {
+              select: {
+                id: true,
+                licencia: true,
+                fechaCreacion: true,
+                fechaPago: true,
+              },
+              orderBy: {
+                fechaCreacion: "desc",
+              },
+            },
           },
         },
       },

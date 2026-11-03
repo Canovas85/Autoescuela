@@ -1,9 +1,9 @@
 # Catalogo unificado de estados de expediente
 
-Fecha: 2026-09-28
+Fecha: 2026-11-03
 
-Este catalogo define un unico conjunto de fases para el expediente de alumno.
-Se usa en backend para calcular el estado y en frontend para pintar chips con el mismo color en todas las vistas.
+Este catalogo define el conjunto oficial de fases de expediente de alumno.
+Se usa en backend para resolver fase efectiva y en frontend para mostrar chips consistentes.
 
 ## Estados y criterio funcional
 
@@ -13,55 +13,59 @@ Se usa en backend para calcular el estado y en frontend para pintar chips con el
 
 2. `ESTUDIANDO_TEORICO`
 
-- Matricula pagada y aun no ha solicitado fecha de examen teorico.
+- Matricula pagada y aun sin solicitud teorica activa.
 
 3. `PENDIENTE_EXAMEN_TEORICO`
 
-- Solicitud teorica activa (solicitado/programado/pendiente).
+- Solicitud teorica activa (`SOLICITADO`, `PROGRAMADO` o `PENDIENTE`).
 
 4. `TEORICO_SUSPENSO`
 
-- Ultimo resultado teorico final en estado no apto/suspenso.
+- Ultimo resultado teorico final no apto/suspenso.
 
 5. `TEORICO_APROBADO`
 
-- Ultimo resultado teorico en apto.
+- Ultimo resultado teorico apto/aprobado y sin avance practico activo.
 
 6. `REALIZANDO_CLASES_PRACTICAS_CIRCULACION`
 
-- Teorico apto y existe al menos una clase practica de circulacion no cancelada.
+- Teorico apto + existencia de clase de circulacion no cancelada.
 
 7. `PENDIENTE_EXAMEN_PRACTICO_CIRCULACION`
 
-- Solicitud practica de circulacion activa (solicitado/programado/pendiente).
+- Solicitud practica activa de fase circulacion.
 
 8. `PRACTICO_CIRCULACION_SUSPENSO`
 
-- Ultimo resultado practico de circulacion final en no apto/suspenso/no presentado.
+- Ultimo resultado practico de circulacion no apto/suspenso/no presentado.
 
 9. `PRACTICO_CIRCULACION_APROBADO`
 
-- Solo licencias con doble fase (A, A1, A2, C, D, E): aprobado en práctico de circulacion y pendiente de fase de circuito.
+- Solo licencias de doble fase (`A`, `A1`, `A2`, `C`, `D`, `E`):
+  circulacion aprobada y pendiente fase pista.
 
 10. `REALIZANDO_CLASES_PRACTICAS_PISTA`
 
-- Solo licencias con doble fase: aprobado en circulacion y existe al menos una clase practica de pista no cancelada.
+- Solo doble fase:
+  circulacion aprobada y existe clase de pista no cancelada.
 
 11. `PENDIENTE_EXAMEN_PRACTICO_PISTA`
 
-- Solo licencias con doble fase: solicitud practica de pista activa (solicitado/programado/pendiente).
+- Solo doble fase:
+  solicitud practica activa de pista.
 
 12. `PRACTICO_PISTA_SUSPENSO`
 
-- Solo licencias con doble fase: suspenso/no presentado en práctico de pista.
+- Solo doble fase:
+  resultado final no apto/suspenso/no presentado en pista.
 
 13. `LICENCIA_OBTENIDA`
 
-- Resultado practico apto final o expediente marcado como licencia obtenida.
+- Practico final apto/aprobado o expediente marcado como licencia obtenida.
 
 ## Paleta de color de chip
 
-- `PENDIENTE_MATRICULA`: fondo `#fee2e2`, texto `#991b1b`, borde `#fca5a5`
+- `PENDIENTE_MATRICULA`: fondo `#FFDF20`, texto `#991b1b`, borde `#fca5a5`
 - `ESTUDIANDO_TEORICO`: fondo `#fef9c3`, texto `#854d0e`, borde `#facc15`
 - `PENDIENTE_EXAMEN_TEORICO`: fondo `#ffedd5`, texto `#9a3412`, borde `#fdba74`
 - `TEORICO_SUSPENSO`: fondo `#fef2f2`, texto `#b91c1c`, borde `#fca5a5`
@@ -78,5 +82,6 @@ Se usa en backend para calcular el estado y en frontend para pintar chips con el
 ## Implementacion
 
 - Backend (regla unificada): `backend/src/shared/domain/expediente-phase.js`
-- Frontend (meta de color + labels): `frontend/src/utils/expedientePhase.js`
-- Componente global chip: `frontend/src/components/common/ExpedientePhaseChip.jsx`
+- Backend (reglas por licencia): `backend/src/shared/domain/exam-license-rules.js`
+- Frontend (metadatos chips + alias legacy): `frontend/src/utils/expedientePhase.js`
+- Frontend (componente comun): `frontend/src/components/common/ExpedientePhaseChip.jsx`

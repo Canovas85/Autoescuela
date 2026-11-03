@@ -2,460 +2,224 @@
 
 ## Estado del documento
 
-Versión revisada de la especificación funcional alineada con la implementación actual del proyecto.
-
-Este documento describe lo que el sistema realmente cubre hoy y marca con claridad qué funcionalidades están todavía pendientes como evolución del producto.
-
-## Bitacora de avance (2026-09-21)
-
-Version documental: `v2026.09.21`
-
-Estado consolidado observado en implementacion:
-
-- La cobertura funcional principal ya incluye operativa diaria de autoescuela en backend y frontend (alumnos, profesores, vehiculos, clases, examenes, temarios, bonos, promociones y matriculas).
-- Existen modulos de soporte operativo en produccion de codigo para pagos, facturas, notificaciones, convocatorias y hojas de ruta.
-- El portal de profesor y el dashboard de alumno estan presentes y evolucionando.
-
-Bloques que deben completarse para cierre funcional:
-
-- Definir y aplicar permisos granulares en toda la experiencia de usuario.
-- Endurecer reglas avanzadas de agenda y reservas de clases practicas.
-- Completar funcionalidades teoricas y de evaluacion avanzada en una vista unificada de progreso.
-- Revisar y actualizar casos de uso pendientes en secciones marcadas como futuras para evitar divergencia entre especificacion y codigo.
+- ultima revision: 2026-11-03
+- base: comportamiento real implementado y rutas activas
+- validacion asociada: backend tests en verde (689/689) y frontend build correcto
 
 ---
 
 # 1. Alcance actual del sistema
 
-La aplicación actual ya cubre funcionalmente estas áreas:
+El sistema cubre:
 
-- login y autenticación
-- gestión de alumnos
-- gestión de profesores
-- gestión de vehículos
-- gestión de clases prácticas
-- gestión de exámenes
-- gestión básica de formación teórica
-- gestión administrativa de temarios, bonos y solicitudes de examen
-- dashboard ejecutivo
-- dashboard de alumno
-
-Las siguientes áreas quedan fuera del alcance actual y forman parte del roadmap:
-
-- pagos y facturación
-- formación teórica completa
-- soporte y administración interna
-- gestión avanzada de permisos
+- autenticacion, activacion y primer acceso
+- gestion de usuarios operativos y roles
+- ciclo completo de alumno (matricula, teoria, practicas, examenes)
+- gestion de activos (profesores, vehiculos)
+- gestion economica (tarifas, pagos, facturas, bonos, promociones, nominas)
+- trazabilidad operativa (hojas de ruta, notificaciones, dashboards, informes)
 
 ---
 
 # 2. Actor principal: Administrador
 
-## 2.1 Autenticación y acceso
+## 2.1 Autenticacion y acceso
 
-Capacidades actuales:
+- login por credenciales
+- sesion con JWT
+- acceso a panel de administracion por rol
 
-- iniciar sesión con email y contraseña
-- recibir token JWT
-- recibir estado de primer acceso (`requiereCambioPassword`)
-- acceder a páginas protegidas
-- consultar dashboard administrativo
-- cambiar contraseña obligatoriamente en primer login
+## 2.2 Gestion de usuarios
 
-Capacidades futuras:
+- alta/edicion/baja logica de usuarios operativos
+- reseteo de password con auditoria
+- gestion de roles con permisos de backend
 
-- gestión de permisos por entidad
-- permisos más granulares por acción
-- logs de auditoría
+## 2.3 Gestion de alumnos
 
----
+- alta y mantenimiento de expediente
+- asignacion/reasignacion de profesor
+- seguimiento de estado de expediente
+- acceso a documentos y trazabilidad asociada
 
-## 2.2 Gestión de usuarios
+## 2.4 Gestion de profesores
 
-Capacidades actuales:
+- mantenimiento de datos y disponibilidad
+- gestion de permisos/licencias
+- consulta de alumnos asignados
 
-- crear usuario con rol asignado
-- autenticar al usuario
-- consultar lista de usuarios por backend
-- usar rol para controlar acceso a rutas
+## 2.5 Gestion de vehiculos
 
-Capacidades futuras:
+- alta y mantenimiento de flota
+- activacion/desactivacion
+- carga de imagen (opcional)
 
-- gestión completa de usuarios por interfaz administrativa
-- desactivar/reactivar usuario con control detallado
-- edición de perfiles con más campos y permisos
+## 2.6 Gestion de clases practicas
 
----
+- planificacion/edicion/cancelacion
+- control de disponibilidad y estado
+- integracion con pagos y hoja de ruta
 
-## 2.3 Gestión de alumnos
+## 2.7 Gestion de examenes
 
-Capacidades actuales:
-
-- crear alumno
-- listar alumnos
-- consultar alumno por id
-- actualizar datos básicos
-- activar/desactivar alumno
-- asignar profesor opcional
-
-Casos funcionales reales del sistema actual:
-
-- nombre, email, teléfono, dni, fecha de nacimiento y licencia objetivo
-- estado activo/inactivo
-- profesor asignado opcional
-- horas prácticas registradas
-
----
-
-## 2.4 Gestión de profesores
-
-Capacidades actuales:
-
-- crear profesor
-- listar profesores
-- actualizar datos básicos
-- activar/desactivar profesor
-- mantener relación con alumnos
-
----
-
-## 2.5 Gestión de vehículos
-
-Capacidades actuales:
-
-- crear vehículo
-- listar vehículos
-- actualizar datos del vehículo
-- activar/desactivar vehículo
-- gestionar matrícula, marca, modelo y tipo de permiso
-- gestionar imagen opcional del vehículo
-- añadir, cambiar o eliminar la foto del vehículo desde edición
-- visualizar la imagen en detalle y en el listado
-
-### 2.5.1 Vehículos con imagen opcional
-
-El vehículo puede crearse con o sin foto. En edición, la pantalla sigue el mismo patrón de detalle:
-
-- lado izquierdo: campos del vehículo
-- lado derecho: bloque de imagen con opciones de subir, cambiar o eliminar
-
-El caso soportado actualmente es:
-
-- si no tiene imagen, se puede añadir una nueva
-- si ya tiene imagen, se puede cambiar por otra o marcarla para eliminación
-- si se elimina, el backend borra el archivo físico y actualiza `imagenRuta = null`
-
-### 2.5.2 Reglas de validación de imagen
-
-Las restricciones actuales son:
-
-- máximo 5 MB
-- formatos permitidos: PNG, JPG/JPEG, WEBP
-- almacenamiento físico en `backend/uploads/vehiculos`
-- persistencia en BBDD con solo la ruta relativa pública
-
-### 2.5.3 Comportamiento tras guardar edición
-
-Cuando se actualiza un vehículo desde la edición:
-
-- la vista del formulario se cierra
-- el listado se refresca
-- si el detalle estaba abierto, se actualiza inmediatamente con la respuesta del backend
-- si la imagen se eliminó, la foto ya no vuelve a mostrarse en ese vehículo
-
----
-
-## 2.6 Gestión de clases prácticas
-
-Capacidades actuales:
-
-- crear clase práctica
-- listar clases
-- actualizar información básica
-- consultar estado de la clase
-- relacionar alumno, profesor y vehículo
-
-La lógica de negocio de disponibilidad y solapamientos debe reforzarse en una fase posterior.
-
----
-
-## 2.7 Gestión de exámenes
-
-Capacidades actuales:
-
-- crear examen
-- listar exámenes
-- asociar examen a alumno
-- registrar tipo, fecha y estado
-
----
+- gestion de examenes y convocatorias
+- evaluacion de solicitudes teoricas/practicas
+- control de fases practicas (circulacion/pista)
 
 ## 2.8 Dashboard ejecutivo
 
-Capacidades actuales:
+- metricas de estado general
+- visibilidad segmentada por rol
 
-- consultar KPIs principales
-- consultar tasa de éxito
-- consultar éxito mensual
-- consultar exámenes pendientes
-- consultar clases programadas
-- identificar profesor con más clases
-- identificar profesor con más horas
+## 2.9 Gestion economica y administrativa
 
----
-
-## 2.9 Gestión de formación teórica, bonos y solicitudes de examen
-
-Capacidades actuales:
-
-- crear, editar, listar y eliminar temarios
-- registrar progreso de temarios por alumno
-- almacenar tests prácticos por alumno y temario
-- crear, editar, listar, activar y desactivar bonos
-- consultar y mantener compras de bono
-- crear, editar, listar y eliminar solicitudes de examen
-- consultar las solicitudes con la relación alumno + usuario
-- listar temarios del alumno por licencia objetivo autenticada
-- acceder al detalle de tema desde la ruta de alumno
-- corregir mini test por tema y guardar resultado por alumno/tema
-- reintentar mini test sin salir del detalle
-- consultar historial de intentos del tema para evolución inmediata
+- matriculas, tarifas, promociones y bonos
+- pagos, facturas y descarga de PDF
+- gastos de combustible y nominas
+- informes operativos
 
 ---
 
-# 3. Actor: Profesor
+# 3. Actor: Administrativo
 
-La entidad `PROFESOR` existe en el modelo actual, pero en la versión actual la lógica funcional está muy centrada en la administración.
+## Funciones implementadas
 
-## Funciones esperadas en el dominio
+- acceso a dashboard administrativo
+- gestion de alumnos, profesores y vehiculos
+- gestion de tarifas/promociones/bonos
+- gestion de convocatorias, examenes y facturacion
+- consulta de nominas e informes
+- acceso a notificaciones
 
-- impartir clases prácticas
-- gestionar alumnos asignados
-- consultar calendario y disponibilidad
-- ver datos de sus clases
+## Restricciones
 
-## Estado actual
-
-El proyecto define el rol, pero aún no está completamente desarrollado como flujo de usuario específico con experiencia y permisos diferenciados.
-
----
-
-# 4. Actor: Alumno
-
-## Funciones esperadas en el dominio
-
-- autenticarse en la aplicación
-- consultar su información personal
-- consultar clases asignadas
-- consultar exámenes asociados
-- consultar su estado activo/inactivo
-
-## Estado actual
-
-La experiencia del alumno ya está desarrollada de forma funcional en el dashboard de alumno, con información personal, progreso, clases, tests, bonos y solicitudes de examen integrada con el backend.
-
-En temarios, el alumno ya dispone de flujo completo de estudio por tema:
-
-- listado filtrado por su permiso objetivo
-- acceso al detalle de cada tema
-- teoría temática del permiso B
-- mini test por bloque
-- guardado de resultado y visualización de historial de intentos
+- no dispone de todas las acciones exclusivas de `ADMIN` en usuarios de soporte
 
 ---
 
-# 5. Funcionalidad general del sistema actual
+# 4. Actor: Soporte
 
-## 5.1 Login
+## Funciones implementadas
 
-### Flujo actual
+- acceso a dashboard de soporte
+- gestion de usuarios operativos permitidos
+- seguimiento de notificaciones
 
-- el usuario introduce email y contraseña
-- backend busca el usuario por email
-- compara la contraseña con `passwordHash`
-- genera un JWT con rol, email e indicador de primer acceso
-- frontend guarda token y estado de primer acceso
+## Restricciones
 
-### Flujo de primer acceso (obligatorio)
-
-- si `requiereCambioPassword = true`, el frontend redirige a pantalla de primer login
-- el usuario debe informar nueva contraseña y confirmación
-- backend valida formato y coincidencia
-- backend guarda nuevo hash y actualiza `requiereCambioPassword = false`
-- frontend fuerza nuevo login con la contraseña recién establecida
-
-### Restricción de seguridad durante primer acceso
-
-- mientras `requiereCambioPassword = true`, el backend bloquea rutas autenticadas
-- solo se permite el endpoint de cambio de contraseña de primer acceso
+- acceso funcional reducido respecto a admin/administrativo
 
 ---
 
-## 5.2 Listado y mantenimiento de entidades
+# 5. Actor: Profesor
 
-La aplicación actual gestiona las entidades principales mediante CRUD básico:
+## Funciones implementadas
+
+- dashboard de profesor
+- agenda y clases practicas asignadas
+- consulta de alumnos asignados
+- hoja de ruta de clases
+- consulta de vehiculos relevantes
+- gestion/consulta de gastos y nominas
+- notificaciones
+
+---
+
+# 6. Actor: Alumno
+
+## Funciones implementadas
+
+- dashboard de alumno
+- acceso a documentos propios
+- pago de matricula y pagos propios
+- consulta de facturas propias
+- temario y test DGT
+- reserva/seguimiento de clases y hojas de ruta
+- solicitudes de examen teorico/practico
+- acceso a notificaciones
+
+## Comportamiento dinamico
+
+El menu de alumno cambia segun:
+
+- matricula pagada/no pagada
+- teorico apto historico
+- licencia obtenida
+
+---
+
+# 7. Funcionalidad general del sistema actual
+
+## 7.1 Login
+
+Flujo actual:
+
+1. credenciales validas
+2. generacion de token JWT
+3. carga de interfaz segun rol
+
+## 7.2 Primer acceso
+
+Si `requiereCambioPassword = true`:
+
+- se fuerza cambio de password
+- se bloquea navegacion funcional hasta completar el cambio
+
+## 7.3 Mantenimiento de entidades
+
+Patron CRUD con validaciones en backend para:
 
 - alumnos
 - profesores
-- vehículos
-- clases
-- exámenes
+- vehiculos
 - temarios
-- bonos
-- solicitudes de examen
+- examenes/solicitudes
+- bonos/promociones/tarifas
+
+## 7.4 Proteccion por roles
+
+Toda ruta protegida valida:
+
+1. autenticacion (token)
+2. autorizacion (rol permitido)
+3. ownership cuando aplica (ej. pagos/facturas de alumno)
 
 ---
 
-## 5.3 Protección por roles
+# 8. Funcionalidades con implementacion parcial o no expuesta
 
-El sistema actual usa esta lógica:
+## 8.1 Convocatorias teoricas
 
-- autenticación obligatoria
-- autorización por rol para rutas protegidas
-- prioridad de acceso para ADMIN
+El feature backend existe, pero actualmente no esta montado en `app.js`.
 
-La validación completa por permisos más finos queda como ampliación futura.
+## 8.2 Cobertura de tests frontend
 
----
+Existe cobertura puntual (temarios), pendiente ampliacion transversal.
 
-# 6. Funcionalidades futuras no implementadas
+## 8.3 Matriz documental de permisos fina
 
-Estas funcionalidades están previstas en el proyecto y deben documentarse como roadmap:
-
-## 6.1 Pagos y facturación
-
-- bonos
-- paquetes
-- promociones
-- pagos
-- facturas
-- impagos
-
-## 6.2 Formación teórica
-
-- temario
-- materiales
-- vídeos
-- tests y simulacros
-- seguimiento académico
-
-## 6.3 Roles administrativos y de soporte
-
-- ADMINISTRATIVO
-- SOPORTE
-
-## 6.4 Auditoría y trazabilidad
-
-- registro de operaciones sensibles
-- control de cambios críticos
-- trazabilidad por usuario
-
-## 6.5 Reglas avanzadas de negocio
-
-- validación de edades específicas por permiso
-- control de documentación de exámenes
-- validación total de solapamiento de clases
-- penalizaciones por cancelación tardía real
+Permisos reales existen en rutas; la documentacion puede seguir detallandose endpoint a endpoint.
 
 ---
 
-# 7. Matriz de funcionalidad actual vs futura
+# 9. Matriz funcional resumida (estado)
 
-| Área                  | Estado               |
-| --------------------- | -------------------- |
-| Login y JWT           | Implementado         |
-| Gestión de alumnos    | Implementado         |
-| Gestión de profesores | Implementado         |
-| Gestión de vehículos  | Implementado         |
-| Gestión de clases     | Implementado         |
-| Gestión de exámenes   | Implementado         |
-| Dashboard ejecutivo   | Implementado         |
-| Dashboard de alumno   | Implementado         |
-| Temarios              | Implementado         |
-| Bonos                 | Implementado         |
-| Solicitudes de examen | Implementado         |
-| Pagos y facturación   | Pendiente            |
-| Formación teórica     | Implementado parcial |
-| Roles administrativos | Pendiente            |
-| Soporte               | Pendiente            |
-| Auditoría avanzada    | Pendiente            |
-| Permisos granulares   | Pendiente            |
+| Area | Estado |
+|---|---|
+| Autenticacion y roles | Implementada |
+| Gestion academica nucleo | Implementada |
+| Solicitudes/evaluaciones de examen | Implementada |
+| Expediente unificado | Implementada |
+| Gestion economica principal | Implementada |
+| Notificaciones y dashboards | Implementada |
+| Convocatorias teoricas (exposicion API principal) | Parcial/Pendiente |
+| Testing frontend global | Parcial |
 
 ---
 
-# 8. Conclusión
+# 10. Conclusion
 
-La especificación funcional actual del proyecto debe entenderse como una versión operativa orientada a la administración de la autoescuela, no como una visión completa de tipo producto final.
-
-La implementación real ya cubre la base funcional crítica de la operación diaria; lo restante debe gestionarse como backlog funcional y no como requisito ya entregado.
-
----
-
-# 9. Actualización funcional agosto 2026
-
-## 9.1 Cambios implementados recientemente
-
-### Autenticación en frontend
-
-- el cliente HTTP incluye token JWT en cabecera `Authorization` para rutas protegidas
-- se evita el fallo de token no enviado en operaciones administrativas
-- se bloquea el acceso durante el primer login cuando `requiereCambioPassword` está activo
-
-### Flujo de profesor
-
-- creación y edición con `dni` obligatorio
-- soporte de permisos múltiples de licencias para impartición (`B`, `A1`, `A2`, `A`, `C`, `D`, `E`)
-- actualización consistente de datos de `Usuario` y `Profesor` en una sola operación transaccional
-- edición administrativa sin modificación de contraseña
-
-### Flujo de alumno
-
-- en edición, si contraseña va vacía, se conserva la contraseña existente
-- se muestra aviso visual explícito en modal de edición
-- el dashboard de alumno ya consume la información personal, progresos, clases, tests, bonos y solicitudes de examen
-- en la gestión académica se registra el estado de matrícula pagada con `matriculaPagada` y `fechaMatriculaPago`
-
-### Formación teórica, bonos y solicitudes
-
-- se han incorporado endpoints y pantallas para temarios, bonos y solicitudes de examen
-- el backend dispone de sus capas `repository`, `service`, `controller` y `routes` para estas tres features
-- se ha añadido cobertura de tests de servicio, controlador, rutas y repositorio
-- el backend completo queda validado con la suite total de Vitest
-- se han integrado progreso de temarios, tests prácticos, compras de bono y estados de solicitudes
-
-### Temario alumno por tema y mini test
-
-- el alumno ve únicamente los temarios compatibles con su licencia objetivo
-- el detalle de tema se accede desde `/temario/:id`
-- cada tema del permiso B incluye teoría y mini test asociado
-- la corrección guarda el resultado en backend y actualiza el dominio del tema
-- cada intento queda registrado para analítica y se muestra historial en el detalle
-- se incorpora acción de reintento para limpiar respuestas sin abandonar la pantalla
-
-### Vehículos con imagen
-
-- el alta y la edición de vehículos admiten imagen opcional
-- la imagen se guarda en filesystem del backend y se persiste como ruta pública en base de datos
-- se admite sustituir, añadir o eliminar la foto desde la edición
-- las validaciones actuales incluyen `png`, `jpg/jpeg`, `webp` y tamaño máximo de 5 MB
-
----
-
-## 9.2 Decisiones aprobadas para vehículos (siguiente iteración)
-
-### Imagen de vehículo
-
-- el alta de vehículo permite imagen opcional
-- la edición permite añadir, cambiar o no informar imagen
-- el archivo de imagen se almacenará en carpeta del servidor
-- la base de datos almacenará la referencia/ruta del archivo
-
-### Validaciones de imagen
-
-- tamaño máximo `5 MB`
-- formatos permitidos: `png`, `jpg/jpeg`, `webp`
-
-### Detalle de vehículo (fase posterior)
-
-- desde el listado administrativo se podrá abrir una vista de detalle
-- la vista mostrará datos completos e imagen en mayor tamaño
+La especificacion funcional real muestra un sistema amplio y operativo para una autoescuela,
+con especial madurez en backend y en procesos academico-economicos.
+Los principales pendientes actuales se concentran en exposicion parcial de algun modulo
+y en aumentar la cobertura automatizada del frontend.

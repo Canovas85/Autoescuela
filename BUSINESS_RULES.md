@@ -2,753 +2,333 @@
 
 ## Estado del documento
 
-Versión revisada alineada con el proyecto actual implementado en agosto de 2026.
-
-Este documento recoge las reglas que el sistema ya soporta de forma real en backend y frontend, y marca también las reglas que están previstas para fases futuras y aún no están desarrolladas.
-
-Trazabilidad cruzada disponible en `BR_TRACEABILITY_INDEX.md`, con correspondencia de cada regla BR hacia especificacion funcional y modelo de dominio.
-
-## Bitacora de reglas (2026-09-21)
-
-Version documental: `v2026.09.21`
-
-Reglas con base implementada y verificable en codigo:
-
-- Autenticacion, primer acceso y control base por rol.
-- Integridad principal de alumnos, profesores, vehiculos, clases y examenes.
-- Reglas operativas de temarios, bonos y solicitudes de examen.
-- Componentes de renovacion y proceso teorico/practico soportados por scripts y migraciones recientes.
-
-Reglas que requieren consolidacion o ampliacion:
-
-- Permisos finos por accion y entidad (mas alla del control por rol principal).
-- Reglas avanzadas de planificacion docente (descansos, limites de horas y conflictos).
-- Criterios funcionales cerrados para roles administrativo y soporte en todos los flujos.
-- Criterios de validacion end-to-end para pagos/facturacion y su impacto bloqueante en operaciones academicas.
-
-Nota de control:
-
-- Este corte documenta el estado actual para seguimiento de versiones y comparativas posteriores.
+- ultima revision: 2026-11-03
+- fuente principal: implementacion real (backend/frontend/prisma)
+- alcance: reglas aplicadas actualmente + gaps identificados
 
 ---
 
 # 1. Alcance actual del negocio
 
-El sistema actual cubre de forma operativa:
+La plataforma cubre actualmente:
 
-- autenticación por email + contraseña
-- gestión de usuarios y roles
-- gestión de alumnos
-- gestión de profesores
-- gestión de vehículos
-- gestión de clases prácticas
-- gestión de exámenes
-- gestión básica de formación teórica
-- gestión administrativa de temarios, bonos y solicitudes de examen
-- dashboard ejecutivo
-- dashboard de alumno
-
-No están todavía implementadas en la versión actual:
-
-- pagos y facturación
-- formación teórica completa
-- roles administrativos / soporte
-- auditoría avanzada
-- gestión completa de permisos por entidad
-
-Sí están ya incorporados como módulos administrativos:
-
-- temarios básicos
-- progreso de temarios por alumno
-- tests prácticos
-- bonos
-- solicitudes de examen
-- dashboard de alumno
-
-## Cambios recientes incorporados (agosto 2026)
-
-La versión actual del negocio ya incluye varios avances relevantes respecto a la primera definición del proyecto:
-
-- autenticación con bloqueo de rutas durante primer acceso y cambio obligatorio de contraseña
-- almacenamiento del estado `requiereCambioPassword` y tratamiento de primer login en backend y frontend
-- soporte de `dni` y `telefono` en el perfil de usuarios, además de control de actualización sin sobrescribir contraseña vacía
-- profesor con `permisosLicencias` múltiples para impartir varios permisos de conducción en una sola entidad
-- alumno con datos de matrícula pagada (`matriculaPagada` y `fechaMatriculaPago`)
-- módulo completo de temarios, tests, bonos, compras de bono y solicitudes de examen
-- dashboard de alumno consumiendo información personal, progresos, clases, tests, bonos y solicitudes
-- vehículos con imagen opcional, almacenada como referencia en `imagenRuta` y gestionada en filesystem del backend
-
-Estos cambios forman parte del sistema real implementado y deben considerarse dentro de las reglas que seguirán vigentes en la operación actual.
+- ciclo de vida de alumno (matricula -> teoria -> practicas -> examen -> licencia)
+- operativa academica (clases, hoja de ruta, convocatorias, evaluaciones)
+- operativa economica (tarifas, pagos, facturas, bonos, promociones, nominas)
+- soporte transversal (usuarios, roles, notificaciones, dashboard, informes)
 
 ---
 
-# 2. Reglas de autenticación y usuarios
+# 2. Reglas de autenticacion y usuarios
 
-## BR-AUTH-001 - Email único
+## BR-AUTH-001 - Email unico
 
-Cada usuario debe tener un email único en el sistema.
+No pueden existir dos usuarios con el mismo email (`Usuario.email @unique`).
 
-Esto se corresponde con la restricción de `email` como campo único en Prisma.
+## BR-AUTH-002 - Password obligatoria
 
----
+Todo usuario operativo requiere credenciales de acceso (`passwordHash`).
 
-## BR-AUTH-002 - Contraseña obligatoria
+## BR-AUTH-003 - Login por credenciales
 
-Todo usuario debe disponer de una contraseña en formato hash almacenado en `passwordHash`.
+El acceso se realiza por email + password y emision de JWT.
 
-La contraseña original nunca debe persistirse en texto plano.
+## BR-AUTH-004 - JWT obligatorio en rutas protegidas
 
----
+Cualquier endpoint protegido exige cabecera `Authorization: Bearer <token>`.
 
-## BR-AUTH-003 - Longitud mínima de contraseña
+## BR-AUTH-005 - Control de permisos por rol
 
-La contraseña de un usuario debe tener al menos 8 caracteres para poder ser registrada.
+La autorizacion se aplica en backend con `authorize(...roles)` por endpoint.
 
----
+## BR-AUTH-006 - Primer acceso con cambio obligatorio
 
-## BR-AUTH-004 - Login por credenciales
+Si `requiereCambioPassword = true`, el usuario solo puede acceder al flujo de cambio de password.
 
-Un usuario puede autenticarse mediante:
+## BR-AUTH-007 - Activacion de cuenta
 
-- email
-- password
+La activacion inicial usa token con expiracion y trazabilidad en `ActivacionCuenta`.
 
-Si el email no existe o la contraseña no coincide con el hash almacenado, el sistema debe devolver un error de autenticación.
+## BR-AUTH-008 - Reseteo administrativo auditado
 
----
+Los reseteos ejecutados por soporte/admin quedan auditados en `PasswordResetAudit`.
 
-## BR-AUTH-005 - Roles soportados por el sistema actual
+## BR-AUTH-009 - Rol legado GESTOR
 
-Los roles definidos en el modelo actual son:
-
-- ADMIN
-- PROFESOR
-- ALUMNO
-
-El sistema debe validar el rol del usuario al generar el JWT y debe usarlo para controlar acceso a rutas protegidas.
-
----
-
-## BR-AUTH-006 - Protección de rutas por rol
-
-Las rutas administrativas deben estar protegidas con autenticación y autorización.
-
-En la versión actual, la condición implementada es principalmente:
-
-- ADMIN puede acceder a gestión administrativa y dashboard
-
-Las reglas más detalladas por permisos específicos quedan como ampliación futura.
-
----
-
-## BR-AUTH-007 - Cambio obligatorio en primer acceso
-
-Todo usuario creado con contraseña inicial debe tener `requiereCambioPassword = true`.
-
-Mientras esa marca esté activa, el usuario debe cambiar su contraseña antes de acceder al resto de funcionalidades protegidas.
-
----
-
-## BR-AUTH-008 - Excepción de acceso durante primer login
-
-Cuando `requiereCambioPassword = true`, el sistema solo debe permitir el endpoint de cambio de contraseña del primer acceso.
-
-El resto de rutas autenticadas deben devolver acceso denegado hasta completar el cambio.
-
----
-
-## BR-AUTH-009 - Reglas de contraseña para primer cambio
-
-La nueva contraseña del primer acceso debe cumplir:
-
-- mínimo 8 caracteres
-- al menos una mayúscula
-- al menos una minúscula
-- al menos un número
-
----
-
-## BR-AUTH-010 - Confirmación de contraseña obligatoria
-
-En el cambio de contraseña de primer acceso, `newPassword` y `confirmPassword` deben coincidir.
-
-Si no coinciden, el sistema debe rechazar la operación.
-
----
-
-## BR-AUTH-011 - Persistencia del cambio y desactivación de primer acceso
-
-Tras un cambio correcto de contraseña:
-
-- se almacena el nuevo `passwordHash`
-- se actualiza `requiereCambioPassword = false`
-
-Desde ese momento, los siguientes logins deben funcionar con la nueva contraseña y sin redirección al flujo de primer acceso.
+Cuando aparece `GESTOR`, se normaliza a `SOPORTE` para mantener compatibilidad.
 
 ---
 
 # 3. Reglas de alumnos
 
-## BR-ALU-001 - Relación usuario-alumno obligatoria
+## BR-ALU-001 - Relacion usuario-alumno obligatoria
 
-Todo alumno debe estar asociado a un registro de `Usuario`.
+Un alumno es una extension de `Usuario` (id compartido).
 
-Esto se cumple con la relación `alumno.id -> usuario.id` y la creación de ambos registros de forma consistente.
+## BR-ALU-002 - Licencia objetivo obligatoria
 
----
+El alumno opera siempre contra una licencia objetivo (`tipoLicenciaObjetivo`).
 
-## BR-ALU-002 - Email único en alumnos
+## BR-ALU-003 - Estado activo/inactivo
 
-El email del usuario asociado al alumno debe ser único en todo el sistema.
+El alta logica se gestiona con `activo` (sin borrado fisico en flujo operativo).
 
----
+## BR-ALU-004 - Profesor asignado opcional
 
-## BR-ALU-003 - Licencia objetivo obligatoria
+La asignacion de profesor no es obligatoria en el alta de alumno.
 
-Cuando se crea un alumno, debe indicarse `tipoLicenciaObjetivo`.
+## BR-ALU-005 - Expediente con fase persistida y fase calculada
 
-Ejemplo:
+El alumno mantiene `estadoExpediente` persistido y, adicionalmente, se calcula fase efectiva por reglas unificadas.
 
-- B (Turismos)
-- A1, A2, A (Motocicletas)
-- C (Camiones destinados al transporte de carga, cuya masa máxima autorizada supera los 3.500 kg, con un límite de hasta 9 plazas (incluyendo el conductor))
-- D (autobuses y autocares destinados al transporte de pasajeros, diseñados para llevar a más de 8 pasajeros además del conductor)
-- E (Remolques)
+## BR-ALU-006 - Licencia obtenida
 
----
-
-## BR-ALU-004 - Estado activo/inactivo del alumno
-
-El alumno tiene un campo `activo` con valor booleano.
-
-- `true`: activo
-- `false`: inactivo
-
-La gestión de activación/desactivación debe hacerse desde una acción administrativa.
-
----
-
-## BR-ALU-005 - Profesor asignado opcional
-
-Un alumno puede tener o no un profesor asignado.
-
-- `profesorAsignadoId = null` indica que no tiene profesor asignado actualmente.
-
----
-
-## BR-ALU-006 - Registro mínimo requerido para creación
-
-Para crear un alumno en la implementación actual, debe existir al menos:
-
-- nombre
-- email
-- contraseña
-- teléfono
-- dni
-- fecha de nacimiento
-- licencia objetivo
-
-En el diseño actual:
-
-- el DNI se gestiona en el modelo de `Usuario`
-- la fecha de nacimiento se gestiona en el modelo de `Alumno`
+La obtencion de licencia puede quedar marcada por `licenciaObtenidaAt` y por resultados de evaluacion.
 
 ---
 
 # 4. Reglas de profesores
 
-## BR-PRO-001 - Relación usuario-profesor obligatoria
+## BR-PRO-001 - Relacion usuario-profesor obligatoria
 
-Todo profesor debe estar asociado a un `Usuario`.
+Un profesor es una extension de `Usuario` (id compartido).
 
----
+## BR-PRO-002 - Estado activo/inactivo
 
-## BR-PRO-002 - Datos mínimos obligatorios
+La disponibilidad operativa del profesor depende de `activo`.
 
-Un profesor debe tener:
+## BR-PRO-003 - Licencias habilitadas por profesor
 
-- licencia de conducir
-- teléfono
-- estado activo
+`permisosLicencias` define para que permisos puede impartir formacion/evaluacion.
 
----
+## BR-PRO-004 - Historial de cambio de profesor en alumno
 
-## BR-PRO-003 - Estado activo/inactivo del profesor
+Los cambios de asignacion se registran en `AlumnoProfesorHistorial`.
 
-El profesor dispone de un campo `activo` booleano.
+## BR-PRO-005 - Horario de disponibilidad
 
-- `true`: disponible para operaciones
-- `false`: no disponible
+La agenda base del profesor se modela por bloques en `ProfesorHorarioBloque`.
 
 ---
 
-## BR-PRO-004 - Asignación de alumnos
+# 5. Reglas de vehiculos y combustible
 
-Un profesor puede tener alumnos asignados, pero esta relación se gestiona como asociación del lado de alumno y profesor.
+## BR-VEH-001 - Matricula unica
 
----
-
-# 5. Reglas de vehículos
-
-## BR-VEH-001 - Matrícula única
-
-Cada vehículo debe tener una matrícula única.
-
-Esto se corresponde con la restricción `matricula` como campo único en Prisma.
-
----
+No se admiten duplicados de matricula (`Vehiculo.matricula @unique`).
 
 ## BR-VEH-002 - Tipo de permiso obligatorio
 
-Todo vehículo debe indicar `tipoPermiso`.
+Todo vehiculo debe indicar `tipoPermiso`.
+
+## BR-VEH-003 - Estado activo/inactivo
+
+Solo vehiculos activos deben ser seleccionables para clase/operativa.
+
+## BR-VEH-004 - Imagen opcional
+
+La imagen de vehiculo es opcional (`imagenRuta`) y se gestiona por upload.
+
+## BR-VEH-005 - Registro de gasto de combustible
+
+Cada gasto debe referenciar vehiculo y conservar datos de trazabilidad (factura, litros, precio, km, etc.).
 
 ---
 
-## BR-VEH-003 - Estado activo/inactivo del vehículo
+# 6. Reglas de clases practicas y hoja de ruta
 
-El vehículo dispone de un campo `activo`.
+## BR-CLA-001 - Recursos obligatorios
 
-- `true`: disponible
-- `false`: no disponible
+Una clase practica requiere alumno, profesor y vehiculo validos.
 
----
+## BR-CLA-002 - Fecha valida y coherente
 
-## BR-VEH-004 - Uso administrativo del vehículo
+La fecha de clase debe ser valida y compatible con reglas de disponibilidad.
 
-Un vehículo inactivo no debe estar disponible para asignación a nuevas clases.
+## BR-CLA-003 - Tipo de clase practica
 
----
+Se distingue `CIRCULACION` y `PISTA`; la validez depende de la licencia y fase del alumno.
 
-## BR-VEH-005 - Imagen opcional en vehículos
+## BR-CLA-004 - Gestion de cancelaciones
 
-Cada vehículo puede tener o no una imagen asociada.
+La cancelacion modifica estado de clase y puede impactar pagos relacionados (por ejemplo, pago pendiente cancelado).
 
-La imagen se gestiona mediante el campo `imagenRuta`, que puede ser:
+## BR-CLA-005 - Hoja de ruta por clase
 
-- una referencia pública tipo `/api/uploads/vehiculos/<nombre-archivo>`
-- `null` cuando el vehículo no tiene imagen
+Cada clase puede tener una hoja de ruta unica con estado, ejercicios, km, combustible y faltas.
 
-La imagen no es obligatoria ni en alta ni en edición.
+## BR-CLA-006 - Faltas catalogadas
 
----
-
-## BR-VEH-006 - Alta y edición con imagen
-
-En la implementación actual, la edición de un vehículo puede hacerse con estas combinaciones:
-
-- sin cambiar la imagen
-- añadir una imagen nueva si el vehículo no tenía ninguna
-- cambiar la foto por otra nueva
-- eliminar la foto existente
-
-Si se elimina la imagen, el sistema debe:
-
-1. poner `imagenRuta = null`
-2. borrar el archivo físico del backend
-3. reflejar el resultado inmediatamente en la vista de detalle y en la fila del listado
+Las faltas de hoja de ruta pueden vincularse a catalogo tipificado (`HojaRutaFaltaCatalogo`).
 
 ---
 
-## BR-VEH-007 - Ruta real de almacenamiento
+# 7. Reglas de examenes y solicitudes
 
-La imagen física del vehículo se almacena en la carpeta del backend:
+## BR-EXA-001 - Examen ligado a alumno
 
-- `backend/uploads/vehiculos`
+Toda evaluacion formal (`Examen`) se registra contra un alumno.
 
-La API expone ese contenido a través de:
+## BR-SOL-001 - Tipos validos de solicitud
 
-- `/api/uploads/vehiculos/<nombre-archivo>`
+Solo se permiten solicitudes `TEORICO` o `PRACTICO`.
 
-Esto permite guardar solo la referencia en base de datos y mantener el contenido del archivo fuera del código fuente.
+## BR-SOL-002 - Estados validos de solicitud
 
----
+El servicio de solicitudes controla estados permitidos y transiciones validas.
 
-# 6. Reglas de clases prácticas
+## BR-SOL-003 - Evaluacion teorica y practica
 
-## BR-CLA-001 - Existencia de recursos obligatoria
+La resolucion puede registrar:
 
-Para crear una clase práctica deben existir:
+- teoria: aciertos/errores
+- practica: faltas leves/deficientes/eliminatorias y motivo de no apto
 
-- alumno
-- profesor
-- vehículo
+## BR-SOL-004 - Fase practica para licencias duales
 
----
+En permisos duales se usa `fasePractica` para separar circulacion y pista.
 
-## BR-CLA-002 - Fecha obligatoria
+## BR-SOL-005 - Consumo de convocatorias
 
-La clase práctica debe incluir una fecha y una duración.
+Determinados estados finales consumen convocatorias asociadas al pago de examen.
 
----
+## BR-SOL-006 - Reglas post no apto practico
 
-## BR-CLA-003 - Estado de clase
-
-Las clases se gestionan con un campo `estado` textual, y la aplicación debe permitir su evolución según el flujo de negocio.
+Tras no apto practico pueden aplicarse clases adicionales requeridas por tipo de fase.
 
 ---
 
-## BR-CLA-004 - Validación de disponibilidad
+# 8. Reglas de expediente del alumno
 
-La regla funcional esperada es que no debe permitirse solapar:
+## BR-EXP-001 - Catalogo unificado
 
-- alumno
-- profesor
-- vehículo
+El estado del expediente se resuelve con el catalogo definido en `ESTADOS_EXPEDIENTE.md`.
 
-en la misma franja horaria.
+## BR-EXP-002 - Matricula como puerta de entrada
 
-Esta validación está prevista para mayor madurez del negocio, pero no está implementada con validación exhaustiva en la versión actual.
+Si matricula no esta pagada, la fase efectiva es `PENDIENTE_MATRICULA`.
 
----
+## BR-EXP-003 - Prioridad de resultados finales
 
-## BR-CLA-005 - Reprogramación y cancelación
+Resultados finales (apto/no apto) prevalecen sobre estados intermedios para calcular fase.
 
-La lógica de cancelación y reprogramación debe quedar controlada por la capa de negocio del sistema.
+## BR-EXP-004 - Compatibilidad legacy
 
-La regla de negocio general es que una clase debe poder ser modificada o anulada por un administrador o por el actor autorizado.
+Codigos legacy de expediente se normalizan para evitar incoherencias historicas.
 
 ---
 
-# 7. Reglas de exámenes
+# 9. Reglas de formacion teorica y DGT
 
-## BR-EXA-001 - Relación con alumno obligatoria
+## BR-TEO-001 - Temario por licencia
 
-Todo examen debe estar asociado a un alumno válido.
+Cada tema declara las licencias objetivo aplicables.
 
----
+## BR-TEO-002 - Progreso por alumno
 
-## BR-EXA-002 - Fecha y tipo obligatorios
+El progreso se guarda por alumno/temario (`revisado`, `dominio`, `ultimaRevision`).
 
-Un examen debe incluir:
+## BR-TEO-003 - Test de practica por tema
 
-- tipo
-- fecha
-- estado
+Cada intento de test se registra con resultado y metricas de acierto.
 
----
+## BR-TEO-004 - Banco de preguntas DGT
 
-## BR-EXA-003 - Estado del examen
+Preguntas con respuestas asociadas, licencia aplicable y estado activo/inactivo.
 
-El estado del examen se gestiona con un valor textual del dominio, y la aplicación debe reflejar la evolución de su tramitación.
+## BR-TEO-005 - Examen DGT del alumno
 
----
-
-# 8. Reglas del dashboard
-
-## BR-DASH-001 - Visibilidad administrativa
-
-El dashboard está orientado a perfiles administrativos y a la supervisión operativa de la autoescuela.
+Se almacena intento con total preguntas, aciertos, fallos y aprobado.
 
 ---
 
-## BR-DASH-002 - Cálculo de métricas
+# 10. Reglas economicas (matriculas, pagos, facturas, bonos, promociones)
 
-El dashboard debe presentar indicadores de rendimiento, evolución y actividad global del negocio.
+## BR-ECO-001 - Tarifa de matricula por licencia
 
-Las métricas actuales se basan en:
+Existe una tarifa base por licencia (`TarifaMatricula`).
 
-- clases programadas
-- exámenes pendientes
-- tasa de éxito
-- éxito mensual
-- profesor con más clases
-- profesor con más horas
+## BR-ECO-002 - Tarifas por concepto
 
-## BR-DASH-003 - Visibilidad del dashboard de alumno
+Se gestionan conceptos de cobro parametrizados por permiso y tipo de precio.
 
-El dashboard de alumno solo debe mostrar datos del alumno autenticado y su información asociada:
+## BR-ECO-003 - Matricula pagable por admin o alumno propietario
 
-- datos personales
-- progreso de temarios
-- tests prácticos
-- clases asignadas
-- bonos comprados
-- solicitudes de examen
+El pago de matricula valida ownership/rol antes de confirmar estado.
 
----
+## BR-ECO-004 - Pagos con ownership estricto del alumno
 
-## BR-TEO-001 - Catálogo básico de temarios
+Un alumno solo puede consultar/pagar sus propios pagos.
 
-Cada temario debe quedar asociado a un permiso objetivo y a un orden de visualización.
+## BR-ECO-005 - Factura asociada al pago
 
-Los temarios sirven como base de seguimiento académico y pueden tener descripción opcional.
+El pago genera/actualiza referencias de factura para consulta y descarga.
 
----
+## BR-ECO-006 - Duplicados tecnicos y limpieza
 
-## BR-TEO-002 - Seguimiento de progreso por temario
+Servicios economicos incluyen logica para mitigar duplicados tecnicos en pagos/facturas.
 
-El progreso de temario se registra por alumno y por temario.
+## BR-ECO-007 - Bonos y compras
 
-El sistema debe permitir marcar el estado de revisión y el dominio estimado del contenido.
+La compra de bonos registra clases incluidas, consumo y vigencia.
+
+## BR-ECO-008 - Promociones
+
+Las promociones permiten precio promocional y reglas de aplicabilidad por licencia.
+
+## BR-ECO-009 - Nominas por profesor
+
+Nomina unica por profesor/mes con detalle de devengos y deducciones.
 
 ---
 
-## BR-TEO-003 - Tests prácticos ligados al alumno
+# 11. Reglas de notificaciones
 
-Los tests prácticos deben quedar asociados al alumno y, opcionalmente, al temario sobre el que se realizan.
+## BR-NOT-001 - Notificacion por evento de negocio
 
-El sistema debe conservar fecha, resultado y métricas básicas de aciertos.
+Operaciones clave (pago, matricula, bono, etc.) pueden disparar notificaciones.
 
----
+## BR-NOT-002 - Ciclo de vida de notificacion
 
-## BR-TEO-004 - Mini test por tema y persistencia de resultado
+Una notificacion puede marcarse como leida y/o archivada.
 
-Al corregir un mini test de un tema, el sistema debe persistir:
+## BR-NOT-003 - Segmentacion por rol
 
-- `aciertos`
-- `totalPreguntas`
-- `porcentaje`
-
-Validaciones mínimas:
-
-- `totalPreguntas` mayor que 0
-- `aciertos` entre 0 y `totalPreguntas`
-- `porcentaje` entre 0 y 100
+Existe capacidad de emision para un rol objetivo (por ejemplo ADMIN o ADMINISTRATIVO).
 
 ---
 
-## BR-TEO-005 - Doble registro: resumen actual + histórico de intentos
+# 12. Reglas de dashboard e informes
 
-Cada corrección de mini test debe actualizar dos capas:
+## BR-DASH-001 - Dashboards por rol
 
-- estado resumen del tema en `temarios_progreso` (`revisado`, `dominio`, `ultimaRevision`)
-- intento histórico en `tests_practica`
+Cada rol consume endpoints y vistas de dashboard acordes a su operativa.
 
-Esto permite mantener progreso operativo y analítica temporal sin perder intentos previos.
+## BR-DASH-002 - Informes administrativos
 
----
-
-## BR-TEO-006 - Reglas de resultado del intento
-
-Para intentos de mini test por tema:
-
-- si el porcentaje es igual o superior a 80%, `resultado = APROBADO`
-- si el porcentaje es inferior a 80%, `resultado = SUSPENDIDO`
+Modulo de informes para agregados funcionales y soporte de gestion.
 
 ---
 
-## BR-TEO-007 - Historial por alumno y tema
+# 13. Reglas pendientes / futuras
 
-El historial de intentos debe consultarse por `alumnoId` y `temarioId`, ordenado por fecha descendente para mostrar primero los intentos más recientes.
+## BR-GAP-001 - Convocatorias teoricas no expuestas en API principal
 
----
+Existe modulo y pruebas, pero actualmente no esta montado en `app.js`.
 
-## BR-TEO-008 - Reintento de mini test en frontend
+## BR-GAP-002 - Cobertura de test frontend parcial
 
-El alumno puede reintentar un mini test desde el detalle del tema sin abandonar la pantalla.
+El frontend requiere ampliar pruebas funcionales sobre mas modulos.
 
-La acción de reintento debe:
+## BR-GAP-003 - Matriz documental de permisos fina
 
-- limpiar respuestas seleccionadas
-- limpiar estado de corrección actual
-- permitir nueva corrección y nuevo guardado de intento
+Permisos endpoint a endpoint existen en codigo, pero la matriz documental todavia debe profundizarse.
 
 ---
 
-## BR-BON-001 - Catálogo administrativo de bonos
-
-Los bonos se gestionan como catálogo administrativo con nombre, descripción, número de clases incluidas, validez y estado activo.
-
----
-
-## BR-BON-002 - Compras de bono por alumno
-
-Cada compra de bono debe asociar un alumno con un bono concreto, registrar clases compradas, clases consumidas, estado de pago y fecha de validez.
-
----
-
-## BR-SOL-001 - Solicitudes de examen por alumno
-
-Cada solicitud de examen debe asociarse a un alumno y registrar el tipo de examen, estado, fecha de solicitud y fecha programada opcional.
-
----
-
-## BR-SOL-002 - Estado controlado de solicitudes
-
-El estado de una solicitud de examen se gestiona como valor textual del flujo administrativo, por ejemplo:
-
-- PENDIENTE
-- PROGRAMADO
-- COMPLETADO
-- CANCELADO
-
----
-
-# 9. Reglas pendientes / futuras
-
-Las siguientes reglas forman parte del roadmap funcional y aún no están cubiertas por esta versión actual:
-
-## BR-FUT-001 - Pagos y facturación
-
-- paquetes
-- promociones
-- pagos
-- facturas
-- impagos
-
-## BR-FUT-002 - Formación teórica completa
-
-- material educativo
-- cursos en línea
-- tests y simulacros
-- evolución teórica ampliada del alumno
-- vídeos
-- analítica de resultados
-
-## BR-FUT-003 - Roles de soporte y administrativo
-
-- ADMINISTRATIVO
-- SOPORTE
-
-## BR-FUT-004 - Permisos granulares
-
-- permisos por entidad
-- permisos por acción
-- permisos por área funcional
-
-## BR-FUT-005 - Auditoría avanzada
-
-- registro de cambios críticos
-- trazabilidad de acciones del administrador
-- control de borrados y modificaciones sensibles
-
-## BR-FUT-006 - Reglas avanzadas de negocio
-
-- restricción por edad real para cada permiso
-- validación de psicotécnico
-- validación de documentación de exámenes
-- control completo de solapamiento de calendario
-- penalización por cancelaciones tardías con créditos reales
-
-## BR-FUT-007 - Precios, Promociones, Bonos
-
-El objetivo es definir la estructura de precios, la gestión de tasas oficiales, la caducidad y vigencia de bonos y tarifas, así como las políticas de devoluciones y acumulación de promociones dentro de la plataforma de la autoescuela online.
-
-El alcance de estas reglas aplican a todos los usuarios alumnos matriculados en la plataforma, así como al módulo administrativo encargado de la gestión de tarifas, pasarelas de pago y control de bonos o códigos promocionales.
-
-## BR-FUT-007-1 - Vigencia y Control de Precios y Tasas
-
-- Control de Versiones y Fechas: Todos los precios asociados a la matrícula, clases sueltas, tasas y promociones contarán obligatoriamente con una fecha de inicio de vigencia, fecha de fin de vigencia y un control de versión en la base de datos.
-- Tasas Oficiales DGT: Se reflejarán las tarifas oficiales vigentes establecidas por el organismo competente (ej. Tasa 2.1 estándar de 94,05 € para dos convocatorias de examen), actualizándose de forma independiente a los precios de los servicios de la autoescuela.
-
-## BR-FUT-007-2 - Caducidad de Bonos y Promociones
-
-- Definición Temporal: Todo bono de clases prácticas o promoción comercial tendrá una fecha u offset de caducidad definido explícitamente en el momento de su creación en el sistema.
-- Inutilización por Vencimiento: Transcurrido el plazo de caducidad asignado al bono o promoción, las unidades restantes o los beneficios asociados expirarán de forma automática y no podrán ser recuperados ni aplicados.
-
-## BR-FUT-007-3 - Política de Devoluciones y Cancelaciones
-
-- No Devolución en Efectivo de Bonos: Si un alumno adquiere un bono de clases (por ejemplo, un bono de 20 clases) y aprueba el examen teórica o prágicamente habiendo consumido únicamente una parte (ej. 5 clases), no se realizará ninguna devolución del importe económico en efectivo de las clases no disfrutadas.
-- Fundamento: El alumno debe planificar con antelación el volumen de su preparación y propósito de ejecución de clases antes de presentarse a los procesos de examen. Los bonos representan un compromiso de adquisición por volumen.
-
-## BR-FUT-007-4 - Acumulación de Promociones y Bonos
-
-- Independencia de Transacciones: Se permite la acumulación de promociones en el sistema bajo el criterio de que cada promoción o descuento debe procesarse de manera independiente y separada en la pasarela o cesta de compra.
-- Separación de la Compra de Bonos: La aplicación de descuentos promocionales y la adquisición de bonos o clases se gestionarán como entidades desacopladas que pueden combinarse operativamente en el checkout según las restricciones específicas de cada campaña.
-
-## BR-FUT-007-5 - Precios Matrícula / Pack Teórico Online
-
-- Precio Matricula: 90€.
-- Suele incluir acceso a la plataforma durante un periodo determinado (ej. 6 meses o 1 año) y temario digital.
-
-## BR-FUT-007-6 - Precios Clase Práctica (Duración de 45 minutos)
-
-- Precio Matricula: 32€.
-
-## BR-FUT-007- 7- Ejemplos Precios Bonos de Clases Prácticas
-
-- Bono de 5 clases: 140 euros (Aprox. 28 euros/clase).
-- Bono de 10 clases: 270 euros (Aprox. 27 euros/clase).
-- Bono de 20 clases: 520 euros (Aprox. 26 euros/clase).
-
----
-
-# 10. Conclusión
-
-La versión actual del sistema está enfocada a la gestión operativa de una autoescuela con autenticación, alumnos, profesores, vehículos, clases, exámenes y dashboard.
-
-Las reglas que aparecen aquí son las que realmente se corresponden con el código y el modelo de datos actuales. El resto debe entenderse como planificación funcional futura, no como requisito ya implementado.
-
----
-
-# 11. Actualización agosto 2026 (cambios recientes)
-
-## BR-AUTH-012 - Cabecera Authorization obligatoria en rutas protegidas
-
-Las llamadas del frontend a endpoints protegidos deben enviar `Authorization: Bearer <token>`.
-
-Si no se envía token, la API devuelve `401` con mensaje de token no enviado.
-
----
-
-## BR-PRO-005 - DNI obligatorio en alta y edición de profesor
-
-Para profesores, el `dni` es obligatorio y debe cumplir formato válido de 8 números + 1 letra.
-
----
-
-## BR-PRO-006 - Permisos de licencias múltiples en profesor
-
-Un profesor puede impartir clases para varios permisos simultáneamente.
-
-Reglas aplicadas:
-
-- debe existir al menos un permiso seleccionado
-- se normalizan y deduplican los valores
-- catálogo permitido: `B`, `A1`, `A2`, `A`, `C`, `D`, `E`
-
----
-
-## BR-PRO-007 - Actualización transaccional de profesor
-
-La edición de profesor debe actualizar de forma consistente:
-
-- datos de usuario (`nombre`, `email`, `dni`, `telefono`)
-- datos de profesor (`licenciaConducir`, `permisosLicencias`, `telefono`)
-
-La operación se realiza en una transacción para evitar estados intermedios inconsistentes.
-
----
-
-## BR-PRO-008 - Contraseña no modificable en edición administrativa de profesor
-
-En la edición administrativa de profesor, si no se informa contraseña, se mantiene la actual sin cambios.
-
-En la implementación actual la contraseña de profesor no se modifica desde este formulario.
-
----
-
-## BR-ALU-007 - Contraseña no modificable si se deja vacía en edición
-
-En edición de alumno, si la contraseña llega vacía, el sistema conserva la contraseña actual y no recalcula hash.
-
----
-
-## BR-VEH-008 - Imagen de vehículo (acordado para siguiente iteración)
-
-Se incorpora la decisión funcional de añadir una referencia de imagen por vehículo.
-
-Reglas aprobadas:
-
-- la imagen no es obligatoria en el alta
-- en edición se puede añadir o cambiar imagen, o mantener sin imagen
-- los archivos se guardan en carpeta del servidor
-- en base de datos se guarda solo la referencia/ruta de imagen
-
----
-
-## BR-VEH-009 - Validación de imagen de vehículo (acordado)
-
-Para alta y edición de imagen de vehículo:
-
-- tamaño máximo: `5 MB`
-- formatos permitidos: `png`, `jpg/jpeg`, `webp`
-
----
-
-## BR-VEH-010 - Vista detalle de vehículo (próxima fase)
-
-Se implementará una vista de detalle desde el listado para visualizar:
-
-- datos completos del vehículo
-- imagen en tamaño mayor
+# 14. Conclusion
+
+El nucleo de reglas de negocio esta implementado en modulos productivos,
+con consistencia razonable entre modelo de datos, servicios y rutas.
+Los gaps actuales son de exposicion parcial de algun modulo y de cobertura documental/testing frontend,
+no de ausencia total del dominio principal.
