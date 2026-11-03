@@ -67,65 +67,75 @@ export const buildNominaPdfBuffer = (nomina) => {
     doc.on("end", () => resolve(Buffer.concat(buffers)));
     doc.on("error", reject);
 
-    drawPdfBranding(doc, { includeFooter: true });
+    const headerBlockY = 84;
+    const headerBlockHeight = 80;
+    const tableHeaderY = 180;
+
+    drawPdfBranding(doc, {
+      includeFooter: false,
+      headerAlign: "center",
+      headerY: 28,
+    });
 
     doc
-      .font("Helvetica-Bold")
-      .fontSize(13)
-      .fillColor("#1f3b68")
-      .text("RECIBO DE SALARIOS (NOMINA) - EJEMPLO ILUSTRATIVO", 30, 36, {
-        align: "center",
-        width: 535,
-      });
-
-    doc.lineWidth(0.8).strokeColor("#c7d3e3").rect(30, 64, 535, 80).stroke();
+      .lineWidth(0.8)
+      .strokeColor("#c7d3e3")
+      .rect(30, headerBlockY, 535, headerBlockHeight)
+      .stroke();
 
     doc
-      .moveTo(297, 64)
-      .lineTo(297, 144)
+      .moveTo(297, headerBlockY)
+      .lineTo(297, headerBlockY + headerBlockHeight)
       .strokeColor("#c7d3e3")
       .lineWidth(0.6)
       .stroke();
 
     doc.font("Helvetica-Bold").fillColor("#111827").fontSize(8.2);
-    doc.text("EMPRESA:", 36, 74);
-    doc.text("TRABAJADOR:", 304, 74);
+    doc.text("EMPRESA:", 36, headerBlockY + 10);
+    doc.text("TRABAJADOR:", 304, headerBlockY + 10);
 
     doc.font("Helvetica").fontSize(8.1);
-    doc.text("AUTOESCUELA EGUZKILORE S.L.", 36, 86);
-    doc.text("CIF: B-12345678", 36, 97);
-    doc.text(`TRABAJADOR: ${nomina.profesor?.usuario?.nombre || "-"}`, 304, 86);
-    doc.text(`NIF: ${nomina.profesor?.usuario?.dni || "-"}`, 304, 97);
-    doc.text("Categoria: Profesor Formacion Vial", 304, 108);
+    doc.text("AUTOESCUELA EGUZKILORE S.L.", 36, headerBlockY + 22);
+    doc.text("CIF: B-12345678", 36, headerBlockY + 33);
+    doc.text(
+      `TRABAJADOR: ${nomina.profesor?.usuario?.nombre || "-"}`,
+      304,
+      headerBlockY + 22,
+    );
+    doc.text(`NIF: ${nomina.profesor?.usuario?.dni || "-"}`, 304, headerBlockY + 33);
+    doc.text("Categoria: Profesor Formacion Vial", 304, headerBlockY + 44);
 
     doc
       .lineWidth(0.6)
-      .moveTo(30, 120)
-      .lineTo(565, 120)
+      .moveTo(30, headerBlockY + 56)
+      .lineTo(565, headerBlockY + 56)
       .strokeColor("#c7d3e3")
       .stroke();
 
     doc
       .font("Helvetica-Bold")
       .fontSize(8.1)
-      .text("Periodo de Liquidacion:", 36, 126);
-    doc.font("Helvetica").fontSize(8.1).text(periodLabel(nomina), 130, 126);
-    doc.font("Helvetica-Bold").fontSize(8.1).text("Nº Nomina:", 304, 126);
-    doc.font("Helvetica").fontSize(8.1).text(nomina.numero, 362, 126);
+      .text("Periodo de Liquidacion:", 36, headerBlockY + 62);
+    doc
+      .font("Helvetica")
+      .fontSize(8.1)
+      .text(periodLabel(nomina), 130, headerBlockY + 62);
+    doc.font("Helvetica-Bold").fontSize(8.1).text("Nº Nomina:", 304, headerBlockY + 62);
+    doc.font("Helvetica").fontSize(8.1).text(nomina.numero, 362, headerBlockY + 62);
 
-    doc.rect(30, 160, 535, 20).fill("#1f3b68");
+    doc.rect(30, tableHeaderY, 535, 20).fill("#1f3b68");
     doc
       .fillColor("#ffffff")
       .font("Helvetica-Bold")
       .fontSize(8)
-      .text("Codigo", 34, 167)
-      .text("Conceptos Salariales (Devengos)", 76, 167)
-      .text("Cantidad", 335, 167, { width: 52, align: "right" })
-      .text("Precio", 390, 167, { width: 52, align: "right" })
-      .text("Importe Bruto", 448, 167, { width: 56, align: "right" })
-      .text("Deducciones", 508, 167, { width: 56, align: "right" });
+      .text("Codigo", 34, tableHeaderY + 7)
+      .text("Conceptos Salariales (Devengos)", 76, tableHeaderY + 7)
+      .text("Cantidad", 335, tableHeaderY + 7, { width: 52, align: "right" })
+      .text("Precio", 390, tableHeaderY + 7, { width: 52, align: "right" })
+      .text("Importe Bruto", 448, tableHeaderY + 7, { width: 56, align: "right" })
+      .text("Deducciones", 508, tableHeaderY + 7, { width: 56, align: "right" });
 
-    let y = 188;
+    let y = tableHeaderY + 28;
     doc.font("Helvetica");
 
     drawRow(doc, {
@@ -151,8 +161,8 @@ export const buildNominaPdfBuffer = (nomina) => {
     drawRow(doc, {
       y,
       code: "045",
-      label: "Plus Productividad (Clases Practicas Extra)",
-      cantidad: `${nomina.totalPresentados} convocatorias`,
+      label: "Plus Productividad Convocatorias",
+      cantidad: String(nomina.totalPresentados ?? 0),
       precio: "11.00 EUR",
       devengo: formatCurrency(nomina.plusProductividad),
     });

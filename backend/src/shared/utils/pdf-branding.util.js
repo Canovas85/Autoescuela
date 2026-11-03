@@ -61,18 +61,6 @@ export const drawDecorativeFrame = (doc) => {
     .lineTo(pageWidth - margin, pageHeight - margin - line)
     .stroke();
 
-  const squareSize = 46;
-  doc
-    .lineWidth(0.8)
-    .strokeColor("#e2e8f0")
-    .rect(
-      pageWidth / 2 - squareSize / 2,
-      pageHeight / 2 - squareSize / 2,
-      squareSize,
-      squareSize,
-    )
-    .stroke();
-
   doc.restore();
 };
 
