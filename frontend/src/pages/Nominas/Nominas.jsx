@@ -258,7 +258,7 @@ export default function Nominas() {
       filterable: false,
       disableColumnMenu: true,
       renderCell: (params) => (
-        <Stack direction="row" spacing={0.25}>
+        <Stack direction="row" spacing={0.25} sx={{ mt: 1 }}>
           <Tooltip title="Ver nómina" arrow>
             <IconButton
               color="primary"

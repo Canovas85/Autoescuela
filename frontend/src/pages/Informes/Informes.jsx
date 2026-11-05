@@ -919,10 +919,8 @@ export default function Informes() {
             sx={{ mb: 1 }}
           >
             <Typography variant="subtitle1" fontWeight={800}>
-              Últimos movimientos
-            </Typography>
-            <Typography variant="caption" color="text.secondary">
-              Fuente combinada: facturas, pagos y gastos de combustible.
+              Últimos movimientos (facturas, pagos y gastos de combustible,
+              nominas)
             </Typography>
           </Stack>
 
