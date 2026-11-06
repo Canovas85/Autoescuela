@@ -138,8 +138,8 @@ Conclusiones:
 
 ### Cobertura pendiente
 
-- ampliar catalogo de pruebas frontend en documentacion (actualizado con avance hasta fase 7 de BR-GAP-002)
-- mantener actualizada la trazabilidad de fases de BR-GAP-002 conforme se amplie cobertura
+- mantener trazabilidad de cobertura frontend ya completada (BR-GAP-002 resuelto)
+- mantener actualizada la evidencia de validaciones de suite cuando se añadan nuevos modulos o escenarios
 
 ---
 
