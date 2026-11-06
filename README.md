@@ -281,13 +281,13 @@ Reglas destacadas implementadas:
 
 ### Frontend
 
-- pruebas focalizadas en flujos de temario
-- pendiente ampliar cobertura transversal por modulos
+- pruebas funcionales ampliadas por modulos operativos y subflujos de rol
+- cobertura de BR-GAP-002 completada en modulos frontend principales
 
-### Validacion de estado documental (2026-11-03)
+### Validacion de estado documental (2026-11-06)
 
 - backend: `npm test` -> 81 archivos / 689 tests superados
-- frontend: `npm test` -> 2 archivos / 2 tests superados
+- frontend: `npm test` -> 54 archivos / 75 tests superados
 - frontend: `npm run build` -> compilacion correcta
 
 ---
