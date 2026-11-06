@@ -354,7 +354,7 @@ Estas entidades dan soporte a ejecuciones masivas, reversibilidad y auditoria te
 1. RESUELTO (2026-11-06): `convocatorias-teorico` ya esta montado en `app.js` y expuesto en `/api/convocatorias-teorico`.
 2. El modelo contempla granularidad alta en pagos/facturas; la documentacion funcional debe mantenerse alineada para evitar divergencias.
 3. La base de datos ya contempla suficiente estructura para evolucionar a reglas mas complejas sin romper el nucleo actual.
-4. ACTUALIZADO (2026-11-06): la cobertura de tests frontend se amplio a `temarios`, `test-dgt`, `agendas`, `account-activation`, `pagos`, `login`, `dashboard`, `pago-matricula` y `solicitudes-examen`, aunque sigue siendo parcial respecto al total funcional.
+4. ACTUALIZADO (2026-11-06): la cobertura de tests frontend se amplio a `temarios`, `test-dgt`, `agendas`, `account-activation`, `pagos`, `login`, `dashboard`, `pago-matricula`, `solicitudes-examen`, `alumnos`, `profesores`, `clases`, `facturas`, `vehiculos`, `bonos`, `promociones`, `tarifas-matricula`, `tarifas-concepto`, `notificaciones`, `gastos`, `nominas`, `otros-usuarios` y `matriculas`, aunque sigue siendo parcial respecto al total funcional.
 
 ---
 
