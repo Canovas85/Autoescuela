@@ -2,7 +2,7 @@
 
 ## Estado del documento
 
-- ultima revision: 2026-11-03
+- ultima revision: 2026-11-06
 - fuente principal: implementacion real (backend/frontend/prisma)
 - alcance: reglas aplicadas actualmente + gaps identificados
 
@@ -339,7 +339,7 @@ Permanece pendiente seguir extendiendo cobertura transversal al resto de modulos
 
 ## BR-GAP-003 - Matriz documental de permisos fina
 
-Permisos endpoint a endpoint existen en codigo, pero la matriz documental todavia debe profundizarse.
+RESUELTO (2026-11-06): la matriz documental de permisos endpoint a endpoint queda completada en `FUNCTIONAL_SPECIFICATION.md` (seccion 9), con trazabilidad de autenticacion, roles y notas de ownership/alcance cuando aplica.
 
 ---
 
@@ -349,3 +349,10 @@ El nucleo de reglas de negocio esta implementado en modulos productivos,
 con consistencia razonable entre modelo de datos, servicios y rutas.
 Los gaps actuales son de cobertura documental/testing frontend,
 no de ausencia total del dominio principal.
+
+---
+
+# 15. Historial de cambios
+
+- 2026-11-06: BR-GAP-003 marcado como resuelto y enlazado a la matriz detallada de permisos endpoint a endpoint en `FUNCTIONAL_SPECIFICATION.md`.
+- 2026-11-06: actualizada fecha de revision del documento.
