@@ -195,9 +195,21 @@ y expuesto en `/api/convocatorias-teorico`.
 
 ## 8.2 Cobertura de tests frontend
 
-Cobertura ampliada (2026-11-06) con pruebas funcionales en `temarios`,
-`test-dgt`, `agendas`, `account-activation`, `pagos`, `login`,
-`dashboard`, `pago-matricula` y `solicitudes-examen`.
+Cobertura ampliada (2026-11-06, fase 7) con pruebas funcionales en
+`temarios`, `test-dgt`, `agendas`, `account-activation`, `pagos`, `login`,
+`dashboard`, `pago-matricula`, `solicitudes-examen`, `alumnos`,
+`profesores`, `clases`, `facturas`, `vehiculos`, `bonos`,
+`promociones`, `tarifas-matricula`, `tarifas-concepto`,
+`notificaciones`, `gastos`, `nominas`, `otros-usuarios`, `matriculas`,
+`profesor-alumnos`, `profesor-vehiculos`, `profesor-agenda`,
+`clases-practicas-profesor`, `examenes`, `convocatoria-examen`,
+`mis-facturas`, `informes`, `documentos-alumno`, `nueva-licencia`,
+`reservar-clase`, `mis-pagos`, `examen-teorico-alumno`,
+`examen-practico-alumno`, `documentos-alumno-admin`, `clases-directo`,
+`clases-directo-admin`, `clase-directo-detalle`, `first-login-password`
+y `facturas-admin`; en la fase 7 se añade `hojas-ruta` con escenarios
+de profesor, admin/administrativo y alumno.
+Validacion tecnica: suite frontend en verde (`45` archivos / `66` tests).
 Sigue pendiente ampliacion transversal al resto de modulos.
 
 ## 8.3 Matriz documental de permisos fina
@@ -216,7 +228,7 @@ Permisos reales existen en rutas; la documentacion puede seguir detallandose end
 | Expediente unificado | Implementada |
 | Gestion economica principal | Implementada |
 | Notificaciones y dashboards | Implementada |
-| Convocatorias teoricas (exposicion API principal) | Parcial/Pendiente |
+| Convocatorias teoricas (exposicion API principal) | Implementada |
 | Testing frontend global | Parcial |
 
 ---
