@@ -196,7 +196,7 @@ y expuesto en `/api/convocatorias-teorico`.
 
 ## 8.2 Cobertura de tests frontend
 
-Cobertura ampliada (2026-11-06, fase 7) con pruebas funcionales en
+RESUELTO (2026-11-06): cobertura funcional completada con pruebas en
 `temarios`, `test-dgt`, `agendas`, `account-activation`, `pagos`, `login`,
 `dashboard`, `pago-matricula`, `solicitudes-examen`, `alumnos`,
 `profesores`, `clases`, `facturas`, `vehiculos`, `bonos`,
@@ -208,10 +208,10 @@ Cobertura ampliada (2026-11-06, fase 7) con pruebas funcionales en
 `reservar-clase`, `mis-pagos`, `examen-teorico-alumno`,
 `examen-practico-alumno`, `documentos-alumno-admin`, `clases-directo`,
 `clases-directo-admin`, `clase-directo-detalle`, `first-login-password`
-y `facturas-admin`; en la fase 7 se añade `hojas-ruta` con escenarios
+y `facturas-admin`, añadiendo tambien `evaluacion-examen-teorico`,
+`evaluacion-examen-practico` y completando `hojas-ruta` con escenarios
 de profesor, admin/administrativo y alumno.
-Validacion tecnica: suite frontend en verde (`45` archivos / `66` tests).
-Sigue pendiente ampliacion transversal al resto de modulos.
+Validacion tecnica final: suite frontend en verde (`54` archivos / `75` tests).
 
 ## 8.3 Matriz documental de permisos fina
 
@@ -602,7 +602,7 @@ Sigue pendiente ampliacion transversal al resto de modulos.
 | Gestion economica principal                       | Implementada |
 | Notificaciones y dashboards                       | Implementada |
 | Convocatorias teoricas (exposicion API principal) | Implementada |
-| Testing frontend global                           | Parcial      |
+| Testing frontend global                           | Implementada |
 
 ---
 
@@ -610,12 +610,13 @@ Sigue pendiente ampliacion transversal al resto de modulos.
 
 La especificacion funcional real muestra un sistema amplio y operativo para una autoescuela,
 con especial madurez en backend y en procesos academico-economicos.
-Los principales pendientes actuales se concentran en exposicion parcial de algun modulo
-y en aumentar la cobertura automatizada del frontend.
+Los principales pendientes actuales se concentran en evolucion de escenarios avanzados
+y mantenimiento documental continuo alineado con cambios funcionales.
 
 ---
 
 # 12. Historial de cambios
 
 - 2026-11-06: BR-GAP-003 completado con matriz documental de permisos endpoint a endpoint (incluye endpoints de app y de features).
+- 2026-11-06: BR-GAP-002 completado con cobertura frontend global (54 archivos / 75 tests en verde).
 - 2026-11-06: actualizada fecha de revision y control de versiones del documento.
