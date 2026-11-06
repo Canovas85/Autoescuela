@@ -319,7 +319,7 @@ y expuesto en `/api/convocatorias-teorico`.
 
 ## BR-GAP-002 - Cobertura de test frontend parcial
 
-EN PROGRESO (2026-11-06, FASE 7): cobertura funcional frontend ampliada en
+RESUELTA (2026-11-06): cobertura funcional frontend completada en
 `Temarios`, `TestDGT`, `Agendas`, `AccountActivation`, `Pagos`,
 `Login`, `Dashboard`, `PagoMatricula`, `SolicitudesExamen`,
 `Alumnos`, `Profesores`, `Clases`, `Facturas`, `Vehiculos`,
@@ -331,11 +331,10 @@ EN PROGRESO (2026-11-06, FASE 7): cobertura funcional frontend ampliada en
 `ReservarClase`, `MisPagos`, `ExamenTeoricoAlumno`,
 `ExamenPracticoAlumno`, `DocumentosAlumnoAdmin`, `ClasesDirecto`,
 `ClasesDirectoAdmin`, `ClaseDirectoDetalle`, `FirstLoginPassword`
-y `Facturas` (vista administrativa). En esta fase se incorpora además
-`HojasRuta` con 10 escenarios prioritarios por rol y navegación.
-Validacion tecnica de la fase: suite frontend en verde
-(`45` archivos / `66` tests).
-Permanece pendiente seguir extendiendo cobertura transversal al resto de modulos.
+y `Facturas` (vista administrativa), completando además `HojasRuta`
+con 10 escenarios prioritarios por rol y navegación.
+Validacion tecnica final: suite frontend en verde
+(`54` archivos / `75` tests).
 
 ## BR-GAP-003 - Matriz documental de permisos fina
 
@@ -347,8 +346,8 @@ RESUELTO (2026-11-06): la matriz documental de permisos endpoint a endpoint qued
 
 El nucleo de reglas de negocio esta implementado en modulos productivos,
 con consistencia razonable entre modelo de datos, servicios y rutas.
-Los gaps actuales son de cobertura documental/testing frontend,
-no de ausencia total del dominio principal.
+Los gaps actuales se concentran en mantenimiento documental continuo,
+no en ausencia funcional del dominio principal ni en cobertura base de tests frontend.
 
 ---
 
