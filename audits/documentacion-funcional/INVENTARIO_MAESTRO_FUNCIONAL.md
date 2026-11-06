@@ -82,8 +82,7 @@ Fecha de corte: 2026-11-03.
 
 ### 5.3 Cobertura pendiente
 
-- activar/integrar plenamente `convocatorias-teorico` en API principal
-- ampliar pruebas frontend fuera del modulo temarios
+- ampliar pruebas frontend en mas modulos criticos tras la fase 1 ya ejecutada
 
 ---
 
@@ -100,8 +99,8 @@ Estado de suite validado: 81 archivos / 689 tests en verde (2026-11-03).
 
 **Madurez media-alta.**
 Cobertura funcional extensa en pantallas y navegacion por rol.
-Pruebas automatizadas aun concentradas en temarios.
-Validacion tecnica: tests frontend en verde y build de produccion correcto (2026-11-03).
+Cobertura automatizada ampliada en `temarios`, `test-dgt`, `agendas`, `account-activation` y `pagos`.
+Validacion tecnica: suite frontend en verde (6 archivos / 12 tests, 2026-11-06).
 
 ### 6.3 Permisos
 
@@ -119,8 +118,8 @@ estan aplicadas en servicios y soportadas por modelo de datos.
 
 ## 7. Prioridades de mantenimiento
 
-1. cerrar brecha de exposicion de `convocatorias-teorico`
-2. ampliar automatizacion de pruebas frontend por modulos criticos
+1. ampliar automatizacion de pruebas frontend por modulos criticos (siguientes fases de BR-GAP-002)
+2. priorizar siguientes bloques de pruebas en modulos de mayor uso operativo
 3. mantener sincronia estricta entre:
    - `BUSINESS_RULES.md`
    - `DOMAIN_MODEL.md`

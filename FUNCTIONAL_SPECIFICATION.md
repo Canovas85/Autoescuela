@@ -190,7 +190,8 @@ Toda ruta protegida valida:
 
 ## 8.1 Convocatorias teoricas
 
-El feature backend existe, pero actualmente no esta montado en `app.js`.
+RESUELTO (2026-11-06): el feature backend ya esta montado en `app.js`
+y expuesto en `/api/convocatorias-teorico`.
 
 ## 8.2 Cobertura de tests frontend
 

@@ -214,11 +214,12 @@ Fecha de actualizacion: 2026-11-03.
 
 ### 11.3 Observacion de alcance
 
-Existe modulo `convocatorias-teorico` en backend con tests, pero no esta montado en `app.js`.
+`convocatorias-teorico` ya esta montado en API principal (`app.js`) y operativo en
+`/api/convocatorias-teorico`.
 
 ### 11.4 Estado funcional
 
-**Implementado (principal) + un submodulo no expuesto en API principal.**
+**Implementado y operativo en API principal.**
 
 ---
 
@@ -292,5 +293,5 @@ La cobertura funcional es alta en backend y significativa en frontend.
 El sistema esta operativo en los modulos nucleares academicos, economicos y de soporte.
 Los gaps principales son:
 
-1. exponer/modularizar formalmente `convocatorias-teorico` en API principal
-2. aumentar cobertura automatizada del frontend mas alla de temarios
+1. ampliar cobertura automatizada del frontend en siguientes fases de BR-GAP-002
+2. mantener incremento progresivo de regresion funcional en modulos criticos
