@@ -194,7 +194,9 @@ El feature backend existe, pero actualmente no esta montado en `app.js`.
 
 ## 8.2 Cobertura de tests frontend
 
-Existe cobertura puntual (temarios), pendiente ampliacion transversal.
+Cobertura ampliada (2026-11-06) con pruebas funcionales en `temarios`,
+`test-dgt`, `agendas`, `account-activation` y `pagos`.
+Sigue pendiente ampliacion transversal al resto de modulos.
 
 ## 8.3 Matriz documental de permisos fina
 

@@ -152,7 +152,7 @@ Estados de trazabilidad:
 | Regla/Hueco | Estado | Evidencia |
 |---|---|---|
 | Exposicion de `convocatorias-teorico` como API activa | IMPLEMENTADA | montada en `app.js` y expuesta en `/api/convocatorias-teorico` |
-| Cobertura frontend de pruebas por modulos | PARCIAL | solo tests focalizados en temarios |
+| Cobertura frontend de pruebas por modulos | PARCIAL | cobertura ampliada en `temarios`, `test-dgt`, `agendas`, `account-activation` y `pagos` |
 | Matriz completa de autorizaciones documentada endpoint a endpoint | PARCIAL | permisos implementados, documentacion aun resumida |
 
 ---

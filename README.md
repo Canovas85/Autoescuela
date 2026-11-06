@@ -134,7 +134,7 @@ Notas relevantes:
 - frontend React con rutas protegidas y layout por rol
 - persistencia con Prisma sobre PostgreSQL
 - pruebas backend amplias por capa y modulo
-- pruebas frontend puntuales en flujo de temarios
+- pruebas frontend ampliadas en modulos clave (temarios, test DGT, agendas, activacion de cuenta y pagos)
 
 ### Observaciones de estado real
 
