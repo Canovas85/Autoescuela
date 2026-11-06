@@ -319,9 +319,22 @@ y expuesto en `/api/convocatorias-teorico`.
 
 ## BR-GAP-002 - Cobertura de test frontend parcial
 
-EN PROGRESO (2026-11-06, FASE 2): cobertura funcional frontend ampliada en
+EN PROGRESO (2026-11-06, FASE 7): cobertura funcional frontend ampliada en
 `Temarios`, `TestDGT`, `Agendas`, `AccountActivation`, `Pagos`,
-`Login`, `Dashboard`, `PagoMatricula` y `SolicitudesExamen`.
+`Login`, `Dashboard`, `PagoMatricula`, `SolicitudesExamen`,
+`Alumnos`, `Profesores`, `Clases`, `Facturas`, `Vehiculos`,
+`Bonos`, `Promociones`, `TarifasMatricula`, `TarifasConcepto`,
+`Notificaciones`, `Gastos`, `Nominas`, `OtrosUsuarios`, `Matriculas`,
+`ProfesorAlumnos`, `ProfesorVehiculos`, `ProfesorAgenda`,
+`ClasesPracticasProfesor`, `Examenes`, `ConvocatoriaExamen`,
+`MisFacturas`, `Informes`, `DocumentosAlumno`, `NuevaLicencia`,
+`ReservarClase`, `MisPagos`, `ExamenTeoricoAlumno`,
+`ExamenPracticoAlumno`, `DocumentosAlumnoAdmin`, `ClasesDirecto`,
+`ClasesDirectoAdmin`, `ClaseDirectoDetalle`, `FirstLoginPassword`
+y `Facturas` (vista administrativa). En esta fase se incorpora además
+`HojasRuta` con 10 escenarios prioritarios por rol y navegación.
+Validacion tecnica de la fase: suite frontend en verde
+(`45` archivos / `66` tests).
 Permanece pendiente seguir extendiendo cobertura transversal al resto de modulos.
 
 ## BR-GAP-003 - Matriz documental de permisos fina
