@@ -153,7 +153,7 @@ Estados de trazabilidad:
 |---|---|---|
 | Exposicion de `convocatorias-teorico` como API activa | IMPLEMENTADA | montada en `app.js` y expuesta en `/api/convocatorias-teorico` |
 | Cobertura frontend de pruebas por modulos | PARCIAL | fase 7 completada con cobertura en `temarios`, `test-dgt`, `agendas`, `account-activation`, `pagos`, `login`, `dashboard`, `pago-matricula`, `solicitudes-examen`, `alumnos`, `profesores`, `clases`, `facturas`, `vehiculos`, `bonos`, `promociones`, `tarifas-matricula`, `tarifas-concepto`, `notificaciones`, `gastos`, `nominas`, `otros-usuarios`, `matriculas`, `profesor-alumnos`, `profesor-vehiculos`, `profesor-agenda`, `clases-practicas-profesor`, `examenes`, `convocatoria-examen`, `mis-facturas`, `informes`, `documentos-alumno`, `nueva-licencia`, `reservar-clase`, `mis-pagos`, `examen-teorico-alumno`, `examen-practico-alumno`, `documentos-alumno-admin`, `clases-directo`, `clases-directo-admin`, `clase-directo-detalle`, `first-login-password`, `facturas-admin` y `hojas-ruta`; validacion: suite frontend en verde (45 archivos / 66 tests); pendiente ampliar al resto |
-| Matriz completa de autorizaciones documentada endpoint a endpoint | PARCIAL | permisos implementados, documentacion aun resumida |
+| Matriz completa de autorizaciones documentada endpoint a endpoint | IMPLEMENTADA | matriz completa en `FUNCTIONAL_SPECIFICATION.md` (seccion 9), contrastada con rutas de `app.js` y `features/*.routes.js` |
 
 ---
 
@@ -164,3 +164,10 @@ Al introducir nuevas reglas o cambios de comportamiento:
 1. actualizar `BUSINESS_RULES.md`
 2. reflejar entidad/flujo en `DOMAIN_MODEL.md` y `FUNCTIONAL_SPECIFICATION.md`
 3. actualizar este indice con estado y evidencia tecnica concreta
+
+
+---
+
+## 13) Historial de cambios
+
+- 2026-11-06: BR-GAP-003 actualizado a `IMPLEMENTADA` con evidencia documental endpoint a endpoint en `FUNCTIONAL_SPECIFICATION.md` (seccion 9).
