@@ -351,7 +351,7 @@ Estas entidades dan soporte a ejecuciones masivas, reversibilidad y auditoria te
 
 # 6. Huecos y consideraciones actuales
 
-1. El dominio `convocatorias-teorico` existe en backend, pero no esta actualmente montado en `app.js`.
+1. RESUELTO (2026-11-06): `convocatorias-teorico` ya esta montado en `app.js` y expuesto en `/api/convocatorias-teorico`.
 2. El modelo contempla granularidad alta en pagos/facturas; la documentacion funcional debe mantenerse alineada para evitar divergencias.
 3. La base de datos ya contempla suficiente estructura para evolucionar a reglas mas complejas sin romper el nucleo actual.
 

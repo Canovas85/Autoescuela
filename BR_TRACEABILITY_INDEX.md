@@ -1,6 +1,6 @@
 # Indice cruzado de reglas de negocio (BR)
 
-## Estado de trazabilidad (2026-11-03)
+## Estado de trazabilidad (2026-11-06)
 
 Este indice relaciona reglas funcionales documentadas con evidencia tecnica real:
 
@@ -151,7 +151,7 @@ Estados de trazabilidad:
 
 | Regla/Hueco | Estado | Evidencia |
 |---|---|---|
-| Exposicion de `convocatorias-teorico` como API activa | PENDIENTE | existe feature y tests, no montada en `app.js` |
+| Exposicion de `convocatorias-teorico` como API activa | IMPLEMENTADA | montada en `app.js` y expuesta en `/api/convocatorias-teorico` |
 | Cobertura frontend de pruebas por modulos | PARCIAL | solo tests focalizados en temarios |
 | Matriz completa de autorizaciones documentada endpoint a endpoint | PARCIAL | permisos implementados, documentacion aun resumida |
 

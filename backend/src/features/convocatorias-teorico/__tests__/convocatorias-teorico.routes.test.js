@@ -3,6 +3,7 @@ import request from "supertest";
 import { describe, expect, it } from "vitest";
 
 import convocatoriasTeoricoRoutes from "../convocatorias-teorico.routes.js";
+import app from "../../../app.js";
 
 describe("ConvocatoriasTeorico Routes", () => {
   it("expone GET /api/convocatorias-teorico", async () => {
@@ -25,6 +26,12 @@ describe("ConvocatoriasTeorico Routes", () => {
     const response = await request(app)
       .post("/api/convocatorias-teorico")
       .send({ fecha: "2026-09-25", licencia: "B" });
+
+    expect(response.status).toBe(401);
+  });
+
+  it("queda montado en app principal en /api/convocatorias-teorico", async () => {
+    const response = await request(app).get("/api/convocatorias-teorico");
 
     expect(response.status).toBe(401);
   });

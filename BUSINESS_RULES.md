@@ -314,7 +314,8 @@ Modulo de informes para agregados funcionales y soporte de gestion.
 
 ## BR-GAP-001 - Convocatorias teoricas no expuestas en API principal
 
-Existe modulo y pruebas, pero actualmente no esta montado en `app.js`.
+RESUELTA (2026-11-06): el modulo `convocatorias-teorico` ya esta montado en `app.js`
+y expuesto en `/api/convocatorias-teorico`.
 
 ## BR-GAP-002 - Cobertura de test frontend parcial
 
@@ -330,5 +331,5 @@ Permisos endpoint a endpoint existen en codigo, pero la matriz documental todavi
 
 El nucleo de reglas de negocio esta implementado en modulos productivos,
 con consistencia razonable entre modelo de datos, servicios y rutas.
-Los gaps actuales son de exposicion parcial de algun modulo y de cobertura documental/testing frontend,
+Los gaps actuales son de cobertura documental/testing frontend,
 no de ausencia total del dominio principal.

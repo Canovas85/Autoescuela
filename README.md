@@ -138,7 +138,7 @@ Notas relevantes:
 
 ### Observaciones de estado real
 
-- existe feature `convocatorias-teorico` en backend, pero no esta montada en `app.js`
+- feature `convocatorias-teorico` montada y expuesta en API principal (`/api/convocatorias-teorico`)
 - existe feature `matriculas-conceptos` a nivel de modelo/dominio, integrada via `matriculas`, sin router dedicado montado
 - el expediente de alumno usa catalogo unificado de fases y compatibilidad con codigos legacy
 
@@ -203,7 +203,7 @@ Organizacion por funcionalidad:
 `auth`, `alumnos`, `profesores`, `clases`, `examenes`, `dashboard`, `vehiculos`,
 `temarios`, `bonos`, `matriculas`, `tarifas-matricula`, `tarifas-concepto`,
 `promociones`, `solicitudes-examen`, `clases-directo`, `facturas`, `pagos`,
-`preguntas-dgt`, `documentos-alumno`, `convocatorias-examen`, `notificaciones`,
+`preguntas-dgt`, `documentos-alumno`, `convocatorias-examen`, `convocatorias-teorico`, `notificaciones`,
 `hojas-ruta`, `gastos-combustible`, `informes`, `otros-usuarios`, `nominas`.
 
 ### Salud y soporte
