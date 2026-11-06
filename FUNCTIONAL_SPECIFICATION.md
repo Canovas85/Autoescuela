@@ -2,9 +2,10 @@
 
 ## Estado del documento
 
-- ultima revision: 2026-11-03
+- ultima revision: 2026-11-06
 - base: comportamiento real implementado y rutas activas
 - validacion asociada: backend tests en verde (689/689) y frontend build correcto
+- control de versiones: BR-GAP-003 completado con matriz documental de permisos endpoint a endpoint
 
 ---
 
@@ -214,28 +215,407 @@ Sigue pendiente ampliacion transversal al resto de modulos.
 
 ## 8.3 Matriz documental de permisos fina
 
-Permisos reales existen en rutas; la documentacion puede seguir detallandose endpoint a endpoint.
+    RESUELTO (2026-11-06): se documenta matriz de permisos endpoint a endpoint en la seccion 9, con alcance de endpoints de `app.js` y de todos los modulos en `features/*`.
 
 ---
 
-# 9. Matriz funcional resumida (estado)
+# 9. Matriz documental de permisos fina (BR-GAP-003)
 
-| Area | Estado |
-|---|---|
-| Autenticacion y roles | Implementada |
-| Gestion academica nucleo | Implementada |
-| Solicitudes/evaluaciones de examen | Implementada |
-| Expediente unificado | Implementada |
-| Gestion economica principal | Implementada |
-| Notificaciones y dashboards | Implementada |
+### 9.1 Criterio de lectura
+
+- `Auth`: `Si` implica `authenticate`; `No` implica endpoint publico.
+- `Roles permitidos`: lista explicita de `authorize(...)`; si no hay `authorize` y hay auth, se documenta como `CUALQUIER_USUARIO_AUTENTICADO`.
+- `Ownership/alcance`: solo se marca cuando hay regla documental explicita en negocio o en flujo economico ya descrito.
+
+### 9.2 Endpoints de app (no feature)
+
+| Metodo | Endpoint              | Auth | Roles permitidos | Ownership/alcance adicional |
+| ------ | --------------------- | ---- | ---------------- | --------------------------- |
+| GET    | /api/health           | No   | PUBLICO          | -                           |
+| GET    | /api/promociones-test | No   | PUBLICO          | -                           |
+| STATIC | /api/uploads/\*       | No   | PUBLICO          | -                           |
+
+### 9.3 Endpoints por modulo (features)
+
+#### /api/alumnos
+
+| Metodo | Endpoint                              | Auth | Roles permitidos      | Ownership/alcance adicional |
+| ------ | ------------------------------------- | ---- | --------------------- | --------------------------- |
+| PATCH  | /api/alumnos/:id/activar              | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/alumnos/:id/profesores-elegibles | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/alumnos/:id/resumen-extendido    | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| DELETE | /api/alumnos/:id                      | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/alumnos/:id                      | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| PUT    | /api/alumnos/:id                      | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| POST   | /api/alumnos/promociones-elegibles    | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| POST   | /api/alumnos/public/register          | No   | PUBLICO               | -                           |
+| GET    | /api/alumnos                          | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| POST   | /api/alumnos                          | Si   | ADMIN, ADMINISTRATIVO | -                           |
+
+#### /api/auth
+
+| Metodo | Endpoint                                 | Auth | Roles permitidos              | Ownership/alcance adicional |
+| ------ | ---------------------------------------- | ---- | ----------------------------- | --------------------------- |
+| POST   | /api/auth/activacion/completar           | No   | PUBLICO                       | -                           |
+| POST   | /api/auth/activacion/reenviar/:userId    | Si   | ADMIN, ADMINISTRATIVO         | -                           |
+| POST   | /api/auth/activacion/validar             | No   | PUBLICO                       | -                           |
+| POST   | /api/auth/login                          | No   | PUBLICO                       | -                           |
+| GET    | /api/auth/me                             | Si   | CUALQUIER_USUARIO_AUTENTICADO | -                           |
+| POST   | /api/auth/password-reset/reset-default   | No   | PUBLICO                       | -                           |
+| POST   | /api/auth/password-reset/validate-email  | No   | PUBLICO                       | -                           |
+| POST   | /api/auth/primer-acceso/cambiar-password | Si   | CUALQUIER_USUARIO_AUTENTICADO | -                           |
+
+#### /api/bonos
+
+| Metodo | Endpoint                  | Auth | Roles permitidos      | Ownership/alcance adicional |
+| ------ | ------------------------- | ---- | --------------------- | --------------------------- |
+| PATCH  | /api/bonos/:id/activar    | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| POST   | /api/bonos/:id/comprar    | Si   | ALUMNO                | -                           |
+| PATCH  | /api/bonos/:id/desactivar | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| DELETE | /api/bonos/:id            | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/bonos/:id            | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| PUT    | /api/bonos/:id            | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/bonos/disponibles    | Si   | ALUMNO                | -                           |
+| GET    | /api/bonos                | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| POST   | /api/bonos                | Si   | ADMIN, ADMINISTRATIVO | -                           |
+
+#### /api/clases
+
+| Metodo | Endpoint                                 | Auth | Roles permitidos      | Ownership/alcance adicional |
+| ------ | ---------------------------------------- | ---- | --------------------- | --------------------------- |
+| DELETE | /api/clases/:id                          | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/clases/:id                          | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| PUT    | /api/clases/:id                          | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| PATCH  | /api/clases/mine/professor/:id/cancel    | Si   | PROFESOR              | -                           |
+| PATCH  | /api/clases/mine/professor/:id/confirm   | Si   | PROFESOR              | -                           |
+| GET    | /api/clases/mine/professor/requests      | Si   | PROFESOR              | -                           |
+| PATCH  | /api/clases/mine/student/:id/cancel      | Si   | ALUMNO                | -                           |
+| GET    | /api/clases/mine/student/booking-context | Si   | ALUMNO                | -                           |
+| GET    | /api/clases/mine/student/eligibility     | Si   | ALUMNO                | -                           |
+| POST   | /api/clases/mine/student/request         | Si   | ALUMNO                | -                           |
+| GET    | /api/clases                              | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| POST   | /api/clases                              | Si   | ADMIN, ADMINISTRATIVO | -                           |
+
+#### /api/clases-directo
+
+| Metodo | Endpoint                        | Auth | Roles permitidos      | Ownership/alcance adicional |
+| ------ | ------------------------------- | ---- | --------------------- | --------------------------- |
+| PATCH  | /api/clases-directo/:id/activar | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| DELETE | /api/clases-directo/:id         | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/clases-directo/:id         | Si   | ALUMNO, ADMIN         | -                           |
+| PUT    | /api/clases-directo/:id         | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/clases-directo/alumno      | Si   | ALUMNO                | -                           |
+| GET    | /api/clases-directo             | Si   | ALUMNO, ADMIN         | -                           |
+| POST   | /api/clases-directo             | Si   | ADMIN, ADMINISTRATIVO | -                           |
+
+#### /api/convocatorias-examen
+
+| Metodo | Endpoint                                    | Auth | Roles permitidos      | Ownership/alcance adicional |
+| ------ | ------------------------------------------- | ---- | --------------------- | --------------------------- |
+| GET    | /api/convocatorias-examen/:id/delete-impact | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| DELETE | /api/convocatorias-examen/:id               | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| PUT    | /api/convocatorias-examen/:id               | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/convocatorias-examen/agenda            | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/convocatorias-examen                   | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| POST   | /api/convocatorias-examen                   | Si   | ADMIN, ADMINISTRATIVO | -                           |
+
+#### /api/convocatorias-teorico
+
+| Metodo | Endpoint                       | Auth | Roles permitidos      | Ownership/alcance adicional |
+| ------ | ------------------------------ | ---- | --------------------- | --------------------------- |
+| DELETE | /api/convocatorias-teorico/:id | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| PUT    | /api/convocatorias-teorico/:id | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/convocatorias-teorico     | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| POST   | /api/convocatorias-teorico     | Si   | ADMIN, ADMINISTRATIVO | -                           |
+
+#### /api/dashboard
+
+| Metodo | Endpoint                                               | Auth | Roles permitidos      | Ownership/alcance adicional |
+| ------ | ------------------------------------------------------ | ---- | --------------------- | --------------------------- |
+| GET    | /api/dashboard/administrativo                          | Si   | ADMINISTRATIVO        | -                           |
+| GET    | /api/dashboard/advanced                                | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/dashboard/executive                               | Si   | ADMIN                 | -                           |
+| GET    | /api/dashboard/professor/agenda                        | Si   | PROFESOR              | -                           |
+| PATCH  | /api/dashboard/professor/classes/:classId/status       | Si   | PROFESOR              | -                           |
+| GET    | /api/dashboard/professor/students/:alumnoId            | Si   | PROFESOR              | -                           |
+| GET    | /api/dashboard/professor/students                      | Si   | PROFESOR              | -                           |
+| GET    | /api/dashboard/professor/vehicles/:vehiculoId/schedule | Si   | PROFESOR              | -                           |
+| GET    | /api/dashboard/professor/vehicles                      | Si   | PROFESOR              | -                           |
+| PUT    | /api/dashboard/professor/work-schedule                 | Si   | PROFESOR              | -                           |
+| GET    | /api/dashboard/professor                               | Si   | PROFESOR              | -                           |
+| GET    | /api/dashboard/soporte                                 | Si   | SOPORTE               | -                           |
+| GET    | /api/dashboard/student/new-license/context             | Si   | ALUMNO                | -                           |
+| GET    | /api/dashboard/student/new-license/promotions          | Si   | ALUMNO                | -                           |
+| POST   | /api/dashboard/student/new-license                     | Si   | ALUMNO                | -                           |
+| GET    | /api/dashboard/student                                 | Si   | ALUMNO                | -                           |
+| GET    | /api/dashboard                                         | Si   | ADMIN, ADMINISTRATIVO | -                           |
+
+#### /api/documentos-alumno
+
+| Metodo | Endpoint                           | Auth | Roles permitidos      | Ownership/alcance adicional |
+| ------ | ---------------------------------- | ---- | --------------------- | --------------------------- |
+| PATCH  | /api/documentos-alumno/:id/validar | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| DELETE | /api/documentos-alumno/:id         | Si   | ALUMNO                | -                           |
+| PUT    | /api/documentos-alumno/:id         | Si   | ALUMNO                | -                           |
+| GET    | /api/documentos-alumno/admin       | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/documentos-alumno             | Si   | ALUMNO                | -                           |
+| POST   | /api/documentos-alumno             | Si   | ALUMNO                | -                           |
+
+#### /api/examenes
+
+| Metodo | Endpoint                    | Auth | Roles permitidos      | Ownership/alcance adicional |
+| ------ | --------------------------- | ---- | --------------------- | --------------------------- |
+| PATCH  | /api/examenes/:id/resultado | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| DELETE | /api/examenes/:id           | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/examenes/:id           | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| PUT    | /api/examenes/:id           | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/examenes               | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| POST   | /api/examenes               | Si   | ADMIN, ADMINISTRATIVO | -                           |
+
+#### /api/facturas
+
+| Metodo | Endpoint                         | Auth | Roles permitidos              | Ownership/alcance adicional                                        |
+| ------ | -------------------------------- | ---- | ----------------------------- | ------------------------------------------------------------------ |
+| GET    | /api/facturas/:id/pdf            | Si   | ADMIN, ADMINISTRATIVO, ALUMNO | Ownership alumno en consulta de facturas propias (flujo economico) |
+| GET    | /api/facturas/:id/preview        | Si   | ADMIN, ADMINISTRATIVO, ALUMNO | Ownership alumno en consulta de facturas propias (flujo economico) |
+| POST   | /api/facturas/:id/send-duplicate | Si   | ADMIN, ADMINISTRATIVO         | -                                                                  |
+| GET    | /api/facturas/mine               | Si   | ALUMNO                        | Ownership alumno en consulta de facturas propias (flujo economico) |
+| GET    | /api/facturas                    | Si   | ADMIN, ADMINISTRATIVO         | -                                                                  |
+
+#### /api/gastos-combustible
+
+| Metodo | Endpoint                                         | Auth | Roles permitidos                | Ownership/alcance adicional |
+| ------ | ------------------------------------------------ | ---- | ------------------------------- | --------------------------- |
+| GET    | /api/gastos-combustible/mine                     | Si   | PROFESOR                        | -                           |
+| POST   | /api/gastos-combustible/repostar/:vehiculoId     | Si   | PROFESOR                        | -                           |
+| POST   | /api/gastos-combustible/revision-itv/:vehiculoId | Si   | ADMIN, ADMINISTRATIVO, PROFESOR | -                           |
+| GET    | /api/gastos-combustible                          | Si   | ADMIN, ADMINISTRATIVO           | -                           |
+
+#### /api/hojas-ruta
+
+| Metodo | Endpoint                                                             | Auth | Roles permitidos                        | Ownership/alcance adicional |
+| ------ | -------------------------------------------------------------------- | ---- | --------------------------------------- | --------------------------- |
+| GET    | /api/hojas-ruta/admin/hojas/:roadmapId                               | Si   | ADMIN, ADMINISTRATIVO                   | -                           |
+| GET    | /api/hojas-ruta/admin/profesores/:profesorId/alumnos/:alumnoId/hojas | Si   | ADMIN, ADMINISTRATIVO                   | -                           |
+| GET    | /api/hojas-ruta/admin/profesores/:profesorId/alumnos                 | Si   | ADMIN, ADMINISTRATIVO                   | -                           |
+| GET    | /api/hojas-ruta/admin/profesores                                     | Si   | ADMIN, ADMINISTRATIVO                   | -                           |
+| GET    | /api/hojas-ruta/catalogo-faltas                                      | Si   | ADMIN, PROFESOR, ALUMNO                 | -                           |
+| GET    | /api/hojas-ruta/mine/alumno/:roadmapId                               | Si   | ALUMNO                                  | -                           |
+| GET    | /api/hojas-ruta/mine/alumno                                          | Si   | ALUMNO                                  | -                           |
+| PUT    | /api/hojas-ruta/mine/profesor/:claseId/borrador                      | Si   | ADMIN, ADMINISTRATIVO, PROFESOR, ALUMNO | -                           |
+| PUT    | /api/hojas-ruta/mine/profesor/:claseId/finalizar                     | Si   | PROFESOR                                | -                           |
+| GET    | /api/hojas-ruta/mine/profesor/:claseId                               | Si   | PROFESOR                                | -                           |
+| GET    | /api/hojas-ruta/mine/profesor                                        | Si   | PROFESOR                                | -                           |
+
+#### /api/informes
+
+| Metodo | Endpoint                 | Auth | Roles permitidos      | Ownership/alcance adicional |
+| ------ | ------------------------ | ---- | --------------------- | --------------------------- |
+| GET    | /api/informes/accounting | Si   | ADMIN, ADMINISTRATIVO | -                           |
+
+#### /api/matriculas
+
+| Metodo | Endpoint                   | Auth | Roles permitidos              | Ownership/alcance adicional                                |
+| ------ | -------------------------- | ---- | ----------------------------- | ---------------------------------------------------------- |
+| PATCH  | /api/matriculas/:id/anular | Si   | ADMIN, ADMINISTRATIVO         | -                                                          |
+| PATCH  | /api/matriculas/:id/pagar  | Si   | CUALQUIER_USUARIO_AUTENTICADO | BR-ECO-003: pago matricula con validacion de ownership/rol |
+| GET    | /api/matriculas/:id        | Si   | ADMIN, ADMINISTRATIVO         | -                                                          |
+| PUT    | /api/matriculas/:id        | Si   | ADMIN, ADMINISTRATIVO         | -                                                          |
+| GET    | /api/matriculas/mine       | Si   | ALUMNO                        | -                                                          |
+| GET    | /api/matriculas            | Si   | ADMIN, ADMINISTRATIVO         | -                                                          |
+| POST   | /api/matriculas            | Si   | ADMIN, ADMINISTRATIVO         | -                                                          |
+
+#### /api/nominas
+
+| Metodo | Endpoint                 | Auth | Roles permitidos                | Ownership/alcance adicional |
+| ------ | ------------------------ | ---- | ------------------------------- | --------------------------- |
+| GET    | /api/nominas/:id/pdf     | Si   | ADMIN, ADMINISTRATIVO, PROFESOR | -                           |
+| GET    | /api/nominas/:id/preview | Si   | ADMIN, ADMINISTRATIVO, PROFESOR | -                           |
+| POST   | /api/nominas/generar     | Si   | ADMIN, ADMINISTRATIVO           | -                           |
+| GET    | /api/nominas/mine        | Si   | PROFESOR                        | -                           |
+| GET    | /api/nominas             | Si   | ADMIN, ADMINISTRATIVO           | -                           |
+
+#### /api/notificaciones
+
+| Metodo | Endpoint                          | Auth | Roles permitidos                                 | Ownership/alcance adicional |
+| ------ | --------------------------------- | ---- | ------------------------------------------------ | --------------------------- |
+| PATCH  | /api/notificaciones/:id/archive   | Si   | ADMIN, ADMINISTRATIVO, SOPORTE, PROFESOR, ALUMNO | -                           |
+| PATCH  | /api/notificaciones/:id/read      | Si   | ADMIN, ADMINISTRATIVO, SOPORTE, PROFESOR, ALUMNO | -                           |
+| PATCH  | /api/notificaciones/:id/unarchive | Si   | ADMIN, ADMINISTRATIVO, SOPORTE, PROFESOR, ALUMNO | -                           |
+| PATCH  | /api/notificaciones/mine/read-all | Si   | ADMIN, ADMINISTRATIVO, SOPORTE, PROFESOR, ALUMNO | -                           |
+| GET    | /api/notificaciones/mine          | Si   | ADMIN, ADMINISTRATIVO, SOPORTE, PROFESOR, ALUMNO | -                           |
+| GET    | /api/notificaciones/stream        | No   | PUBLICO                                          | -                           |
+
+#### /api/otros-usuarios
+
+| Metodo | Endpoint                               | Auth | Roles permitidos | Ownership/alcance adicional |
+| ------ | -------------------------------------- | ---- | ---------------- | --------------------------- |
+| PATCH  | /api/otros-usuarios/:id/activar        | Si   | ADMIN, SOPORTE   | -                           |
+| DELETE | /api/otros-usuarios/:id/hard-delete    | Si   | ADMIN            | -                           |
+| PATCH  | /api/otros-usuarios/:id/reset-password | Si   | ADMIN, SOPORTE   | -                           |
+| DELETE | /api/otros-usuarios/:id                | Si   | ADMIN, SOPORTE   | -                           |
+| GET    | /api/otros-usuarios/:id                | Si   | ADMIN, SOPORTE   | -                           |
+| PUT    | /api/otros-usuarios/:id                | Si   | ADMIN, SOPORTE   | -                           |
+| GET    | /api/otros-usuarios                    | Si   | ADMIN, SOPORTE   | -                           |
+| POST   | /api/otros-usuarios                    | Si   | ADMIN, SOPORTE   | -                           |
+
+#### /api/pagos
+
+| Metodo | Endpoint             | Auth | Roles permitidos | Ownership/alcance adicional                          |
+| ------ | -------------------- | ---- | ---------------- | ---------------------------------------------------- |
+| PATCH  | /api/pagos/:id/pagar | Si   | ALUMNO           | BR-ECO-004: alumno solo opera/consulta pagos propios |
+| GET    | /api/pagos/:id       | Si   | ALUMNO           | BR-ECO-004: alumno solo opera/consulta pagos propios |
+| GET    | /api/pagos/mine      | Si   | ALUMNO           | BR-ECO-004: alumno solo opera/consulta pagos propios |
+| GET    | /api/pagos           | Si   | ADMIN            | -                                                    |
+
+#### /api/preguntas-dgt
+
+| Metodo | Endpoint                           | Auth | Roles permitidos      | Ownership/alcance adicional |
+| ------ | ---------------------------------- | ---- | --------------------- | --------------------------- |
+| PATCH  | /api/preguntas-dgt/:id/activar     | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| PATCH  | /api/preguntas-dgt/:id/desactivar  | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| DELETE | /api/preguntas-dgt/:id             | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/preguntas-dgt/:id             | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| PUT    | /api/preguntas-dgt/:id             | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| POST   | /api/preguntas-dgt/corregir-examen | Si   | ALUMNO                | -                           |
+| POST   | /api/preguntas-dgt/generar-examen  | Si   | ALUMNO                | -                           |
+| GET    | /api/preguntas-dgt/next-id         | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/preguntas-dgt                 | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| POST   | /api/preguntas-dgt                 | Si   | ADMIN, ADMINISTRATIVO | -                           |
+
+#### /api/profesores
+
+| Metodo | Endpoint                                         | Auth | Roles permitidos      | Ownership/alcance adicional |
+| ------ | ------------------------------------------------ | ---- | --------------------- | --------------------------- |
+| PATCH  | /api/profesores/:id/activar                      | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/profesores/:id/admin-agenda                 | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| POST   | /api/profesores/:id/deactivate-with-reassignment | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/profesores/:id/deactivation-impact          | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/profesores/:id/overview                     | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| DELETE | /api/profesores/:id                              | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/profesores/:id                              | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| PUT    | /api/profesores/:id                              | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/profesores                                  | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| POST   | /api/profesores                                  | Si   | ADMIN, ADMINISTRATIVO | -                           |
+
+#### /api/promociones
+
+| Metodo | Endpoint                        | Auth | Roles permitidos      | Ownership/alcance adicional |
+| ------ | ------------------------------- | ---- | --------------------- | --------------------------- |
+| PATCH  | /api/promociones/:id/activar    | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| PATCH  | /api/promociones/:id/desactivar | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| DELETE | /api/promociones/:id            | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/promociones/:id            | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| PUT    | /api/promociones/:id            | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/promociones/public         | No   | PUBLICO               | -                           |
+| GET    | /api/promociones                | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| POST   | /api/promociones                | Si   | ADMIN, ADMINISTRATIVO | -                           |
+
+#### /api/solicitudes-examen
+
+| Metodo | Endpoint                                                       | Auth | Roles permitidos      | Ownership/alcance adicional |
+| ------ | -------------------------------------------------------------- | ---- | --------------------- | --------------------------- |
+| DELETE | /api/solicitudes-examen/:id                                    | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/solicitudes-examen/:id                                    | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| PUT    | /api/solicitudes-examen/:id                                    | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/solicitudes-examen/evaluacion                             | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/solicitudes-examen/mine/practico/calendario               | Si   | ALUMNO                | -                           |
+| GET    | /api/solicitudes-examen/mine/practico/eligibilidad             | Si   | ALUMNO                | -                           |
+| POST   | /api/solicitudes-examen/mine/practico/solicitar                | Si   | ALUMNO                | -                           |
+| PATCH  | /api/solicitudes-examen/mine/practico/solicitudes/:id/cancelar | Si   | ALUMNO                | -                           |
+| GET    | /api/solicitudes-examen/mine/teorico/calendario                | Si   | ALUMNO                | -                           |
+| GET    | /api/solicitudes-examen/mine/teorico/eligibilidad              | Si   | ALUMNO                | -                           |
+| POST   | /api/solicitudes-examen/mine/teorico/solicitar                 | Si   | ALUMNO                | -                           |
+| PATCH  | /api/solicitudes-examen/mine/teorico/solicitudes/:id/cancelar  | Si   | ALUMNO                | -                           |
+| GET    | /api/solicitudes-examen/mine                                   | Si   | ALUMNO                | -                           |
+| GET    | /api/solicitudes-examen                                        | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| POST   | /api/solicitudes-examen                                        | Si   | ADMIN, ADMINISTRATIVO | -                           |
+
+#### /api/tarifas-concepto
+
+| Metodo | Endpoint                             | Auth | Roles permitidos      | Ownership/alcance adicional |
+| ------ | ------------------------------------ | ---- | --------------------- | --------------------------- |
+| PATCH  | /api/tarifas-concepto/:id/activar    | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| PATCH  | /api/tarifas-concepto/:id/desactivar | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| DELETE | /api/tarifas-concepto/:id            | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/tarifas-concepto/:id            | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| PUT    | /api/tarifas-concepto/:id            | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/tarifas-concepto                | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| POST   | /api/tarifas-concepto                | Si   | ADMIN, ADMINISTRATIVO | -                           |
+
+#### /api/tarifas-matricula
+
+| Metodo | Endpoint                              | Auth | Roles permitidos      | Ownership/alcance adicional |
+| ------ | ------------------------------------- | ---- | --------------------- | --------------------------- |
+| PATCH  | /api/tarifas-matricula/:id/activar    | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| PATCH  | /api/tarifas-matricula/:id/desactivar | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| DELETE | /api/tarifas-matricula/:id            | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/tarifas-matricula/:id            | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| PUT    | /api/tarifas-matricula/:id            | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/tarifas-matricula                | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| POST   | /api/tarifas-matricula                | Si   | ADMIN, ADMINISTRATIVO | -                           |
+
+#### /api/temarios
+
+| Metodo | Endpoint                                 | Auth | Roles permitidos      | Ownership/alcance adicional |
+| ------ | ---------------------------------------- | ---- | --------------------- | --------------------------- |
+| POST   | /api/temarios/:id/documentacion          | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| DELETE | /api/temarios/:id                        | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| GET    | /api/temarios/:id                        | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| PUT    | /api/temarios/:id                        | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| POST   | /api/temarios/mis-temarios/:id/mini-test | Si   | ALUMNO                | -                           |
+| GET    | /api/temarios/mis-temarios/:id           | Si   | ALUMNO                | -                           |
+| GET    | /api/temarios/mis-temarios               | Si   | ALUMNO                | -                           |
+| GET    | /api/temarios                            | Si   | ADMIN, ADMINISTRATIVO | -                           |
+| POST   | /api/temarios                            | Si   | ADMIN, ADMINISTRATIVO | -                           |
+
+#### /api/vehiculos
+
+| Metodo | Endpoint                                        | Auth | Roles permitidos                | Ownership/alcance adicional |
+| ------ | ----------------------------------------------- | ---- | ------------------------------- | --------------------------- |
+| PATCH  | /api/vehiculos/:id/activar                      | Si   | ADMIN, ADMINISTRATIVO           | -                           |
+| POST   | /api/vehiculos/:id/deactivate-with-reassignment | Si   | ADMIN, ADMINISTRATIVO           | -                           |
+| GET    | /api/vehiculos/:id/deactivation-impact          | Si   | ADMIN, ADMINISTRATIVO           | -                           |
+| POST   | /api/vehiculos/:id/pagar-itv                    | Si   | ADMIN, ADMINISTRATIVO, PROFESOR | -                           |
+| DELETE | /api/vehiculos/:id                              | Si   | ADMIN, ADMINISTRATIVO           | -                           |
+| GET    | /api/vehiculos/:id                              | Si   | ADMIN, ADMINISTRATIVO           | -                           |
+| PUT    | /api/vehiculos/:id                              | Si   | ADMIN, ADMINISTRATIVO           | -                           |
+| GET    | /api/vehiculos                                  | Si   | ADMIN, ADMINISTRATIVO           | -                           |
+| POST   | /api/vehiculos                                  | Si   | ADMIN, ADMINISTRATIVO           | -                           |
+
+### 9.4 Resumen cuantitativo
+
+- endpoints de app documentados: 3
+- endpoints de features documentados: 211
+- total endpoints en matriz: 214
+
+---
+
+# 10. Matriz funcional resumida (estado)
+
+| Area                                              | Estado       |
+| ------------------------------------------------- | ------------ |
+| Autenticacion y roles                             | Implementada |
+| Gestion academica nucleo                          | Implementada |
+| Solicitudes/evaluaciones de examen                | Implementada |
+| Expediente unificado                              | Implementada |
+| Gestion economica principal                       | Implementada |
+| Notificaciones y dashboards                       | Implementada |
 | Convocatorias teoricas (exposicion API principal) | Implementada |
-| Testing frontend global | Parcial |
+| Testing frontend global                           | Parcial      |
 
 ---
 
-# 10. Conclusion
+# 11. Conclusion
 
 La especificacion funcional real muestra un sistema amplio y operativo para una autoescuela,
 con especial madurez en backend y en procesos academico-economicos.
 Los principales pendientes actuales se concentran en exposicion parcial de algun modulo
 y en aumentar la cobertura automatizada del frontend.
+
+---
+
+# 12. Historial de cambios
+
+- 2026-11-06: BR-GAP-003 completado con matriz documental de permisos endpoint a endpoint (incluye endpoints de app y de features).
+- 2026-11-06: actualizada fecha de revision y control de versiones del documento.
