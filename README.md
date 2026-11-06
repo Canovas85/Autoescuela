@@ -1,6 +1,6 @@
 # Autoescuela EGUZKILORE
 
-## Actualizacion de estado (2026-11-03)
+## Actualizacion de estado (2026-11-06)
 
 Este documento refleja el estado funcional y tecnico real del proyecto segun:
 
@@ -134,7 +134,7 @@ Notas relevantes:
 - frontend React con rutas protegidas y layout por rol
 - persistencia con Prisma sobre PostgreSQL
 - pruebas backend amplias por capa y modulo
-- pruebas frontend ampliadas en modulos clave (temarios, test DGT, agendas, activacion de cuenta, pagos, login, dashboard, pago matricula y solicitudes de examen)
+- pruebas frontend ampliadas en modulos clave (temarios, test DGT, agendas, activacion de cuenta, pagos, login, dashboard, pago matricula, solicitudes de examen, alumnos, profesores, clases, facturas, vehiculos, bonos, promociones, tarifas de matricula, tarifas de concepto, notificaciones, gastos, nominas, otros usuarios, matriculas, profesor alumnos, profesor vehiculos, profesor agenda, clases practicas profesor, examenes, convocatoria examen, mis facturas, informes, documentos alumno, nueva licencia, reservar clase, mis pagos, examen teorico alumno, examen practico alumno, documentos alumno admin, clases directo, clases directo admin, clase directo detalle, first login password y hojas ruta)
 
 ### Observaciones de estado real
 
