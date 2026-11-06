@@ -99,8 +99,8 @@ Estado de suite validado: 81 archivos / 689 tests en verde (2026-11-03).
 
 **Madurez media-alta.**
 Cobertura funcional extensa en pantallas y navegacion por rol.
-Cobertura automatizada ampliada en `temarios`, `test-dgt`, `agendas`, `account-activation`, `pagos`, `login`, `dashboard`, `pago-matricula`, `solicitudes-examen`, `alumnos`, `profesores`, `clases`, `facturas`, `vehiculos`, `bonos`, `promociones`, `tarifas-matricula`, `tarifas-concepto`, `notificaciones`, `gastos`, `nominas`, `otros-usuarios`, `matriculas`, `profesor-alumnos`, `profesor-vehiculos`, `profesor-agenda`, `clases-practicas-profesor`, `examenes`, `convocatoria-examen`, `mis-facturas`, `informes`, `documentos-alumno`, `nueva-licencia`, `reservar-clase`, `mis-pagos`, `examen-teorico-alumno`, `examen-practico-alumno`, `documentos-alumno-admin`, `clases-directo`, `clases-directo-admin`, `clase-directo-detalle`, `first-login-password`, `facturas-admin` y `hojas-ruta` (10 escenarios prioritarios).
-Validacion tecnica: suite frontend en verde (45 archivos / 66 tests, 2026-11-06).
+Cobertura automatizada completada en `temarios`, `test-dgt`, `agendas`, `account-activation`, `pagos`, `login`, `dashboard`, `pago-matricula`, `solicitudes-examen`, `alumnos`, `profesores`, `clases`, `facturas`, `vehiculos`, `bonos`, `promociones`, `tarifas-matricula`, `tarifas-concepto`, `notificaciones`, `gastos`, `nominas`, `otros-usuarios`, `matriculas`, `profesor-alumnos`, `profesor-vehiculos`, `profesor-agenda`, `clases-practicas-profesor`, `examenes`, `evaluacion-examen-teorico`, `evaluacion-examen-practico`, `convocatoria-examen`, `mis-facturas`, `informes`, `documentos-alumno`, `documentos-alumno-admin`, `nueva-licencia`, `reservar-clase`, `mis-pagos`, `examen-teorico-alumno`, `examen-practico-alumno`, `clases-directo`, `clases-directo-admin`, `clase-directo-detalle`, `first-login-password`, `facturas-admin` y `hojas-ruta` (10 escenarios prioritarios por rol).
+Validacion tecnica final: suite frontend en verde (54 archivos / 75 tests, 2026-11-06).
 
 ### 6.3 Permisos
 
@@ -118,8 +118,8 @@ estan aplicadas en servicios y soportadas por modelo de datos.
 
 ## 7. Prioridades de mantenimiento
 
-1. ampliar automatizacion de pruebas frontend por modulos criticos (siguientes fases de BR-GAP-002 tras fase 7)
-2. priorizar siguientes bloques de pruebas en modulos de mayor uso operativo no cubiertos aun
+1. mantener y evolucionar la regresion automatizada frontend en nuevos desarrollos
+2. priorizar refuerzo de escenarios complejos (errores, edge-cases y flujos multi-rol)
 3. mantener sincronia estricta entre:
    - `BUSINESS_RULES.md`
    - `DOMAIN_MODEL.md`
