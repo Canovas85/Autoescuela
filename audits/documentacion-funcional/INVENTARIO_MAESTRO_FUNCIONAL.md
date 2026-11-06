@@ -99,8 +99,8 @@ Estado de suite validado: 81 archivos / 689 tests en verde (2026-11-03).
 
 **Madurez media-alta.**
 Cobertura funcional extensa en pantallas y navegacion por rol.
-Cobertura automatizada ampliada en `temarios`, `test-dgt`, `agendas`, `account-activation` y `pagos`.
-Validacion tecnica: suite frontend en verde (6 archivos / 12 tests, 2026-11-06).
+Cobertura automatizada ampliada en `temarios`, `test-dgt`, `agendas`, `account-activation`, `pagos`, `login`, `dashboard`, `pago-matricula` y `solicitudes-examen`.
+Validacion tecnica: suite frontend en verde (10 archivos / 20 tests, 2026-11-06).
 
 ### 6.3 Permisos
 
@@ -119,7 +119,7 @@ estan aplicadas en servicios y soportadas por modelo de datos.
 ## 7. Prioridades de mantenimiento
 
 1. ampliar automatizacion de pruebas frontend por modulos criticos (siguientes fases de BR-GAP-002)
-2. priorizar siguientes bloques de pruebas en modulos de mayor uso operativo
+2. priorizar siguientes bloques de pruebas en modulos de mayor uso operativo no cubiertos aun
 3. mantener sincronia estricta entre:
    - `BUSINESS_RULES.md`
    - `DOMAIN_MODEL.md`

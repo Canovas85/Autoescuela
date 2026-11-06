@@ -294,4 +294,4 @@ El sistema esta operativo en los modulos nucleares academicos, economicos y de s
 Los gaps principales son:
 
 1. ampliar cobertura automatizada del frontend en siguientes fases de BR-GAP-002
-2. mantener incremento progresivo de regresion funcional en modulos criticos
+2. mantener incremento progresivo de regresion funcional en modulos criticos (fase 2 ya ampliada a `login`, `dashboard`, `pago-matricula` y `solicitudes-examen`)

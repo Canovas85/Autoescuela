@@ -319,8 +319,9 @@ y expuesto en `/api/convocatorias-teorico`.
 
 ## BR-GAP-002 - Cobertura de test frontend parcial
 
-EN PROGRESO (2026-11-06, FASE 1): se amplia cobertura funcional frontend en
-`Temarios`, `TestDGT`, `Agendas`, `AccountActivation` y `Pagos`.
+EN PROGRESO (2026-11-06, FASE 2): cobertura funcional frontend ampliada en
+`Temarios`, `TestDGT`, `Agendas`, `AccountActivation`, `Pagos`,
+`Login`, `Dashboard`, `PagoMatricula` y `SolicitudesExamen`.
 Permanece pendiente seguir extendiendo cobertura transversal al resto de modulos.
 
 ## BR-GAP-003 - Matriz documental de permisos fina

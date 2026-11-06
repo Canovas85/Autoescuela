@@ -139,7 +139,7 @@ Conclusiones:
 ### Cobertura pendiente
 
 - ampliar catalogo de pruebas frontend en documentacion
-- formalizar estado/plan de modulos no montados en API principal
+- mantener actualizada la trazabilidad de fases de BR-GAP-002 conforme se amplie cobertura
 
 ---
 
